@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\security\domain
+2
+a
+9:User.java|1|16adf971481|330|47bc0941|6ba48533067947c88e6cfc4501ecd447|0
+b:Module.java|1|16adf970fc0|2c8|510ce550|d0c51fe1c63746ebab80254413982d35|0
+d:TaskImpl.java|1|16adf9714a0|925|575f9a9f|8fffd8faf73a4ebb90d317136c5becd6|0
+10:SubTaskImpl.java|1|16adf971424|369|28820101|a57a4dd9081643129f8c5f47c8affb06|0
+9:Role.java|1|16adf9710ba|2a8|dcf1db19|d44178b188f54556b31e88b424eee7d7|0
+c:SubTask.java|1|16adf971185|1e2|f4e69512|9920d24e8c014267962ac5ac6c5aa945|0
+9:Task.java|1|16adf97151d|288|5dd8ce51|0c5f417098204e90ad32eace2ca91a28|0
+d:UserImpl.java|1|16adf9714c0|c4b|fe919325|2d8f49eb6e4346f78e8fcd9b63090659|0
+f:ModuleImpl.java|1|16adf97106c|ba2|2b955338|458ecbf1222e468689cab8a3e4f449ed|0
+d:RoleImpl.java|1|16adf971118|e55|89d91e13|8629dd8c663b47248146cec7548315c6|0

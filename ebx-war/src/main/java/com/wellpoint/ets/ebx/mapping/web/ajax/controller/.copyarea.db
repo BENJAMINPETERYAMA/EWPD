@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\mapping\web\ajax\controller
+2
+8
+27:AjaxViewAllCustomMessageController.java|1|16b935e4ff9|c10|8ad3f6f8|a1ca55afb0864f90b21d4b79ee88aad3|0
+26:AjaxViewAllRuleIdDetailController.java|1|16b935e4a1f|1073|3293c5e|f77ef77581a749078cdbbceb573d855b|0
+1f:AjaxAutocompleteController.java|1|16b935e49f0|20ab|2b4fe6a6|19394f7a993c4477b5963cac60716d32|0
+13:CopyController.java|1|16b935e4a1f|2824|6897070a|782bf9d51825407aac0534e9f115b8ec|0
+2d:AjaxViewAllCustomMessageDetailController.java|1|16b935e4a00|f24|5309d4ba|e52b51315e9047fdac6d2625d075639a|0
+24:AjaxPopUpHippaSegmentController.java|1|16b935e4a4e|13cd|ac90344b|c32ff61dc0544161a5ddbb5663f679c5|0
+27:AjaxViewAllSPSAuditTrailController.java|1|16b935e4ff9|139b|ae393d39|02cd9df172c9440bbef67e737f60aaf3|0
+20:AjaxViewAllRuleIdController.java|1|16b935e4a00|aa7|cb4677ce|0bab11828b6c48ebb85db70f4b1ee482|0

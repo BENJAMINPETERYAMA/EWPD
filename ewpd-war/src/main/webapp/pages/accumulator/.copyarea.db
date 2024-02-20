@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\accumulator
+2
+a
+16:costShareTypePopup.jsp|1|16adf919355|c9e|caafbd77|74fce45dd7d943bd9285bd70c7c0129e|0
+2a:accumulatorPopupForStandardAccumulator.jsp|1|16adf9193e1|2018|b33bf46a|e3dd44ca98af44cb80de29cefc1ea198|0
+17:variableFilterPopup.jsp|1|16adf91943f|1804|aa054507|d6cd5531134440e6811c4f7abd94ec8d|0
+14:accumulatorPopup.jsp|1|16adf919374|21e4|c22d8ce3|267eb17ccb7c4e949023551371e6e3dd|0
+21:ajaxVariableFilterPopupHelper.jsp|1|16adf919374|8e4|1a1acde5|33449464825e4456b443c4070ac9ace8|0
+1e:standardAccumulatorMapping.jsp|1|16adf919a47|826d|5be87da6|8b366761e2284e6794596cb40676252f|0
+1d:searchStandardAccumulator.jsp|1|16adf9193f1|4a92|e900bf85|931c9c49bc2146818a49b8e647cb464c|0
+1e:ajaxAccumulatorPopUpHelper.jsp|1|16adf919558|ced|607fd54c|ae164f884cb0426ca7a1a69ac63085e3|0
+22:businessEntityMultiSelectPopup.jsp|1|16adf9193e1|d24|3c12011c|9207ff25c79c408e8e20f1b47d26762e|0
+1c:ajaxVarMappedAccumHelper.jsp|1|16adf9193f1|ce1|4af9da80|77ab05ae532c47048dcdcd329e6af441|0

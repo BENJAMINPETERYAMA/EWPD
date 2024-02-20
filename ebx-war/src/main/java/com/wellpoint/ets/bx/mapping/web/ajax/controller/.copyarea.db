@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\web\ajax\controller
+2
+a
+1d:AjaxAccumPopupController.java|1|16b935e1f29|9fb|290e4771|ccb0c967ce354e5daacd72f99543a10d|0
+1f:AjaxAgeTierPopupController.java|1|16b935e1f67|c29|f291f6fb|26cba2132c2a43a7becbaf28b2b0107a|0
+25:AjaxVariableLockStatusController.java|1|16b935e1f87|5c4|f8abe3f0|adca80ccc92a45fca64f59bf727423f7|0
+1b:AjaxRuleViewController.java|1|16b935e1f58|53be|70d8e43d|e0b0c35cc76b40609b01c62758e12b5e|0
+18:AjaxPopUpController.java|1|16b935e38f0|1025|7c5e372b|8fc0bdca4e0c43729e04704dea1b5ada|0
+24:AjaxViewAllAuditTrailController.java|1|16b935e1fa6|79b|3add85d6|d5e3605c27d242a4b7e1aa46fdbbae07|0
+2d:AjaxAutocompleteListCreatePageController.java|1|16b935e1f67|1616|ab7d1e8a|8734e9de8b8511e9803e0002c056e04b|0
+1f:AjaxVariableListController.java|1|16b935e1f96|933|92b9e520|b12df2e05b4040adae8c0906b3bd0cdd|0
+26:AjaxHippaSegmentToolTipController.java|1|16b935e38c1|91d|1ce5f5e0|a6e0882268ad4124a16923f71786a33b|0
+29:AjaxViewAuditTrailInDetailController.java|1|16b935e1f96|954|25f80fac|7282bda9c6b741b3b424fccc9657d9c1|0

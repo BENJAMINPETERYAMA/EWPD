@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\search\adapter
+2
+2
+1b:RetrieveAdapterManager.java|1|16adf96064e|b00b|3b4c0e9c|66c996883bfc4131a261dea35a040fda|0
+19:SearchAdapterManager.java|1|16adf96064e|b2b6|b95a291d|a0fdbf2eaa3c4ebcb897af9c0cf075a4|0

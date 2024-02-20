@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\questionnaire
+2
+5
+f:helperPopUp.jsp|1|16adf928477|5bf|1977ee18|07cc744013404dd48a58b5c652f0c4af|0
+1a:editQuestionnairePopUp.jsp|1|16adf92815b|4b0b|74f0c546|43d9c03bcee242cfb843c65f138879c5|0
+16:helperPopUpForRoot.jsp|1|16adf92867a|724|5e1066e4|371371f4d7a34ecfbb3052f2bee54dc2|0
+18:addRootQuestionPopup.jsp|1|16adf92813c|2e0e|c6072561|32e2828a647b498c8317b60bdd3cdbab|0
+19:editRootQuestionPopup.jsp|1|16adf92815b|1ba2|da3ff6cb|df29ce039e4347bf909c7df6ad68c27b|0

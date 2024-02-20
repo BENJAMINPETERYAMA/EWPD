@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\adminmethodmapping
+2
+6
+1a:adminMethodMappingView.jsp|1|16adf9197d7|2353|d8886e4|d1111de92ed94cdba65ab85e42053805|0
+1a:adminMethodMappingEdit.jsp|1|16adf9196ce|4cce|c9915b83|460b73ea6cd54503903ed6df258922d4|0
+1f:adminMethodMappingEditPrint.jsp|1|16adf9196ed|205a|d683fa61|3b7ca8af6fcb41d2b3f36fb2cde93a39|0
+1b:adminMethodMappingPrint.jsp|1|16adf91977a|8bf|c830aa24|bbbe7171131d4b44925f7dc4c9f8df0d|0
+1e:adminMethodMappingMaintain.jsp|1|16adf9196de|4652|5cefc1f4|72ce5855822a48f3a7151aba408f9a08|0
+1c:adminMethodMappingCreate.jsp|1|16adf919bcd|3f80|1a7f92f7|976386ab703f4cc5ae62a608d1adc409|0

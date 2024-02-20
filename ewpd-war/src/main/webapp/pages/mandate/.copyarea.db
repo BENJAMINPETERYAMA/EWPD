@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\mandate
+2
+6
+11:mandateCreate.jsp|1|16adf91f0c0|29fc|68c90519|fad2a0902f474fbdbf53e1199ec56ddc|0
+10:mandatePrint.jsp|1|16adf91f11d|1e55|6b830f8|12dc1de7f7a8448c80fed9adda11a904|0
+f:mandateEdit.jsp|1|16adf91f12d|3a1d|7febacd8|843907e8e59a41e4a214caaee67da8a4|0
+12:mandateViewAll.jsp|1|16adf91f1aa|3fdd|986860d0|311636ce56df4478a0119ebf4f5b013b|0
+f:mandateView.jsp|1|16adf91f19a|2568|876d1773|22abd0c36c20487eb76efae43963c5fb|0
+11:mandateSearch.jsp|1|16adf91f1f8|7e6c|9ddf892d|1c04a0b9006f49fcb6c3006523089577|0

@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\task
+2
+b
+19:taskConfigurationView.jsp|1|16adf92f436|1da3|4ee4140c|67d2e10e9daa453ab209aed1e925791a|0
+d:taskPrint.jsp|1|16adf93045c|11c3|8ae037f|3608ca407532402bba4ee2388cd5021d|0
+13:taskDetailPrint.jsp|1|16adf93063f|18a7|1ad736|b9cb9a7e94f046fda01edfbb5500731a|0
+c:taskEdit.jsp|1|16adf9306cc|35e3|f857f913|6b995fbd89fa49c29fe0c1fb2b35051d|0
+10:subTaskPrint.jsp|1|16adf92da05|1609|fa8f3c7b|d419dc7f0bb94b8b9e03e7583d6e633c|0
+15:taskConfiguration.jsp|1|16adf92f262|246e|5ae0bab6|7b06a99c36414a5ca16d0d5ed76586af|0
+c:taskView.jsp|1|16adf9309a9|17e7|d1c492a7|9dfd8971a00b4d12ac2bd7cd89f8e556|0
+f:subTaskView.jsp|1|16adf92f2a8|1907|1632aeb9|048c256d2b984d859adbb03374a6e736|0
+e:taskSearch.jsp|1|16adf9309c8|3496|5e522259|86cd2a044c53406fa99851744870f7d9|0
+1e:taskGeneralInformationView.jsp|1|16adf9300e2|182b|50d157f5|12aa3576e09c45cea9eef9683b52b20a|0
+e:taskCreate.jsp|1|16adf93064f|2c49|6ce256b3|e646b276d28546cd8b7505b2a70b7514|0

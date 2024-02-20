@@ -1,0 +1,25 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\domain\entity
+2
+15
+1a:MappingRetrieveResult.java|1|16b935dccfd|1c2c|d1591996|e65dc7cb12274df08e1c1f4c0dc2941f|0
+a:SPSId.java|1|16b935dcd2c|879|700f8c6c|38b54fc72a064f92a8085d9c3b655286|0
+c:Mapping.java|1|16b935dccfd|bc08|453f533b|8544e9b68b8511e9803e0002c056e04b|0
+1d:VariableValidationResult.java|1|16b935dcd5b|9cc|a4962a7d|206ec85c06bc47e999581850ddd0fd17|0
+1d:SPSMappingRetrieveResult.java|1|16b935dcd5b|102e|156d2f74|2caf56d1ab6b432d9a6aefc3c2ccd0d8|0
+9:Item.java|1|16b935dccee|4f4|877485aa|2fdcd019d49941a6aa22168f9ca28f59|0
+10:Accumulator.java|1|16b935dcc71|14dd|fd54528f|d0c78560ca2c473b9307e19482fb9101|0
+17:ClaimLevelSequence.java|1|16b935dcdb8|c50|132405ea|22cf67977f2b4c0daabea9a1c029585f|0
+d:Variable.java|1|16b935dcd6a|1b7a|7694c74a|2b5c05cf8d3b4126a241f6cadfdecdac|0
+13:HippaCodeValue.java|1|16b935dccce|65d|75adfd4d|00215f368e8c481d95c8ec42a2927519|0
+14:EB03Association.java|1|16b935dcdb8|1370|10ffe917|11d11765710b428e9f64237c87cbac87|0
+e:SPSDetail.java|1|16b935dcd1c|320|43330247|8884f3aa31a8434c9f79052ba73c2ac1|0
+11:HippaSegment.java|1|16b935dccfd|c7b|de1cfe2a|27eb0c7f6c5b454da94849bbcb5bcea9|0
+9:Rule.java|1|16b935dcd1c|4fb|881f83cf|adb43e050abf4cb88294bf0c10ffc694|0
+c:Catalog.java|1|16b935dcc61|3ca|1ff73320|6139a0f94cf34302b7c708e444d4bebe|0
+16:ClaimCodeSequence.java|1|16b935dcd8a|11d5|b697f3e4|f4a02cda47894e8390a97dbd38520fd0|0
+13:LockAuditTrail.java|1|16b935dccfd|49c|2d5a8d65|c5bfde82072949cb94a934d991f0d9f3|0
+9:Page.java|1|16b935dcd1c|cd5|976dfa47|e75ab5ab1790429487026514d5e80952|0
+b:UMRule.java|1|16b935dcd4b|3640|1d1aa909|d730dd8c46f111e380110002cbcd824c|0
+17:UMRuleCodeSequence.java|1|16b935dcdb8|108b|17398393|edc56163e3df4de8abb323af278aa503|0
+f:AuditTrail.java|1|16b935dcc71|dd8|432c847e|1bf2c6bbca914462a8ff2c1556dea224|0

@@ -1,0 +1,22 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\adminMethods
+2
+12
+f:adminMethod.jsp|1|16adf9197c8|2063|be726788|8fab1a6ccfa24029b43ec75708963478|0
+21:adminMethodContractValidation.jsp|1|16adf91992e|265f|729b086d|ed0a2c9222c64880b694bbf6839a59a6|0
+13:adminMethodTree.jsp|1|16adf919b31|b0d|e369898f|7e634854adae4f57bd4ba70ce5332f71|0
+21:adminMethodSPSValidationPopUp.jsp|1|16adf919a47|1787|bc0f3d17|2c5cd2d6ff3e48fc9ac32a5be2e335e6|0
+26:adminMethodSPSValidationPrintPopup.jsp|1|16adf919a86|98f|943e01b6|1429b28281ec476da7fd2292dc119674|0
+13:adminMethodView.jsp|1|16adf919b60|11b9|e48b47f|9c3f63d49d1d464ca15b3d130fb2c5c5|0
+21:adminMethodSPSValidationPrint.jsp|1|16adf919af3|1257|29e5e787|74c1ecd492e34adf9dc10b2383b1a3ac|0
+23:adminMethodContractCodedSPSTree.jsp|1|16adf919892|c05|7ce5d74d|fea94fde898e43f089d7043682b419fc|0
+14:adminMethodPrint.jsp|1|16adf9199bb|13c0|d269a9c4|cfab69e268e34d139fc83d798d74c256|0
+19:adminMethodValidation.jsp|1|16adf919ab4|2349|cd7f0ab8|c756e8b3da22465993e9fa5de9e70203|0
+25:adminMethodContractValidationView.jsp|1|16adf919900|b90|27c558af|430cef6850a8492e8d5891ac4a7b4051|0
+1d:adminMethodValidationView.jsp|1|16adf919ab4|bb3|6101611b|4cc5d7eac333438c9d8b34ebdcea13ad|0
+2d:adminMethodContractValidationIntermediate.jsp|1|16adf9199ea|4c2|f06d8cd6|2c5770ffcaaf4f9bbcd8628cdea5c09f|0
+1b:adminMethodContractTree.jsp|1|16adf919864|be1|b14dcad2|5197a2a9457740988e79e21e3cce7899|0
+2c:adminMethodSPSValidationIntermediatePage.jsp|1|16adf919a28|4da|6f3f9511|d50c284d7a7e4c1ab94ac89768f4c90f|0
+23:adminMethodSPSPopupIntermediate.jsp|1|16adf9199da|4ca|3a108d2a|2239f0c85a514ee6b4751cc55cf05805|0
+17:checkInProgressPage.jsp|1|16adf919b22|9c2|b83e0368|3ac221820cc94e8886410b881eb870a5|0
+29:adminMethodValidationIntermediatePage.jsp|1|16adf91ab28|4b6|4bb87d7|f411acd12d9c49218efc7c4195f49411|0

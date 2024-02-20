@@ -1,0 +1,2773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:jee="http://www.springframework.org/schema/jee"
+     xmlns:tx = "http://www.springframework.org/schema/tx" 
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+     http://www.springframework.org/schema/tx                            
+ 	 http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<bean id="securityRepository" class="com.wellpoint.ets.bx.mapping.repository.SecurityRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />	
+	</bean>
+
+	<bean id="mappingRepository" class="com.wellpoint.ets.bx.mapping.repository.MappingRepositoryImpl" >
+		<property name = "dataSource" ref="dataSource" />	
+		<property name = "sequenceGeneratorRepository" ref="sequenceGeneratorRepository" />
+    </bean>  
+
+	<bean id="variableLocateRepository" class="com.wellpoint.ets.bx.mapping.repository.VariableLocateRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />		    
+	</bean>
+	
+	<bean id="hippaSegmentRepository" class="com.wellpoint.ets.bx.mapping.repository.HippaSegmentRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />		    
+	</bean>
+
+	<bean id="auditTrailRepository" class="com.wellpoint.ets.bx.mapping.repository.AuditTrailRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />		    
+	</bean>
+
+	<bean id="stateTransitionRepository" class="com.wellpoint.ets.bx.mapping.repository.StateTransitionRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />		    
+	</bean>
+
+	<bean id="sequenceGeneratorRepository" class="com.wellpoint.ets.bx.mapping.repository.SequenceGeneratorRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+
+	<bean id="lockRepository" class="com.wellpoint.ets.bx.mapping.repository.LockRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	
+	<bean id="locateSpsIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.LocateSpsIdRepositoryImpl">
+	 <property name = "dataSource" ref="dataSource" />
+
+	</bean>
+	
+	<bean id="itemRepository" class="com.wellpoint.ets.ebx.mapping.repository.ItemRepository">
+	 <property name = "dataSource" ref="dataSource" />
+
+	</bean>
+	<bean id="auditLockRepository" class="com.wellpoint.ets.bx.mapping.repository.AuditLockRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	<!-- AdvanceSearch -->
+	<bean id="advanceSearchRepositoryWPD" class="com.wellpoint.ets.ebx.mapping.repository.AdvanceSearchWPDRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>	
+	<bean id="advanceSearchRepository" class="com.wellpoint.ets.ebx.mapping.repository.AdvanceSearchEWPDRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="lockRuleIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.LockRuleIdRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	
+		<bean id="lockCustomMessageRepository" class="com.wellpoint.ets.ebx.mapping.repository.LockCustomMessageRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	<!-- Beans for message text search  -->
+	<bean id="ruleMessageSearchRepository" class="com.wellpoint.ets.ebx.mapping.repository.AdvanceSearchEWPDRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="variableMessageSearchRepository" class="com.wellpoint.ets.ebx.mapping.repository.AdvanceSearchWPDRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="userDictionaryRepository" class="com.wellpoint.ets.ebx.dictionary.repository.WPDUserDictionaryRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>
+	<!-- Beans for message text search  ends here -->
+	<!-- Validation repository -->
+	<bean id="wpdValidationRepository" class="com.wellpoint.ets.ebx.mapping.repository.WPDValidationRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	
+	<bean id="ewpdValidationRepository" class="com.wellpoint.ets.ebx.mapping.repository.EWPDValidationRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	<!-- Mapping header rule -->
+	<bean id="mappingRuleIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.MappingRuleIdRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />	
+		<property name = "insertMainMappingQuery"> 
+		<value><![CDATA[
+		     INSERT INTO BX_RULE_SRVC_TYP_ASSN ( RULE_ID, SRVC_TYP_CODE, SEND_DYNMC_INFO, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP,
+			 CREATD_USER_ID, STATUS_CD, IN_TEMP_TAB, PROC_EXCLD_IND, III02, INDVDL_EB03_ASSN_IND)
+		     VALUES(?, ?, ?, sysdate, ?, to_date(?, 'dd-MM-yy'), ?, ?, ?, ?, ?, ?)
+	  	 	]]>
+	     </value>
+	     </property>
+	     <property name = "insertAuditTrailHeaderRuleQuery"> 
+		<value><![CDATA[
+		     INSERT INTO BX_SRVC_TYPE_AUDIT_TRAIL ( RULE_ID, SYS_CMNTS, USR_CMNTS, CREATD_USER_ID, CREATD_TM_STMP, MAPG_STATUS)
+			 VALUES(?, ?, ?, ?, systimestamp, ?)
+	  	 	]]>
+	     </value>
+	     </property>
+	     <property name = "insertTempMappingQuery"> 
+		<value><![CDATA[
+		     INSERT INTO TEMP_BX_RULE_SRVC_TYP_ASSN ( RULE_ID, SRVC_TYP_CODE, SEND_DYNMC_INFO, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP,
+			 CREATD_USER_ID, STATUS_CD, PROC_EXCLD_IND, III02, INDVDL_EB03_ASSN_IND)
+		     VALUES(?, ?, ?, sysdate, ?, to_date(?, 'dd-MM-yy'), ?, ?, ?, ?, ?)
+	  	 	]]>
+	     </value>
+	     </property>	  
+	    <property name = "updateInTempFlagQuery"> 
+		<value><![CDATA[
+		    UPDATE BX_RULE_SRVC_TYP_ASSN SET IN_TEMP_TAB = ? WHERE RULE_ID = ?
+	  	 	]]>
+	     </value>
+	     </property>	  
+	      <property name = "deleteTempMappingQuery"> 
+		<value><![CDATA[
+		    DELETE FROM TEMP_BX_RULE_SRVC_TYP_ASSN WHERE RULE_ID = ?				
+	  	 	]]>
+	     </value>
+	     </property>	    
+	      <property name = "deleteMainMappingQuery"> 
+		<value><![CDATA[
+		    DELETE FROM BX_RULE_SRVC_TYP_ASSN WHERE RULE_ID = ?				
+	  	 	]]>
+	     </value>
+	     </property>
+	       <property name = "updateStatusMainQuery"> 
+		<value><![CDATA[
+		    UPDATE BX_RULE_SRVC_TYP_ASSN SET STATUS_CD = ?, LST_CHG_TMS= sysdate, LST_CHG_USR= ?, DATA_FEED_IND = ? WHERE RULE_ID = ?		
+	  	 	]]>
+	     </value>
+	     </property>
+	       <property name = "updateStatusTempQuery"> 
+		<value><![CDATA[
+		    UPDATE TEMP_BX_RULE_SRVC_TYP_ASSN SET STATUS_CD = ?, LST_CHG_TMS= sysdate, LST_CHG_USR= ?, DATA_FEED_IND = ?  WHERE RULE_ID = ?		
+	  	 	]]>
+	     </value>
+	     </property>
+	     <property name="insertUmRuleInMain">
+			<value>
+				<![CDATA[
+   				     INSERT INTO BX_RULE_UMRULE_ASSN ( RULE_ID, UM_RULE_ID) VALUES(?, ?)
+	  	 		]]>
+			</value>
+		</property>
+		<property name="insertUmRuleInTemp">
+			<value>
+				<![CDATA[
+		     		INSERT INTO TEMP_BX_RULE_UMRULE_ASSN ( RULE_ID,UM_RULE_ID)   VALUES(?, ?)
+	  	 		]]>
+			</value>
+		</property>
+		<property name="deleteUmRuleInMain">
+			<value>
+				<![CDATA[
+		    		DELETE FROM BX_RULE_UMRULE_ASSN WHERE RULE_ID = ?				
+	  	 		]]>
+			</value>
+		</property>
+		<property name="deleteUmRuleInTemp">
+			<value>
+				<![CDATA[
+		    		DELETE FROM TEMP_BX_RULE_UMRULE_ASSN WHERE RULE_ID = ?				
+	  	 		]]>
+			</value>
+		</property>
+	</bean>	
+	<bean id="locateRuleIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.LocateRuleIdRepositoryImpl">
+	<property name = "itemRepository" ref="itemRepository"/>	
+	<!-- For Reference Data Values -->
+	<property name="hippaSegmentRepository" ref="hippaSegmentRepository"/>
+		<property name = "dataSource" ref="dataSource" />	
+</bean>
+	<!-- Custom Message -->
+	<bean id="mappingCustomMessageRepository" class="com.wellpoint.ets.ebx.mapping.repository.MappingCustomMessageRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />	
+		<property name = "locateCustomMessageRepository" ref="locateCustomMessageRepository" />	
+		<property name = "createCustomMessageSQL"> 
+	 		<value>
+	 		INSERT INTO BX_CSTM_MSG_TEXT ( HDR_RULE_ID, SPS_ID, MSG_RQRD_IND, MSG_TEXT, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR,LST_CHG_TMS,NOTE_TYP_CD,STATUS_CD,IN_TEMP_TAB,EB03,INDVDL_EB03_ASSN_IND)
+	 		VALUES(?, ?, ?, ?, ?, to_date(?, 'dd-MM-yy'),?, sysdate, ?, ?,?,?,?)
+	  		</value>
+	  	</property>
+		<property name = "insertAuditTrailSQL"> 
+	 		<value>
+	 		INSERT INTO BX_CUSTOM_MSG_AUDIT_TRAIL ( HDR_RULE_ID, SPS_ID, SYS_CMNTS, USR_CMNTS, CREATD_USER_ID, CREATD_TM_STMP, MAPG_STATUS)
+	 		VALUES(?, ?, ?, ?, ?, systimestamp,?)
+	  		</value>
+	  	</property>
+	  	<property name = "checkInTempFlag"> 
+			<value>
+		     select IN_TEMP_TAB from BX_CSTM_MSG_TEXT where HDR_RULE_ID = ? and SPS_ID = ? and MSG_TEXT = ?
+	     	</value>
+	    </property>
+	    
+	    <property name = "updateCustomMessageSQL"> 
+			<value>
+		    update BX_CSTM_MSG_TEXT set  MSG_RQRD_IND =?, MSG_TEXT = ?, CREATD_USER_ID = ?, LST_CHG_USR = ?,LST_CHG_TMS = sysdate, NOTE_TYP_CD = ?, STATUS_CD = ?, DATA_FEED_IND = ?, IN_TEMP_TAB = ?, EB03 = ?, INDVDL_EB03_ASSN_IND = ?
+ 			where HDR_RULE_ID = ? and SPS_ID = ?	     	
+ 			</value>
+	    </property>
+  		 <property name = "updateCustomMessageTempSQL"> 
+			<value>
+		    update TEMP_BX_CSTM_MSG_TEXT set  MSG_RQRD_IND =?, MSG_TEXT = ?, CREATD_USER_ID = ?, LST_CHG_USR = ?,LST_CHG_TMS = sysdate, NOTE_TYP_CD = ?, STATUS_CD = ?, DATA_FEED_IND = ?, EB03 = ?, INDVDL_EB03_ASSN_IND = ?
+ 			where HDR_RULE_ID = ? and SPS_ID = ?	     	
+ 			</value>
+	    </property>
+	    <property name = "updateInTempTableFlagSQL"> 
+			<value>
+		    update BX_CSTM_MSG_TEXT set  IN_TEMP_TAB = ?
+ 			where HDR_RULE_ID = ? and SPS_ID = ?	     	
+ 			</value>
+	    </property>
+	    <property name = "deleteCustomMessageTempTableSQL"> 
+			<value>
+		    delete from TEMP_BX_CSTM_MSG_TEXT where HDR_RULE_ID = ? and SPS_ID = ? 	
+ 			</value>
+	    </property>
+	    <property name = "createCustomMessageTempSQL"> 
+	 		<value>
+	 		INSERT INTO TEMP_BX_CSTM_MSG_TEXT ( HDR_RULE_ID, SPS_ID, MSG_RQRD_IND, MSG_TEXT, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR,LST_CHG_TMS,NOTE_TYP_CD,STATUS_CD,EB03,INDVDL_EB03_ASSN_IND)
+	 		VALUES(?, ?, ?, ?, ?, to_date(?, 'dd-MM-yy'),?, sysdate, ?, ?,?,?)
+	  		</value>
+	  	</property>  
+	  	  <property name = "deleteCustomMessageMainTableSQL"> 
+			<value>
+		    delete from BX_CSTM_MSG_TEXT where HDR_RULE_ID = ? and SPS_ID = ? 	
+ 			</value>
+	    </property>
+	    <property name = "createCustomMessageDataFeedSQL"> 
+	 		<value>
+	 		INSERT INTO DEL_BX_CSTM_MSG_TEXT ( HDR_RULE_ID, SPS_ID, MSG_TEXT, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR,LST_CHG_TMS,FEED_RUN_FLG)
+	 		VALUES(?, ?, ?, ?,sysdate,?, sysdate,?)
+	  		</value>
+	  	</property>  
+	  	<property name = "updateCustomMessageDataFeedSQL"> 
+         <value>
+          UPDATE DEL_BX_CSTM_MSG_TEXT set FEED_RUN_FLG = ?, LST_CHG_TMS=sysdate, LST_CHG_USR=?
+          where HDR_RULE_ID=? and SPS_ID=?
+           </value>
+          </property>   
+          <property name = "updateCustomMessageStatusSQL"> 
+        	 <value>
+          		update BX_CSTM_MSG_TEXT set  STATUS_CD = ?, DATA_FEED_IND = ?
+ 				where HDR_RULE_ID = ? and SPS_ID = ?
+           </value>
+          </property> 
+          <property name = "updateCustomMessageStatusTempSQL"> 
+        	 <value>
+          		update TEMP_BX_CSTM_MSG_TEXT set  STATUS_CD = ?, DATA_FEED_IND = ?
+ 				where HDR_RULE_ID = ? and SPS_ID = ?
+           </value>
+          </property>
+          
+           
+	</bean>
+	<bean id="locateCustomMessageRepository" class="com.wellpoint.ets.ebx.mapping.repository.LocateCustomMessageRepositoryImpl">
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository"/>
+		<property name = "dataSource" ref="dataSource" />	
+	</bean>
+	<!-- END of Custom Message -->
+	<!-- SPSID Updation -->
+
+	<bean id="lockSpsIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.LockSpsIdRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />		    
+	</bean>	
+	
+	<bean id="mappingSpsIdRepository" class="com.wellpoint.ets.ebx.mapping.repository.MappingSpsIdRepositoryImpl">
+
+	<property name = "dataSource" ref="dataSource" />
+	
+	<property name = "createSPSIDMappingQuery"> 
+		<value><![CDATA[
+		     INSERT INTO bx_sps_mapng ( SPS_PARAM_ID,EB01_VALUE,EB02_VALUE,EB06_VALUE,EB09_VALUE,HSD1_VALUE,HSD2_VALUE,
+		     HSD3_VALUE,HSD4_VALUE,HSD5_VALUE,HSD6_VALUE,HSD7_VALUE,HSD8_VALUE,STATUS_CD,ACCUMR_SPS_ID,MAPPNG_CMP_IND,LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID,IN_TEMP_TAB)
+		     VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?, sysdate,?, sysdate, ?,?)
+	  	 	]]>
+	     </value>
+	     </property>
+	     
+	     <property name = "insertSPSAuditTrailQuery"> 
+		<value><![CDATA[
+		     INSERT INTO bx_sps_audit_trail ( SPS_PARAM_ID, SYS_CMNTS, USR_CMNTS, CREATD_USER_ID, CREATD_TM_STMP, MAPG_STATUS)
+			 VALUES(?, ?, ?, ?, systimestamp, ?)
+	  	 	]]>
+	     </value>
+	     </property>
+	        
+	   
+	     <property name = "updateMainSPSIdMappingQuery"> 
+			<value><![CDATA[
+		    UPDATE bx_sps_mapng SET EB01_VALUE = ?,EB02_VALUE = ?,EB06_VALUE = ?,EB09_VALUE = ?,
+ 			HSD1_VALUE = ?,HSD2_VALUE = ?,HSD3_VALUE = ?,HSD4_VALUE = ?,HSD5_VALUE = ?,HSD6_VALUE = ?,HSD7_VALUE = ?,
+ 			HSD8_VALUE = ?,STATUS_CD = ?,ACCUMR_SPS_ID = ?,MAPPNG_CMP_IND = ?,LST_CHG_TMS= sysdate, LST_CHG_USR= ?
+  			where SPS_PARAM_ID=?
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	      <property name = "updateTmpSPSIdMappingQuery"> 
+			<value><![CDATA[
+		    UPDATE temp_bx_sps_mapg SET EB01_VALUE = ?,EB02_VALUE = ?,EB06_VALUE = ?,EB09_VALUE = ?,
+ 			HSD1_VALUE = ?,HSD2_VALUE = ?,HSD3_VALUE = ?,HSD4_VALUE = ?,HSD5_VALUE = ?,HSD6_VALUE = ?,HSD7_VALUE = ?,
+ 			HSD8_VALUE = ?,STATUS_CD = ?,ACCUMR_SPS_ID = ?,MAPPNG_CMP_IND = ?,LST_CHG_TMS= sysdate, LST_CHG_USR= ?
+  			where SPS_PARAM_ID=?
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	      <property name = "insertTmpSPSIdMappingQuery"> 
+			<value><![CDATA[
+		     INSERT INTO temp_bx_sps_mapg( SPS_PARAM_ID,EB01_VALUE,EB02_VALUE,EB06_VALUE,EB09_VALUE,HSD1_VALUE,HSD2_VALUE,
+		     HSD3_VALUE,HSD4_VALUE,HSD5_VALUE,HSD6_VALUE,HSD7_VALUE,HSD8_VALUE,STATUS_CD,ACCUMR_SPS_ID,MAPPNG_CMP_IND,LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID)
+		     VALUES(?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?, sysdate,?, sysdate, ?)
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	      <property name = "deleteTmpSPSIdMappingQuery"> 
+			<value><![CDATA[
+		    DELETE FROM temp_bx_sps_mapg 
+  			where SPS_PARAM_ID=?
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	       <property name = "updateMainSPSIdStatusQuery"> 
+			<value><![CDATA[
+			 UPDATE bx_sps_mapng SET STATUS_CD = ? ,LST_CHG_TMS = sysdate, LST_CHG_USR = ?, DATA_FEED_IND = ?
+  			 where SPS_PARAM_ID=?
+			]]>
+	   		  </value>
+	      </property>
+	      
+	      <property name = "updateTmpSPSIdStatusQuery"> 
+			<value><![CDATA[
+		    UPDATE temp_bx_sps_mapg SET STATUS_CD = ? ,LST_CHG_TMS = sysdate, LST_CHG_USR = ?, DATA_FEED_IND = ?
+  			 where SPS_PARAM_ID=?
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	       <property name = "updateInTempQuery"> 
+			<value><![CDATA[
+		    UPDATE bx_sps_mapng SET IN_TEMP_TAB = ? ,LST_CHG_TMS = sysdate, LST_CHG_USR = ?
+  			 where SPS_PARAM_ID=? 
+	  	 	]]>
+	   		  </value>
+	      </property>
+	       <property name = "updateMainInTempAndStatusQuery"> 
+			<value><![CDATA[
+		    UPDATE bx_sps_mapng SET IN_TEMP_TAB = ? ,LST_CHG_TMS = sysdate, LST_CHG_USR = ?, STATUS_CD = ?
+  			 where SPS_PARAM_ID=? 
+	  	 	]]>
+	   		  </value>
+	      </property>
+	    
+	</bean>	
+	<bean id="lgContractInfoRepository" class="com.wellpoint.ets.ebx.simulation.repository.LGContractInfoRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+		<property name = "lgContractMappingInfoQuery"> 
+			<value><![CDATA[
+			            SELECT *
+			FROM (
+			  (SELECT DISTINCT MSTR.CNTRCT_VAR_ID,
+			    MAPG_VAL.DATA_ELEMENT_ID,
+			    MAPG_VAL.DATA_ELEMENT_VAL,
+			    MAPG_VAL.EB03_ASSN,
+			    EXT_MSG.EXTND_MSG_TXT1,
+                EXT_MSG.EXTND_MSG_TXT2,
+                EXT_MSG.EXTND_MSG_TXT3,
+                EXT_MSG.EB12_IND,
+                AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         		AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+			    MSTR.SEN_BNFT_IND,
+			    MSTR.VAR_MAPG_STTS_CD,
+			    MSTR.MAPPNG_CMP_IND,
+			    MSTR.MSG,
+			    MSTR.MSG_TYPE,
+			    MSTR.INDVDL_EB03_ASSN_IND,
+			    COMMA_SEPERATED_WPDACCUM_VAR(MSTR.CNTRCT_VAR_ID) AS WPDACCUM
+			  FROM BX_CNTRCT_VAR_MAPG MSTR
+			  LEFT OUTER JOIN BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL
+			  ON MSTR.VAR_MAPG_SYS_ID = MAPG_VAL.VAR_MAPG_SYS_ID
+			  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              ON MAPG_VAL.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              AND (MAPG_VAL.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              AND MAPG_VAL.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              AND EXT_MSG.CHG_IND != 'D'
+              LEFT OUTER JOIN BX_AUTO_VAR_MAPG AUTO_MAPG
+              ON MSTR.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              AND MAPG_VAL.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+			  WHERE MSTR.IN_TEMP_TAB  ='N'
+			  )
+			UNION
+			  (SELECT DISTINCT MSTR1.CNTRCT_VAR_ID,
+			    MAPG_VAL1.DATA_ELEMENT_ID,
+			    MAPG_VAL1.DATA_ELEMENT_VAL,
+			    MAPG_VAL1.EB03_ASSN,
+			    EXT_MSG.EXTND_MSG_TXT1,
+                EXT_MSG.EXTND_MSG_TXT2,
+                EXT_MSG.EXTND_MSG_TXT3,
+                EXT_MSG.EB12_IND,
+                AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         		AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+			    MSTR1.SEN_BNFT_IND,
+			    MSTR1.VAR_MAPG_STTS_CD,
+			    MSTR1.MAPPNG_CMP_IND,
+			    MSTR1.MSG,
+			    MSTR1.MSG_TYPE,
+			    MSTR1.INDVDL_EB03_ASSN_IND,
+			    COMMA_SEPERATED_WPDACCUM_VAR(MSTR1.CNTRCT_VAR_ID) AS WPDACCUM
+			  FROM TEMP_BX_CNTRCT_VAR_MAPG MSTR1
+			  LEFT OUTER JOIN TEMP_BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL1
+			  ON MSTR1.VAR_MAPG_SYS_ID = MAPG_VAL1.VAR_MAPG_SYS_ID
+			  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              ON MAPG_VAL1.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              AND (MAPG_VAL1.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              AND MAPG_VAL1.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              AND EXT_MSG.CHG_IND != 'D'
+              LEFT OUTER JOIN BX_AUTO_VAR_MAPG AUTO_MAPG
+              ON MSTR1.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              AND MAPG_VAL1.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+			  ) )MAPQ
+			RIGHT OUTER JOIN
+			  (SELECT *
+			  FROM
+			    (SELECT CNTRCT_VAR_ID AS MAPPED_VARID FROM BX_CNTRCT_VAR_MAPG
+			    )
+			  RIGHT OUTER JOIN
+			    (SELECT AB.CONTRACT AS CONTRACTID,
+			      C.MAJOR_TEXT,
+			      D.MINOR_TEXT,
+			      AB.CONTRACT_VAR,
+			      AB.CONTRACT_VAR_FORMAT,
+			      AB.PROV_ARNG,
+			      AB.PRODUCT_FAMILY,
+			      AB.PRODUCT,
+			      AB.VAR_VALUE ,
+			      AB.BUSINESS_ENTITY,
+			      AB.GROUP_STATE_HQ,
+			      AB.START_DT,
+			      AB.END_DT,
+			      AB.CONT_VAR_TX,
+			      AB.BENEFIT_YEAR_ACCUM_IND,
+			      AB.CATAGORY,
+			      AB.CORPORATE_PLAN_CD AS CORPORATEPLAN,
+			      AB.BENEFIT_STRUCTURE AS BENEFITESTRUCTURE,
+			      AB.GROUP_NM
+			     FROM (
+			      --subquery to select variables with value coded
+			      (SELECT A.CONTRACT,
+			        --C.MAJOR_TEXT, D.MINOR_TEXT,
+			        F.CONTRACT_VAR,
+			        E.CONTRACT_VAR_FORMAT,
+			        E.PROV_ARNG,
+			        A.PRODUCT_FAMILY,
+			        A.PRODUCT,
+			        F.VAR_VALUE ,
+			        A.BUSINESS_ENTITY,
+			        A.GROUP_STATE_HQ,
+			        B.MAJOR_HEADING,
+			        B.MINOR_HEADING,
+			        b.BENEFIT_STRUCTURE,
+			        A.START_DT,
+			        A.END_DT,
+			        E.CONT_VAR_TX ,
+			        A.BENEFIT_YEAR_ACCUM_IND,
+			        E.CATAGORY,
+			        A.CORPORATE_PLAN_CD,
+			        A.GROUP_NM
+			       FROM CONTRACT A,
+			        VARSEG F,
+			        CONTVAR E,
+			        LG_CONTRACT_DETAIL B
+			      WHERE A.CONTRACT = ?
+			      AND A.START_DT   = ?
+			        -- AND A.END_DT > ?
+			      AND A.CONTRACT          = F.CONTRACT
+			      AND A.START_DT          = F.START_DT
+			      AND F.CONTRACT_VAR      = E.CONTRACT_VAR
+			      AND B.CONTRACT_VAR      = E.CONTRACT_VAR
+			      AND A.BENEFIT_STRUCTURE = B.BENEFIT_STRUCTURE
+			      )
+			    --subquery to select variables with no value coded but note attached at contract level
+			    UNION
+			      (SELECT A.CONTRACT,
+			        E.CONTRACT_VAR,
+			        E.CONTRACT_VAR_FORMAT,
+			        E.PROV_ARNG,
+			        A.PRODUCT_FAMILY,
+			        A.PRODUCT,
+			        F.VAR_VALUE ,
+			        A.BUSINESS_ENTITY,
+			        A.GROUP_STATE_HQ,
+			        B.MAJOR_HEADING,
+			        B.MINOR_HEADING,
+			        b.BENEFIT_STRUCTURE,
+			        A.START_DT,
+			        A.END_DT,
+			        E.CONT_VAR_TX ,
+			        A.BENEFIT_YEAR_ACCUM_IND,
+			        E.CATAGORY,
+			        A.CORPORATE_PLAN_CD,
+			        A.GROUP_NM
+			      FROM CONTRACT A
+			      JOIN LG_CONTRACT_DETAIL B
+			      ON A.BENEFIT_STRUCTURE = B.BENEFIT_STRUCTURE
+			      JOIN CONTVAR E
+			      ON B.CONTRACT_VAR = E.CONTRACT_VAR
+			      JOIN LG_BENNOTES H
+			      ON H.CONTRACT      = A.CONTRACT
+			      AND H.START_DT     = A.START_DT
+			      AND H.CONTRACT_VAR = E.CONTRACT_VAR
+			      LEFT OUTER JOIN VARSEG F
+			      ON F.CONTRACT_VAR       = E.CONTRACT_VAR
+			      AND F.CONTRACT          = A.CONTRACT
+			      AND F.START_DT          = A.START_DT
+			      WHERE A.CONTRACT        = ?
+			      AND A.START_DT          = ?
+			      AND E.CONTRACT_VAR NOT IN
+			        (SELECT F.CONTRACT_VAR
+			        FROM VARSEG F
+			        WHERE F.CONTRACT = A.CONTRACT
+			        AND F.START_DT   = A.START_DT
+			        )
+			      )
+			      --end of subquery to select variables with no value coded but note attached at contract level
+			      ) AB,
+			      LG_MAJOR_HEADING C,
+			      LG_MINOR_HEADING D
+			    WHERE AB.BENEFIT_STRUCTURE = C.BENEFIT_STRUCTURE
+			    AND C.BENEFIT_STRUCTURE    = D.BENEFIT_STRUCTURE
+			    AND AB.MAJOR_HEADING       = C.MAJOR_HEADING
+			    AND C.MAJOR_HEADING        = D.MAJOR_HEADING
+			    AND AB.MINOR_HEADING       = D.MINOR_HEADING
+			    ORDER BY AB.CONTRACT,
+			      C.MAJOR_TEXT,
+			      D.MINOR_TEXT,
+			      AB.CONTRACT_VAR
+			    ) x ON MAPPED_VARID       =x.CONTRACT_VAR
+			  ) VARQ ON MAPQ.CNTRCT_VAR_ID=VARQ.MAPPED_VARID
+			  left join (SELECT PRD_CDE, PRD_SDESC FROM BX_MPC_PROD) PRDCDE
+              ON PRDCDE.PRD_CDE = VARQ.PRODUCT
+	  	 	]]>
+	   		  </value>
+	    </property>		
+	    
+	    <property name = "lgGetContractVersions"> 
+			<value><![CDATA[	         	
+         
+         	SELECT COUNT(*) AS ROWCOUNT FROM CONTRACT WHERE CONTRACT=? 
+         	AND START_DT = ?  
+         	--AND END_DT > ?
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      
+	        <property name = "lgStartDatesProduction"> 
+			<value><![CDATA[	         	
+         
+         	(SELECT START_DT
+				FROM CONTRACT
+				WHERE CONTRACT      = ?
+				AND ROW_STATUS     <> 0
+				AND CNTRC_STAT NOT IN('Marked For Deletion' , 'Deleted'))
+				ORDER BY START_DT DESC
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      <property name = "lgStartDatesTest"> 
+			<value><![CDATA[	         	
+         
+				(SELECT START_DT
+				FROM CONTRACT_TST
+				WHERE CONTRACT      = ?
+				AND ROW_STATUS     <> 0
+				AND CNTRC_STAT NOT IN('Marked For Deletion' , 'Deleted'))
+				ORDER BY START_DT DESC
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	     
+	      <property name = "lgGetContractTestVersions">
+	      <value><![CDATA[	         	
+         
+         	SELECT COUNT(*) AS ROWCOUNT FROM CONTRACT_TST WHERE CONTRACT=? 
+         	AND START_DT = ?  
+         	--AND END_DT > ?
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      
+	      <property name = "lgContractTestMappingInfoQuery">
+	       <value><![CDATA[	  
+	      SELECT *
+			FROM (
+			  (SELECT DISTINCT MSTR.CNTRCT_VAR_ID,
+			    MAPG_VAL.DATA_ELEMENT_ID,
+			    MAPG_VAL.DATA_ELEMENT_VAL,
+			    MAPG_VAL.EB03_ASSN,
+			    EXT_MSG.EXTND_MSG_TXT1,
+                EXT_MSG.EXTND_MSG_TXT2,
+                EXT_MSG.EXTND_MSG_TXT3,
+                EXT_MSG.EB12_IND,
+                AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         		AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+			    MSTR.SEN_BNFT_IND,
+			    MSTR.VAR_MAPG_STTS_CD,
+			    MSTR.MAPPNG_CMP_IND,
+			    MSTR.MSG,
+			    MSTR.MSG_TYPE,
+			    MSTR.INDVDL_EB03_ASSN_IND,
+			    COMMA_SEPERATED_WPDACCUM_VAR(MSTR.CNTRCT_VAR_ID) AS WPDACCUM
+			  FROM BX_CNTRCT_VAR_MAPG MSTR
+			  LEFT OUTER JOIN BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL
+			  ON MSTR.VAR_MAPG_SYS_ID = MAPG_VAL.VAR_MAPG_SYS_ID
+			  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              ON MAPG_VAL.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              AND (MAPG_VAL.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              AND MAPG_VAL.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              AND EXT_MSG.CHG_IND != 'D'
+              LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+              ON MSTR.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              AND MAPG_VAL.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+			  WHERE MSTR.IN_TEMP_TAB  ='N'
+			  )
+			UNION
+			  (SELECT DISTINCT MSTR1.CNTRCT_VAR_ID,
+			    MAPG_VAL1.DATA_ELEMENT_ID,
+			    MAPG_VAL1.DATA_ELEMENT_VAL,
+			    MAPG_VAL1.EB03_ASSN,
+			    EXT_MSG.EXTND_MSG_TXT1,
+                EXT_MSG.EXTND_MSG_TXT2,
+                EXT_MSG.EXTND_MSG_TXT3,
+                EXT_MSG.EB12_IND,
+                AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         		AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+			    MSTR1.SEN_BNFT_IND,
+			    MSTR1.VAR_MAPG_STTS_CD,
+			    MSTR1.MAPPNG_CMP_IND,
+			    MSTR1.MSG,
+			    MSTR1.MSG_TYPE,
+			    MSTR1.INDVDL_EB03_ASSN_IND,
+			    COMMA_SEPERATED_WPDACCUM_VAR(MSTR1.CNTRCT_VAR_ID) AS WPDACCUM
+			  FROM TEMP_BX_CNTRCT_VAR_MAPG MSTR1
+			  LEFT OUTER JOIN TEMP_BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL1
+			  ON MSTR1.VAR_MAPG_SYS_ID = MAPG_VAL1.VAR_MAPG_SYS_ID
+			  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              ON MAPG_VAL1.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              AND (MAPG_VAL1.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              AND MAPG_VAL1.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              AND EXT_MSG.CHG_IND != 'D'
+              LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+              ON MSTR1.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              AND MAPG_VAL1.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+			  ) )MAPQ
+			RIGHT OUTER JOIN
+			  (SELECT *
+			  FROM
+			    (SELECT CNTRCT_VAR_ID AS MAPPED_VARID FROM BX_CNTRCT_VAR_MAPG
+			    )
+			  RIGHT OUTER JOIN
+			    (SELECT AB.CONTRACT AS CONTRACTID,
+			      C.MAJOR_TEXT,
+			      D.MINOR_TEXT,
+			      AB.CONTRACT_VAR,
+			      AB.CONTRACT_VAR_FORMAT,
+			      AB.PROV_ARNG,
+			      AB.PRODUCT_FAMILY,
+			      AB.PRODUCT,
+			      AB.VAR_VALUE ,
+			      AB.BUSINESS_ENTITY,
+			      AB.GROUP_STATE_HQ,
+			      AB.START_DT,
+			      AB.END_DT,
+			      AB.CONT_VAR_TX,
+			      AB.BENEFIT_YEAR_ACCUM_IND,
+			      AB.CATAGORY,
+			      AB.CORPORATE_PLAN_CD AS CORPORATEPLAN,
+			      AB.BENEFIT_STRUCTURE AS BENEFITESTRUCTURE,
+			      AB.GROUP_NM
+			    FROM (
+			      --subquery to select variables with value coded
+			      (SELECT A.CONTRACT,
+			        --C.MAJOR_TEXT, D.MINOR_TEXT,
+			        F.CONTRACT_VAR,
+			        E.CONTRACT_VAR_FORMAT,
+			        E.PROV_ARNG,
+			        A.PRODUCT_FAMILY,
+			        A.PRODUCT,
+			        F.VAR_VALUE ,
+			        A.BUSINESS_ENTITY,
+			        A.GROUP_STATE_HQ,
+			        B.MAJOR_HEADING,
+			        B.MINOR_HEADING,
+			        b.BENEFIT_STRUCTURE,
+			        A.START_DT,
+			        A.END_DT,
+			        E.CONT_VAR_TX ,
+			        A.BENEFIT_YEAR_ACCUM_IND,
+			        E.CATAGORY,
+			        A.CORPORATE_PLAN_CD,
+			        A.GROUP_NM
+			      FROM CONTRACT_TST A,
+			        VARSEG_TST F,
+			        CONTVAR E,
+			        LG_CONTRACT_DETAIL B
+			      WHERE A.CONTRACT = ?
+			      AND A.START_DT   = ?
+			        -- AND A.END_DT > ?
+			      AND A.CONTRACT          = F.CONTRACT
+			      AND A.START_DT          = F.START_DT
+			      AND F.CONTRACT_VAR      = E.CONTRACT_VAR
+			      AND B.CONTRACT_VAR      = E.CONTRACT_VAR
+			      AND A.BENEFIT_STRUCTURE = B.BENEFIT_STRUCTURE
+			      )
+			    --subquery to select variables with no value coded but note attached at contract level
+			    UNION
+			      (SELECT A.CONTRACT,
+			        E.CONTRACT_VAR,
+			        E.CONTRACT_VAR_FORMAT,
+			        E.PROV_ARNG,
+			        A.PRODUCT_FAMILY,
+			        A.PRODUCT,
+			        F.VAR_VALUE ,
+			        A.BUSINESS_ENTITY,
+			        A.GROUP_STATE_HQ,
+			        B.MAJOR_HEADING,
+			        B.MINOR_HEADING,
+			        b.BENEFIT_STRUCTURE,
+			        A.START_DT,
+			        A.END_DT,
+			        E.CONT_VAR_TX ,
+			        A.BENEFIT_YEAR_ACCUM_IND,
+			        E.CATAGORY,
+			        A.CORPORATE_PLAN_CD,
+			        A.GROUP_NM
+			      FROM CONTRACT_TST A
+			      JOIN LG_CONTRACT_DETAIL B
+			      ON A.BENEFIT_STRUCTURE = B.BENEFIT_STRUCTURE
+			      JOIN CONTVAR E
+			      ON B.CONTRACT_VAR = E.CONTRACT_VAR
+			      JOIN LG_BENNOTES_TST H
+			      ON H.CONTRACT      = A.CONTRACT
+			      AND H.START_DT     = A.START_DT
+			      AND H.CONTRACT_VAR = E.CONTRACT_VAR
+			      LEFT OUTER JOIN VARSEG_TST F
+			      ON F.CONTRACT_VAR       = E.CONTRACT_VAR
+			      AND F.CONTRACT          = A.CONTRACT
+			      AND F.START_DT          = A.START_DT
+			      WHERE A.CONTRACT        = ?
+			      AND A.START_DT          = ?
+			      AND E.CONTRACT_VAR NOT IN
+			        (SELECT F.CONTRACT_VAR
+			        FROM VARSEG_TST F
+			        WHERE F.CONTRACT = A.CONTRACT
+			        AND F.START_DT   = A.START_DT
+			        )
+			      )
+			      --end of subquery to select variables with no value coded but note attached at contract level
+			      ) AB,
+			      LG_MAJOR_HEADING C,
+			      LG_MINOR_HEADING D
+			    WHERE AB.BENEFIT_STRUCTURE = C.BENEFIT_STRUCTURE
+			    AND C.BENEFIT_STRUCTURE    = D.BENEFIT_STRUCTURE
+			    AND AB.MAJOR_HEADING       = C.MAJOR_HEADING
+			    AND C.MAJOR_HEADING        = D.MAJOR_HEADING
+			    AND AB.MINOR_HEADING       = D.MINOR_HEADING
+			    ORDER BY AB.CONTRACT,
+			      C.MAJOR_TEXT,
+			      D.MINOR_TEXT,
+			      AB.CONTRACT_VAR
+			    ) x ON MAPPED_VARID       =x.CONTRACT_VAR
+			  ) VARQ ON MAPQ.CNTRCT_VAR_ID=VARQ.MAPPED_VARID
+			  left join (SELECT PRD_CDE, PRD_SDESC FROM BX_MPC_PROD) PRDCDE
+              ON PRDCDE.PRD_CDE = VARQ.PRODUCT
+			  ]]>
+	   		  </value>
+	      </property> 
+	          
+	</bean>
+	
+	<bean id="isgContractInfoRepository" class="com.wellpoint.ets.ebx.simulation.repository.ISGContractInfoRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+		
+		<property name = "isgGetDateSegmentsQuery"> 
+			<value><![CDATA[		          
+		    SELECT  A.CPFXP_CONT_ID as CONTRACTID,A.CPFXP_S_DATE as EFTVDATE,A.CPFXP_E_DATE as EXPIRYDATE, 
+					A.CPFXP_R_DATE as REVISIONDATE FROM ISG_CPFXP_CONTRACT A
+          			WHERE A.CPFXP_CONT_ID = ? AND A.CPFXP_S_DATE =  ?   
+	  	 	]]>
+	   		  </value>
+	    </property>	
+		
+		<property name = "isgGetTestDateSegmentsQuery"> 
+			<value><![CDATA[		          
+		    SELECT  A.CPFXP_CONT_ID as CONTRACTID,A.CPFXP_S_DATE as EFTVDATE,A.CPFXP_E_DATE as EXPIRYDATE, 
+					A.CPFXP_R_DATE as REVISIONDATE FROM ISG_CPFXP_CONTRACT_TST A
+          			WHERE A.CPFXP_CONT_ID = ? AND A.CPFXP_S_DATE =  ?   
+	  	 	]]>
+	   		  </value>
+	    </property>	
+		
+		<property name = "isgContractMappingInfoQuery"> 
+			<value><![CDATA[
+							SELECT *
+				FROM (
+				  (SELECT DISTINCT MSTR.CNTRCT_VAR_ID,
+				    MAPG_VAL.DATA_ELEMENT_ID,
+				    MAPG_VAL.DATA_ELEMENT_VAL,
+				    MAPG_VAL.EB03_ASSN,
+				    EXT_MSG.EXTND_MSG_TXT1,
+                	EXT_MSG.EXTND_MSG_TXT2,
+                	EXT_MSG.EXTND_MSG_TXT3,
+                	EXT_MSG.EB12_IND,
+                	AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         			AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+				    MSTR.SEN_BNFT_IND,
+				    MSTR.VAR_MAPG_STTS_CD,
+				    MSTR.MAPPNG_CMP_IND,
+				    MSTR.MSG,
+				    MSTR.MSG_TYPE,
+				    MSTR.INDVDL_EB03_ASSN_IND,
+				    COMMA_SEPERATED_ISGACCUM_VAR(MSTR.CNTRCT_VAR_ID) AS WPDACCUM
+				  FROM BX_CNTRCT_VAR_MAPG MSTR
+				  LEFT OUTER JOIN BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL
+				  ON MSTR.VAR_MAPG_SYS_ID = MAPG_VAL.VAR_MAPG_SYS_ID
+				  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              	  ON MAPG_VAL.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              	  AND (MAPG_VAL.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              	  AND MAPG_VAL.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              	  AND EXT_MSG.CHG_IND != 'D'
+              	  LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+                  ON MSTR.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+                  AND MAPG_VAL.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+				  WHERE MSTR.IN_TEMP_TAB  ='N'
+				  )
+				UNION
+				  (SELECT DISTINCT MSTR1.CNTRCT_VAR_ID,
+				    MAPG_VAL1.DATA_ELEMENT_ID,
+				    MAPG_VAL1.DATA_ELEMENT_VAL,
+				    MAPG_VAL1.EB03_ASSN,
+				    EXT_MSG.EXTND_MSG_TXT1,
+                	EXT_MSG.EXTND_MSG_TXT2,
+                	EXT_MSG.EXTND_MSG_TXT3,
+                	EXT_MSG.EB12_IND,
+                	AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         			AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+				    MSTR1.SEN_BNFT_IND,
+				    MSTR1.VAR_MAPG_STTS_CD,
+				    MSTR1.MAPPNG_CMP_IND,
+				    MSTR1.MSG,
+				    MSTR1.MSG_TYPE,
+				    MSTR1.INDVDL_EB03_ASSN_IND,
+				    COMMA_SEPERATED_ISGACCUM_VAR(MSTR1.CNTRCT_VAR_ID) AS WPDACCUM
+				  FROM TEMP_BX_CNTRCT_VAR_MAPG MSTR1
+				  LEFT OUTER JOIN TEMP_BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL1
+				  ON MSTR1.VAR_MAPG_SYS_ID = MAPG_VAL1.VAR_MAPG_SYS_ID
+				  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              	  ON MAPG_VAL1.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              	  AND (MAPG_VAL1.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              	  AND MAPG_VAL1.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              	  AND EXT_MSG.CHG_IND != 'D'
+              	  LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+              	  ON MSTR1.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              	  AND MAPG_VAL1.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+				  ) )MAPQ
+				RIGHT OUTER JOIN
+				  (SELECT *
+				  FROM
+				    (SELECT CNTRCT_VAR_ID AS MAPPED_VARID
+				    FROM BX_CNTRCT_VAR_MAPG
+				    )
+				  RIGHT OUTER JOIN (
+				    --subquery to select variables with value coded
+				    (SELECT DISTINCT F.CPFXP_PC_TEXT AS MAJOR_HEADING,
+				      E.CPFXP_PC_TEXT                AS MINOR_HEADING,
+				      C.CPFXP_CONTVAR                AS VARIABLEID,
+				      A.CPFXP_CONT_ID                AS CONTRACTID,
+				      B.CPFXP_FORMAT                 AS FORMAT,
+				      B.CPFXP_VALUE                  AS VARIABLEVAL,
+				      G.CPFXP_PROV_ARNG              AS PVA,
+				      A.CPFXP_STATE_HQ               AS STATEHQ,
+				      A.CPFXP_MBU                    AS MBU,
+				      A.CPFXP_S_DATE                 AS EFTVDATE,
+				      A.CPFXP_E_DATE                 AS EXPIRYDATE,
+				      G.CPFXP_TEXT                   AS VARIABLEDESC,
+				      A.CPFXP_R_DATE                 AS REVISIONDATE,
+				      A.CPFXP_PRODUCT                AS PRODUCT,
+				      G.CPFXP_CATAGORY               AS CATAGORY,
+     				  A.CPFXP_CORPPLAN               AS CORPORATEPLAN,
+      				  A.CPFXP_BENSTRUC               AS BENEFITESTRUCTURE
+				    FROM ISG_CPFXP_CONTRACT A,
+				      ISG_CPFXP_VARSEG B,
+				      ISG_CPFXP_CONTXREF C,
+				      ISG_CPFXP_CNTATHDG D,
+				      ISG_CPFXP_MINHDG E,
+				      ISG_CPFXP_MAJHDG F,
+				      ISG_CPFXP_CONTVAR G
+				    WHERE A.CPFXP_CONT_ID  = ?
+				    AND A.CPFXP_S_DATE     = ?
+				    AND A.CPFXP_E_DATE     = ?
+				    AND A.CPFXP_R_DATE     = ?
+				    AND B.CPFXP_CONT_ID    = ?
+				    AND B.CPFXP_S_DATE     = ?
+				    AND B.CPFXP_R_DATE     = ?
+				    AND B.CPFXP_CONTVAR    = C.CPFXP_CONTVAR
+				    AND C.CPFXP_CONTATTR   = D.CPFXP_CONTATTR
+				    AND D.CPFXP_PC_HEADING = E.CPFXP_MINHDG
+				    AND A.CPFXP_BENSTRUC   = F.CPFXP_STRUC
+				    AND B.CPFXP_CONTVAR    = G.CPFXP_CONTVAR
+				    AND E.CPFXP_PC_MAJHDG  = F.CPFXP_MAJHDG
+				    )
+				  --subquery to select variables with no value coded but note attached at contract level
+				  UNION
+				    (SELECT DISTINCT F.CPFXP_PC_TEXT AS MAJOR_HEADING,
+				      E.CPFXP_PC_TEXT                AS MINOR_HEADING,
+				      C.CPFXP_CONTVAR                AS VARIABLEID,
+				      A.CPFXP_CONT_ID                AS CONTRACTID,
+				      G.CPFXP_FORMAT                 AS FORMAT,
+				      NULL                           AS VARIABLEVAL,
+				      G.CPFXP_PROV_ARNG              AS PVA,
+				      A.CPFXP_STATE_HQ               AS STATEHQ,
+				      A.CPFXP_MBU                    AS MBU,
+				      A.CPFXP_S_DATE                 AS EFTVDATE,
+				      A.CPFXP_E_DATE                 AS EXPIRYDATE,
+				      G.CPFXP_TEXT                   AS VARIABLEDESC,
+				      A.CPFXP_R_DATE                 AS REVISIONDATE,
+				      A.CPFXP_PRODUCT                AS PRODUCT,
+				      G.CPFXP_CATAGORY               AS CATAGORY,
+     				  A.CPFXP_CORPPLAN               AS CORPORATEPLAN,
+   				      A.CPFXP_BENSTRUC               AS BENEFITESTRUCTURE
+				    FROM ISG_CPFXP_CONTRACT A,
+				      ISG_CPFXP_MAJHDG F,
+				      ISG_CPFXP_MINHDG E,
+				      ISG_CPFXP_CNTATHDG D,
+				      ISG_CPFXP_CONTXREF C,
+				      ISG_CPFXP_CONTVAR G,
+				      ISG_CPFXP_BENNOTES H
+				    WHERE A.CPFXP_CONT_ID    = ?
+				    AND A.CPFXP_S_DATE       = ?
+				    AND A.CPFXP_E_DATE       = ?
+				    AND A.CPFXP_R_DATE       = ?
+				    AND A.CPFXP_BENSTRUC     = F.CPFXP_STRUC
+				    AND E.CPFXP_PC_MAJHDG    = F.CPFXP_MAJHDG
+				    AND D.CPFXP_PC_HEADING   = E.CPFXP_MINHDG
+				    AND C.CPFXP_CONTATTR     = D.CPFXP_CONTATTR
+				    AND C.CPFXP_CONTVAR      = G.CPFXP_CONTVAR
+				    AND H.CPFXP_CONT_ID      = ?
+				    AND H.CPFXP_S_DATE       = ?
+				    AND H.CPFXP_R_DATE       = ?
+				    AND H.CPFXP_HDR_ID       = D.CPFXP_CONTATTR
+				    AND C.CPFXP_CONTVAR NOT IN
+				      (SELECT B.CPFXP_CONTVAR
+				      FROM ISG_CPFXP_VARSEG B
+				      WHERE B.CPFXP_CONT_ID=A.CPFXP_CONT_ID
+				      AND B.CPFXP_S_DATE   = A.CPFXP_S_DATE
+				      AND B.CPFXP_R_DATE   = A.CPFXP_R_DATE
+				      )
+				    )
+				    --end of subquery to select variables with no value coded but note attached at contract level
+				    ) x
+				  ON MAPPED_VARID             =x.VARIABLEID
+				  ) VARQ ON MAPQ.CNTRCT_VAR_ID=VARQ.MAPPED_VARID
+				ORDER BY MAJOR_HEADING,
+				  MINOR_HEADING,
+				  VARIABLEID
+	  	 	]]>
+	   		  </value>
+	    </property>		   
+	    
+	    <property name = "isgGetContractVersions"> 
+			<value><![CDATA[	         	
+         	
+         	SELECT COUNT(*) AS ROWCOUNT FROM ISG_CPFXP_CONTRACT WHERE CPFXP_CONT_ID=? 
+         	AND CPFXP_S_DATE = ? 
+         	-- AND CPFXP_E_DATE > ?   
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      
+	      <property name = "isgGetContractTestVersions"> 
+			<value><![CDATA[	         	
+         	
+         	SELECT COUNT(*) AS ROWCOUNT FROM ISG_CPFXP_CONTRACT_TST WHERE CPFXP_CONT_ID=? 
+         	AND CPFXP_S_DATE = ? 
+         	-- AND CPFXP_E_DATE > ?   
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      
+	      <property name = "isgContractTestMappingInfoQuery"> 
+			<value><![CDATA[
+	      SELECT *
+				FROM (
+				  (SELECT DISTINCT MSTR.CNTRCT_VAR_ID,
+				    MAPG_VAL.DATA_ELEMENT_ID,
+				    MAPG_VAL.DATA_ELEMENT_VAL,
+				    MAPG_VAL.EB03_ASSN,
+				    EXT_MSG.EXTND_MSG_TXT1,
+                	EXT_MSG.EXTND_MSG_TXT2,
+                	EXT_MSG.EXTND_MSG_TXT3,
+                	EXT_MSG.EB12_IND,
+                	AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         			AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+				    MSTR.SEN_BNFT_IND,
+				    MSTR.VAR_MAPG_STTS_CD,
+				    MSTR.MAPPNG_CMP_IND,
+				    MSTR.MSG,
+				    MSTR.MSG_TYPE,
+				    MSTR.INDVDL_EB03_ASSN_IND,
+				    COMMA_SEPERATED_ISGACCUM_VAR(MSTR.CNTRCT_VAR_ID) AS WPDACCUM
+				  FROM BX_CNTRCT_VAR_MAPG MSTR
+				  LEFT OUTER JOIN BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL
+				  ON MSTR.VAR_MAPG_SYS_ID = MAPG_VAL.VAR_MAPG_SYS_ID
+				  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              	  ON MAPG_VAL.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              	  AND (MAPG_VAL.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              	  AND MAPG_VAL.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+             	  AND EXT_MSG.CHG_IND != 'D'
+             	  LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+                  ON MSTR.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+                  AND MAPG_VAL.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+				  WHERE MSTR.IN_TEMP_TAB  ='N'
+				  )
+				UNION
+				  (SELECT DISTINCT MSTR1.CNTRCT_VAR_ID,
+				    MAPG_VAL1.DATA_ELEMENT_ID,
+				    MAPG_VAL1.DATA_ELEMENT_VAL,
+				    MAPG_VAL1.EB03_ASSN,
+				    EXT_MSG.EXTND_MSG_TXT1,
+                	EXT_MSG.EXTND_MSG_TXT2,
+                	EXT_MSG.EXTND_MSG_TXT3,
+                	EXT_MSG.EB12_IND,
+                	AUTO_MAPG.HIGH_PRFRMN_NON_TIERD_MSG_TXT,
+         			AUTO_MAPG.HIGH_PRFRMN_TIERD_MSG_TXT,
+				    MSTR1.SEN_BNFT_IND,
+				    MSTR1.VAR_MAPG_STTS_CD,
+				    MSTR1.MAPPNG_CMP_IND,
+				    MSTR1.MSG,
+				    MSTR1.MSG_TYPE,
+				    MSTR1.INDVDL_EB03_ASSN_IND,
+				    COMMA_SEPERATED_ISGACCUM_VAR(MSTR1.CNTRCT_VAR_ID) AS WPDACCUM
+				  FROM TEMP_BX_CNTRCT_VAR_MAPG MSTR1
+				  LEFT OUTER JOIN TEMP_BX_CNTRCT_VAR_MAPG_VAL MAPG_VAL1
+				  ON MSTR1.VAR_MAPG_SYS_ID = MAPG_VAL1.VAR_MAPG_SYS_ID
+				  LEFT OUTER JOIN BX_EXTND_MSG EXT_MSG
+              	  ON MAPG_VAL1.VAR_MAPG_SYS_ID = EXT_MSG.VAR_MAPG_SYS_ID
+              	  AND (MAPG_VAL1.EB03_ASSN = EXT_MSG.EB0_ASSN OR EXT_MSG.EB0_ASSN = 'D')
+              	  AND MAPG_VAL1.DATA_ELEMENT_ID = EXT_MSG.DATA_ELEMENT_ID
+              	  AND EXT_MSG.CHG_IND != 'D'
+              	  LEFT OUTER JOIN BX_AUTO_VAR_MAPG_TEST AUTO_MAPG
+                  ON MSTR1.CNTRCT_VAR_ID = AUTO_MAPG.CNTRCT_VAR
+              	  AND MAPG_VAL1.EB03_ASSN = AUTO_MAPG.BNFT_SRVC_CTGRY_TYPE_CD
+				  ) )MAPQ
+				RIGHT OUTER JOIN
+				  (SELECT *
+				  FROM
+				    (SELECT CNTRCT_VAR_ID AS MAPPED_VARID
+				    FROM BX_CNTRCT_VAR_MAPG
+				    )
+				  RIGHT OUTER JOIN (
+				    --subquery to select variables with value coded
+				    (SELECT DISTINCT F.CPFXP_PC_TEXT AS MAJOR_HEADING,
+				      E.CPFXP_PC_TEXT                AS MINOR_HEADING,
+				      C.CPFXP_CONTVAR                AS VARIABLEID,
+				      A.CPFXP_CONT_ID                AS CONTRACTID,
+				      B.CPFXP_FORMAT                 AS FORMAT,
+				      B.CPFXP_VALUE                  AS VARIABLEVAL,
+				      G.CPFXP_PROV_ARNG              AS PVA,
+				      A.CPFXP_STATE_HQ               AS STATEHQ,
+				      A.CPFXP_MBU                    AS MBU,
+				      A.CPFXP_S_DATE                 AS EFTVDATE,
+				      A.CPFXP_E_DATE                 AS EXPIRYDATE,
+				      G.CPFXP_TEXT                   AS VARIABLEDESC,
+				      A.CPFXP_R_DATE                 AS REVISIONDATE,
+				      A.CPFXP_PRODUCT                AS PRODUCT,
+				      G.CPFXP_CATAGORY               AS CATAGORY,
+     				  A.CPFXP_CORPPLAN               AS CORPORATEPLAN,
+      				  A.CPFXP_BENSTRUC               AS BENEFITESTRUCTURE
+				    FROM ISG_CPFXP_CONTRACT_TST A,
+				      ISG_CPFXP_VARSEG_TST B,
+				      ISG_CPFXP_CONTXREF C,
+				      ISG_CPFXP_CNTATHDG D,
+				      ISG_CPFXP_MINHDG E,
+				      ISG_CPFXP_MAJHDG F,
+				      ISG_CPFXP_CONTVAR G
+				    WHERE A.CPFXP_CONT_ID  = ?
+				    AND A.CPFXP_S_DATE     = ?
+				    AND A.CPFXP_E_DATE     = ?
+				    AND A.CPFXP_R_DATE     = ?
+				    AND B.CPFXP_CONT_ID    = ?
+				    AND B.CPFXP_S_DATE     = ?
+				    AND B.CPFXP_R_DATE     = ?
+				    AND B.CPFXP_CONTVAR    = C.CPFXP_CONTVAR
+				    AND C.CPFXP_CONTATTR   = D.CPFXP_CONTATTR
+				    AND D.CPFXP_PC_HEADING = E.CPFXP_MINHDG
+				    AND A.CPFXP_BENSTRUC   = F.CPFXP_STRUC
+				    AND B.CPFXP_CONTVAR    = G.CPFXP_CONTVAR
+				    AND E.CPFXP_PC_MAJHDG  = F.CPFXP_MAJHDG
+				    )
+				  --subquery to select variables with no value coded but note attached at contract level
+				  UNION
+				    (SELECT DISTINCT F.CPFXP_PC_TEXT AS MAJOR_HEADING,
+				      E.CPFXP_PC_TEXT                AS MINOR_HEADING,
+				      C.CPFXP_CONTVAR                AS VARIABLEID,
+				      A.CPFXP_CONT_ID                AS CONTRACTID,
+				      G.CPFXP_FORMAT                 AS FORMAT,
+				      NULL                           AS VARIABLEVAL,
+				      G.CPFXP_PROV_ARNG              AS PVA,
+				      A.CPFXP_STATE_HQ               AS STATEHQ,
+				      A.CPFXP_MBU                    AS MBU,
+				      A.CPFXP_S_DATE                 AS EFTVDATE,
+				      A.CPFXP_E_DATE                 AS EXPIRYDATE,
+				      G.CPFXP_TEXT                   AS VARIABLEDESC,
+				      A.CPFXP_R_DATE                 AS REVISIONDATE,
+				      A.CPFXP_PRODUCT                AS PRODUCT,
+				      G.CPFXP_CATAGORY               AS CATAGORY,
+     				  A.CPFXP_CORPPLAN               AS CORPORATEPLAN,
+   				      A.CPFXP_BENSTRUC               AS BENEFITESTRUCTURE
+				    FROM ISG_CPFXP_CONTRACT_TST A,
+				      ISG_CPFXP_MAJHDG F,
+				      ISG_CPFXP_MINHDG E,
+				      ISG_CPFXP_CNTATHDG D,
+				      ISG_CPFXP_CONTXREF C,
+				      ISG_CPFXP_CONTVAR G,
+				      ISG_CPFXP_BENNOTES_TST H
+				    WHERE A.CPFXP_CONT_ID    = ?
+				    AND A.CPFXP_S_DATE       = ?
+				    AND A.CPFXP_E_DATE       = ?
+				    AND A.CPFXP_R_DATE       = ?
+				    AND A.CPFXP_BENSTRUC     = F.CPFXP_STRUC
+				    AND E.CPFXP_PC_MAJHDG    = F.CPFXP_MAJHDG
+				    AND D.CPFXP_PC_HEADING   = E.CPFXP_MINHDG
+				    AND C.CPFXP_CONTATTR     = D.CPFXP_CONTATTR
+				    AND C.CPFXP_CONTVAR      = G.CPFXP_CONTVAR
+				    AND H.CPFXP_CONT_ID      = ?
+				    AND H.CPFXP_S_DATE       = ?
+				    AND H.CPFXP_R_DATE       = ?
+				    AND H.CPFXP_HDR_ID       = D.CPFXP_CONTATTR
+				    AND C.CPFXP_CONTVAR NOT IN
+				      (SELECT B.CPFXP_CONTVAR
+				      FROM ISG_CPFXP_VARSEG_TST B
+				      WHERE B.CPFXP_CONT_ID=A.CPFXP_CONT_ID
+				      AND B.CPFXP_S_DATE   = A.CPFXP_S_DATE
+				      AND B.CPFXP_R_DATE   = A.CPFXP_R_DATE
+				      )
+				    )
+				    --end of subquery to select variables with no value coded but note attached at contract level
+				    ) x
+				  ON MAPPED_VARID             =x.VARIABLEID
+				  ) VARQ ON MAPQ.CNTRCT_VAR_ID=VARQ.MAPPED_VARID
+				ORDER BY MAJOR_HEADING,
+				  MINOR_HEADING,
+				  VARIABLEID
+				  ]]>
+	   		  </value>
+	    </property>	
+	      
+	       <property name = "isgGetContractAdministration"> 
+			<value><![CDATA[	         	
+         	
+         	        SELECT CPFXP_VALUE as CALBENFTYEAR FROM   ISG_CPFXP_VARSEG  
+         	        WHERE CPFXP_CONTVAR=? AND CPFXP_CONT_ID= ?
+       				AND CPFXP_S_DATE =  ? AND CPFXP_R_DATE = ?   
+            
+	  	 	]]>
+	   		  </value>
+	      </property> 
+	      
+	       <property name = "isgGetContractTestAdministration"> 
+			<value><![CDATA[	         	
+         	
+         	        SELECT CPFXP_VALUE as CALBENFTYEAR FROM   ISG_CPFXP_VARSEG_TST  
+         	        WHERE CPFXP_CONTVAR=? AND CPFXP_CONT_ID= ?
+       				AND CPFXP_S_DATE =  ? AND CPFXP_R_DATE = ?   
+            
+	  	 	]]>
+	   		  </value>
+	      </property> 		
+	      
+	        <property name = "isgStartDatesProduction"> 
+			<value><![CDATA[	         	
+         	        (SELECT CPFXP_S_DATE
+					FROM ISG_CPFXP_CONTRACT
+					WHERE CPFXP_CONT_ID = ?
+					)
+					ORDER BY CPFXP_S_DATE DESC 
+	  	 		]]>
+	   		  </value>
+	      </property> 
+	      <property name = "isgStartDatesTest"> 
+			<value><![CDATA[	         	
+					 (SELECT CPFXP_S_DATE
+					  FROM ISG_CPFXP_CONTRACT_TST
+					  WHERE CPFXP_CONT_ID = ?
+					  )
+					ORDER BY CPFXP_S_DATE DESC 
+	  	 		]]>
+	   		  </value>
+	      </property> 
+	      
+	          
+	</bean>
+	
+	<bean id="ewpdContractInfoRepository" class="com.wellpoint.ets.ebx.simulation.repository.EWPDContractInfoRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+		<property name = "ewpdSPSContractMappingInfoQuery"> 
+			<value><![CDATA[
+		 	SELECT *
+			FROM (
+			  (SELECT DISTINCT SPS_PARAM_ID,
+			    EB01_VALUE,
+			    EB02_VALUE,
+			    EB06_VALUE,
+			    EB09_VALUE,
+			    HSD1_VALUE,
+			    HSD2_VALUE,
+			    HSD3_VALUE,
+			    HSD4_VALUE,
+			    HSD5_VALUE,
+			    HSD6_VALUE,
+			    ACCUMR_SPS_ID,
+			    HSD7_VALUE,
+			    HSD8_VALUE,
+			    MAPPNG_CMP_IND,
+			    STATUS_CD
+			  FROM BX_SPS_MAPNG
+			  WHERE IN_TEMP_TAB='N'
+			  )
+			UNION
+			  (SELECT DISTINCT SPS_PARAM_ID,
+			    EB01_VALUE,
+			    EB02_VALUE,
+			    EB06_VALUE,
+			    EB09_VALUE,
+			    HSD1_VALUE,
+			    HSD2_VALUE,
+			    HSD3_VALUE,
+			    HSD4_VALUE,
+			    HSD5_VALUE,
+			    HSD6_VALUE,
+			    ACCUMR_SPS_ID,
+			    HSD7_VALUE,
+			    HSD8_VALUE,
+			    MAPPNG_CMP_IND,
+			    STATUS_CD
+			  FROM TEMP_BX_SPS_MAPG
+			  ) )
+			RIGHT OUTER JOIN
+			  (SELECT *
+			  FROM (
+			    -- FOR NON TIERED LINES
+			    (SELECT DISTINCT P.PROD_FMLY_NM PRODUCT_FAMILY,
+			      L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+			      K.BNFT_ID_NM BENEFITNAME,
+			      E.BLVL_BNFT_LVL_DESC LVLDESC,
+			      T.DTYP_DATA_TYPE_LGND DATATYPELGND,
+			      E.BVAL_BNFT_VAL BNFTVAL,
+			      H.CD_DESC_TXT REFDESC,
+			      D.BLN_BNFT_LINE_ID LINEID,
+			      D.BLN_BNFT_LINE_PVA LINEPVA,
+			      D.BNFT_LVL_EXTRNL_RFRNC_ID RFRNCID,
+			      E.BNFT_SYS_ID        AS BNFTSYSID,
+			      Q.BUS_ENTY_NM        AS BUSENTITY,
+			      Q.LOB_NM             AS LINEOFBUSINESS,
+			      CD.DT_SGMNT_EFCTV_DT AS EFTVDATE,
+			      CD.DT_SGMNT_EXPR_DT  AS EXPIRYDATE ,
+			      CD.DT_SGMNT_PROD_CD  AS PRODUCT,
+			      '' TIERDESC,
+			      Q.BUS_GRP_NM
+			    FROM CMST_CNTRCT_MSTR CM,
+			      CNTRCT_DT_SGMNT_ASSN CDA,
+			      CNTRCT_DT_SGMNT CD,
+			      BNFT_CMPNT_HRCHY_ASSN A,
+			      BDM_BNFT_DEFN_MSTR B,
+			      BLVL_BNFT_LVL C,
+			      EBX_CNTRCT_BNFT_CSTMZD_VW E,
+			      DTYP_DATA_TYPE T,
+			      ITEM G,
+			      ITEM H,
+			      ITEM I,
+			      BLN_BNFT_LINE D,
+			      BMST_BNFT_MSTR K,
+			      BCM_BNFT_CMPNT_MSTR L ,
+			      PROD_MSTR P,
+			      AVLBL_DOMN Q,
+			      ENTY_DOMN_INFO R
+			    WHERE CM.CNTRCT_SYS_ID         = CDA.CNTRCT_SYS_ID
+			    AND CDA.DT_SGMNT_SYS_ID        = CD.DT_SGMNT_SYS_ID
+			    AND B.BNFT_DEFN_SYS_ID         = C.BNFT_DEFN_SYS_ID
+			    AND A.BNFT_CMPNT_SYS_ID        = E.BNFT_CMPNT_SYS_ID
+			    AND D.BNFT_DEFN_SYS_ID         = E.BNFT_DEFN_SYS_ID
+			    AND A.BNFT_SYS_ID              = B.BNFT_SYS_ID
+			    AND B.BNFT_SYS_ID              = E.BNFT_SYS_ID
+			    AND E.BNFT_SYS_ID              = K.BNFT_SYS_ID
+			    AND E.BNFT_CMPNT_SYS_ID        = L.BNFT_CMPNT_SYS_ID
+			    AND D.BLVL_BNFT_LVL_ID         = C.BLVL_BNFT_LVL_ID
+			    AND D.DTYP_DATA_TYPE_ID        = T.DTYP_DATA_TYPE_ID
+			    AND E.BLN_BNFT_LINE_ID         = D.BLN_BNFT_LINE_ID
+			    AND C.BLVL_BNFT_LVL_ID         = E.BLVL_BNFT_LVL_ID
+			    AND C.BLVL_BNFT_LVL_QLFR       = G.PRMRY_CD(+)
+			    AND G.CTLG_ID(+)               = 1935
+			    AND D.BNFT_LVL_EXTRNL_RFRNC_ID = H.PRMRY_CD(+)
+			    AND H.CTLG_ID(+)               = 1938
+			    AND D.BLN_BNFT_LINE_PVA        = I.PRMRY_CD
+			    AND I.CTLG_ID                  = 1936
+			    AND E.BNFT_CMPNT_HIDE_FLAG     = 'F'
+			    AND E.BNFT_HIDE_FLAG           = 'F'
+			    AND E.PROD_SYS_ID              = P.PROD_SYS_ID
+			    AND E.DT_SGMNT_SYS_ID          = CD.DT_SGMNT_SYS_ID
+			    AND CM.CNTRCT_ID               = ?
+			    AND CM.CNTRCT_VRSN_NBR         = ?
+			    AND CD.DT_SGMNT_EFCTV_DT       = ?
+			      -- AND CD.DT_SGMNT_EXPR_DT > ?
+			    AND R.ENTY_SYS_ID    = CM.CNTRCT_PARNT_SYS_ID
+			    AND Q.DOMN_SYS_ID    = R.DOMN_SYS_ID
+			    AND E.BVAL_BNFT_VAL IS NOT NULL
+			    )
+			  UNION
+			    ( --- TIER LINES
+			     SELECT P.PROD_FMLY_NM PRODUCT_FAMILY,
+			      L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+			      K.BNFT_ID_NM BENEFITNAME,
+			      E.BLVL_BNFT_LVL_DESC LVLDESC,
+			      T.DTYP_DATA_TYPE_LGND DATATYPELGND,
+			      E.BVAL_BNFT_VAL BNFTVAL,
+			      H.CD_DESC_TXT REFDESC,
+			      D.BLN_BNFT_LINE_ID LINEID,
+			      D.BLN_BNFT_LINE_PVA LINEPVA,
+			      D.BNFT_LVL_EXTRNL_RFRNC_ID RFRNCID,
+			      E.BNFT_SYS_ID        AS BNFTSYSID,
+			      Q.BUS_ENTY_NM        AS BUSENTITY,
+			      Q.LOB_NM             AS LINEOFBUSINESS,
+			      CD.DT_SGMNT_EFCTV_DT AS EFTVDATE,
+			      CD.DT_SGMNT_EXPR_DT  AS EXPIRYDATE ,
+			      CD.DT_SGMNT_PROD_CD  AS PRODUCT,
+		          CASE TD.TIER_CRTRIA_IND
+					    WHEN  '1' THEN TC.TIER_CD ||  '( ' ||  TD.CRTRIA_NM ||' = '|| TB.CRTRIA_VAL|| ' - ' ||
+					                       (SELECT CRTRIA_VAL_DESC FROM TIER_CRTRIA_PSBL_VAL WHERE TIER_CRTRIA_SYS_ID = TD.TIER_CRTRIA_SYS_ID AND PSBL_VAL = TB.CRTRIA_VAL)
+					                       ||')' 
+		                WHEN  '2' THEN TC.TIER_CD ||  '( ' || TB.CRTRIA_VAL || ' - ' ||
+					                        (Select Z1.CRTRIA_VAL from CNTRCT_TIER_CRTRIA_VAL Z1, TIER_CRTRIA Z2
+					                         WHERE Z1.CNTRCT_TIER_SYS_ID = TA.CNTRCT_TIER_SYS_ID AND Z2.TIER_DEFN_SYS_ID = TA.TIER_DEFN_SYS_ID AND Z2.DSPLY_SQNC_NBR = 2
+					                         AND Z2.TIER_CRTRIA_SYS_ID = Z1.TIER_CRTRIA_SYS_ID)
+					                         ||  ')'
+		                ELSE 'Invalid Tier'
+					    END TIERDESC,
+				  Q.BUS_GRP_NM
+				FROM 
+		          CNTRCT_TIER_MSTR TA, 
+		          CNTRCT_TIER_CRTRIA_VAL TB, 
+		          TIER_DEFN TC, TIER_CRTRIA TD,
+		          CMST_CNTRCT_MSTR CM,
+			      CNTRCT_DT_SGMNT_ASSN CDA,
+			      CNTRCT_DT_SGMNT CD,
+			      BNFT_CMPNT_HRCHY_ASSN A,
+			      BDM_BNFT_DEFN_MSTR B,
+			      BLVL_BNFT_LVL C,
+			      CNTRCT_BNFT_TIER_CUSTMZD E,
+			      DTYP_DATA_TYPE T,
+			      ITEM G,
+			      ITEM H,
+			      ITEM I,
+			      BLN_BNFT_LINE D,
+			      BMST_BNFT_MSTR K,
+			      BCM_BNFT_CMPNT_MSTR L ,
+			      PROD_MSTR P,
+			      AVLBL_DOMN Q,
+			      ENTY_DOMN_INFO R
+          
+			    WHERE CM.CNTRCT_SYS_ID         = CDA.CNTRCT_SYS_ID
+          		AND TA.CNTRCT_TIER_SYS_ID      = E.CNTRCT_TIER_SYS_ID
+          		AND CDA.DT_SGMNT_SYS_ID        = CD.DT_SGMNT_SYS_ID
+			    AND B.BNFT_DEFN_SYS_ID         = C.BNFT_DEFN_SYS_ID
+			    AND A.BNFT_CMPNT_SYS_ID        = E.BNFT_CMPNT_SYS_ID
+			    AND D.BNFT_DEFN_SYS_ID         = E.BNFT_DEFN_SYS_ID
+			    AND A.BNFT_SYS_ID              = B.BNFT_SYS_ID
+			    AND B.BNFT_SYS_ID              = E.BNFT_SYS_ID
+			    AND E.BNFT_SYS_ID              = K.BNFT_SYS_ID
+			    AND E.BNFT_CMPNT_SYS_ID        = L.BNFT_CMPNT_SYS_ID
+			    AND D.BLVL_BNFT_LVL_ID         = C.BLVL_BNFT_LVL_ID
+			    AND D.DTYP_DATA_TYPE_ID        = T.DTYP_DATA_TYPE_ID
+			    AND E.BLN_BNFT_LINE_ID         = D.BLN_BNFT_LINE_ID
+			    AND C.BLVL_BNFT_LVL_ID         = E.BLVL_BNFT_LVL_ID
+			    AND C.BLVL_BNFT_LVL_QLFR       = G.PRMRY_CD(+)
+			    AND G.CTLG_ID(+)               = 1935
+			    AND D.BNFT_LVL_EXTRNL_RFRNC_ID = H.PRMRY_CD(+)
+			    AND H.CTLG_ID(+)               = 1938
+			    AND D.BLN_BNFT_LINE_PVA        = I.PRMRY_CD
+			    AND I.CTLG_ID                  = 1936
+			    AND E.BNFT_CMPNT_HIDE_FLAG     = 'F'
+			    AND E.BNFT_HIDE_FLAG           = 'F'
+			    AND E.PROD_SYS_ID              = P.PROD_SYS_ID
+			    AND E.DT_SGMNT_SYS_ID          = CD.DT_SGMNT_SYS_ID
+			    AND CM.CNTRCT_ID               = ?
+			    AND CM.CNTRCT_VRSN_NBR         = ?
+			    AND CD.DT_SGMNT_EFCTV_DT       = ?
+		        AND TB.CNTRCT_TIER_SYS_ID      = TA.CNTRCT_TIER_SYS_ID 
+		        AND TC.TIER_DEFN_SYS_ID        = TA.TIER_DEFN_SYS_ID 
+		        AND TB.TIER_CRTRIA_SYS_ID      = TD.TIER_CRTRIA_SYS_ID 
+		        AND TD.DSPLY_SQNC_NBR          = 1
+		        AND TD.TIER_DEFN_SYS_ID        = TA.TIER_DEFN_SYS_ID
+		        AND TB.CNTRCT_TIER_SYS_ID      = TA.CNTRCT_TIER_SYS_ID
+			    -- AND CD.DT_SGMNT_EXPR_DT > ?
+			    AND R.ENTY_SYS_ID    = CM.CNTRCT_PARNT_SYS_ID
+			    AND Q.DOMN_SYS_ID    = R.DOMN_SYS_ID
+			    AND E.BVAL_BNFT_VAL IS NOT NULL
+			    )
+			  UNION
+			    (
+			    -- FOR NON TIERED QUESTION
+			    SELECT P.PROD_FMLY_NM PRODUCT_FAMILY,
+			      L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+			      K.BNFT_ID_NM BENEFITNAME,
+			      QM.ADQM_ADMN_QSTN_DESC LVLDESC,
+			      T.DTYP_DATA_TYPE_LGND DATATYPELGND,
+			      PA.PSBL_ANSWR BNFTVAL,
+			      H.CD_DESC_TXT REFDESC,
+			      QM.ADQM_ADMN_QSTN_NBR LINEID,
+			      QM.PRVDR_ARNGMNT LINEPVA,
+			      QMR.RFRNC_ID RFRNCID,
+			      K.BNFT_SYS_ID        AS BNFTSYSID,
+			      Q.BUS_ENTY_NM        AS BUSENTITY,
+			      Q.LOB_NM             AS LINEOFBUSINESS,
+			      CD.DT_SGMNT_EFCTV_DT AS EFTVDATE,
+			      CD.DT_SGMNT_EXPR_DT  AS EXPIRYDATE,
+			      CD.DT_SGMNT_PROD_CD  AS PRODUCT,
+			      '' TIERDESC,
+			      Q.BUS_GRP_NM
+			    FROM CMST_CNTRCT_MSTR CM,
+			      CNTRCT_DT_SGMNT_ASSN CDA,
+			      CNTRCT_DT_SGMNT CD,
+			      AVLBL_DOMN Q,
+			      ENTY_DOMN_INFO R,
+			      PROD_MSTR P,
+			      CNTRCT_ANSWR_OVRD CAO,
+			      BCM_BNFT_CMPNT_MSTR L,
+			      BNFT_ADMIN_TO_LVL_ASSN BAA,
+			      BDM_BNFT_DEFN_MSTR B,
+			      BMST_BNFT_MSTR K,
+			      ADQM_ADMN_QSTN_MSTR QM,
+			      QSTNR_MSTR QMR,
+			      PSBL_ANSWR PA,
+			      ITEM H,
+			      DTYP_DATA_TYPE T
+			       /*Fix for not to show Hidden Benefits Start*/ ,CNTRCT_BNFT_ASSN vw /*Fix for not to show Hidden Benefits End*/
+			    WHERE CM.CNTRCT_ID                = ?
+			    AND CM.CNTRCT_VRSN_NBR            = ?
+			    AND CM.CNTRCT_SYS_ID              = CDA.CNTRCT_SYS_ID
+			    AND CDA.DT_SGMNT_SYS_ID           = CD.DT_SGMNT_SYS_ID
+			    AND CD.DT_SGMNT_EFCTV_DT          = ?
+			    AND CM.CNTRCT_PARNT_SYS_ID        = R.ENTY_SYS_ID
+			    AND R.ENTY_TYPE                   = 'contract'
+			    AND R.DOMN_SYS_ID                 = Q.DOMN_SYS_ID
+			    AND CD.PROD_SYS_ID                = P.PROD_SYS_ID
+			    AND CD.DT_SGMNT_SYS_ID            = CAO.DT_SGMNT_SYS_ID
+			    AND CAO.BNFT_CMPNT_SYS_ID         = L.BNFT_CMPNT_SYS_ID
+			    AND CAO.ADMIN_LVL_OPT_ASSN_SYS_ID = BAA.ADMIN_LVL_OPT_ASSN_SYS_ID
+			    AND BAA.BNFT_DEFN_SYS_ID          = B.BNFT_DEFN_SYS_ID
+			    AND B.BNFT_SYS_ID		          = K.BNFT_SYS_ID
+			    AND CAO.QSTNR_HRCHY_SYS_ID        = QMR.QSTNR_HRCHY_SYS_ID
+			    AND QMR.ADQM_ADMN_QSTN_NBR        = QM.ADQM_ADMN_QSTN_NBR
+			    AND QM.ADQM_ADMN_QSTN_NBR         = PA.ADQM_ADMN_QSTN_NBR
+			    AND CAO.OVRD_ANSWR_ID             = PA.PSBL_ANSWR_ID
+			    AND UPPER (PA.PSBL_ANSWR)        <> 'NOT ANSWERED'
+			    AND QMR.RFRNC_ID                  = H.PRMRY_CD
+			    AND H.CTLG_ID                     = 1938
+			    AND QM.DTYP_DATA_TYPE_ID          = T.DTYP_DATA_TYPE_ID
+			    /*Fix for not to show Hidden Benefits Start*/
+       		    AND vw.BNFT_SYS_ID = K.BNFT_SYS_ID
+          		AND vw.BNFT_CMPNT_SYS_ID = CAO.BNFT_CMPNT_SYS_ID 
+        		AND vw.DT_SGMNT_SYS_ID = CAO.DT_SGMNT_SYS_ID
+        		AND vw.BNFT_CMPNT_HIDE_FLAG = 'F'
+        		AND vw.BNFT_HIDE_FLAG       = 'F' /*Fix for not to show Hidden Benefits End*/
+			    )
+			  UNION
+			    (--- TIERED QUESTIONS
+			    SELECT P.PROD_FMLY_NM PRODUCT_FAMILY,
+				  L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+				  K.BNFT_ID_NM BENEFITNAME,
+				  QM.ADQM_ADMN_QSTN_DESC LVLDESC,
+				  T.DTYP_DATA_TYPE_LGND DATATYPELGND,
+				  PA.PSBL_ANSWR BNFTVAL,
+				  H.CD_DESC_TXT REFDESC,
+				  QM.ADQM_ADMN_QSTN_NBR LINEID,
+				  QM.PRVDR_ARNGMNT LINEPVA,
+				  QMR.RFRNC_ID RFRNCID,
+				  K.BNFT_SYS_ID        AS BNFTSYSID,
+				  Q.BUS_ENTY_NM        AS BUSENTITY,
+				  Q.LOB_NM             AS LINEOFBUSINESS,
+				  CD.DT_SGMNT_EFCTV_DT AS EFTVDATE,
+				  CD.DT_SGMNT_EXPR_DT  AS EXPIRYDATE,
+				  CD.DT_SGMNT_PROD_CD  AS PRODUCT,
+		          CASE TD.TIER_CRTRIA_IND
+						  WHEN  '1' THEN TC.TIER_CD ||  '( ' ||  TD.CRTRIA_NM ||' = '|| TB.CRTRIA_VAL|| ' - ' ||
+					                         (SELECT CRTRIA_VAL_DESC FROM TIER_CRTRIA_PSBL_VAL WHERE TIER_CRTRIA_SYS_ID = TD.TIER_CRTRIA_SYS_ID AND PSBL_VAL = TB.CRTRIA_VAL)
+					                         ||')' 
+		                  WHEN  '2' THEN TC.TIER_CD ||  '( ' || TB.CRTRIA_VAL || ' - ' ||
+						                         (Select Z1.CRTRIA_VAL FROM CNTRCT_TIER_CRTRIA_VAL Z1, TIER_CRTRIA Z2
+						                         WHERE Z1.CNTRCT_TIER_SYS_ID = CTM.CNTRCT_TIER_SYS_ID AND Z2.TIER_DEFN_SYS_ID = CTM.TIER_DEFN_SYS_ID AND Z2.DSPLY_SQNC_NBR = 2
+						                         AND Z2.TIER_CRTRIA_SYS_ID = Z1.TIER_CRTRIA_SYS_ID)
+					                         ||  ')'
+		                  ELSE 'Invalid Tier'
+				  END TIERDESC,
+			     Q.BUS_GRP_NM
+				FROM CNTRCT_TIER_ANSWR_OVRD CAO
+		        JOIN CNTRCT_TIER_MSTR CTM
+		        ON CAO.CNTRCT_TIER_SYS_ID = CTM.CNTRCT_TIER_SYS_ID
+		        JOIN CNTRCT_DT_SGMNT_ASSN CDA
+		        ON CTM.DT_SGMNT_SYS_ID = CDA.DT_SGMNT_SYS_ID
+		        JOIN CNTRCT_DT_SGMNT CD
+		        ON CDA.DT_SGMNT_SYS_ID = CD.DT_SGMNT_SYS_ID
+		        JOIN CMST_CNTRCT_MSTR CM
+		        ON CDA.CNTRCT_SYS_ID = CM.CNTRCT_SYS_ID
+		        JOIN ENTY_DOMN_INFO R
+		        ON CM.CNTRCT_PARNT_SYS_ID = R.ENTY_SYS_ID
+		        JOIN AVLBL_DOMN Q
+		        ON R.DOMN_SYS_ID = Q.DOMN_SYS_ID
+		        JOIN PROD_MSTR P
+		        ON P.PROD_SYS_ID = CTM.PROD_SYS_ID
+		        JOIN BCM_BNFT_CMPNT_MSTR L
+		        ON L.BNFT_CMPNT_SYS_ID = CTM.BNFT_CMPNT_SYS_ID
+		        JOIN BMST_BNFT_MSTR K
+		        ON K.BNFT_SYS_ID = CTM.BNFT_SYS_ID
+		        JOIN QSTNR_MSTR QMR
+		        ON QMR.QSTNR_HRCHY_SYS_ID = CAO.QSTNR_HRCHY_SYS_ID
+		        JOIN ADQM_ADMN_QSTN_MSTR QM
+		        ON QM.ADQM_ADMN_QSTN_NBR = QMR.ADQM_ADMN_QSTN_NBR
+		        JOIN PSBL_ANSWR PA
+		        ON (CAO.OVRD_ANSWR_ID     = PA.PSBL_ANSWR_ID
+		        AND PA.ADQM_ADMN_QSTN_NBR = QMR.ADQM_ADMN_QSTN_NBR)
+		        JOIN ITEM H
+		        ON QMR.RFRNC_ID = H.PRMRY_CD
+		        JOIN TIER_DEFN TC
+		        ON TC.TIER_DEFN_SYS_ID = CTM.TIER_DEFN_SYS_ID
+		        JOIN CNTRCT_TIER_CRTRIA_VAL TB
+		        ON TB.CNTRCT_TIER_SYS_ID = CTM.CNTRCT_TIER_SYS_ID
+		        JOIN TIER_CRTRIA TD
+		        ON (TD.TIER_CRTRIA_SYS_ID = TB.TIER_CRTRIA_SYS_ID 
+		        AND TD.DSPLY_SQNC_NBR = 1)	
+		        JOIN DTYP_DATA_TYPE T
+		        ON QM.DTYP_DATA_TYPE_ID      = T.DTYP_DATA_TYPE_ID
+		        /*Fix for not to show Hidden Benefits Start*/
+	            JOIN CNTRCT_BNFT_ASSN VW
+	            ON (
+	            VW.BNFT_SYS_ID = K.BNFT_SYS_ID
+	            AND VW.BNFT_CMPNT_SYS_ID = CAO.BNFT_CMPNT_SYS_ID 
+	            AND VW.DT_SGMNT_SYS_ID = CAO.DT_SGMNT_SYS_ID
+	            AND VW.DT_SGMNT_SYS_ID = CTM.DT_SGMNT_SYS_ID
+	            AND VW.BNFT_CMPNT_SYS_ID = CTM.BNFT_CMPNT_SYS_ID
+	            AND VW.BNFT_SYS_ID = CTM.BNFT_SYS_ID
+	            AND VW.BNFT_CMPNT_HIDE_FLAG = 'F'
+	            AND VW.BNFT_HIDE_FLAG       = 'F'
+            	)
+            	/*Fix for not to show Hidden Benefits End*/
+		        WHERE UPPER (PA.PSBL_ANSWR) <> 'NOT ANSWERED'
+		        AND H.CTLG_ID                = 1938
+		        AND R.ENTY_TYPE              = 'contract'
+		        AND CM.CNTRCT_ID             = ?
+		        AND CM.CNTRCT_VRSN_NBR       = ?
+		        AND CD.DT_SGMNT_EFCTV_DT     = ?
+			    ))LINES
+			  )X ON SPS_PARAM_ID =X.RFRNCID
+			ORDER BY X.BENEFITCOMPNAME,
+			  X.BENEFITNAME 
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      <property name = "ewpdRuleIdContractMappingInfoQuery"> 
+			<value><![CDATA[		 	
+			
+			SELECT *
+			FROM (
+			  (SELECT DISTINCT BRSA.RULE_ID AS MAPPED_RULEID,COMMA_SEPERATED_UMRULE(BRSA.RULE_ID) AS MAPPED_UMRULE,
+			    DECODE(BRSA.STATUS_CD,'NOT_APPLICABLE','N','Y') VALID_FOR_BX,
+			    BRSA.SRVC_TYP_CODE, BRSA.SEND_DYNMC_INFO, BRSA.STATUS_CD, BRSA.III02, BRSA.INDVDL_EB03_ASSN_IND
+			  FROM BX_RULE_SRVC_TYP_ASSN BRSA 
+			  inner join Rule r on BRSA.RULE_ID=r.RULE_ID left outer join BX_RULE_UMRULE_ASSN u on u.rule_id = BRSA.rule_id 
+			  WHERE BRSA.IN_TEMP_TAB='N'
+			  
+			  )
+			UNION
+			  (SELECT DISTINCT TBRSA.RULE_ID AS MAPPED_RULEID,COMMA_SEPERATED_UMRULE(TBRSA.RULE_ID) AS MAPPED_UMRULE,
+			    DECODE(TBRSA.STATUS_CD,'NOT_APPLICABLE','N','Y') VALID_FOR_BX,
+			    TBRSA.SRVC_TYP_CODE, TBRSA.SEND_DYNMC_INFO, TBRSA.STATUS_CD, TBRSA.III02, TBRSA.INDVDL_EB03_ASSN_IND
+			  FROM TEMP_BX_RULE_SRVC_TYP_ASSN TBRSA 
+			  inner join Rule r on TBRSA.RULE_ID=r.RULE_ID left outer join BX_RULE_UMRULE_ASSN u on u.rule_id = TBRSA.rule_id
+			  ) )
+			RIGHT OUTER JOIN
+			  ( 
+			  --NON TIERED LINES
+			  SELECT DISTINCT L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+			    K.BNFT_ID_NM BENEFITNAME, E.BNFT_SYS_ID AS BNFTSYSID,
+			    R.RULE_ID
+			  FROM 
+			  	--BNFT_CMPNT_HRCHY_ASSN A,
+			    --BDM_BNFT_DEFN_MSTR B,
+			    EBX_CNTRCT_BNFT_CSTMZD_VW E,
+			    BMST_BNFT_MSTR K,
+			    BCM_BNFT_CMPNT_MSTR L ,
+			    CNTRCT_BNFT_RULE_OVRD R
+			  WHERE  
+			  --A.BNFT_CMPNT_SYS_ID  = E.BNFT_CMPNT_SYS_ID
+			  --AND A.BNFT_SYS_ID          = B.BNFT_SYS_ID
+			  --AND B.BNFT_SYS_ID          = E.BNFT_SYS_ID AND 
+			  E.BNFT_SYS_ID          = K.BNFT_SYS_ID
+			  AND E.BNFT_CMPNT_SYS_ID    =L.BNFT_CMPNT_SYS_ID
+			  AND E.BNFT_CMPNT_HIDE_FLAG = 'F'
+			  AND E.BNFT_HIDE_FLAG       = 'F'
+			  AND R.BNFT_SYS_ID          = K.BNFT_SYS_ID
+			  AND R.BNFT_CMPNT_SYS_ID    = L.BNFT_CMPNT_SYS_ID
+			  AND E.DT_SGMNT_SYS_ID      =
+			    (SELECT C.DT_SGMNT_SYS_ID
+			    FROM CMST_CNTRCT_MSTR A,
+			      CNTRCT_DT_SGMNT_ASSN B,
+			      CNTRCT_DT_SGMNT C
+			    WHERE A.CNTRCT_SYS_ID   =B.CNTRCT_SYS_ID
+			    AND B.DT_SGMNT_SYS_ID   =C.DT_SGMNT_SYS_ID
+			    AND A.CNTRCT_ID         = ?
+			    AND A.CNTRCT_VRSN_NBR   = ?
+			    AND C.DT_SGMNT_EFCTV_DT = ?
+			      -- AND C.DT_SGMNT_EXPR_DT > ?
+			    )
+			  AND R.DT_SGMNT_SYS_ID = E.DT_SGMNT_SYS_ID
+			  AND E.BVAL_BNFT_VAL  IS NOT NULL
+			  
+			  UNION
+			  
+			  --NON TIERED QUESTIONS
+			  SELECT bcm_bnft_cmpt_mstr.BNFT_CMPNT_NM,
+			    bmst_bnft_mstr.BNFT_ID_NM, bmst_bnft_mstr.BNFT_SYS_ID AS BNFTSYSID,
+			    cntrct_bnft_rule_ovrd.RULE_ID
+			  FROM CNTRCT_ANSWR_OVRD cntrt_answr_ovrd,
+			    BCM_BNFT_CMPNT_MSTR bcm_bnft_cmpt_mstr,
+			    --BNFT_ADMIN_TO_LVL_ASSN bnft_admin_to_lvl_assn,
+			    --BDM_BNFT_DEFN_MSTR bdm_bnft_defn_mstr,
+			    BMST_BNFT_MSTR bmst_bnft_mstr,
+			    CNTRCT_BNFT_RULE_OVRD cntrct_bnft_rule_ovrd
+			    /*Fix for not to show Hidden Benefits Start*/ ,CNTRCT_BNFT_ASSN vw/*Fix for not to show Hidden Benefits End*/
+			  WHERE cntrt_answr_ovrd.DT_SGMNT_SYS_ID=
+			    (SELECT C.DT_SGMNT_SYS_ID
+			    FROM CMST_CNTRCT_MSTR A,
+			      CNTRCT_DT_SGMNT_ASSN B,
+			      CNTRCT_DT_SGMNT C
+			    WHERE A.CNTRCT_SYS_ID   =B.CNTRCT_SYS_ID
+			    AND B.DT_SGMNT_SYS_ID   =C.DT_SGMNT_SYS_ID
+			    AND A.CNTRCT_ID         = ?
+			    AND A.CNTRCT_VRSN_NBR   = ?
+			    AND C.DT_SGMNT_EFCTV_DT = ?
+			      -- AND C.DT_SGMNT_EXPR_DT > ?
+			    )
+			  AND cntrt_answr_ovrd.BNFT_CMPNT_SYS_ID         = bcm_bnft_cmpt_mstr.BNFT_CMPNT_SYS_ID
+			  --AND cntrt_answr_ovrd.ADMIN_LVL_OPT_ASSN_SYS_ID = bnft_admin_to_lvl_assn.ADMIN_LVL_OPT_ASSN_SYS_ID
+			  --AND bnft_admin_to_lvl_assn.BNFT_DEFN_SYS_ID    = bdm_bnft_defn_mstr.BNFT_DEFN_SYS_ID
+			  --AND bdm_bnft_defn_mstr.BNFT_SYS_ID             = bmst_bnft_mstr.BNFT_SYS_ID
+			  AND bmst_bnft_mstr.BNFT_SYS_ID                 =cntrct_bnft_rule_ovrd.BNFT_SYS_ID
+			  AND cntrct_bnft_rule_ovrd.BNFT_CMPNT_SYS_ID    = cntrt_answr_ovrd.BNFT_CMPNT_SYS_ID
+			  AND cntrct_bnft_rule_ovrd.DT_SGMNT_SYS_ID      = cntrt_answr_ovrd.DT_SGMNT_SYS_ID
+			  /*Fix for not to show Hidden Benefits Start*/
+        	  AND vw.BNFT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_SYS_ID
+        	  AND vw.BNFT_CMPNT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_CMPNT_SYS_ID 
+        	  AND vw.DT_SGMNT_SYS_ID = cntrct_bnft_rule_ovrd.DT_SGMNT_SYS_ID
+        	  AND vw.BNFT_CMPNT_HIDE_FLAG = 'F'
+        	  AND vw.BNFT_HIDE_FLAG       = 'F' /*Fix for not to show Hidden Benefits End*/
+        	  
+			  --added for tier query
+			  /*Fix as part of BXNI June 2012 Release Regression test defect, Header rule details not visible for tiered benefits --Start*/  
+			   UNION
+			   --TIERED LINES
+			   SELECT bcm_bnft_cmpt_mstr.BNFT_CMPNT_NM,bmst_bnft_mstr.BNFT_ID_NM, 
+				bmst_bnft_mstr.BNFT_SYS_ID AS BNFTSYSID,cntrct_bnft_rule_ovrd.RULE_ID
+				FROM CNTRCT_BNFT_TIER_CUSTMZD vw,
+					BCM_BNFT_CMPNT_MSTR bcm_bnft_cmpt_mstr,BMST_BNFT_MSTR bmst_bnft_mstr,
+					CNTRCT_BNFT_RULE_OVRD cntrct_bnft_rule_ovrd
+				WHERE vw.DT_SGMNT_SYS_ID = 
+					(SELECT C.DT_SGMNT_SYS_ID
+						FROM CMST_CNTRCT_MSTR A,
+							CNTRCT_DT_SGMNT_ASSN B,
+							CNTRCT_DT_SGMNT C
+						WHERE A.CNTRCT_SYS_ID   =B.CNTRCT_SYS_ID
+						AND B.DT_SGMNT_SYS_ID   =C.DT_SGMNT_SYS_ID
+						AND A.CNTRCT_ID         = ?
+						AND A.CNTRCT_VRSN_NBR   = ?
+						AND C.DT_SGMNT_EFCTV_DT = ?
+						-- AND C.DT_SGMNT_EXPR_DT > ?
+					)
+				AND vw.BNFT_CMPNT_SYS_ID = bcm_bnft_cmpt_mstr.BNFT_CMPNT_SYS_ID
+				AND vw.BNFT_SYS_ID = bmst_bnft_mstr.BNFT_SYS_ID
+				AND bmst_bnft_mstr.BNFT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_SYS_ID 
+				AND bcm_bnft_cmpt_mstr.BNFT_CMPNT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_CMPNT_SYS_ID 
+				AND cntrct_bnft_rule_ovrd.DT_SGMNT_SYS_ID = vw.DT_SGMNT_SYS_ID
+				AND vw.BNFT_CMPNT_HIDE_FLAG = 'F'
+				AND vw.BNFT_HIDE_FLAG       = 'F'
+				
+			  UNION 
+			  
+			   --TIERED QUESTIONS
+			  SELECT bcm_bnft_cmpt_mstr.BNFT_CMPNT_NM,
+			    bmst_bnft_mstr.BNFT_ID_NM, bmst_bnft_mstr.BNFT_SYS_ID AS BNFTSYSID,
+			    cntrct_bnft_rule_ovrd.RULE_ID
+			  FROM CNTRCT_TIER_ANSWR_OVRD cntrt_tier_answr_ovrd,
+			    BCM_BNFT_CMPNT_MSTR bcm_bnft_cmpt_mstr,
+			    --BNFT_ADMIN_TO_LVL_ASSN bnft_admin_to_lvl_assn,
+			    --BDM_BNFT_DEFN_MSTR bdm_bnft_defn_mstr,
+			    BMST_BNFT_MSTR bmst_bnft_mstr,
+			    CNTRCT_BNFT_RULE_OVRD cntrct_bnft_rule_ovrd
+			    /*Fix for not to show Hidden Benefits(tiered benefit)  Start*/,CNTRCT_BNFT_TIER_CUSTMZD vw /*Fix for not to show Hidden Benefits(tiered benefit) for tiered benefit End*/
+			  WHERE cntrt_tier_answr_ovrd.DT_SGMNT_SYS_ID=
+			    (SELECT C.DT_SGMNT_SYS_ID
+			    FROM CMST_CNTRCT_MSTR A,
+			      CNTRCT_DT_SGMNT_ASSN B,
+			      CNTRCT_DT_SGMNT C
+			    WHERE A.CNTRCT_SYS_ID   =B.CNTRCT_SYS_ID
+			    AND B.DT_SGMNT_SYS_ID   =C.DT_SGMNT_SYS_ID
+			    AND A.CNTRCT_ID         = ?
+			    AND A.CNTRCT_VRSN_NBR   = ?
+			    AND C.DT_SGMNT_EFCTV_DT = ?
+			      -- AND C.DT_SGMNT_EXPR_DT > ?
+			    )
+			  AND cntrt_tier_answr_ovrd.BNFT_CMPNT_SYS_ID         = bcm_bnft_cmpt_mstr.BNFT_CMPNT_SYS_ID
+			  --AND cntrt_tier_answr_ovrd.ADMIN_LVL_OPT_ASSN_SYS_ID = bnft_admin_to_lvl_assn.ADMIN_LVL_OPT_ASSN_SYS_ID
+			  --AND bnft_admin_to_lvl_assn.BNFT_DEFN_SYS_ID    = bdm_bnft_defn_mstr.BNFT_DEFN_SYS_ID
+			  --AND bdm_bnft_defn_mstr.BNFT_SYS_ID             = bmst_bnft_mstr.BNFT_SYS_ID
+			  AND bmst_bnft_mstr.BNFT_SYS_ID                 = cntrct_bnft_rule_ovrd.BNFT_SYS_ID
+			  AND cntrct_bnft_rule_ovrd.BNFT_CMPNT_SYS_ID    = cntrt_tier_answr_ovrd.BNFT_CMPNT_SYS_ID
+			  AND cntrct_bnft_rule_ovrd.DT_SGMNT_SYS_ID      = cntrt_tier_answr_ovrd.DT_SGMNT_SYS_ID
+			  /*Fix for not to show Hidden Benefits(tiered benefit) Start*/
+        	  AND vw.BNFT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_SYS_ID
+         	  AND vw.BNFT_CMPNT_SYS_ID = cntrct_bnft_rule_ovrd.BNFT_CMPNT_SYS_ID 
+       		  AND vw.DT_SGMNT_SYS_ID = cntrct_bnft_rule_ovrd.DT_SGMNT_SYS_ID  
+        	  AND vw.CNTRCT_TIER_SYS_ID = cntrt_tier_answr_ovrd.CNTRCT_TIER_SYS_ID
+              AND vw.BNFT_CMPNT_HIDE_FLAG = 'F'
+              AND vw.BNFT_HIDE_FLAG       = 'F' /*Fix for not to show Hidden Benefits(tiered benefit) End*/
+			  )X
+			ON MAPPED_RULEID=X.RULE_ID
+			ORDER BY X.BENEFITCOMPNAME, X.BENEFITNAME
+             
+	  	 	]]>
+	   		  </value>
+	      </property>
+	       <property name = "preventiveProvisionAppliesQuery"> 
+			<value><![CDATA[		 	
+			
+			SELECT COUNT(*) AS ISHCRQUESTIONCOUNT FROM (
+			SELECT * FROM CNTRCT_ANSWR_OVRD CAO, 
+			ADQM_ADMN_QSTN_MSTR QM, 
+			QSTNR_MSTR QMR,
+			PSBL_ANSWR PA
+			WHERE
+			
+			CAO.QSTNR_HRCHY_SYS_ID= QMR.QSTNR_HRCHY_SYS_ID
+			AND CAO.OVRD_ANSWR_ID= PA.PSBL_ANSWR_ID
+			AND CAO.DT_SGMNT_SYS_ID=(         
+			             SELECT  C.DT_SGMNT_SYS_ID FROM CMST_CNTRCT_MSTR A,CNTRCT_DT_SGMNT_ASSN B, CNTRCT_DT_SGMNT C 
+			             WHERE A.CNTRCT_SYS_ID=B.CNTRCT_SYS_ID
+			             AND  B.DT_SGMNT_SYS_ID=C.DT_SGMNT_SYS_ID
+			            AND A.CNTRCT_ID=? AND A.CNTRCT_VRSN_NBR=? 
+			            AND C.DT_SGMNT_EFCTV_DT = ? 
+			            -- AND C.DT_SGMNT_EXPR_DT > ? 
+			             ) 
+			AND QMR.ADQM_ADMN_QSTN_NBR= QM.ADQM_ADMN_QSTN_NBR
+			AND PA.PSBL_ANSWR = 'Y'
+			AND QM.ADQM_ADMN_QSTN_DESC = 'HCR PREVENTIVE PROVISION APPLIES')
+             
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	       <property name = "limitRestrictionAppliesQuery"> 
+			<value><![CDATA[		 	
+			
+			SELECT COUNT(*) AS ISHCRQUESTIONCOUNT FROM (
+			SELECT * FROM CNTRCT_ANSWR_OVRD CAO, 
+			ADQM_ADMN_QSTN_MSTR QM, 
+			QSTNR_MSTR QMR,
+			PSBL_ANSWR PA
+			WHERE
+			
+			CAO.QSTNR_HRCHY_SYS_ID= QMR.QSTNR_HRCHY_SYS_ID
+			AND CAO.OVRD_ANSWR_ID= PA.PSBL_ANSWR_ID
+			AND CAO.DT_SGMNT_SYS_ID=(         
+			             SELECT  C.DT_SGMNT_SYS_ID FROM CMST_CNTRCT_MSTR A,CNTRCT_DT_SGMNT_ASSN B, CNTRCT_DT_SGMNT C 
+			             WHERE A.CNTRCT_SYS_ID=B.CNTRCT_SYS_ID
+			             AND  B.DT_SGMNT_SYS_ID=C.DT_SGMNT_SYS_ID
+			            AND A.CNTRCT_ID=? AND A.CNTRCT_VRSN_NBR=? 
+			            AND C.DT_SGMNT_EFCTV_DT = ? 
+			            -- AND C.DT_SGMNT_EXPR_DT > ? 
+			             ) 
+			AND QMR.ADQM_ADMN_QSTN_NBR= QM.ADQM_ADMN_QSTN_NBR
+			AND PA.PSBL_ANSWR = 'Y'
+			AND QM.ADQM_ADMN_QSTN_DESC = 'HCR LIMIT RESTRICTION APPLIES')
+             
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	        <property name = "CDHPQuery"> 
+			<value><![CDATA[			             
+             SELECT COUNT(*) AS CDHPCOUNT FROM (
+             SELECT * FROM INDCTV_MAPG IM, CNTRCT_ANSWR_OVRD CAO,ADQM_ADMN_QSTN_MSTR QM,QSTNR_MSTR QMR,ITEM I
+			 WHERE CAO.QSTNR_HRCHY_SYS_ID= QMR.QSTNR_HRCHY_SYS_ID
+			 AND QMR.ADQM_ADMN_QSTN_NBR= QM.ADQM_ADMN_QSTN_NBR
+			 AND QM.SPS_ID= IM.SPS_ID
+			 AND IM.INDCTV_CD IN (SELECT CD_DESC_TXT FROM ITEM WHERE CTLG_ID = 4147) 
+			 AND I.CD_DESC_TXT IN ('GNCCNNP-CDHP-LUMENOS-IND','ICLCNND-HSA-CONTRACT')
+			 AND CAO.DT_SGMNT_SYS_ID = (         
+             SELECT  C.DT_SGMNT_SYS_ID FROM CMST_CNTRCT_MSTR A,CNTRCT_DT_SGMNT_ASSN B, CNTRCT_DT_SGMNT C 
+             WHERE A.CNTRCT_SYS_ID=B.CNTRCT_SYS_ID
+             AND  B.DT_SGMNT_SYS_ID=C.DT_SGMNT_SYS_ID
+             AND A.CNTRCT_ID=? AND A.CNTRCT_VRSN_NBR=? 
+             AND C.DT_SGMNT_EFCTV_DT = ? 
+             -- AND C.DT_SGMNT_EXPR_DT > ? 
+             )
+			)
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	       <property name = "ewpdGetContractVersions"> 
+			<value><![CDATA[	         	
+         	SELECT COUNT(*) AS ROWCOUNT FROM CMST_CNTRCT_MSTR CM,CNTRCT_DT_SGMNT CD, CNTRCT_DT_SGMNT_ASSN CDA
+			WHERE CM.CNTRCT_ID = ? 
+			AND CM.CNTRCT_VRSN_NBR = ?
+			AND CM.CNTRCT_SYS_ID=CDA.CNTRCT_SYS_ID
+			AND CDA.DT_SGMNT_SYS_ID = CD.DT_SGMNT_SYS_ID
+			AND CD.DT_SGMNT_EFCTV_DT = ? 
+			-- AND CD.DT_SGMNT_EXPR_DT > ?
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      
+	      <property name = "ewpdEbxGetMaxContractVersions"> 
+			<value><![CDATA[	         	
+         	SELECT MAX(CM.CNTRCT_VRSN_NBR) AS MAX_VERSION FROM CMST_CNTRCT_MSTR CM,CNTRCT_DT_SGMNT CD, CNTRCT_DT_SGMNT_ASSN CDA
+   			WHERE CM.CNTRCT_ID = ? 
+   			AND CM.CNTRCT_SYS_ID=CDA.CNTRCT_SYS_ID
+   			AND CDA.DT_SGMNT_SYS_ID = CD.DT_SGMNT_SYS_ID
+  			AND CD.DT_SGMNT_EFCTV_DT = ?
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	      <property name = "ewpdMessageContractMappingInfoQuery"> 
+			<value><![CDATA[		 	
+				SELECT *
+				FROM (
+				  (SELECT DISTINCT HDR_RULE_ID RULE_ID,
+				    SPS_ID SPSID,
+				    MSG_RQRD_IND,
+				    MSG_TEXT,
+				    NOTE_TYP_CD,
+				    EB03,
+				    INDVDL_EB03_ASSN_IND
+				  FROM BX_CSTM_MSG_TEXT
+				  WHERE IN_TEMP_TAB='N'
+				  )
+				UNION
+				  (SELECT DISTINCT HDR_RULE_ID RULE_ID,
+				    SPS_ID SPSID,
+				    MSG_RQRD_IND,
+				    MSG_TEXT,
+				    NOTE_TYP_CD,
+				    EB03,
+				    INDVDL_EB03_ASSN_IND
+				  FROM TEMP_BX_CSTM_MSG_TEXT
+				  ))
+				RIGHT OUTER JOIN
+				  (SELECT *
+				  FROM
+				    (SELECT L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+				      K.BNFT_ID_NM BENEFITNAME,
+				      D.BNFT_LVL_EXTRNL_RFRNC_ID RFRNCID /*Performance Improvement Fix Start*/,CRO.RULE_ID HEADER_RULE_ID /*Performance Improement Fix End*/
+				    FROM CMST_CNTRCT_MSTR CM,
+				      CNTRCT_DT_SGMNT_ASSN CDA,
+				      CNTRCT_DT_SGMNT CD,
+				      BNFT_CMPNT_HRCHY_ASSN A,
+				      BDM_BNFT_DEFN_MSTR B,
+				      BLVL_BNFT_LVL C,
+				      EBX_CNTRCT_BNFT_CSTMZD_VW E,
+				      ITEM G,
+				      ITEM I,
+				      BLN_BNFT_LINE D,
+				      BMST_BNFT_MSTR K,
+				      BCM_BNFT_CMPNT_MSTR L ,
+				      ENTY_DOMN_INFO R,
+				      CNTRCT_BNFT_RULE_OVRD CRO
+				    WHERE CM.CNTRCT_SYS_ID     =CDA.CNTRCT_SYS_ID
+				    AND CDA.DT_SGMNT_SYS_ID    =CD.DT_SGMNT_SYS_ID
+				    AND B.BNFT_DEFN_SYS_ID     = C.BNFT_DEFN_SYS_ID
+				    AND A.BNFT_CMPNT_SYS_ID    = E.BNFT_CMPNT_SYS_ID
+				    AND D.BNFT_DEFN_SYS_ID     = E.BNFT_DEFN_SYS_ID
+				    AND A.BNFT_SYS_ID          = B.BNFT_SYS_ID
+				    AND B.BNFT_SYS_ID          = E.BNFT_SYS_ID
+				    AND E.BNFT_SYS_ID          = K.BNFT_SYS_ID
+				    AND E.BNFT_CMPNT_SYS_ID    =L.BNFT_CMPNT_SYS_ID
+				    AND D.BLVL_BNFT_LVL_ID     = C.BLVL_BNFT_LVL_ID
+				    AND E.BLN_BNFT_LINE_ID     = D.BLN_BNFT_LINE_ID
+				    AND C.BLVL_BNFT_LVL_ID     = E.BLVL_BNFT_LVL_ID
+				    AND C.BLVL_BNFT_LVL_QLFR   = G.PRMRY_CD(+)
+				    AND G.CTLG_ID(+)           = 1935
+				    AND D.BLN_BNFT_LINE_PVA    = I.PRMRY_CD
+				    AND I.CTLG_ID              = 1936
+				    AND E.BNFT_CMPNT_HIDE_FLAG = 'F'
+				    AND E.BNFT_HIDE_FLAG       = 'F'
+				    AND E.DT_SGMNT_SYS_ID      = CD.DT_SGMNT_SYS_ID
+				    AND CM.CNTRCT_ID           = ?
+				    AND CM.CNTRCT_VRSN_NBR     = ?
+				    AND CD.DT_SGMNT_EFCTV_DT   = ?
+				    AND R.ENTY_SYS_ID          = CM.CNTRCT_PARNT_SYS_ID
+				    AND CRO.BNFT_CMPNT_SYS_ID  = A.BNFT_CMPNT_SYS_ID
+				    AND CRO.BNFT_SYS_ID        = A.BNFT_SYS_ID
+				    AND CRO.DT_SGMNT_SYS_ID    = CDA.DT_SGMNT_SYS_ID
+				    AND E.BVAL_BNFT_VAL       IS NOT NULL
+			    UNION
+			      (SELECT L.BNFT_CMPNT_NM BENEFITCOMPNAME,
+			        K.BNFT_ID_NM BENEFITNAME,
+			        QMR.RFRNC_ID RFRNCID /*Performance Improvement Fix Start*/,CRO.RULE_ID HEADER_RULE_ID /*Performance Improvement Fix End*/
+			      FROM CMST_CNTRCT_MSTR CM,
+			        CNTRCT_DT_SGMNT_ASSN CDA,
+			        CNTRCT_DT_SGMNT CD,
+			        ENTY_DOMN_INFO R,
+			        CNTRCT_ANSWR_OVRD CAO,
+			        BCM_BNFT_CMPNT_MSTR L,
+			        BNFT_ADMIN_TO_LVL_ASSN BAA,
+			        BDM_BNFT_DEFN_MSTR B,
+			        BMST_BNFT_MSTR K,
+			        QSTNR_MSTR QMR,
+			        PSBL_ANSWR PA,
+			        CNTRCT_BNFT_RULE_OVRD CRO
+			        /*Fix for not to show Hidden Benefits Start*/ ,CNTRCT_BNFT_ASSN vw/*Fix for not to show Hidden Benefits End*/
+			      WHERE CM.CNTRCT_ID                = ?
+		      AND CM.CNTRCT_VRSN_NBR            = ?
+		      AND CM.CNTRCT_SYS_ID              = CDA.CNTRCT_SYS_ID
+		      AND CDA.DT_SGMNT_SYS_ID           = CD.DT_SGMNT_SYS_ID
+		      AND CD.DT_SGMNT_EFCTV_DT          = ?
+		      AND CM.CNTRCT_PARNT_SYS_ID        = R.ENTY_SYS_ID
+		      AND R.ENTY_TYPE                   = 'contract'
+		      AND CD.DT_SGMNT_SYS_ID            = CAO.DT_SGMNT_SYS_ID
+		      AND CAO.BNFT_CMPNT_SYS_ID         = L.BNFT_CMPNT_SYS_ID
+		      AND CAO.ADMIN_LVL_OPT_ASSN_SYS_ID = BAA.ADMIN_LVL_OPT_ASSN_SYS_ID
+		      AND BAA.BNFT_DEFN_SYS_ID          = B.BNFT_DEFN_SYS_ID
+		      AND B.BNFT_DEFN_SYS_ID            = K.BNFT_SYS_ID
+		      AND CAO.QSTNR_HRCHY_SYS_ID        = QMR.QSTNR_HRCHY_SYS_ID
+		      AND CAO.OVRD_ANSWR_ID             = PA.PSBL_ANSWR_ID
+		      AND UPPER (PA.PSBL_ANSWR)        <> 'NOT ANSWERED'
+		      AND CRO.BNFT_CMPNT_SYS_ID         = L.BNFT_CMPNT_SYS_ID
+		      AND CRO.BNFT_SYS_ID               = K.BNFT_SYS_ID
+		      AND CRO.DT_SGMNT_SYS_ID           = CDA.DT_SGMNT_SYS_ID
+		       /*Fix for not to show Hidden Benefits Start*/
+	          AND vw.BNFT_SYS_ID = CRO.BNFT_SYS_ID
+	          AND vw.BNFT_CMPNT_SYS_ID = CRO.BNFT_CMPNT_SYS_ID 
+	          AND vw.DT_SGMNT_SYS_ID = CRO.DT_SGMNT_SYS_ID
+	          AND vw.BNFT_CMPNT_HIDE_FLAG = 'F'
+	          AND vw.BNFT_HIDE_FLAG       = 'F' /*Fix for not to show Hidden Benefits End*/    
+		      )
+		    )LINES
+		  )X
+		ON SPSID =X.RFRNCID
+		  --and HDR_RULE_ID=X.RULEID
+		  /*Performance Improvement Fix Start*/ and X.HEADER_RULE_ID=RULE_ID /*Performance Improvement Fix Start*/
+		  ORDER BY X.BENEFITCOMPNAME,
+		  X.BENEFITNAME
+		      ]]>
+	   		  </value>
+	      </property>	   
+	     <property name = "ewpdGetContractAdminOptionAnswer">   
+			<value><![CDATA[	         	
+                 
+				SELECT 	PA.PSBL_ANSWR AS  ANSWER FROM 	CMST_CNTRCT_MSTR CM,CNTRCT_DT_SGMNT_ASSN CDA,CNTRCT_DT_SGMNT CD,
+                              ADMIN_OPT_MSTR AOM , CNTRCT_ADMIN_QSTN_ANSWR_OVRD CAQ,
+                              PSBL_ANSWR PA 
+                      WHERE CM.CNTRCT_SYS_ID = CDA.CNTRCT_SYS_ID
+                         AND CDA.DT_SGMNT_SYS_ID =  CD.DT_SGMNT_SYS_ID
+                         AND CM.CNTRCT_ID=?
+                         AND CM.CNTRCT_VRSN_NBR=?
+                         AND CD.DT_SGMNT_EFCTV_DT = ?                              
+                         AND CAQ.DT_SGMNT_SYS_ID =  CDA.DT_SGMNT_SYS_ID		
+                         AND CAQ.ADMIN_OPT_SYS_ID=AOM.ADMIN_OPT_SYS_ID
+                         AND AOM.ADMIN_OPT_DESC_TXT='CALENDAR OR BENEFIT YEAR'  
+                         AND PA.PSBL_ANSWR_ID=CAQ.OVRD_ANSWR_ID
+            
+	  	 	]]>
+	   		</value>
+	      </property>
+	      <property name = "ewpdAdminSPSContractInfoQuery">   
+			<value><![CDATA[	         	
+			SELECT G.BNFT_CMPNT_NM AS BENEFITCOMPNAME,
+			  F.BNFT_ID_NM AS BENEFITNAME,
+			  C.ADMN_MTHD_NO AS CODEDVALUE,
+			  A.SPR_PRCSS_STP_REF_ID AS SPSID
+			FROM SPR_PRCSS_STP_MSTR A
+			INNER JOIN ADMN_MTHD_OVRD B
+			ON(A.SPR_PRCSS_STP_SYS_ID = B.SPR_PRCSS_STP_SYS_ID)
+			INNER JOIN ADMN_MTHD_MSTR C
+			ON(B.ADMN_MTHD_SYS_ID = C.ADMN_MTHD_SYS_ID)
+			INNER JOIN BNFT_ADMNSTRN_ASSN D
+			ON (B.BNFT_ADMTN_ID = D.BNFT_ADMIN_SYS_ID)
+			INNER JOIN BDM_BNFT_DEFN_MSTR E
+			ON (D.BNFT_DEFN_SYS_ID = E.BNFT_DEFN_SYS_ID)
+			INNER JOIN BMST_BNFT_MSTR F
+			ON (E.BNFT_SYS_ID = F.BNFT_SYS_ID)
+			INNER JOIN BCM_BNFT_CMPNT_MSTR G
+			ON (G.BNFT_CMPNT_SYS_ID = B.BNFT_CMPNT_SYS_ID)
+			INNER JOIN CNTRCT_DT_SGMNT_ASSN H
+			ON (H.DT_SGMNT_SYS_ID = B.ENTY_SYS_ID)
+			INNER JOIN CMST_CNTRCT_MSTR I
+			ON(I.CNTRCT_SYS_ID = H.CNTRCT_SYS_ID)
+			INNER JOIN CNTRCT_DT_SGMNT J
+			ON (J.DT_SGMNT_SYS_ID = H.DT_SGMNT_SYS_ID)
+			INNER JOIN PROD_BNFT_CMPNT_ASSN K
+			ON (K.PROD_SYS_ID             = J.PROD_SYS_ID
+			AND K.BNFT_CMPNT_SYS_ID       = G.BNFT_CMPNT_SYS_ID)
+			WHERE A.SPR_PRCSS_STP_REF_ID IN(0157,4830)
+			AND B.ENTY_TYPE               ='contract'
+			AND I.CNTRCT_ID               = ?
+			AND I.CNTRCT_VRSN_NBR         = ?
+			AND J.DT_SGMNT_EFCTV_DT       = ?
+	  	 	]]>
+	   		</value>
+	      </property> 
+	      
+	       <property name = "ewpdStartDates"> 
+			<value><![CDATA[	         	
+         
+         	SELECT DISTINCT CD.DT_SGMNT_EFCTV_DT FROM CNTRCT_DT_SGMNT CD, CNTRCT_DT_SGMNT_ASSN CDA, CMST_CNTRCT_MSTR CM
+			WHERE CD.DT_SGMNT_SYS_ID = CDA.DT_SGMNT_SYS_ID
+			AND CDA.CNTRCT_SYS_ID = CM.CNTRCT_SYS_ID
+			AND CM.CNTRCT_ID = ?
+			AND CM.CNTRCT_STTS_CD <> 'MARKED_FOR_DELETION'
+			ORDER BY CD.DT_SGMNT_EFCTV_DT DESC
+            
+	  	 	]]>
+	   		  </value>
+	      </property>
+	      
+	      <property name = "ewpdMaxVersion"> 
+			<value><![CDATA[	         	
+         
+         	SELECT MAX(CM.CNTRCT_VRSN_NBR) AS MAX_VERSION
+			FROM CMST_CNTRCT_MSTR CM
+			WHERE CM.CNTRCT_ID = ?
+			AND CM.CNTRCT_STTS_CD <> 'MARKED_FOR_DELETION'
+            
+	  	 	]]>
+	   		  </value>
+	      </property>	
+	</bean>
+	
+	
+		<!--  Changes for Exclusion start -->
+	
+	<bean id="referenceDataRepository" class="com.wellpoint.ets.ebx.referencedata.repository.ReferenceDataRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+		<property name = "itemRepository" ref="itemRepository"/>
+		<!-- For Reference Data Values -->
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository"/>
+		<property name = "minorHeadingCatagoryCodeMappingQurry">   
+				<value><![CDATA[	         	
+	  			(SELECT G.CPFXP_CATAGORY AS CATAGORY,D.CPFXP_PC_HEADING AS MINOR, 'S' as SYSTEM
+					  FROM ISG_CPFXP_CONTXREF C,
+					    ISG_CPFXP_CNTATHDG D,
+					    ISG_CPFXP_CONTVAR G
+					  WHERE C.CPFXP_CONTATTR = D.CPFXP_CONTATTR
+					  AND G.CPFXP_CONTVAR    = C.CPFXP_CONTVAR
+					  and G.CPFXP_CATAGORY in (SELECT DISTINCT CATEGORY_CODE FROM BX_CATEGORY_SRVC_TYP_VLDN)
+					  group by G.CPFXP_CATAGORY,D.CPFXP_PC_HEADING)
+					  
+					  union
+					  
+					  (SELECT E.CATAGORY AS CATAGORY,A.MINOR_HEADING AS MINOR, 'W' as SYSTEM
+					  FROM 
+					    CONTVAR E ,
+					    LG_CONTRACT_DETAIL A
+					  WHERE  A.CONTRACT_VAR        = E.CONTRACT_VAR
+					  AND E.CATAGORY IN (SELECT DISTINCT CATEGORY_CODE FROM BX_CATEGORY_SRVC_TYP_VLDN)
+					  group by E.CATAGORY,A.MINOR_HEADING)
+	         	]]>
+		   		</value>
+	      </property> 
+		  <property name = "exclusionCodeFetchQuery">   
+			<value><![CDATA[	         	
+  			SELECT EXCLUSION_ID, ERROR_CD, EXCLUSION_TYPE_PRIMARY, EXCLUSION_VAL_PRIMARY, EXCLUSION_TYPE_SECONDARY, EXCLUSION_VAL_SECONDARY, EXCLUSION_COUNT
+			    FROM
+				 BX_ERROR_EXCLUSION
+				WHERE ERROR_CD = ? 
+         			ORDER BY LAST_UPDATED_DT DESC
+         	]]>
+	   		</value>
+	      </property> 
+	      
+	      <property name = "auditTrailFetchQuery">   
+			<value><![CDATA[	         	
+                 
+			    SELECT COMMENTS_LOG
+			     FROM
+				 BX_ERROR_CODE_AUDIT_TRAIL
+				 WHERE ERROR_CD = ? 
+	 
+         
+         	]]>
+	   		</value>
+	      </property>
+	      
+	       <property name = "exclusionUpdateQuery">   
+			<value><![CDATA[	         	
+                 
+				UPDATE BX_ERROR_EXCLUSION SET ERROR_CD = ?, EXCLUSION_TYPE_PRIMARY = ?, EXCLUSION_VAL_PRIMARY = ?, EXCLUSION_TYPE_SECONDARY = ?, EXCLUSION_VAL_SECONDARY = ?, EXCLUSION_COUNT = ?, LAST_UPDATED_USER_ID = ?, LAST_UPDATED_DT = SYSDATE
+				WHERE EXCLUSION_ID = ? 
+         	]]>
+	   		</value>
+	      </property>
+	      
+	      	<property name = "auditTrailUpdateQuery">   
+			<value><![CDATA[	         	
+                 
+				UPDATE BX_ERROR_CODE_AUDIT_TRAIL SET COMMENTS_LOG = ?, LAST_UPDATED_USER_ID = ?, LAST_UPDATED_DT = SYSDATE
+				WHERE ERROR_CD = ? 
+         	]]>
+	   		</value>
+	      </property> 
+	      
+	       	<property name = "auditTrailInsertQuery">   
+			<value><![CDATA[	         	
+                 
+				INSERT INTO BX_ERROR_CODE_AUDIT_TRAIL VALUES (?, ?, ?, SYSDATE, ?, SYSDATE) 
+	
+         	]]>
+	   		</value>
+	      </property>
+	      
+	      	<property name = "exclusionInsertQuery">   
+			<value><![CDATA[	         	
+                 
+				INSERT INTO BX_ERROR_EXCLUSION  VALUES (?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, ?, SYSDATE) 
+	
+         	]]>
+	   		</value>
+	      </property> 
+	      
+	      	<property name = "exclusionIDSequenceQuery">   
+			<value><![CDATA[	
+			
+				SELECT EXCLUSION_ID_SEQ.NEXTVAL FROM DUAL
+                 
+				
+	
+         	]]>
+	   		</value>
+	      </property> 
+	      
+	     <property name = "exclusionDeleteQuery">   
+			<value><![CDATA[	
+				DELETE FROM BX_ERROR_EXCLUSION WHERE EXCLUSION_ID = ?
+          	]]>
+	   		</value>
+	      </property> 
+	      
+	      <property name = "errorCodeDeleteQueryAudit">   
+			<value><![CDATA[	
+				DELETE FROM BX_ERROR_CODE_AUDIT_TRAIL WHERE ERROR_CD = ?
+          	]]>
+	   		</value>
+	      </property> 
+	      
+	       <property name = "errorCodeDeleteQueryExclusions">   
+			<value><![CDATA[	
+				DELETE FROM BX_ERROR_EXCLUSION WHERE ERROR_CD = ?
+          	]]>
+	   		</value>
+	      </property>
+	      
+      	       <property name = "totalCountExclusionQuery">   
+			<value><![CDATA[	
+				SELECT SUM(EXCLUSION_COUNT) FROM BX_ERROR_EXCLUSION WHERE EXCLUSION_ID != ?
+          	]]>
+	   		</value>
+	      </property> 
+	      
+		  <property name = "exclusionAllFetchQuery">   
+			<value><![CDATA[	         	
+  			SELECT EXCLUSION_ID, ERROR_CD, EXCLUSION_TYPE_PRIMARY, EXCLUSION_VAL_PRIMARY, EXCLUSION_TYPE_SECONDARY, EXCLUSION_VAL_SECONDARY, EXCLUSION_COUNT
+			    FROM
+				 BX_ERROR_EXCLUSION
+       			ORDER BY LAST_UPDATED_DT DESC
+         	]]>
+	   		</value>
+	      </property> 
+	      
+	  
+
+	<!--  Changes for Exclusion end -->
+	<!-- changes for mapping  start-->
+
+	        <property name = "categoryMappingDeleteQuery">   
+                  <value><![CDATA[              
+                 
+                DELETE  from BX_CATEGORY_SRVC_TYP_VLDN where UPPER(TRIM(CATEGORY_CODE)) =UPPER(TRIM(?)) and UPPER(TRIM(SYSTEM))=UPPER(TRIM(?))
+       
+         
+            ]]>
+                  </value>
+            </property> 
+            
+            <property name = "deleteTempCategoryEB03MappingQuery">   
+                  <value><![CDATA[              
+                 
+                DELETE  from BX_CATEGORY_SRVC_TYP_VLDN where UPPER(TRIM(CATEGORY_CODE)) =UPPER(TRIM(?)) and UPPER(TRIM(SYSTEM))=UPPER(TRIM(?))
+       
+         
+            ]]>
+                  </value>
+            </property> 
+	          <property name = "insertCategoryEB03MappingQuery">   
+                  <value><![CDATA[              
+                 
+               INSERT INTO 
+               	BX_CATEGORY_SRVC_TYP_VLDN(CATEGORY_CODE,SRVC_TYP_CODE,CREATD_TM_STMP,CREATD_USER_ID,SYSTEM,LST_CHG_USR,LST_CHG_TMS)
+               VALUES (?,?,SYSDATE,?,?, ? ,SYSDATE)
+       
+         
+            ]]>
+                  </value>
+            </property> 
+		<!-- changes for mapping  end-->
+		<!--  Reference Data Values - START -->
+			<!-- Query for fetching catelog names for auto complete -->
+			<property name = "selectCatalogNamesQuery">   
+                  <value><![CDATA[      
+					SELECT 
+						DATA_ELEMENT_ID
+						FROM BX_HIPPA_SEGMENT
+						WHERE TRIM(DATA_ELEMENT_ID) LIKE ?
+						AND TRIM(DATA_ELEMENT_ID) NOT LIKE 'HPN%'
+						AND UPPER(IS_EDITABLE) = 'Y'
+						ORDER BY DATA_ELEMENT_ID
+				]]>
+                  </value>
+            </property> 
+            <property name = "selectHPNCatalogNamesQuery">   
+                  <value><![CDATA[      
+					SELECT 
+						DATA_ELEMENT_ID
+						FROM BX_HIPPA_SEGMENT
+						WHERE TRIM(DATA_ELEMENT_ID) LIKE ?
+						AND TRIM(DATA_ELEMENT_ID) LIKE 'HPN%'
+						AND UPPER(IS_EDITABLE) = 'Y'
+						ORDER BY DATA_ELEMENT_ID
+				]]>
+                  </value>
+            </property>
+            <!-- Query for fetching data values of a catalog name -->
+            <property name = "fetchDataValuesOfCatalogQuery">   
+                  <value><![CDATA[      
+				SELECT 
+					DATA_ELEMENT_VAL, VAL_DESC_TXT, VAL_CMNTS 
+					FROM BX_HIPPA_SEGMENT_VAL
+					WHERE DATA_ELEMENT_ID = ?
+					ORDER BY DATA_ELEMENT_VAL
+				]]>
+                  </value>
+            </property>   
+            <!-- Query for fetching catalog min and max lengths -->
+			<property name = "catalogMinMaxLengthQuery">   
+                  <value><![CDATA[      
+                  SELECT 
+					DATA_ELEMENT_ID, DATA_ELEMENT_LEN_MIN, DATA_ELEMENT_LEN_MAX
+					FROM BX_HIPPA_SEGMENT
+					WHERE TRIM(DATA_ELEMENT_ID) LIKE ?
+					AND UPPER(IS_EDITABLE) = 'Y'
+					ORDER BY DATA_ELEMENT_ID
+				]]>
+                  </value>
+            </property>       
+            <!-- Query for checking if the data value already exists -->
+			<property name = "checkDuplicateDataValueQuery">   
+                  <value><![CDATA[      
+                  SELECT 
+					COUNT(*)
+					FROM BX_HIPPA_SEGMENT_VAL
+					WHERE TRIM(DATA_ELEMENT_ID) = ?
+					AND TRIM(DATA_ELEMENT_VAL) = ?
+				]]>
+                  </value>
+            </property>   
+            <!-- Query to insert data value into BX_HIPPA_SEGMENT_VAL table -->
+			<property name = "insertDataValueQuery">   
+                  <value><![CDATA[      
+                 INSERT INTO BX_HIPPA_SEGMENT_VAL 
+					(DATA_ELEMENT_ID, DATA_ELEMENT_VAL, VAL_DESC_TXT, VAL_CMNTS
+					, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_TMS, LST_CHG_USR)
+					VALUES(?, ?, ?, ?, ?, SYSDATE, SYSDATE, ?)
+				]]>
+                  </value>
+            </property>    
+            <!-- Query to insert data into BX_DATA_VAL_AUDIT_TRIAL table -->
+			<property name = "recordDataValueAuditTrailQuery">   
+                  <value><![CDATA[      
+                 INSERT INTO BX_DATA_VAL_AUDIT_TRIAL 
+					(CATALOG_ID, DATA_VALUE, ADD_COMMENT, 
+					CREATD_TM_STMP, CREATD_USER_ID, DATA_VAL_STS)
+					VALUES(?, ?, ?, SYSTIMESTAMP, ?, ?)
+				]]>
+                  </value>
+            </property>  
+            <!-- Query to update data in BX_DATA_VAL_AUDIT_TRIAL table -->
+			<property name = "updateDataValueQuery">   
+                  <value><![CDATA[      
+                 UPDATE BX_HIPPA_SEGMENT_VAL
+					SET VAL_DESC_TXT = ?,
+						VAL_CMNTS = ?,
+						LST_CHG_TMS = SYSDATE,
+						LST_CHG_USR = ?
+				WHERE 
+					DATA_ELEMENT_ID = ? AND DATA_ELEMENT_VAL = ?
+				]]>
+                  </value>
+            </property>
+            <!-- Query to get count of Variables mapped -->
+			<property name = "countVariablesQuery">   
+                  <value><![CDATA[      
+                 SELECT SUM(COUNT_VAR) FROM (
+					SELECT COUNT(*) COUNT_VAR
+					FROM BX_CNTRCT_VAR_MAPG_VAL
+					WHERE DATA_ELEMENT_ID = ? AND DATA_ELEMENT_VAL = ? 
+					AND VAR_MAPG_SYS_ID IN 
+					(SELECT VAR_MAPG_SYS_ID FROM BX_CNTRCT_VAR_MAPG 
+					WHERE IN_TEMP_TAB = 'N') 
+					UNION
+					SELECT COUNT(*) COUNT_VAR
+					FROM TEMP_BX_CNTRCT_VAR_MAPG_VAL
+					WHERE DATA_ELEMENT_ID = ? AND DATA_ELEMENT_VAL = ? 
+					AND VAR_MAPG_SYS_ID IN 
+					(SELECT VAR_MAPG_SYS_ID FROM BX_CNTRCT_VAR_MAPG 
+					WHERE IN_TEMP_TAB = 'Y'))
+				]]>
+                  </value>
+            </property>
+            <!-- Query to get count of Header Rule mapped -->
+			<property name = "countHeaderRulesQuery">   
+                  <value><![CDATA[      
+                 SELECT SUM(COUNT_RULE) FROM (
+					SELECT COUNT(*) COUNT_RULE
+					FROM BX_RULE_SRVC_TYP_ASSN
+					WHERE IN_TEMP_TAB = 'N'
+					AND TRIM(SRVC_TYP_CODE) = ?
+					UNION 
+					SELECT COUNT(*) COUNT_RULE
+					FROM TEMP_BX_RULE_SRVC_TYP_ASSN 
+					WHERE SRVC_TYP_CODE = ?
+					AND RULE_ID IN (SELECT RULE_ID
+					FROM BX_RULE_SRVC_TYP_ASSN 
+					WHERE IN_TEMP_TAB = 'Y'))
+				]]>
+                  </value>
+            </property>
+            <!-- Query to get count of Header Rule mapped -->
+			<property name = "countMessagesQuery">   
+                  <value><![CDATA[      
+                 SELECT SUM(COUNT_MSG) FROM (
+					SELECT COUNT(*) COUNT_MSG
+					FROM BX_CSTM_MSG_TEXT
+					WHERE NOTE_TYP_CD = ?
+					AND IN_TEMP_TAB = 'N'
+					AND MSG_TEXT <> ' '
+					UNION
+					SELECT COUNT(*) TEMP_COUNT_MSG FROM (
+					SELECT 
+					TEMP_MSG.HDR_RULE_ID, TEMP_MSG.SPS_ID, 
+					TEMP_MSG.MSG_TEXT, TEMP_MSG.NOTE_TYP_CD
+					FROM TEMP_BX_CSTM_MSG_TEXT TEMP_MSG
+					JOIN 
+					(SELECT HDR_RULE_ID, SPS_ID, IN_TEMP_TAB
+					FROM BX_CSTM_MSG_TEXT) MSG
+					ON TEMP_MSG.HDR_RULE_ID = MSG.HDR_RULE_ID
+					AND TEMP_MSG.SPS_ID = MSG.SPS_ID
+					WHERE TEMP_MSG.NOTE_TYP_CD = ?
+					AND MSG.IN_TEMP_TAB = 'Y'
+					AND TEMP_MSG.MSG_TEXT <> ' '))
+				]]>
+                  </value>
+            </property>
+            <!-- Query to delete data value from the BX_HIPPA_SEGMENT table -->
+			<property name = "deleteDataValueQuery">   
+                  <value><![CDATA[      
+                 DELETE 
+					FROM BX_HIPPA_SEGMENT_VAL
+					WHERE DATA_ELEMENT_ID = ? AND DATA_ELEMENT_VAL = ?
+				]]>
+                  </value>
+            </property>
+            <!-- Query to fetch the deletion history of values of a catalog -->
+			<property name = "catalogHistoryFetchQuery">   
+                  <value><![CDATA[      
+				SELECT 
+					DATA_VALUE, ADD_COMMENT, CREATD_TM_STMP, CREATD_USER_ID, DATA_VAL_STS 
+					FROM BX_DATA_VAL_AUDIT_TRIAL 
+					WHERE CATALOG_ID = ? order by CREATD_TM_STMP desc
+				]]>
+                  </value>
+            </property>
+		<!--  Reference Data Values - END -->		
+				
+		<!--  MANAGE HEADER RULE TO EB03 - START -->	
+			<property name = "headerRuleToEB03DeleteAllQuery">   
+			<value><![CDATA[	
+				DELETE FROM BX_RULE_SRVC_TYP_VLDN WHERE SRVC_TYP_CODE = ?
+          	]]>
+	   		</value>
+	      </property>
+	      <property name = "headerRuleToEB03ConditionalDeleteQuery">   
+			<value><![CDATA[	
+				DELETE FROM BX_RULE_SRVC_TYP_VLDN WHERE SRVC_TYP_CODE = ? AND RULE_ID = ?
+          	]]>
+	   		</value>
+	      </property>
+	      <property name = "manageHeaderRuleToEB03AuditTrialQuery">   
+			<value><![CDATA[	
+				INSERT INTO BX_RUL_SRVC_TYP_VALDN_AUDT_TRL(EB03,SYS_CMNTS,USR_CMNTS,CREATD_USER_ID,CREATD_TM_STMP) 
+					VALUES(?,?,?,?,SYSTIMESTAMP)
+          	]]>
+	   		</value>
+	      </property>
+	      	      <property name = "headerRuleToEB03InsertQuery">   
+			<value><![CDATA[	
+				INSERT INTO BX_RULE_SRVC_TYP_VLDN(RULE_ID,SRVC_TYP_CODE,CREATD_TM_STMP,CREATD_USER_ID,LST_CHG_USR,LST_CHG_TMS) 
+					VALUES(?,?,SYSTIMESTAMP,?,?,SYSTIMESTAMP)
+          	]]>
+	   		</value>
+	      </property>
+	     <!--  MANAGE HEADER RULE TO EB03 - END -->
+	        <!-- APRIL RELEASE EB01- DATA TYPE - START -->
+	      <property name = "EB01ToDataTypeAssnDeleteQuery">   
+			<value><![CDATA[	
+				DELETE FROM BX_CNTRCT_VAR_VALDN_MAPG WHERE DATA_ELEMENT_VAL = ?
+          	]]>
+	   		</value>
+	      </property> 
+	      
+	      <property name = "manageDatatypeToEB01AuditTrialQuery">   
+			<value><![CDATA[	
+				INSERT INTO BX_CNTRCT_VAR_VALDN_AUDT_TRL(EB01,SYS_CMNTS,USR_CMNTS,CREATD_USER_ID,CREATD_TM_STMP)
+				VALUES (?, ?, ?, ?, systimestamp)
+          	]]>
+	   		</value>
+	      </property> 
+	      <property name = "dataTypeValueQueryForEdit">   
+			<value><![CDATA[	
+				SELECT DISTINCT A.VAR_FRMT DATATYPE, B.DATATYPEDESC DATATYPEDESC
+				FROM BX_CNTRCT_VAR_VALDN_MAPG A,
+				  (SELECT VALUE,
+				    CASE
+				      WHEN DTYP_DATA_TYPE_NAME IS NOT NULL
+				      THEN DTYP_DATA_TYPE_NAME
+				      WHEN DTYP_DATA_TYPE_NAME IS NULL
+				      AND CDCV_DESC_TXT        IS NOT NULL
+				      THEN CDCV_DESC_TXT
+				      ELSE CPFXP_VALUE
+				    END DATATYPEDESC
+				  FROM
+				    (SELECT VALUE,
+				      EWPD.DTYP_DATA_TYPE_NAME,
+				      UPPER(TRIM(LG.CDCV_DESC_TXT)) CDCV_DESC_TXT,
+				      ISG.CPFXP_VALUE
+				    FROM (
+				      (SELECT LG.CDCV_DOMN_VAL VALUE
+				      FROM LG_RCMS_UDCV_USRDFND_CDVAL LG
+				      WHERE LG.CDCI_CD_ITM_ID ='1933'
+				      )
+				    UNION
+				      (SELECT ISG.CPFXP_VALUE VALUE
+				      FROM ISG_CPFXP_CODETBLE ISG
+				      WHERE CPFXP_NAME ='Benefit Variable Formats'
+				      )
+				    UNION
+				      (SELECT EWPD.DTYP_DATA_TYPE_LGND VALUE FROM DTYP_DATA_TYPE EWPD
+				      ) ) X
+				    LEFT OUTER JOIN DTYP_DATA_TYPE EWPD
+				    ON EWPD.DTYP_DATA_TYPE_LGND = X.VALUE
+				    LEFT OUTER JOIN LG_RCMS_UDCV_USRDFND_CDVAL LG
+				    ON LG.CDCV_DOMN_VAL   = X.VALUE
+				    AND LG.CDCI_CD_ITM_ID ='1933'
+				    LEFT OUTER JOIN ISG_CPFXP_CODETBLE ISG
+				    ON ISG.CPFXP_VALUE = X.VALUE
+				    AND ISG.CPFXP_NAME ='Benefit Variable Formats'
+				    )
+				  ) B
+				WHERE A.VAR_FRMT       = B.VALUE
+				AND A.DATA_ELEMENT_VAL = ?
+				ORDER BY DATATYPE ASC 
+          	]]>
+	   		</value>
+	      </property> 
+	      <property name = "manageDatatypeToEB01InsertQueryForSave">   
+			<value><![CDATA[	
+				INSERT INTO BX_CNTRCT_VAR_VALDN_MAPG(DATA_ELEMENT_ID,DATA_ELEMENT_NAME,DATA_ELEMENT_VAL,VAR_FRMT,CREATD_USER_ID, CREATD_TM_STMP)
+				VALUES (?, ?, ?, ?, ?, systimestamp)
+          	]]>
+	   		</value>
+	      </property> 
+	      <property name = "manageDatatypeToEB01DeleteQueryForSave">   
+			<value><![CDATA[	
+				DELETE FROM BX_CNTRCT_VAR_VALDN_MAPG WHERE DATA_ELEMENT_VAL = ? AND VAR_FRMT = ?
+          	]]>
+	   		</value>
+	      </property> 
+	      <property name = "dataTypeToEB01HistoryFetchQuery">   
+                  <value><![CDATA[      
+				SELECT DISTINCT EB01 EB01, CREATD_TM_STMP UPDATEDDATE, CREATD_USER_ID USERID, SYS_CMNTS SYSCOMMENT, USR_CMNTS USERCOMMENT
+				FROM BX_CNTRCT_VAR_VALDN_AUDT_TRL
+				WHERE EB01 = ? ORDER BY UPDATEDDATE DESC
+				]]>
+                  </value>
+            </property>
+	      <!-- APRIL RELEASE EB01- DATA TYPE - END -->
+	      <!-- BXNI JUNE RELEASE - START --> 
+	      <property name = "standardMessageFetchQuery">   
+                  <value><![CDATA[      
+				SELECT DISTINCT STD_MSG_SYS_ID MESSAGEID, STD_MESSAGE STDMESSAGE FROM BX_STANDARD_MESSAGE WHERE STD_MESSAGE LIKE ? ORDER BY STDMESSAGE ASC
+				]]>
+                  </value>
+            </property>
+            
+            <property name = "standardMessageEditQuery">   
+                  <value><![CDATA[      
+				SELECT STD_MESSAGE STDMESSAGE FROM BX_STANDARD_MESSAGE WHERE STD_MSG_SYS_ID = ?
+				]]>
+                  </value>
+            </property>
+            <property name = "standardMessageUpdateQuery">   
+                  <value><![CDATA[      
+				UPDATE BX_STANDARD_MESSAGE
+					SET STD_MESSAGE   = ?,
+					  LST_CHG_USR     = ?,
+					  LST_CHG_TMS     = SYSDATE
+					WHERE STD_MSG_SYS_ID = ?
+				]]>
+                  </value>
+            </property>
+            <property name = "standardMessageAuditTrailInsertQuery">   
+                  <value><![CDATA[      
+				INSERT INTO BX_STANDARD_MESSAGE_AUDT_TRL (SYS_CMNTS, USR_CMNTS, CREATD_USER_ID, CREATD_TM_STMP)
+				VALUES (?,?,?, SYSTIMESTAMP)
+				]]>
+                  </value>
+            </property>
+            <property name = "standardMessageInsertQuery">   
+                  <value><![CDATA[      
+				INSERT INTO BX_STANDARD_MESSAGE (STD_MSG_SYS_ID, STD_MESSAGE, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS) 
+				VALUES ((SELECT NVL(MAX(STD_MSG_SYS_ID),0)+1 FROM BX_STANDARD_MESSAGE),?,?,SYSTIMESTAMP,?,SYSTIMESTAMP)
+				]]>
+                  </value>
+            </property>
+            <property name = "standardMessageDeleteQuery">   
+                  <value><![CDATA[      
+				DELETE FROM BX_STANDARD_MESSAGE WHERE STD_MSG_SYS_ID = ? 
+				]]>
+                  </value>
+            </property>
+            <property name = "standardMessageAuditTrailQuery">   
+                  <value><![CDATA[      
+				SELECT  CREATD_USER_ID, CREATD_TM_STMP, SYS_CMNTS, USR_CMNTS  
+					FROM BX_STANDARD_MESSAGE_AUDT_TRL ORDER BY CREATD_TM_STMP DESC 
+				]]>
+                  </value>
+            </property>
+            <!-- BXNI JUNE RELEASE - END -->	
+            
+            <property name = "servicetypeMappingsDeleteQuery">   
+                  <value><![CDATA[      
+				DELETE FROM BX_STC_EB11_MAPPING WHERE LOB_SYS_ID = ? AND STC = ? AND EB11 = ? AND PLC_OF_SRVC = ? 
+				]]>
+                  </value>
+            </property>
+            
+              <property name = "servicetypeMappingsInsertQuery">   
+                  <value><![CDATA[     
+                  INSERT INTO BX_STC_EB11_MAPPING VALUES(?,?,?,?,SYSDATE,?)
+				]]>
+                  </value>
+            </property>
+            
+            <property name = "servicetypeMappingsDeleteAllFromLOBTableQuery">   
+                  <value><![CDATA[     
+                  DELETE FROM BX_LOB_MSTR WHERE LOB_SYS_ID = ?
+				]]>
+                  </value>
+            </property>
+            
+            <property name = "servicetypeMappingsDeleteAllFromMBUTableQuery">   
+                  <value><![CDATA[     
+                  DELETE FROM BX_LOB_MBU_ASSN WHERE LOB_SYS_ID = ?
+				]]>
+                  </value>
+            </property>
+            
+            <property name = "servicetypeMappingsDeleteAllFromMappingTableQuery">   
+                  <value><![CDATA[     
+                  DELETE FROM BX_STC_EB11_MAPPING WHERE LOB_SYS_ID = ?
+				]]>
+                  </value>
+            </property>
+            
+             <property name = "servicetypeMappingsAuditTrialInsertQuery">   
+                  <value><![CDATA[     
+                  INSERT INTO BX_STC_EB11_AUDT_TRL VALUES(?,?,?,sysdate,?)
+				]]>
+                  </value>
+            </property>
+            
+            <property name = "serviceTypeMappingHistoryFetchQuery">   
+                  <value><![CDATA[     
+                  SELECT LOB_NAME, CREATD_TM_STMP, CREATD_USER_ID,SYS_CMNTS,USR_CMNTS from BX_STC_EB11_AUDT_TRL WHERE UPPER(LOB_NAME) = UPPER(?) ORDER BY CREATD_TM_STMP DESC 
+				]]>
+                  </value>
+            </property>
+             
+	</bean>	
+	<bean id="bxoutboundDataFeedHelperRepository" 
+		class="com.wellpoint.ets.bx.mapping.domain.service.BXOutboundDataFeedHelperRepositoryImpl">
+		<property name = "dataSource" ref="dataSource" />	
+		<property name = "insertDeltaNAMappingSQL"> 
+			<value><![CDATA[
+			   INSERT INTO DELTA_BX_NA_OUTBOUND(ID,TYPE,TEST_INDICATOR,PROD_INDICATOR) 
+				VALUES (?,?,?,?)
+		  	 	]]>
+		     </value>
+		</property>
+	</bean>
+		<bean id="lockAuditRepository" class="com.wellpoint.ets.ebx.simulation.repository.LockAuditRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Updated for System Configuration - MAY 2012 Release - Start -->
+	<bean id="systemConfigurationRepository" class="com.wellpoint.ets.ebx.systemconfiguration.repository.SystemConfigurationRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />
+		<property name = "getAllSystemConfigurationQuery"> 
+			<value><![CDATA[SELECT * FROM BX_SYSTEM_CONFIGURATION]]>
+		     </value>
+	     </property>	
+		<property name = "updateSystemConfigurationQuery">   
+        	<value><![CDATA[      
+               UPDATE BX_SYSTEM_CONFIGURATION
+					SET SYSTEM_NAME = ?,
+					FUNCTIONALITY = ?,
+					ENVIRONMENT = ?,
+					BACK_END_REGION = ?,
+					BACK_END_REGION_DESCRIPTION = ?,
+					SENDER_ID = ?,
+					SRC_ENV = ?,
+					DEST_ENV = ?
+					WHERE 
+					SYSTEM_CONFIGURATION_ID = ?
+				]]>
+           </value>
+      </property>
+      <property name = "checkIfSystemConfigurationAlreadyExistsQuery">   
+        	<value><![CDATA[      
+               		SELECT SYSTEM_CONFIGURATION_ID FROM BX_SYSTEM_CONFIGURATION
+               		WHERE UPPER(SYSTEM_NAME) = ? AND
+					UPPER(FUNCTIONALITY) = ? AND
+					UPPER(ENVIRONMENT) = ? AND
+					UPPER(BACK_END_REGION) = ?
+				]]>
+           </value>
+      </property>
+      
+      <property name = "checkIfSystemConfigurationAlreadyExistsWithNullQuery">   
+        	<value><![CDATA[      
+               		SELECT SYSTEM_CONFIGURATION_ID FROM BX_SYSTEM_CONFIGURATION
+               		WHERE UPPER(SYSTEM_NAME) = ? AND
+					UPPER(FUNCTIONALITY) = ? AND
+					UPPER(ENVIRONMENT) = ? AND
+					BACK_END_REGION is NULL
+				]]>
+           </value>
+      </property>
+      
+      
+      <property name = "deleteSystemConfigurationQuery">   
+        	<value><![CDATA[      
+               		DELETE FROM BX_SYSTEM_CONFIGURATION
+               		WHERE SYSTEM_CONFIGURATION_ID = ?
+				]]>
+           </value>
+      </property>     
+      
+      <property name = "addSystemConfigurationQuery">   
+        	<value><![CDATA[      
+				INSERT INTO BX_SYSTEM_CONFIGURATION   (
+    				SYSTEM_CONFIGURATION_ID,
+    				SYSTEM_NAME,
+    				FUNCTIONALITY,
+    				ENVIRONMENT,
+    				BACK_END_REGION,
+    				BACK_END_REGION_DESCRIPTION,
+    				SENDER_ID,
+    				SRC_ENV,
+    				DEST_ENV
+  				)
+  				 VALUES((SYSTEM_CONFIGURATION_ID_SEQ.nextval),?,?,?,?,?,?,?,?)
+				]]>
+           </value>
+      </property>  
+      
+      <property name = "loadBackEndRegionDetailsBasedOnSystemQuery">   
+        	<value><![CDATA[      
+               		SELECT SYSTEM_CONFIGURATION_ID,
+               		BACK_END_REGION,
+               		BACK_END_REGION_DESCRIPTION,
+               		SENDER_ID,
+               		SRC_ENV,
+               		DEST_ENV 
+               		FROM BX_SYSTEM_CONFIGURATION
+               		WHERE UPPER(SYSTEM_NAME) = ? AND
+					UPPER(FUNCTIONALITY) = ? AND
+					UPPER(ENVIRONMENT) = ?					
+				]]>
+           </value>
+      </property>
+      
+      <property name = "loadBackEndRegionDetailsBasedOnBackEndQuery">   
+        	<value><![CDATA[      
+               		SELECT SYSTEM_CONFIGURATION_ID, 
+               		BACK_END_REGION, 
+               		BACK_END_REGION_DESCRIPTION, 
+               		SENDER_ID,
+               		SRC_ENV,
+               		DEST_ENV               		 
+               		FROM BX_SYSTEM_CONFIGURATION
+               		WHERE UPPER(SYSTEM_NAME) = ? AND
+					UPPER(FUNCTIONALITY) = ? AND
+					UPPER(ENVIRONMENT) = ? AND
+					UPPER(BACK_END_REGION) = ?					
+				]]>
+           </value>
+      </property>
+      
+      	           	
+	</bean>	
+	<!-- Updated for System Configuration - MAY 2012 Release - End -->
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">     
+		<property name="dataSource" ref="dataSource"/>  
+	</bean>
+	<!-- Start : Added for EBX Spider Mapping -->
+	<bean id="umRuleMappingRepository" class="com.wellpoint.ets.bx.mapping.repository.UmRuleMappingRepositoryImpl" >
+		<property name = "dataSource" ref="dataSource" />	
+		<property name = "sequenceGeneratorRepository" ref="sequenceGeneratorRepository" />
+    </bean>  
+    <bean id="ebxStateTransitionRepository" class="com.wellpoint.ets.bx.mapping.repository.EbxStateTransitionRepositoryImpl">
+		<property name ="dataSource" ref="dataSource" />		    
+	</bean>
+	<!-- End : Added for EBX Spider Mapping -->
+	<tx:annotation-driven transaction-manager="txManager"/>
+</beans>

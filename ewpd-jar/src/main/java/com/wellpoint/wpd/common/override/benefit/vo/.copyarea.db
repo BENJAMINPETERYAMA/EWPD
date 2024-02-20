@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\override\benefit\vo
+2
+3
+28:ProductStructureBenefitCustomizedVO.java|1|16adf97836a|cd2|211b2846|ed09711e9bce4fb0bb7799c09ef66338|0
+1f:ProductBenefitCustomizedVO.java|1|16adf978379|d7e|7f755eb6|7f8e9ac97e56479b837ed3f100370d12|0
+12:BenefitLineVO.java|1|16adf978379|cc1|43bd0523|ab9ac2330c024da0bcbcd15cce00ea4e|0

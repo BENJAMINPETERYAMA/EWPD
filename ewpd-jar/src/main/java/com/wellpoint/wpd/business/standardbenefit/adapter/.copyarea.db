@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\standardbenefit\adapter
+2
+7
+24:LookupAdminOptionAdapterManager.java|1|16adf960c47|2b1d|34c6b686|374a2f580fc04499b8698a05ba600b6e|0
+26:StandardBenefitTreeAdapterManager.java|1|16adf960ca4|1ba0|6b93ee92|416f3e106a62444a869b105bc9521271|0
+22:StandardBenefitAdapterManager.java|1|16adf960cc4|11380|b3bb83c3|5e107d0beae340f79c43d5cfb5c0b60b|0
+27:AdministrationOptionAdapterManager.java|1|16adf960c47|534e|e6d4a45b|2d1c08eda9144e38b17ba76e2a45fcad|0
+1e:AddQuestionAdapterManager.java|1|16adf960bab|5c1b|dfd65d7b|1f2cce60f7c644a09d8afcfab47110e9|0
+24:MandateDefenitionAdapterManager.java|1|16adf960c95|c10|3de518be|4aba37f8fe4a4d34aa2e4016b3b32687|0
+28:BenefitAdministrationAdapterManager.java|1|16adf960c47|1c01|21e8b11b|fff929f3652d4af8a7e2b9615f538e55|0

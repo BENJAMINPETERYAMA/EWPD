@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\filters
+2
+5
+e:SIT.properties|1|16adf958eaf|11|3ba205da|8f6927cab5c84ed6b3a6c27df37a0689|0
+f:PROD.properties|1|16adf958e51|10|36040608|d32a9a04ad044da48d714dd5e58d9c34|0
+10:LOCAL.properties|1|16adf958de4|13|48ae0655|f2747aaf49c34970b086c16d233be96c|0
+f:PERF.properties|1|16adf958ebe|10|35e50600|759dece31e7940a79a9e70932ec691cf|0
+e:UAT.properties|1|16adf958e9f|f|2fee05bd|9a82bb8702c64eb6875162c22c68209d|0

@@ -1,0 +1,889 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.popup.bo.PopupFilterBO">
+		<BusinessAttribute 	name="code" 			type="Int" 		keyAttrib="true" />
+        <BusinessAttribute 	name="adminMethodNo" 	type="Int" 		keyAttrib="false" />
+		<BusinessAttribute 	name="description" 		type="String"	keyAttrib="false" />
+        <BusinessAttribute 	name="adminMethodSysId" type="Int"	    keyAttrib="true" />
+		<BusinessAttribute 	name="headerName" 		type="String"	keyAttrib="false" />
+		<BusinessAttribute 	name="entitySysId" 		type="Int"		keyAttrib="false" />
+		<BusinessAttribute 	name="ruleId" 	    	type="String"	keyAttrib="true" />
+		<BusinessAttribute 	name="rulePVA" 	    	type="String"	keyAttrib="false" />
+		<BusinessAttribute 	name="generatedRuleId" 	type="String"	keyAttrib="false" />
+		<BusinessAttribute 	name="productRuleSysId" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute 	name="segmentNumber" 	type="String"	keyAttrib="false" />
+		<BusinessAttribute 	name="segment" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute 	name="spsId" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute 	name="cobolValue" 	type="String"	keyAttrib="false" />
+		<BusinessAttribute 	name="keyValue" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute  name="ruleType"  type="String" keyAttrib ="false" />
+		<BusinessAttribute name="effectiveDate" 			type="Date"		keyAttrib="true"/>
+        <BusinessAttribute name="spsIdList" 			type="List"		keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="entityId" 		type="Int" />
+			<SearchCriteriaAttribute name="searchString" 	type="String" />
+			<SearchCriteriaAttribute name="headerName" 		type="String" />
+			<SearchCriteriaAttribute name="generatedRuleId" type="String" />
+			<SearchCriteriaAttribute name="bnftLvlAdmnId" 	type="Int" />
+            <SearchCriteriaAttribute name="spsIdList" 	type="List"	/>
+          	<SearchCriteriaAttribute name="spsType" 	type="String" />
+			<SearchCriteriaAttribute name="term" 		type="String" />
+			<SearchCriteriaAttribute name="pva" type="String" />
+			<SearchCriteriaAttribute name="qualifier" 	type="String" />
+			<SearchCriteriaAttribute name="dataType" 		type="Int" />
+
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select PROD_STRCTR_SYS_ID from
+				PROD_STRCTR_BNFT_CMPNT_ASSN
+			</SelectSQLQuery>
+                <SelectSQLQuery name="processingType">                          
+                              select spr_prcss_stp_sys_id ,spr_prcss_stp_nm from spr_prcss_stp_mstr order by spr_prcss_stp_nm,spr_prcss_stp_sys_id
+                  </SelectSQLQuery>
+                  <SelectSQLQuery name="processingTypeSearch">                          
+                              select spr_prcss_stp_sys_id ,spr_prcss_stp_nm from spr_prcss_stp_mstr where prod_family ='PPO' order by spr_prcss_stp_nm
+                  </SelectSQLQuery>
+
+				
+                     <SelectSQLQuery name="retrieveAdminMethodNumber" dynamic="true">                              
+                              <STATIC><![CDATA[select admn_mthd_no,admn_mthd_desc ,admn_mthd_sys_id from admn_mthd_mstr 
+                              where 1=1 and spr_prcss_stp_sys_id < 15]]></STATIC> <DYNAMIC><![CDATA[ and spr_prcss_stp_sys_id ={0}]]></DYNAMIC> 
+                              <DYNAMIC><![CDATA[and  admn_mthd_desc
+                               like upper({1}) escape '\' ]]></DYNAMIC><STATIC><![CDATA[order by  admn_mthd_no,admn_mthd_desc,admn_mthd_sys_id asc]]></STATIC>
+                  </SelectSQLQuery>
+
+
+
+					<SelectSQLQuery name="searchTerm">                          
+                              select i.PRMRY_CD,i.CD_DESC_TXT
+                                    from item i,catalog c 
+                                    where c.CTLG_ID = i.CTLG_ID and upper(c.CTLG_NAME) ='TERM' order by i.PRMRY_CD asc
+                  </SelectSQLQuery>
+
+					<SelectSQLQuery name="searchType">                          
+                              select i.PRMRY_CD,i.CD_DESC_TXT
+                                    from item i,catalog c 
+                                    where c.CTLG_ID = i.CTLG_ID and upper(c.CTLG_NAME) ='REFERENCETYPE' order by i.PRMRY_CD asc
+                  </SelectSQLQuery>
+
+                  <SelectSQLQuery name="searchQualifier" dynamic="true">                              
+                              <STATIC><![CDATA[ select i.PRMRY_CD,i.CD_DESC_TXT
+                                    from item i,catalog c 
+                                    where c.CTLG_ID = i.CTLG_ID 
+                                    and upper(c.CTLG_NAME) ='QUALIFIER' ]]></STATIC>
+                                    <DYNAMIC><![CDATA[  and i.cd_desc_txt like upper({0}) ]]></DYNAMIC>
+                                    <STATIC><![CDATA[ order by i.PRMRY_CD asc ]]></STATIC>
+                  </SelectSQLQuery>
+
+
+			<SelectSQLQuery name="getValidComponentsForProduct" dynamic="true">
+				<STATIC><![CDATA[SELECT B.BNFT_CMPNT_SYS_ID, D.BNFT_CMPNT_NM  FROM PROD_MSTR A,
+				PROD_STRCTR_BNFT_CMPNT_ASSN B, BCM_BNFT_CMPNT_MSTR D
+				WHERE A.PROD_SYS_ID = {0}
+				AND B.PROD_STRCTR_SYS_ID = A.PROD_STRCTR_SYS_ID
+				AND	B.BNFT_CMPNT_SYS_ID NOT IN (SELECT C.BNFT_CMPNT_SYS_ID
+				FROM PROD_BNFT_CMPNT_ASSN C WHERE C.PROD_SYS_ID = {0})
+				AND D.BNFT_CMPNT_SYS_ID = B.BNFT_CMPNT_SYS_ID]]></STATIC>
+				<DYNAMIC><![CDATA[AND upper(D.BNFT_CMPNT_NM) LIKE upper({1}) escape '\']]></DYNAMIC>
+				<STATIC><![CDATA[ ORDER BY D.BNFT_CMPNT_NM ]]></STATIC> 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitSearch" dynamic="true">
+					<STATIC><![CDATA[SELECT * FROM (SELECT BENEFIT_ID,BENEFIT_NM FROM 
+(
+    SELECT BENEFITS_ST.BENEFIT_ID,BENEFITS_ST.BENEFIT_NM FROM
+    (
+        SELECT BFT_MSTR.BNFT_SYS_ID BENEFIT_ID,BFT_MSTR.BNFT_ID_NM BENEFIT_NM,BFT_MSTR.BNFT_PARNT_SYS_ID BNFT_PARNT_ID,
+        (CASE WHEN BEN_COMP.BNFT_CMPNT_ST_CD IS NULL THEN 'TRUE' ELSE (CASE WHEN BEN_COMP.BNFT_CMPNT_ST_CD IN 
+                                                (SELECT MDT_ST.BMNDT_ST_CD 
+                                                            FROM BMNDT_STCD_INFO MDT_ST, BMNDT_BNFT_MNDT BN_MD 
+                                                            WHERE 
+                                                            BN_MD. BNFT_MNDT_SYS_ID = MDT_ST. BNFT_MNDT_SYS_ID 
+															AND BN_MD.BNFT_SYS_ID = BFT_MSTR.BNFT_SYS_ID
+                                                ) THEN 'TRUE' ELSE 'FALSE' END
+												)
+          END) MUL_STATES
+        FROM
+        (
+            SELECT A.BNFT_SYS_ID BFT_ID, A.BNFT_ID_NM BFT_NM,C.BNFT_CMPNT_SYS_ID BFT_CMP_ID FROM
+            BMST_BNFT_MSTR A , BDM_BNFT_DEFN_MSTR F,BCM_BNFT_CMPNT_MSTR C,
+            (SELECT BNFT_PARNT_SYS_ID, MAX(BNFT_VRSN_NBR) BNFT_VRSN_NBR FROM  BMST_BNFT_MSTR X  
+										where BNFT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_PARNT_SYS_ID) AA
+            WHERE 
+            A.BNFT_PARNT_SYS_ID = AA.BNFT_PARNT_SYS_ID AND A.BNFT_VRSN_NBR = AA.BNFT_VRSN_NBR AND F.BNFT_SYS_ID = A.BNFT_SYS_ID
+            AND A.BNFT_TYPE = C.BNFT_CMPNT_TYPE   AND NVL(A.MNDT_TYPE,'NULL') = NVL(C.BNFT_CMPNT_MDNT_TYPE,'NULL') 
+			AND (C.BNFT_CMPNT_EFCTV_DT) >= (F.BNFT_DEFN_EFCTV_DT)
+            AND (F.BNFT_DEFN_EXPIRY_DT) >= (C.BNFT_CMPNT_EXPIRY_DT)   
+			AND C.BNFT_CMPNT_SYS_ID =  {0}
+			AND A.BNFT_STTS_CD = 'PUBLISHED'							
+            AND A.BNFT_PARNT_SYS_ID IN 
+                                    (
+									
+									   select y.bnft_parnt_sys_id from bmst_bnft_mstr Y  where (y.bnft_parnt_sys_id, y.bnft_vrsn_nbr) in 
+                                                                                                            (
+                                                                                                                                    SELECT bnft_parnt_sys_id, MAX(BNFT_VRSN_NBR) BNFT_VRSN_NBR FROM  BMST_BNFT_MSTR X  
+                                                                                                                                    where BNFT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_PARNT_SYS_ID
+                                                                                                            )
+                                                                                                                              and DMNVLD('BENEFITCOMP',c.bnft_cmpnt_parnt_sys_id,'stdbenefit',y.bnft_parnt_sys_id )='T'
+									)
+								
+							     ) benefits,
+                                    BCM_BNFT_CMPNT_MSTR BEN_COMP,
+                                    BMST_BNFT_MSTR BFT_MSTR
+                              WHERE
+                              BEN_COMP.BNFT_CMPNT_SYS_ID = benefits.BFT_CMP_ID AND
+                              BFT_MSTR.BNFT_SYS_ID = benefits.BFT_ID
+                              ) BENEFITS_ST
+                        WHERE
+                        BENEFITS_ST.MUL_STATES = 'TRUE']]></STATIC>
+						<DYNAMIC><![CDATA[AND (BENEFITS_ST.BENEFIT_NM) LIKE upper({1}) escape '\'  ]]></DYNAMIC>
+                        <STATIC> <![CDATA[AND BENEFITS_ST.BNFT_PARNT_ID NOT IN 
+							(SELECT A.BNFT_PARNT_SYS_ID FROM BMST_BNFT_MSTR A,BNFT_CMPNT_HRCHY_ASSN B 
+							WHERE B.BNFT_CMPNT_SYS_ID= {0} AND (A.BNFT_SYS_ID = B.BNFT_SYS_ID) )							
+                        ORDER BY BENEFITS_ST.BENEFIT_NM )) where rownum < 52]]></STATIC>
+
+			</SelectSQLQuery>
+			<SelectSQLQuery name="selectBenefitComponent" dynamic="true">
+				<STATIC><![CDATA[
+				select A.BNFT_CMPNT_SYS_ID , A.BNFT_CMPNT_NM
+             from  BCM_BNFT_CMPNT_MSTR A ,(select BNFT_CMPNT_PARNT_SYS_ID, MAX(BNFT_CMPNT_VRSN_NBR) BNFT_CMPNT_VRSN_NBR FROM  BCM_BNFT_CMPNT_MSTR X WHERE X.BNFT_CMPNT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_CMPNT_PARNT_SYS_ID) AA,
+			 PROD_STRCTR_MSTR F
+			 where 
+			 	    A.BNFT_CMPNT_PARNT_SYS_ID = AA.BNFT_CMPNT_PARNT_SYS_ID 
+								AND A.BNFT_CMPNT_VRSN_NBR = AA.BNFT_CMPNT_VRSN_NBR
+								AND A.BNFT_CMPNT_STTS_CD = 'PUBLISHED'	
+					AND A.BNFT_CMPNT_NM NOT IN (SELECT a.BNFT_CMPNT_NM FROM PROD_STRCTR_BNFT_CMPNT_ASSN e,BCM_BNFT_CMPNT_MSTR a  WHERE e.PROD_STRCTR_SYS_ID = {0} and a.BNFT_CMPNT_SYS_ID = e.BNFT_CMPNT_SYS_ID)
+					AND TRUNC(A.BNFT_CMPNT_EFCTV_DT) <= TRUNC(F.PROD_STRCTR_EFCTV_DT)
+					AND TRUNC(A.BNFT_CMPNT_EXPIRY_DT) >= TRUNC(F.PROD_STRCTR_EXPIRY_DT)
+					AND A.BNFT_CMPNT_TYPE= F.PROD_STRCTR_TYPE
+					AND nvl(A.BNFT_CMPNT_MDNT_TYPE,'NULL') = nvl(F.PROD_STRCTR_MNDT_TYPE,'NULL')
+					AND nvl(A.BNFT_CMPNT_ST_CD,'NULL') = nvl(F.PROD_STRCTR_ST_CD,'NULL')
+					AND F.PROD_STRCTR_SYS_ID =  {0}]]></STATIC>
+					<DYNAMIC><![CDATA[AND upper(A.BNFT_CMPNT_NM) LIKE upper({1}) escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[AND
+					A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM in(SELECT 	b.LOB_NM
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB --,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						and b.LOB_NM=LOB.PRMRY_CD
+						--and b.BUS_ENTY_NM =BE.PRMRY_CD
+						--and b.BUS_GRP_NM=BG.PRMRY_CD
+							)GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.LOB_NM) = (select count(PRMRY_CD) from item where PRMRY_CD in(SELECT 	b.LOB_NM
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB --,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						and b.LOB_NM=LOB.PRMRY_CD
+						--and b.BUS_ENTY_NM =BE.PRMRY_CD
+						--and b.BUS_GRP_NM=BG.PRMRY_CD
+							) AND CTLG_ID = 1925))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM LIKE 'ALL') 
+					)
+			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM in(SELECT 	b.BUS_ENTY_NM 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE --,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						--and b.LOB_NM=LOB.PRMRY_CD
+						and b.BUS_ENTY_NM =BE.PRMRY_CD
+						--and b.BUS_GRP_NM=BG.PRMRY_CD
+						)
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_ENTY_NM) = (select count(PRMRY_CD) from item where PRMRY_CD in(SELECT 	b.BUS_ENTY_NM 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE --,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						--and b.LOB_NM=LOB.PRMRY_CD
+						and b.BUS_ENTY_NM =BE.PRMRY_CD
+						--and b.BUS_GRP_NM=BG.PRMRY_CD
+						) AND CTLG_ID = 1932))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM LIKE 'ALL') 
+					) 
+			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM in(SELECT 	b.BUS_GRP_NM 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						--and b.LOB_NM=LOB.PRMRY_CD
+						--and b.BUS_ENTY_NM =BE.PRMRY_CD
+						and b.BUS_GRP_NM=BG.PRMRY_CD)
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_GRP_NM) = (select count(PRMRY_CD) from item where PRMRY_CD in(SELECT 	b.BUS_GRP_NM 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+						--(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						--and b.LOB_NM=LOB.PRMRY_CD
+						--and b.BUS_ENTY_NM =BE.PRMRY_CD
+						and b.BUS_GRP_NM=BG.PRMRY_CD) AND CTLG_ID = 1933))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM LIKE 'ALL')
+					)
+					
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT in(SELECT 	b.MRKT_BUS_UNT 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 3470) MBU
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						and b.MRKT_BUS_UNT =MBU.PRMRY_CD
+						)
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.MRKT_BUS_UNT) = (select count(PRMRY_CD) from item where PRMRY_CD in(SELECT 	b.MRKT_BUS_UNT 
+			    FROM 	ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 3470)MBU 
+			    WHERE 	a.DOMN_SYS_ID = b.DOMN_SYS_ID
+						and a.ENTY_TYPE = 'ProdStructure'
+						and a.ENTY_SYS_ID in (select PROD_STRCTR_PARNT_SYS_ID from PROD_STRCTR_MSTR where PROD_STRCTR_SYS_ID = {0})
+						and b.MRKT_BUS_UNT =MBU.PRMRY_CD
+						) AND CTLG_ID = 3470))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT LIKE 'ALL') 
+					) 
+					
+					order by A.BNFT_CMPNT_NM]]></STATIC>
+			
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="searchSPSForMapping" dynamic="true">
+                              <STATIC><![CDATA[
+                                          select * from (
+                                          select distinct b.prmry_cd, b.cd_desc_txt from sps_mapg A,Item B
+                                          where b.prmry_cd =a.sps_id and b.ctlg_id =1938
+                                          ]]></STATIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_term = {1} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_pva = {2} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_qlfr = {3} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_dtyp = {4} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_type_cd = {0} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and b.cd_desc_txt like upper({5})  escape '\' ]]></DYNAMIC>
+                              <STATIC><![CDATA[
+                                          order by b.prmry_cd asc ) A where rownum <= 51 ]]></STATIC>
+            </SelectSQLQuery>
+			
+			<SelectSQLQuery name="searchSPSForMapping1" dynamic="true">
+                              <STATIC><![CDATA[
+                                          select * from (
+                                          select distinct b.prmry_cd, b.cd_desc_txt from sps_mapg A,Item B
+                                          where b.prmry_cd =a.sps_id and b.ctlg_id =1938
+                                          ]]></STATIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_term = {1} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_pva = {2} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_qlfr = {3} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_dtyp = {4} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and a.mapg_type_cd = {0} ]]></DYNAMIC>
+                              <DYNAMIC><![CDATA[
+                                          and b.cd_desc_txt like upper({5})  escape '\' ]]></DYNAMIC>
+                              <STATIC><![CDATA[
+                                          order by b.prmry_cd asc ) A ]]></STATIC>
+            </SelectSQLQuery>
+			
+
+			<SelectSQLQuery name="getAdminOption" dynamic="true">
+						<STATIC><![CDATA[SELECT a.ADMIN_OPT_SYS_ID,
+						  a.ADMIN_OPT_DESC_TXT
+						   FROM ADMIN_OPT_MSTR a
+						  WHERE a.ADMIN_OPT_STTS_CD   = 'PUBLISHED' 
+							AND a.TERM_CD is null 
+							AND a.QLFR_CD is null ]]></STATIC>
+							<DYNAMIC><![CDATA[AND upper(a.ADMIN_OPT_DESC_TXT)  LIKE upper({1}) escape '\']]></DYNAMIC>
+						<STATIC><![CDATA[AND a.ADMIN_OPT_DESC_TXT NOT IN
+						  (SELECT a.ADMIN_OPT_DESC_TXT
+						     FROM ADMIN_OPT_MSTR a,
+						    BNFT_ADMIN_TO_LVL_ASSN c
+						    WHERE c.BNFT_ADMIN_SYS_ID = {0}
+						  AND a.ADMIN_OPT_SYS_ID      = c.ADMIN_OPT_SYS_ID and c.DEL_FLAG = 'N'
+						  )
+						AND a.ADMIN_OPT_VRSN_NBR IN
+						  (SELECT MAX(x.ADMIN_OPT_VRSN_NBR)
+						     FROM ADMIN_OPT_MSTR x
+						    WHERE x.ADMIN_OPT_DESC_TXT = a.ADMIN_OPT_DESC_TXT
+						  AND x.ADMIN_OPT_STTS_CD      = 'PUBLISHED'
+						 GROUP BY x.ADMIN_OPT_DESC_TXT
+						  )
+						ORDER BY a.ADMIN_OPT_DESC_TXT]]></STATIC>
+			</SelectSQLQuery>
+
+
+			<SelectSQLQuery name="getAdminOptionListForBenefitLevel" dynamic="true">
+					<STATIC><![CDATA[	select a.ADMIN_OPT_SYS_ID,a.ADMIN_OPT_DESC_TXT
+					  from ADMIN_OPT_MSTR a,
+					      (select a.ADMIN_OPT_DESC_TXT desctext, max(a.ADMIN_OPT_VRSN_NBR) max_ver
+					        from ADMIN_OPT_MSTR a, BLVL_BNFT_LVL b
+					        where a.TERM_CD IN (SELECT SUBSTR (blvl_bnft_lvl_term,
+				                         1,
+				                         INSTR (blvl_bnft_lvl_term, ',', 1) - 1
+				                        )
+				            FROM blvl_bnft_lvl
+				           WHERE blvl_bnft_lvl_id = {1}
+				          UNION
+				          SELECT SUBSTR (blvl_bnft_lvl_term,
+				                         INSTR (blvl_bnft_lvl_term, ',', 1) + 1
+				                        )
+				            FROM blvl_bnft_lvl
+				           WHERE blvl_bnft_lvl_id = {1})
+					        and (a.QLFR_CD IN (SELECT SUBSTR (nvl(BLVL_BNFT_LVL_QLFR,'NULL'),
+				                         1,
+				                         INSTR (nvl(BLVL_BNFT_LVL_QLFR,'NULL'), ',', 1) - 1
+				                        )
+				            FROM blvl_bnft_lvl
+				           WHERE blvl_bnft_lvl_id = {1}
+				          UNION
+				          SELECT SUBSTR (nvl(BLVL_BNFT_LVL_QLFR,'NULL'),
+				                         INSTR (nvl(BLVL_BNFT_LVL_QLFR,'NULL'), ',', 1) + 1
+				                        )
+										FROM blvl_bnft_lvl
+				           WHERE blvl_bnft_lvl_id = {1}) or  (a.QLFR_CD is null or a.QLFR_CD = ''))         
+                  and b.BLVL_BNFT_LVL_ID = {1}
+					        and a.ADMIN_OPT_STTS_CD = 'PUBLISHED'
+							and a.ADMIN_OPT_DESC_TXT not in
+				                	(select a.ADMIN_OPT_DESC_TXT
+				                    from ADMIN_OPT_MSTR a, BNFT_ADMIN_TO_LVL_ASSN c 
+				                    where c.BNFT_ADMIN_SYS_ID = {0}
+				                    and a.ADMIN_OPT_SYS_ID = c.ADMIN_OPT_SYS_ID and c.DEL_FLAG = 'N' )
+
+					        group by a.ADMIN_OPT_DESC_TXT
+					      )alias
+					  where
+					  a.ADMIN_OPT_DESC_TXT = alias.desctext ]]></STATIC>
+            		  <DYNAMIC><![CDATA[AND upper(a.ADMIN_OPT_DESC_TXT)  LIKE upper({2}) escape '\']]></DYNAMIC>
+					 <STATIC><![CDATA[ and a.ADMIN_OPT_VRSN_NBR = alias.max_ver
+					  order by upper(a.ADMIN_OPT_DESC_TXT) ]]></STATIC>
+			</SelectSQLQuery>
+
+
+			<SelectSQLQuery name="getRuleId" dynamic="true">
+					<STATIC><![CDATA[SELECT rule_id, rule_shrt_desc
+						FROM  rule
+						WHERE wpd_del_flag = 'N'
+						AND rule_typ_cd = {0}]]></STATIC>
+		       			<DYNAMIC><![CDATA[AND upper(rule_shrt_desc) like upper({1})  escape '\']]></DYNAMIC>
+						<STATIC><![CDATA[order by rule_id asc , rule_shrt_desc asc]]></STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchBenefitName" dynamic="true">
+					<STATIC><![CDATA[select distinct bnft_sys_id,BNFT_ID_NM from(select bnft_sys_id,BNFT_ID_NM from bmst_bnft_mstr where 
+									(bnft_id_nm,bnft_vrsn_nbr) in (
+							select BNFT_ID_NM,max(bnft_vrsn_nbr) from bmst_bnft_mstr group by BNFT_ID_NM)  ]]></STATIC>
+		       			<DYNAMIC><![CDATA[and bnft_id_nm like upper({0})  escape '\']]></DYNAMIC>
+						<STATIC><![CDATA[order by BNFT_ID_NM asc)where rownum <= 51 ]]></STATIC>
+			</SelectSQLQuery>
+
+			<!--<SelectSQLQuery name="searchIndicative" dynamic="true">
+					<STATIC><![CDATA[select prmry_cd, cd_desc_txt,INDCTV_SGMNT from (select A.prmry_cd, A.cd_desc_txt,B.INDCTV_SGMNT from item A,INDCTV_DTL B
+								where b.INDCTV_CD = a.PRMRY_CD and a.ctlg_id = 4147 ]]></STATIC>
+		       			<DYNAMIC><![CDATA[and a.cd_desc_txt like upper({0})  escape '\']]></DYNAMIC>
+						<STATIC><![CDATA[order by A.cd_desc_txt asc)where rownum <=51 ]]></STATIC>
+			</SelectSQLQuery>-->
+			<!-- CQ:WLPRD01229854 start   -->
+			<SelectSQLQuery name="searchIndicative" dynamic="true">
+					<STATIC><![CDATA[   select A.prmry_cd, A.cd_desc_txt,B.INDCTV_SGMNT from (select a.*, ROW_NUMBER() OVER (ORDER BY cd_desc_txt asc) AS rn from item a 
+                                        where a.ctlg_id = 4147 ]]></STATIC>
+		       			<DYNAMIC><![CDATA[and a.cd_desc_txt like upper({0})escape '\']]></DYNAMIC>
+						<STATIC><![CDATA[order by cd_desc_txt asc) A,INDCTV_DTL B where b.INDCTV_CD = a.PRMRY_CD and a.rn <52 order by cd_desc_txt asc ]]></STATIC>
+			</SelectSQLQuery>
+			<!-- CQ:WLPRD01229854 end   -->
+			<SelectSQLQuery name="searchSPS" dynamic="true">
+					<STATIC><![CDATA[select * from (select prmry_cd, cd_desc_txt from (select A.prmry_cd, A.cd_desc_txt from item A
+							where A.ctlg_id=1938]]></STATIC>
+	       			<DYNAMIC><![CDATA[and A.cd_desc_txt like  upper({0})  escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[order by A.prmry_cd asc)) where rownum <=51]]></STATIC>
+			</SelectSQLQuery>
+
+
+			<SelectSQLQuery name="searchSPSDetail" dynamic="true">
+					<STATIC><![CDATA[ select * from (select A.prmry_cd,A.scndry_cd,A.cd_desc_txt from item A
+							where A.ctlg_id=1938  ]]></STATIC>
+	       			<DYNAMIC><![CDATA[and A.cd_desc_txt like  upper({0})  escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[order by A.prmry_cd asc)where rownum <=51]]></STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchContractId" dynamic="true">
+					<STATIC><![CDATA[select * from (select  cntrct_sys_id,cntrct_id from cmst_cntrct_mstr where (cntrct_id, cntrct_vrsn_nbr) in (
+							select cntrct_id,max(cntrct_vrsn_nbr) from cmst_cntrct_mstr where cntrct_stts_cd != 'MARKED_FOR_DELETION'
+							group by cntrct_id)]]></STATIC>
+	       			<DYNAMIC><![CDATA[and cntrct_id like  upper({0})  escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[) where rownum <=51 order by cntrct_id asc]]></STATIC>
+			</SelectSQLQuery>
+			
+	<!-- 		<SelectSQLQuery name="searchContractId" dynamic="true">
+					<STATIC><![CDATA[select  cntrct_sys_id,cntrct_id from cmst_cntrct_mstr where (cntrct_id, cntrct_vrsn_nbr) in (
+							select cntrct_id,max(cntrct_vrsn_nbr) from cmst_cntrct_mstr where cntrct_stts_cd != 'MARKED_FOR_DELETION'
+							group by cntrct_id) and rownum <=51]]></STATIC>
+	       			<DYNAMIC><![CDATA[and cntrct_id like  upper({0})  escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[order by cntrct_id asc]]></STATIC>
+			</SelectSQLQuery> -->
+
+			<SelectSQLQuery name="searchContractEffectiveDates">
+					SELECT DISTINCT cds.dt_sgmnt_efctv_dt
+					           FROM cntrct_dt_sgmnt cds,
+					                cntrct_dt_sgmnt_assn cdsa,
+					                cmst_cntrct_mstr ccm
+					          WHERE ccm.cntrct_sys_id = cdsa.cntrct_sys_id
+					            AND cdsa.dt_sgmnt_sys_id = cds.dt_sgmnt_sys_id
+					            AND ccm.cntrct_sys_id = {0}
+					            AND cds.dt_sgmnt_test_prod_ind = 'N'
+					       ORDER BY cds.dt_sgmnt_efctv_dt
+			</SelectSQLQuery>
+
+				
+			<SelectSQLQuery name = "retrieveAllLatestAdminOptons" dynamic="true">
+				<STATIC><![CDATA[SELECT a.ADMIN_OPT_SYS_ID, adminOpt.ADMIN_OPT_DESC_TXT from
+                ADMIN_OPT_MSTR a,
+                (SELECT  b.ADMIN_OPT_DESC_TXT, max(b.ADMIN_OPT_VRSN_NBR) maxver FROM ADMIN_OPT_MSTR b
+                WHERE ADMIN_OPT_STTS_CD = 'PUBLISHED' AND ADMIN_OPT_DESC_TXT
+                NOT IN ( SELECT d.ADMIN_OPT_DESC_TXT  FROM ENTY_ADMN_OPT_ASSN c,ADMIN_OPT_MSTR d  where d.ADMIN_OPT_SYS_ID = c.ADMN_OPT_SYS_ID and c.ENTY_SYS_ID= {0} AND c.ENTY_TYPE = 'PRODUCT') 
+                and b.TERM_CD is null and b.QLFR_CD is null
+                GROUP BY  b.ADMIN_OPT_DESC_TXT ORDER BY ADMIN_OPT_DESC_TXT) adminOpt
+				where adminOpt.ADMIN_OPT_DESC_TXT = a.ADMIN_OPT_DESC_TXT and adminOpt.maxver = a.ADMIN_OPT_VRSN_NBR 
+				and a.ADMIN_OPT_STTS_CD = 'PUBLISHED' ]]></STATIC>
+				<DYNAMIC><![CDATA[and  upper(adminOpt.ADMIN_OPT_DESC_TXT) LIKE upper({1}) escape '\']]></DYNAMIC>
+				<STATIC><![CDATA[ORDER BY UPPER(ADMIN_OPT_DESC_TXT)]]></STATIC>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAdminOptionForContract" dynamic="true">
+				<STATIC><![CDATA[SELECT a.admin_opt_sys_id, a.admin_opt_desc_txt  
+                        FROM admin_opt_mstr a 
+                        WHERE 
+             admin_opt_sys_id IN (SELECT  admn_opt_sys_id FROM enty_admn_opt_assn  
+                             WHERE enty_sys_id in(select PROD_SYS_ID from CNTRCT_DT_SGMNT where dt_sgmnt_sys_id = {0}) 
+                        AND enty_type = 'PRODUCT')
+                        AND admin_opt_sys_id NOT IN 
+                        (SELECT admn_opt_sys_id FROM enty_admn_opt_assn 
+                       WHERE       enty_sys_id =  {0} -- datesegment id
+                       AND   enty_type = 'CONTRACT') ]]></STATIC>
+						<DYNAMIC><![CDATA[	  and upper(a.admin_opt_desc_txt) like upper({1}) escape '\' ]]></DYNAMIC>                                                                              
+                          <STATIC><![CDATA[ GROUP BY admin_opt_sys_id, admin_opt_desc_txt  			
+                	ORDER BY admin_opt_desc_txt]]></STATIC>
+
+			</SelectSQLQuery>
+			<SelectSQLQuery name="contractRuleTypeSearch" dynamic="true">
+
+					<STATIC><![CDATA[SELECT A.RULE_ID, A.RULE_PVA, A.GNRTD_RULE_ID,B.RULE_SHRT_DESC,A.PROD_RULE_SYS_ID
+				    FROM PROD_RULE_ASSN A,RULE B
+				    WHERE PROD_SYS_ID IN 
+							(Select PROD_SYS_ID from CNTRCT_DT_SGMNT where DT_SGMNT_SYS_ID = {0})
+ 					AND  B.RULE_ID = A.RULE_ID AND upper(A.GNRTD_RULE_ID) LIKE upper({1})
+					AND  A.GNRTD_RULE_ID NOT IN (SELECT GNRTD_RULE_ID FROM PROD_RULE_ASSN 
+					WHERE PROD_RULE_SYS_ID IN(  SELECT PROD_RULE_SYS_ID FROM CNTRCT_RULE_ASSN WHERE DT_SGMNT_SYS_ID = {0} )) ]]></STATIC>
+					<DYNAMIC><![CDATA[AND upper(B.RULE_SHRT_DESC) LIKE upper({2}) escape '\']]></DYNAMIC> 
+					<STATIC><![CDATA[ORDER BY A.GNRTD_RULE_ID asc,B.RULE_SHRT_DESC asc]]></STATIC>
+			</SelectSQLQuery>
+			 <SelectSQLQuery name="locateRuleId" dynamic="true">
+     		  <STATIC><![CDATA[SELECT  rule_id, rule_shrt_desc,rule_typ_cd
+             	    	   		FROM    rule 
+                  		  WHERE   rule_typ_cd in ('WPDAUTOBG','BLZWPDAB')
+                   		 AND     wpd_del_flag = 'N' ]]></STATIC>
+					<DYNAMIC><![CDATA[AND upper(rule_shrt_desc) LIKE upper({0}) escape '\' ]]></DYNAMIC>
+                	<STATIC><![CDATA[ORDER BY rule_id,rule_shrt_desc asc]]></STATIC>
+         	</SelectSQLQuery>
+
+
+			
+
+			<DataObject name="POPUP_FILTER">
+				<DataObjectAttribute name="CODE" 			type="Int" />
+				<DataObjectAttribute name="DESCRIPTION" 	type="String" />
+				<DataObjectAttribute name="ENTYTY_ID" 		type="Int" />
+				<DataObjectAttribute name="HEADER_NAME" 	type="String" />
+				<DataObjectAttribute name="SEARCH_STRING" 	type="String" />
+				<DataObjectAttribute name="RULE_ID" 		type="String" />
+				<DataObjectAttribute name="RULE_PVA" 		type="String" />
+				<DataObjectAttribute name="GNRTD_RULE_ID" 	type="String" />
+				<DataObjectAttribute name="PRODUCT_RULE_SYS_ID" 	type="String" />
+				<DataObjectAttribute name="BNFT_LVL_ADMN_ID" 	type="Int" />
+				<DataObjectAttribute name="IND_SEQ_NR" 	type="String" />
+				<DataObjectAttribute name="SEGMENT" 	type="String" />
+				<DataObjectAttribute name="SPS_ID" 	type="String" />
+				<DataObjectAttribute name="COB_VAL" 	type="String" />
+				<DataObjectAttribute name="KEY_VALUE" 	type="String" />
+				<DataObjectAttribute name="SPS_TYPE"      type="String" />
+                <DataObjectAttribute name="TERM"    type="String" />
+                <DataObjectAttribute name="PVA"     type="String" />
+                <DataObjectAttribute name="QUAL"    type="String" />
+                <DataObjectAttribute name="DATA_TYP"      type="Int" />
+				<DataObjectAttribute name="RULE_TYPE" type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" type="Date"/>
+				<DataObjectAttribute name="SPS_ID_LIST" type="String"/>
+				<DataObjectAttribute name="ADMIN_METHOD_NO" type="Int"/>
+                <DataObjectAttribute name="ADMIN_METHOD_SYS_ID" type="Int"/>
+               
+   			<SQLTemplate transType="select">
+                              
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="KEY_VALUE" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="searchType" />
+              </SQLTemplate>
+
+              <SQLTemplate transType="select">
+                              
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="KEY_VALUE" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="processingType" />
+              </SQLTemplate>
+              <SQLTemplate transType="select">
+                              
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="KEY_VALUE" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="processingTypeSearch" />
+              </SQLTemplate>
+
+
+				<SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0"       name="SPS_ID_LIST" />	
+                    <DataObjectAttributeInput index="1"       name="SEARCH_STRING" />	
+                     				
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="ADMIN_METHOD_NO" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />	
+						<ResultIndex index="2"		dataObjectAttribName="ADMIN_METHOD_SYS_ID" />	
+					</RSIndexToDOAttributeMap>					
+					<SearchQueryName  name="retrieveAdminMethodNumber" />
+				</SQLTemplate>
+			
+
+              <SQLTemplate transType="select">
+                              <DataObjectAttributeInput index="0"       name="SEARCH_STRING" />
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="KEY_VALUE" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="searchQualifier" />
+               </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchBenefitName" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchContractId" />
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="DT_SGMNT_EFCTV_DT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchContractEffectiveDates" />
+				</SQLTemplate>
+						
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="SEGMENT" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+						<ResultIndex index="2"		dataObjectAttribName="IND_SEQ_NR" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchIndicative" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="KEY_VALUE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTerm" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSPS" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="1"		dataObjectAttribName="COB_VAL" />
+						<ResultIndex index="2"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSPSDetail" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+                              <DataObjectAttributeInput index="0"       name="SPS_TYPE" />
+                              <DataObjectAttributeInput index="1"       name="TERM" />
+                              <DataObjectAttributeInput index="2"       name="PVA" />
+                              <DataObjectAttributeInput index="3"       name="QUAL" />
+                              <DataObjectAttributeInput index="4"       name="DATA_TYP" />
+                              <DataObjectAttributeInput index="5"       name="SEARCH_STRING" />
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="SPS_ID" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="searchSPSForMapping" />
+                 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+                              <DataObjectAttributeInput index="0"       name="SPS_TYPE" />
+                              <DataObjectAttributeInput index="1"       name="TERM" />
+                              <DataObjectAttributeInput index="2"       name="PVA" />
+                              <DataObjectAttributeInput index="3"       name="QUAL" />
+                              <DataObjectAttributeInput index="4"       name="DATA_TYP" />
+                              <DataObjectAttributeInput index="5"       name="SEARCH_STRING" />
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"        dataObjectAttribName="SPS_ID" />
+                                    <ResultIndex index="1"        dataObjectAttribName="DESCRIPTION" />
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="searchSPSForMapping1" />
+                 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getValidComponentsForProduct" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+						<ResultIndex index="2"		dataObjectAttribName="HEADER_NAME" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitSearch" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAdminOption" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="BNFT_LVL_ADMN_ID" />
+					<DataObjectAttributeInput index="2"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAdminOptionListForBenefitLevel" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="selectBenefitComponent" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="HEADER_NAME" />
+					<DataObjectAttributeInput index="2"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex 	index="0"	dataObjectAttribName="RULE_ID" />
+						<ResultIndex	index="1"	dataObjectAttribName="RULE_PVA"/>
+						<ResultIndex 	index="2"	dataObjectAttribName="GNRTD_RULE_ID" />
+						<ResultIndex 	index="3"	dataObjectAttribName="DESCRIPTION" />
+						<ResultIndex 	index="4"	dataObjectAttribName="PRODUCT_RULE_SYS_ID" />
+						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="contractRuleTypeSearch" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="RULE_ID" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+						<ResultIndex index="2"		dataObjectAttribName="RULE_TYPE" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateRuleId" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName  name="getAdminOptionForContract" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="HEADER_NAME" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="RULE_ID" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+						<ResultIndex index="2"		dataObjectAttribName="PRODUCT_RULE_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getRuleId" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"		name="ENTYTY_ID" />
+					<DataObjectAttributeInput index="1"		name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"		dataObjectAttribName="CODE" />
+						<ResultIndex index="1"		dataObjectAttribName="DESCRIPTION" />
+						
+					</RSIndexToDOAttributeMap>
+					
+					<SearchQueryName  name="retrieveAllLatestAdminOptons" />
+				</SQLTemplate>
+
+			
+	
+				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CODE" 			toBOAttb="code" />
+					<Pair DOAttb="DESCRIPTION" 		toBOAttb="description" />
+					<Pair DOAttb="HEADER_NAME" 		toBOAttb="headerName" />
+					<Pair DOAttb="ENTYTY_ID" 		toBOAttb="entitySysId" />
+					<Pair DOAttb="RULE_ID" 		   	toBOAttb="ruleId" />
+					<Pair DOAttb="RULE_PVA" 		toBOAttb="rulePVA" />
+					<Pair DOAttb="GNRTD_RULE_ID" 	toBOAttb="generatedRuleId" />
+					<Pair DOAttb="PRODUCT_RULE_SYS_ID" 	toBOAttb="productRuleSysId" />
+					<Pair DOAttb="IND_SEQ_NR" 	toBOAttb="segmentNumber" />
+					<Pair DOAttb="SEGMENT" 	toBOAttb="segment" />
+					<Pair DOAttb="SPS_ID" 	toBOAttb="spsId" />
+					<Pair DOAttb="COB_VAL" 	toBOAttb="cobolValue" />
+					<Pair DOAttb="KEY_VALUE" 	toBOAttb="keyValue" />
+					<Pair DOAttb="RULE_TYPE" toBOAttb="ruleType" />
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" toBOAttb="effectiveDate" />
+					<Pair DOAttb="SPS_ID_LIST" toBOAttb="spsIdList" />
+					<Pair DOAttb="ADMIN_METHOD_NO" 			toBOAttb="adminMethodNo" />
+					<Pair DOAttb="ADMIN_METHOD_SYS_ID" 		toBOAttb="adminMethodSysId" />
+                    
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTYTY_ID"       toSCAttb="entityId" />
+                    <Pair DOAttb="SPS_ID_LIST"       toSCAttb="spsIdList" />
+					<Pair DOAttb="SEARCH_STRING"   toSCAttb="searchString" />
+					<Pair DOAttb="HEADER_NAME"     toSCAttb="headerName" />
+					<Pair DOAttb="BNFT_LVL_ADMN_ID"     toSCAttb="bnftLvlAdmnId" />
+					<Pair DOAttb="SPS_TYPE"     toSCAttb="spsType" />
+                    <Pair DOAttb="TERM"     toSCAttb="term" />
+                    <Pair DOAttb="PVA"     toSCAttb="pva" />
+                    <Pair DOAttb="QUAL"     toSCAttb="qualifier" />
+                    <Pair DOAttb="DATA_TYP"     toSCAttb="dataType" />
+					
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

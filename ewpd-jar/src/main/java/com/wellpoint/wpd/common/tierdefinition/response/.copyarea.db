@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\tierdefinition\response
+2
+6
+20:DeleteLevelFromTierResponse.java|1|16adf980ab2|2ca|2337e63e|97c5bed14c15447e848aa24ac494d6c0|0
+1e:ProductTierDeleteResponse.java|1|16adf980ab2|17a|6b68282|bf64e3b451564c0786aea53b4d1b8d3a|0
+20:ContractTierDefSaveResponse.java|1|16adf980bea|330|26a703f7|157a3c2e1361455da2a05dfc3283f04d|0
+1f:ContractTierDeleteResponse.java|1|16adf980ab2|179|56ed82c8|df6ac30944ff4d76b8630d2828cd9509|0
+23:TierDefinitionRetrieveResponse.java|1|16adf980b7d|3db|9190468f|298509a7c06b4cadb8db24618427721a|0
+1f:ProductTierDefSaveResponse.java|1|16adf980ab2|32c|d609037a|46d6371f41d14506aff14c2019bccc90|0

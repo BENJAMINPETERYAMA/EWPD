@@ -1,0 +1,13 @@
+var invalidHippaCodeValue = "Invalid HIPAA Segment Value!";
+var inValidVariable = "Invalid variable!";
+var warningMsgForCancel = "Do you wish to cancel the changes done?";
+var warningMsgForDelete = "Do you wish to delete the mapping?";
+var warningMsgForDiscardChanges = "Do you wish to discard the changes done?";
+var warningMsgForCopyTo = "There are some unsaved changes. Please save mapping before clicking on copy to";
+var inputsString="";
+var inValidSPSID = "Invalid SPS ID!";
+var inValidRuleID = "Invalid Rule ID!";
+var invalidUmRule = "Invalid UM Rule!";
+var exclusionDeleteMessage = "All exclusions for the error code will be deleted.";
+var invalidDataType = "Invalid Data Type!";
+var invalidHSD02Value = "Numeric value only allowed in first field";

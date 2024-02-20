@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\exception
+2
+b
+21:BusinessObjectFoundException.java|1|16adf97069c|32e|38c60b73|03a95215103d4f1fb5ce4e997c3d46a9|0
+18:ValidationException.java|1|16adf970842|310|9651fde3|6c3255d81c6140afba4e4319f5799c39|0
+18:DataAccessException.java|1|16adf9706fa|313|9451fe66|f67be762e77b46f6a6723c151437da6a|0
+15:ServiceException.java|1|16adf970729|36f|8cfa1361|cfb96c5198ec4a67a48f203915b62fb9|0
+4:lock|2|0|0|0|33c116efa9224c538403fe46384280cb|0
+1c:MetadataParserException.java|1|16adf970861|390|cd342304|f0f10d92c87d4eeb97108a311af65705|0
+14:SevereException.java|1|16adf97089f|501|536a7b2d|6b110cb9ad894d329bea07f9d876f715|0
+16:SecurityException.java|1|16adf97089f|357|ba581287|8200d0c398294f09811e06f15432fac8|0
+11:WPDException.java|1|16adf970729|47e|155064b8|ecc7be22206f49caabdfcae35067226b|0
+2:bo|2|0|0|0|14eaf367de894ac7bd6ffe9f5427f38a|0
+11:LogException.java|1|16adf9706db|257|6b64c052|093f7ce42a74489389719f8c5006123c|0

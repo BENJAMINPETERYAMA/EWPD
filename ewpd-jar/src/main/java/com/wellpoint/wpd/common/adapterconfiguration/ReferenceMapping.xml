@@ -1,0 +1,329 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.referencemapping.bo.ReferenceMappingBO">
+		<BusinessAttribute name="referenceId"      type="String" keyAttrib="true" />
+		<BusinessAttribute name="cobolValue"      type="String" keyAttrib="false" />
+		<BusinessAttribute name="type" 			   type="String" keyAttrib="false" />
+		<BusinessAttribute name="term" 			   type="String" keyAttrib="false" />
+		<BusinessAttribute name="qualifier" 	   type="String" keyAttrib="false" />
+		<BusinessAttribute name="pva" 			   type="String" keyAttrib="false" />
+		<BusinessAttribute name="datatype" 		   type="Int" keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser"  type="String" keyAttrib="false" />
+		<BusinessAttribute name="createdUser" 	   type="String" keyAttrib="false" />	
+		<BusinessAttribute name="prevType" 		   type="String" keyAttrib="false" />
+		<BusinessAttribute name="prevTerm" 		   type="String" keyAttrib="false" />
+		<BusinessAttribute name="prevQualifier"    type="String" keyAttrib="false" />
+		<BusinessAttribute name="prevpva" 			type="String" keyAttrib="false" />
+		<BusinessAttribute name="prevDataType" 		type="String" keyAttrib="true" />
+		<BusinessAttribute name="description" 		type="String" keyAttrib="false" />
+		<BusinessAttribute name="termDesc" 		type="String" keyAttrib="false" />
+		<BusinessAttribute name="typeDesc" 		type="String" keyAttrib="false" />
+		<BusinessAttribute name="qualDesc" 		type="String" keyAttrib="false" />		
+		<BusinessAttribute name="pvaDesc" 		type="String" keyAttrib="false" />
+		<BusinessAttribute name="datatypeDesc" 	type="String" keyAttrib="false" />	
+		<BusinessAttribute name="keyValue" 	type="String" keyAttrib="false" />	
+		<BusinessAttribute name="createdTime" 	type="String" keyAttrib="false" />	
+		<BusinessAttribute name="changeTime" 	type="String" keyAttrib="false" />	
+
+
+
+	
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="referenceList" 			type="List" />
+			<SearchCriteriaAttribute name="typeList" 				type="List" />
+			<SearchCriteriaAttribute name="termList" 				type="List" />
+			<SearchCriteriaAttribute name="qualifierList" 			type="List" />
+			<SearchCriteriaAttribute name="pvaList" 				type="List" />
+			<SearchCriteriaAttribute name="dataTypeList" 			type="List" />
+			<SearchCriteriaAttribute name="catalogId" 			    type="Int" />
+
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT * FROM TEST_SPS_MAPG			
+		    </SelectSQLQuery>
+		
+
+			 
+
+			<SelectSQLQuery name="getItemCodes" >
+			 select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID = {0}
+			</SelectSQLQuery>		
+
+
+
+			<SelectSQLQuery name="SearchReferenceMapping" dynamic="true" >
+	        <STATIC>
+			<![CDATA[
+
+			select dbms_random.random,A.SPS_ID,A.mapg_type_cd , mapg_term , A.mapg_qlfr , A.mapg_pva ,  A.mapg_dtyp ,A.creatd_user_id ,
+A.lst_chg_usr,A.creatd_tm_stmp,A.lst_chg_tms,B.SCNDRY_CD,
+			  B.CD_DESC_TXT,C.CD_DESC_TXT,D.CD_DESC_TXT,E.CD_DESC_TXT ,F.CD_DESC_TXT ,G.DTYP_DATA_TYPE_NAME
+			  from  SPS_MAPG A,
+			(select prmry_cd, SCNDRY_CD, cd_desc_txt from item where ctlg_id =1938) B,   
+			(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =4228)  C ,
+			(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =1934)  D ,  
+			(select prmry_cd, cd_desc_txt from item where ctlg_id =1935) E,  
+			(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =1936)  F , 
+ 			(select DTYP_DATA_TYPE_ID,DTYP_DATA_TYPE_NAME from dtyp_data_type ) G               
+			
+			where A.SPS_ID = B.PRMRY_CD AND A.MAPG_TYPE_CD=C.PRMRY_CD AND A.MAPG_TERM = D.PRMRY_CD(+) AND
+				 A.MAPG_QLFR = E.PRMRY_CD(+) AND A.MAPG_PVA = F.PRMRY_CD(+) AND A.MAPG_DTYP = G.DTYP_DATA_TYPE_ID(+)
+			
+			
+			   ]]>
+			</STATIC>
+
+			<DYNAMIC>
+				and A.SPS_ID {0}
+			</DYNAMIC>			
+			<DYNAMIC>
+				and A.MAPG_TYPE_CD {1}
+			</DYNAMIC>		
+			<DYNAMIC>
+				and A.MAPG_TERM {2}
+			</DYNAMIC>		
+			
+			<DYNAMIC>
+				and A.MAPG_QLFR  {3}
+			</DYNAMIC>		
+
+			<DYNAMIC>
+				and A.MAPG_PVA  {4}
+			</DYNAMIC>		
+			
+			<DYNAMIC>
+				and A.MAPG_DTYP  {5}
+			</DYNAMIC>		
+
+	        <STATIC>
+			<![CDATA[
+					order by A.SPS_ID asc
+			   ]]>
+			</STATIC>
+
+			</SelectSQLQuery>		
+
+			<DataObject name="TEST_SPS_MAPG">
+				
+				<DataObjectAttribute name="SPS_ID_KEY" type="String" />
+				<DataObjectAttribute name="SPS_ID" type="String" />
+				<DataObjectAttribute name="TYP_MAPG" type="String" />
+				<DataObjectAttribute name="TERM" type="String" />
+				<DataObjectAttribute name="QUALIFIER" type="String" />
+				<DataObjectAttribute name="PVA" type="String" />
+				<DataObjectAttribute name="DATA_TYP" type="Int" />
+				<DataObjectAttribute name="LST_USR" type="String" />
+				<DataObjectAttribute name="CTD_USR" type="String" />
+				<DataObjectAttribute name="CTD_TIME" type="String" />
+				<DataObjectAttribute name="LAST_CHNGD_TIME" type="String" />
+
+				<DataObjectAttribute name="TYP_MAPG_PRE" type="String" />
+				<DataObjectAttribute name="TERM_PRE" type="String" />
+				<DataObjectAttribute name="QUALIFIER_PRE" type="String" />
+				<DataObjectAttribute name="PVA_PRE" type="String" />
+				<DataObjectAttribute name="DATA_TYP_PRE" type="String" />
+
+				<DataObjectAttribute name="CD_DESC" type="String" />
+				<DataObjectAttribute name="MAPG_TYPE_CD" type="String" />
+				<DataObjectAttribute name="MAPG_TERM" type="String" />
+				<DataObjectAttribute name="MAPG_QLFR" type="String" />
+				<DataObjectAttribute name="MAPG_PVA" type="String" />
+				<DataObjectAttribute name="MAPG_DTYP" type="String" />
+
+
+				<DataObjectAttribute name="SPS_LIST" type="String" />
+				<DataObjectAttribute name="TYPE_LIST" type="String" />
+				<DataObjectAttribute name="TERM_LIST" type="String" />
+				<DataObjectAttribute name="QUALIFIER_LIST" type="String" />
+				<DataObjectAttribute name="PVA_LIST" type="String" />
+				<DataObjectAttribute name="DATATYPE_LIST" type="String" />
+
+
+				<DataObjectAttribute name="TYPE_DESC" type="String" />				
+				<DataObjectAttribute name="TERM_DESC" type="String" />
+				<DataObjectAttribute name="QUAL_DESC" type="String" />
+				<DataObjectAttribute name="PVA_DESC" type="String" />
+				<DataObjectAttribute name="DATATYPE_DESC" type="String" />
+					
+							
+				<DataObjectAttribute name="SPS_ID_DEL" type="String" />
+				<DataObjectAttribute name="MAPG_TYPE_CD_DEL" type="String" />
+				<DataObjectAttribute name="MAPG_TERM_DEL" type="String" />
+				<DataObjectAttribute name="MAPG_QLFR_DEL" type="String" />
+				<DataObjectAttribute name="MAPG_PVA_DEL" type="String" />
+				<DataObjectAttribute name="MAPG_DTYP_DEL" type="String" />
+		        <DataObjectAttribute name="ITEM_CD" type="String" />
+		        <DataObjectAttribute name="CATLOG_ID" type="Int" />
+				 <DataObjectAttribute name="COBOL_VAL" type="String" />
+	
+
+
+					
+
+					
+
+
+
+
+
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="SPS_LIST" />
+					<DataObjectAttributeInput index="1"			 name="TYPE_LIST" />
+					<DataObjectAttributeInput index="2"			 name="TERM_LIST" />
+					<DataObjectAttributeInput index="3"			 name="QUALIFIER_LIST" />
+					<DataObjectAttributeInput index="4"			 name="PVA_LIST" />
+					<DataObjectAttributeInput index="5"			 name="DATATYPE_LIST" />					
+
+
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="1"      	dataObjectAttribName="SPS_ID_KEY" />
+						<ResultIndex index="2"			dataObjectAttribName="TYP_MAPG" />	
+						<ResultIndex index="3"      	dataObjectAttribName="TERM" />
+						<ResultIndex index="4"			dataObjectAttribName="QUALIFIER" />					
+						<ResultIndex index="5"      	dataObjectAttribName="PVA" />
+						<ResultIndex index="6"			dataObjectAttribName="DATA_TYP" />	
+						<ResultIndex index="7"      	dataObjectAttribName="CTD_USR" />
+						<ResultIndex index="8"			dataObjectAttribName="LST_USR" />
+						<ResultIndex index="9"			dataObjectAttribName="CTD_TIME" />
+						<ResultIndex index="10"			dataObjectAttribName="LAST_CHNGD_TIME" />
+						<ResultIndex index="11"			dataObjectAttribName="COBOL_VAL" />	
+						<ResultIndex index="12"			dataObjectAttribName="CD_DESC" />	
+						<ResultIndex index="13"			dataObjectAttribName="TYPE_DESC" />	
+						<ResultIndex index="14"			dataObjectAttribName="TERM_DESC" />	
+						<ResultIndex index="15"			dataObjectAttribName="QUAL_DESC" />	
+						<ResultIndex index="16"			dataObjectAttribName="PVA_DESC" />	
+						<ResultIndex index="17"			dataObjectAttribName="DATATYPE_DESC" />			
+
+										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="SearchReferenceMapping" />
+				</SQLTemplate>
+
+				
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0"			 name="CATLOG_ID" />					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="ITEM_CD" />
+						<ResultIndex index="1"      	dataObjectAttribName="CD_DESC" />				
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getItemCodes" />
+				</SQLTemplate>
+
+
+
+
+				<SQLTemplate transType="insert">
+
+					<SQLQuery>
+						INSERT INTO SPS_MAPG(
+						SPS_ID,MAPG_TYPE_CD,MAPG_TERM,MAPG_QLFR,MAPG_PVA,MAPG_DTYP,LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP)
+						VALUES (?,?,?,?,?,?,?,SYSDATE,?,SYSDATE)
+
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0" name="SPS_ID" />
+					<DataObjectAttributeInput index="1" name="TYP_MAPG" />
+					<DataObjectAttributeInput index="2" name="TERM" />
+					<DataObjectAttributeInput index="3" name="QUALIFIER" />
+					<DataObjectAttributeInput index="4" name="PVA" />
+					<DataObjectAttributeInput index="5" name="DATA_TYP" />
+					<DataObjectAttributeInput index="6" name="LST_USR" />
+					<DataObjectAttributeInput index="7" name="CTD_USR" />
+
+				</SQLTemplate>				
+			<SQLTemplate transType="update">
+						<SQLQuery>
+								update SPS_MAPG set MAPG_TYPE_CD = ?,MAPG_TERM= ?,MAPG_QLFR=?,MAPG_PVA=?,MAPG_DTYP=?, 
+								LST_CHG_USR = ?,LST_CHG_TMS = SYSDATE
+								where SPS_ID = ? and MAPG_TYPE_CD = ? and NVL(MAPG_TERM,'null') = ? and MAPG_QLFR = ? and
+                                NVL(MAPG_PVA,'null') = ? and MAPG_DTYP = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="TYP_MAPG"/>
+						<DataObjectAttributeInput index="1" name="TERM"/>
+						<DataObjectAttributeInput index="2" name="QUALIFIER"/>
+						<DataObjectAttributeInput index="3" name="PVA"/>
+						<DataObjectAttributeInput index="4" name="DATA_TYP"/>
+						<DataObjectAttributeInput index="5" name="LST_USR"/>
+						<DataObjectAttributeInput index="6" name="SPS_ID"/>
+						<DataObjectAttributeInput index="7" name="TYP_MAPG_PRE"/>
+						<DataObjectAttributeInput index="8" name="TERM_PRE"/>
+						<DataObjectAttributeInput index="9" name="QUALIFIER_PRE"/>
+						<DataObjectAttributeInput index="10" name="PVA_PRE"/>
+						<DataObjectAttributeInput index="11" name="DATA_TYP_PRE"/>
+
+				</SQLTemplate> 
+
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM SPS_MAPG where SPS_ID = ? and MAPG_TYPE_CD = ? and NVL(MAPG_TERM,'null') = ? and MAPG_QLFR = ? and
+                                NVL(MAPG_PVA,'null') = ? and MAPG_DTYP = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SPS_ID"/>
+						<DataObjectAttributeInput index="1" name="TYP_MAPG"/>
+						<DataObjectAttributeInput index="2" name="TERM"/>
+						<DataObjectAttributeInput index="3" name="QUALIFIER"/>
+						<DataObjectAttributeInput index="4" name="PVA"/>
+						<DataObjectAttributeInput index="5" name="DATA_TYP"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="SPS_ID_KEY" toBOAttb="keyValue" />
+					<Pair DOAttb="SPS_ID" toBOAttb="referenceId" />
+					<Pair DOAttb="TYP_MAPG" toBOAttb="type" />
+					<Pair DOAttb="TERM" toBOAttb="term" />
+					<Pair DOAttb="QUALIFIER" toBOAttb="qualifier" />
+					<Pair DOAttb="PVA" toBOAttb="pva" />
+					<Pair DOAttb="DATA_TYP" toBOAttb="datatype" />
+					<Pair DOAttb="LST_USR" toBOAttb="lastUpdatedUser" />
+					<Pair DOAttb="CTD_USR" toBOAttb="createdUser" />
+					<Pair DOAttb="CTD_TIME" toBOAttb="createdTime" />
+					<Pair DOAttb="LAST_CHNGD_TIME" toBOAttb="changeTime" />
+					<Pair DOAttb="TYP_MAPG_PRE" toBOAttb="prevType" />
+					<Pair DOAttb="TERM_PRE" toBOAttb="prevTerm" />
+					<Pair DOAttb="QUALIFIER_PRE" toBOAttb="prevQualifier" />
+					<Pair DOAttb="PVA_PRE" toBOAttb="prevpva" />
+					<Pair DOAttb="DATA_TYP_PRE" toBOAttb="prevDataType" />
+					<Pair DOAttb="SPS_ID" toBOAttb="referenceId" />					
+					<Pair DOAttb="TYP_MAPG" toBOAttb="type" />
+					<Pair DOAttb="TERM" toBOAttb="term" />
+					<Pair DOAttb="QUALIFIER" toBOAttb="qualifier" />
+					<Pair DOAttb="PVA" toBOAttb="pva" />
+					<Pair DOAttb="DATA_TYP" toBOAttb="datatype" />
+					<Pair DOAttb="COBOL_VAL" toBOAttb="cobolValue" />
+					<Pair DOAttb="CD_DESC" toBOAttb="description" />
+					<Pair DOAttb="TYPE_DESC" toBOAttb="typeDesc" />
+					<Pair DOAttb="TERM_DESC" toBOAttb="termDesc" />
+					<Pair DOAttb="QUAL_DESC" toBOAttb="qualDesc" />
+					<Pair DOAttb="PVA_DESC" toBOAttb="pvaDesc" />
+					<Pair DOAttb="DATATYPE_DESC" toBOAttb="datatypeDesc" />
+					<Pair DOAttb="ITEM_CD" toBOAttb="referenceId" />
+
+
+
+				</DoAttributeToBOAttributeMap>
+
+
+					<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="SPS_LIST" 		toSCAttb="referenceList" />	
+						<Pair DOAttb="TYPE_LIST" 		toSCAttb="typeList" />	
+						<Pair DOAttb="TERM_LIST" 		toSCAttb="termList" />	
+						<Pair DOAttb="QUALIFIER_LIST" 		toSCAttb="qualifierList" />	
+						<Pair DOAttb="PVA_LIST" 		toSCAttb="pvaList" />	
+						<Pair DOAttb="DATATYPE_LIST" 		toSCAttb="dataTypeList" />	
+						<Pair DOAttb="CATLOG_ID" 		toSCAttb="catalogId" />	
+				</DoAttributeToSCAttributeMap>
+
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

@@ -1,0 +1,3567 @@
+<Metadata>  
+	<!-- Search Engine adapter configuration for PRODUCT -->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="productName" 	type="String"	/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"     type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	 type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"     type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"   type="List"/>
+		<SearchCriteriaAttribute name="productStructureId"			 type="Int"/>
+		<SearchCriteriaAttribute name="productIds"     				 type="List"/>
+		<SearchCriteriaAttribute name="orderByName"			         type="String"/>
+		<SearchCriteriaAttribute name="orderByVersion"			     type="String"/>
+		<SearchCriteriaAttribute name="orderByEffectiveDate"		 type="String"/>
+		<SearchCriteriaAttribute name="orderByExpiryDate"			 type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus"			     type="String"/>
+		<SearchCriteriaAttribute name="effectiveDate"			     type="Date"/>
+		<SearchCriteriaAttribute name="expiryDate"			     type="Date"/>
+		<SearchCriteriaAttribute name="productFamily"			     type="String"/>
+		<SearchCriteriaAttribute name="version"			     type="Int"/>
+		<SearchCriteriaAttribute name="description"			     type="String"/>
+		<SearchCriteriaAttribute name="status"			     type="String"/>
+		<SearchCriteriaAttribute name="createdBy"			     type="String"/>
+		<SearchCriteriaAttribute name="createdDate"			     type="Date"/>
+		<SearchCriteriaAttribute name="lastUpdatedBy"			     type="String"/>
+		<SearchCriteriaAttribute name="lastUpdatedDate"			     type="Date"/>
+		<SearchCriteriaAttribute name="noteId"			     		type="String"/>
+		<SearchCriteriaAttribute name="noteVersion"			     		type="Int"/>
+		<SearchCriteriaAttribute name="productType"			     		type="String"/>
+		<SearchCriteriaAttribute name="mandateType"			     		type="String"/>
+		<SearchCriteriaAttribute name="state"			     		type="String"/>
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchProductIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+			         select prod_sys_id from (
+			                select  distinct a.prod_sys_id as prod_sys_id, a.prod_nm as prod_nm, a.prod_vrsn_nbr as prod_vrsn_nbr
+			                from    PROD_MSTR a
+                                        INNER JOIN enty_domn_info b on  a.prod_parnt_sys_id = b.enty_sys_id 
+				        				INNER JOIN  avlbl_domn c on b.domn_sys_id = c.domn_sys_id 
+                                        LEFT OUTER  JOIN item d on d.PRMRY_CD=a.PROD_FMLY_NM and d.CTLG_ID='1937'
+			                where  
+			                     b.enty_type = 'product' and b.domn_sys_id = c.domn_sys_id 
+			                and (
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(a.prod_nm) {0} </DYNAMIC>
+			 <DYNAMIC> trunc(a.prod_efctv_dt) {1}</DYNAMIC>
+			 <DYNAMIC> trunc(a.prod_expiry_dt) {2}</DYNAMIC>	
+ 			 <DYNAMIC> upper(d.CD_DESC_TXT) {3}</DYNAMIC>	
+ 			 <DYNAMIC> a.prod_strctr_sys_id {4}</DYNAMIC>	
+			 <DYNAMIC> upper(a.prod_desc_txt) {5}</DYNAMIC>
+			 <DYNAMIC> upper(a.prod_stts_cd) {6}</DYNAMIC>
+			 <DYNAMIC> a.prod_vrsn_nbr {7}</DYNAMIC>
+			<DYNAMIC> upper(a.PROD_TYPE) {8}</DYNAMIC>
+			 <DYNAMIC> upper(a.MNDT_TYPE) {9}</DYNAMIC>
+			 <DYNAMIC> upper(a.PROD_ST_CD) {10}</DYNAMIC>	
+			 <DYNAMIC> trunc(a.creatd_tm_stmp) {11}</DYNAMIC>
+			 <DYNAMIC> upper(a.creatd_user_id) {12}</DYNAMIC>
+			 <DYNAMIC> trunc(a.lst_chg_tms) {13}</DYNAMIC>
+			 <DYNAMIC> upper(a.lst_chg_usr) {14}</DYNAMIC>
+		     <DYNAMIC> upper(a.prod_nm) {15} </DYNAMIC>
+			 <STATIC> ) </STATIC>
+			 <DYNAMIC> and c.bus_grp_nm {16}</DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {17}</DYNAMIC>
+			 <DYNAMIC> and c.lob_nm {18}</DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {19}  </DYNAMIC>
+			 <STATIC> order by prod_nm asc, prod_vrsn_nbr asc)</STATIC>
+				
+	
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchProductIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+			            select prod_sys_id from (
+			                select  distinct a.prod_sys_id as prod_sys_id, a.prod_nm as prod_nm, a.prod_vrsn_nbr as prod_vrsn_nbr
+			                from    PROD_MSTR a, enty_domn_info b, avlbl_domn c 
+			                where   a.prod_parnt_sys_id = b.enty_sys_id 
+			                and     b.enty_type = 'product' and b.domn_sys_id = c.domn_sys_id 
+			                and
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(a.prod_nm) {0} </DYNAMIC>
+			 <DYNAMIC> and c.bus_grp_nm {1} </DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {2} </DYNAMIC>
+			 <DYNAMIC> and c.lob_nm  {3}  </DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {4}  </DYNAMIC>
+			<STATIC> order by prod_nm asc, prod_vrsn_nbr asc)</STATIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchProductIdentifiersWithStructureIdentifier">
+			<![CDATA[
+				select 	a.prod_sys_id 
+				from 	PROD_MSTR a 
+				where 	a.prod_strctr_sys_id = {0}
+				order by a.prod_nm asc, a.prod_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortProductIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				select 	a.prod_sys_id 
+				from 	PROD_MSTR a 
+				where 	a.prod_sys_id  {0}
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY a.prod_nm {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.prod_vrsn_nbr {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.prod_efctv_dt {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.prod_expiry_dt {4} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.prod_stts_cd {5} </DYNAMIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchProductIdentifiersWithNotesIdentifier">
+			<![CDATA[
+				select a.ENTY_SYS_ID from NOTE_DOMN_ASSN a,PROD_MSTR b where 
+				a.NOTE_ID = {0} and a.NOTE_VRSN_NBR = {1} and a.ENTY_TYPE = 'ATTACHPRODUCT' and 
+				b.PROD_SYS_ID = a.ENTY_SYS_ID order by b.prod_nm asc, b.prod_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+				</RSIndexToDOAttributeMap>	
+				<SearchQueryName name="searchProductIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>	
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID"		toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"		toSCAttb="noteVersion"/>
+			</DoAttributeToSCAttributeMap>	
+		</DataObject>
+		<DataObject name="PROD_MSTR">
+			<DataObjectAttribute name="prod_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="prod_nm" 			type="String"/>
+			<DataObjectAttribute name="prod_strctr_sys_id" 	type="Int"/>
+			<DataObjectAttribute name="prod_order_by" 		type="String"/>
+			<DataObjectAttribute name="prod_vrsn_nbr" 		type="Int"/>
+			<DataObjectAttribute name="prod_expiry_dt" 		type="Date"/>
+			<DataObjectAttribute name="prod_efctv_dt" 		type="Date"/>
+			<DataObjectAttribute name="prod_desc_txt" 		type="String"/>
+		    <DataObjectAttribute name="prod_stts_cd" 		type="String"/>
+			<DataObjectAttribute name="creatd_user_id" 		type="String"/>
+			<DataObjectAttribute name="creatd_tm_stmp" 		type="TimeStamp"/>			
+			<DataObjectAttribute name="lst_chg_usr" 		type="String"/>	
+			<DataObjectAttribute name="lst_chg_tms" 		type="TimeStamp"/>	
+			<DataObjectAttribute name="PROD_TYPE" 		type="String"/>	
+			<DataObjectAttribute name="MNDT_TYPE" 		type="String"/>	
+			<DataObjectAttribute name="PROD_ST_CD" 		type="String"/>	
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_nm"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_strctr_sys_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductIdentifiersWithStructureIdentifier"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_sys_id"/>
+				<DataObjectAttributeInput index="1" name="prod_order_by"/>
+				<DataObjectAttributeInput index="2" name="prod_order_by"/>
+				<DataObjectAttributeInput index="3" name="prod_order_by"/>
+				<DataObjectAttributeInput index="4" name="prod_order_by"/>
+				<DataObjectAttributeInput index="5" name="prod_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortProductIdentifiers"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_nm"/>
+				<DataObjectAttributeInput index="1" name="prod_efctv_dt"/>
+				<DataObjectAttributeInput index="2" name="prod_expiry_dt"/>
+				<DataObjectAttributeInput index="4" name="prod_strctr_sys_id"/>
+				<DataObjectAttributeInput index="5" name="prod_desc_txt"/>
+				<DataObjectAttributeInput index="6" name="prod_stts_cd"/>
+				<DataObjectAttributeInput index="7" name="prod_vrsn_nbr"/>
+				<DataObjectAttributeInput index="8" name="PROD_TYPE"/>
+				<DataObjectAttributeInput index="9" name="MNDT_TYPE"/>
+				<DataObjectAttributeInput index="10" name="PROD_ST_CD"/>
+				<DataObjectAttributeInput index="11" name="creatd_tm_stmp"/>
+				<DataObjectAttributeInput index="12" name="creatd_user_id"/>
+				<DataObjectAttributeInput index="13" name="lst_chg_tms"/>
+				<DataObjectAttributeInput index="14" name="lst_chg_usr"/>
+				<DataObjectAttributeInput index="15" name="invld_val"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="prod_nm" 			    toSCAttb="productName"/>
+					<Pair DOAttb="prod_strctr_sys_id" 		toSCAttb="productStructureId"/>
+					<Pair DOAttb="prod_sys_id"			toSCAttb="productIds"/>
+					<Pair DOAttb="prod_order_by"		toSCAttb="orderByName"/>
+					<Pair DOAttb="prod_order_by"		toSCAttb="orderByVersion"/>
+					<Pair DOAttb="prod_order_by"		toSCAttb="orderByEffectiveDate"/>
+					<Pair DOAttb="prod_order_by"		toSCAttb="orderByExpiryDate"/>
+					<Pair DOAttb="prod_order_by"		toSCAttb="orderByStatus"/>
+					<Pair DOAttb="prod_efctv_dt" 		toSCAttb="effectiveDate"/>
+					<Pair DOAttb="prod_expiry_dt" 		toSCAttb="expiryDate"/>
+					<Pair DOAttb="prod_desc_txt" 		toSCAttb="description"/>
+					<Pair DOAttb="prod_stts_cd" 		toSCAttb="status"/>
+					<Pair DOAttb="prod_vrsn_nbr" 		toSCAttb="version"/>
+					<Pair DOAttb="creatd_tm_stmp" 		toSCAttb="createdDate"/>
+					<Pair DOAttb="creatd_user_id" 		toSCAttb="createdBy"/>
+					<Pair DOAttb="lst_chg_tms" 		toSCAttb="lastUpdatedDate"/>
+					<Pair DOAttb="lst_chg_usr" 		toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="PROD_TYPE" 		toSCAttb="productType"/>
+					<Pair DOAttb="MNDT_TYPE" 		toSCAttb="mandateType"/>
+					<Pair DOAttb="PROD_ST_CD" 		toSCAttb="state"/>
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="item">
+			<DataObjectAttribute name="CD_DESC_TXT" 				type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="3" name="CD_DESC_TXT"/>
+				<SearchQueryName name="searchProductIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CD_DESC_TXT"		toSCAttb="productFamily"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchProductIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="16" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="17" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="18" name="lob_nm"/>
+				<DataObjectAttributeInput index="19" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchProductIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductDetail">
+	<BusinessAttribute name="productName" 			type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="productVersion" 		type="Int"		keyAttrib="true"/>
+	<BusinessAttribute name="effectiveDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="expiryDate" 			type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="status" 				type="String"	keyAttrib="false"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveProductDetailUsingIdentifier">
+			<![CDATA[
+				select 	a.prod_nm, a.prod_vrsn_nbr, a.prod_efctv_dt, a.prod_expiry_dt, a.prod_stts_cd
+				from 	PROD_MSTR a
+				where 	a.prod_sys_id = {0}
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="PROD_MSTR">
+			<DataObjectAttribute name="prod_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="prod_nm" 			type="String"/>
+			<DataObjectAttribute name="prod_vrsn_nbr" 		type="Int"/>
+			<DataObjectAttribute name="prod_efctv_dt" 		type="Date"/>
+			<DataObjectAttribute name="prod_expiry_dt" 		type="Date"/>
+			<DataObjectAttribute name="prod_stts_cd" 		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_sys_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_nm"/>
+					<ResultIndex index="1" dataObjectAttribName ="prod_vrsn_nbr"/>
+					<ResultIndex index="2" dataObjectAttribName ="prod_efctv_dt"/>
+					<ResultIndex index="3" dataObjectAttribName ="prod_expiry_dt"/>
+					<ResultIndex index="4" dataObjectAttribName ="prod_stts_cd"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveProductDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_nm" 			toBOAttb="productName"/>
+					<Pair DOAttb="prod_vrsn_nbr" 	toBOAttb="productVersion"/>
+					<Pair DOAttb="prod_efctv_dt" 	toBOAttb="effectiveDate"/>
+					<Pair DOAttb="prod_expiry_dt" 	toBOAttb="expiryDate"/>
+					<Pair DOAttb="prod_stts_cd" 	toBOAttb="status"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="prod_sys_id" 		toSCAttb="identifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+
+	<!-- Search Engine adapter configuration for PRODUCT STRUCTURE -->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductStructureIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="productStructureName" 	type="String"	/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	 	type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"   type="List"/>
+		<SearchCriteriaAttribute name="benefitComponentId"			 	type="Int"/>
+		<SearchCriteriaAttribute name="productStructureIds"     	 type="List"/>
+		<SearchCriteriaAttribute name="orderByName"			         type="String"/>
+		<SearchCriteriaAttribute name="orderByVersion"			     type="String"/>
+		<SearchCriteriaAttribute name="orderByEffectiveDate"		 type="String"/>
+		<SearchCriteriaAttribute name="orderByExpiryDate"			 type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus"			     type="String"/>
+		<SearchCriteriaAttribute name="description" 			type="String"/>
+		<SearchCriteriaAttribute name="version" 			type="Int"/>
+		<SearchCriteriaAttribute name="status" 			type="String"/>
+		<SearchCriteriaAttribute name="createdBy" 			type="String"/>
+		<SearchCriteriaAttribute name="createdDate" 			type="Date"/>
+		<SearchCriteriaAttribute name="effectiveDate" 			type="Date"/>
+		<SearchCriteriaAttribute name="expiryDate" 			type="Date"/>
+		<SearchCriteriaAttribute name="lastUpdatedBy" 			type="String"/>
+		<SearchCriteriaAttribute name="lastUpdatedDate" 			type="Date"/>
+		<SearchCriteriaAttribute name="productStructureType"		type="String"/>
+		<SearchCriteriaAttribute name="mandateType"			     		type="String"/>
+		<SearchCriteriaAttribute name="state"			     		type="String"/>
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchProductStructureIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+				       <![CDATA[
+				          select prod_strctr_sys_id from ( 
+						select 	distinct a.prod_strctr_sys_id as prod_strctr_sys_id, a.prod_strctr_nm as prod_strctr_nm,
+								a.prod_strctr_vrsn_nbr as prod_strctr_vrsn_nbr
+						from 	PROD_STRCTR_MSTR a, enty_domn_info b, avlbl_domn c 
+						where 	a.prod_strctr_parnt_sys_id = b.enty_sys_id 
+						and 	b.enty_type = 'ProdStructure' and b.domn_sys_id = c.domn_sys_id 
+	 				and (
+				         ]]>
+				 </STATIC>
+				<DYNAMIC> upper(a.prod_strctr_nm) {0} </DYNAMIC>
+				<DYNAMIC> trunc(a.prod_strctr_efctv_dt) {1} </DYNAMIC>
+				<DYNAMIC> trunc(a.prod_strctr_expiry_dt) {2} </DYNAMIC>
+				<DYNAMIC> upper(a.prod_strctr_desc_txt) {3} </DYNAMIC>
+				<DYNAMIC> upper(a.prod_strctr_stts_cd) {4} </DYNAMIC>
+				<DYNAMIC> a.PROD_STRCTR_VRSN_NBR {5} </DYNAMIC>
+				<DYNAMIC> upper(a.PROD_STRCTR_TYPE) {6} </DYNAMIC>
+				<DYNAMIC> upper(a.PROD_STRCTR_MNDT_TYPE) {7} </DYNAMIC>
+				<DYNAMIC> upper(a.PROD_STRCTR_ST_CD) {8} </DYNAMIC>
+				<DYNAMIC> trunc(a.creatd_tm_stmp) {9} </DYNAMIC>
+				<DYNAMIC> upper(a.creatd_user_id) {10} </DYNAMIC>
+				<DYNAMIC> trunc(a.lst_chg_tms) {11} </DYNAMIC>
+				<DYNAMIC> upper(a.lst_chg_usr) {12} </DYNAMIC>
+				<DYNAMIC> upper(a.prod_strctr_nm) {13} </DYNAMIC>
+				<STATIC> ) </STATIC>
+				<DYNAMIC> and c.bus_grp_nm {14}  </DYNAMIC>
+				<DYNAMIC> and c.bus_enty_nm {15}  </DYNAMIC>
+				<DYNAMIC> and c.lob_nm  {16}  </DYNAMIC>
+				<DYNAMIC> and c.MRKT_BUS_UNT {17}  </DYNAMIC>
+
+			 <STATIC> order by prod_strctr_nm asc, prod_strctr_vrsn_nbr asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchProductStructureIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+				       <![CDATA[
+				          select prod_strctr_sys_id from ( 
+						select 	distinct a.prod_strctr_sys_id as prod_strctr_sys_id, a.prod_strctr_nm as prod_strctr_nm,
+								a.prod_strctr_vrsn_nbr as prod_strctr_vrsn_nbr
+						from 	PROD_STRCTR_MSTR a, enty_domn_info b, avlbl_domn c 
+						where 	a.prod_strctr_parnt_sys_id = b.enty_sys_id 
+						and 	b.enty_type = 'ProdStructure' and b.domn_sys_id = c.domn_sys_id 
+	 				and
+				         ]]>
+				 </STATIC>
+				 <DYNAMIC> upper(a.prod_strctr_nm) {0} </DYNAMIC>
+				 <DYNAMIC> and c.bus_grp_nm {1}  </DYNAMIC>
+				 <DYNAMIC> and c.bus_enty_nm {2}  </DYNAMIC>
+				 <DYNAMIC> and c.lob_nm  {3}  </DYNAMIC>
+				 <DYNAMIC> and c.MRKT_BUS_UNT {4}  </DYNAMIC>
+			 <STATIC> order by prod_strctr_nm asc, prod_strctr_vrsn_nbr asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchProductStructureIdentifiersWithBenefitComponentIdentifier">
+			<![CDATA[
+				select 	a.prod_strctr_sys_id
+				from 	PROD_STRCTR_BNFT_CMPNT_ASSN a, PROD_STRCTR_MSTR b
+				where 	a.PROD_STRCTR_SYS_ID = b.PROD_STRCTR_SYS_ID
+				and		a.BNFT_CMPNT_SYS_ID = {0}
+				order by b.prod_strctr_nm asc, b.prod_strctr_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortProductStructureIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				select 	a.PROD_STRCTR_SYS_ID 
+				from 	PROD_STRCTR_MSTR a 
+				where 	a.PROD_STRCTR_SYS_ID {0} 
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY a.PROD_STRCTR_NM {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.PROD_STRCTR_VRSN_NBR {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.PROD_STRCTR_EFCTV_DT {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.PROD_STRCTR_EXPIRY_DT {4} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.PROD_STRCTR_STTS_CD {5} </DYNAMIC>
+		</SelectSQLQuery>
+		<DataObject name="PROD_STRCTR_MSTR">
+			<DataObjectAttribute name="prod_strctr_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="prod_strctr_nm" 			type="String"/>
+			<DataObjectAttribute name="prod_strctr_order_by" 			type="String"/>
+			<DataObjectAttribute name="prod_strctr_desc_txt" 			type="String"/>
+			<DataObjectAttribute name="prod_strcrt_vrsn_nbr" 			type="Int"/>
+			<DataObjectAttribute name="prod_strctr_stts_cd" 			type="String"/>
+			<DataObjectAttribute name="creatd_user_id" 			type="String"/>
+			<DataObjectAttribute name="creatd_tm_stmp" 			type="TimeStamp"/>
+			<DataObjectAttribute name="prod_strctr_efctv_dt" 			type="Date"/>
+			<DataObjectAttribute name="prod_strctr_expiry_dt" 			type="Date"/>
+			<DataObjectAttribute name="lst_chg_usr" 			type="String"/>
+			<DataObjectAttribute name="lst_chg_tms" 			type="TimeStamp"/>
+			<DataObjectAttribute name="PROD_STRCTR_TYPE" 			type="String"/>
+			<DataObjectAttribute name="PROD_STRCTR_MNDT_TYPE" 			type="String"/>
+			<DataObjectAttribute name="PROD_STRCTR_ST_CD" 			type="String"/>
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_strctr_nm"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_strctr_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductStructureIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_strctr_sys_id"/>
+				<DataObjectAttributeInput index="1" name="prod_strctr_order_by"/>
+				<DataObjectAttributeInput index="2" name="prod_strctr_order_by"/>
+				<DataObjectAttributeInput index="3" name="prod_strctr_order_by"/>
+				<DataObjectAttributeInput index="4" name="prod_strctr_order_by"/>
+				<DataObjectAttributeInput index="5" name="prod_strctr_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_strctr_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortProductStructureIdentifiers"/>
+			</SQLTemplate>
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_strctr_nm"/>
+				<DataObjectAttributeInput index="1" name="prod_strctr_efctv_dt"/>
+				<DataObjectAttributeInput index="2" name="prod_strctr_expiry_dt"/>
+				<DataObjectAttributeInput index="3" name="prod_strctr_desc_txt"/>
+				<DataObjectAttributeInput index="4" name="prod_strctr_stts_cd"/>
+				<DataObjectAttributeInput index="5" name="prod_strcrt_vrsn_nbr"/>
+			    <DataObjectAttributeInput index="6" name="PROD_STRCTR_TYPE"/>
+				<DataObjectAttributeInput index="7" name="PROD_STRCTR_MNDT_TYPE"/>
+				<DataObjectAttributeInput index="8" name="PROD_STRCTR_ST_CD"/>
+				<DataObjectAttributeInput index="9" name="creatd_tm_stmp"/>
+				<DataObjectAttributeInput index="10" name="creatd_user_id"/>
+				<DataObjectAttributeInput index="11" name="lst_chg_tms"/>
+				<DataObjectAttributeInput index="12" name="lst_chg_usr"/>
+				<DataObjectAttributeInput index="13" name="invld_val"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_strctr_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductStructureIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_strctr_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="prod_strctr_nm" 			toSCAttb="productStructureName"/>
+					<Pair DOAttb="prod_strctr_sys_id"			toSCAttb="productStructureIds"/>
+					<Pair DOAttb="prod_strctr_order_by"			toSCAttb="orderByName"/>
+					<Pair DOAttb="prod_strctr_order_by"			toSCAttb="orderByVersion"/>
+					<Pair DOAttb="prod_strctr_order_by"			toSCAttb="orderByEffectiveDate"/>
+					<Pair DOAttb="prod_strctr_order_by"			toSCAttb="orderByExpiryDate"/>
+					<Pair DOAttb="prod_strctr_order_by"			toSCAttb="orderByStatus"/>
+					<Pair DOAttb="prod_strctr_efctv_dt"			toSCAttb="effectiveDate"/>
+					<Pair DOAttb="prod_strctr_expiry_dt"			toSCAttb="expiryDate"/>
+					<Pair DOAttb="prod_strctr_desc_txt"			toSCAttb="description"/>
+					<Pair DOAttb="prod_strctr_stts_cd"			toSCAttb="status"/>
+					<Pair DOAttb="prod_strcrt_vrsn_nbr"			toSCAttb="version"/>
+     				<Pair DOAttb="creatd_tm_stmp"			toSCAttb="createdDate"/>
+					<Pair DOAttb="creatd_user_id"			toSCAttb="createdBy"/>
+					<Pair DOAttb="lst_chg_tms"			toSCAttb="lastUpdatedDate"/>
+					<Pair DOAttb="lst_chg_usr"			toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="PROD_STRCTR_TYPE"			toSCAttb="productStructureType"/>
+					<Pair DOAttb="PROD_STRCTR_MNDT_TYPE"			toSCAttb="mandateType"/>
+					<Pair DOAttb="PROD_STRCTR_ST_CD"			toSCAttb="state"/>	
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="PROD_STRCTR_BNFT_CMPNT_ASSN">
+			<DataObjectAttribute name="prod_strctr_sys_id" 	type="Int"/>
+			<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_strctr_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchProductStructureIdentifiersWithBenefitComponentIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_strctr_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchProductStructureIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="14" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="15" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="16" name="lob_nm"/>
+				<DataObjectAttributeInput index="17" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchProductStructureIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductStructureDetail">
+	<BusinessAttribute name="name" 				type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="version" 			type="Int"		keyAttrib="true"/>
+	<BusinessAttribute name="effectiveDate" 	type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="expiryDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="status" 			type="String"	keyAttrib="false"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+	</SearchCriteria>
+	
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveProductStructureDetailUsingIdentifier">
+			<![CDATA[
+				select 	a.prod_strctr_nm, a.prod_strctr_vrsn_nbr, 
+						a.prod_strctr_efctv_dt, a.prod_strctr_expiry_dt, a.prod_strctr_stts_cd
+				from 	PROD_STRCTR_MSTR a
+				where 	a.prod_strctr_sys_id = {0}
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="PROD_STRCTR_MSTR">
+			<DataObjectAttribute name="prod_strctr_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="prod_strctr_nm" 			type="String"/>
+			<DataObjectAttribute name="prod_strctr_vrsn_nbr" 	type="Int"/>
+			<DataObjectAttribute name="prod_strctr_efctv_dt" 	type="Date"/>
+			<DataObjectAttribute name="prod_strctr_expiry_dt" 	type="Date"/>
+			<DataObjectAttribute name="prod_strctr_stts_cd" 	type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prod_strctr_sys_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_strctr_nm"/>
+					<ResultIndex index="1" dataObjectAttribName ="prod_strctr_vrsn_nbr"/>
+					<ResultIndex index="2" dataObjectAttribName ="prod_strctr_efctv_dt"/>
+					<ResultIndex index="3" dataObjectAttribName ="prod_strctr_expiry_dt"/>
+					<ResultIndex index="4" dataObjectAttribName ="prod_strctr_stts_cd"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName  name="retrieveProductStructureDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_strctr_nm" 			toBOAttb="name"/>
+					<Pair DOAttb="prod_strctr_vrsn_nbr" 	toBOAttb="version"/>
+					<Pair DOAttb="prod_strctr_efctv_dt" 	toBOAttb="effectiveDate"/>
+					<Pair DOAttb="prod_strctr_expiry_dt" 	toBOAttb="expiryDate"/>
+					<Pair DOAttb="prod_strctr_stts_cd" 	toBOAttb="status"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="prod_strctr_sys_id" 		toSCAttb="identifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+
+	<!-- Search Engine adapter configuration for BENEFIT COMPONENT -->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitComponentIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="name" 	type="String"/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	 	type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"   type="List"/>
+		<SearchCriteriaAttribute name="benefitId"			 	type="Int"/>
+		<SearchCriteriaAttribute name="benefitComponentIds"     	 type="List"/>
+		<SearchCriteriaAttribute name="orderByName"			         type="String"/>
+		<SearchCriteriaAttribute name="orderByVersion"			     type="String"/>
+		<SearchCriteriaAttribute name="orderByEffectiveDate"		 type="String"/>
+		<SearchCriteriaAttribute name="orderByExpiryDate"			 type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus"			     type="String"/>	
+		<SearchCriteriaAttribute name="description" 		type="String"/>
+		<SearchCriteriaAttribute name="version" 		type="Int"/>
+		<SearchCriteriaAttribute name="status" 		type="String"/>
+		<SearchCriteriaAttribute name="createdBy" 		type="String"/>
+		<SearchCriteriaAttribute name="createdDate" 		type="Date"/>
+		<SearchCriteriaAttribute name="effectiveDate" 		type="Date"/>
+		<SearchCriteriaAttribute name="expiryDate" 		type="Date"/>
+		<SearchCriteriaAttribute name="lastUpdatedBy" 		type="String"/>
+		<SearchCriteriaAttribute name="lastUpdatedDate" 		type="Date"/>
+		<SearchCriteriaAttribute name="noteId" 		type="String"/>
+		<SearchCriteriaAttribute name="noteVersion" 		type="Int"/>
+		<SearchCriteriaAttribute name="benefitComponentType"			     		type="String"/>
+		<SearchCriteriaAttribute name="mandateType"			     		type="String"/>
+		<SearchCriteriaAttribute name="state"			     		type="String"/>
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+			<SelectSQLQuery name="searchBenefitComponentIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+				       <![CDATA[
+				   select bnft_cmpnt_sys_id from (
+					select 	distinct a.bnft_cmpnt_sys_id as bnft_cmpnt_sys_id, a.bnft_cmpnt_nm as bnft_cmpnt_nm,
+							a.bnft_cmpnt_vrsn_nbr as  bnft_cmpnt_vrsn_nbr
+					from 	BCM_BNFT_CMPNT_MSTR a, enty_domn_info b, avlbl_domn c 
+					where 	a.bnft_cmpnt_parnt_sys_id = b.enty_sys_id 
+					and 	b.enty_type = 'BENEFITCOMP' and b.domn_sys_id = c.domn_sys_id 
+					and (
+				         ]]>
+				 </STATIC>
+				 <DYNAMIC> upper(a.bnft_cmpnt_nm) {0} </DYNAMIC>
+				 <DYNAMIC> trunc(a.bnft_cmpnt_efctv_dt) {1} </DYNAMIC>
+				 <DYNAMIC> trunc(a.bnft_cmpnt_expiry_dt) {2} </DYNAMIC>
+				 <DYNAMIC> upper(a.bnft_cmpnt_desc_txt) {3} </DYNAMIC>
+				 <DYNAMIC> upper(a.bnft_cmpnt_stts_cd) {4} </DYNAMIC>
+				 <DYNAMIC> a.bnft_cmpnt_vrsn_nbr {5} </DYNAMIC>
+			     <DYNAMIC> upper(a.BNFT_CMPNT_TYPE) {6} </DYNAMIC>
+				 <DYNAMIC> upper(a.BNFT_CMPNT_MDNT_TYPE) {7} </DYNAMIC>
+				 <DYNAMIC> upper(a.BNFT_CMPNT_ST_CD) {8} </DYNAMIC>	
+				 <DYNAMIC> trunc(a.creatd_tm_stmp) {9} </DYNAMIC>
+				 <DYNAMIC> upper(a.creatd_user_id) {10} </DYNAMIC>
+				 <DYNAMIC> trunc(a.lst_chg_tms) {11} </DYNAMIC>
+				 <DYNAMIC> upper(a.lst_chg_usr) {12} </DYNAMIC>
+				 <DYNAMIC> upper(a.bnft_cmpnt_nm) {13} </DYNAMIC>
+				 <STATIC> ) </STATIC>
+				 <DYNAMIC> and c.bus_grp_nm {14}  </DYNAMIC>
+				 <DYNAMIC> and c.bus_enty_nm {15}  </DYNAMIC>
+				 <DYNAMIC> and c.lob_nm  {16}  </DYNAMIC>
+				 <DYNAMIC> and c.MRKT_BUS_UNT {17}  </DYNAMIC>
+
+				 <STATIC> order by bnft_cmpnt_nm asc, bnft_cmpnt_vrsn_nbr asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitComponentIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+				       <![CDATA[
+				   select bnft_cmpnt_sys_id from (
+					select 	distinct a.bnft_cmpnt_sys_id as bnft_cmpnt_sys_id, a.bnft_cmpnt_nm as bnft_cmpnt_nm,
+							a.bnft_cmpnt_vrsn_nbr as  bnft_cmpnt_vrsn_nbr
+					from 	BCM_BNFT_CMPNT_MSTR a, enty_domn_info b, avlbl_domn c 
+					where 	a.bnft_cmpnt_parnt_sys_id = b.enty_sys_id 
+					and 	b.enty_type = 'BENEFITCOMP' and b.domn_sys_id = c.domn_sys_id 
+					and
+				         ]]>
+				 </STATIC>
+				 <DYNAMIC> upper(a.bnft_cmpnt_nm) {0} </DYNAMIC>
+				 <DYNAMIC> and c.bus_grp_nm {1}  </DYNAMIC>
+				 <DYNAMIC> and c.bus_enty_nm {2}  </DYNAMIC>
+				 <DYNAMIC> and c.lob_nm  {3}  </DYNAMIC>
+				 <DYNAMIC> and c.MRKT_BUS_UNT {4}  </DYNAMIC>
+				 <STATIC> order by bnft_cmpnt_nm asc, bnft_cmpnt_vrsn_nbr asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitComponentIdentifiersWithBenefitIdentifier">
+			<![CDATA[
+				select 	a.bnft_cmpnt_sys_id 
+				from 	BNFT_CMPNT_HRCHY_ASSN a, BCM_BNFT_CMPNT_MSTR b
+				where 	a.BNFT_CMPNT_SYS_ID = b.BNFT_CMPNT_SYS_ID
+				and		a.BNFT_SYS_ID = {0}
+				order by b.bnft_cmpnt_nm asc, b.bnft_cmpnt_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortBenefitComponentIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				select 	a.bnft_cmpnt_sys_id 
+				from 	BCM_BNFT_CMPNT_MSTR a 
+				where 	a.bnft_cmpnt_sys_id  {0}
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_CMPNT_NM {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_CMPNT_VRSN_NBR {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_CMPNT_EFCTV_DT {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_CMPNT_EXPIRY_DT {4} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_CMPNT_STTS_CD {5} </DYNAMIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitComponentIdentifiersWithNotesIdentifier">
+			<![CDATA[
+				select a.ENTY_SYS_ID from NOTE_DOMN_ASSN a,BCM_BNFT_CMPNT_MSTR b where 
+				a.NOTE_ID = {0} and a.NOTE_VRSN_NBR = {1}  and a.ENTY_TYPE = 'ATTACHCOMP'
+				and b.bnft_cmpnt_sys_id = a.ENTY_SYS_ID order by b.bnft_cmpnt_nm asc, b.bnft_cmpnt_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+				</RSIndexToDOAttributeMap>	
+				<SearchQueryName name="searchBenefitComponentIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>	
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID"		toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"		toSCAttb="noteVersion"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="BCM_BNFT_CMPNT_MSTR">
+			<DataObjectAttribute name="bnft_cmpnt_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="bnft_cmpnt_nm" 			type="String"/>
+			<DataObjectAttribute name="bnft_cmpnt_order_by" 		type="String"/>
+			<DataObjectAttribute name="bnft_cmpnt_desc_txt" 		type="String"/>
+			<DataObjectAttribute name="bnft_cmpnt_vrsn_nbr" 		type="Int"/>
+			<DataObjectAttribute name="bnft_cmpnt_stts_cd" 		type="String"/>
+			<DataObjectAttribute name="creatd_user_id" 		type="String"/>
+			<DataObjectAttribute name="creatd_tm_stmp" 		type="TimeStamp"/>
+			<DataObjectAttribute name="bnft_cmpnt_efctv_dt" 		type="Date"/>
+			<DataObjectAttribute name="bnft_cmpnt_expiry_dt" 		type="Date"/>
+			<DataObjectAttribute name="lst_chg_usr" 		type="String"/>
+			<DataObjectAttribute name="lst_chg_tms" 		type="TimeStamp"/>
+			<DataObjectAttribute name="BNFT_CMPNT_TYPE" 		type="String"/>
+			<DataObjectAttribute name="BNFT_CMPNT_MDNT_TYPE" 		type="String"/>
+			<DataObjectAttribute name="BNFT_CMPNT_ST_CD" 		type="String"/>
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_cmpnt_nm"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_cmpnt_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitComponentIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_cmpnt_sys_id"/>
+				<DataObjectAttributeInput index="1" name="bnft_cmpnt_order_by"/>
+				<DataObjectAttributeInput index="2" name="bnft_cmpnt_order_by"/>
+				<DataObjectAttributeInput index="3" name="bnft_cmpnt_order_by"/>
+				<DataObjectAttributeInput index="4" name="bnft_cmpnt_order_by"/>
+				<DataObjectAttributeInput index="5" name="bnft_cmpnt_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_cmpnt_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortBenefitComponentIdentifiers"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_cmpnt_nm"/>
+				<DataObjectAttributeInput index="1" name="bnft_cmpnt_efctv_dt"/>
+				<DataObjectAttributeInput index="2" name="bnft_cmpnt_expiry_dt"/>
+				<DataObjectAttributeInput index="3" name="bnft_cmpnt_desc_txt"/>
+				<DataObjectAttributeInput index="4" name="bnft_cmpnt_stts_cd"/>
+				<DataObjectAttributeInput index="5" name="bnft_cmpnt_vrsn_nbr"/>
+				<DataObjectAttributeInput index="6" name="BNFT_CMPNT_TYPE"/>
+				<DataObjectAttributeInput index="7" name="BNFT_CMPNT_MDNT_TYPE"/>
+				<DataObjectAttributeInput index="8" name="BNFT_CMPNT_ST_CD"/>
+				<DataObjectAttributeInput index="9" name="creatd_tm_stmp"/>
+				<DataObjectAttributeInput index="10" name="creatd_user_id"/>
+				<DataObjectAttributeInput index="11" name="lst_chg_tms"/>
+				<DataObjectAttributeInput index="12" name="lst_chg_usr"/>
+				<DataObjectAttributeInput index="13" name="invld_val"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_cmpnt_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitComponentIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="bnft_cmpnt_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bnft_cmpnt_nm" 		toSCAttb="name"/>
+					<Pair DOAttb="bnft_cmpnt_sys_id"			toSCAttb="benefitComponentIds"/>
+					<Pair DOAttb="bnft_cmpnt_order_by"		toSCAttb="orderByName"/>
+					<Pair DOAttb="bnft_cmpnt_order_by"		toSCAttb="orderByVersion"/>
+					<Pair DOAttb="bnft_cmpnt_order_by"		toSCAttb="orderByEffectiveDate"/>
+					<Pair DOAttb="bnft_cmpnt_order_by"		toSCAttb="orderByExpiryDate"/>
+					<Pair DOAttb="bnft_cmpnt_order_by"		toSCAttb="orderByStatus"/>
+					
+					<Pair DOAttb="bnft_cmpnt_efctv_dt"		toSCAttb="effectiveDate"/>
+					<Pair DOAttb="bnft_cmpnt_expiry_dt"		toSCAttb="expiryDate"/>
+					<Pair DOAttb="bnft_cmpnt_desc_txt"		toSCAttb="description"/>
+					<Pair DOAttb="bnft_cmpnt_stts_cd"		toSCAttb="status"/>
+					<Pair DOAttb="bnft_cmpnt_vrsn_nbr"		toSCAttb="version"/>
+					<Pair DOAttb="creatd_tm_stmp"		toSCAttb="createdDate"/>
+					<Pair DOAttb="creatd_user_id"		toSCAttb="createdBy"/>
+					<Pair DOAttb="lst_chg_tms"		toSCAttb="lastUpdatedDate"/>
+					<Pair DOAttb="lst_chg_usr"		toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="BNFT_CMPNT_TYPE"		toSCAttb="benefitComponentType"/>
+					<Pair DOAttb="BNFT_CMPNT_MDNT_TYPE"		toSCAttb="mandateType"/>
+					<Pair DOAttb="BNFT_CMPNT_ST_CD"		toSCAttb="state"/>
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+					
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="BNFT_CMPNT_HRCHY_ASSN">
+			<DataObjectAttribute name="bnft_cmpnt_sys_id" 	type="Int"/>
+			<DataObjectAttribute name="BNFT_SYS_ID" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_cmpnt_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitComponentIdentifiersWithBenefitIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="bnft_cmpnt_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_SYS_ID" 	toSCAttb="benefitId"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitComponentIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="14" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="15" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="16" name="lob_nm"/>
+				<DataObjectAttributeInput index="17" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitComponentIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitComponentDetail">
+	<BusinessAttribute name="name" 				type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="version" 			type="Int"		keyAttrib="true"/>
+	<BusinessAttribute name="effectiveDate" 	type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="expiryDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="status" 			type="String"	keyAttrib="false"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveBenefitComponentDetailUsingIdentifier">
+			<![CDATA[
+				select 	a.bnft_cmpnt_nm, a.bnft_cmpnt_vrsn_nbr, 
+						a.bnft_cmpnt_efctv_dt, a.bnft_cmpnt_expiry_dt, a.bnft_cmpnt_stts_cd
+				from 	BCM_BNFT_CMPNT_MSTR a
+				where 	a.bnft_cmpnt_sys_id = {0}
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="BCM_BNFT_CMPNT_MSTR">
+			<DataObjectAttribute name="bnft_cmpnt_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="bnft_cmpnt_nm" 			type="String"/>
+			<DataObjectAttribute name="bnft_cmpnt_vrsn_nbr" 	type="Int"/>
+			<DataObjectAttribute name="bnft_cmpnt_efctv_dt" 	type="Date"/>
+			<DataObjectAttribute name="bnft_cmpnt_expiry_dt" 	type="Date"/>
+			<DataObjectAttribute name="bnft_cmpnt_stts_cd" 		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_cmpnt_sys_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_cmpnt_nm"/>
+					<ResultIndex index="1" dataObjectAttribName ="bnft_cmpnt_vrsn_nbr"/>
+					<ResultIndex index="2" dataObjectAttribName ="bnft_cmpnt_efctv_dt"/>
+					<ResultIndex index="3" dataObjectAttribName ="bnft_cmpnt_expiry_dt"/>
+					<ResultIndex index="4" dataObjectAttribName ="bnft_cmpnt_stts_cd"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitComponentDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="bnft_cmpnt_nm" 			toBOAttb="name"/>
+					<Pair DOAttb="bnft_cmpnt_vrsn_nbr" 		toBOAttb="version"/>
+					<Pair DOAttb="bnft_cmpnt_efctv_dt" 		toBOAttb="effectiveDate"/>
+					<Pair DOAttb="bnft_cmpnt_expiry_dt" 	toBOAttb="expiryDate"/>
+					<Pair DOAttb="bnft_cmpnt_stts_cd" 		toBOAttb="status"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bnft_cmpnt_sys_id" 		toSCAttb="identifier"/>
+			</DoAttributeToSCAttributeMap>			
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+
+	<!-- Search Engine adapter configuration for BENEFIT -->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="name" 		type="String"/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"    type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"    type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"  type="List"/>
+		<SearchCriteriaAttribute name="benefitLevelId"			 	type="Int"/>
+		<SearchCriteriaAttribute name="benefitIds"     				type="List"/>
+		<SearchCriteriaAttribute name="orderByName"			        type="String"/>
+		<SearchCriteriaAttribute name="orderByVersion"			    type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus"			    type="String"/>
+		<SearchCriteriaAttribute name="orderByDescription"			type="String"/>
+		<SearchCriteriaAttribute name="description"					type="String"/>
+		<SearchCriteriaAttribute name="term"						type="String"/>
+		<SearchCriteriaAttribute name="qualifier"					type="String"/>
+		<SearchCriteriaAttribute name="dataType"					type="String"/>
+		<SearchCriteriaAttribute name="providerArrangement"			type="String"/>
+		<SearchCriteriaAttribute name="status"						type="String"/>
+		<SearchCriteriaAttribute name="version"						type="Int"/>
+		<SearchCriteriaAttribute name="createdBy"					type="String"/>
+		<SearchCriteriaAttribute name="createdDate"					type="Date"/>
+		<SearchCriteriaAttribute name="lastUpdatedBy"				type="String"/>
+		<SearchCriteriaAttribute name="lastUpdatedDate"				type="Date"/>
+		<SearchCriteriaAttribute name="noteId"						type="String"/>
+		<SearchCriteriaAttribute name="noteVersion"						type="Int"/>
+		<SearchCriteriaAttribute name="benefitType"						type="String"/>
+		<SearchCriteriaAttribute name="effectiveness"						type="String"/>
+		<SearchCriteriaAttribute name="mandateCategory"						type="String"/>
+		<SearchCriteriaAttribute name="benefitCategory"						type="String"/>
+		<SearchCriteriaAttribute name="benefitText"						type="String"/>	
+		<SearchCriteriaAttribute name="jurisdiction"						type="String"/>	
+		<SearchCriteriaAttribute name="citationNumber"						type="String"/>	
+		<SearchCriteriaAttribute name="benefitFundingArrangement"			type="String"/>	
+		<SearchCriteriaAttribute name="emptyTerm"			type="String"/>	
+		<SearchCriteriaAttribute name="emptyProviderArrangement"	type="String"/>	
+		<SearchCriteriaAttribute name="emptyDataType"			type="String"/>	
+		<SearchCriteriaAttribute name="emptyQualifier"			type="String"/>	
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchBenefitIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+			<![CDATA[
+			  select bnft_sys_id from(
+				select 	distinct a.bnft_sys_id as bnft_sys_id, a.bnft_id_nm as bnft_id_nm,
+						a.bnft_vrsn_nbr as bnft_vrsn_nbr
+				from 	BMST_BNFT_MSTR a INNER JOIN enty_domn_info b on a.bnft_parnt_sys_id = b.enty_sys_id 
+				        INNER JOIN  avlbl_domn c on b.domn_sys_id = c.domn_sys_id 
+						         ]]>
+			 </STATIC>
+		    <DYNAMIC> INNER JOIN (select ENTY_SYS_ID,SLCTD_ITEM_CD from BNFT_BSIC_SLCTD_INFO where SLCTD_ITEM_TYPE = {22}) d on a.bnft_sys_id = d.enty_sys_id </DYNAMIC>
+			<DYNAMIC> INNER JOIN (select ENTY_SYS_ID,SLCTD_ITEM_CD from BNFT_BSIC_SLCTD_INFO where SLCTD_ITEM_TYPE = {23}) f on a.bnft_sys_id = f.enty_sys_id</DYNAMIC>
+			<DYNAMIC> INNER JOIN (select ENTY_SYS_ID,SLCTD_ITEM_CD from BNFT_BSIC_SLCTD_INFO where SLCTD_ITEM_TYPE = {24}) g on a.bnft_sys_id = g.enty_sys_id </DYNAMIC>
+			<DYNAMIC> INNER JOIN (select ENTY_SYS_ID,SLCTD_ITEM_CD from BNFT_BSIC_SLCTD_INFO where SLCTD_ITEM_TYPE = {25}) e on a.bnft_sys_id = e.enty_sys_id </DYNAMIC>
+ 			<STATIC>
+			      <![CDATA[
+                        LEFT OUTER JOIN BMNDT_BNFT_MNDT h on a.BNFT_SYS_ID = h.BNFT_SYS_ID
+						LEFT OUTER JOIN BMNDT_CITTN_INFO i on h.BNFT_MNDT_SYS_ID = i.BNFT_MNDT_SYS_ID	
+                        LEFT OUTER JOIN BMNDT_STCD_INFO j on h.BNFT_MNDT_SYS_ID = j.BNFT_MNDT_SYS_ID	
+
+				WHERE   b.enty_type = 'stdbenefit'
+                and (
+					         ]]>
+			 </STATIC>
+			 <DYNAMIC> a.bnft_id_nm {0} </DYNAMIC>
+			 <DYNAMIC> a.bnft_desc_txt {1} </DYNAMIC>
+             <DYNAMIC> d.SLCTD_ITEM_CD {2}  </DYNAMIC>
+ 			 <DYNAMIC> e.SLCTD_ITEM_CD {3}  </DYNAMIC>
+ 			 <DYNAMIC> f.SLCTD_ITEM_CD {4}  </DYNAMIC>
+ 			 <DYNAMIC> g.SLCTD_ITEM_CD {5}  </DYNAMIC>
+			 <DYNAMIC> a.bnft_stts_cd {6} </DYNAMIC>
+			 <DYNAMIC> a.bnft_vrsn_nbr {7} </DYNAMIC>
+			 <DYNAMIC> a.BNFT_TYPE {8} </DYNAMIC>
+			 <DYNAMIC> h.MNDT_EFCTV_CD {9} </DYNAMIC>
+			 <DYNAMIC> h.MNDT_CTGRY_CD {10} </DYNAMIC>
+			 <DYNAMIC> a.BNFT_CTGRY {26} </DYNAMIC>
+			 <DYNAMIC> h.MNDT_TXT {11} </DYNAMIC>
+			 <DYNAMIC> j.BMNDT_ST_CD {12} </DYNAMIC>
+			 <DYNAMIC> i.BMNDT_CIITTN_NBR {13} </DYNAMIC>
+			 <DYNAMIC> h.MNDT_FUNDG_ARNGMNT_ID {14} </DYNAMIC>
+			 <DYNAMIC> upper(a.creatd_user_id) {15} </DYNAMIC>
+			 <DYNAMIC> trunc(a.creatd_tm_stmp) {16} </DYNAMIC>
+			 <DYNAMIC> a.lst_chg_usr {17} </DYNAMIC>
+			 <DYNAMIC> trunc(a.lst_chg_tms) {18} </DYNAMIC>
+			 <DYNAMIC> a.bnft_id_nm {27} </DYNAMIC>
+			 <STATIC> ) </STATIC>
+			 <DYNAMIC> and c.bus_grp_nm {19}  </DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {20}  </DYNAMIC>
+			 <DYNAMIC> and c.lob_nm  {21}  </DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {28}  </DYNAMIC>
+			 <STATIC> order by bnft_id_nm asc, bnft_vrsn_nbr asc)</STATIC>
+			
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+			          select bnft_sys_id from(
+				select 	distinct a.bnft_sys_id as bnft_sys_id, a.bnft_id_nm as bnft_id_nm,
+						a.bnft_vrsn_nbr as bnft_vrsn_nbr
+				from 	BMST_BNFT_MSTR a, enty_domn_info b, avlbl_domn c 
+				where 	a.bnft_parnt_sys_id = b.enty_sys_id 
+				and 	b.enty_type = 'stdbenefit' and b.domn_sys_id = c.domn_sys_id 
+				and
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(a.bnft_id_nm) {0} </DYNAMIC>
+			 <DYNAMIC> and c.bus_grp_nm {1}  </DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {2}  </DYNAMIC>
+			 <DYNAMIC> and c.lob_nm  {3}  </DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {4}  </DYNAMIC>
+			 <STATIC> order by bnft_id_nm asc, bnft_vrsn_nbr asc)</STATIC>
+			 
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitIdentifiersWithBenefitLevelIdentifier">
+			<![CDATA[
+					select 	a.bnft_sys_id 
+					from 	BDM_BNFT_DEFN_MSTR a, BLVL_BNFT_LVL b, BMST_BNFT_MSTR c
+					where 	a.bnft_defn_sys_id = b.bnft_defn_sys_id
+					and     a.bnft_sys_id = c.bnft_sys_id
+					and 	b.blvl_bnft_lvl_id = {0}
+					order by c.bnft_id_nm asc, c.bnft_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortBenefitIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				select 	a.bnft_sys_id 
+				from 	BMST_BNFT_MSTR a 
+				where 	a.bnft_sys_id {0}
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_ID_NM {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_VRSN_NBR {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_STTS_CD {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.BNFT_DESC_TXT {4} </DYNAMIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitIdentifiersWithNotesIdentifier">
+			<![CDATA[
+				select a.ENTY_SYS_ID from NOTE_DOMN_ASSN a,BMST_BNFT_MSTR b where 
+				a.NOTE_ID = {0} and a.NOTE_VRSN_NBR = {1}  and a.ENTY_TYPE = 'ATTACHBENEFIT'
+				and b.bnft_sys_id = a.ENTY_SYS_ID order by b.bnft_id_nm asc, b.bnft_vrsn_nbr asc
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+				</RSIndexToDOAttributeMap>	
+				<SearchQueryName name="searchBenefitIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>		
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID"		toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"		toSCAttb="noteVersion"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="BMST_BNFT_MSTR">
+			<DataObjectAttribute name="bnft_sys_id" 		type="Int"/>
+			<DataObjectAttribute name="bnft_id_nm" 			type="String"/>
+			<DataObjectAttribute name="bnft_order_by" 		type="String"/>
+			<DataObjectAttribute name="bnft_desc_txt"		type="String"/>
+			<DataObjectAttribute name="bnft_stts_cd"		type="String"/>
+			<DataObjectAttribute name="bnft_vrsn_nbr"		type="Int"/>
+			<DataObjectAttribute name="creatd_user_id"		type="String"/>
+			<DataObjectAttribute name="creatd_tm_stmp"		type="TimeStamp"/>
+			<DataObjectAttribute name="lst_chg_usr"		type="String"/>
+			<DataObjectAttribute name="lst_chg_tms"		type="TimeStamp"/>
+			<DataObjectAttribute name="slctd_item_type"		type="String"/>
+			<DataObjectAttribute name="BNFT_TYPE"		type="String"/>
+			<DataObjectAttribute name="MNDT_EFCTV_CD"		type="String"/>
+			<DataObjectAttribute name="MNDT_CTGRY_CD"		type="String"/>
+			<DataObjectAttribute name="BNFT_CTGRY"		type="String"/>
+			<DataObjectAttribute name="MNDT_TXT"		type="String"/>
+			<DataObjectAttribute name="BMNDT_ST_CD"		type="String"/>
+			<DataObjectAttribute name="BMNDT_CIITTN_NBR"		type="String"/>
+			<DataObjectAttribute name="MNDT_FUNDG_ARNGMNT_ID"		type="String"/>
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_id_nm"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_sys_id"/>
+				<DataObjectAttributeInput index="1" name="bnft_order_by"/>
+				<DataObjectAttributeInput index="2" name="bnft_order_by"/>
+				<DataObjectAttributeInput index="3" name="bnft_order_by"/>
+				<DataObjectAttributeInput index="4" name="bnft_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortBenefitIdentifiers"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_id_nm"/>
+				<DataObjectAttributeInput index="1" name="bnft_desc_txt"/>
+				<DataObjectAttributeInput index="6" name="bnft_stts_cd"/>
+				<DataObjectAttributeInput index="7" name="bnft_vrsn_nbr"/>
+				<DataObjectAttributeInput index="8" name="BNFT_TYPE"/>
+				<DataObjectAttributeInput index="9" name="MNDT_EFCTV_CD"/>
+				<DataObjectAttributeInput index="10" name="MNDT_CTGRY_CD"/>
+				<DataObjectAttributeInput index="11" name="MNDT_TXT"/>
+				<DataObjectAttributeInput index="12" name="BMNDT_ST_CD"/>
+				<DataObjectAttributeInput index="13" name="BMNDT_CIITTN_NBR"/>
+				<DataObjectAttributeInput index="14" name="MNDT_FUNDG_ARNGMNT_ID"/>
+				<DataObjectAttributeInput index="15" name="creatd_user_id"/>
+				<DataObjectAttributeInput index="16" name="creatd_tm_stmp"/>
+			 	<DataObjectAttributeInput index="17" name="lst_chg_usr"/>
+				<DataObjectAttributeInput index="18" name="lst_chg_tms"/>
+				<DataObjectAttributeInput index="26" name="BNFT_CTGRY"/>
+			    <DataObjectAttributeInput index="27" name="invld_val"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="bnft_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bnft_id_nm" 			toSCAttb="name"/>
+					<Pair DOAttb="bnft_sys_id"			toSCAttb="benefitIds"/>
+					<Pair DOAttb="bnft_order_by"		toSCAttb="orderByName"/>
+					<Pair DOAttb="bnft_order_by"		toSCAttb="orderByVersion"/>
+					<Pair DOAttb="bnft_order_by"		toSCAttb="orderByStatus"/>
+					<Pair DOAttb="bnft_order_by"		toSCAttb="orderByDescription"/>
+					<Pair DOAttb="bnft_desc_txt"		toSCAttb="description"/>
+					<Pair DOAttb="bnft_stts_cd"			toSCAttb="status"/>
+					<Pair DOAttb="bnft_vrsn_nbr"		toSCAttb="version"/>
+					<Pair DOAttb="creatd_user_id"		toSCAttb="createdBy"/>
+					<Pair DOAttb="creatd_tm_stmp"		toSCAttb="createdDate"/>
+					<Pair DOAttb="lst_chg_usr"			toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="lst_chg_tms"			toSCAttb="lastUpdatedDate"/>
+					<Pair DOAttb="BNFT_TYPE"			toSCAttb="benefitType"/>
+					<Pair DOAttb="MNDT_EFCTV_CD"			toSCAttb="effectiveness"/>
+					<Pair DOAttb="MNDT_CTGRY_CD"			toSCAttb="mandateCategory"/>
+					<Pair DOAttb="BNFT_CTGRY"			toSCAttb="benefitCategory"/>
+					<Pair DOAttb="MNDT_TXT"			toSCAttb="benefitText"/>
+					<Pair DOAttb="BMNDT_ST_CD"			toSCAttb="jurisdiction"/>
+					<Pair DOAttb="BMNDT_CIITTN_NBR"			toSCAttb="citationNumber"/>
+					<Pair DOAttb="MNDT_FUNDG_ARNGMNT_ID"			toSCAttb="benefitFundingArrangement"/>
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="BDM_BNFT_DEFN_MSTR">
+			<DataObjectAttribute name="bnft_sys_id" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitIdentifiersWithBenefitLevelIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+				<Pair DOAttb="bnft_sys_id" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+		</DataObject>
+		<DataObject name="BLVL_BNFT_LVL">
+			<DataObjectAttribute name="blvl_bnft_lvl_id" 	type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="blvl_bnft_lvl_id"/>
+				<SearchQueryName name="searchBenefitIdentifiersWithBenefitLevelIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="blvl_bnft_lvl_id" 	toSCAttb="benefitLevelId"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="bnft_bsic_slctd_info">
+			<DataObjectAttribute name="bnft_slctd_term" 			 	type="String"/>
+			<DataObjectAttribute name="bnft_slctd_qualifier" 	 	type="String"/>
+			<DataObjectAttribute name="bnft_slctd_provider_arngment" type="String"/>
+			<DataObjectAttribute name="bnft_slctd_data_type"         type="String"/>
+			<DataObjectAttribute name="bnft_slctd_empty_term"         type="String"/>
+			<DataObjectAttribute name="bnft_slctd_empty_pva"         type="String"/>
+			<DataObjectAttribute name="bnft_slctd_empty_dt"         type="String"/>
+			<DataObjectAttribute name="bnft_slctd_empty_qualifier"         type="String"/>		
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="2" name="bnft_slctd_term"/>
+				<DataObjectAttributeInput index="3" name="bnft_slctd_qualifier"/>
+				<DataObjectAttributeInput index="4" name="bnft_slctd_provider_arngment"/>
+				<DataObjectAttributeInput index="5" name="bnft_slctd_data_type"/>
+				<DataObjectAttributeInput index="22" name="bnft_slctd_empty_term"/>
+				<DataObjectAttributeInput index="23" name="bnft_slctd_empty_pva"/>
+				<DataObjectAttributeInput index="24" name="bnft_slctd_empty_dt"/>
+				<DataObjectAttributeInput index="25" name="bnft_slctd_empty_qualifier"/>		
+				<SearchQueryName name="searchBenefitIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bnft_slctd_term"				toSCAttb="term"/>
+					<Pair DOAttb="bnft_slctd_qualifier"			toSCAttb="qualifier"/>
+					<Pair DOAttb="bnft_slctd_provider_arngment"	toSCAttb="providerArrangement"/>
+					<Pair DOAttb="bnft_slctd_data_type"			toSCAttb="dataType"/>
+					<Pair DOAttb="bnft_slctd_empty_term"	    toSCAttb="emptyTerm"/>
+					<Pair DOAttb="bnft_slctd_empty_pva"	    toSCAttb="emptyProviderArrangement"/>
+					<Pair DOAttb="bnft_slctd_empty_dt"	    toSCAttb="emptyDataType"/>
+					<Pair DOAttb="bnft_slctd_empty_qualifier" toSCAttb="emptyQualifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="19" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="20" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="21" name="lob_nm"/>
+				<DataObjectAttributeInput index="28" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitDetail">
+	<BusinessAttribute name="name" 				type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="version" 			type="Int"		keyAttrib="true"/>
+	<BusinessAttribute name="status" 			type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="description" 			type="String"	keyAttrib="false"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveBenefitDetailUsingIdentifier">
+			<![CDATA[
+				select 	a.bnft_id_nm, a.bnft_vrsn_nbr, a.bnft_stts_cd, a.BNFT_DESC_TXT 
+				from 	BMST_BNFT_MSTR a
+				where 	a.bnft_sys_id = {0}
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="BMST_BNFT_MSTR">
+			<DataObjectAttribute name="bnft_sys_id" 	type="Int"/>
+			<DataObjectAttribute name="bnft_id_nm" 		type="String"/>
+			<DataObjectAttribute name="bnft_vrsn_nbr" 	type="Int"/>
+			<DataObjectAttribute name="bnft_stts_cd" 	type="String"/>
+			<DataObjectAttribute name="BNFT_DESC_TXT" 	type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="bnft_sys_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="bnft_id_nm"/>
+					<ResultIndex index="1" dataObjectAttribName ="bnft_vrsn_nbr"/>
+					<ResultIndex index="2" dataObjectAttribName ="bnft_stts_cd"/>
+					<ResultIndex index="3" dataObjectAttribName ="BNFT_DESC_TXT"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="bnft_id_nm" 		toBOAttb="name"/>
+					<Pair DOAttb="bnft_vrsn_nbr" 	toBOAttb="version"/>
+					<Pair DOAttb="bnft_stts_cd" 	toBOAttb="status"/>
+					<Pair DOAttb="BNFT_DESC_TXT" 	toBOAttb="description"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bnft_sys_id" 		toSCAttb="identifier"/>
+			</DoAttributeToSCAttributeMap>			
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLineDetail">
+		<BusinessAttribute name="pva" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="term" 	        type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="qualifier" 	    type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="description" 	type="String"		keyAttrib="true"/>
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitLineId"    type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveBenefitLineDetailUsingIdentifier">
+			<![CDATA[
+				SELECT b.BLVL_BNFT_LVL_TERM,d.CD_DESC_TXT,e.CD_DESC_TXT,b.BLVL_BNFT_LVL_DESC FROM BLN_BNFT_LINE a, BLVL_BNFT_LVL b,
+				(select * from item where CTLG_ID='1935') d,
+				(select * from item where CTLG_ID='1936') e
+				WHERE a.BLVL_BNFT_LVL_ID=b.BLVL_BNFT_LVL_ID	and 
+				a.BLN_BNFT_LINE_PVA=e.PRMRY_CD(+)
+				and b.BLVL_BNFT_LVL_QLFR=d.PRMRY_CD(+) and a.BLN_BNFT_LINE_ID={0}
+ 
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="BLN_BNFT_LINE">
+			<DataObjectAttribute name="BLN_BNFT_LINE_ID" 		type="Int"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_TERM" 		type="String"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_QLFR" 		type="String"/>
+			<DataObjectAttribute name="BLN_BNFT_LINE_PVA" 		type="String"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_DESC" 		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BLN_BNFT_LINE_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="BLVL_BNFT_LVL_TERM"/>
+					<ResultIndex index="1" dataObjectAttribName ="BLVL_BNFT_LVL_QLFR"/>
+					<ResultIndex index="2" dataObjectAttribName ="BLN_BNFT_LINE_PVA"/>
+					<ResultIndex index="3" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitLineDetailUsingIdentifier"/>
+			</SQLTemplate>	
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BLN_BNFT_LINE_PVA" 	toBOAttb="pva"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_TERM" 	toBOAttb="term"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_QLFR" 	toBOAttb="qualifier"/>		
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC" 	toBOAttb="description"/>
+			</DoAttributeToBOAttributeMap>	
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BLN_BNFT_LINE_ID"		toSCAttb="benefitLineId"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+	</BusinessObjectMetadata>
+	
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLineIdentifier">
+		<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="benefitLineIdentifier" 	type="Int"		keyAttrib="true"/>
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="noteId"    type="String"/>
+			<SearchCriteriaAttribute name="noteVersion"    type="Int"/>
+			<SearchCriteriaAttribute name="orderByQualifier"    type="String"/>
+			<SearchCriteriaAttribute name="orderByPva"    type="String"/>
+			<SearchCriteriaAttribute name="orderByDesc"    type="String"/>
+			<SearchCriteriaAttribute name="benefitLineIdentifiers"    type="List"/>
+		</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchBenefitLineIdentifiersWithNotesIdentifier">
+			<![CDATA[
+				select a.BLVL_BNFT_LVL_ID, a.BLN_BNFT_LINE_ID from BLN_BNFT_LINE a, BLVL_BNFT_LVL b where a.BLN_BNFT_LINE_ID in 
+				(select ENTY_SYS_ID from NOTE_DOMN_ASSN where 
+				NOTE_ID = {0} and NOTE_VRSN_NBR = {1}  and ENTY_TYPE = 'ATTACHBNFTLINE') and a.BLVL_BNFT_LVL_ID = b.BLVL_BNFT_LVL_ID
+				 order by b.BLVL_BNFT_LVL_DESC
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortBenefitLineIdentifiers"  dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				SELECT a.BLN_BNFT_LINE_ID, b.BLVL_BNFT_LVL_ID FROM BLN_BNFT_LINE a, BLVL_BNFT_LVL b,
+								
+								(select * from item where CTLG_ID='1935') d,
+								(select * from item where CTLG_ID='1936') e
+								
+								WHERE a.BLVL_BNFT_LVL_ID=b.BLVL_BNFT_LVL_ID	
+								
+								and a.BLN_BNFT_LINE_PVA=e.PRMRY_CD(+) 
+								and b.BLVL_BNFT_LVL_QLFR=d.PRMRY_CD(+) 
+				and a.BLN_BNFT_LINE_ID {0}
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY d.CD_DESC_TXT {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY e.CD_DESC_TXT {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY b.BLVL_BNFT_LVL_DESC {3} </DYNAMIC>
+		</SelectSQLQuery>
+		<DataObject name="BLN_BNFT_LINE">
+			<DataObjectAttribute name="Qualifier_orderBy" 		type="String"/>
+			<DataObjectAttribute name="Pva_orderBy" 			type="String"/>
+			<DataObjectAttribute name="Description_orderBy" 		type="String"/>
+			<DataObjectAttribute name="BLN_BNFT_LINE_ID" 		type="Int"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_ID" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BLN_BNFT_LINE_ID"/>
+				<DataObjectAttributeInput index="1" name="Qualifier_orderBy"/>
+				<DataObjectAttributeInput index="2" name="Pva_orderBy"/>
+				<DataObjectAttributeInput index="3" name="Description_orderBy"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="BLN_BNFT_LINE_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortBenefitLineIdentifiers"/>
+			</SQLTemplate>	
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID" 	toBOAttb="identifier"/>
+					<Pair DOAttb="BLN_BNFT_LINE_ID" 	toBOAttb="benefitLineIdentifier"/>
+			</DoAttributeToBOAttributeMap>	
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="Qualifier_orderBy"		toSCAttb="orderByQualifier"/>
+					<Pair DOAttb="Pva_orderBy"		toSCAttb="orderByPva"/>
+					<Pair DOAttb="Description_orderBy"		toSCAttb="orderByDesc"/>
+					<Pair DOAttb="BLN_BNFT_LINE_ID"		toSCAttb="benefitLineIdentifiers"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_ID" 			type="Int"/>
+			<DataObjectAttribute name="BLN_BNFT_LINE_ID" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="BLN_BNFT_LINE_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitLineIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>	
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID" 	toBOAttb="identifier"/>
+					<Pair DOAttb="BLN_BNFT_LINE_ID" 	toBOAttb="benefitLineIdentifier"/>
+			</DoAttributeToBOAttributeMap>	
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID"		toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"		toSCAttb="noteVersion"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+	</BusinessObjectMetadata>
+
+	<!-- Search Engine adapter configuration for BENEFIT LEVEL-->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLevelIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="true"/>
+	<BusinessAttribute name="benDefIdentifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="description"		type="String"/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"    type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"    type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"   type="List"/>
+		<SearchCriteriaAttribute name="benefitLevelIds"    type="List"/>
+		<SearchCriteriaAttribute name="orderByQualifier"     	type="String"/>
+		<SearchCriteriaAttribute name="orderByDescription"    type="String"/>
+		<SearchCriteriaAttribute name="term"    type="String"/>
+	    <SearchCriteriaAttribute name="qualifier"    type="String"/>
+		<SearchCriteriaAttribute name="pVA"    type="String"/>
+		<SearchCriteriaAttribute name="dataType"    type="Int"/>
+		<SearchCriteriaAttribute name="noteId"    type="String"/>
+		<SearchCriteriaAttribute name="noteVersion"    type="Int"/>
+		<SearchCriteriaAttribute name="blvl_bnft_lvl_dummy"    type="Int"/>
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+
+
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchBenefitLevelIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+				  select blvl_bnft_lvl_id,BNFT_DEFN_SYS_ID from (
+						select 	distinct c.blvl_bnft_lvl_id as blvl_bnft_lvl_id, c.blvl_bnft_lvl_desc as blvl_bnft_lvl_desc,
+						c.BNFT_DEFN_SYS_ID as BNFT_DEFN_SYS_ID
+						from 	 BLVL_BNFT_LVL c 
+			                    INNER JOIN BDM_BNFT_DEFN_MSTR b on b.bnft_defn_sys_id = c.bnft_defn_sys_id
+								INNER JOIN BMST_BNFT_MSTR a on a.bnft_sys_id = b.bnft_sys_id
+			                    INNER JOIN enty_domn_info d on a.bnft_parnt_sys_id = d.enty_sys_id 
+			                    INNER JOIN avlbl_domn e on d.domn_sys_id = e.domn_sys_id
+			                    LEFT OUTER JOIN BLN_BNFT_LINE f on  c.blvl_bnft_lvl_id = f.blvl_bnft_lvl_id
+						where 		
+                              	d.enty_type = 'stdbenefit' 
+					and ( 
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(c.blvl_bnft_lvl_term) {0} </DYNAMIC>
+			 <DYNAMIC> upper(c.blvl_bnft_lvl_qlfr) {1} </DYNAMIC>
+			 <DYNAMIC> upper(c.blvl_bnft_lvl_desc) {2} </DYNAMIC>
+			 <DYNAMIC> upper(f.bln_bnft_line_pva) {3} </DYNAMIC>
+   			 <DYNAMIC> upper(f.dtyp_data_type_id) {4} </DYNAMIC>
+			 <DYNAMIC> upper(c.blvl_bnft_lvl_desc) {5} </DYNAMIC>
+			 <STATIC> ) </STATIC>
+			 <DYNAMIC> and e.bus_grp_nm  {6}  </DYNAMIC>
+			 <DYNAMIC> and e.bus_enty_nm  {7}  </DYNAMIC>
+			 <DYNAMIC> and e.lob_nm  {8}  </DYNAMIC>
+			 <DYNAMIC> and e.MRKT_BUS_UNT {9}  </DYNAMIC>
+			 <STATIC> order by blvl_bnft_lvl_desc asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchBenefitLevelIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+				  select blvl_bnft_lvl_id,BNFT_DEFN_SYS_ID from (
+						select 	distinct c.blvl_bnft_lvl_id as blvl_bnft_lvl_id, c.blvl_bnft_lvl_desc as blvl_bnft_lvl_desc,
+							c.BNFT_DEFN_SYS_ID as BNFT_DEFN_SYS_ID
+						from 	BMST_BNFT_MSTR a, BDM_BNFT_DEFN_MSTR b, BLVL_BNFT_LVL c, 
+							enty_domn_info d, avlbl_domn e
+						where 	a.bnft_sys_id = b.bnft_sys_id
+					and   	b.bnft_defn_sys_id = c.bnft_defn_sys_id
+					and   	a.bnft_parnt_sys_id = d.enty_sys_id 
+						and 	d.enty_type = 'stdbenefit' 
+					and   	d.domn_sys_id = e.domn_sys_id 
+					and 
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(c.blvl_bnft_lvl_desc) {0} </DYNAMIC>
+			 <DYNAMIC> and e.bus_grp_nm  {1}  </DYNAMIC>
+			 <DYNAMIC> and e.bus_enty_nm  {2}  </DYNAMIC>
+			 <DYNAMIC> and e.lob_nm  {3}  </DYNAMIC>
+			 <DYNAMIC> and e.MRKT_BUS_UNT {4}  </DYNAMIC>
+			 <STATIC> order by blvl_bnft_lvl_desc asc)</STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortBenefitLevelIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+
+				SELECT b.BLVL_BNFT_LVL_ID, b.BNFT_DEFN_SYS_ID FROM  BLVL_BNFT_LVL b,
+								(select * from item where CTLG_ID='1935') d where 
+								b.BLVL_BNFT_LVL_QLFR=d.PRMRY_CD(+) 
+				and (b.BLVL_BNFT_LVL_ID, b.BNFT_DEFN_SYS_ID) in {0} 
+				]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY d.CD_DESC_TXT {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY b.blvl_bnft_lvl_desc {2} </DYNAMIC>
+		</SelectSQLQuery>
+		<DataObject name="BLVL_BNFT_LVL">
+			<DataObjectAttribute name="blvl_bnft_lvl_id" 		type="Int"/>
+			<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="blvl_bnft_lvl_desc" 		type="String"/>
+			<DataObjectAttribute name="benefit_level_order_by" 		type="String"/>
+			<DataObjectAttribute name="blvl_bnft_lvl_term" 		type="String"/>
+			<DataObjectAttribute name="blvl_bnft_lvl_qlfr" 		type="String"/>		
+			<DataObjectAttribute name="blvl_bnft_lvl_dummy" 		type="Int"/>		
+			<DataObjectAttribute name="invld_val" 		type="String"/>		
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="blvl_bnft_lvl_desc"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="blvl_bnft_lvl_id"/>
+					<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitLevelIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="blvl_bnft_lvl_term"/>
+				<DataObjectAttributeInput index="1" name="blvl_bnft_lvl_qlfr"/>
+				<DataObjectAttributeInput index="2" name="blvl_bnft_lvl_desc"/>
+				<DataObjectAttributeInput index="5" name="invld_val"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="blvl_bnft_lvl_id"/>	
+					<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchBenefitLevelIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="blvl_bnft_lvl_dummy"/>
+				<DataObjectAttributeInput index="1" name="benefit_level_order_by"/>
+				<DataObjectAttributeInput index="2" name="benefit_level_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="blvl_bnft_lvl_id"/>
+					<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortBenefitLevelIdentifiers"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="blvl_bnft_lvl_id" 	toBOAttb="identifier"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID" 	toBOAttb="benDefIdentifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="blvl_bnft_lvl_desc" 	toSCAttb="description"/>
+					<Pair DOAttb="blvl_bnft_lvl_dummy" 	toSCAttb="blvl_bnft_lvl_dummy"/>
+					<Pair DOAttb="benefit_level_order_by" 	toSCAttb="orderByQualifier"/>
+					<Pair DOAttb="benefit_level_order_by" 	toSCAttb="orderByDescription"/>
+					<Pair DOAttb="blvl_bnft_lvl_id" 	toSCAttb="benefitLevelIds"/>
+					<Pair DOAttb="blvl_bnft_lvl_term" 	toSCAttb="term"/>
+					<Pair DOAttb="blvl_bnft_lvl_qlfr" 	toSCAttb="qualifier"/>
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="bln_bnft_line">
+			<DataObjectAttribute name="bln_bnft_line_pva" 		type="String"/>
+			<DataObjectAttribute name="dtyp_data_type_id" 			type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="3" name="bln_bnft_line_pva"/>
+				<DataObjectAttributeInput index="4" name="dtyp_data_type_id"/>
+				<SearchQueryName name="searchBenefitLevelIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bln_bnft_line_pva"	toSCAttb="pVA"/>
+					<Pair DOAttb="dtyp_data_type_id"	toSCAttb="dataType"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitLevelIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="6" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="7" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="8" name="lob_nm"/>
+				<DataObjectAttributeInput index="9" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchBenefitLevelIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+  <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLevelDetail">
+	<BusinessAttribute name="qualifier" 		type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="description" 		type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="term" 		type="String"	keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+		<SearchCriteriaAttribute name="benDefIdentifier" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveBenefitLevelDetailUsingIdentifier">
+			<![CDATA[
+			select 	distinct a.BLVL_BNFT_LVL_TERM as term, a.blvl_bnft_lvl_qlfr as qualifier, a.blvl_bnft_lvl_desc as description
+						from 	blvl_bnft_lvl a, item b 
+						where 	a.blvl_bnft_lvl_id = {0} and a.BNFT_DEFN_SYS_ID = {1}
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="blvl_bnft_lvl">
+			<DataObjectAttribute name="blvl_bnft_lvl_id" 	type="Int"/>
+			<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 	type="Int"/>
+			<DataObjectAttribute name="BLVL_BNFT_LVL_TERM" 	type="String"/>
+			<DataObjectAttribute name="blvl_bnft_lvl_qlfr" 	type="String"/>
+			<DataObjectAttribute name="blvl_bnft_lvl_desc" 	type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="blvl_bnft_lvl_id"/>
+				<DataObjectAttributeInput index="1" name="BNFT_DEFN_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="BLVL_BNFT_LVL_TERM"/>
+					<ResultIndex index="2" dataObjectAttribName ="blvl_bnft_lvl_desc"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitLevelDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="blvl_bnft_lvl_desc" 	toBOAttb="description"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_TERM" 	toBOAttb="term"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="blvl_bnft_lvl_id" 	toSCAttb="identifier"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID" 	toSCAttb="benDefIdentifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="item_qual">
+			<DataObjectAttribute name="cd_desc_txt" 	type="String"/>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1" dataObjectAttribName ="cd_desc_txt"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitLevelDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="cd_desc_txt" 	toBOAttb="qualifier"/>
+			</DoAttributeToBOAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.TermIdDetail">
+	<BusinessAttribute name="termIds" 		type="List"	keyAttrib="true"/>
+	<BusinessAttribute name="description" 		type="List"	keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="appendedIds" 	type="List"/>
+		<SearchCriteriaAttribute name="id" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveDescriptionForTermId" dynamic="true">
+			<STATIC>
+			<![CDATA[
+				select prmry_cd, cd_desc_txt from item where 
+			]]>
+			</STATIC>
+			 <DYNAMIC> prmry_cd   {0}  </DYNAMIC>
+			 <STATIC> and ctlg_id = {1}  </STATIC>
+		</SelectSQLQuery>
+		<DataObject name="item">
+			<DataObjectAttribute name="cd_desc_txt" 	type="String"/>
+			<DataObjectAttribute name="prmry_cd" 		type="String"/>
+			<DataObjectAttribute name="ctld_id" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="prmry_cd"/>
+				<DataObjectAttributeInput index="1" name="ctld_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prmry_cd"/>
+					<ResultIndex index="1" dataObjectAttribName ="cd_desc_txt"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveDescriptionForTermId"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="cd_desc_txt" 	toBOAttb="description"/>
+					<Pair DOAttb="prmry_cd" 	toBOAttb="termIds"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="prmry_cd" 	toSCAttb="appendedIds"/>
+					<Pair DOAttb="ctld_id" 		toSCAttb="id"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+
+		<!-- Search Engine adapter configuration for NOTES-->
+  <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.NotesIdentifier">
+	<BusinessAttribute name="identifier" 				type="String"		keyAttrib="true"/>
+	<BusinessAttribute name="version" 					type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="noteName" 	type="String"/>
+		<SearchCriteriaAttribute name="noteIds" 	type="List"/>
+		<SearchCriteriaAttribute name="versions" type="List"/>
+		<SearchCriteriaAttribute name="orderByName" 	type="String"/>
+		<SearchCriteriaAttribute name="orderByVersion" 	type="String"/>
+		<SearchCriteriaAttribute name="orderByText" 	type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus" 	type="String"/>
+		<SearchCriteriaAttribute name="orderByNoteType" type="String"/>
+		<SearchCriteriaAttribute name="orderByNoteId" type="String"/>
+        <SearchCriteriaAttribute name="noteId" type="String"/>
+        <SearchCriteriaAttribute name="type" type="String"/>
+		<SearchCriteriaAttribute name="text" type="String"/>
+		<SearchCriteriaAttribute name="status" type="String"/>
+		<SearchCriteriaAttribute name="domainedProduct" type="String"/>
+		<SearchCriteriaAttribute name="domainedBenefitComponent" type="String"/>
+		<SearchCriteriaAttribute name="domainedBenefit" type="String"/>
+		<SearchCriteriaAttribute name="domainedQuestion" type="String"/>
+		<SearchCriteriaAttribute name="domainedTerm" type="String"/>
+		<SearchCriteriaAttribute name="domainedQualifier" type="String"/>
+		<SearchCriteriaAttribute name="targetSystems" type="String"/>
+		<SearchCriteriaAttribute name="createdBy" type="String"/>
+		<SearchCriteriaAttribute name="createdDate" type="Date"/>
+		<SearchCriteriaAttribute name="lastUpdatedBy" type="String"/>
+		<SearchCriteriaAttribute name="lastUpdatedDate" type="Date"/>
+		<SearchCriteriaAttribute name="invalidValue"    type="String"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchNotesIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+			            select NOTE_ID, NOTE_VRSN_NBR from NMST_NOTE_MSTR where LGCY_IND = 'N' and 
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> NOTE_NM {0} </DYNAMIC>
+			 <STATIC> order by NOTE_NM asc, NOTE_VRSN_NBR asc</STATIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchNotesIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+		select distinct a.NOTE_ID, a.NOTE_VRSN_NBR from NMST_NOTE_MSTR a
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILPRODUCT') b 
+            on a.NOTE_ID = b.NOTE_ID  and a.note_vrsn_nbr=b.note_vrsn_nbr                                   
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILCOMP') c 
+            on a.NOTE_ID = c.NOTE_ID and a.note_vrsn_nbr=c.note_vrsn_nbr                                   
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILBENEFIT') d
+            on a.NOTE_ID = d.NOTE_ID and a.note_vrsn_nbr=d.note_vrsn_nbr                                   
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILTERM') e 
+            on a.NOTE_ID = e.NOTE_ID and a.note_vrsn_nbr=e.note_vrsn_nbr
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILQUALIFIER') f 
+            on a.NOTE_ID = f.NOTE_ID and a.note_vrsn_nbr=f.note_vrsn_nbr
+       left outer JOIN (SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='SYSTEM DOMAIN') g 
+             on a.NOTE_ID = g.NOTE_ID and a.note_vrsn_nbr=g.note_vrsn_nbr
+       left outer JOIN ( SELECT distinct NOTE_ID,NOTE_VRSN_NBR,ENTY_SYS_ID from NOTE_DOMN_ASSN where ENTY_TYPE='AVAILQUESTION') h
+            on a.NOTE_ID = h.NOTE_ID and a.note_vrsn_nbr=h.note_vrsn_nbr 
+       where LGCY_IND = 'N' and      
+			         ]]>
+			 </STATIC>
+
+			 <DYNAMIC> upper(a.NOTE_ID) {0} </DYNAMIC>
+			 <DYNAMIC> upper(a.NOTE_NM) {1} </DYNAMIC>
+   			 <DYNAMIC> upper(a.NOTE_TYPE) {2} </DYNAMIC>
+			 <DYNAMIC> g.ENTY_SYS_ID {3} </DYNAMIC>
+			 <DYNAMIC> upper(a.NOTE_TXT) {4} </DYNAMIC>
+			 <DYNAMIC> upper(a.NOTE_STTS_CD) {5} </DYNAMIC>
+			 <DYNAMIC> b.ENTY_SYS_ID {6} </DYNAMIC>
+			 <DYNAMIC> c.ENTY_SYS_ID {7} </DYNAMIC>
+			 <DYNAMIC> d.ENTY_SYS_ID {8} </DYNAMIC>
+			 <DYNAMIC> e.ENTY_SYS_ID {9} </DYNAMIC>
+			 <DYNAMIC> f.ENTY_SYS_ID {10} </DYNAMIC>
+ 			 <DYNAMIC> h.ENTY_SYS_ID {16} </DYNAMIC>
+		     <DYNAMIC> upper(a.CREATD_USER_ID) {11} </DYNAMIC>
+			 <DYNAMIC> trunc(a.CREATD_TM_STMP) {12} </DYNAMIC>
+			 <DYNAMIC> upper(a.LST_CHG_USR) {13} </DYNAMIC>
+			 <DYNAMIC> trunc(a.LST_CHG_TMS) {14} </DYNAMIC>
+			<DYNAMIC>  a.NOTE_ID {15} </DYNAMIC>
+			 <STATIC> order by a.NOTE_ID asc</STATIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortNotesIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+				select 	a.NOTE_ID , a.NOTE_VRSN_NBR 
+				from 	NMST_NOTE_MSTR a 
+				where 	
+				]]>
+			 </STATIC>
+				<DYNAMIC REL="OR">
+				a.NOTE_ID  = {0} and a.NOTE_VRSN_NBR = {6}
+				</DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_NM {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_VRSN_NBR {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_TXT {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_STTS_CD {4} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_TYPE {5} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.NOTE_ID {7} </DYNAMIC>
+		</SelectSQLQuery>
+		<DataObject name="NMST_NOTE_MSTR">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="noteIdForAdvSearch" 			type="String"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>	
+			<DataObjectAttribute name="NOTE_NM" 		type="String"/>	
+			<DataObjectAttribute name="Note_order_by" 	type="String"/>			
+			<DataObjectAttribute name="NOTE_TYPE" 	type="String"/>
+			<DataObjectAttribute name="NOTE_TXT" 	type="String"/>
+			<DataObjectAttribute name="NOTE_STTS_CD" 	type="String"/>
+			<DataObjectAttribute name="CREATD_USER_ID" 	type="String"/>
+			<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp"/>
+			<DataObjectAttribute name="LST_CHG_USR" 	type="String"/>
+			<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp"/>
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_NM"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchNotesIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name ="noteIdForAdvSearch"/>
+				<DataObjectAttributeInput index="1" name ="NOTE_NM"/>
+				<DataObjectAttributeInput index="2" name ="NOTE_TYPE"/>
+				<DataObjectAttributeInput index="4" name ="NOTE_TXT"/>
+				<DataObjectAttributeInput index="5" name ="NOTE_STTS_CD"/>
+				<DataObjectAttributeInput index="11" name ="CREATD_USER_ID"/>
+				<DataObjectAttributeInput index="12" name ="CREATD_TM_STMP"/>
+				<DataObjectAttributeInput index="13" name ="LST_CHG_USR"/>
+				<DataObjectAttributeInput index="14" name ="LST_CHG_TMS"/>
+				<DataObjectAttributeInput index="15" name ="invld_val"/>
+			    <RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchNotesIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>					
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="Note_order_by"/>
+				<DataObjectAttributeInput index="2" name="Note_order_by"/>
+				<DataObjectAttributeInput index="3" name="Note_order_by"/>
+				<DataObjectAttributeInput index="4" name="Note_order_by"/>
+				<DataObjectAttributeInput index="5" name="Note_order_by"/>
+			    <DataObjectAttributeInput index="7" name="Note_order_by"/>
+				<DataObjectAttributeInput index="6" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortNotesIdentifiers"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="NOTE_ID" 		toBOAttb="identifier"/>
+					<Pair DOAttb="NOTE_VRSN_NBR" 		toBOAttb="version"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID" 					toSCAttb="noteIds"/>
+					<Pair DOAttb="noteIdForAdvSearch" 					toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR" 					toSCAttb="versions"/>
+					<Pair DOAttb="NOTE_NM" 					toSCAttb="noteName"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByName"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByVersion"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByText"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByStatus"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByNoteType"/>
+					<Pair DOAttb="Note_order_by" 				toSCAttb="orderByNoteId"/>
+					<Pair DOAttb="NOTE_TYPE" 				toSCAttb="type"/>
+					<Pair DOAttb="NOTE_TXT" 				toSCAttb="text"/>
+					<Pair DOAttb="NOTE_STTS_CD" 				toSCAttb="status"/>
+					<Pair DOAttb="CREATD_USER_ID" 				toSCAttb="createdBy"/>
+					<Pair DOAttb="CREATD_TM_STMP" 				toSCAttb="createdDate"/>
+					<Pair DOAttb="LST_CHG_USR" 				toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="LST_CHG_TMS" 				toSCAttb="lastUpdatedDate"/>
+				    <Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="note_product" 			 	type="String"/>
+			<DataObjectAttribute name="note_benefit_comp" 			 	type="String"/>
+			<DataObjectAttribute name="note_benefit" 			 	type="String"/>
+			<DataObjectAttribute name="note_question" 			 	type="String"/>
+			<DataObjectAttribute name="note_term" 			 	type="String"/>
+			<DataObjectAttribute name="note_qualifier" 			 	type="String"/>
+			<DataObjectAttribute name="note_targetSystems" 			 	type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="3" name="note_targetSystems"/>
+				<DataObjectAttributeInput index="6" name="note_product"/>
+				<DataObjectAttributeInput index="7" name="note_benefit_comp"/>
+				<DataObjectAttributeInput index="8" name="note_benefit"/>
+				<DataObjectAttributeInput index="9" name="note_term"/>
+				<DataObjectAttributeInput index="10" name="note_qualifier"/>
+				<DataObjectAttributeInput index="16" name="note_question"/>
+			
+				<SearchQueryName name="searchNotesIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="note_product"				toSCAttb="domainedProduct"/>
+					<Pair DOAttb="note_benefit_comp"				toSCAttb="domainedBenefitComponent"/>
+					<Pair DOAttb="note_benefit"				toSCAttb="domainedBenefit"/>
+					<Pair DOAttb="note_term"				toSCAttb="domainedTerm"/>
+					<Pair DOAttb="note_qualifier"				toSCAttb="domainedQualifier"/>
+					<Pair DOAttb="note_targetSystems"				toSCAttb="targetSystems"/>
+					<Pair DOAttb="note_question"				toSCAttb="domainedQuestion"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+     <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.NotesDetail">
+   	<BusinessAttribute name="noteName" 			type="String"	keyAttrib="true"/>
+   	<BusinessAttribute name="version" 		type="Int"		keyAttrib="true"/>
+   	<BusinessAttribute name="noteText" 		type="String"		keyAttrib="false"/>
+   	<BusinessAttribute name="status" 			type="String"		keyAttrib="false"/>
+   	<BusinessAttribute name="noteType" 				type="String"	keyAttrib="false"/>
+   	<SearchCriteria name="searchCriteria1">
+   		<SearchCriteriaAttribute name="identifier" 	type="String"/>
+   		<SearchCriteriaAttribute name="version" 	type="Int"/>
+   	</SearchCriteria>
+   	<DataSource name="prmd" domain="medical">
+   		<Connection preferred="jndi">
+   			<url></url>
+   			<jndi>jdbc/wsbEwpd</jndi>
+   		</Connection>
+   		<SelectSQLQuery name="retrieveNotesDetailUsingIdentifier">
+   			<![CDATA[
+   				select 	a.NOTE_NM, a.NOTE_VRSN_NBR, a.NOTE_TXT, a.NOTE_STTS_CD, b.CD_DESC_TXT
+   				from 	NMST_NOTE_MSTR a,ITEM b
+   				where 	a.NOTE_ID = {0} and a.NOTE_VRSN_NBR = {1}
+				and     a.NOTE_TYPE=b.PRMRY_CD(+)
+				and     b.CTLG_ID='1945'
+   			]]>
+   		</SelectSQLQuery>
+   		<DataObject name="NMST_NOTE_MSTR">
+   			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+   			<DataObjectAttribute name="NOTE_NM" 			type="String"/>
+   			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+   			<DataObjectAttribute name="NOTE_TXT" 			type="String"/>
+   			<DataObjectAttribute name="NOTE_STTS_CD" 		type="String"/>
+   			
+   			<SQLTemplate transType="select">
+   				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+   				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+   				<RSIndexToDOAttributeMap>
+   					<ResultIndex index="0" dataObjectAttribName ="NOTE_NM"/>
+   					<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+   					<ResultIndex index="2" dataObjectAttribName ="NOTE_TXT"/>
+   					<ResultIndex index="3" dataObjectAttribName ="NOTE_STTS_CD"/>
+   					
+   				</RSIndexToDOAttributeMap>
+   				<SearchQueryName name="retrieveNotesDetailUsingIdentifier"/>
+   			</SQLTemplate>
+   			<DoAttributeToBOAttributeMap>
+   					<Pair DOAttb="NOTE_NM" 			toBOAttb="noteName"/>
+   					<Pair DOAttb="NOTE_VRSN_NBR" 		toBOAttb="version"/>
+   					<Pair DOAttb="NOTE_TXT" 		toBOAttb="noteText"/>
+   					<Pair DOAttb="NOTE_STTS_CD" 		toBOAttb="status"/>
+   					
+   			</DoAttributeToBOAttributeMap>
+   			<DoAttributeToSCAttributeMap>
+   					<Pair DOAttb="NOTE_ID" 			toSCAttb="identifier"/>
+   					<Pair DOAttb="NOTE_VRSN_NBR" 			toSCAttb="version"/>
+   			</DoAttributeToSCAttributeMap>
+   		</DataObject>
+
+		<DataObject name="ITEM">
+   			<DataObjectAttribute name="CD_DESC_TXT" 		type="String"/>
+   			<SQLTemplate transType="select">
+   				<RSIndexToDOAttributeMap>
+   					<ResultIndex index="4" dataObjectAttribName ="CD_DESC_TXT"/>
+   				</RSIndexToDOAttributeMap>
+   				<SearchQueryName name="retrieveNotesDetailUsingIdentifier"/>
+   			</SQLTemplate>
+   			<DoAttributeToBOAttributeMap>
+   					<Pair DOAttb="CD_DESC_TXT" 			toBOAttb="noteType"/>
+   			</DoAttributeToBOAttributeMap>
+   			
+   		</DataObject>
+   	</DataSource>
+   </BusinessObjectMetadata>
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="catalogId"   type="Int"/>
+            <SearchCriteriaAttribute name="description"     type="String"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+            <SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	SELECT PRMRY_CD,CD_DESC_TXT
+                    	FROM ITEM
+                    	WHERE CTLG_ID = {0} 
+                   	 	AND 
+					]]>
+				</STATIC>
+                <DYNAMIC>
+                        upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+           <SelectSQLQuery name="searchDataTypeDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select DTYP_DATA_TYPE_ID,DTYP_DATA_TYPE_NAME 
+						from DTYP_DATA_TYPE
+						WHERE
+					]]>
+				</STATIC>
+                <DYNAMIC>
+                        upper(DTYP_DATA_TYPE_NAME) {0}
+                </DYNAMIC>
+            </SelectSQLQuery>
+            <DataObject name="ITEM">
+                <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+                <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+                <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+                    <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+                        <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchRefItemDetails"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+                    <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+                    <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+            </DataObject>
+           <DataObject name="DATATYPE">
+                <DataObjectAttribute name="TYPE_CD"            type="String"/>
+                <DataObjectAttribute name="TYPE_NAME"         type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="TYPE_NAME"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="TYPE_CD"/>
+                        <ResultIndex index="1" dataObjectAttribName ="TYPE_NAME"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchDataTypeDetails"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="TYPE_CD"         toBOAttb="code"/>
+                    <Pair DOAttb="TYPE_NAME"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="TYPE_NAME"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+            </DataObject>
+        </DataSource>
+   </BusinessObjectMetadata>
+
+
+    <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.NoteItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+				 <SelectSQLQuery name="searchTermItem" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+                <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+                <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+                <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+                    <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+                        <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchTermItem"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+                    <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+                    <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+            </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+    <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.NotesDomainDetail">
+        <BusinessAttribute name="code"          type="Int"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+            <SelectSQLQuery name="searchProductItem" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	SELECT PROD_SYS_ID,PROD_NM FROM PROD_MSTR 
+						WHERE 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                        upper(PROD_NM) {0}
+                </DYNAMIC>
+            </SelectSQLQuery>
+			<SelectSQLQuery name="searchBenefitComponentItem" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select BNFT_CMPNT_SYS_ID,BNFT_CMPNT_NM from BCM_BNFT_CMPNT_MSTR 
+						where 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                        upper(BNFT_CMPNT_NM) {0}
+                </DYNAMIC>
+            </SelectSQLQuery>
+			 <SelectSQLQuery name="searchBenefitItem" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select BNFT_SYS_ID,BNFT_ID_NM from BMST_BNFT_MSTR 
+						where 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                        upper(BNFT_ID_NM) {0}
+                </DYNAMIC>
+            </SelectSQLQuery>
+			<SelectSQLQuery name="searchQuestionItem" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select ADQM_ADMN_QSTN_NBR,ADQM_ADMN_QSTN_DESC from ADQM_ADMN_QSTN_MSTR 
+						where 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                        upper(ADQM_ADMN_QSTN_DESC) {0}
+                </DYNAMIC>
+            </SelectSQLQuery>
+            <DataObject name="PROD_MSTR">
+				<DataObjectAttribute name="PROD_SYS_ID"            type="Int"/>
+                <DataObjectAttribute name="PROD_NM"            type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="PROD_NM"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="PROD_SYS_ID"/>
+                        <ResultIndex index="1" dataObjectAttribName ="PROD_NM"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchProductItem"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="PROD_SYS_ID"  toBOAttb="code"/>
+                    <Pair DOAttb="PROD_NM"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="PROD_NM"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+            </DataObject>
+		<DataObject name="BCM_BNFT_CMPNT_MSTR">
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"            type="Int"/>
+                <DataObjectAttribute name="BNFT_CMPNT_NM"            type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+                        <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchBenefitComponentItem"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="BNFT_CMPNT_SYS_ID"  toBOAttb="code"/>
+                    <Pair DOAttb="BNFT_CMPNT_NM"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="BNFT_CMPNT_NM"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+          </DataObject>
+		<DataObject name="BMST_BNFT_MSTR">
+				<DataObjectAttribute name="BNFT_SYS_ID"            type="Int"/>
+                <DataObjectAttribute name="BNFT_ID_NM"            type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+                        <ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchBenefitItem"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="BNFT_SYS_ID"  toBOAttb="code"/>
+                    <Pair DOAttb="BNFT_ID_NM"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="BNFT_ID_NM"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+          </DataObject>
+
+			<DataObject name="ADQM_ADMN_QSTN_MSTR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"            type="Int"/>
+                <DataObjectAttribute name="ADQM_ADMN_QSTN_DESC"            type="String"/>
+                <SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+                        <ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchQuestionItem"/>
+                </SQLTemplate>
+                <DoAttributeToBOAttributeMap>
+                    <Pair DOAttb="ADQM_ADMN_QSTN_NBR"  toBOAttb="code"/>
+                    <Pair DOAttb="ADQM_ADMN_QSTN_DESC"      toBOAttb="description"/>
+                </DoAttributeToBOAttributeMap>
+                <DoAttributeToSCAttributeMap>
+                    <Pair DOAttb="ADQM_ADMN_QSTN_DESC"      toSCAttb="description"/>
+                </DoAttributeToSCAttributeMap>
+          </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+	<!-- Search Engine adapter configuration for CONTRACT -->
+   <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ContractIdentifier">
+	<BusinessAttribute name="identifier" 				type="Int"		keyAttrib="false"/>
+	<BusinessAttribute name="dateSegIdentifier" 				type="Int"		keyAttrib="true"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="contractId" 	type="String"	/>
+		<SearchCriteriaAttribute name="contractType" 	type="String"	/>
+		<SearchCriteriaAttribute name="effectiveDate" 	type="Date"	/>
+		<SearchCriteriaAttribute name="expiryDate" 	type="Date"	/>
+		<SearchCriteriaAttribute name="groupSize" 	type="Int"	/>
+		<SearchCriteriaAttribute name="productCode" 	type="String"	/>
+		<SearchCriteriaAttribute name="standardPlanCode" 	type="String"	/>
+		<SearchCriteriaAttribute name="benefitPlan" 	type="String"	/>
+		<SearchCriteriaAttribute name="productFamily" 	type="String"	/>
+		<SearchCriteriaAttribute name="corporatePlanCode" 	type="String"	/>
+		<SearchCriteriaAttribute name="brandName" 	type="String"	/>
+		<SearchCriteriaAttribute name="headQuartersState" 	type="String"	/>
+		<SearchCriteriaAttribute name="status" 	type="String"	/>
+		<SearchCriteriaAttribute name="createdDate" 	type="Date"	/>
+		<SearchCriteriaAttribute name="createdBy" 	type="String"	/>
+		<SearchCriteriaAttribute name="lastUpdatedDate" 	type="Date"	/>
+		<SearchCriteriaAttribute name="lastUpdatedBy" 	type="String"	/>
+		<SearchCriteriaAttribute name="lineOfBusinessesToSearch"     type="List"/>
+		<SearchCriteriaAttribute name="businessGroupsToSearch"     	 type="List"/>
+		<SearchCriteriaAttribute name="businessEntitiesToSearch"     type="List"/>
+		<SearchCriteriaAttribute name="marketBusinessUnitToSearch"   type="List"/>
+		<SearchCriteriaAttribute name="productId"     				type="Int"/>
+		<SearchCriteriaAttribute name="contractIds"     type="List"/>
+		<SearchCriteriaAttribute name="dateSegIds"     type="List"/>
+		<SearchCriteriaAttribute name="orderByType"     type="String"/>
+		<SearchCriteriaAttribute name="orderByStatus"     type="String"/>
+		<SearchCriteriaAttribute name="orderByEffectiveDate"     type="String"/>
+		<SearchCriteriaAttribute name="orderByExpiryDate"     type="String"/>
+		<SearchCriteriaAttribute name="orderById"     type="String"/>
+		<SearchCriteriaAttribute name="noteId"     type="String"/>
+		<SearchCriteriaAttribute name="noteVersion"     type="Int"/>
+		<SearchCriteriaAttribute name="orderByVersion"     type="Int"/>
+		<SearchCriteriaAttribute name="caseNumber"     	 type="String"/>
+		<SearchCriteriaAttribute name="caseName"     type="String"/>
+		<SearchCriteriaAttribute name="caseEffectiveDate" type="Date"/>
+		<SearchCriteriaAttribute name="caseCancelDate"     type="Date"/>
+		<SearchCriteriaAttribute name="caseHeadQuarterState"     type="String"/>
+		<SearchCriteriaAttribute name="groupNumber"     type="String"/>
+		<SearchCriteriaAttribute name="groupName"     type="String"/>
+		<SearchCriteriaAttribute name="groupEffectiveDate"     type="Date"/>
+		<SearchCriteriaAttribute name="groupCancelDate"     type="Date"/>
+		<SearchCriteriaAttribute name="fundingarrangementcode"     type="String"/>
+		<SearchCriteriaAttribute name="fundingarrangementvalue"     type="String"/>
+		<SearchCriteriaAttribute name="mBUcode"     type="String"/>
+		<SearchCriteriaAttribute name="mBUvalue"     type="String"/>    
+		<SearchCriteriaAttribute name="cOBAdjudicationIndicator"     type="String"/>
+		<SearchCriteriaAttribute name="medicareAdjudicationIndicator"     type="String"/>
+		<SearchCriteriaAttribute name="iTSAdjudicationIndicator"     type="String"/> 
+		<SearchCriteriaAttribute name="invalidValue"			     		type="String"/>
+		<SearchCriteriaAttribute name="regulatoryAgency"			    type="String"/>
+		<SearchCriteriaAttribute name="complianceStatus"			    type="String"/>
+		<SearchCriteriaAttribute name="projectNameCode"			     	type="String"/>
+		<SearchCriteriaAttribute name="contractTermDate"			   	type="Date"/>
+		<SearchCriteriaAttribute name="multiPlanIndicator"			   	type="String"/>
+		<SearchCriteriaAttribute name="performanceGuarantee"			type="String"/>
+		<SearchCriteriaAttribute name="salesMarketDate"			   		type="Date"/>
+
+
+
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="searchContractIdentifiersForAdvancedSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+	   				    select CNTRCT_SYS_ID,DT_SGMNT_SYS_ID from (
+				        select  distinct d.DT_SGMNT_SYS_ID as DT_SGMNT_SYS_ID,a.CNTRCT_SYS_ID as CNTRCT_SYS_ID, a.CNTRCT_ID as CNTRCT_ID,a.CNTRCT_VRSN_NBR as CNTRCT_VRSN_NBR
+				        from    CMST_CNTRCT_MSTR a 
+						INNER JOIN enty_domn_info b on a.CNTRCT_PARNT_SYS_ID = b.enty_sys_id 
+						INNER JOIN  avlbl_domn c on b.domn_sys_id = c.domn_sys_id 
+						INNER JOIN 	CNTRCT_DT_SGMNT_ASSN f  on f.CNTRCT_SYS_ID = a.CNTRCT_SYS_ID
+						INNER JOIN 	CNTRCT_DT_SGMNT d  on d.DT_SGMNT_SYS_ID = f.DT_SGMNT_SYS_ID
+	                    LEFT OUTER JOIN MEMBERSHIP_INFO e on  (a.CNTRCT_ID =e.CNTRCT_ID and d.DT_SGMNT_EFCTV_DT = e.CNTRCT_EFCTV_DT) 
+				        where   
+				              b.enty_type = 'contract' 
+				        and (
+						
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(a.CNTRCT_ID) {0} </DYNAMIC>
+			 <DYNAMIC> upper(a.CNTRCT_TYPE) {1} </DYNAMIC>
+			 <DYNAMIC> trunc(d.DT_SGMNT_EFCTV_DT) {2} </DYNAMIC>
+			 <DYNAMIC> trunc(d.DT_SGMNT_EXPR_DT) {3} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_GRP_SIZE) {4} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_PROD_CD) {5} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_STNDRD_PLAN_CD) {6} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_BNFT_PLAN_TXT) {7} </DYNAMIC>
+			 <DYNAMIC> d.PROD_SYS_ID {8} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_CRPRT_PLAN_CD) {9} </DYNAMIC>
+			 <DYNAMIC> upper(d.DT_SGMNT_BRND_NM) {10} </DYNAMIC>
+			 <DYNAMIC> upper(a.CNTRCT_HDQTR_ST_CD) {11} </DYNAMIC>
+			 <DYNAMIC> upper(a.CNTRCT_STTS_CD) {12} </DYNAMIC>
+			 <DYNAMIC> upper(d.COB_ADJDCTN_IND) {13} </DYNAMIC>
+			 <DYNAMIC> upper(d.MEDI_ADJDCTN_IND) {14} </DYNAMIC>
+			 <DYNAMIC> upper(d.ITS_ADJDCTN_IND) {15} </DYNAMIC>
+			 <DYNAMIC> upper(e.CASE_NBR) {16} </DYNAMIC>
+			 <DYNAMIC> upper(e.CASE_NAME) {17} </DYNAMIC>
+			 <DYNAMIC> e.CASE_EFCTV_DT {18} </DYNAMIC>
+			 <DYNAMIC> e.CASE_CANCEL_DT {19} </DYNAMIC>
+			 <DYNAMIC> upper(e.CASE_HQ_ST) {20} </DYNAMIC>
+			 <DYNAMIC> upper(e.GROUP_NBR) {21} </DYNAMIC>
+			 <DYNAMIC> upper(e.GROUP_NAME) {22} </DYNAMIC>
+			 <DYNAMIC> e.GROUP_EFCTV_DT {23} </DYNAMIC>
+			 <DYNAMIC> e.GROUP_CANCEL_DT {24} </DYNAMIC>
+			 <DYNAMIC> upper(e.FUND_ARRANGE_CODE) {25} </DYNAMIC>
+			 <DYNAMIC> upper(e.FUND_ARRANGE_CODE) {26} </DYNAMIC>
+			 <DYNAMIC> upper(e.MBU_CODE) {27} </DYNAMIC>
+			 <DYNAMIC> upper(e.MBU_CODE) {28} </DYNAMIC>
+			 <DYNAMIC> upper(a.CNTRCT_ID) {33} </DYNAMIC>
+ 			 <DYNAMIC> upper(d.RGLTRY_AGNCY) {37} </DYNAMIC>
+ 			 <DYNAMIC> upper(d.CMPLANC_STTS) {38} </DYNAMIC>
+			 <DYNAMIC> upper(d.PROJ_NM_CODE) {39} </DYNAMIC>
+	 		 <DYNAMIC> d.CNTRT_TRM_DT {40} </DYNAMIC>
+			 <DYNAMIC> upper(d.MULTI_PLAN_IND) {41} </DYNAMIC>
+			 <DYNAMIC> upper(d.PRFRMNCE_GUARTE) {42} </DYNAMIC>
+			 <DYNAMIC> d.SALE_MARKT_DT {43} </DYNAMIC>
+			 <DYNAMIC> trunc(a.CREATD_TM_STMP) {29} </DYNAMIC>
+			 <DYNAMIC> upper(a.CREATD_USR_ID) {30} </DYNAMIC>
+			 <DYNAMIC> trunc(a.LST_CHG_TMS) {31} </DYNAMIC>
+			 <DYNAMIC> upper(a.LST_CHG_USR) {32} </DYNAMIC>
+			 <STATIC> ) </STATIC>
+			 <DYNAMIC> and c.bus_grp_nm {34} </DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {35} </DYNAMIC>
+			 <DYNAMIC> and c.lob_nm  {36}  </DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {44}  </DYNAMIC>
+			<STATIC> order by CNTRCT_ID asc, CNTRCT_VRSN_NBR asc)</STATIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchContractIdentifiersForBasicSearch" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+					    select CNTRCT_SYS_ID,DT_SGMNT_SYS_ID from (
+				          select  distinct d.DT_SGMNT_SYS_ID as DT_SGMNT_SYS_ID,a.CNTRCT_SYS_ID as CNTRCT_SYS_ID, a.CNTRCT_ID as CNTRCT_ID,a.CNTRCT_VRSN_NBR as CNTRCT_VRSN_NBR
+				        from    CMST_CNTRCT_MSTR a, enty_domn_info b, avlbl_domn c ,CNTRCT_DT_SGMNT d ,CNTRCT_DT_SGMNT_ASSN e
+				        where   a.CNTRCT_PARNT_SYS_ID = b.enty_sys_id 
+				        and     b.enty_type = 'contract' and b.domn_sys_id = c.domn_sys_id and e.DT_SGMNT_SYS_ID= d.DT_SGMNT_SYS_ID and a.CNTRCT_SYS_ID=e.CNTRCT_SYS_ID
+				        and
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC> upper(a.CNTRCT_ID) {0} </DYNAMIC>
+			 <DYNAMIC> and c.bus_grp_nm {1} </DYNAMIC>
+			 <DYNAMIC> and c.bus_enty_nm {2} </DYNAMIC>
+			 <DYNAMIC> and c.lob_nm  {3}  </DYNAMIC>
+			 <DYNAMIC> and c.MRKT_BUS_UNT {4}  </DYNAMIC>
+			<STATIC> order by CNTRCT_ID asc, CNTRCT_VRSN_NBR asc)</STATIC>
+
+		</SelectSQLQuery>		
+		<SelectSQLQuery name="searchContractIdentifiersWithProductIdentifier">
+			<![CDATA[
+					select B.CNTRCT_SYS_ID,A.DT_SGMNT_SYS_ID  from CNTRCT_DT_SGMNT A,
+					CNTRCT_DT_SGMNT_ASSN B where B.DT_SGMNT_SYS_ID= A.DT_SGMNT_SYS_ID
+					and A.PROD_SYS_ID = {0}	
+			]]>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="sortContractIdentifiers" dynamic="true" >
+			<STATIC>
+			       <![CDATA[
+					    select a.CNTRCT_SYS_ID,b.DT_SGMNT_SYS_ID from CMST_CNTRCT_MSTR a ,CNTRCT_DT_SGMNT b ,CNTRCT_DT_SGMNT_ASSN c
+						where a.CNTRCT_SYS_ID {0} 
+						and b.DT_SGMNT_SYS_ID {7}
+						and c.DT_SGMNT_SYS_ID =b.DT_SGMNT_SYS_ID			
+				        and  a.CNTRCT_SYS_ID=c.CNTRCT_SYS_ID(+) 
+			         ]]>
+			 </STATIC>
+			 <DYNAMIC escape="true"> ORDER BY a.CNTRCT_TYPE {1} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.CNTRCT_STTS_CD {2} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY b.DT_SGMNT_EFCTV_DT {3} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY b.DT_SGMNT_EXPR_DT {4} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.CNTRCT_VRSN_NBR {5} </DYNAMIC>
+			 <DYNAMIC escape="true"> ORDER BY a.CNTRCT_ID {6} </DYNAMIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="searchContractIdentifiersWithNotesIdentifier">
+			<![CDATA[
+				select  a.ENTY_SYS_ID,c.CNTRCT_SYS_ID from NOTE_DOMN_ASSN a,CMST_CNTRCT_MSTR c,CNTRCT_DT_SGMNT_ASSN d  where 
+				a.NOTE_ID ={0} and a.NOTE_VRSN_NBR = {1} and a.ENTY_TYPE = 'ATTACHCONTRACT' and a.ENTY_SYS_ID = d.DT_SGMNT_SYS_ID 
+				and d.CNTRCT_SYS_ID = c.CNTRCT_SYS_ID
+				order by c.CNTRCT_ID
+			]]>
+		</SelectSQLQuery>
+		<DataObject name="MEMBERSHIP_INFO">
+			<DataObjectAttribute name="COB_ADJDCTN_IND" 	type="String"/>
+			<DataObjectAttribute name="MEDI_ADJDCTN_IND" 	type="String"/>
+			<DataObjectAttribute name="ITS_ADJDCTN_IND" 	type="String"/>
+			<DataObjectAttribute name="CASE_NBR" 			type="String"/>
+			<DataObjectAttribute name="CASE_NAME" 		type="String"/>
+			<DataObjectAttribute name="CASE_EFCTV_DT" 	  type="Date"/>
+			<DataObjectAttribute name="CASE_CANCEL_DT" 	  type="Date"/>
+			<DataObjectAttribute name="CASE_HQ_ST" 		type="String"/>
+			<DataObjectAttribute name="GROUP_NBR" 		type="String"/>
+			<DataObjectAttribute name="GROUP_NAME" 			type="String"/>
+			<DataObjectAttribute name="GROUP_EFCTV_DT" 		type="Date"/>
+			<DataObjectAttribute name="GROUP_CANCEL_DT" 		type="Date"/>
+			<DataObjectAttribute name="FUND_ARRANGE_CODE" 	type="String"/>
+			<DataObjectAttribute name="FUND_ARRANGE_VALUE" 		type="String"/>
+			<DataObjectAttribute name="MBU_CODE" 		type="String"/>
+			<DataObjectAttribute name="MBU_VALUE" 		type="String"/>
+			<DataObjectAttribute name="invld_val" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="13" name="COB_ADJDCTN_IND"/>
+				<DataObjectAttributeInput index="14" name="MEDI_ADJDCTN_IND"/>
+				<DataObjectAttributeInput index="15" name="ITS_ADJDCTN_IND"/>
+				<DataObjectAttributeInput index="16" name="CASE_NBR"/>
+				<DataObjectAttributeInput index="17" name="CASE_NAME"/>
+				<DataObjectAttributeInput index="18" name="CASE_EFCTV_DT"/>
+				<DataObjectAttributeInput index="19" name="CASE_CANCEL_DT"/>
+				<DataObjectAttributeInput index="20" name="CASE_HQ_ST"/>
+				<DataObjectAttributeInput index="21" name="GROUP_NBR"/>
+				<DataObjectAttributeInput index="22" name="GROUP_NAME"/>
+				<DataObjectAttributeInput index="23" name="GROUP_EFCTV_DT"/>
+				<DataObjectAttributeInput index="24" name="GROUP_CANCEL_DT"/>
+				<DataObjectAttributeInput index="25" name="FUND_ARRANGE_CODE"/>
+				<DataObjectAttributeInput index="26" name="FUND_ARRANGE_VALUE"/>
+				<DataObjectAttributeInput index="27" name="MBU_CODE"/>
+				<DataObjectAttributeInput index="28" name="MBU_VALUE"/>
+				<DataObjectAttributeInput index="33" name="invld_val"/>
+			<SearchQueryName name="searchContractIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="COB_ADJDCTN_IND"	toSCAttb="cOBAdjudicationIndicator"/>
+					<Pair DOAttb="MEDI_ADJDCTN_IND"	toSCAttb="medicareAdjudicationIndicator"/>
+					<Pair DOAttb="ITS_ADJDCTN_IND"		toSCAttb="iTSAdjudicationIndicator"/>
+					<Pair DOAttb="CASE_NBR"	toSCAttb="caseNumber"/>
+					<Pair DOAttb="CASE_NAME"	toSCAttb="caseName"/>
+					<Pair DOAttb="CASE_EFCTV_DT"		toSCAttb="caseEffectiveDate"/>
+					<Pair DOAttb="CASE_CANCEL_DT"	toSCAttb="caseCancelDate"/>
+					<Pair DOAttb="CASE_HQ_ST"	toSCAttb="caseHeadQuarterState"/>
+					<Pair DOAttb="GROUP_NBR"		toSCAttb="groupNumber"/>
+					<Pair DOAttb="GROUP_NAME"	toSCAttb="groupName"/>
+					<Pair DOAttb="GROUP_EFCTV_DT"	toSCAttb="groupEffectiveDate"/>
+					<Pair DOAttb="GROUP_CANCEL_DT"		toSCAttb="groupCancelDate"/>
+					<Pair DOAttb="FUND_ARRANGE_CODE"	toSCAttb="fundingarrangementcode"/>
+					<Pair DOAttb="FUND_ARRANGE_VALUE"	toSCAttb="fundingarrangementvalue"/>
+					<Pair DOAttb="MBU_CODE"		toSCAttb="mBUcode"/>
+					<Pair DOAttb="MBU_VALUE"		toSCAttb="mBUvalue"/>
+					<Pair DOAttb="invld_val" 		toSCAttb="invalidValue"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="CNTRCT_DT_SGMNT">
+            <DataObjectAttribute name="DT_SGMNT_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" 		type="Date"/>
+			<DataObjectAttribute name="DT_SGMNT_EXPR_DT" 		type="Date"/>
+            <DataObjectAttribute name="DT_SGMNT_GRP_SIZE" 		type="Int"/>
+			<DataObjectAttribute name="DT_SGMNT_PROD_CD" 		type="String"/>
+			<DataObjectAttribute name="DT_SGMNT_STNDRD_PLAN_CD" 		type="String"/>	
+			<DataObjectAttribute name="DT_SGMNT_BNFT_PLAN_TXT" 		type="String"/>	
+			<DataObjectAttribute name="DT_SGMNT_FUNDG_ARNGMNT" 		type="String"/>	
+			<DataObjectAttribute name="DT_SGMNT_CRPRT_PLAN_CD" 		type="String"/>		
+			<DataObjectAttribute name="DT_SGMNT_BRND_NM" 		type="String"/>		
+			<DataObjectAttribute name="productfamily" 		type="String"/>	
+			<DataObjectAttribute name="contract_date_order_by" 		type="String"/>	
+			<DataObjectAttribute name="CNTRCT_SYS_ID" 		type="Int"/>	
+			<DataObjectAttribute name="PROD_SYS_ID" 		type="Int"/>	
+			<DataObjectAttribute name="RGLTRY_AGNCY" 		type="String"/>	
+			<DataObjectAttribute name="CMPLANC_STTS" 		type="String"/>	
+			<DataObjectAttribute name="PROJ_NM_CODE" 		type="String"/>	
+			<DataObjectAttribute name="CNTRT_TRM_DT" 		type="Date"/>
+			<DataObjectAttribute name="MULTI_PLAN_IND" 		type="String"/>
+			<DataObjectAttribute name="PRFRMNCE_GUARTE" 	type="String"/>
+			<DataObjectAttribute name="SALE_MARKT_DT" 		type="Date"/>
+
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="PROD_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="CNTRCT_SYS_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersWithProductIdentifier"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="2" name="DT_SGMNT_EFCTV_DT"/>
+				<DataObjectAttributeInput index="3" name ="DT_SGMNT_EXPR_DT"/>
+				<DataObjectAttributeInput index="4" name ="DT_SGMNT_GRP_SIZE"/>
+				<DataObjectAttributeInput index="5" name ="DT_SGMNT_PROD_CD"/>
+				<DataObjectAttributeInput index="6" name ="DT_SGMNT_STNDRD_PLAN_CD"/>
+				<DataObjectAttributeInput index="7" name ="DT_SGMNT_BNFT_PLAN_TXT"/>
+				<DataObjectAttributeInput index="8" name ="productfamily"/>
+				<DataObjectAttributeInput index="9" name ="DT_SGMNT_CRPRT_PLAN_CD"/>
+				<DataObjectAttributeInput index="10" name ="DT_SGMNT_BRND_NM"/>
+				<DataObjectAttributeInput index="37" name ="RGLTRY_AGNCY"/>
+				<DataObjectAttributeInput index="38" name ="CMPLANC_STTS"/>
+				<DataObjectAttributeInput index="39" name ="PROJ_NM_CODE"/>
+				<DataObjectAttributeInput index="40" name ="CNTRT_TRM_DT"/>
+				<DataObjectAttributeInput index="41" name ="MULTI_PLAN_IND"/>
+				<DataObjectAttributeInput index="42" name ="PRFRMNCE_GUARTE"/>
+				<DataObjectAttributeInput index="43" name ="SALE_MARKT_DT"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="3" name="contract_date_order_by"/>
+				<DataObjectAttributeInput index="4" name="contract_date_order_by"/>
+				<DataObjectAttributeInput index="7" name="DT_SGMNT_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortContractIdentifiers"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 	toBOAttb="identifier"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID" 	toBOAttb="dateSegIdentifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" 					toSCAttb="effectiveDate"/>
+					<Pair DOAttb="DT_SGMNT_EXPR_DT" 					toSCAttb="expiryDate"/>
+					<Pair DOAttb="DT_SGMNT_GRP_SIZE" 					toSCAttb="groupSize"/>
+					<Pair DOAttb="DT_SGMNT_PROD_CD" 					toSCAttb="productCode"/>
+					<Pair DOAttb="DT_SGMNT_STNDRD_PLAN_CD" 				toSCAttb="standardPlanCode"/>
+					<Pair DOAttb="DT_SGMNT_BNFT_PLAN_TXT" 				toSCAttb="benefitPlan"/>
+					<Pair DOAttb="productfamily" 						toSCAttb="productFamily"/>
+					<Pair DOAttb="DT_SGMNT_CRPRT_PLAN_CD" 				toSCAttb="corporatePlanCode"/>
+					<Pair DOAttb="DT_SGMNT_BRND_NM" 					toSCAttb="brandName"/>
+					<Pair DOAttb="contract_date_order_by" 				toSCAttb="orderByEffectiveDate"/>
+					<Pair DOAttb="contract_date_order_by" 				toSCAttb="orderByExpiryDate"/>
+					<Pair DOAttb="PROD_SYS_ID" 							toSCAttb="productId"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID" 						toSCAttb="dateSegIds"/>
+					<Pair DOAttb="RGLTRY_AGNCY" 						toSCAttb="regulatoryAgency"/>
+					<Pair DOAttb="CMPLANC_STTS" 						toSCAttb="complianceStatus"/>
+					<Pair DOAttb="PROJ_NM_CODE" 						toSCAttb="projectNameCode"/>
+					<Pair DOAttb="CNTRT_TRM_DT" 						toSCAttb="contractTermDate"/>
+					<Pair DOAttb="MULTI_PLAN_IND" 						toSCAttb="multiPlanIndicator"/>
+					<Pair DOAttb="PRFRMNCE_GUARTE" 						toSCAttb="performanceGuarantee"/>
+					<Pair DOAttb="SALE_MARKT_DT" 						toSCAttb="salesMarketDate"/>
+
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="NOTE_DOMN_ASSN">
+			<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+			<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int"/>
+			<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+				<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1" dataObjectAttribName ="ENTY_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersWithNotesIdentifier"/>
+			</SQLTemplate>		
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="NOTE_ID"		toSCAttb="noteId"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"		toSCAttb="noteVersion"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="CMST_CNTRCT_MSTR">
+			<DataObjectAttribute name="contract_id" 		type="String"/>
+			<DataObjectAttribute name="CNTRCT_TYPE" 		type="String"/>
+            <DataObjectAttribute name="CNTRCT_STTS_CD" 		type="String"/>
+			<DataObjectAttribute name="CNTRCT_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="CNTRCT_HDQTR_ST_CD" 		type="String"/>	
+			<DataObjectAttribute name="CREATD_TM_STMP_ID" 		type="Date"/>	
+			<DataObjectAttribute name="CREATD_USR_ID" 		type="String"/>	
+			<DataObjectAttribute name="LST_CHG_TMS" 		type="Date"/>		
+			<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>			
+			<DataObjectAttribute name="contract_order_by" 		type="String"/>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="contract_id"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="CNTRCT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="contract_id"/>
+				<DataObjectAttributeInput index="1" name ="CNTRCT_TYPE"/>
+				<DataObjectAttributeInput index="11" name ="CNTRCT_HDQTR_ST_CD"/>
+				<DataObjectAttributeInput index="12" name ="CNTRCT_STTS_CD"/>
+				<DataObjectAttributeInput index="29" name ="CREATD_TM_STMP_ID"/>
+				<DataObjectAttributeInput index="30" name ="CREATD_USR_ID"/>
+				<DataObjectAttributeInput index="31" name ="LST_CHG_TMS"/>
+				<DataObjectAttributeInput index="32" name ="LST_CHG_USR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="CNTRCT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="searchContractIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="contract_order_by"/>
+				<DataObjectAttributeInput index="2" name="contract_order_by"/>
+				<DataObjectAttributeInput index="5" name="contract_order_by"/>
+				<DataObjectAttributeInput index="6" name="contract_order_by"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="CNTRCT_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortContractIdentifiers"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 	toBOAttb="identifier"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="contract_id" 					toSCAttb="contractId"/>
+					<Pair DOAttb="CNTRCT_TYPE" 					toSCAttb="contractType"/>
+					<Pair DOAttb="CNTRCT_HDQTR_ST_CD" 					toSCAttb="headQuartersState"/>
+					<Pair DOAttb="CNTRCT_STTS_CD" 					toSCAttb="status"/>
+					<Pair DOAttb="CREATD_TM_STMP_ID" 					toSCAttb="createdDate"/>
+					<Pair DOAttb="CREATD_USR_ID" 					toSCAttb="createdBy"/>
+					<Pair DOAttb="LST_CHG_TMS" 					toSCAttb="lastUpdatedDate"/>
+					<Pair DOAttb="LST_CHG_USR" 					toSCAttb="lastUpdatedBy"/>
+					<Pair DOAttb="CNTRCT_SYS_ID" 					toSCAttb="contractIds"/>
+					<Pair DOAttb="contract_order_by" 					toSCAttb="orderByType"/>
+					<Pair DOAttb="contract_order_by" 					toSCAttb="orderByStatus"/>
+					<Pair DOAttb="contract_order_by" 					toSCAttb="orderByVersion"/>
+					<Pair DOAttb="contract_order_by" 					toSCAttb="orderById"/>
+
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="enty_domn_info">
+			<DataObjectAttribute name="bus_grp_nm" 			type="String"/>
+			<DataObjectAttribute name="bus_enty_nm" 		type="String"/>
+			<DataObjectAttribute name="lob_nm" 				type="String"/>
+			<DataObjectAttribute name="MRKT_BUS_UNT"		type="String"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="1" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="2" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="3" name="lob_nm"/>
+				<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				<SearchQueryName name="searchContractIdentifiersForBasicSearch"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="34" name="bus_grp_nm"/>
+				<DataObjectAttributeInput index="35" name="bus_enty_nm"/>
+				<DataObjectAttributeInput index="36" name="lob_nm"/>
+				<DataObjectAttributeInput index="44" name="MRKT_BUS_UNT"/>
+			<SearchQueryName name="searchContractIdentifiersForAdvancedSearch"/>
+			</SQLTemplate>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="bus_grp_nm"	toSCAttb="businessGroupsToSearch"/>
+					<Pair DOAttb="bus_enty_nm"	toSCAttb="businessEntitiesToSearch"/>
+					<Pair DOAttb="lob_nm"		toSCAttb="lineOfBusinessesToSearch"/>
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnitToSearch"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+
+ <BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ContractDetail">
+	<BusinessAttribute name="contractId" 			type="String"	keyAttrib="true"/>
+	<BusinessAttribute name="contractType" 		type="String"		keyAttrib="true"/>
+	<BusinessAttribute name="status" 		type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="startDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="endDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="versionNo" 		type="Int"		keyAttrib="false"/>
+	<SearchCriteria name="searchCriteria1">
+		<SearchCriteriaAttribute name="identifier" 	type="Int"/>
+		<SearchCriteriaAttribute name="dateSegIdentifier" 	type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url></url>
+			<jndi>jdbc/wsbEwpd</jndi>
+		</Connection>
+		<SelectSQLQuery name="retrieveContractDetailUsingIdentifier" dynamic="true">
+			<STATIC>
+				<![CDATA[
+			        select 	a.CNTRCT_ID, a.CNTRCT_TYPE, a.CNTRCT_STTS_CD, b.DT_SGMNT_EFCTV_DT,b.DT_SGMNT_EXPR_DT,a.CNTRCT_VRSN_NBR
+			        from 	CMST_CNTRCT_MSTR a,CNTRCT_DT_SGMNT b ,CNTRCT_DT_SGMNT_ASSN c 
+			        where 	a.CNTRCT_SYS_ID = {0} 
+				]]>
+			</STATIC>
+			 <DYNAMIC> and b.DT_SGMNT_SYS_ID = {1} </DYNAMIC>
+			<STATIC> and b.DT_SGMNT_SYS_ID = c.DT_SGMNT_SYS_ID  and a.CNTRCT_SYS_ID=c.CNTRCT_SYS_ID(+)</STATIC>
+
+		</SelectSQLQuery>
+		<DataObject name="CMST_CNTRCT_MSTR">
+			<DataObjectAttribute name="CNTRCT_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="CNTRCT_ID" 			type="String"/>
+			<DataObjectAttribute name="CNTRCT_TYPE" 		type="String"/>
+			<DataObjectAttribute name="CNTRCT_STTS_CD" 		type="String"/>
+			<DataObjectAttribute name="CNTRCT_VRSN_NBR" 		type="Int"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="CNTRCT_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="CNTRCT_TYPE"/>
+					<ResultIndex index="2" dataObjectAttribName ="CNTRCT_STTS_CD"/>
+					<ResultIndex index="5" dataObjectAttribName ="CNTRCT_VRSN_NBR"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveContractDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_ID" 			toBOAttb="contractId"/>
+					<Pair DOAttb="CNTRCT_TYPE" 	toBOAttb="contractType"/>
+					<Pair DOAttb="CNTRCT_STTS_CD" 	toBOAttb="status"/>
+					<Pair DOAttb="CNTRCT_VRSN_NBR" 	toBOAttb="versionNo"/>			
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 		toSCAttb="identifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+		<DataObject name="CNTRCT_DT_SGMNT">
+			<DataObjectAttribute name="DT_SGMNT_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="CNTRCT_SYS_ID" 		type="Int"/>
+			<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" 			type="Date"/>
+			<DataObjectAttribute name="DT_SGMNT_EXPR_DT" 		type="Date"/>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="3" dataObjectAttribName ="DT_SGMNT_EFCTV_DT"/>
+					<ResultIndex index="4" dataObjectAttribName ="DT_SGMNT_EXPR_DT"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveContractDetailUsingIdentifier"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" 			toBOAttb="startDate"/>
+					<Pair DOAttb="DT_SGMNT_EXPR_DT" 	toBOAttb="endDate"/>
+			</DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 		toSCAttb="identifier"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID" 		toSCAttb="dateSegIdentifier"/>
+			</DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+   </BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ContractItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+		            <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+		                <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="searchRefItemDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ContractDomainItemDetail">
+        <BusinessAttribute name="code"          type="Int"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefProdItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	SELECT b.PROD_SYS_ID as PROD_SYS_ID,b.PROD_FMLY_NM as PROD_FMLY_NM from ITEM a,prod_mstr b where a.ctlg_id ={0}
+						and a.PRMRY_CD=b.PROD_FMLY_NM and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(a.CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PROD_SYS_ID"            type="Int"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+				<DataObjectAttribute name="PROD_FMLY_NM"            type="String"/>
+	 		<SQLTemplate transType="select">
+                    <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+                    <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+                    <RSIndexToDOAttributeMap>
+                        <ResultIndex index="0" dataObjectAttribName ="PROD_SYS_ID"/>
+                        <ResultIndex index="1" dataObjectAttribName ="PROD_FMLY_NM"/>
+                    </RSIndexToDOAttributeMap>
+                    <SearchQueryName name="searchRefProdItemDetails"/>
+                </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PROD_SYS_ID"         toBOAttb="code"/>
+		            <Pair DOAttb="PROD_FMLY_NM"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductStructureItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+		            <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+		                <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="searchRefItemDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+		            <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+		                <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="searchRefItemDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitComponentItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+		            <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+		                <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="searchRefItemDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLevelItemDetail">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="catalogId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="searchRefItemDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	select PRMRY_CD,CD_DESC_TXT from ITEM 
+						where CTLG_ID ={0} and 
+					]]>
+				</STATIC>
+				<DYNAMIC>
+                      upper(CD_DESC_TXT) {1}
+                </DYNAMIC>
+            </SelectSQLQuery>
+		  <DataObject name="ITEM">
+		        <DataObjectAttribute name="CTLG_ID"             type="Int"/>
+		        <DataObjectAttribute name="PRMRY_CD"            type="String"/>
+		        <DataObjectAttribute name="CD_DESC_TXT"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+		            <DataObjectAttributeInput index="1" name="CD_DESC_TXT"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+		                <ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="searchRefItemDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"         toBOAttb="code"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toBOAttb="description"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CTLG_ID"          toSCAttb="catalogId"/>
+		            <Pair DOAttb="CD_DESC_TXT"      toSCAttb="description"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitViewObject">
+
+        <BusinessAttribute name="identifier"          type="Int"   keyAttrib="true"/>
+		 <BusinessAttribute name="benefitName"          type="String"   keyAttrib="false"/>
+        <BusinessAttribute name="parent_id"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="status"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="versionNo"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="lineOfBusinessCode"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="businessEntityCode"   type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="businessGroupCode"   type="String"   keyAttrib="false"/>
+
+        <SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitKey"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="viewBenefitDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	 select bnft_sys_id,bnft_vrsn_nbr,BNFT_PARNT_SYS_ID,BNFT_STTS_CD,BUS_GRP_NM,BUS_ENTY_NM,LOB_NM,bnft_id_nm from(
+				select 	distinct a.bnft_sys_id as bnft_sys_id, a.bnft_id_nm as bnft_id_nm,
+						a.bnft_vrsn_nbr as bnft_vrsn_nbr,a.BNFT_PARNT_SYS_ID as BNFT_PARNT_SYS_ID, a.BNFT_STTS_CD as BNFT_STTS_CD
+                                               ,c.BUS_GRP_NM as BUS_GRP_NM,c.BUS_ENTY_NM as BUS_ENTY_NM,c.LOB_NM as LOB_NM
+				from 	BMST_BNFT_MSTR a INNER JOIN enty_domn_info b on a.bnft_parnt_sys_id = b.enty_sys_id 
+				        INNER JOIN  avlbl_domn c on b.domn_sys_id = c.domn_sys_id 
+				WHERE   b.enty_type = 'stdbenefit'
+                and a.bnft_sys_id={0})
+					]]>
+				</STATIC>
+            </SelectSQLQuery>
+		  <DataObject name="BMST_BNFT_MSTR">
+		        <DataObjectAttribute name="bnft_sys_id"             type="Int"/>
+		        <DataObjectAttribute name="bnft_vrsn_nbr"            type="Int"/>
+		        <DataObjectAttribute name="BNFT_PARNT_SYS_ID"         type="Int"/>
+				<DataObjectAttribute name="BNFT_STTS_CD"             type="String"/>
+		        <DataObjectAttribute name="BUS_GRP_NM"            type="String"/>
+		        <DataObjectAttribute name="BUS_ENTY_NM"         type="String"/>
+				<DataObjectAttribute name="LOB_NM"         type="String"/>
+    			<DataObjectAttribute name="bnft_id_nm"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="bnft_sys_id"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="bnft_sys_id"/>
+		                <ResultIndex index="1" dataObjectAttribName ="bnft_vrsn_nbr"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+		                <ResultIndex index="3" dataObjectAttribName ="BNFT_STTS_CD"/>
+						<ResultIndex index="4" dataObjectAttribName ="BUS_GRP_NM"/>
+		                <ResultIndex index="5" dataObjectAttribName ="BUS_ENTY_NM"/>
+						<ResultIndex index="6" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="bnft_id_nm"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="viewBenefitDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="bnft_sys_id"         toBOAttb="identifier"/>
+		            <Pair DOAttb="bnft_vrsn_nbr"      toBOAttb="versionNo"/>
+					<Pair DOAttb="BNFT_PARNT_SYS_ID"         toBOAttb="parent_id"/>
+		            <Pair DOAttb="BNFT_STTS_CD"      toBOAttb="status"/>
+					<Pair DOAttb="BUS_GRP_NM"         toBOAttb="businessGroupCode"/>
+		            <Pair DOAttb="BUS_ENTY_NM"      toBOAttb="businessEntityCode"/>
+					<Pair DOAttb="LOB_NM"         toBOAttb="lineOfBusinessCode"/>
+					<Pair DOAttb="bnft_id_nm"         toBOAttb="benefitName"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="bnft_sys_id"      toSCAttb="benefitKey"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitComponentViewObject">
+
+        <BusinessAttribute name="identifier"          type="Int"   keyAttrib="true"/>
+		 <BusinessAttribute name="benefitComponentName"          type="String"   keyAttrib="false"/>
+        <BusinessAttribute name="parent_id"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentStatus"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="benefitComponentVersion"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="lineOfBusinessCode"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="businessEntityCode"   type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="businessGroupCode"   type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="type"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitComponentKey"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="viewBenefitComponentDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                    	 select BNFT_CMPNT_SYS_ID,BNFT_CMPNT_VRSN_NBR,BNFT_CMPNT_PARNT_SYS_ID,BNFT_CMPNT_STTS_CD,BUS_GRP_NM,BUS_ENTY_NM,LOB_NM,BNFT_CMPNT_NM,BNFT_CMPNT_TYPE from(
+				select 	distinct a.BNFT_CMPNT_SYS_ID as BNFT_CMPNT_SYS_ID, a.BNFT_CMPNT_NM as BNFT_CMPNT_NM,
+						a.BNFT_CMPNT_VRSN_NBR as BNFT_CMPNT_VRSN_NBR,a.BNFT_CMPNT_PARNT_SYS_ID as BNFT_CMPNT_PARNT_SYS_ID, a.BNFT_CMPNT_STTS_CD as BNFT_CMPNT_STTS_CD
+                                               ,c.BUS_GRP_NM as BUS_GRP_NM,c.BUS_ENTY_NM as BUS_ENTY_NM,c.LOB_NM as LOB_NM,a.BNFT_CMPNT_TYPE as BNFT_CMPNT_TYPE
+				from 	BCM_BNFT_CMPNT_MSTR a INNER JOIN enty_domn_info b on a.BNFT_CMPNT_PARNT_SYS_ID = b.enty_sys_id 
+				        INNER JOIN  avlbl_domn c on b.domn_sys_id = c.domn_sys_id 
+				WHERE   b.enty_type = 'BENEFITCOMP'
+                and a.BNFT_CMPNT_SYS_ID={0})
+					]]>
+				</STATIC>
+            </SelectSQLQuery>
+		  <DataObject name="BCM_BNFT_CMPNT_MSTR">
+		        <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"             type="Int"/>
+		        <DataObjectAttribute name="BNFT_CMPNT_VRSN_NBR"            type="Int"/>
+		        <DataObjectAttribute name="BNFT_CMPNT_PARNT_SYS_ID"         type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_STTS_CD"             type="String"/>
+		        <DataObjectAttribute name="BUS_GRP_NM"            type="String"/>
+		        <DataObjectAttribute name="BUS_ENTY_NM"         type="String"/>
+				<DataObjectAttribute name="LOB_NM"         type="String"/>
+    			<DataObjectAttribute name="BNFT_CMPNT_NM"         type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_TYPE"         type="String"/>	
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+		                <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+		                <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+						<ResultIndex index="4" dataObjectAttribName ="BUS_GRP_NM"/>
+		                <ResultIndex index="5" dataObjectAttribName ="BUS_ENTY_NM"/>
+						<ResultIndex index="6" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+						<ResultIndex index="8" dataObjectAttribName ="BNFT_CMPNT_TYPE"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="viewBenefitComponentDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="BNFT_CMPNT_SYS_ID"         toBOAttb="identifier"/>
+		            <Pair DOAttb="BNFT_CMPNT_VRSN_NBR"      toBOAttb="benefitComponentVersion"/>
+					<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID"         toBOAttb="parent_id"/>
+		            <Pair DOAttb="BNFT_CMPNT_STTS_CD"      toBOAttb="benefitComponentStatus"/>
+					<Pair DOAttb="BUS_GRP_NM"         toBOAttb="businessGroupCode"/>
+		            <Pair DOAttb="BUS_ENTY_NM"      toBOAttb="businessEntityCode"/>
+					<Pair DOAttb="LOB_NM"         toBOAttb="lineOfBusinessCode"/>
+					<Pair DOAttb="BNFT_CMPNT_NM"         toBOAttb="benefitComponentName"/>
+					<Pair DOAttb="BNFT_CMPNT_TYPE"         toBOAttb="type"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="BNFT_CMPNT_SYS_ID"      toSCAttb="benefitComponentKey"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductStructureViewObject">
+
+        <BusinessAttribute name="productStructureId"          type="Int"   keyAttrib="true"/>
+        <BusinessAttribute name="version"   type="Int"   keyAttrib="false"/>
+        <BusinessAttribute name="parent_Id"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="status"          type="String"   keyAttrib="true"/>
+		<BusinessAttribute name="productStructureName"          type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="structureType"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="mandateType"   type="String"   keyAttrib="false"/>
+	    <BusinessAttribute name="state"          type="String"   keyAttrib="false"/>
+		
+
+        <SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="productStructureId"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="viewProductStructureDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+
+				SELECT PROD_STRCTR_SYS_ID, PROD_STRCTR_PARNT_SYS_ID, PROD_STRCTR_NM, PROD_STRCTR_VRSN_NBR, PROD_STRCTR_STTS_CD, PROD_STRCTR_TYPE, PROD_STRCTR_MNDT_TYPE, PROD_STRCTR_ST_CD from(
+				select distinct A.PROD_STRCTR_SYS_ID as PROD_STRCTR_SYS_ID, A.PROD_STRCTR_PARNT_SYS_ID as PROD_STRCTR_PARNT_SYS_ID, A.PROD_STRCTR_NM as PROD_STRCTR_NM, 
+				A.PROD_STRCTR_VRSN_NBR as PROD_STRCTR_VRSN_NBR,A.PROD_STRCTR_STTS_CD as PROD_STRCTR_STTS_CD,A.PROD_STRCTR_TYPE as PROD_STRCTR_TYPE,
+				 A.PROD_STRCTR_MNDT_TYPE as PROD_STRCTR_MNDT_TYPE, A.PROD_STRCTR_ST_CD as PROD_STRCTR_ST_CD
+                                
+		        FROM  PROD_STRCTR_MSTR A WHERE
+                PROD_STRCTR_SYS_ID={0})
+				
+					]]>
+				</STATIC>
+            </SelectSQLQuery>
+		  <DataObject name="PROD_STRCTR_MSTR">
+		        <DataObjectAttribute name="PROD_STRCTR_SYS_ID"             type="Int"/>
+		        <DataObjectAttribute name="PROD_STRCTR_VRSN_NBR"            type="Int"/>
+		        <DataObjectAttribute name="PROD_STRCTR_PARNT_SYS_ID"         type="Int"/>
+				<DataObjectAttribute name="PROD_STRCTR_STTS_CD"             type="String"/>
+    			<DataObjectAttribute name="PROD_STRCTR_NM"         type="String"/>
+		        <DataObjectAttribute name="PROD_STRCTR_TYPE"         type="String"/>
+				<DataObjectAttribute name="PROD_STRCTR_MNDT_TYPE"         type="String"/>
+    			<DataObjectAttribute name="PROD_STRCTR_ST_CD"         type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="PROD_STRCTR_SYS_ID"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="PROD_STRCTR_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="PROD_STRCTR_PARNT_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="PROD_STRCTR_NM"/>		
+		                <ResultIndex index="3" dataObjectAttribName ="PROD_STRCTR_VRSN_NBR"/>       
+		                <ResultIndex index="4" dataObjectAttribName ="PROD_STRCTR_STTS_CD"/>
+		                <ResultIndex index="5" dataObjectAttribName ="PROD_STRCTR_TYPE"/>
+						<ResultIndex index="6" dataObjectAttribName ="PROD_STRCTR_MNDT_TYPE"/>
+						<ResultIndex index="7" dataObjectAttribName ="PROD_STRCTR_ST_CD"/>
+			
+			     </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="viewProductStructureDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PROD_STRCTR_SYS_ID"         toBOAttb="productStructureId"/>
+					<Pair DOAttb="PROD_STRCTR_PARNT_SYS_ID"         toBOAttb="parent_Id"/>
+					<Pair DOAttb="PROD_STRCTR_NM"         toBOAttb="productStructureName"/>
+		            <Pair DOAttb="PROD_STRCTR_VRSN_NBR"      toBOAttb="version"/>
+		            <Pair DOAttb="PROD_STRCTR_STTS_CD"      toBOAttb="status"/>
+					<Pair DOAttb="PROD_STRCTR_TYPE"      toBOAttb="structureType"/>
+					<Pair DOAttb="PROD_STRCTR_MNDT_TYPE"         toBOAttb="mandateType"/>
+					<Pair DOAttb="PROD_STRCTR_ST_CD"         toBOAttb="state"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="PROD_STRCTR_SYS_ID"      toSCAttb="productStructureId"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ContractViewObject">
+        <BusinessAttribute name="contractSegmentId"          type="Int"   keyAttrib="true"/>
+		<BusinessAttribute name="contractDateSegmentSysId"          type="Int"   keyAttrib="true"/>
+        <BusinessAttribute name="contractId"   type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="version"          type="Int"   keyAttrib="false"/>
+        <BusinessAttribute name="status"   type="String"   keyAttrib="false"/>
+        <SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="contractKey"   type="Int"/>
+			<SearchCriteriaAttribute name="dataSegKey"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="viewContractDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+                  select CNTRCT_SYS_ID,DT_SGMNT_SYS_ID,CNTRCT_ID,CNTRCT_VRSN_NBR,CNTRCT_STTS_CD from (
+				          select  distinct d.DT_SGMNT_SYS_ID as DT_SGMNT_SYS_ID,a.CNTRCT_SYS_ID as CNTRCT_SYS_ID, a.CNTRCT_ID as CNTRCT_ID,a.CNTRCT_VRSN_NBR as CNTRCT_VRSN_NBR,a.CNTRCT_STTS_CD as CNTRCT_STTS_CD
+				        from    CMST_CNTRCT_MSTR a, enty_domn_info b, avlbl_domn c ,CNTRCT_DT_SGMNT d , CNTRCT_DT_SGMNT_ASSN e
+				        where   a.CNTRCT_PARNT_SYS_ID = b.enty_sys_id 
+				        and     b.enty_type = 'contract' and b.domn_sys_id = c.domn_sys_id and e.DT_SGMNT_SYS_ID = d.DT_SGMNT_SYS_ID and a.CNTRCT_SYS_ID=e.CNTRCT_SYS_ID
+				        and a.CNTRCT_SYS_ID ={0} and d.DT_SGMNT_SYS_ID={1})
+					]]>
+				</STATIC>
+            </SelectSQLQuery>
+		  <DataObject name="CMST_CNTRCT_MSTR">
+		        <DataObjectAttribute name="CNTRCT_SYS_ID"             type="Int"/>
+		        <DataObjectAttribute name="DT_SGMNT_SYS_ID"            type="Int"/>
+		        <DataObjectAttribute name="CNTRCT_ID"         type="String"/>
+				<DataObjectAttribute name="CNTRCT_VRSN_NBR"             type="Int"/>
+		        <DataObjectAttribute name="CNTRCT_STTS_CD"            type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="CNTRCT_SYS_ID"/>
+		                <ResultIndex index="1" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="CNTRCT_ID"/>
+		                <ResultIndex index="3" dataObjectAttribName ="CNTRCT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="CNTRCT_STTS_CD"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="viewContractDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID"         toBOAttb="contractSegmentId"/>
+		            <Pair DOAttb="DT_SGMNT_SYS_ID"      toBOAttb="contractDateSegmentSysId"/>
+					<Pair DOAttb="CNTRCT_ID"      toBOAttb="contractId"/>
+					<Pair DOAttb="CNTRCT_VRSN_NBR"         toBOAttb="version"/>
+					<Pair DOAttb="CNTRCT_STTS_CD"         toBOAttb="status"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="CNTRCT_SYS_ID"      toSCAttb="contractKey"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID"      toSCAttb="dataSegKey"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.ProductViewObject">
+        <BusinessAttribute name="productKey"          type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="productName"          type="String"   keyAttrib="false"/>
+        <BusinessAttribute name="version"   type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="effectiveDate"          type="Date"   keyAttrib="false"/>
+        <BusinessAttribute name="expiryDate"   type="Date"   keyAttrib="false"/>
+		<BusinessAttribute name="parentKey"          type="Int"   keyAttrib="false"/>
+        <BusinessAttribute name="businessGroupCode"   type="String"   keyAttrib="true"/>
+		<BusinessAttribute name="businessEntityCode"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="lineOfBusinessCode"   type="String"   keyAttrib="true"/>
+        <SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="productKey"   type="Int"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+		<SelectSQLQuery name="viewProductDetails" dynamic="true">
+				<STATIC>
+                	<![CDATA[
+   				select prod_sys_id,prod_nm,prod_vrsn_nbr,PROD_EFCTV_DT,PROD_EXPIRY_DT,prod_parnt_sys_id,BUS_GRP_NM,BUS_ENTY_NM,LOB_NM from (
+			                select   distinct a.prod_sys_id as prod_sys_id, a.prod_nm as prod_nm, a.prod_vrsn_nbr as prod_vrsn_nbr
+			                ,a.PROD_EFCTV_DT as PROD_EFCTV_DT,a.PROD_EXPIRY_DT as PROD_EXPIRY_DT,a.prod_parnt_sys_id as prod_parnt_sys_id 
+                                        ,c.BUS_GRP_NM as BUS_GRP_NM,c.BUS_ENTY_NM as BUS_ENTY_NM,c.LOB_NM as LOB_NM from PROD_MSTR a, enty_domn_info b, avlbl_domn c 
+			                where   a.prod_parnt_sys_id = b.enty_sys_id 
+			                and     b.enty_type = 'product' and b.domn_sys_id = c.domn_sys_id 
+			                and    a.prod_sys_id={0})
+					]]>
+				</STATIC>
+            </SelectSQLQuery>
+		  <DataObject name="CMST_CNTRCT_MSTR">
+		        <DataObjectAttribute name="prod_sys_id"             type="Int"/>
+		        <DataObjectAttribute name="prod_nm"            type="String"/>
+		        <DataObjectAttribute name="prod_vrsn_nbr"         type="Int"/>
+				<DataObjectAttribute name="PROD_EFCTV_DT"             type="Date"/>
+		        <DataObjectAttribute name="PROD_EXPIRY_DT"            type="Date"/>
+		        <DataObjectAttribute name="prod_parnt_sys_id"            type="Int"/>
+		        <DataObjectAttribute name="BUS_GRP_NM"         type="String"/>
+				<DataObjectAttribute name="BUS_ENTY_NM"             type="String"/>
+		        <DataObjectAttribute name="LOB_NM"            type="String"/>
+		        <SQLTemplate transType="select">
+		            <DataObjectAttributeInput index="0" name="prod_sys_id"/>
+		            <RSIndexToDOAttributeMap>
+		                <ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+		                <ResultIndex index="1" dataObjectAttribName ="prod_nm"/>
+						<ResultIndex index="2" dataObjectAttribName ="prod_vrsn_nbr"/>
+		                <ResultIndex index="3" dataObjectAttribName ="PROD_EFCTV_DT"/>
+						<ResultIndex index="4" dataObjectAttribName ="PROD_EXPIRY_DT"/>
+						<ResultIndex index="5" dataObjectAttribName ="prod_parnt_sys_id"/>
+						<ResultIndex index="6" dataObjectAttribName ="BUS_GRP_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="BUS_ENTY_NM"/>
+						<ResultIndex index="8" dataObjectAttribName ="LOB_NM"/>
+		            </RSIndexToDOAttributeMap>
+		            <SearchQueryName name="viewProductDetails"/>
+		        </SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+					<Pair DOAttb="prod_sys_id"         toBOAttb="productKey"/>
+		            <Pair DOAttb="prod_nm"      toBOAttb="productName"/>
+					<Pair DOAttb="prod_vrsn_nbr"         toBOAttb="version"/>
+					<Pair DOAttb="PROD_EFCTV_DT"      toBOAttb="effectiveDate"/>
+					<Pair DOAttb="PROD_EXPIRY_DT"         toBOAttb="expiryDate"/>
+					<Pair DOAttb="prod_parnt_sys_id"         toBOAttb="parentKey"/>
+					<Pair DOAttb="BUS_GRP_NM"         toBOAttb="businessGroupCode"/>
+					<Pair DOAttb="BUS_ENTY_NM"      toBOAttb="businessEntityCode"/>
+					<Pair DOAttb="LOB_NM"      toBOAttb="lineOfBusinessCode"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="prod_sys_id"      toSCAttb="productKey"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+<!--  BusinessObjectMetadata name="com.wellpoint.wpd.common.search.result.BenefitLineIdentifier">
+        <BusinessAttribute name="code"          type="String"   keyAttrib="true"/>
+        <BusinessAttribute name="description"   type="String"   keyAttrib="false"/>                     
+        <SearchCriteria name="searchCriteria1">
+            <SearchCriteriaAttribute name="description"     type="String"/>
+			<SearchCriteriaAttribute name="benefitLineIds"   type="List"/>
+        </SearchCriteria>
+        <DataSource name="prmd" domain="medical">
+            <Connection preferred="jndi">
+                <url></url>
+                <jndi>jdbc/wsbEwpd</jndi>
+            </Connection>
+			<SelectSQLQuery name="sortBenefitLineIdentifiers" dynamic="true" >
+			<STATIC>
+			     <![CDATA[
+					SELECT a.BLN_BNFT_LINE_ID from BLN_BNFT_LINE a,
+					ITEM b,BLVL_BNFT_LVL c where 
+					c.BLVL_BNFT_LVL_ID =a.BLVL_BNFT_LVL_ID
+				]]>
+			 </STATIC>
+             <DYNAMIC> 
+				and a.BLN_BNFT_LINE_ID {0}
+				and b.PRMRY_CD=a.BLN_BNFT_LINE_PVA {1}
+				and b.PRMRY_CD=c.BLVL_BNFT_LVL_QLFR {2} 
+			 </DYNAMIC>
+			 <DYNAMIC escape="true"> order by b.CD_DESC_TXT {3} </DYNAMIC>
+		</SelectSQLQuery>
+		  <DataObject name="BLN_BNFT_LINE">
+		        <DataObjectAttribute name="BLN_BNFT_LINE_ID"             type="Int"/>
+		        <DataObjectAttribute name="BLN_BNFT_LINE_PVA"            type="String"/>
+		        <DataObjectAttribute name="BLVL_BNFT_LVL_QLFR"         type="String"/>
+		        	<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BLN_BNFT_LINE_ID"/>
+				<DataObjectAttributeInput index="1" name="BLN_BNFT_LINE_PVA"/>
+				<DataObjectAttributeInput index="2" name="BLVL_BNFT_LVL_QLFR"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="prod_sys_id"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="sortBenefitLineIdentifiers"/>
+					</SQLTemplate>
+		        <DoAttributeToBOAttributeMap>
+		            <Pair DOAttb="PRMRY_CD"      toBOAttb="identifier"/>
+		        </DoAttributeToBOAttributeMap>
+		        <DoAttributeToSCAttributeMap>
+		            <Pair DOAttb="benefit_line"          toSCAttb="benefitLineIds"/>
+		        </DoAttributeToSCAttributeMap>
+		    </DataObject>
+         </DataSource>
+   </BusinessObjectMetadata>
+-->
+</Metadata>
+

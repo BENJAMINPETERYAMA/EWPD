@@ -1,0 +1,23 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Contract history log dao  -->
+	<bean id="com.wellpoint.wpd.common.contract.bo.Contract"
+		class="com.wellpoint.wpd.business.framework.bo.ContractHistoryLogDAOImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="insertSQL">
+			<value>
+				INSERT INTO CNTRCT_TRANS_LOG( ENTITY_ID, ENTITY_VERSION,
+				ENTITY_STTS_CD, USER_ID, TIMESTAMP) VALUES (?, ?, ?, ?,
+				?)
+			</value>
+		</property>
+	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/wsbEwpdDS</value>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,92 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="imageDir" value="${pageContext.request.contextPath}/images" />
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+</div><!-- container Ends-->	
+		
+		<div class="footer">			<!-- footer Starts-->
+		    <div class="ajaxIdle" id="ajaxIdleIcon">
+				<div class="clear"></div>
+			</div>
+			<div class="ajaxActive" id="ajaxActiveIcon">
+				<div class="clear"></div>
+			</div>					
+			<div class="aboutFooter" style ='width: 812px;'>
+			    <a href="${pageContext.request.contextPath}/viewlandingpagespider.html" id="link3"><img id="img7" border="0" src="${imageDir}/Spider_map.gif" width="105" height="23"></a> <!-- Added Spider Mapping button -->
+			    <a href="#" onclick="oOAMessage();"><img id="ooaimgpf" border="0" src="${imageDir}/ooamessage.gif" width="105" height="23"></a>
+				<a href="#" onclick="auditReport();"><img id="img6" border="0" src="${imageDir}/lockAuditReport.GIF" width="105" height="23"></a>
+				<a href="#" onclick="referenceData();"><img id="img5" border="0" src="${imageDir}/Reference_data.gif" width="105" height="23"></a>
+				<a href="#" onclick="contractBx();"><img id="img1" border="0" src="${imageDir}/contractBXreport.GIF" width="105" height="23"></a>
+				<a href="${pageContext.request.contextPath}/simulation/viewSimulationRequest.html"><img id="img2" border="0" src="${imageDir}/simulation.GIF" width="105" height="23"></a>
+				<a href="${pageContext.request.contextPath}/viewlandingpage.html" id="link2"><img id="img2" border="0" src="${imageDir}/switchToWPD.GIF" width="105" height="23"></a>				
+				<a href="#" onClick="displayAppInfo(event)"><img id="img3" border="0" src="${imageDir}/aboutIcon.gif"
+					width="24" height="23"></a>
+			</div>
+		</div><!-- footer Ends-->							
+	
+	</div><!-- wrapper Ends-->
+
+ <div id='appInfoLayer' style="display: none;">
+<div class="whatIsThisDivInner"
+	style="height: 100px; overflow: auto; overflow-y: auto; overflow-x: hidden;">
+<table class="mappedTable Pd3 shadedText">
+	<tr>
+		<td><font color="#2F48BF">
+		<div ><b>Version:</b> ${appInfo.appVersion}.${appInfo.buildNumber}</div>
+		</font></td>
+	</tr>
+	<tr>
+		<td><font color="#2F48BF">
+		<div ><b>Environment:</b> ${appInfo.environment}</div>
+		</font></td>
+	</tr>
+	<c:if test="${! empty appInfo.svnRevision}" >
+		<tr>
+			<td><font color="#2F48BF">
+				<div ><b>SVN Revision:</b> ${appInfo.svnRevision}</div>
+			</font></td>
+		</tr>
+	</c:if>
+	<c:if test="${! empty appInfo.buildDate}" >
+		<tr>
+			<td><font color="#2F48BF">
+				<div ><b>Build Att:</b> ${appInfo.buildDate}</div>
+			</font></td>
+		</tr>
+	</c:if>
+	<tr>
+		<td><font color="#2F48BF">
+		<div >Copyright &copy; 2010 WellPoint, Inc.  All Rights Reserved</div>
+		</font></td>
+	</tr>
+</table>
+</div>
+</div>
+
+<script>
+/*close the 'whatIsThisDiv' dialog*/
+function closeAppInfo(){
+     $("#appInfoLayer").dialog("close");
+}
+
+/*The function is used for populating the hippasegment tooltip.*/
+function displayAppInfo(e){
+	  var x = e.clientX;
+	  var y = e.clientY;
+	  $("#appInfoLayer").dialog({
+          title: 'Enterprise Blue Exchange',
+          position: ['right','bottom'],
+          height:'125',
+          width:'310px',    
+          show:'clip',
+          hide:'clip',
+          modal: false,
+          resizable:false,
+          draggable: true,
+          autoOpen : true      
+});
+	//$("#appInfoLayer").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove(); 
+	
+     
+  }
+ 
+</script>

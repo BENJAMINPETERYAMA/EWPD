@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\exception\lock
+2
+5
+27:ParentObjectAlreadyLockedException.java|1|16adf970ac1|33b|33a81357|b658ab946c5e45b3ad6f04e5f14f6969|0
+12:LockException.java|1|16adf970b00|338|b7ab0fcb|a927475d575b4220811bd24d953b6b6e|0
+1e:LockedBySameUserException.java|1|16adf970a35|31a|2d55066f|107139fbfa7c478a9845a4b2f90e1ece|0
+21:LockedByAnotherUserException.java|1|16adf970a64|327|8390bbb|3a608cf7a1474576a47e4e28587049ba|0
+23:ParentObjectNotLockedException.java|1|16adf970ac1|32b|f91c0d13|38049f0add694c73a74957835109d071|0

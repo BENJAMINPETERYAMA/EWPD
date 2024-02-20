@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\migration\tree
+2
+6
+1a:MigrationTreeNodeBase.java|1|16adf983477|165a|9d7fa3dd|2699b11ee95740b7961ede5693aaf674|0
+20:SubDateSegmentsTreeNodeBase.java|1|16adf983468|5da|6566d0d4|7d32c729a9dc4c0aa3e5962732774c24|0
+1d:DateSegementTreeNodeBase.java|1|16adf98339d|11c2|9a125b1f|395b388e4bb7430c896e6ab429899780|0
+18:ProductTreeNodeBase.java|1|16adf983477|17da|fde53d73|3901d8a910dc412c877aebbb53441ba2|0
+19:StandardTreeNodeBase.java|1|16adf983429|5aa|feeacef0|473b7f914fe646eb920bf0ac905651db|0
+18:BenefitTreeNodeBase.java|1|16adf9833ac|13a0|54b7ffdb|4f63ee52b4b5418ba9a79dcdbdf9bbd4|0

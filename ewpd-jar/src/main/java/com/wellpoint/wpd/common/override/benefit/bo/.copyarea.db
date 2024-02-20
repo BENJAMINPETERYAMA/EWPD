@@ -1,0 +1,20 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\override\benefit\bo
+2
+10
+10:BenefitTier.java|1|16adf977833|274f|9fb0dcdc|dc9534e257dc4ae8aa18d67ebdd3bb2e|0
+1f:ProductBenefitCustomizedBO.java|1|16adf9782ae|194f|d0392552|ee49bbd9027e4123ac5df41ce794b053|0
+1a:BenefitTierDefinition.java|1|16adf9781c4|20a3|afc0bbcf|d17405ced03f489db8891870362535fc|0
+15:TierDefinitionBO.java|1|16adf97830c|3d1f|a1b938cc|dcd624cd074a4c96ac2280d9e3c3e1b2|0
+11:BenefitLevel.java|1|16adf977739|208e|7f69eccb|e3cc71da13d04c5dba0eae398c47648f|0
+15:TierNoteOverRide.java|1|16adf97830c|1779|5ef0789e|bceeaaabe7fb4393909bc11d24eced8a|0
+21:BenefitTierCriteriaPsblValue.java|1|16adf9778b0|657|6f4710dc|b36adfdf91b349eb83dcd01fa78d37ad|0
+12:Questionnaire.java|1|16adf97831c|890|5d1cbc91|b1ecda2543f74f8f90354ce2f78cd666|0
+20:EntityBenefitAdministration.java|1|16adf978b94|2d53|ca30a10|e262a143551d4aba9a73de63c26e1782|0
+1c:BenefitLineOverrideInfo.java|1|16adf977759|e22|a61139f1|67469f998f9848f88730332f4e8c19c9|0
+10:BenefitLine.java|1|16adf977833|46d7|37a0b4ae|a7d22e18f50f4ecd84ef17ff14ebf87f|0
+18:BenefitTierCriteria.java|1|16adf978196|ec3|bdaddcff|732a9d1fe40f4c3095a4b3f6dc7d1a39|0
+28:ProductStructureBenefitCustomizedBO.java|1|16adf9782be|19e2|368b5cf6|aa9f6b5bc9c54f7ca8062705e6a65ca5|0
+1e:ContractTierBindingObject.java|1|16adf978b75|a94|1fc373b3|6e7a5c416bb347daabce873bce689d48|0
+1d:BenefitTierBindingObject.java|1|16adf978270|c8b|4f571d9d|778de3859c87455e8de99939f0f8d9d3|0
+1c:EntityBenefitDefenition.java|1|16adf9782ae|6a3|3b6a0a31|eb7baa50cffe4c4380d17c2a21a6207f|0

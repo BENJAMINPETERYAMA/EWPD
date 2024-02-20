@@ -1,0 +1,96 @@
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminmethod.bo.AdminMethodOverrideBO">
+		<BusinessAttribute name="entityType"					    type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="entitySysId"					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitCompSysId"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="bnftAdmnId"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="spsId"					type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="adminMethodSysId"					type="String"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"					type="String"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"					type="String"		keyAttrib="false"/>	
+		
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred= "jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+				select ENTY_SYS_ID from ADMN_MTHD_OVRD 
+			</SelectSQLQuery>
+
+			<DataObject name="ADMN_MTHD_OVRD">
+				<DataObjectAttribute name="ENTY_TYPE" 			type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    			type="Int"/>
+			    <DataObjectAttribute name="BNFT_ADMTN_ID"    		type="Int"/>
+			    <DataObjectAttribute name="SPR_PRCSS_STP_SYS_ID"    		type="Int"/>
+			    <DataObjectAttribute name="ADMN_MTHD_SYS_ID"    		type="Int"/>			   
+				<DataObjectAttribute name="LST_CHG_USR"    		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>			   
+				<DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				<SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO ADMN_MTHD_OVRD ( 
+							ENTY_TYPE,ENTY_SYS_ID, BNFT_CMPNT_SYS_ID, BNFT_ADMTN_ID, SPR_PRCSS_STP_SYS_ID, ADMN_MTHD_SYS_ID,LST_CHG_USR, 
+									LST_CHG_TMS,  CREATD_USER_ID, CREATD_TM_STMP)
+			            VALUES		(?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="3" name="BNFT_ADMTN_ID"/>
+			        <DataObjectAttributeInput index="4" name="SPR_PRCSS_STP_SYS_ID"/>
+			        <DataObjectAttributeInput index="5" name="ADMN_MTHD_SYS_ID"/>
+			        <DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="7" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="8" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="9" name="CREATD_TM_STMP"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="update">
+			        <SQLQuery>
+			            UPDATE  ADMIN_MTHD_OVRD SET 
+							SPR_PRCSS_STP_SYS_ID = ?,
+							ADMN_MTHD_SYS_ID = ?,
+							LST_CHG_USR = ?,
+							LST_CHG_TMS = ?,
+						WHERE ENTY_TYPE = ? and ENTY_SYS_ID = ? and BNFT_CMPNT_SYS_ID = ? and BNFT_ADMTN_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="SPR_PRCSS_STP_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ADMN_MTHD_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="4" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="6" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="7" name="BNFT_ADMTN_ID"/>
+			        
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			      	<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ENTY_SYS_ID"/>
+					</RSIndexToDOAttributeMap>		
+			 	</SQLTemplate>		
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ENTY_TYPE"				toBOAttb="entityType"/>
+						<Pair DOAttb="ENTY_SYS_ID"				toBOAttb="entitySysId"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"				toBOAttb="benefitCompSysId"/>
+						<Pair DOAttb="BNFT_ADMTN_ID"				toBOAttb="bnftAdmnId"/>
+						<Pair DOAttb="SPR_PRCSS_STP_SYS_ID"				toBOAttb="spsId"/>
+						<Pair DOAttb="ADMN_MTHD_SYS_ID"				toBOAttb="adminMethodSysId"/>
+						<Pair DOAttb="LST_CHG_USR"				toBOAttb="lastChangedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"				toBOAttb="lastChangedDate"/>
+						<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdTimeStamp"/>
+				</DoAttributeToBOAttributeMap>
+
+			</DataObject>	
+
+		</DataSource>	
+	
+	</BusinessObjectMetadata>
+	

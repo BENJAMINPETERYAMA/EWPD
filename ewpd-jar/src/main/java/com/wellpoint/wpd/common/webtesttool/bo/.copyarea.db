@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\webtesttool\bo
+2
+7
+10:ClaimLineBO.java|1|16adf980e5a|2bfe|1de421b3|fffb594317594eeab718393538d7a74b|0
+1d:BenefitComponentRuleIDBO.java|1|16adf98107c|983|a2cdd827|19f7238d6bd74424be8229d842fc96e4|0
+12:ClaimHeaderBO.java|1|16adf980d8f|1373|50817bb|81a50be958cf432ba021dd0643088954|0
+12:TestCaseRefBO.java|1|16adf980ea8|b84|c5d68164|77d21f9f060947c2b3975cfff20b29ae|0
+10:TestSuiteBO.java|1|16adf980ee6|15f5|eb83ac21|822da48556004f7e9e2476dda514c374|0
+f:TestCaseBO.java|1|16adf98131b|f60|6394c452|21a181c1cbb64106a2950a95789ccfc8|0
+14:BenefitRuleIDBO.java|1|16adf98131b|961|1b51cc21|2f2244b31f7b428ca5f82978fad85759|0

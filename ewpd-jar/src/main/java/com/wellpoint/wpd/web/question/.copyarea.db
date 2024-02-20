@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\question
+2
+3
+1c:QuestionViewBackingBean.java|1|16adf983b98|3327|f98536d8|525c9ded1cdb4ab0a2b67a7665626f94|0
+1e:SearchQuestionBackingBean.java|1|16adf983bf6|99fb|1220a700|6ce7fb7f3e31466e93fada2e9e175778|0
+1c:SaveQuestionBackingBean.java|1|16adf983bb8|cc05|803cb03f|11fd346ee1644f4c9e489dded14cd4ed|0

@@ -1,0 +1,174 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.item.bo.ItemSrdaHCSBO">
+		<BusinessAttribute name="catalogId"					type="Int"			keyAttrib="true"/>
+		<BusinessAttribute name="catalogName"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="primaryCode"				type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="secondaryCode"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="description"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"			type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"		type="Date"			keyAttrib="false"/>
+	
+	<SearchCriteria name="searchCriteria">
+		<SearchCriteriaAttribute name="catalogId" 			type="Int"/>
+		<SearchCriteriaAttribute name="subCatalogId" 		type="Int"/>
+		<SearchCriteriaAttribute name="primaryCode" 		type="String"/>
+		<SearchCriteriaAttribute name="secondaryCode" 		type="String"/>
+		<SearchCriteriaAttribute name="catalogName" 		type="String"/>
+		<SearchCriteriaAttribute name="parentCatalogName" 	type="String"/>
+	    <SearchCriteriaAttribute name="ctlgNameForSortByPC" type="String"/>
+	    <SearchCriteriaAttribute name="ctlgNameForSortByCD" type="String"/>
+		<SearchCriteriaAttribute name="catalogIdList" 		type="List"/>
+		<SearchCriteriaAttribute name="searchValue" 		type="String" />
+		<SearchCriteriaAttribute name="termValue" 			type="String" />
+		<SearchCriteriaAttribute name="pvaValue" 			type="String" />
+		<SearchCriteriaAttribute name="headerRuleId" 		type="String" />
+		<SearchCriteriaAttribute name="searchString" 		type="String" />
+		<SearchCriteriaAttribute name="description" 		type="String"/>
+	</SearchCriteria>
+
+	<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=va10dx03-scan1)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = xprmusvc)))</url>
+				<jndi>jdbc/wsb</jndi>
+			</Connection>
+	
+	<SelectSQLQuery>
+			select b.Catalogname,a.HCS_CLM_SCP_ID,a.HCS_DESCN_TXT,a.HCS_LST_CHG_USRID,a.HCS_LST_CHNGD_TMS ,a.HCS_LST_CHG_USRID,a.HCS_LST_CHNGD_TMS from 
+           hcs_clm_scp a ,(select a.ucfr_fltr_val as HCSCODE,upper(b.cdcv_desc_txt) as Catalogname from
+                           rcms_ucfr_usr_cd_fltr a,  rcms_udcv_usrdfnd_cdval b where a.cdci_cd_itm_id = 1759 and a.cdci_cd_itm_id =b.cdci_cd_itm_id
+                           and b.cdcv_domn_val =a.cdcv_domn_val and a.ucfr_fltr_val = ? order by upper(b.cdcv_desc_txt) asc)b where a.hcs_clm_scp_id = ? and a.HCS_CLM_SCP_TYP_CD = b.HCSCODE
+						
+	</SelectSQLQuery>	
+	
+	<SelectSQLQuery name ="retriveHcsItem">
+	select hcs_clm_scp_typ_cd,hcs_clm_scp_id  from hcs_clm_scp where hcs_clm_scp_typ_cd like upper({0}) and hcs_clm_scp_id  like upper({1})
+	</SelectSQLQuery>
+	
+			
+	<DataObject name="ITEM">
+		<DataObjectAttribute name="CTLG_ID"				type="Int"/>
+		<DataObjectAttribute name="CTLG_NAME"			type="String"/>
+		<DataObjectAttribute name="PRMRY_CD"			type="String"/>
+		<DataObjectAttribute name="SCNDRY_CD"			type="String"/>
+		<DataObjectAttribute name="CD_DESC_TXT"			type="String"/>
+		<DataObjectAttribute name="CREATD_USER_ID"		type="String"/>
+		<DataObjectAttribute name="CREATD_TM_STMP"		type="TimeStamp"/>
+		<DataObjectAttribute name="DEL_STTS_CD"			type="String"/>
+		<DataObjectAttribute name="LST_CHG_USR"			type="String"/>
+		<DataObjectAttribute name="LST_CHG_TMS"			type="TimeStamp"/>
+		<DataObjectAttribute name="CTLG_ID_LIST"		type="Int"/>
+		<DataObjectAttribute name="SUB_CTLG_PARNT_ID"	type="Int"/>
+		<DataObjectAttribute name="SUB_CTLG_ID"			type="Int"/>
+		<DataObjectAttribute name="SEARCH_VALUE"    	type="String"/>
+		<DataObjectAttribute name="TERM_VALUE"    		type="String"/>
+		<DataObjectAttribute name="PVA_VALUE"    		type="String"/>
+		<DataObjectAttribute name="CTLG_NAME_DUMMY_CD" 	type="String"/>
+		 <DataObjectAttribute name="CTLG_NAME_DUMMY_PC" 				type="String"/>
+		<DataObjectAttribute name="SEARCH_STRING" 		type="String" />
+		 <DataObjectAttribute name="RULE_ID" 				type="String"/>
+
+		
+		<SQLTemplate transType="insert">
+			<SQLQuery>
+				insert into hcs_clm_scp (hcs_clm_scp_typ_cd, hcs_clm_scp_id, cms_stat_cd, hcs_stat_chngd_dt, 
+     					hcs_cmprhv_ind,parg_prod_arr_cd, hcs_freq_pct, hcs_dlr_pct, hcs_slctn_sql_txt, hcs_cobol_txt, 
+     					hcs_descn_txt, hcs_tbl_nm, hcs_nt_ind, hcs_lst_chngd_tms, hcs_lst_chg_usrid, star_bus_cond_id, 
+     					hcs_memo_txt) values(?,?,'F',sysdate,0,null,null,null,null,null,?,'HCS',0,sysdate,?,null,null)
+			</SQLQuery>
+			<DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+			<DataObjectAttributeInput index="1" name="PRMRY_CD"/>
+			<DataObjectAttributeInput index="2" name="CD_DESC_TXT"/>
+			<DataObjectAttributeInput index="3" name="CREATD_USER_ID"/>
+		</SQLTemplate>
+	
+		<SQLTemplate transType="update">
+			<SQLQuery>
+				
+	  update hcs_clm_scp set 
+     			 hcs_descn_txt=? ,hcs_lst_chg_usrid =?,hcs_lst_chngd_tms = sysdate  where hcs_clm_scp_id=? and hcs_clm_scp_typ_cd=?					 
+								 
+			</SQLQuery>
+			
+			<DataObjectAttributeInput index="0" name="CD_DESC_TXT"/>
+			<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+			<DataObjectAttributeInput index="2" name="PRMRY_CD"/>
+			<DataObjectAttributeInput index="3" name="CTLG_NAME"/>
+			
+		</SQLTemplate>
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				<DataObjectAttributeInput index="1" name="PRMRY_CD"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="CTLG_NAME"/>
+					<ResultIndex index="1"  dataObjectAttribName ="PRMRY_CD"/>
+					<ResultIndex index="2"  dataObjectAttribName ="CD_DESC_TXT"/>
+					<ResultIndex index="3"  dataObjectAttribName ="CREATD_USER_ID"/>
+					<ResultIndex index="4"  dataObjectAttribName ="CREATD_TM_STMP"/>
+					<ResultIndex index="5"  dataObjectAttribName ="LST_CHG_USR"/>
+					<ResultIndex index="6"  dataObjectAttribName ="LST_CHG_TMS"/>
+				</RSIndexToDOAttributeMap>
+		</SQLTemplate>
+			
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				<DataObjectAttributeInput index="1" name="PRMRY_CD"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="CTLG_NAME"/>
+					<ResultIndex index="1"  dataObjectAttribName ="PRMRY_CD"/>
+					
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="retriveHcsItem"/>
+		</SQLTemplate>	
+
+		<DoAttributeToBOAttributeMap>
+			<Pair DOAttb="CTLG_ID"    				toBOAttb="catalogId"/>
+			<Pair DOAttb="CTLG_NAME"    			toBOAttb="catalogName"/>
+			<Pair DOAttb="PRMRY_CD"    				toBOAttb="primaryCode"/>
+			<Pair DOAttb="SCNDRY_CD"    			toBOAttb="secondaryCode"/>
+			<Pair DOAttb="CD_DESC_TXT"    			toBOAttb="description"/>
+			<Pair DOAttb="CREATD_USER_ID"    		toBOAttb="createdUser"/>
+			<Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+			<Pair DOAttb="LST_CHG_USR"    			toBOAttb="lastUpdatedUser"/>
+			<Pair DOAttb="LST_CHG_TMS"    			toBOAttb="lastUpdatedTimestamp"/>
+		</DoAttributeToBOAttributeMap>
+		
+		<DoAttributeToSCAttributeMap>
+			<Pair DOAttb="CTLG_ID" 				toSCAttb="catalogId"/>
+			<Pair DOAttb="CTLG_ID_LIST"    		toSCAttb="catalogIdList"/>
+			<Pair DOAttb="PRMRY_CD" 			toSCAttb="primaryCode"/>
+			<Pair DOAttb="SCNDRY_CD" 			toSCAttb="secondaryCode"/>
+			<Pair DOAttb="SUB_CTLG_ID" 			toSCAttb="subCatalogId"/>
+			<Pair DOAttb="CTLG_NAME" 			toSCAttb="parentCatalogName"/>
+            <Pair DOAttb="SEARCH_VALUE" 		toSCAttb="searchValue"/>
+            <Pair DOAttb="TERM_VALUE" 			toSCAttb="termValue"/>
+            <Pair DOAttb="PVA_VALUE" 			toSCAttb="pvaValue"/>
+			<Pair DOAttb="CTLG_NAME_DUMMY_PC" 	toSCAttb="ctlgNameForSortByPC"/>
+			<Pair DOAttb="CTLG_NAME_DUMMY_CD" 	toSCAttb="ctlgNameForSortByCD"/>
+			<Pair DOAttb="RULE_ID" 				toSCAttb="headerRuleId"/>
+			<Pair DOAttb="SEARCH_STRING" 		toSCAttb="searchString" />
+			<Pair DOAttb="CD_DESC_TXT" 			toSCAttb="description"/>
+		</DoAttributeToSCAttributeMap>		
+	</DataObject>
+	<DataObject name="CATALOG">
+		<DataObjectAttribute name="CTLG_ID" type="Int" />
+		<DataObjectAttribute name="CTLG_NAME" type="String" />
+		<SQLTemplate transType="select">
+			<RSIndexToDOAttributeMap>
+				<ResultIndex index="0" dataObjectAttribName="CTLG_NAME" />
+			</RSIndexToDOAttributeMap>
+		</SQLTemplate>
+		<DoAttributeToBOAttributeMap>
+			<Pair DOAttb="CTLG_ID" toBOAttb="catalogId" />
+			<Pair DOAttb="CTLG_NAME" toBOAttb="catalogName" />
+		</DoAttributeToBOAttributeMap>		
+	</DataObject>
+
+	
+	
+</DataSource>
+</BusinessObjectMetadata>
+	
+
+</Metadata>

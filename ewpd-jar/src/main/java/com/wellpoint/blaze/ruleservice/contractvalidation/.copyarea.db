@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\blaze\ruleservice\contractvalidation
+2
+7
+1b:WellPointRuleServiceIF.java|1|16adf9593cd|25c|4befd029|8ee8c35a7e7e44f7ba3aaa48dfaef6ae|0
+2f:WellPointRuleServiceServiceSoapBindingStub.java|1|16adf959498|6537|7cad8c81|b10186af15ed49b5bf9cfefdc01efe5c|0
+29:WellPointRuleServiceIFServiceLocator.java|1|16adf95937f|1f57|e43417a7|6e476cf398584b0dad8c87847131d31c|0
+20:WellPointRuleServiceIFProxy.java|1|16adf959350|b39|1c0ae28a|e420d30f22264ec3aea8412894f1485d|0
+2d:WellPointRuleServiceIFServiceInformation.java|1|16adf959708|32b7|6df86563|01174e6b5d3442ada055c36759672f56|0
+b:WSUtil.java|1|16adf9598dc|56c6|8254b72c|56cb61296b3f4a09a09b674714689fcd|0
+22:WellPointRuleServiceIFService.java|1|16adf9596f8|2db|9e280012|3d20c0934eae4feba4ff8c9444b989d4|0

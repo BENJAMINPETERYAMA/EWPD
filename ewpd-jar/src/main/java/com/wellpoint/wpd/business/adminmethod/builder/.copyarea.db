@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\adminmethod\builder
+2
+2
+25:AdminMethodBusinessObjectBuilder.java|1|16adf959dfa|1a852|e6ee839f|fb7190aabfaa4fecb4b52657e319f3ac|0
+2d:AdminMethodOverrideBusinessObjectBuilder.java|1|16adf959e1a|854c|6f06535a|1b757827b60b41068c10748bf597721e|0

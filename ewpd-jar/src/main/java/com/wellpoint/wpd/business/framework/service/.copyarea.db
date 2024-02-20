@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\framework\service
+2
+8
+1e:BusinessServiceController.java|1|16adf95e8a1|45c|fa456c87|0784664bf80745ae8b7bc488e12c693e|0
+f:WPDService.java|1|16adf95eb3f|3a5|5c72da3|a2ca72a5c5c44c91a113533486969b3e|0
+14:SecurityService.java|1|16adf95e99a|c96|f632d77d|d8da363de3f8457d9e754fe7a63361de|0
+21:WPDBusinessValidationService.java|1|16adf95eb3f|510|722ca334|7d264d66409540ebb24fbb6a402b0dc4|0
+17:WPDBusinessService.java|1|16adf95eae2|4e8|11499308|2b3fd95a18e045428a017e469b157ed0|0
+20:ValidationServiceController.java|1|16adf95e93d|466|3f52711d|fdc4c78c46f111e380360002cbcd824c|0
+23:ObjectFactoryServiceController.java|1|16adf95e9aa|45b|a7bc6565|d2939bdd3afb423dafae2a7192c37456|0
+19:WPDServiceController.java|1|16adf95f84a|18db|ce5aae0d|91a2a9e2183f45b4862331dcb7f25dbc|0

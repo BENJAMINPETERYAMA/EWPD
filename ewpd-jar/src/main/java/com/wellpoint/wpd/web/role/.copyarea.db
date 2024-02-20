@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\role
+2
+4
+1a:RoleSearchBackingBean.java|1|16adf9842d9|345a|b6616d29|25f7c6de6f7d4fd4bc37d90ae8329879|0
+4:tree|2|0|0|0|ccd4b17d89f6438586805795212a6fe0|0
+18:RoleTreeBackingBean.java|1|16adf98429b|188c|7cfe69e2|309506279ad34cc09dcdccd29abd5325|0
+14:RoleBackingBean.java|1|16adf983ef3|e1d2|71d1477a|71a3870aa9bc4554986ea14d9b28f329|0

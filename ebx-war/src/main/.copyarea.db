@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main
+2
+6
+7:scripts|2|0|0|0|c4a64b7f99e6437fbfef9470349ffd4a|0
+9:resources|2|0|0|0|b8592e77eb8145efbee8e223d656a0c1|0
+6:webapp|2|0|0|0|ee1d63ec425041519d8c9c58215e5379|0
+4:java|2|0|0|0|f926756cc12940aa920568b689346c54|0
+12:external-resources|2|0|0|0|52c7ccef2e3947b2b374c7fe6ea9a8cb|0
+7:filters|2|0|0|0|34cf6fd9d3ac46e3ae83d6e06c95f519|0

@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\search\criteria
+2
+a
+19:AdvancedSearchObject.java|1|16adf97cde1|3d9|64ad419d|a4301d931e084f129fae2931d4e2a0df|0
+16:AdvancedAttribute.java|1|16adf97d965|54a|de229d46|6145e6cf1c6c4264b1a16bbca8723474|0
+e:Attribute.java|1|16adf97cdf1|897|48b98cee|435c9aff933c48348fd701c00c40a453|0
+13:SearchCriteria.java|1|16adf97ceac|582|a6dbc9f|45e1bf02feda44b5afb169cc8d7472a8|0
+11:SearchObject.java|1|16adf97cfb5|471|3467518c|c5b80fa0d4244efa84a5e7365d829bb3|0
+e:LimitedTo.java|1|16adf97ceac|9c6|312f2032|5502fcdf7cf043668e807a88af9499ee|0
+16:BasicSearchObject.java|1|16adf97ce3f|25a|8175bf4b|40f8b4d63e884aa5bb00900cdd3057cd|0
+18:BasicSearchCriteria.java|1|16adf97ceac|532|c135b03e|a200db6fc79b40069e2695cb5f1295fa|0
+1b:AdvancedSearchCriteria.java|1|16adf97da4f|3ff|debc4df8|373d4c80512b46439b0cefa7353647e7|0
+13:BasicAttribute.java|1|16adf97cdf1|248|149fbb27|80087cdacb944f299cce81b3a8104c28|0

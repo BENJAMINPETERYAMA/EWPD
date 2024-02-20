@@ -1,0 +1,69 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="loggerConfiguration"
+		class="com.wellpoint.wpd.common.framework.logging.LoggerConfiguration">
+		<property name="log4jConfigFile">
+			<value>log4j.properties</value>
+		</property>
+		<property name="duplicateToFile">
+			<value>false</value>
+		</property>
+		<property name="loggingEntity">
+			<value>WPD Application</value>
+		</property>
+	</bean>
+	<bean id="dbLogger"
+		class="com.wellpoint.wpd.common.framework.logging.DBLogger"
+		scope="prototype">
+		<property name="loggerDao">
+			<ref bean="loggerDao" />
+		</property>
+	</bean>
+	<bean id="fileLogger"
+		class="com.wellpoint.wpd.common.framework.logging.FileLogger"
+		scope="prototype">
+
+	</bean>
+	<bean id="loggerDao"
+		class="com.wellpoint.wpd.common.framework.logging.LoggerDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="sequenceIncrementer">
+			<ref bean="oracleSequenceIncrementer" />
+		</property>
+	</bean>
+	<bean id="oracleSequenceIncrementer"
+		class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="incrementerName">
+			<value>apxl_log_id_seq_nbr</value>
+		</property>
+	</bean>
+<!-- 
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@10.10.43.217:1521:ISG</value>
+		</property>
+		<property name="username">
+			<value>ewpd1</value>
+		</property>
+		<property name="password">
+			<value>ewpd_1</value>
+		</property>
+	</bean>
+ -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+		<value>java:comp/env/wsbEwpdDS</value>
+		</property>
+		</bean>
+
+</beans>

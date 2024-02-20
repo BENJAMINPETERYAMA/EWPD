@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\request
+2
+4
+f:WPDRequest.java|1|16adf970ea8|45b|312c5465|f4d54fc8085f40838b1a9fe00bc93f82|0
+1a:WPDRequestFactoryImpl.java|1|16adf970eb7|b6e3|483d9e|15c4c7e446f211e380360002cbcd824c|0
+18:RetrieveUserRequest.java|1|16adf970ddd|809|2d6e56c2|7413e7b2bec24b8a9af65939ff1a84ac|0
+16:WPDRequestFactory.java|1|16adf970e98|2d2|fa65edfe|e2333aba10d841b5a49d9bcd51e0d6a3|0

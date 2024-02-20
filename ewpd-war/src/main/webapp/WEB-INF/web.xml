@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>ewpd</display-name>
+	<context-param>
+		
+		<param-name>com.ibm.ws.jsf.JSP_UPDATE_CHECK</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		
+		<param-name>com.ibm.ws.jsf.LOAD_FACES_CONFIG_AT_STARTUP</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		
+		<param-name>disabledStateExpirationTimeInterval</param-name>
+		<param-value>120</param-value>
+	</context-param>
+	<context-param>
+    	<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    	<param-value>server</param-value>
+    </context-param>
+    <context-param>
+    	<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    	<param-value>true</param-value>
+    </context-param>
+    <context-param>
+    <!--description>
+        Number of Views to be stored in the session when Server-Side
+        State Saving is being used. Default is 20.
+        </description-->
+    <param-name>
+        org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION
+    </param-name>
+    <param-value>50</param-value>
+   </context-param>
+
+	
+	<resource-ref id="ResourceRef_1">
+	  <res-ref-name>wsbEwpd/application_lock_cache</res-ref-name>
+	  <res-type>com.ibm.websphere.cache.DistributedMap</res-type>
+	  <res-auth>Container</res-auth>
+	  <res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	
+	<resource-ref id="ResourceRef_1199477151744">
+		<res-ref-name>wsbEwpdDS</res-ref-name>
+		<res-type>java.lang.Object</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Unshareable</res-sharing-scope>
+	</resource-ref>
+
+	<!-- To check if the application is in enabled or disabled state -->
+	<filter>
+		<filter-name>AjaxAnywhere</filter-name>
+		<filter-class>org.ajaxanywhere.AAFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AjaxAnywhere</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AjaxAnywhere</filter-name>
+		<url-pattern>/faces/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter>
+		<filter-name>ApplicationStatusFilter</filter-name>
+		<filter-class>com.wellpoint.wpd.web.framework.ApplicationStatusFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ApplicationStatusFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<!-- To check if the session is valid -->
+	<filter>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>com.wellpoint.wpd.web.framework.SessionFilter</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	
+	<!-- To lock the user from submitting multiple requests-->
+	<!--<filter>
+		<filter-name>SessionLockFilter</filter-name>
+		<filter-class>com.wellpoint.wpd.web.framework.SessionLockFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SessionLockFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>-->
+
+	<filter>
+		<filter-name>ExtensionsFilter</filter-name>
+		<filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ExtensionsFilter</filter-name>
+		<url-pattern>/faces/*</url-pattern>
+	</filter-mapping>
+	<!-- extension mapping for adding <script/>, <link/>, and other resource tags to JSF-pages  -->
+	<filter-mapping>
+	    <filter-name>ExtensionsFilter</filter-name>
+	    <!-- servlet-name must match the name of your javax.faces.webapp.FacesServlet entry -->
+	    <servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	<!-- extension mapping for serving page-independent resources (javascript, stylesheets, images, etc.)  -->
+	<filter-mapping>
+	    <filter-name>ExtensionsFilter</filter-name>
+	    <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
+	</filter-mapping>
+	<!--  <listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener> -->
+	
+	<servlet id="Servlet_1170715747831">
+		<servlet-name>JS Resource Servlet</servlet-name>
+		<servlet-class>
+		com.ibm.faces.webapp.JSResourceServlet</servlet-class>
+		<load-on-startup>-1</load-on-startup>
+	</servlet>
+	
+	<servlet id="Servlet_1170715748191">
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>
+		javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>-1</load-on-startup>
+	</servlet>
+	<servlet>
+		
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>com.wellpoint.wpd.web.report.ReportServlet</servlet-class>
+	</servlet>	
+	<!-- Added For Indicative Long Term Solution -->
+	<servlet>		
+		<servlet-name>IndicativeLayoutServlet</servlet-name>
+		<servlet-class>com.wellpoint.wpd.web.indicativelayout.IndicativeLayoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>*.rpt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>IndicativeLayoutServlet</servlet-name>
+		<url-pattern>*.export</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>JS Resource Servlet</servlet-name>
+		<url-pattern>/.ibmjsfres/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RuleReportServlet</servlet-name>
+		<servlet-class>com.wellpoint.wpd.web.report.RuleReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RuleReportServlet</servlet-name>
+		<url-pattern>*.xlsx</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>XframeOptions</filter-name>
+		<filter-class>com.wellpoint.wpd.common.filter.XFrameFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>XframeOptions</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> 	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<session-config>
+	  <cookie-config>
+		<http-only>true</http-only>
+		 <secure>true</secure>
+		</cookie-config>
+        <tracking-mode>URL</tracking-mode>
+    </session-config> 	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/faces/pages/error.jsp</location>
+	</error-page>
+</web-app>

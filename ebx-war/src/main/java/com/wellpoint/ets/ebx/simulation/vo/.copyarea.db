@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\vo
+2
+c
+16:ContractMappingVO.java|1|16b935e6849|ebb|d0c28a7c|9c195a8e326347728c73a26b131c724c|0
+12:PricingInfoVO.java|1|16b935e68c6|56d|9785cbd8|596accff5ca64590a3625f30bf61bdc5|0
+19:ContractDataObjectVO.java|1|16b935e682a|4c71|ef30eb8e|c38c769649df45e19c27fe4cd81ae29a|0
+18:MemberDetailsInfoVO.java|1|16b935e6868|3e8|e6052988|c8d697abb1484cc1a1434615c0bcb815|0
+15:ErrorExclusionVO.java|1|16b935e6887|1ce|7d5e9983|0264f2ca465a4defb098599c94dd2446|0
+14:MajorHeadingsVO.java|1|16b935e6887|3c9|bfd93e5f|16c737ae75d6457e809c7db89155148b|0
+14:MinorHeadingsVO.java|1|16b935e6897|96c|3e6029e1|d8bf06df7c0a41d0b2c021281a4ccf94|0
+11:MemberInfoVO.java|1|16b935e6887|c01|c4a465dd|44420e0d182640eda82a33b6c4bd8188|0
+15:ContractReportVO.java|1|16b935e6849|4d6|8271986c|3849ff9e690f40bf9a9ddadc5b9c9497|0
+11:HIPAA270BXVO.java|1|16b935e6868|746|471a42f2|315ab7eccd424587b6428cf62798b181|0
+12:ErrorDetailVO.java|1|16b935e6849|618|2654f7aa|e1127928ad314677afb42121ac2d5a60|0
+f:ContractVO.java|1|16b935e6849|2d94|976b545|5cc490a5dfbf45ca9552622a28a92672|0

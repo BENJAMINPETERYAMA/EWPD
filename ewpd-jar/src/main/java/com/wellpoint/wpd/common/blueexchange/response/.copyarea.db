@@ -1,0 +1,20 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\blueexchange\response
+2
+10
+25:ServiceTypeMappingSearchResponse.java|1|16adf96a70f|3ea|54b34d2a|6127e23506ad4177b299fca8e65b0017|0
+20:DeleteCustomMessageResponse.java|1|16adf96a0c8|426|49cb6434|c9b1ddd6844248a0aa0bcba94a290521|0
+24:ContractVariableMappingResponse.java|1|16adf96a08a|444|22b75762|a915644788d74cea96177779aa25f668|0
+1d:DeleteSpsMappingResponse.java|1|16adf96a2cb|20d|ad3aa832|55eee418541644279bc4cb49a6d44db6|0
+1d:SPSMappingCreateResponse.java|1|16adf96a70f|6a9|6ca12f80|9b63fc97965043858c751b754c1cabda|0
+27:ViewServiceTypeCodeMappingResponse.java|1|16adf96a7ca|7d8|41c19255|64a5ec8a42f14586b3630d1ec68695c8|0
+24:CustomMessageTextUpdateResponse.java|1|16adf96a0c8|66f|706e275a|cbaa83b864c8468980f96f3a98aa0406|0
+25:ServiceTypeMappingDeleteResponse.java|1|16adf96a857|318|85a8f9eb|ca08f890ccee41feb502a80cf2e9d7ed|0
+1d:SPSMappingUpdateResponse.java|1|16adf96a6f0|6a5|a2782942|87baec3538b6420b8e3d4af8e56c2453|0
+20:SearchCustomMessageResponse.java|1|16adf96a155|3da|e9d148ec|e0c59965ed3741e99dd109a0b779f2e5|0
+24:CustomMessageTextCreateResponse.java|1|16adf96a77c|816|6e46b0ad|4f3c998506444e76b77aa186b11ba6d7|0
+1b:SPSMappingViewResponse.java|1|16adf96a71f|54d|a095bd22|a4a572266d984fd4b518651b0c971319|0
+23:SaveServiceTypeMappingResponse.java|1|16adf96a76d|7a4|6d0a826d|7ae62e1fc1ec4e8498ea38518a798a34|0
+1e:SearchSPSMaintainResponse.java|1|16adf96a3f4|3a4|e2432e44|c37794f97d5946cdb4fb4e7cb29dc80e|0
+27:RetrieveServiceTypeMappingResponse.java|1|16adf96a0e8|831|41e5cde1|2912438406b74cbeb16511e1e02aff32|0
+22:CustomMessageRetrieveResponse.java|1|16adf96a2bc|481|c48388d5|ccc31e10a4b6494d95ec95799d727a1a|0

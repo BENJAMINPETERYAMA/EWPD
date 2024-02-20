@@ -1,0 +1,114 @@
+<Metadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.web.contract.ContractTransferLogBO">
+		<BusinessAttribute name="dateSegmentId" 				type="Int" 		keyAttrib="true" />
+		<BusinessAttribute name="contractSysId" 				type="Int" 		keyAttrib="true" />
+		<BusinessAttribute name="noDateSegment" 				type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="dateSegmentTestProdnInd" 		type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="version" 						type="Int" 		keyAttrib="false" />
+		<BusinessAttribute name="status" 						type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="user" 							type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="timeStamp" 					type="Date" 	keyAttrib="false" />
+		<BusinessAttribute name="mftfIndicator" 				type="String" 	keyAttrib="false" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="dateSegmentsId" 		type="Int" />
+			<SearchCriteriaAttribute name="contractSysId1" 		type="Int" />
+			<SearchCriteriaAttribute name="version" 			type="Int" />
+			<SearchCriteriaAttribute name="effectiveDate" 		type="String" />
+		</SearchCriteria>
+
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+
+			<SelectSQLQuery name = "locateTransferlog">
+				select dbms_random.random,dbms_random.random, B.DT_SGMNT_TEST_PROD_IND, C.ENTITY_VERSION,  C.ENTITY_STTS_CD,C.USER_ID ,C.TIMESTAMP,A.CNTRCT_TEST_PROD_MFDF_IND  
+				from CMST_CNTRCT_MSTR A ,CNTRCT_DT_SGMNT B,CNTRCT_TRANS_LOG C ,CNTRCT_DT_SGMNT_ASSN D 
+				where A.CNTRCT_PARNT_SYS_ID in(
+				                                select CNTRCT_PARNT_SYS_ID from CMST_CNTRCT_MSTR  
+				                                    where CNTRCT_SYS_ID = {0}
+				                              ) 
+				       and A.CNTRCT_SYS_ID = D.CNTRCT_SYS_ID
+						and D.DT_SGMNT_SYS_ID = B.DT_SGMNT_SYS_ID
+				       and B.DT_SGMNT_EFCTV_DT = TO_DATE ({3}, 'mm/dd/yyyy')
+				       and B.DT_SGMNT_TEST_PROD_IND in 
+				                               (select DT_SGMNT_TEST_PROD_IND from CNTRCT_DT_SGMNT  where DT_SGMNT_SYS_ID ={1})
+				       and C.ENTITY_ID = A.CNTRCT_ID and C.ENTITY_VERSION = A.CNTRCT_VRSN_NBR 
+					   and B.DT_SGMNT_TEST_PROD_IND =A.CNTRCT_TEST_PROD_MFDF_IND
+				       and C.ENTITY_STTS_CD in
+				       ('SCHEDULED_FOR_TEST','OBJECT_TRANSFERRED','SCHEDULED_FOR_PRODUCTION','PUBLISHED')
+                              <![CDATA[         and A.CNTRCT_VRSN_NBR <= {2} and C.DT_SGMNT_EFCTV_DT =TO_DATE ({3}, 'mm/dd/yyyy')
+								 and   C.TIMESTAMP >= (Select CREATD_TM_STMP from CNTRCT_DT_SGMNT_ASSN  where DT_SGMNT_SYS_ID ={1} and CNTRCT_SYS_ID = {0}) ]]>
+				order by A.CNTRCT_VRSN_NBR DESC,C.TIMESTAMP DESC
+			</SelectSQLQuery>
+			<DataObject name="CMST_CNTRCT_MSTR">
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 				type="Int" />
+				<DataObjectAttribute name="CNTRCT_ID" 					type="String" />
+				<DataObjectAttribute name="CNTRCT_TYPE" 				type="String" />
+				<DataObjectAttribute name="CNTRCT_PARNT_SYS_ID" 		type="Int" />
+				<DataObjectAttribute name="CNTRCT_BSDT_SGMNT_SYS_ID" 	type="Int" />
+				<DataObjectAttribute name="CNTRCT_VRSN_NBR" 			type="Int" />
+				<DataObjectAttribute name="CNTRCT_STTS_CD" 				type="String" />
+				<DataObjectAttribute name="LST_CHG_USR" 				type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 				type="TimeStamp" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 				type="TimeStamp" />
+				<DataObjectAttribute name="CREATD_USR_ID" 				type="String" />			
+				<DataObjectAttribute name="CNTRCT_HDQTR_ST_CD" 			type="String" />
+				<DataObjectAttribute name="CNTRCT_TEST_PROD_MFDF_IND" 	type="String" />
+				<DataObjectAttribute name="DT_SGMNT_TEST_PROD_IND" 		type="String" />
+				<DataObjectAttribute name="ENTITY_VERSION" 				type="Int" />
+				<DataObjectAttribute name="ENTITY_STTS_CD" 				type="String" />
+				<DataObjectAttribute name="USER_ID" 					type="String" />
+				<DataObjectAttribute name="TIMESTAMP" 					type="TimeStamp" />
+				<DataObjectAttribute name="DT_SGMNT_SYS_ID" 			type="Int" />
+				<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" 			type="Date" />
+
+				<SQLTemplate transType="select">
+
+					<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID" />
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID" />
+					<DataObjectAttributeInput index="2" name="CNTRCT_VRSN_NBR" />
+					<DataObjectAttributeInput index="3" name="DT_SGMNT_EFCTV_DT" />
+
+					<RSIndexToDOAttributeMap>								
+						<ResultIndex index="0" dataObjectAttribName="CNTRCT_SYS_ID" />
+						<ResultIndex index="1" dataObjectAttribName="DT_SGMNT_SYS_ID" />
+						<ResultIndex index="2" dataObjectAttribName="DT_SGMNT_TEST_PROD_IND" />
+						<ResultIndex index="3" dataObjectAttribName="ENTITY_VERSION" />
+						<ResultIndex index="4" dataObjectAttribName="ENTITY_STTS_CD" />
+						<ResultIndex index="5" dataObjectAttribName="USER_ID" />
+						<ResultIndex index="6" dataObjectAttribName="TIMESTAMP" />
+						<ResultIndex index="7" dataObjectAttribName="CNTRCT_TEST_PROD_MFDF_IND" />
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="locateTransferlog" />
+
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 				toBOAttb="contractSysId" />
+					<Pair DOAttb="DT_SGMNT_SYS_ID" 				toBOAttb="dateSegmentId" />					
+					<Pair DOAttb="DT_SGMNT_TEST_PROD_IND" 		toBOAttb="dateSegmentTestProdnInd" />
+					<Pair DOAttb="ENTITY_VERSION" 				toBOAttb="version" />
+					<Pair DOAttb="ENTITY_STTS_CD" 				toBOAttb="status" />
+					<Pair DOAttb="USER_ID" 						toBOAttb="user" />
+					<Pair DOAttb="TIMESTAMP" 					toBOAttb="timeStamp" />
+					<Pair DOAttb="CNTRCT_TEST_PROD_MFDF_IND" 	toBOAttb="mftfIndicator" />
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNTRCT_SYS_ID" 			toSCAttb="contractSysId1" />
+					<Pair DOAttb="DT_SGMNT_SYS_ID" 			toSCAttb="dateSegmentsId" />
+					<Pair DOAttb="CNTRCT_VRSN_NBR" 			toSCAttb="version" />
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" 		toSCAttb="effectiveDate" />	
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>
+

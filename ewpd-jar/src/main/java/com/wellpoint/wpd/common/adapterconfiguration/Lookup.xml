@@ -1,0 +1,125 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.lookup.bo.LookupAdminQuestionBO">
+		<BusinessAttribute name="questionNo" 		type="Int"		keyAttrib="true"/>		
+		<BusinessAttribute name="questionDescription" 			type="String" 	keyAttrib="false"/>	
+		<BusinessAttribute name="spsId" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="description" 			type="String" 	keyAttrib="false"/>
+	 	<SearchCriteria>
+			<SearchCriteriaAttribute name="questionDescription" 	 type="String"/>				
+			<SearchCriteriaAttribute name="adminOptionId" 	 		 type="Int"/>				
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+  				<SelectSQLQuery name="adminQuestionSearch" >
+  				
+  				SELECT   A.ADQM_ADMN_QSTN_NBR, A.ADQM_ADMN_QSTN_DESC, A.SPS_ID, D.cd_desc_txt
+					FROM         ADQM_ADMN_QSTN_MSTR A, iTEM D
+					WHERE       UPPER(A.ADQM_ADMN_QSTN_DESC) LIKE UPPER({0}) escape '`' 
+					and A.QSTN_VRSN_NBR = (select max(B.QSTN_VRSN_NBR)from ADQM_ADMN_QSTN_MSTR B where 
+                                           UPPER(B.ADQM_ADMN_QSTN_DESC) = UPPER(A.ADQM_ADMN_QSTN_DESC) 
+                                           and QSTN_STTS_CD='PUBLISHED')
+                    and  A.ADQM_ADMN_QSTN_DESC not in 
+                      (select A.ADQM_ADMN_QSTN_DESC from ADQM_ADMN_QSTN_MSTR A , QSTNR_MSTR B
+                         where  B.ADMIN_OPT_SYS_ID = {1} AND A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR )
+        			AND A.SPS_ID= D.prmry_cd (+) and d.ctlg_id (+) =1938       
+				ORDER BY UPPER(A.ADQM_ADMN_QSTN_DESC)
+						
+				</SelectSQLQuery>
+ 				<DataObject name="ADQM_ADMN_QSTN_MSTR">	
+					<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 			type="Int"/>				
+					<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 		type="String"/>		
+					<DataObjectAttribute name="SPS_ID" 		type="String"/>	
+					<DataObjectAttribute name="DESC" 		type="String"/>				
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>	
+							<ResultIndex index="2" dataObjectAttribName ="SPS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="DESC"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="adminQuestionSearch"/>
+					</SQLTemplate>						
+					<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"		toBOAttb="questionNo"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC"		toBOAttb="questionDescription"/>
+						<Pair DOAttb="SPS_ID"		toBOAttb="spsId"/>
+						<Pair DOAttb="DESC"		toBOAttb="description"/>
+					</DoAttributeToBOAttributeMap>
+					<DoAttributeToSCAttributeMap>					
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC" 	toSCAttb="questionDescription"/>
+					</DoAttributeToSCAttributeMap>
+  				</DataObject>
+				<DataObject name="QSTNR_MSTR">	
+					<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 			type="Int"/>				
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						
+						<SearchQueryName name="adminQuestionSearch"/>
+					</SQLTemplate>						
+					
+					<DoAttributeToSCAttributeMap>					
+						<Pair DOAttb="ADMIN_OPT_SYS_ID" 	toSCAttb="adminOptionId"/>
+					</DoAttributeToSCAttributeMap>
+  				</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.BenefitLevelListBO">
+		<BusinessAttribute name="benefitLevelId" 	type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitsystemId" 	type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="description" 	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="externalrefId" 	type="String" 	keyAttrib="false"/>
+
+		<SearchCriteria>
+  				<SearchCriteriaAttribute name="benefitMasterSystemId" 	 type="Int"/>				
+  		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+		 	<SelectSQLQuery name="searchBenefitLevelList">
+				select BNFT_DEFN_SYS_ID,BLVL_BNFT_LVL_ID,BLVL_BNFT_LVL_DESC ,BNFT_LVL_EXTRNL_RFRNC_ID  from BLVL_BNFT_LVL	
+				where 	BNFT_DEFN_SYS_ID = {0}
+			</SelectSQLQuery>
+
+			<DataObject name="BLVL_BNFT_LVL">
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"  type="Int"/>	
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID"  type="Int"/>	
+				<DataObjectAttribute name="BLVL_BNFT_LVL_DESC"  type="String"/>	
+				<DataObjectAttribute name="BNFT_LVL_EXTRNL_RFRNC_ID"  type="String"/>	
+
+	  			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_DEFN_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_LVL_EXTRNL_RFRNC_ID"/>
+							
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchBenefitLevelList"/>
+	  			</SQLTemplate>				
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_DEFN_SYS_ID"	toBOAttb="benefitsystemId"/>
+						<Pair DOAttb="BLVL_BNFT_LVL_ID"	toBOAttb="benefitLevelId"/>
+						<Pair DOAttb="BLVL_BNFT_LVL_DESC"	toBOAttb="description"/>
+						<Pair DOAttb="BNFT_LVL_EXTRNL_RFRNC_ID"	toBOAttb="externalrefId"/>						
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>					
+					<Pair DOAttb="BNFT_DEFN_SYS_ID" 	toSCAttb="benefitMasterSystemId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+</Metadata> 

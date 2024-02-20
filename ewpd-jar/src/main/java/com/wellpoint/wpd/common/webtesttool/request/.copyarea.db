@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\webtesttool\request
+2
+f
+1a:TestCaseSearchRequest.java|1|16adf980ff0|5e4|8773dacd|8b983939bb1d425cb2c87a3625211d53|0
+1b:TestSuiteSearchRequest.java|1|16adf9813b7|5dd|9075d817|7a6e2855e904489cbbb5c522342a4c9d|0
+1d:TestCaseRefDeleteRequest.java|1|16adf980ff0|4d2|ff918fd6|d82eed75317e4c29b0f34e687007e43b|0
+1b:TestSuiteDeleteRequest.java|1|16adf981398|446|8a4365a8|4d0f9765e04145c095793441afb1dac6|0
+21:BenefitComponentPopupRequest.java|1|16adf980f06|494|ab837a36|beb261416e214e7eb84e06ea8b363129|0
+18:TestCaseEditRequest.java|1|16adf980fa2|47b|f617723a|1d6d2ec42d2e45d3836f578a067d85d7|0
+1a:TestCaseCreateRequest.java|1|16adf980fa2|9f7|fe8e2d52|8cc6a1ad4c214bfe997800917218a062|0
+22:BenefitComponentSearchRequest.java|1|16adf980f44|5a0|1d5ecf00|f31ba2df09e44566a8aca99ec05815a1|0
+1d:TestCaseRefCreateRequest.java|1|16adf980ff0|4b9|162486cb|9cff9e08cc1c490f8248f421a41f0e48|0
+18:BenefitPopupRequest.java|1|16adf980f34|716|72eb4aac|d874c1231544463389b3c1cffbaff7de|0
+1b:TestSuiteChangeRequest.java|1|16adf9813c6|4b6|8841877f|690ae99ef2224bee86e70785a7af520b|0
+1a:TestCaseChangeRequest.java|1|16adf980f73|9b2|477716e5|2ebd625b5da346159990505671dc67fb|0
+1b:TestSuiteCreateRequest.java|1|16adf9813c6|4b3|bab18737|bc571efe8b454f32be5a255e66efee7d|0
+1a:TestCaseDeleteRequest.java|1|16adf980fc1|4a6|3ed27f1a|83e1891445ad4bffbfbc41ffd73945f1|0
+1c:TestSuiteExecuteRequest.java|1|16adf981369|57c|a7cbbd0c|dec94e292dcf4f4fa75bca398c9e0060|0

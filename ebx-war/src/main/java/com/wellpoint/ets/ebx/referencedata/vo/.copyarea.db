@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\referencedata\vo
+2
+d
+25:MinorHeadingCatagoryCdeMappingVO.java|1|16b935e5c86|551|f7e09a60|0764c55680fa4153b651b4827c315d80|0
+15:ErrorExclusionVO.java|1|16b935e5c29|1138|ca441b8|1cbc7eb65c8c42b88fa520567fa13814|0
+1b:ErrorExclusionDetailVO.java|1|16b935e5c29|56ee|35e03845|4b3f103222a049c89873a555eb9eae0a|0
+21:CategoryServiceTypeMappingVO.java|1|16b935e5bdb|cec|34aff7e8|d6f67a85183c4183a20aadc0af609d49|0
+20:ServiceTypeToEB11DataObject.java|1|16b935e5cb5|b58|6363ad6d|d6700b3967684906ba90680fdfa41ad0|0
+1c:DataTypeToEB01MappingVO.java|1|16b935e5c38|d72|7eff434d|905fee67cc974df1bbe9da45095c1f18|0
+1c:ServiceTypeCodeToEB11VO.java|1|16b935e5c86|52c|af9ade0|bb5f090b54324887ae1b4acf6ffac95f|0
+19:ServiceTypeMappingVO.java|1|16b935e5cf3|90c|fc5c08f4|aeec253378054abca0110d9afb8cf164|0
+1e:CategoryVariableMappingVO.java|1|16b935e5bbb|5d2|1ac6ce3e|7a6487ab9dc14f5095a86520045fcb75|0
+1e:HeaderRuleToEB03MappingVO.java|1|16b935e5c86|94f|7f102973|7c6963dd1ad34c33bc413e54c08361cf|0
+16:StandardMessageVO.java|1|16b935e5cc5|76d|1efe772f|a1d815701f80430fb2f891a2de5e8523|0
+10:ErrorCodeVO.java|1|16b935e5c19|e08|5a98465e|3312ce86680a4d889aa02ad2eab3706b|0
+19:ReferenceDataValueVO.java|1|16b935e5cb5|cb9|71012dc4|19967604925f475285ba3f9c0efbf952|0

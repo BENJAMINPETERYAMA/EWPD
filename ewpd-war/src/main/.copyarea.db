@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main
+2
+6
+6:webapp|2|0|0|0|dc18021752ef431288e5f4f5117539e8|0
+4:java|2|0|0|0|b6f5b0c2009647a29999dfa19237af13|0
+9:resources|2|0|0|0|3ed4c6dc46f111e380360002cbcd824c|0
+12:external-resources|2|0|0|0|d210a817b5b6422eba6e2f86e9f5cf43|0
+7:filters|2|0|0|0|e95aa5f726f4432c9b55bcf04942d294|0
+7:scripts|2|0|0|0|56b72a9b66694fcfa1c6b1245723f1ac|0

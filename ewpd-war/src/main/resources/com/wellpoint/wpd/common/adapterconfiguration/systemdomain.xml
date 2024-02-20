@@ -1,0 +1,20 @@
+<systemdomains>
+ <domain name="ewpd" datasource="prmd">
+  <connection preferred="jndi">
+   <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+   <jndi>java:comp/env/wsbEwpdDS</jndi>
+  </connection>
+ </domain>
+ <domain name="cp2000" datasource="prmd">
+  <connection preferred="jndi">
+   <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+   <jndi>jdbc/wsbLg</jndi>
+  </connection>
+ </domain>
+ <domain name="srda" datasource="prmd">
+  <connection preferred="jndi">
+   <url>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=va10dx03-scan1)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = xprmusvc)))</url>
+   <jndi>jdbc/wsb</jndi>
+  </connection>
+ </domain> 
+</systemdomains>

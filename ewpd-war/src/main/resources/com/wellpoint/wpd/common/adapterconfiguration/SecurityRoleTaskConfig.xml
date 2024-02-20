@@ -1,0 +1,125 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.security.bo.RoleTaskConfigBO">
+		<BusinessAttribute name="rolModTaskId" 			type="Int"		keyAttrib="false"/>	 
+		<BusinessAttribute name="roleTaskId" 				type="Int"		keyAttrib="true"/>	 
+		<BusinessAttribute name="taskId" 				type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser" 			type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="createdTimestamp" 		type="Date"		keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"		keyAttrib="false"/>	 
+		<SearchCriteria name="criteria">
+	       <SearchCriteriaAttribute name="rolModTaskId" 	type="Int"/>
+	       <SearchCriteriaAttribute name="roleId" 	type="Int"/>
+	       <SearchCriteriaAttribute name="moduleId" 	type="Int"/>
+	       <SearchCriteriaAttribute name="taskId" 	type="Int"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+			    SELECT ROLE_MOD_TASK_SYS_ID, ROLE_MOD_ASSN_SYS_ID, TASK_SYS_ID, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP
+			    FROM SCRTY_ROLE_MOD_TASK_ASSN
+			    WHERE ROLE_MOD_TASK_SYS_ID = ?
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="isModuleAssociated" >
+			    SELECT m.ROLE_MOD_ASSN_SYS_ID, m.ROLE_MOD_TASK_SYS_ID
+			     FROM SCRTY_ROLE_MOD_TASK_ASSN m, SCRTY_ROLE_MOD_ASSN r
+			     WHERE r.MOD_SYS_ID = {0} and r.ROLE_SYS_ID = {1} and r.ROLE_MOD_ASSN_SYS_ID = m.ROLE_MOD_ASSN_SYS_ID 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="isTaskAssociated">
+				SELECT b.ROLE_MOD_TASK_SYS_ID FROM SCRTY_ROLE_MOD_TASK_ASSN b 
+				WHERE b.ROLE_MOD_ASSN_SYS_ID in
+				(SELECT a.ROLE_MOD_ASSN_SYS_ID FROM SCRTY_ROLE_MOD_ASSN a WHERE a.MOD_SYS_ID={1})
+				and b.TASK_SYS_ID={0}
+			</SelectSQLQuery>
+
+			<DataObject name="SCRTY_ROLE_MOD_TASK_ASSN">
+			    <DataObjectAttribute name="ROLE_MOD_TASK_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="ROLE_MOD_ASSN_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="TASK_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="MOD_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="ROLE_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO SCRTY_ROLE_MOD_TASK_ASSN ( ROLE_MOD_TASK_SYS_ID, ROLE_MOD_ASSN_SYS_ID, TASK_SYS_ID, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP)
+			            VALUES(?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ROLE_MOD_TASK_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ROLE_MOD_ASSN_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="TASK_SYS_ID"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ROLE_MOD_TASK_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ROLE_MOD_TASK_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ROLE_MOD_ASSN_SYS_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="TASK_SYS_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="1" name="ROLE_SYS_ID"/>
+			        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ROLE_MOD_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ROLE_MOD_TASK_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="isModuleAssociated"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TASK_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="MOD_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ROLE_MOD_TASK_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="isTaskAssociated"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM SCRTY_ROLE_MOD_TASK_ASSN
+			            WHERE ROLE_MOD_ASSN_SYS_ID = ? AND TASK_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ROLE_MOD_ASSN_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="TASK_SYS_ID"/>
+			    </SQLTemplate>
+			
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ROLE_MOD_TASK_SYS_ID"    toBOAttb="roleTaskId"/>
+			        <Pair DOAttb="ROLE_MOD_ASSN_SYS_ID"    toBOAttb="rolModTaskId"/>
+			        <Pair DOAttb="TASK_SYS_ID"    toBOAttb="taskId"/>
+			        <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="ROLE_MOD_ASSN_SYS_ID"    toSCAttb="rolModTaskId"/>
+			        <Pair DOAttb="ROLE_SYS_ID"    toSCAttb="roleId"/>
+			        <Pair DOAttb="MOD_SYS_ID"    toSCAttb="moduleId"/>
+			        <Pair DOAttb="TASK_SYS_ID"    toSCAttb="taskId"/>
+			    </DoAttributeToSCAttributeMap>
+			
+			</DataObject>
+ 
+		</DataSource>
+		
+	</BusinessObjectMetadata>
+</Metadata>

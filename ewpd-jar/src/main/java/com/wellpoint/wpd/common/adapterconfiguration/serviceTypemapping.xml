@@ -1,0 +1,780 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.ServiceTypeMapping">
+	    <BusinessAttribute name="mappingSysId"  			type="Int" 	  keyAttrib="true"/>
+	    <BusinessAttribute name="eb03Identifier"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceCode"  				type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceClassLow"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceClassHigh"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="placeOfService"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="limitClassHigh"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="limitClassLow"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="diagnosisLow"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="diagnosisHigh"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="procModifierCode"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="hcpHigh"  					type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="hcpLow"  					type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="providerSpeciality"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="createdUser"  				type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="createdTimestamp"  		type="Date"   keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedUser"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedTimestamp"  	type="Date"   keyAttrib="false"/>
+
+	    <BusinessAttribute name="eb03IdentifierDes"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceCodeDesc"  			type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceClassLowDes"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceClassHighDesc"  	type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="placeOfServiceDesc"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="limitClassHighDesc"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="limitClassLowDesc"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="diagnosisHighDesc"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="diagnosisLowDesc"  		type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="procModifierCodeDesc"  	type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="hcpHighDesc"  				type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="hcpLowDesc"  				type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="providerSpecialityDesc" 	type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="headerRuleId" 				type="String" keyAttrib="false"/>
+
+	    <SearchCriteria>
+	        <SearchCriteriaAttribute name="mappingSysId"   		type="Int"/>
+	        <SearchCriteriaAttribute name="eb03Identifier"   	type="String"/>
+	        <SearchCriteriaAttribute name="serviceCode"   		type="String"/>
+	        <SearchCriteriaAttribute name="serviceClassLow"   	type="String"/>
+	        <SearchCriteriaAttribute name="serviceClassHigh"   	type="String"/>
+	        <SearchCriteriaAttribute name="placeOfService"   	type="String"/>
+	        <SearchCriteriaAttribute name="limitClassHigh"   	type="String"/>
+	        <SearchCriteriaAttribute name="limitClassLow"   	type="String"/>
+	        <SearchCriteriaAttribute name="diagnosisLow"   		type="String"/>
+	        <SearchCriteriaAttribute name="diagnosisHigh"   	type="String"/>
+	        <SearchCriteriaAttribute name="procModifierCode"   	type="String"/>
+	        <SearchCriteriaAttribute name="hcpHigh"   			type="String"/>
+	        <SearchCriteriaAttribute name="hcpLow"   			type="String"/>
+	        <SearchCriteriaAttribute name="providerSpeciality"  type="String"/>
+	        <SearchCriteriaAttribute name="headerRuleId"   		type="String"/>
+	        <SearchCriteriaAttribute name="eb03IdentifierDes"   type="String"/>
+	        <SearchCriteriaAttribute name="placeOfServiceDesc"  type="String"/>
+
+	        <SearchCriteriaAttribute name="eobIdentifierList"  			 type="List"/>
+	        <SearchCriteriaAttribute name="serviceCodeList"   			 type="List"/>
+	        <SearchCriteriaAttribute name="serviceClassLowList"   		 type="List"/>
+	        <SearchCriteriaAttribute name="serviceClassHighList"   		 type="List"/>
+	        <SearchCriteriaAttribute name="placeOfServiceList"  		 type="List"/>
+	        <SearchCriteriaAttribute name="limitClassLowList"  			 type="List"/>
+	        <SearchCriteriaAttribute name="limitClassHighList"  		 type="List"/>
+	        <SearchCriteriaAttribute name="diagnosisLowList"  			 type="List"/>
+	        <SearchCriteriaAttribute name="diagnosisHighList"  			 type="List"/>
+	        <SearchCriteriaAttribute name="procModifierCodeList"  		 type="List"/>
+	        <SearchCriteriaAttribute name="hcpLowlist"   				 type="List"/>
+	        <SearchCriteriaAttribute name="hcpHighList"  				 type="List"/>
+	        <SearchCriteriaAttribute name="providerSpecialityList"  	 type="List"/>
+	    </SearchCriteria>
+	    <DataSource name="prmd" domain="medical">
+				<Connection preferred="jndi">
+					<url>jdbc:oracle:thin:product_dev/product_dev@10.10.43.217:1521:EWPD</url>
+					<jndi>java:comp/env/wsbEwpdDS</jndi>
+				</Connection>
+	        <SelectSQLQuery>
+	            SELECT 	BX_SRVC_TYP_MAPNG_SYS_ID, 
+						SRVC_TYP_CODE, SRVC_CODE, SRVC_CLS_HIGH, SRVC_CLS_LOW, PLACE_OF_SRVC, LMT_CLS_HIGH, LMT_CLS_LOW, DIAG_LOW, 
+						DIAG_HIGH, PRCDR_MODFR_CD, HSP_HIGH, HSP_LOW, PROV_SPEC, BX_SRVC_TYP_MAPNG.CREATD_USER_ID, 
+						BX_SRVC_TYP_MAPNG.CREATD_TM_STMP, BX_SRVC_TYP_MAPNG.LST_CHG_USR, BX_SRVC_TYP_MAPNG.LST_CHG_TMS,
+						(SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = SRVC_TYP_CODE 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB03'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = SRVC_CODE 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('SERVICE CODE'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = SRVC_CLS_HIGH 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('SERVICE CLASS'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = SRVC_CLS_LOW 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('SERVICE CLASS'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = PLACE_OF_SRVC 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('III02'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = LMT_CLS_HIGH 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('LIMIT CLASS'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = LMT_CLS_LOW 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('LIMIT CLASS'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = DIAG_LOW 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('CLM_DIAG'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = DIAG_HIGH 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('CLM_DIAG'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = PRCDR_MODFR_CD 	AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('PRCDR_MODFR_CDE'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = HSP_HIGH 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('CLM_HCPT'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = HSP_LOW 			AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('CLM_HCPT'))),
+						(SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = PROV_SPEC 		AND CTLG_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('PROVIDER SPECIALTY')))
+	            FROM 	BX_SRVC_TYP_MAPNG
+	            WHERE 	BX_SRVC_TYP_MAPNG_SYS_ID = ? 
+	        </SelectSQLQuery>
+		<SelectSQLQuery name="retrieveServiceTypeMappingDF">
+			CALL RETRIVESERVICETYPEMAPPING({0})
+		</SelectSQLQuery>
+			
+		<SelectSQLQuery name = "locateServiceTypeMapping" dynamic ="true">
+		<STATIC>
+	        SELECT 	BX_SRVC_TYP_MAPNG_SYS_ID, 
+						SRVC_TYP_CODE, SRVC_CODE, SRVC_CLS_HIGH, SRVC_CLS_LOW, PLACE_OF_SRVC, LMT_CLS_HIGH, LMT_CLS_LOW, DIAG_LOW, 
+						DIAG_HIGH, PRCDR_MODFR_CD, HSP_HIGH, HSP_LOW, PROV_SPEC 
+	            FROM 	BX_SRVC_TYP_MAPNG	
+	            WHERE 	1=1
+		</STATIC>
+		<DYNAMIC>
+				AND SRVC_TYP_CODE  {0}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND SRVC_CODE  {1}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND SRVC_CLS_HIGH  {2}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND SRVC_CLS_LOW  {3}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND PLACE_OF_SRVC  {4}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND LMT_CLS_HIGH  {5}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND LMT_CLS_LOW  {6}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND DIAG_LOW  {7}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND DIAG_HIGH  {8}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND PRCDR_MODFR_CD  {9}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND HSP_HIGH  {10}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND HSP_LOW  {11}
+		</DYNAMIC>
+		<DYNAMIC>
+				AND PROV_SPEC  {12}
+		</DYNAMIC>
+		<STATIC>
+				ORDER BY SRVC_TYP_CODE
+		</STATIC>
+		
+		</SelectSQLQuery>
+
+	        <SelectSQLQuery name="checkDuplicate">
+	            SELECT 	BX_SRVC_TYP_MAPNG_SYS_ID, 
+						SRVC_TYP_CODE, SRVC_CODE, SRVC_CLS_HIGH, SRVC_CLS_LOW, PLACE_OF_SRVC, LMT_CLS_HIGH, LMT_CLS_LOW, DIAG_LOW, 
+						DIAG_HIGH, PRCDR_MODFR_CD, HSP_HIGH, HSP_LOW, PROV_SPEC
+	            FROM 	BX_SRVC_TYP_MAPNG
+	            WHERE 	BX_SRVC_TYP_MAPNG_SYS_ID != {13} AND
+					NVL( SRVC_TYP_CODE,'~~') = NVL({0}, '~~') AND
+					NVL( SRVC_CODE,'~~') 	 = NVL({1}, '~~') AND
+					NVL( SRVC_CLS_HIGH,'~~') = NVL({2}, '~~') AND
+					NVL( SRVC_CLS_LOW,'~~')  = NVL({3}, '~~') AND
+					NVL( PLACE_OF_SRVC,'~~') = NVL( {4}, '~~') AND
+					NVL( LMT_CLS_HIGH,'~~')  = NVL({5}, '~~') AND
+					NVL( LMT_CLS_LOW,'~~')  	= NVL({6}, '~~') AND
+					NVL( DIAG_LOW,'~~')  		= NVL({7}, '~~') AND
+					NVL( DIAG_HIGH,'~~')  		= NVL({8}, '~~') AND
+					NVL( PRCDR_MODFR_CD,'~~')  	= NVL({9}, '~~') AND
+					NVL( HSP_HIGH,'~~')  		= NVL({10}, '~~') AND
+					NVL( HSP_LOW,'~~')  		= NVL({11}, '~~') AND
+					NVL( PROV_SPEC,'~~') 		= NVL({12}, '~~')
+	        </SelectSQLQuery>
+	        <DataObject name="BX_SRVC_TYP_MAPNG">
+	            <DataObjectAttribute name="BX_SRVC_TYP_MAPNG_SYS_ID"    type="Int"/>
+	            <DataObjectAttribute name="SRVC_TYP_CODE"    			type="String"/>
+	            <DataObjectAttribute name="SRVC_CODE"    				type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_HIGH"    			type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_LOW"    			type="String"/>
+	            <DataObjectAttribute name="PLACE_OF_SRVC"    			type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_HIGH"    			type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_LOW"    				type="String"/>
+	            <DataObjectAttribute name="DIAG_LOW"    				type="String"/>
+	            <DataObjectAttribute name="DIAG_HIGH"    				type="String"/>
+	            <DataObjectAttribute name="PRCDR_MODFR_CD"    			type="String"/>
+	            <DataObjectAttribute name="HSP_HIGH"    				type="String"/>
+	            <DataObjectAttribute name="HSP_LOW"    					type="String"/>
+	            <DataObjectAttribute name="PROV_SPEC"    				type="String"/>
+	            <DataObjectAttribute name="CREATD_USER_ID"    			type="String"/>
+	            <DataObjectAttribute name="CREATD_TM_STMP"    			type="TimeStamp"/>
+	            <DataObjectAttribute name="LST_CHG_USR"    				type="String"/>
+	            <DataObjectAttribute name="LST_CHG_TMS"    				type="TimeStamp"/>
+
+	            <DataObjectAttribute name="SRVC_TYP_CODE_DESC"    	type="String"/>
+	            <DataObjectAttribute name="SRVC_CODE_DESC"    		type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_HIGH_DESC"    	type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_LOW_DESC"    	type="String"/>
+	            <DataObjectAttribute name="PLACE_OF_SRVC_DESC"    	type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_HIGH_DESC"    	type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_LOW_DESC"    	type="String"/>
+	            <DataObjectAttribute name="DIAG_LOW_DESC"    		type="String"/>
+	            <DataObjectAttribute name="DIAG_HIGH_DESC"    		type="String"/>
+	            <DataObjectAttribute name="PRCDR_MODFR_CD_DESC"    	type="String"/>
+	            <DataObjectAttribute name="HSP_HIGH_DESC"    		type="String"/>
+	            <DataObjectAttribute name="HSP_LOW_DESC"    		type="String"/>
+	            <DataObjectAttribute name="PROV_SPEC_DESC"    		type="String"/>
+				
+				<DataObjectAttribute name="SRVC_TYP_CODE_L"    		type="String"/>
+				<DataObjectAttribute name="SRVC_CODE_L"    			type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_HIGH_L"    		type="String"/>
+	            <DataObjectAttribute name="SRVC_CLS_LOW_L"    		type="String"/>
+	            <DataObjectAttribute name="PLACE_OF_SRVC_L"    		type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_HIGH_L"    		type="String"/>
+	            <DataObjectAttribute name="LMT_CLS_LOW_L"    		type="String"/>
+	            <DataObjectAttribute name="DIAG_LOW_L"    			type="String"/>
+	            <DataObjectAttribute name="DIAG_HIGH_L"    			type="String"/>
+	            <DataObjectAttribute name="PRCDR_MODFR_CD_L"    	type="String"/>
+	            <DataObjectAttribute name="HSP_HIGH_L"    			type="String"/>
+	            <DataObjectAttribute name="HSP_LOW_L"    			type="String"/>
+	            <DataObjectAttribute name="PROV_SPEC_L"    			type="String"/>
+
+	            <DataObjectAttribute name="HEADER_RULE_ID"    		type="String"/>
+
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" 	name="SRVC_TYP_CODE"/>
+	                <DataObjectAttributeInput index="1" 	name="SRVC_CODE"/>
+	                <DataObjectAttributeInput index="2" 	name="SRVC_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="3" 	name="SRVC_CLS_LOW"/>
+	                <DataObjectAttributeInput index="4" 	name="PLACE_OF_SRVC"/>
+	                <DataObjectAttributeInput index="5" 	name="LMT_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="6" 	name="LMT_CLS_LOW"/>
+	                <DataObjectAttributeInput index="7" 	name="DIAG_LOW"/>
+	                <DataObjectAttributeInput index="8" 	name="DIAG_HIGH"/>
+	                <DataObjectAttributeInput index="9" 	name="PRCDR_MODFR_CD"/>
+	                <DataObjectAttributeInput index="10" 	name="HSP_HIGH"/>
+	                <DataObjectAttributeInput index="11" 	name="HSP_LOW"/>
+	                <DataObjectAttributeInput index="12" 	name="PROV_SPEC"/>
+	                <DataObjectAttributeInput index="13" 	name="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="SRVC_CODE"/>
+	                    <ResultIndex index="3" dataObjectAttribName ="SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="4" dataObjectAttribName ="SRVC_CLS_LOW"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="PLACE_OF_SRVC"/>
+	                    <ResultIndex index="6" dataObjectAttribName ="LMT_CLS_HIGH"/>
+	                    <ResultIndex index="7" dataObjectAttribName ="LMT_CLS_LOW"/>
+	                    <ResultIndex index="8" dataObjectAttribName ="DIAG_LOW"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="DIAG_HIGH"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PRCDR_MODFR_CD"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="HSP_HIGH"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="HSP_LOW"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="PROV_SPEC"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkDuplicate" />
+	            </SQLTemplate>
+
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="SRVC_TYP_CODE_L"/>
+	                <DataObjectAttributeInput index="1" name="SRVC_CODE_L"/>
+	                <DataObjectAttributeInput index="2" name="SRVC_CLS_HIGH_L"/>
+	                <DataObjectAttributeInput index="3" name="SRVC_CLS_LOW_L"/>
+	                <DataObjectAttributeInput index="4" name="PLACE_OF_SRVC_L"/>
+	                <DataObjectAttributeInput index="5" name="LMT_CLS_HIGH_L"/>
+	                <DataObjectAttributeInput index="6" name="LMT_CLS_LOW_L"/>
+	                <DataObjectAttributeInput index="7" name="DIAG_LOW_L"/>
+	                <DataObjectAttributeInput index="8" name="DIAG_HIGH_L"/>
+	                <DataObjectAttributeInput index="9" name="PRCDR_MODFR_CD_L"/>
+	                <DataObjectAttributeInput index="10" name="HSP_HIGH_L"/>
+	                <DataObjectAttributeInput index="11" name="HSP_LOW_L"/>
+	                <DataObjectAttributeInput index="12" name="PROV_SPEC_L"/>
+	       
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="SRVC_CODE"/>
+	                    <ResultIndex index="3" dataObjectAttribName ="SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="4" dataObjectAttribName ="SRVC_CLS_LOW"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="PLACE_OF_SRVC"/>
+	                    <ResultIndex index="6" dataObjectAttribName ="LMT_CLS_HIGH"/>
+	                    <ResultIndex index="7" dataObjectAttribName ="LMT_CLS_LOW"/>
+	                    <ResultIndex index="8" dataObjectAttribName ="DIAG_LOW"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="DIAG_HIGH"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PRCDR_MODFR_CD"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="HSP_HIGH"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="HSP_LOW"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="PROV_SPEC"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateServiceTypeMapping" />
+	            </SQLTemplate>
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SRVC_TYP_CODE"/>
+							<ResultIndex index="1" dataObjectAttribName ="HEADER_RULE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="PLACE_OF_SRVC"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveServiceTypeMappingDF"/>
+				</SQLTemplate>
+
+	            <SQLTemplate transType="insert">
+	                <SQLQuery>
+	                    INSERT INTO BX_SRVC_TYP_MAPNG ( BX_SRVC_TYP_MAPNG_SYS_ID, SRVC_TYP_CODE, SRVC_CODE, SRVC_CLS_HIGH, SRVC_CLS_LOW, PLACE_OF_SRVC, LMT_CLS_HIGH, LMT_CLS_LOW, DIAG_LOW, DIAG_HIGH, PRCDR_MODFR_CD, HSP_HIGH, HSP_LOW, PROV_SPEC, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS)
+	                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                <DataObjectAttributeInput index="1" name="SRVC_TYP_CODE"/>
+	                <DataObjectAttributeInput index="2" name="SRVC_CODE"/>
+	                <DataObjectAttributeInput index="3" name="SRVC_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="4" name="SRVC_CLS_LOW"/>
+	                <DataObjectAttributeInput index="5" name="PLACE_OF_SRVC"/>
+	                <DataObjectAttributeInput index="6" name="LMT_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="7" name="LMT_CLS_LOW"/>
+	                <DataObjectAttributeInput index="8" name="DIAG_LOW"/>
+	                <DataObjectAttributeInput index="9" name="DIAG_HIGH"/>
+	                <DataObjectAttributeInput index="10" name="PRCDR_MODFR_CD"/>
+	                <DataObjectAttributeInput index="11" name="HSP_HIGH"/>
+	                <DataObjectAttributeInput index="12" name="HSP_LOW"/>
+	                <DataObjectAttributeInput index="13" name="PROV_SPEC"/>
+	                <DataObjectAttributeInput index="14" name="CREATD_USER_ID"/>
+	                <DataObjectAttributeInput index="15" name="CREATD_TM_STMP"/>
+	                <DataObjectAttributeInput index="16" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="17" name="LST_CHG_TMS"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="update">
+	                <SQLQuery>
+	                    UPDATE BX_SRVC_TYP_MAPNG
+	                     SET SRVC_TYP_CODE = ?, SRVC_CODE = ?, SRVC_CLS_HIGH = ?, SRVC_CLS_LOW = ?, PLACE_OF_SRVC = ?, LMT_CLS_HIGH = ?, LMT_CLS_LOW = ?, DIAG_LOW = ?, DIAG_HIGH = ?, PRCDR_MODFR_CD = ?, HSP_HIGH = ?, HSP_LOW = ?, PROV_SPEC = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?
+	                    WHERE BX_SRVC_TYP_MAPNG_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="SRVC_TYP_CODE"/>
+	                <DataObjectAttributeInput index="1" name="SRVC_CODE"/>
+	                <DataObjectAttributeInput index="2" name="SRVC_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="3" name="SRVC_CLS_LOW"/>
+	                <DataObjectAttributeInput index="4" name="PLACE_OF_SRVC"/>
+	                <DataObjectAttributeInput index="5" name="LMT_CLS_HIGH"/>
+	                <DataObjectAttributeInput index="6" name="LMT_CLS_LOW"/>
+	                <DataObjectAttributeInput index="7" name="DIAG_LOW"/>
+	                <DataObjectAttributeInput index="8" name="DIAG_HIGH"/>
+	                <DataObjectAttributeInput index="9" name="PRCDR_MODFR_CD"/>
+	                <DataObjectAttributeInput index="10" name="HSP_HIGH"/>
+	                <DataObjectAttributeInput index="11" name="HSP_LOW"/>
+	                <DataObjectAttributeInput index="12" name="PROV_SPEC"/>
+	                <DataObjectAttributeInput index="13" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="14" name="LST_CHG_TMS"/>
+	                <DataObjectAttributeInput index="15" name="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="SRVC_CODE"/>
+	                    <ResultIndex index="3" dataObjectAttribName ="SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="4" dataObjectAttribName ="SRVC_CLS_LOW"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="PLACE_OF_SRVC"/>
+	                    <ResultIndex index="6" dataObjectAttribName ="LMT_CLS_HIGH"/>
+	                    <ResultIndex index="7" dataObjectAttribName ="LMT_CLS_LOW"/>
+	                    <ResultIndex index="8" dataObjectAttribName ="DIAG_LOW"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="DIAG_HIGH"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PRCDR_MODFR_CD"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="HSP_HIGH"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="HSP_LOW"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="PROV_SPEC"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="CREATD_USER_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="CREATD_TM_STMP"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="LST_CHG_USR"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="LST_CHG_TMS"/>
+
+	                    <ResultIndex index="18" dataObjectAttribName ="SRVC_TYP_CODE_DESC"  />
+	                    <ResultIndex index="19" dataObjectAttribName ="SRVC_CODE_DESC"    	/>
+	                    <ResultIndex index="20" dataObjectAttribName ="SRVC_CLS_HIGH_DESC"  />
+	                    <ResultIndex index="21" dataObjectAttribName ="SRVC_CLS_LOW_DESC"   />
+	                    <ResultIndex index="22" dataObjectAttribName ="PLACE_OF_SRVC_DESC"  />
+	                    <ResultIndex index="23" dataObjectAttribName ="LMT_CLS_HIGH_DESC"   />
+	                    <ResultIndex index="24" dataObjectAttribName ="LMT_CLS_LOW_DESC"    />
+	                    <ResultIndex index="25" dataObjectAttribName ="DIAG_LOW_DESC"    	/>
+	                    <ResultIndex index="26" dataObjectAttribName ="DIAG_HIGH_DESC"    	/>
+	                    <ResultIndex index="27" dataObjectAttribName ="PRCDR_MODFR_CD_DESC" />
+	                    <ResultIndex index="28" dataObjectAttribName ="HSP_HIGH_DESC"    	/>
+	                    <ResultIndex index="29" dataObjectAttribName ="HSP_LOW_DESC"    	/>
+	                    <ResultIndex index="30" dataObjectAttribName ="PROV_SPEC_DESC"    	/>
+	                </RSIndexToDOAttributeMap>
+	            </SQLTemplate>
+
+	            <SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM BX_SRVC_TYP_MAPNG
+	                    WHERE BX_SRVC_TYP_MAPNG_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="BX_SRVC_TYP_MAPNG_SYS_ID"/>
+	            </SQLTemplate>
+	            <DoAttributeToBOAttributeMap>
+	                <Pair DOAttb="BX_SRVC_TYP_MAPNG_SYS_ID"    toBOAttb="mappingSysId"/>
+	                <Pair DOAttb="SRVC_TYP_CODE"    toBOAttb="eb03Identifier"/>
+	                <Pair DOAttb="SRVC_CODE"    toBOAttb="serviceCode"/>
+	                <Pair DOAttb="SRVC_CLS_HIGH"    toBOAttb="serviceClassHigh"/>
+	                <Pair DOAttb="SRVC_CLS_LOW"    toBOAttb="serviceClassLow"/>
+	                <Pair DOAttb="PLACE_OF_SRVC"    toBOAttb="placeOfService"/>
+	                <Pair DOAttb="LMT_CLS_HIGH"    toBOAttb="limitClassHigh"/>
+	                <Pair DOAttb="LMT_CLS_LOW"    toBOAttb="limitClassLow"/>
+	                <Pair DOAttb="DIAG_LOW"    toBOAttb="diagnosisLow"/>
+	                <Pair DOAttb="DIAG_HIGH"    toBOAttb="diagnosisHigh"/>
+	                <Pair DOAttb="PRCDR_MODFR_CD"    toBOAttb="procModifierCode"/>
+	                <Pair DOAttb="HSP_HIGH"    toBOAttb="hcpHigh"/>
+	                <Pair DOAttb="HSP_LOW"    toBOAttb="hcpLow"/>
+	                <Pair DOAttb="PROV_SPEC"    toBOAttb="providerSpeciality"/>
+
+	                <Pair DOAttb="SRVC_TYP_CODE_DESC"  	toBOAttb="eb03IdentifierDes"  	/>
+	                <Pair DOAttb="SRVC_CODE_DESC"    	toBOAttb="serviceCodeDesc"  		/>
+	                <Pair DOAttb="SRVC_CLS_HIGH_DESC"  	toBOAttb="serviceClassHighDesc"  	/>
+	                <Pair DOAttb="SRVC_CLS_LOW_DESC"   	toBOAttb="serviceClassLowDes"  />
+	                <Pair DOAttb="PLACE_OF_SRVC_DESC"  	toBOAttb="placeOfServiceDesc"  	/>
+	                <Pair DOAttb="LMT_CLS_HIGH_DESC"   	toBOAttb="limitClassHighDesc"  	/>
+	                <Pair DOAttb="LMT_CLS_LOW_DESC"    	toBOAttb="limitClassLowDesc"  	/>
+	                <Pair DOAttb="DIAG_LOW_DESC"    	toBOAttb="diagnosisLowDesc"  	/>
+	                <Pair DOAttb="DIAG_HIGH_DESC"    	toBOAttb="diagnosisHighDesc"  	/>
+	                <Pair DOAttb="PRCDR_MODFR_CD_DESC" 	toBOAttb="procModifierCodeDesc"  />
+	                <Pair DOAttb="HSP_HIGH_DESC"    	toBOAttb="hcpHighDesc"  			/>
+	                <Pair DOAttb="HSP_LOW_DESC"    		toBOAttb="hcpLowDesc"  			/>
+	                <Pair DOAttb="PROV_SPEC_DESC"    	toBOAttb="providerSpecialityDesc"/>		
+
+	                <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+	                <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+	                <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+	                <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+	                <Pair DOAttb="HEADER_RULE_ID"    toBOAttb="headerRuleId"/>
+	            </DoAttributeToBOAttributeMap>
+	            <DoAttributeToSCAttributeMap>
+	                <Pair DOAttb="BX_SRVC_TYP_MAPNG_SYS_ID"    toSCAttb="mappingSysId"/>
+	                <Pair DOAttb="SRVC_TYP_CODE"    toSCAttb="eb03Identifier"/>
+	                <Pair DOAttb="SRVC_CODE"    toSCAttb="serviceCode"/>
+	                <Pair DOAttb="SRVC_CLS_HIGH"    toSCAttb="serviceClassHigh"/>
+	                <Pair DOAttb="SRVC_CLS_LOW"    toSCAttb="serviceClassLow"/>
+	                <Pair DOAttb="PLACE_OF_SRVC"    toSCAttb="placeOfService"/>
+	                <Pair DOAttb="LMT_CLS_HIGH"    toSCAttb="limitClassHigh"/>
+	                <Pair DOAttb="LMT_CLS_LOW"    toSCAttb="limitClassLow"/>
+	                <Pair DOAttb="DIAG_LOW"    toSCAttb="diagnosisLow"/>
+	                <Pair DOAttb="DIAG_HIGH"    toSCAttb="diagnosisHigh"/>
+	                <Pair DOAttb="PRCDR_MODFR_CD"    toSCAttb="procModifierCode"/>
+	                <Pair DOAttb="HSP_HIGH"    toSCAttb="hcpHigh"/>
+	                <Pair DOAttb="HSP_LOW"    toSCAttb="hcpLow"/>
+	                <Pair DOAttb="PROV_SPEC"    toSCAttb="providerSpeciality"/>
+
+	                <Pair DOAttb="SRVC_TYP_CODE_L"    toSCAttb="eobIdentifierList"/>
+	                <Pair DOAttb="SRVC_CODE_L"    toSCAttb="serviceCodeList"/>
+	                <Pair DOAttb="SRVC_CLS_HIGH_L"    toSCAttb="serviceClassHighList"/>
+	                <Pair DOAttb="SRVC_CLS_LOW_L"    toSCAttb="serviceClassLowList"/>
+	                <Pair DOAttb="PLACE_OF_SRVC_L"    toSCAttb="placeOfServiceList"/>
+	                <Pair DOAttb="LMT_CLS_HIGH_L"    toSCAttb="limitClassHighList"/>
+	                <Pair DOAttb="LMT_CLS_LOW_L"    toSCAttb="limitClassLowList"/>
+	                <Pair DOAttb="DIAG_LOW_L"    toSCAttb="diagnosisLowList"/>
+	                <Pair DOAttb="DIAG_HIGH_L"    toSCAttb="diagnosisHighList"/>
+	                <Pair DOAttb="PRCDR_MODFR_CD_L"    toSCAttb="procModifierCodeList"/>
+	                <Pair DOAttb="HSP_HIGH_L"    toSCAttb="hcpHighList"/>
+	                <Pair DOAttb="HSP_LOW_L"    toSCAttb="hcpLowlist"/>
+	                <Pair DOAttb="PROV_SPEC_L"    toSCAttb="providerSpecialityList"/>
+	            </DoAttributeToSCAttributeMap>
+	        </DataObject>
+	    </DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.RuleMapping">
+	    <BusinessAttribute name="ruleId"  type="String" keyAttrib="true"/>
+	    <BusinessAttribute name="ruleShortDesc"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="applicableToBX"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedTimestamp"  type="Date" keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedUser"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="createdTimestamp"  type="Date" keyAttrib="false"/>
+	    <BusinessAttribute name="createdUser"  type="String" keyAttrib="false"/>
+		<BusinessAttribute name="serviceTypeCodes"  type="List" keyAttrib="false"/>
+	    <SearchCriteria>
+	        <SearchCriteriaAttribute name="ruleId"   type="String"/>
+	        <SearchCriteriaAttribute name="applicableToBX"   type="String"/>
+			<SearchCriteriaAttribute name="eobIdentifierList"   type="List"/>
+			<SearchCriteriaAttribute name="headerRule"   type="List"/>
+	    </SearchCriteria>
+	    <DataSource name="prmd" domain="medical">
+	        <Connection preferred="jndi">
+	            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+	            <jndi>jdbc/wsbEwpd</jndi>
+	        </Connection>
+	        <SelectSQLQuery>
+	            SELECT A.RULE_ID, B.RULE_SHRT_DESC, A.VALID_FOR_BX, A.LST_CHG_TMS, A.LST_CHG_USR, A.CREATD_TM_STMP, A.CREATD_USER_ID
+	            FROM BX_RULE_MAPPING A, RULE B
+	            WHERE A.RULE_ID = ?
+				AND A.RULE_ID = B.RULE_ID
+	        </SelectSQLQuery>
+	        <SelectSQLQuery name="retrieveUnMappedRules">
+					SELECT  RULE_ID, RULE_SHRT_DESC 
+                    FROM    RULE
+                    WHERE   RULE_TYP_CD = 'WPDAUTOBG'               
+                    AND     WPD_DEL_FLAG = 'N' 
+					AND 	RULE_ID NOT IN (SELECT RULE_ID FROM BX_RULE_MAPPING)
+                    ORDER BY RULE_ID,RULE_SHRT_DESC ASC
+	        </SelectSQLQuery>
+	        <SelectSQLQuery name="checkRule">
+					SELECT  RULE_ID
+                    FROM    RULE
+                    WHERE   RULE_TYP_CD = 'WPDAUTOBG'               
+                    AND     WPD_DEL_FLAG = 'N' 
+					AND 	RULE_ID = {0}
+	        </SelectSQLQuery>
+	        <SelectSQLQuery name="checkWhetherMapped">
+					SELECT  RULE_ID
+                    FROM    RULE
+                    WHERE   RULE_TYP_CD = 'WPDAUTOBG'               
+                    AND     WPD_DEL_FLAG = 'N' 
+					AND 	RULE_ID NOT IN (SELECT RULE_ID FROM BX_RULE_MAPPING)
+					AND 	RULE_ID = {0}
+                    ORDER BY RULE_ID,RULE_SHRT_DESC ASC
+	        </SelectSQLQuery>
+
+			 <SelectSQLQuery name="locateServiceTypeMapping" dynamic="true">
+				<STATIC>
+		           Select A.RULE_ID,(Select unique RULE_SHRT_DESC from RULE where RULE_ID = A.RULE_ID),A.VALID_FOR_BX,B.SRVC_TYP_CODE from
+	   				BX_RULE_MAPPING A, BX_RULE_SRVC_TYP_ASSN B where A.RULE_ID = B.RULE_ID(+)
+				</STATIC>
+				<DYNAMIC>
+					AND  A.RULE_ID {0} 
+				</DYNAMIC>
+				<DYNAMIC>
+					 AND A.RULE_ID In (Select RULE_ID From BX_RULE_SRVC_TYP_ASSN Where SRVC_TYP_CODE {1})
+				</DYNAMIC> 
+				<DYNAMIC> 
+					AND A.VALID_FOR_BX = {2}
+				</DYNAMIC>
+				<STATIC>
+					order by A.RULE_ID
+				</STATIC>
+	        </SelectSQLQuery>
+	        <DataObject name="BX_RULE_MAPPING">
+	            <DataObjectAttribute name="RULE_ID"    type="String"/>
+	            <DataObjectAttribute name="RULE_SHRT_DESC"    type="String"/>
+	            <DataObjectAttribute name="VALID_FOR_BX"    type="String"/>
+	            <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+	            <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+	            <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+	            <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+				<DataObjectAttribute name="RULE_ID_LIST"    type="String"/>
+				<DataObjectAttribute name="SRVC_TYP_CODE"    type="String"/>
+	            <SQLTemplate transType="insert">
+	                <SQLQuery>
+	                    INSERT INTO BX_RULE_MAPPING ( RULE_ID, VALID_FOR_BX, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID)
+	                    VALUES(?, ?, ?, ?, ?, ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <DataObjectAttributeInput index="1" name="VALID_FOR_BX"/>
+	                <DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+	                <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="4" name="CREATD_TM_STMP"/>
+	                <DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="update">
+	                <SQLQuery>
+	                    UPDATE BX_RULE_MAPPING
+	                     SET VALID_FOR_BX = ?, LST_CHG_TMS = ?, LST_CHG_USR = ?
+	                    WHERE RULE_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="VALID_FOR_BX"/>
+	                <DataObjectAttributeInput index="1" name="LST_CHG_TMS"/>
+	                <DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="3" name="RULE_ID"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="RULE_SHRT_DESC"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="VALID_FOR_BX"/>
+	                    <ResultIndex index="3" dataObjectAttribName ="LST_CHG_TMS"/>
+	                    <ResultIndex index="4" dataObjectAttribName ="LST_CHG_USR"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="CREATD_TM_STMP"/>
+	                    <ResultIndex index="6" dataObjectAttribName ="CREATD_USER_ID"/>		
+	                </RSIndexToDOAttributeMap>
+	            </SQLTemplate>
+				<SQLTemplate transType="select">
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="RULE_SHRT_DESC"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveUnMappedRules" />
+	            </SQLTemplate>
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkRule" />
+	            </SQLTemplate>
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkWhetherMapped" />
+	            </SQLTemplate>
+
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="RULE_ID_LIST"/>
+					<DataObjectAttributeInput index="1" name="SRVC_TYP_CODE"/>
+					<DataObjectAttributeInput index="2" name="VALID_FOR_BX"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="RULE_SHRT_DESC"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="VALID_FOR_BX"/>
+						<ResultIndex index="3" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateServiceTypeMapping" />
+	            </SQLTemplate>
+	            <SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM BX_RULE_MAPPING
+	                    WHERE RULE_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	            </SQLTemplate>
+	            <DoAttributeToBOAttributeMap>
+	                <Pair DOAttb="RULE_ID"    toBOAttb="ruleId"/>
+	                <Pair DOAttb="RULE_SHRT_DESC"    toBOAttb="ruleShortDesc"/>
+	                <Pair DOAttb="VALID_FOR_BX"    toBOAttb="applicableToBX"/>
+	                <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+	                <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+	                <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+	                <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+					<Pair DOAttb="SRVC_TYP_CODE"    toBOAttb="serviceTypeCodes"/>
+	            </DoAttributeToBOAttributeMap>
+	            <DoAttributeToSCAttributeMap>
+	                <Pair DOAttb="RULE_ID"    toSCAttb="ruleId"/>
+	                <Pair DOAttb="VALID_FOR_BX"    toSCAttb="applicableToBX"/>
+					<Pair DOAttb="RULE_ID_LIST"    toSCAttb="headerRule"/>
+					<Pair DOAttb="SRVC_TYP_CODE"    toSCAttb="eobIdentifierList"/>
+	            </DoAttributeToSCAttributeMap>
+	        </DataObject>
+	    </DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.RuleServiceTypeAssociation">
+	    <BusinessAttribute name="ruleId"  type="String" keyAttrib="true"/>
+	    <BusinessAttribute name="serviceTypeCode"  type="String" keyAttrib="true"/>
+	    <BusinessAttribute name="serviceTypeSecCode"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="serviceTypeDescription"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="ruleShortDesc"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="applicableToBX"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="sendDynamicInfo"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedTimestamp"  type="Date" keyAttrib="false"/>
+	    <BusinessAttribute name="lastUpdatedUser"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="createdTimestamp"  type="Date" keyAttrib="false"/>
+	    <BusinessAttribute name="createdUser"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="placeOfService"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="preAuthExlInd"  	type="String" 	keyAttrib="false"/>
+
+	    <SearchCriteria>
+	        <SearchCriteriaAttribute name="ruleId"   type="String"/>
+	        <SearchCriteriaAttribute name="serviceTypeCode"   type="String"/>
+	    </SearchCriteria>
+	    <DataSource name="prmd" domain="medical">
+	        <Connection preferred="jndi">
+	            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+	            <jndi>jdbc/wsbEwpd</jndi>
+	        </Connection>
+	        <SelectSQLQuery name="retrieveAssociatedServiceTypes">
+	            SELECT A.RULE_ID, C.SRVC_TYP_CODE, D.SCNDRY_CD, D.CD_DESC_TXT, B.RULE_SHRT_DESC, A.VALID_FOR_BX, C.SEND_DYNMC_INFO, C.LST_CHG_TMS, C.LST_CHG_USR, C.CREATD_TM_STMP, C.CREATD_USER_ID
+	            FROM BX_RULE_MAPPING A, RULE B, BX_RULE_SRVC_TYP_ASSN C, ITEM D
+	            WHERE A.RULE_ID = {0}
+				AND A.RULE_ID = B.RULE_ID
+				AND A.RULE_ID = C.RULE_ID
+				AND D.CTLG_ID = (select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB03'))
+				AND D.PRMRY_CD = C.SRVC_TYP_CODE
+	        </SelectSQLQuery>
+			<SelectSQLQuery name="retrieveServiceTypeMappingDF">
+				SELECT  DISTINCT A.SRVC_TYP_CODE , A.RULE_ID , NVL(B.PLC_OF_SRVC,'POS'), A.SEND_DYNMC_INFO  
+				FROM BX_RULE_SRVC_TYP_ASSN A,
+					 RULE_DAT B,
+					 BX_RULE_MAPPING C
+				WHERE A.RULE_ID = C.RULE_ID AND
+					  A.RULE_ID = B.RULE_ID AND
+					  C.VALID_FOR_BX = 'Y'
+				ORDER BY A.RULE_ID ASC
+			</SelectSQLQuery>
+	        <DataObject name="BX_RULE_SRVC_TYP_ASSN">
+	            <DataObjectAttribute name="RULE_ID"    type="String"/>
+	            <DataObjectAttribute name="SRVC_TYP_CODE"    type="String"/>
+	            <DataObjectAttribute name="SRVC_TYP_SEC_CODE"    type="String"/>
+	            <DataObjectAttribute name="SRVC_TYP_DESC"    type="String"/>
+	            <DataObjectAttribute name="RULE_SHRT_DESC"    type="String"/>
+	            <DataObjectAttribute name="VALID_FOR_BX"    type="String"/>
+	            <DataObjectAttribute name="SEND_DYNMC_INFO"    type="String"/>
+	            <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+	            <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+	            <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+	            <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+	            <DataObjectAttribute name="PLC_OF_SRVC"    type="String"/>
+	             <DataObjectAttribute name="PROC_EXCLD_IND"    type="String"/>
+	            <SQLTemplate transType="insert">
+	                <SQLQuery>
+	                    INSERT INTO BX_RULE_SRVC_TYP_ASSN ( RULE_ID, SRVC_TYP_CODE, SEND_DYNMC_INFO, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID)
+	                    VALUES(?, ?, ?, ?, ?, ?, ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <DataObjectAttributeInput index="1" name="SRVC_TYP_CODE"/>
+	                <DataObjectAttributeInput index="2" name="SEND_DYNMC_INFO"/>
+	                <DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+	                <DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="5" name="CREATD_TM_STMP"/>
+	                <DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="update">
+	                <SQLQuery>
+	                    UPDATE BX_RULE_SRVC_TYP_ASSN
+	                     SET SEND_DYNMC_INFO = ?, LST_CHG_TMS = ?, LST_CHG_USR = ?
+	                    WHERE RULE_ID = ? AND SRVC_TYP_CODE = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="SEND_DYNMC_INFO"/>
+	                <DataObjectAttributeInput index="1" name="LST_CHG_TMS"/>
+	                <DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+	                <DataObjectAttributeInput index="3" name="RULE_ID"/>
+	                <DataObjectAttributeInput index="4" name="SRVC_TYP_CODE"/>
+	            </SQLTemplate>
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="SRVC_TYP_SEC_CODE"/>
+	                    <ResultIndex index="3" dataObjectAttribName ="SRVC_TYP_DESC"/>
+	                    <ResultIndex index="4" dataObjectAttribName ="RULE_SHRT_DESC"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="VALID_FOR_BX"/>
+	                    <ResultIndex index="6" dataObjectAttribName ="SEND_DYNMC_INFO"/>
+	                    <ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+	                    <ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveAssociatedServiceTypes" />
+	            </SQLTemplate>
+	            <SQLTemplate transType="select">
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="SRVC_TYP_CODE"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2" dataObjectAttribName ="PLC_OF_SRVC"/>
+						<ResultIndex index="3" dataObjectAttribName ="SEND_DYNMC_INFO"/>
+						<ResultIndex index="4" dataObjectAttribName ="UM_RULE_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="PROC_EXCLD_IND"/>
+	                </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveServiceTypeMappingDF" />
+	            </SQLTemplate>
+
+	            <SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM BX_RULE_SRVC_TYP_ASSN
+	                    WHERE RULE_ID = ? AND SRVC_TYP_CODE = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="RULE_ID"/>
+	                <DataObjectAttributeInput index="1" name="SRVC_TYP_CODE"/>
+	            </SQLTemplate>
+	            <DoAttributeToBOAttributeMap>
+	                <Pair DOAttb="RULE_ID"    			toBOAttb="ruleId"/>
+	                <Pair DOAttb="SRVC_TYP_CODE"    	toBOAttb="serviceTypeCode"/>
+	                <Pair DOAttb="SRVC_TYP_SEC_CODE"    toBOAttb="serviceTypeSecCode"/>
+	                <Pair DOAttb="SRVC_TYP_DESC"    	toBOAttb="serviceTypeDescription"/>
+	                <Pair DOAttb="RULE_SHRT_DESC"    	toBOAttb="ruleShortDesc"/>
+	                <Pair DOAttb="VALID_FOR_BX"   	 	toBOAttb="applicableToBX"/>
+	                <Pair DOAttb="SEND_DYNMC_INFO"    	toBOAttb="sendDynamicInfo"/>
+	                <Pair DOAttb="LST_CHG_TMS"    		toBOAttb="lastUpdatedTimestamp"/>
+	                <Pair DOAttb="LST_CHG_USR"    		toBOAttb="lastUpdatedUser"/>
+	                <Pair DOAttb="CREATD_TM_STMP"    	toBOAttb="createdTimestamp"/>
+	                <Pair DOAttb="CREATD_USER_ID"    	toBOAttb="createdUser"/>
+	                <Pair DOAttb="PLC_OF_SRVC"    		toBOAttb="placeOfService"/>
+	                <Pair DOAttb="STATUS_CD" 			toBOAttb="statusCd"/>
+					<Pair DOAttb="UM_RULE_ID"    		toBOAttb="umRuleId"/>
+					<Pair DOAttb="PROC_EXCLD_IND"    	toBOAttb="preAuthExlInd"/>
+	            </DoAttributeToBOAttributeMap>
+	            <DoAttributeToSCAttributeMap>
+	                <Pair DOAttb="RULE_ID"    			toSCAttb="ruleId"/>
+	                <Pair DOAttb="SRVC_TYP_CODE"    	toSCAttb="serviceTypeCode"/>
+	            </DoAttributeToSCAttributeMap>
+	        </DataObject>
+	    </DataSource>
+	</BusinessObjectMetadata>
+ 
+</Metadata>

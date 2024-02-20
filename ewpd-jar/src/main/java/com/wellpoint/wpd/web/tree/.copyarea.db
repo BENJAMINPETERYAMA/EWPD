@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\tree
+2
+4
+11:TreeNodeData.java|1|16adf984b23|3de|169933b3|cd51a487106d497f93846a760457c194|0
+11:BaseTreeNode.java|1|16adf984b32|1168|3b61f335|65caaddcb53f44c1b852b354b0e52b4e|0
+12:FirstTreeNode.java|1|16adf984b23|136c|5e54e8f4|6767129b1b9b4517b72da660cf750405|0
+11:RootTreeNode.java|1|16adf984ac5|b8c|d25a8b9b|62fde95459a24ba09261f50e98f9e481|0

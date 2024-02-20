@@ -1,0 +1,23 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\contract\model
+2
+13
+d:Contract.java|1|16adf96c4bd|2bc7|dd78217c|92b1f2428c184a81bc0c2144b25af104|0
+c:Product.java|1|16adf96c578|12c4|7c971a0a|e588b443417d46c1bcb777c01649f013|0
+11:BenefitLines.java|1|16adf96c633|bf4|e0118875|ce57d23363e349a69c53773e141639a6|0
+9:Rule.java|1|16adf96c614|91e|cf4dc9c8|06cee241086a4cc2a9eb76cfc126e8f9|0
+c:Benefit.java|1|16adf96c836|18ae|d47fbae4|c01dd6a7dd494df1a012a967b3dc15fa|0
+d:Messages.java|1|16adf96c52a|2f1|c148e9de|255c793007bb4c78860cc78c822db440|0
+c:Message.java|1|16adf96c52a|627|cbca05ba|dfbded4ea9834cf1a3e83eb36e3d9a17|0
+11:RuleCategory.java|1|16adf96c5f5|4de|285d7fd0|99b7efe3aa164d15b87b338dda3942fb|0
+10:AdminOption.java|1|16adf96c7f7|57e|e0dbbb10|84d0c782373c42058ac9fcd2e66f3997|0
+9:Note.java|1|16adf96c52a|3d4|d3a628b3|8265a55d8bfe4c8f914c318f8d4be83a|0
+16:TierCriteriaValue.java|1|16adf96c643|53d|f3b2a8bf|26c95f8d10e045a89f6c25e7c5132b2c|0
+12:ContractModel.java|1|16adf96c4bd|80ab|4cc69638|95febaf3a03744dc87c0c6002c8a72c0|0
+1a:MembershipInformation.java|1|16adf96c49d|cdd|a5822587|2047077901074ad6ba72728fe13a1171|0
+16:SuperProcessSteps.java|1|16adf96c5e5|573|118cb925|5b5e104cff4b40fab8de53616c21c989|0
+13:TierDefinition.java|1|16adf96c652|48b|c8795bd9|fdf0d5c7a0f64863a2a82ffc9c815b3b|0
+d:Question.java|1|16adf96c578|6a0|a708ff5d|4b2a654d64d74508bb77865b563eb100|0
+15:BenefitComponent.java|1|16adf96c836|1118|8d127a81|fd78ad9c261e4b69bbf39aee3c07fab0|0
+9:Tier.java|1|16adf96c643|6a7|16ee13b0|efe0040135d14719b78535eaefe3f036|0
+17:PricingInformation.java|1|16adf96c568|4e4|70238247|1c7d7c86a5b346cb8ebec4ef0b50feea|0

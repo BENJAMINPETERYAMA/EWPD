@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\adminoption
+2
+6
+21:CreateAdminOptionBackingBean.java|1|16adf981f79|7284|ff9fedad|c4ae43072da54509b21fb6466d71e6b2|0
+24:AdminOptionQuestionsBackingBean.java|1|16adf982396|8d09|e7f16f88|ec2e702de0554361b54809deb5865835|0
+28:AdminOptionQuestionnaireBackingBean.java|1|16adf981f9e|76d1|2e40a554|7695d59d6a41453eb5e30e5a4006f1b7|0
+1d:RootQuestionsBackingBean.java|1|16adf981eb9|ea10|c498ebec|302859a762614ab48825c80b3f2d541e|0
+21:EditQuestionnaireBackingBean.java|1|16adf981e8e|164bd|3a690c02|1f4ecfa234164e3d8e5db920f2d54b63|0
+21:SearchAdminOptionBackingBean.java|1|16adf981e60|927d|51d6e791|9b7e4f6ac4e24d7395a4ecda5015bd63|0

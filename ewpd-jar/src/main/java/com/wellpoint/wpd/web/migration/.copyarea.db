@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\migration
+2
+c
+24:MigrationGeneralInfoBackingBean.java|1|16adf98336e|103a5|ab5a055c|82beadbd46ad40c081c8a0d0a37b4f0d|0
+1d:MigrationTreeBackingBean.java|1|16adf9833ac|9073|1ee35b29|29d7c5cd16754bf2af331dcb5a0a3114|0
+24:MigrationPricingInfoBackingBean.java|1|16adf983301|51d1|96ca6563|b5f2133813ce4919894aa93273d9b343|0
+24:MigrationProductInfoBackingBean.java|1|16adf98336e|8436|b663ec98|9b266e8338f6479f9032e9b0c27d6f8b|0
+26:MigrationContractRulesBackingBean.java|1|16adf9832b3|a1f4|1d6e3a98|d32c783228ec4c9fb8c41479730c9990|0
+1f:MigrationReportBackingBean.java|1|16adf98334f|3678|14bed3a6|8e50d2ecf5ff4b8da2dbb71cafc7ae4e|0
+4:tree|2|0|0|0|242ea23aa4ab4f439dc98c821bd325b2|0
+1e:LegacyContractBackingBean.java|1|16adf9833fa|cbbd|41916da0|831945d608864ab982b6a583383be1dc|0
+28:ConfirmMigrationContractBackingBean.java|1|16adf983294|202b|252c7d7d|5a486188327a410eaae5ac7e8d705ab6|0
+1c:MigrateNotesBackingBean.java|1|16adf9833fa|9322|9f642c18|ba18e0379b3c43ad98859e157b99f2bc|0
+29:ContrMigratProductMappingBackingBean.java|1|16adf9833fa|1199c|bb4f72a|6c1102fa60214e5ba81b304e2b85a6e9|0
+1d:MigrationBaseBackingBean.java|1|16adf9833ac|3d1a|3a4b2d73|85e0541f22af431284e2e5447bb0fe19|0

@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\adminmethod\response
+2
+c
+25:AdminMethodSPSValidationResponse.java|1|16adf9638a4|3c8|71aa3442|fecfc8af679c452f974a690218f088f5|0
+28:AdminMethodValidationStatusResponse.java|1|16adf9638c3|683|157f1568|c608bedc32a046ae804348ff49924657|0
+23:AdminMethodSPSRetrieveResponse.java|1|16adf9638a4|759|6b463e2|79147900fe0f451293906538cbdc3251|0
+22:AdminMethodValidationResponse.java|1|16adf9638e2|7f9|50459066|ac42c80c49ca4fbeac9fdb4f3171a0a3|0
+1c:SaveAdminMethodResponse.java|1|16adf9639cc|6a8|bb450967|0016bce07ecc4de6b1782a5897bbcb90|0
+20:AdminMethodOverrideResponse.java|1|16adf963875|b74|f812a46a|1b5a398cc7c24bb3979a4bb3b2f0a33a|0
+1f:AdminmethodViewAllResponse.java|1|16adf9639bc|c37|7e9cda14|e809ca222dc6458eb3deb97f0f2b2835|0
+21:RetrieveAdminMethodsResponse.java|1|16adf963a0a|37d|1a8d1690|dcdd4f2e145f411685b0d5a8d216c3d8|0
+30:GeneralBenefitAdminMethodValidationResponse.java|1|16adf963901|514|62808961|e3060b2117c64e439c33f8162451d490|0
+20:OverrideAdminMethodResponse.java|1|16adf963901|4bb|569f754b|2ee0ba0db3554dd59dd95b600ece4369|0
+2d:AdminMethodSynchronousValidationResponse.java|1|16adf9638b3|219|bee9ae5d|8035079092114fbfb36189730d791717|0
+26:SaveAdminMethodValidationResponse.java|1|16adf9639cc|700|74ff3c79|efb64192e514416e87dbedca21bf6aa0|0

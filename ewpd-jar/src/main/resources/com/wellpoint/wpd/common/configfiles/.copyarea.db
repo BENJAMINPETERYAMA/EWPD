@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\resources\com\wellpoint\wpd\common\configfiles
+2
+8
+12:logger-context.xml|1|16adf985adb|81b|c96c9cf5|84bbce404c3a4ad9b6216c68164775cf|0
+12:object-context.xml|1|16adf985b39|1f55|b35176cc|4dc0defc46f211e380110002cbcd824c|0
+18:metadata-definitions.xml|1|16adf985be5|b505|663cb30|b5a3e2882c0d11e3806c0002cbccc24c|0
+12:spellcheckjndi.xml|1|16adf985bc5|24e|de98c0a5|a93374422c0d11e380350002cbccc24c|0
+13:request-context.xml|1|16adf985bc5|145fe|c679d88d|8afa40cbe15b4a76a39d78612091637d|0
+17:metadata-definition.xsd|1|16adf985aeb|261f|57f61f69|b723e2982c0d11e3806c0002cbccc24c|0
+16:Logger-dao-mapping.xml|1|16adf985aad|301|4621eaf3|ba73e2b82c0d11e3806c0002cbccc24c|0
+f:dao-mapping.xml|1|16adf985acc|318|1c7cf1eb|b133e2682c0d11e3806c0002cbccc24c|0

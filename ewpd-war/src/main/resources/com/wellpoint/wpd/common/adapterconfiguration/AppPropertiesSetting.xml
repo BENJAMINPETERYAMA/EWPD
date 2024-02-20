@@ -1,0 +1,59 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.app.dto.AppPropertiesSetting">
+		<BusinessAttribute name="key" 			 type="String"		keyAttrib="true" />
+		<BusinessAttribute name="description"	 type="String" 		keyAttrib="false" />
+		<BusinessAttribute name="value" 	     type="String" 		keyAttrib="false" />
+	
+		<SearchCriteria name="test">
+			<SearchCriteriaAttribute name="key" 						type="String" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select CNFGRN_CD,CNFGRN_VAL from APLCTN_CNFGRN_INFO where CNFGRN_CD ={0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAppSettingProps">
+				select CNFGRN_CD,CNFGRN_VAL from APLCTN_CNFGRN_INFO where CNFGRN_CD ={0}
+			</SelectSQLQuery>
+			
+			<DataObject name="APLCTN_CNFGRN_INFO">
+				<DataObjectAttribute name="CNFGRN_CD" 			type="String" />
+				<DataObjectAttribute name="CNFGRN_DESC" 		type="String" />
+				<DataObjectAttribute name="CNFGRN_VAL" 			type="String" />
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 	name="CNFGRN_CD" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 		dataObjectAttribName="CNFGRN_CD" />
+						<ResultIndex index="1"      dataObjectAttribName="CNFGRN_VAL" />
+					</RSIndexToDOAttributeMap>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 	name="CNFGRN_CD" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 		dataObjectAttribName="CNFGRN_CD" />
+						<ResultIndex index="1"      dataObjectAttribName="CNFGRN_VAL" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAppSettingProps" />
+			</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNFGRN_CD" toBOAttb="key" />
+					<Pair DOAttb="CNFGRN_DESC" toBOAttb="description" />
+					<Pair DOAttb="CNFGRN_VAL" toBOAttb="value" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNFGRN_CD" toSCAttb="key" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>

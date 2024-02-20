@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-bnd 
+	xmlns="http://websphere.ibm.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee http://websphere.ibm.com/xml/ns/javaee/ibm-web-bnd_1_0.xsd"
+	version="1.0">
+	<virtual-host name="default_host" />
+	<resource-ref name="wsbEwpd/application_lock_cache" binding-name="wsbEwpd/application_lock_cache"/>
+	<resource-ref name="wsbEwpdDS" binding-name="jdbc/wsbEwpd"/>
+	<!-- <resource-ref name="wsbSrdaDS" binding-name="jdbc/wsbSRDA"/> -->
+	
+</web-bnd>

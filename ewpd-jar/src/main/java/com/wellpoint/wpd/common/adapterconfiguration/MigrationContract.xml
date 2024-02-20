@@ -1,0 +1,2607 @@
+<Metadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.CancelMigration">
+	<BusinessAttribute name="migDateSegmentSysId" type="Int" keyAttrib="true"/>
+	<BusinessAttribute name="migContractSysId" type="Int" keyAttrib="false"/>
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_RULE_ASSN
+			</SelectSQLQuery>
+			<DataObject name="MGRTD_CNTRCT_MSTR">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_MSTR
+	                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_DT_SGMNT_MSTR
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	             </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			
+			<DataObject name="MGRTD_CNTRCT_DOMN_INFO">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_DOMN_INFO
+	                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="MGRTD_CNTRCT_PRCG_INFO">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_PRCG_INFO
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				     <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="MGRTD_DT_SGMNT_VRBL_INFO">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_DT_SGMNT_VRBL_INFO
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="MGRTD_CNTRCT_RULE_ASSN">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_RULE_ASSN
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="TEMP_CNTRCT_MAPG">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM TEMP_CNTRCT_MAPG
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MJR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	               <SQLQuery>
+	                    DELETE FROM LGCY_MJR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MINOR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_MINOR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_VAR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_VAR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+	</DataSource>
+
+</BusinessObjectMetadata>
+
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.CancelSecondMigration">
+	<BusinessAttribute name="migDateSegmentSysId" type="Int" keyAttrib="true"/>
+	<BusinessAttribute name="migContractSysId" type="Int" keyAttrib="false"/>
+	
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_RULE_ASSN
+			</SelectSQLQuery>
+			
+			<DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+ 				<DataObjectAttribute name="MGRTN_CMPLTD_FLAG" type="String"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_DT_SGMNT_MSTR
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ? and MGRTN_CMPLTD_FLAG='N')
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	             </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			
+			
+
+			<DataObject name="MGRTD_CNTRCT_PRCG_INFO">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_PRCG_INFO
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ? and MGRTN_CMPLTD_FLAG='N')
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				     <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="MGRTD_DT_SGMNT_VRBL_INFO">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_DT_SGMNT_VRBL_INFO
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ? and MGRTN_CMPLTD_FLAG='N')
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="MGRTD_CNTRCT_RULE_ASSN">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_RULE_ASSN
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ? and MGRTN_CMPLTD_FLAG='N')
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MJR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	               <SQLQuery>
+	                    DELETE FROM LGCY_MJR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MINOR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_MINOR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_VAR_NOTE">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_VAR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="TEMP_CNTRCT_MAPG">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM TEMP_CNTRCT_MAPG
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID in
+						(select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR where MGRTD_CNTRCT_SYS_ID = ?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+	</DataSource>
+
+</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationVariable">
+	<BusinessAttribute name="bftLineDescription" 	type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="bftPva" 				type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="bftReference" 			type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="bftSysId" 				type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="bftCompSysId" 		    type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="variableId" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="contractId" 		    type="String"		keyAttrib="false"/>	
+	<BusinessAttribute name="bftLineId" 			type="Int"			keyAttrib="true"/>
+	<BusinessAttribute name="varValue" 				type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="flag" 					type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="varDetails" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="format" 		    	type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="pva" 		    		type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="dateSegmentId" 		type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="migContractSysId" 		type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="mappingSysId" 			type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="createdUser" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="bftComponentId" 		type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="bftComponentSysId" 	type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="prodStrmappingSysId" 	type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="overridebftCompId" 	type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="productId" 			type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="levelSeqNo" 			type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="migrateNotesFlag" 		type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="varNoteFlag" 			type="String"		keyAttrib="false"/>
+
+	
+	<SearchCriteria>		
+		<SearchCriteriaAttribute name="bftSysId"		 		type="Int"/>
+		<SearchCriteriaAttribute name="bftCompSysId" 	 		type="Int"/>
+		<SearchCriteriaAttribute name="bftComponentId" 	 		type="Int"/>
+		<SearchCriteriaAttribute name="bftComponentSysId" 		type="Int"/>
+		<SearchCriteriaAttribute name="dateSegmentId" 	 		type="Int"/>
+		<SearchCriteriaAttribute name="migContractSysId" 		type="Int"/>
+		<SearchCriteriaAttribute name="mappingSysId" 	 		type="Int"/>
+		<SearchCriteriaAttribute name="prodStrmappingSysId" 	type="Int"/>
+		<SearchCriteriaAttribute name="createdUser" 	 		type="String"/>
+		<SearchCriteriaAttribute name="overridebftCompId" 		type="Int"/>
+		<SearchCriteriaAttribute name="productId" 	 			type="Int"/>					
+		<SearchCriteriaAttribute name="migDatesegmentSysId" 	 type="Int"/>	
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getBenefitLineData">
+				SELECT distinct(SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1936 AND ITEM.PRMRY_CD = A.BLN_BNFT_LINE_PVA) PVA,
+				(SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1938 AND ITEM.PRMRY_CD = A.BNFT_LVL_EXTRNL_RFRNC_ID) REF, 
+				B.BLVL_BNFT_LVL_DESC ,A.BLN_BNFT_LINE_ID,F.LGCY_VRBL_ID, 
+				(SELECT V_INFO.VAL_CODED_ON_CNTRCT FROM MGRTD_DT_SGMNT_VRBL_INFO V_INFO WHERE V_INFO.MGRTD_VRBL_ID = F.LGCY_VRBL_ID AND V_INFO.MGRTD_DT_SGMNT_SYS_ID ={4}) VAR_VAL, 
+				1 AS FLAG, H.DTYP_DATA_TYPE_LGND, F.LGCY_VRBL_DTL, A.BLN_BNFT_LINE_PVA, B.bnft_lvl_sqnc, 
+				(select L.MGRT_NOTE_FLAG from LGCY_VAR_NOTE L where L.BNFT_LINE_SYS_ID = A.BLN_BNFT_LINE_ID and L.BNFT_CMPNT_SYS_ID = {19} and L.MGRTD_DT_SGMNT_SYS_ID ={4}) NOTES_FLAG,
+				(SELECT V_INFO.MGRTD_VRBL_NOTE_FLAG FROM MGRTD_DT_SGMNT_VRBL_INFO V_INFO WHERE V_INFO.MGRTD_VRBL_ID = F.LGCY_VRBL_ID AND V_INFO.MGRTD_DT_SGMNT_SYS_ID ={4}) VAR_NOTE_FLAG 
+				 FROM BLN_BNFT_LINE A, BLVL_BNFT_LVL B, BDM_BNFT_DEFN_MSTR C , BCM_BNFT_CMPNT_MSTR D , BNFT_CMPNT_HRCHY_ASSN E, 
+				-- FOR SELECTING MAPPED VARIABLE VALUE
+				MGRTD_PSTRCTR_MAPG_DTL F ,DTYP_DATA_TYPE H,				 
+				PROD_BNFT_CSTMZD z  WHERE  
+				-- FOR SELECTING MAPPED VARIABLE VALUE 
+				A.DTYP_DATA_TYPE_ID = H.DTYP_DATA_TYPE_ID(+)
+				AND  z.BLN_BNFT_LINE_ID = A.BLN_BNFT_LINE_ID      
+				AND z.PROD_SYS_ID = {18}       
+                AND z.BNFT_CMPNT_SYS_ID = {19}
+                AND F.BNFT_LINE_SYS_ID = z.BLN_BNFT_LINE_ID
+				AND
+				A.BLN_BNFT_LINE_ID = F.BNFT_LINE_SYS_ID (+)
+				AND F.BNFT_LINE_SYS_ID not in (SELECT BNFT_LINE_SYS_ID FROM  TEMP_CNTRCT_MAPG WHERE MGRTD_DT_SGMNT_SYS_ID = {4})
+				AND A.BLVL_BNFT_LVL_ID= B.BLVL_BNFT_LVL_ID 
+				AND B.BNFT_DEFN_SYS_ID = C.BNFT_DEFN_SYS_ID 
+				AND E.BNFT_SYS_ID = C.BNFT_SYS_ID  
+				AND E.BNFT_CMPNT_SYS_ID = D.BNFT_CMPNT_SYS_ID 
+				AND C.BNFT_SYS_ID = {0} AND D.BNFT_CMPNT_SYS_ID ={1} 
+				AND F.BNFT_CMPNT_SYS_IDENFITIER ={12} 
+				AND F.PROD_STRCTR_MAPG_SYS_ID ={14}
+				AND z.BNFT_LINE_HIDE_FLAG ='F'																						
+				UNION 
+				SELECT distinct(SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1936 AND ITEM.PRMRY_CD = A.BLN_BNFT_LINE_PVA) PVA, 
+				(SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1938 AND ITEM.PRMRY_CD = A.BNFT_LVL_EXTRNL_RFRNC_ID) REF, 
+				B.BLVL_BNFT_LVL_DESC ,A.BLN_BNFT_LINE_ID, F.LGCY_VRBL_ID, 
+				(SELECT V_INFO.VAL_CODED_ON_CNTRCT FROM MGRTD_DT_SGMNT_VRBL_INFO V_INFO WHERE V_INFO.MGRTD_VRBL_ID = F.LGCY_VRBL_ID AND V_INFO.MGRTD_DT_SGMNT_SYS_ID ={9}) VAR_VAL, 
+				0 AS FLAG, H.DTYP_DATA_TYPE_LGND, F.LGCY_VRBL_DTL, A.BLN_BNFT_LINE_PVA,  B.bnft_lvl_sqnc, 
+				(select L.MGRT_NOTE_FLAG from LGCY_VAR_NOTE L where L.BNFT_LINE_SYS_ID = A.BLN_BNFT_LINE_ID and L.BNFT_CMPNT_SYS_ID = {19} and L.MGRTD_DT_SGMNT_SYS_ID ={4}) NOTES_FLAG, 
+				(SELECT V_INFO.MGRTD_VRBL_NOTE_FLAG FROM MGRTD_DT_SGMNT_VRBL_INFO V_INFO WHERE V_INFO.MGRTD_VRBL_ID = F.LGCY_VRBL_ID AND V_INFO.MGRTD_DT_SGMNT_SYS_ID ={4}) VAR_NOTE_FLAG 
+				 FROM BLN_BNFT_LINE A, BLVL_BNFT_LVL B, BDM_BNFT_DEFN_MSTR C , BCM_BNFT_CMPNT_MSTR D , BNFT_CMPNT_HRCHY_ASSN E, 
+				-- FOR SELECTING MAPPED VARIABLE VALUE 
+				TEMP_CNTRCT_MAPG F, DTYP_DATA_TYPE H, 
+				-- BNFT_LINE_OVRD_VAL z 
+				PROD_BNFT_CSTMZD z WHERE 
+				-- FOR SELECTING MAPPED VARIABLE VALUE 
+				A.DTYP_DATA_TYPE_ID = H.DTYP_DATA_TYPE_ID(+)
+				AND
+				A.BLN_BNFT_LINE_ID = F.BNFT_LINE_SYS_ID (+)
+				AND  z.BLN_BNFT_LINE_ID = A.BLN_BNFT_LINE_ID                
+                AND z.PROD_SYS_ID = {20}        
+                AND z.BNFT_CMPNT_SYS_ID = {21}
+                and F.BNFT_LINE_SYS_ID = z.BLN_BNFT_LINE_ID
+				AND A.BLVL_BNFT_LVL_ID= B.BLVL_BNFT_LVL_ID 
+				AND B.BNFT_DEFN_SYS_ID = C.BNFT_DEFN_SYS_ID 
+				AND E.BNFT_SYS_ID = C.BNFT_SYS_ID  
+				AND E.BNFT_CMPNT_SYS_ID = D.BNFT_CMPNT_SYS_ID  
+				AND C.BNFT_SYS_ID = {2} AND D.BNFT_CMPNT_SYS_ID ={3}
+				AND F.MGRTD_DT_SGMNT_SYS_ID = {4}
+				AND F.BNFT_CMPNT_SYS_ID ={13}
+				and F.MGRTD_PSTRCTR_MAPG_SYS_ID ={15} 
+				AND z.BNFT_LINE_HIDE_FLAG ='F' 												
+				UNION  							
+				SELECT distinct (SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1936 AND ITEM.PRMRY_CD = A.BLN_BNFT_LINE_PVA) PVA, 
+				(SELECT ITEM.CD_DESC_TXT FROM ITEM WHERE ITEM.CTLG_ID = 1938 AND ITEM.PRMRY_CD = A.BNFT_LVL_EXTRNL_RFRNC_ID) REF, 
+				B.BLVL_BNFT_LVL_DESC ,A.BLN_BNFT_LINE_ID, '' LGCY_VRBL_ID, '' VAL_CODED_ON_CNTRCT, 
+				2 AS FLAG, H.DTYP_DATA_TYPE_LGND,''  LGCY_VRBL_DTL,
+                A.BLN_BNFT_LINE_PVA, B.bnft_lvl_sqnc, 
+				(select L.MGRT_NOTE_FLAG from LGCY_VAR_NOTE L where L.BNFT_LINE_SYS_ID = A.BLN_BNFT_LINE_ID and L.BNFT_CMPNT_SYS_ID = {19} and L.MGRTD_DT_SGMNT_SYS_ID ={4}) NOTES_FLAG, 
+				 '' MGRTD_VRBL_NOTE_FLAG 
+				FROM BLN_BNFT_LINE A, BLVL_BNFT_LVL B, BDM_BNFT_DEFN_MSTR C , 
+                BCM_BNFT_CMPNT_MSTR D , 
+                BNFT_CMPNT_HRCHY_ASSN E, 
+				-- FOR SELECTING MAPPED VARIABLE VALUE 				
+                DTYP_DATA_TYPE H, 
+				PROD_BNFT_CSTMZD z  WHERE 
+				-- FOR SELECTING MAPPED VARIABLE VALUE 
+				A.DTYP_DATA_TYPE_ID = H.DTYP_DATA_TYPE_ID(+)
+				AND  z.BLN_BNFT_LINE_ID = A.BLN_BNFT_LINE_ID                   
+                AND z.PROD_SYS_ID = {22}   
+                AND z.BNFT_CMPNT_SYS_ID = {23}
+				AND A.BLVL_BNFT_LVL_ID= B.BLVL_BNFT_LVL_ID 
+				AND B.BNFT_DEFN_SYS_ID = C.BNFT_DEFN_SYS_ID 
+				AND E.BNFT_SYS_ID = C.BNFT_SYS_ID  
+				AND E.BNFT_CMPNT_SYS_ID = D.BNFT_CMPNT_SYS_ID  
+				AND z.BNFT_LINE_HIDE_FLAG ='F' 
+				AND C.BNFT_SYS_ID = {7} AND D.BNFT_CMPNT_SYS_ID ={8}
+                AND z.BLN_BNFT_LINE_ID NOT IN (SELECT BNFT_LINE_SYS_ID FROM  TEMP_CNTRCT_MAPG
+							WHERE MGRTD_DT_SGMNT_SYS_ID = {4} AND TEMP_CNTRCT_MAPG.BNFT_CMPNT_SYS_ID = {17})
+				AND z.BLN_BNFT_LINE_ID NOT IN (SELECT BNFT_LINE_SYS_ID FROM  MGRTD_PSTRCTR_MAPG_DTL
+						WHERE  MGRTD_PSTRCTR_MAPG_DTL.BNFT_CMPNT_SYS_IDENFITIER ={6} AND MGRTD_PSTRCTR_MAPG_DTL.PROD_STRCTR_MAPG_SYS_ID ={16})
+				ORDER BY bnft_lvl_sqnc
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getConflictingBenefitLineId">
+					select distinct A.BNFT_LINE_SYS_ID from MGRTD_PSTRCTR_MAPG_DTL A, TEMP_CNTRCT_MAPG B 
+					 where A.BNFT_LINE_SYS_ID = B.BNFT_LINE_SYS_ID 
+					 and B.MGRTD_DT_SGMNT_SYS_ID = {0} 
+					 and A.PROD_STRCTR_MAPG_SYS_ID = B.MGRTD_PSTRCTR_MAPG_SYS_ID
+					 and A.BNFT_CMPNT_SYS_IDENFITIER = B.BNFT_CMPNT_SYS_ID 
+					 and A.BNFT_LINE_SYS_ID = B.BNFT_LINE_SYS_ID 
+					 and A.LGCY_VRBL_ID != B.LGCY_VRBL_ID					
+			</SelectSQLQuery>
+					
+			<DataObject name="BLN_BNFT_LINE">
+			    <DataObjectAttribute name="PVA"   type="String"/>
+				<DataObjectAttribute name="BLN_BNFT_LINE_PVA"   type="String"/>
+				<DataObjectAttribute name="BLN_BNFT_LINE_ID"   type="Int"/>
+				<DataObjectAttribute name="BNFT_LVL_EXTRNL_RFRNC_ID"  type="String"/>				
+			    <SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="PVA"/>
+						<ResultIndex index="3" dataObjectAttribName ="BLN_BNFT_LINE_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="BLN_BNFT_LINE_PVA"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_LVL_EXTRNL_RFRNC_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="BLN_BNFT_LINE_PVA"   		toBOAttb="bftPva"/>
+				 	<Pair DOAttb="PVA"   					toBOAttb="pva"/>
+					<Pair DOAttb="BLN_BNFT_LINE_ID"   		toBOAttb="bftLineId"/>
+					<Pair DOAttb="BNFT_LVL_EXTRNL_RFRNC_ID"   		toBOAttb="bftReference"/>			       
+			    </DoAttributeToBOAttributeMap>                
+			</DataObject>
+			<DataObject name="BLVL_BNFT_LVL">			    	 
+				<DataObjectAttribute name="BLVL_BNFT_LVL_DESC" type="String"/>
+				<DataObjectAttribute name="bnft_lvl_sqnc"       type="Int"/>
+				<DataObjectAttribute name="NOTES_FLAG" 			type="String"/>				
+			    <SQLTemplate transType="select">			        
+			        <RSIndexToDOAttributeMap>			            
+						<ResultIndex index="2" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+						<ResultIndex index="10" dataObjectAttribName ="bnft_lvl_sqnc"/>
+						<ResultIndex index="11" dataObjectAttribName ="NOTES_FLAG"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToBOAttributeMap>       	     
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC"   		toBOAttb="bftLineDescription"/>
+					<Pair DOAttb="bnft_lvl_sqnc"   				toBOAttb="levelSeqNo"/>	
+					<Pair DOAttb="NOTES_FLAG"   				toBOAttb="migrateNotesFlag"/>		       
+			    </DoAttributeToBOAttributeMap>                
+			</DataObject>
+			<DataObject name="BDM_BNFT_DEFN_MSTR">
+			    <DataObjectAttribute name="BNFT_SYS_ID"   		type="Int"/>	 
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_SYS_ID"/>
+					<DataObjectAttributeInput index="7" name="BNFT_SYS_ID"/>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_SYS_ID" toSCAttb="bftSysId"/>						
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>
+			<DataObject name="BCM_BNFT_CMPNT_MSTR">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   type="Int"/>	 
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="8" name="BNFT_CMPNT_SYS_ID"/>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID" toSCAttb="bftCompSysId"/>						
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>	
+			<DataObject name="MGRTD_DT_SGMNT_VRBL_INFO">
+			    <DataObjectAttribute name="VAL_CODED_ON_CNTRCT"  type="String"/>
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"  type="Int"/>
+				<DataObjectAttribute name="MGRTD_VRBL_NOTE_FLAG"  type="String"/>							
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="4" name="MGRTD_DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="9" name="MGRTD_DT_SGMNT_SYS_ID"/>			        
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="5" dataObjectAttribName ="VAL_CODED_ON_CNTRCT"/>
+						<ResultIndex index="12" dataObjectAttribName ="MGRTD_VRBL_NOTE_FLAG"/>						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="VAL_CODED_ON_CNTRCT"   		toBOAttb="varValue"/>
+					<Pair DOAttb="MGRTD_VRBL_NOTE_FLAG"   		toBOAttb="varNoteFlag"/>					
+			    </DoAttributeToBOAttributeMap>  
+			    <DoAttributeToSCAttributeMap>
+						<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"   toSCAttb="dateSegmentId"/>						
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>
+			<DataObject name="MGRTD_PSTRCTR_MAPG_DTL">
+			    <DataObjectAttribute name="LGCY_VRBL_ID"  type="String"/>
+				<DataObjectAttribute name="LGCY_VRBL_DTL"  type="String"/>
+				<DataObjectAttribute name="FLAG"  type="Int"/>	
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_IDENFITIER"   type="Int"/>
+				<DataObjectAttribute name="BNFT_LINE_SYS_ID"   type="Int"/>	
+				<DataObjectAttribute name="PROD_STRCTR_MAPG_SYS_ID"   type="Int"/>						
+			    <SQLTemplate transType="select">								        
+					<DataObjectAttributeInput index="6" name="BNFT_CMPNT_SYS_IDENFITIER"/>
+					<DataObjectAttributeInput index="12" name="BNFT_CMPNT_SYS_IDENFITIER"/>
+					<DataObjectAttributeInput index="14" name="PROD_STRCTR_MAPG_SYS_ID"/>
+					<DataObjectAttributeInput index="16" name="PROD_STRCTR_MAPG_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="4" dataObjectAttribName ="LGCY_VRBL_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="FLAG"/>
+						<ResultIndex index="8" dataObjectAttribName ="LGCY_VRBL_DTL"/>						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">								        
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_LINE_SYS_ID"/>												
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getConflictingBenefitLineId"/>
+			    </SQLTemplate>					    
+			    <DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="LGCY_VRBL_ID"   		toBOAttb="variableId"/>
+					<Pair DOAttb="FLAG"   				toBOAttb="flag"/>
+					<Pair DOAttb="LGCY_VRBL_DTL"   		toBOAttb="varDetails"/>
+					<Pair DOAttb="BNFT_LINE_SYS_ID"   	toBOAttb="bftLineId"/>					
+			    </DoAttributeToBOAttributeMap> 
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_IDENFITIER" toSCAttb="bftComponentId"/>
+					<Pair DOAttb="PROD_STRCTR_MAPG_SYS_ID" toSCAttb="prodStrmappingSysId"/>					
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>
+			<DataObject name="DTYP_DATA_TYPE">
+			    <DataObjectAttribute name="DTYP_DATA_TYPE_LGND"  type="String"/>							
+			    <SQLTemplate transType="select">			        
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="7" dataObjectAttribName ="DTYP_DATA_TYPE_LGND"/>						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>	   
+			    <DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="DTYP_DATA_TYPE_LGND"   		toBOAttb="format"/>					
+			    </DoAttributeToBOAttributeMap>                
+			</DataObject>
+			<DataObject name="TEMP_CNTRCT_MAPG">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   		type="Int"/>	
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   		type="Int"/>
+				<DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID"   type="Int"/>	  
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   	type="Int"/>	
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="5" name="MGRTD_CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="10" name="MGRTD_CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="11" name="MGRTD_CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="13" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="15" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+					<DataObjectAttributeInput index="17" name="BNFT_CMPNT_SYS_ID"/>				
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>				
+					<SearchQueryName name="getConflictingBenefitLineId"/>
+			    </SQLTemplate>		   
+			    <DoAttributeToSCAttributeMap>
+					<Pair DOAttb="MGRTD_CNTRCT_SYS_ID" 			toSCAttb="migContractSysId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toSCAttb="bftComponentSysId"/>
+					<Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID" 	toSCAttb="mappingSysId"/>												
+					<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID" 		toSCAttb="migDatesegmentSysId"/>	
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>
+			<DataObject name="PROD_BNFT_CSTMZD">
+			    <DataObjectAttribute name="PROD_SYS_ID"   type="Int"/>	
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   type="Int"/>					  
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="18" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="20" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="22" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="19" name="BNFT_CMPNT_SYS_ID"/>	
+					<DataObjectAttributeInput index="21" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="23" name="BNFT_CMPNT_SYS_ID"/>								
+					<SearchQueryName name="getBenefitLineData"/>
+			    </SQLTemplate>						   
+			    <DoAttributeToSCAttributeMap>
+					<Pair DOAttb="PROD_SYS_ID" toSCAttb="productId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"      toSCAttb="overridebftCompId"/>																
+				</DoAttributeToSCAttributeMap>                
+			</DataObject>					
+	</DataSource>			
+</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.BenefitComponentBenefit">
+	<BusinessAttribute name="benefitComponentId" 		    type="Int"			keyAttrib="true"/>
+	<BusinessAttribute name="benefitComponentDesc" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="benefitDesc" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="benefitId" 		type="Int"			keyAttrib="true"/>
+	<BusinessAttribute name="sequenceNo" 		type="Int"			keyAttrib="true"/>
+	<SearchCriteria>		
+		<SearchCriteriaAttribute name="productSysId"		 type="Int"/>
+		<SearchCriteriaAttribute name="baseDateSegId"		 type="Int"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getInfoForTree">
+				SELECT distinct
+			              B.BNFT_CMPNT_SYS_ID, 
+			              B.BNFT_CMPNT_NM,
+			              Y.BNFT_SYS_ID,
+			              X.BNFT_ID_NM, A.SQNC_NBR,Y.SQNC_NBR
+			              FROM
+			              PROD_BNFT_CMPNT_ASSN A, 
+			              BCM_BNFT_CMPNT_MSTR B,
+			              PROD_BNFT_CSTMZD C,
+			              BMST_BNFT_MSTR X,
+			              BNFT_CMPNT_HRCHY_ASSN Y
+			              WHERE
+			              A.BNFT_CMPNT_SYS_ID = B.BNFT_CMPNT_SYS_ID 
+			              AND A.PROD_SYS_ID = {0}
+			              AND A.PROD_SYS_ID = C.PROD_SYS_ID
+			              AND A.BNFT_CMPNT_SYS_ID = C.BNFT_CMPNT_SYS_ID
+			              AND C.BNFT_SYS_ID = Y.BNFT_SYS_ID
+			              AND C.BNFT_HIDE_FLAG = 'F'
+			              AND X.BNFT_SYS_ID=Y.BNFT_SYS_ID
+			              AND A.BNFT_CMPNT_SYS_ID = Y.BNFT_CMPNT_SYS_ID
+			              ORDER BY  A.SQNC_NBR,Y.SQNC_NBR
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getInfoForTreeForBaseContract">
+				SELECT distinct
+			              B.BNFT_CMPNT_SYS_ID, 
+			              B.BNFT_CMPNT_NM,
+			              Y.BNFT_SYS_ID,
+			              X.BNFT_ID_NM, A.SQNC_NBR,Y.SQNC_NBR
+			              FROM
+			              PROD_BNFT_CMPNT_ASSN A, 
+			              BCM_BNFT_CMPNT_MSTR B,
+			              PROD_BNFT_CSTMZD C,
+			              BMST_BNFT_MSTR X,
+			              BNFT_CMPNT_HRCHY_ASSN Y,
+						  CNTRCT_BNFT_ASSN Z
+			              WHERE
+			              A.BNFT_CMPNT_SYS_ID = B.BNFT_CMPNT_SYS_ID 
+			              AND A.PROD_SYS_ID = {0}
+						  AND Z.DT_SGMNT_SYS_ID = {1}					  
+			              AND A.PROD_SYS_ID = C.PROD_SYS_ID
+						  AND A.BNFT_CMPNT_SYS_ID = C.BNFT_CMPNT_SYS_ID						  
+			              AND A.BNFT_CMPNT_SYS_ID = Z.BNFT_CMPNT_SYS_ID
+						  AND C.BNFT_SYS_ID = Y.BNFT_SYS_ID
+						  AND C.BNFT_SYS_ID = Z.BNFT_SYS_ID
+						  AND Z.BNFT_CMPNT_HIDE_FLAG ='F'
+						  AND Z.BNFT_HIDE_FLAG ='F'			             
+			              AND X.BNFT_SYS_ID=Y.BNFT_SYS_ID
+			              AND A.BNFT_CMPNT_SYS_ID = Y.BNFT_CMPNT_SYS_ID
+			              ORDER BY  A.SQNC_NBR,Y.SQNC_NBR
+			</SelectSQLQuery>
+			
+			<DataObject name="PROD_BNFT_CMPNT_ASSN">
+ 				<DataObjectAttribute name="PROD_SYS_ID"   type="Int" />
+				<DataObjectAttribute name="DT_SGMNT_SYS_ID"   type="Int" />
+ 				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   type="Int" />
+ 				<DataObjectAttribute name="BNFT_CMPNT_NM"   type="String" />
+ 				<DataObjectAttribute name="BNFT_SYS_ID"   type="Int" />
+ 				<DataObjectAttribute name="BNFT_ID_NM"   type="String" />
+ 				<DataObjectAttribute name="SQNC_NBR"   type="Int" />
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="PROD_SYS_ID"/>
+					 <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_SYS_ID"/>	
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_ID_NM"/>						
+						<ResultIndex index="4" dataObjectAttribName ="SQNC_NBR"/>						
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>						
+
+					 </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getInfoForTree"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+					 <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_SYS_ID"/>	
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_ID_NM"/>						
+						<ResultIndex index="4" dataObjectAttribName ="SQNC_NBR"/>						
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>					
+					 </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getInfoForTreeForBaseContract"/>
+			    </SQLTemplate>	   
+				<DoAttributeToBOAttributeMap>			        
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   			toBOAttb="benefitComponentId"/>
+					<Pair DOAttb="BNFT_CMPNT_NM"   			toBOAttb="benefitComponentDesc"/>
+					<Pair DOAttb="BNFT_SYS_ID"   				toBOAttb="benefitId"/>
+					<Pair DOAttb="BNFT_ID_NM" 			toBOAttb="benefitDesc"/>
+					<Pair DOAttb="SQNC_NBR" 			toBOAttb="sequenceNo"/>
+			    </DoAttributeToBOAttributeMap>  
+ 				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="PROD_SYS_ID" toSCAttb="productSysId"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID" toSCAttb="baseDateSegId"/>
+				</DoAttributeToSCAttributeMap>   
+		</DataObject>		
+	</DataSource>			
+</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationVariableInsert">
+	<BusinessAttribute name="bftCompSysId" 		    type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="variableId" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="createdUser" 		    type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+	<BusinessAttribute name="mappingSysId" 		    type="Int"			keyAttrib="true"/>
+	<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+	<BusinessAttribute name="bftLineId" 			type="Int"			keyAttrib="false"/>
+	<BusinessAttribute name="varDetails" 			type="String" 		keyAttrib="false" />
+	<BusinessAttribute name="migDatesegmentID" 		type="String" 		keyAttrib="false" />
+	
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT MGRTD_PSTRCTR_MAPG_SYS_ID FROM TEMP_CNTRCT_MAPG
+			</SelectSQLQuery>			
+			<DataObject name="TEMP_CNTRCT_MAPG">
+ 				<DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID"   type="Int" />
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   		type="Int" />
+				<DataObjectAttribute name="BNFT_LINE_SYS_ID"   			type="Int" />
+				<DataObjectAttribute name="LGCY_VRBL_ID"   				type="String" />
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   	type="Int" />
+				<DataObjectAttribute name="LAST_CHNGD_USER"   			type="String" />
+				<DataObjectAttribute name="LAST_CHNGD_TMS"   			type="TimeStamp" />
+				<DataObjectAttribute name="CREATD_USER_ID"   			type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP"   			type="TimeStamp" />	
+				<DataObjectAttribute name="LGCY_VRBL_DTL" 				type="String" />	
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO TEMP_CNTRCT_MAPG(
+   						MGRTD_PSTRCTR_MAPG_SYS_ID, BNFT_CMPNT_SYS_ID, BNFT_LINE_SYS_ID, 
+   						LGCY_VRBL_ID, MGRTD_DT_SGMNT_SYS_ID, LAST_CHNGD_USER, 
+   						LAST_CHNGD_TMS, CREATD_USER_ID, CREATD_TM_STMP, LGCY_VRBL_DTL) 
+						VALUES (?, ?, ? ,? ,? ,? ,? ,? , ? , ?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_LINE_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="LGCY_VRBL_ID"/>
+					<DataObjectAttributeInput index="4" name="MGRTD_DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="LAST_CHNGD_USER"/>
+					<DataObjectAttributeInput index="6" name="LAST_CHNGD_TMS"/>
+					<DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="9" name="LGCY_VRBL_DTL"/>						
+				</SQLTemplate>				
+				<SQLTemplate transType="delete">
+                	<SQLQuery>
+	                    DELETE FROM TEMP_CNTRCT_MAPG
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID =?
+						AND BNFT_CMPNT_SYS_ID =?
+						AND BNFT_LINE_SYS_ID=?
+						AND MGRTD_PSTRCTR_MAPG_SYS_ID=?
+                	</SQLQuery>									           	
+						<DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="BNFT_LINE_SYS_ID"/>
+						<DataObjectAttributeInput index="3" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID"   	toBOAttb="mappingSysId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   			toBOAttb="bftCompSysId"/>
+					<Pair DOAttb="BNFT_LINE_SYS_ID"   			toBOAttb="bftLineId"/>
+					<Pair DOAttb="LGCY_VRBL_ID"   				toBOAttb="variableId"/>
+					<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID" 		toBOAttb="migDatesegmentID"/>
+					<Pair DOAttb="LAST_CHNGD_USER"   			toBOAttb="lastUpdatedUser"/>
+					<Pair DOAttb="LAST_CHNGD_TMS"   			toBOAttb="lastUpdatedTimestamp"/>
+					<Pair DOAttb="CREATD_USER_ID"   			toBOAttb="createdUser"/>
+					<Pair DOAttb="CREATD_TM_STMP"   			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="LGCY_VRBL_DTL" 				toBOAttb="varDetails" />
+			    </DoAttributeToBOAttributeMap>  
+		</DataObject>		
+	</DataSource>			
+</BusinessObjectMetadata>
+<!-- start Contract definition MigrationDateSegment  -->
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationDateSegment">
+    <BusinessAttribute name="systemId"  						type="Int" 		keyAttrib="true"/>
+    <BusinessAttribute name="contractId"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="contractSysId"  					type="Int" 		keyAttrib="true"/>
+    <BusinessAttribute name="effectiveDate"  					type="Date" 	keyAttrib="false"/>
+    <BusinessAttribute name="expiryDate"  						type="Date" 	keyAttrib="false"/>
+    <BusinessAttribute name="groupSize"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="standardPlanCode"  				type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="productCode"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="benefitPlan"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="corporatePlanCode"  				type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="fundingArrangement"  				type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="brandName"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="headQuartersState"  				type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="lastUpdatedUser"  					type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="lastUpdatedTimeStamp"  			type="Date" 	keyAttrib="false"/>
+    <BusinessAttribute name="createdUser"  						type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="createdTimeStamp"  				type="Date" 	keyAttrib="false"/>
+	<BusinessAttribute name="contractType"  					type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="groupSizeDesc"  					type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="standardPlanCodeDesc"  			type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="productCodeDesc"  					type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="corporatePlanCodeDesc"  			type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="fundingArrangementDesc"  			type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="headQuartersStateDesc"  			type="String" 	keyAttrib="false"/>
+	<BusinessAttribute name="baseContractSysId" 				type="Int"		keyAttrib="false"/>
+	<BusinessAttribute name="baseContractId" 					type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="baseDateSegmentSysId" 				type="Int"		keyAttrib="false"/>
+	<BusinessAttribute name="baseDateSegmentEffectiveDate" 		type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="legacyStartDate" 					type="Date"		keyAttrib="false"/>
+	<BusinessAttribute name="lastAccessedPage" 					type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="stepCompleted" 					type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="cobAdjudInd"           			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="medicareAdjudInd"      			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="itsHomeAdjInd"         			type="String"   keyAttrib="false"/>
+	<BusinessAttribute name="regulatoryAgency"    				type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="complianceStatus"      			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="prodProjNameCode"      			type="String"   keyAttrib="false"/>
+	<BusinessAttribute name="contractTermDate"      			type="Date"    	keyAttrib="false"/>
+    <BusinessAttribute name="multiplanIndicator"    			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="performanceGuarantee"  			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="salesMarketDate"       			type="Date"    	keyAttrib="false"/>
+	<BusinessAttribute name="contractNoteMigrateFlag"  			type="String"   keyAttrib="false"/>
+	<BusinessAttribute name="regulatoryAgencyDesc"  			type="String"   keyAttrib="false"/>
+	<BusinessAttribute name="prodProjNameCodeDesc"  			type="String"   keyAttrib="false"/>
+    <BusinessAttribute name="productParentSysId" 				type="Int"		keyAttrib="false"/>
+    <BusinessAttribute name="ewpdProductSystemId" 				type="Int"		keyAttrib="false"/>
+    <BusinessAttribute name="mgrtdProductStructureMappingSysId" type="Int"		keyAttrib="false"/>
+	<BusinessAttribute name="productName" 	  					type="String"	keyAttrib="false"/>
+	<BusinessAttribute name="productFamily" 					type="String"	keyAttrib="false"/>
+
+
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="systemId"   						type="Int"/>
+        <SearchCriteriaAttribute name="contractId"   					type="String"/>
+     	<SearchCriteriaAttribute name="contractSysId"   				type="Int"/>
+        <SearchCriteriaAttribute name="effectiveDate"   				type="Date"/>
+        <SearchCriteriaAttribute name="expiryDate"   					type="Date"/>
+        <SearchCriteriaAttribute name="groupSize"   					type="String"/>
+        <SearchCriteriaAttribute name="standardPlanCode"    			type="String"/>
+        <SearchCriteriaAttribute name="productCode"   					type="String"/>
+        <SearchCriteriaAttribute name="benefitPlan"   					type="String"/>
+        <SearchCriteriaAttribute name="corporatePlanCode"   			type="String"/>
+        <SearchCriteriaAttribute name="fundingArrangement"   			type="String"/>
+        <SearchCriteriaAttribute name="brandName"   					type="String"/>
+        <SearchCriteriaAttribute name="headQuartersState"   			type="String"/>
+        <SearchCriteriaAttribute name="lastUpdatedUser"   				type="String"/>
+        <SearchCriteriaAttribute name="lastUpdatedTimeStamp"   			type="Date"/>
+        <SearchCriteriaAttribute name="createdUser"   					type="String"/>
+        <SearchCriteriaAttribute name="createdTimeStamp"   				type="Date"/> 
+		<SearchCriteriaAttribute name="contractType"   					type="String"/> 
+		<SearchCriteriaAttribute name="legacyStartDate"   				type="Date"/> 
+		<SearchCriteriaAttribute name="lastAccessedPage"   				type="String"/> 
+		<SearchCriteriaAttribute name="stepCompleted"   				type="String"/> 
+		<SearchCriteriaAttribute name="selectedOption"   				type="String"/> 
+		<SearchCriteriaAttribute name="selectedDateSegmentStartDate"   	type="String"/> 
+		<SearchCriteriaAttribute name="selectedNewRenewDate"   			type="String"/> 
+		<SearchCriteriaAttribute name="dateString"   					type="String"/> 
+		<SearchCriteriaAttribute name="isSecondTimeMigration"   		type="String"/> 
+		<SearchCriteriaAttribute name="user"   							type="String"/> 
+		<SearchCriteriaAttribute name="dateSegmentId"   				type="Int"/> 
+		<SearchCriteriaAttribute name="startDate"   					type="String"/> 
+
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>java:comp/env/wsbEwpdDS</jndi>
+        </Connection>
+        <SelectSQLQuery>
+
+            SELECT A.MGRTD_DT_SGMNT_SYS_ID, A.MGRTD_CNTRCT_SYS_ID, A.MGRTD_DT_SGMNT_EFCTV_DT, A.MGRTD_DT_SGMNT_RVSN_DT,
+                 A.MGRTD_DT_SGMNT_EXPRY_DT,
+                  A.GRP_SIZE, 
+                  A.STNDRD_PLAN_CD,
+                  A.PROD_CD,
+                  A.BNFT_PLAN_NM,
+                  A.CRPRT_PLAN_CD,
+                  A.FUNDG_ARNGMNT_CD,
+                  A.BRND_NM,
+                  B.HDQTR_ST_CD, A.LAST_CHNGD_USER, A.LAST_CHNGD_TMS, A.CREATD_USER_ID, A.CREATD_TM_STMP,B.CNTRCT_TYPE,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1940 and PRMRY_CD = A.GRP_SIZE) GRP_SIZE_DESC,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1701 and PRMRY_CD = A.STNDRD_PLAN_CD) STNDRD_PLAN_CD_DESC,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1786 and PRMRY_CD = A.PROD_CD) PROD_CD_DESC,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1947 and PRMRY_CD = A.CRPRT_PLAN_CD) CRPRT_PLAN_CD_DESC,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1941 and PRMRY_CD = A.FUNDG_ARNGMNT_CD) FUNDG_ARNGMNT_DESC,
+                  (select CD_DESC_TXT from item where CTLG_ID = 1626 and PRMRY_CD = B.HDQTR_ST_CD)HDQTR_ST_DESC,
+                  (select C.CNTRCT_ID from CMST_CNTRCT_MSTR C, CNTRCT_DT_SGMNT D where D.DT_SGMNT_SYS_ID  = A.CNTRCT_BSDT_SGMNT_SYS_ID and C.CNTRCT_SYS_ID  = D.CNTRCT_SYS_ID)BASE_CONT_ID ,
+				  (select D.DT_SGMNT_EFCTV_DT  from CMST_CNTRCT_MSTR C, CNTRCT_DT_SGMNT D where D.DT_SGMNT_SYS_ID  = A.CNTRCT_BSDT_SGMNT_SYS_ID and C.CNTRCT_SYS_ID  = D.CNTRCT_SYS_ID)BASE_CONT_EFF_DT,
+				   A.MGRTD_LGCY_DT_SGMNT_EFCTV_DT , A.LAST_ACSD_PAGE , A.STEP_NBR_CMPLTD,
+				  (select CNTRCT_SYS_ID from CNTRCT_DT_SGMNT where DT_SGMNT_SYS_ID  = A.CNTRCT_BSDT_SGMNT_SYS_ID) BASE_CONT_SYS_ID ,
+				  A.CNTRCT_BSDT_SGMNT_SYS_ID, B.MGRTD_CNTRCT_ID,
+				   	A.COB_ADJDCTN_IND, A.MEDI_ADJDCTN_IND, A.ITS_ADJDCTN_IND,
+					A.RGLTRY_AGNCY, A.CMPLANC_STTS, A.PROJ_NM_CODE, A.CNTRT_TRM_DT, 
+					A.MULTI_PLAN_IND, A.PRFRMNCE_GUARTE, A.SALE_MARKT_DT,
+					(select CD_DESC_TXT from item where CTLG_ID = 2020 and PRMRY_CD = A.RGLTRY_AGNCY) RGLTRY_AGNCY_DESC,
+        			(select CD_DESC_TXT from item where CTLG_ID = 2040 and PRMRY_CD = A.PROJ_NM_CODE) PROJ_NM_CODE_DESC,
+					A.EWPD_PROD_SYS_ID
+
+	        FROM MGRTD_CNTRCT_DT_SGMNT_MSTR A,MGRTD_CNTRCT_MSTR B
+            WHERE A.MGRTD_DT_SGMNT_SYS_ID = ? and A.MGRTD_CNTRCT_SYS_ID = B.MGRTD_CNTRCT_SYS_ID
+        </SelectSQLQuery>
+
+		<SelectSQLQuery name="contractStartDate">
+			SELECT 	a.mgrtd_dt_sgmnt_sys_id, b.mgrtd_cntrct_id, a.MGRTD_LGCY_DT_SGMNT_EFCTV_DT
+			FROM 	mgrtd_cntrct_dt_sgmnt_mstr a, mgrtd_cntrct_mstr b
+			WHERE 	a.mgrtd_cntrct_sys_id = b.mgrtd_cntrct_sys_id
+			AND 	mgrtd_dt_sgmnt_sys_id = {0}
+		</SelectSQLQuery>	
+
+		<SelectSQLQuery name="contractRenewDate">
+			SELECT a.mgrtd_dt_sgmnt_sys_id, b.mgrtd_cntrct_id, a.mgrtd_dt_sgmnt_efctv_dt
+			  FROM mgrtd_cntrct_dt_sgmnt_mstr a, mgrtd_cntrct_mstr b
+			 WHERE a.mgrtd_cntrct_sys_id = b.mgrtd_cntrct_sys_id
+			   AND a.mgrtd_lgcy_dt_sgmnt_efctv_dt != a.mgrtd_dt_sgmnt_efctv_dt
+			   AND b.mgrtd_cntrct_id = {0}
+		</SelectSQLQuery>	
+
+		<SelectSQLQuery name="getAutoPopulateValues">
+			SELECT DISTINCT a.cntrct_bsdt_sgmnt_sys_id, a.ewpd_prod_sys_id,
+			                a.mgrtd_dt_sgmnt_sys_id,
+			                (SELECT c.cntrct_id
+			                   FROM cmst_cntrct_mstr c, cntrct_dt_sgmnt d
+			                  WHERE d.dt_sgmnt_sys_id =
+			                                      a.cntrct_bsdt_sgmnt_sys_id
+			                    AND c.cntrct_sys_id = d.cntrct_sys_id) base_cont_id,
+			                (SELECT d.dt_sgmnt_efctv_dt
+			                   FROM cmst_cntrct_mstr c,
+			                        cntrct_dt_sgmnt d
+			                  WHERE d.dt_sgmnt_sys_id = a.cntrct_bsdt_sgmnt_sys_id
+			                    AND c.cntrct_sys_id = d.cntrct_sys_id) base_cont_eff_dt,
+			                (SELECT cntrct_sys_id
+			                   FROM cntrct_dt_sgmnt
+			                  WHERE dt_sgmnt_sys_id =
+			                                  a.cntrct_bsdt_sgmnt_sys_id)
+			                                                             base_cont_sys_id,
+			                (SELECT prod_fmly_nm
+			                   FROM prod_mstr
+			                  WHERE prod_sys_id = a.ewpd_prod_sys_id) prod_fam_nam,
+			                (SELECT prod_nm
+			                   FROM prod_mstr
+			                  WHERE prod_sys_id = a.ewpd_prod_sys_id) prod_nam
+			           FROM mgrtd_cntrct_dt_sgmnt_mstr a, mgrtd_cntrct_mstr b
+			          WHERE mgrtd_dt_sgmnt_sys_id =
+			                   (SELECT MAX (mgrtd_dt_sgmnt_sys_id)
+			                      FROM mgrtd_cntrct_dt_sgmnt_mstr
+			                     WHERE mgrtd_cntrct_sys_id = {0}
+			                       AND mgrtd_dt_sgmnt_sys_id != {1})
+		</SelectSQLQuery>	
+
+
+		<SelectSQLQuery name="contractStartANDEndDate">
+			SELECT  a.mgrtd_cntrct_sys_id, MIN (a.mgrtd_dt_sgmnt_efctv_dt), MAX (a.mgrtd_dt_sgmnt_expry_dt)
+			    FROM mgrtd_cntrct_dt_sgmnt_mstr a
+			   WHERE a.mgrtd_cntrct_sys_id IN (SELECT mgrtd_cntrct_sys_id
+			                                     FROM mgrtd_cntrct_dt_sgmnt_mstr
+			                                    WHERE mgrtd_dt_sgmnt_sys_id = {0})
+			GROUP BY a.mgrtd_cntrct_sys_id
+		</SelectSQLQuery>	
+
+		<SelectSQLQuery name="maxEffectiveOfMigratingContract">
+			SELECT   0, mgrtd_cntrct_dt_sgmnt_mstr.mgrtd_cntrct_sys_id,
+			         MAX (mgrtd_cntrct_dt_sgmnt_mstr.mgrtd_dt_sgmnt_expry_dt)
+			    FROM mgrtd_cntrct_dt_sgmnt_mstr, mgrtd_cntrct_mstr
+			   WHERE mgrtd_cntrct_dt_sgmnt_mstr.mgrtd_cntrct_sys_id = mgrtd_cntrct_mstr.mgrtd_cntrct_sys_id
+				 AND mgrtd_cntrct_dt_sgmnt_mstr.mgrtn_cmpltd_flag IN ('N', 'n')
+			     AND mgrtd_cntrct_mstr.mgrtd_cntrct_id = {0}
+			GROUP BY mgrtd_cntrct_dt_sgmnt_mstr.mgrtd_cntrct_sys_id
+		</SelectSQLQuery>
+
+		<SelectSQLQuery name="copyMigratedContract">
+			CALL COPY_MIGRATED_CONTRACT({0}, {1}, {2}, {3}, {4}, {5})
+		</SelectSQLQuery>
+
+		<SelectSQLQuery  name="getDateSegmentDetails" >
+			SELECT mgrtd_dt_sgmnt_sys_id, mgrtd_cntrct_sys_id, mgrtd_dt_sgmnt_efctv_dt,
+			       mgrtd_dt_sgmnt_rvsn_dt, mgrtd_dt_sgmnt_expry_dt, grp_size,
+			       stndrd_plan_cd, prod_cd, bnft_plan_nm, crprt_plan_cd, fundg_arngmnt_cd,
+			       brnd_nm, last_chngd_user, last_chngd_tms, creatd_user_id,
+			       creatd_tm_stmp, mgrtd_lgcy_dt_sgmnt_efctv_dt, last_acsd_page,
+			       step_nbr_cmpltd,cntrct_bsdt_sgmnt_sys_id,ewpd_prod_sys_id, 
+				   mgrtd_pstrctr_mapg_sys_id
+			  FROM mgrtd_cntrct_dt_sgmnt_mstr
+			 WHERE mgrtn_cmpltd_flag NOT IN ('Y', 'y')
+			 AND mgrtd_cntrct_sys_id = {0} order by mgrtd_dt_sgmnt_efctv_dt asc
+        </SelectSQLQuery>
+
+		<SelectSQLQuery  name="dateSegmentDetails" >
+			SELECT mgrtd_dt_sgmnt_sys_id, mgrtd_cntrct_sys_id, mgrtd_dt_sgmnt_efctv_dt,
+			       mgrtd_dt_sgmnt_rvsn_dt, mgrtd_dt_sgmnt_expry_dt, grp_size,
+			       stndrd_plan_cd, prod_cd, bnft_plan_nm, crprt_plan_cd, fundg_arngmnt_cd,
+			       brnd_nm, last_chngd_user, last_chngd_tms, creatd_user_id,
+			       creatd_tm_stmp, mgrtd_lgcy_dt_sgmnt_efctv_dt, last_acsd_page,
+			       step_nbr_cmpltd, cob_adjdctn_ind, medi_adjdctn_ind, its_adjdctn_ind, rgltry_agncy, 
+				   cmplanc_stts, proj_nm_code, cntrt_trm_dt, multi_plan_ind, prfrmnce_guarte, sale_markt_dt 
+			  FROM mgrtd_cntrct_dt_sgmnt_mstr
+			 WHERE mgrtd_dt_sgmnt_sys_id = {0}
+        </SelectSQLQuery>
+
+		<SelectSQLQuery  name="getDateSegmentNotesFlag" >
+			SELECT mgrtd_dt_sgmnt_sys_id, MGRT_NOTE_FLAG	 
+			  FROM mgrtd_cntrct_dt_sgmnt_mstr
+			 WHERE mgrtd_dt_sgmnt_sys_id = {0}
+        </SelectSQLQuery>
+
+		<SelectSQLQuery name="searchNullPlanCode">
+			SELECT mgrtd_dt_sgmnt_sys_id, mgrtd_dt_sgmnt_efctv_dt
+			  FROM mgrtd_cntrct_dt_sgmnt_mstr
+			 WHERE crprt_plan_cd IS NULL
+			   AND mgrtd_dt_sgmnt_sys_id IN (SELECT mgrtd_dt_sgmnt_sys_id
+			                                   FROM mgrtd_cntrct_dt_sgmnt_mstr
+			                                  WHERE mgrtd_cntrct_sys_id = {0})	
+		</SelectSQLQuery>
+
+        <SelectSQLQuery name="retrieveProductParentSysId">
+              select dbms_random.random,max(A.PROD_PARNT_SYS_ID) FROM PROD_MSTR A, MGRTD_CNTRCT_DT_SGMNT_MSTR B
+              WHERE A.PROD_SYS_ID = B.EWPD_PROD_SYS_ID
+              AND B.MGRTD_CNTRCT_SYS_ID = {0}
+
+       </SelectSQLQuery>
+       
+		<SelectSQLQuery name="persistMigrationInfo">
+			CALL MIGRATION_STEP2_STEP3( {0},{1},{2},{3},{4},{5},{6},{7},{8})
+		</SelectSQLQuery>
+		<SelectSQLQuery name="persistPricingInfo">
+			CALL COPY_PRICING_INFO( {0},{1},{2},{3})
+		</SelectSQLQuery>
+
+		<SelectSQLQuery name="persistVariableInfo">
+			CALL COPY_CODED_VARIABLES( {0},{1},{2})
+		</SelectSQLQuery>
+		
+
+
+		<DataObject name="MGRTD_CNTRCT_MSTR">
+			<DataObjectAttribute name="MGRTD_CNTRCT_ID"    			type="String"/>		
+			<DataObjectAttribute name="CNTRCT_TYPE"    				type="String"/>
+			<DataObjectAttribute name="HDQTR_ST_CD"    				type="String"/>
+			<DataObjectAttribute name="BASE_CONT_ID"    			type="String"/>
+			<DataObjectAttribute name="BASE_CONT_EFF_DT"    		type="Date"/>
+			<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"    		type="Int"/>
+			<DataObjectAttribute name="BASE_CONT_SYS_ID"    		type="Int"/>
+			<SQLTemplate transType="update">
+                <SQLQuery>
+                    UPDATE MGRTD_CNTRCT_MSTR SET CNTRCT_TYPE = ?, HDQTR_ST_CD = ?
+                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+                </SQLQuery>
+
+                <DataObjectAttributeInput index="0" name="CNTRCT_TYPE"/>
+				<DataObjectAttributeInput index="1" name="HDQTR_ST_CD"/>
+                <DataObjectAttributeInput index="2" name="MGRTD_CNTRCT_SYS_ID"/>
+            </SQLTemplate>
+
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="12" dataObjectAttribName ="HDQTR_ST_CD"/>
+                    <ResultIndex index="17" dataObjectAttribName ="CNTRCT_TYPE"/>
+					<ResultIndex index="24" dataObjectAttribName="BASE_CONT_ID"/>
+					<ResultIndex index="25" dataObjectAttribName="BASE_CONT_EFF_DT"/>
+					<ResultIndex index="29" dataObjectAttribName="BASE_CONT_SYS_ID"/>
+					<ResultIndex index="31" dataObjectAttribName="MGRTD_CNTRCT_ID"/>					
+				</RSIndexToDOAttributeMap>
+			</SQLTemplate>
+
+			<SQLTemplate transType="select">
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="3" dataObjectAttribName ="BASE_CONT_ID"/>
+                    <ResultIndex index="4" dataObjectAttribName ="BASE_CONT_EFF_DT"/>                          
+                    <ResultIndex index="5" dataObjectAttribName ="BASE_CONT_SYS_ID"/>   
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getAutoPopulateValues"/>
+            </SQLTemplate>
+
+
+ 			<DoAttributeToBOAttributeMap>
+				<Pair DOAttb="HDQTR_ST_CD"    				toBOAttb="headQuartersState"/>
+                <Pair DOAttb="CNTRCT_TYPE"    				toBOAttb="contractType"/>
+				<Pair DOAttb="BASE_CONT_ID"    				toBOAttb="baseContractId"/>
+				<Pair DOAttb="BASE_CONT_EFF_DT"    			toBOAttb="baseDateSegmentEffectiveDate"/>
+                <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    		toBOAttb="contractSysId"/>
+                <Pair DOAttb="BASE_CONT_SYS_ID"    			toBOAttb="baseContractSysId"/>
+                <Pair DOAttb="MGRTD_CNTRCT_ID"    			toBOAttb="contractId"/>                                
+			</DoAttributeToBOAttributeMap>
+		</DataObject>
+
+        <DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+            <DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   		type="Int"/>
+            <DataObjectAttribute name="MGRTD_CNTRCT_ID"    				type="String"/>
+            <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"    			type="Int"/>
+            <DataObjectAttribute name="MGRTD_DT_SGMNT_EFCTV_DT" 		type="Date"/>
+            <DataObjectAttribute name="MGRTD_DT_SGMNT_RVSN_DT"  		type="Date"/>
+            <DataObjectAttribute name="MGRTD_DT_SGMNT_EXPRY_DT" 		type="Date"/>
+            <DataObjectAttribute name="GRP_SIZE"    					type="String"/>
+            <DataObjectAttribute name="STNDRD_PLAN_CD"    				type="String"/>
+            <DataObjectAttribute name="PROD_CD"    						type="String"/>
+            <DataObjectAttribute name="BNFT_PLAN_NM"    				type="String"/>
+            <DataObjectAttribute name="CRPRT_PLAN_CD"    				type="String"/>
+            <DataObjectAttribute name="FUNDG_ARNGMNT_CD"    			type="String"/>
+            <DataObjectAttribute name="BRND_NM"    						type="String"/>
+            <DataObjectAttribute name="LAST_CHNGD_USER"    				type="String"/>
+            <DataObjectAttribute name="LAST_CHNGD_TMS"    				type="TimeStamp"/>
+            <DataObjectAttribute name="CREATD_USER_ID"    				type="String"/>
+            <DataObjectAttribute name="CREATD_TM_STMP"    				type="TimeStamp"/>
+			<DataObjectAttribute name="GRP_SIZE_DESC"    				type="String"/>
+			<DataObjectAttribute name="STNDRD_PLAN_CD_DESC"    			type="String"/>
+			<DataObjectAttribute name="PROD_CD_DESC"    				type="String"/>
+			<DataObjectAttribute name="CRPRT_PLAN_CD_DESC"    			type="String"/>
+			<DataObjectAttribute name="FUNDG_ARNGMNT_DESC"    			type="String"/>
+			<DataObjectAttribute name="HDQTR_ST_DESC"    				type="String"/>		
+			<DataObjectAttribute name="MGRTD_LGCY_DT_SGMNT_EFCTV_DT" 	type="Date"/>
+			<DataObjectAttribute name="LAST_ACSD_PAGE"    				type="String"/>
+			<DataObjectAttribute name="STEP_NBR_CMPLTD"    				type="String"/>		
+			<DataObjectAttribute name="COB_ADJDCTN_IND"         		type="String"/>
+	        <DataObjectAttribute name="MEDI_ADJDCTN_IND"        		type="String"/>
+	        <DataObjectAttribute name="ITS_ADJDCTN_IND"         		type="String"/>
+	        <DataObjectAttribute name="RGLTRY_AGNCY"         			type="String"/>
+	        <DataObjectAttribute name="CMPLANC_STTS"         			type="String"/>
+	        <DataObjectAttribute name="PROJ_NM_CODE"         			type="String"/>
+	        <DataObjectAttribute name="CNTRT_TRM_DT"         			type="Date"/>
+	        <DataObjectAttribute name="MULTI_PLAN_IND"         			type="String"/>
+	        <DataObjectAttribute name="PRFRMNCE_GUARTE"         		type="String"/>
+	        <DataObjectAttribute name="SALE_MARKT_DT"         			type="Date"/>
+			<DataObjectAttribute name="MGRT_NOTE_FLAG"         			type="String"/>
+			<DataObjectAttribute name="RGLTRY_AGNCY_DESC"         		type="String"/>
+			<DataObjectAttribute name="PROJ_NM_CODE_DESC"         		type="String"/>
+			<DataObjectAttribute name="OPTION"         					type="String"/>
+			<DataObjectAttribute name="STARTDATE"         				type="String"/>
+			<DataObjectAttribute name="RENEWDATE"         				type="String"/>
+			<DataObjectAttribute name="DATESTRING"         				type="String"/>
+			<DataObjectAttribute name="SECONDTIMEMIGRATION"        		type="String"/>
+			<DataObjectAttribute name="USER"        					type="String"/>
+			<DataObjectAttribute name="DATESEGMENTID"        			type="Int"/>
+			<DataObjectAttribute name="STARTDATELEGACY"        			type="String"/>
+            <DataObjectAttribute name="PROD_PARNT_SYS_ID"        		type="Int"/>
+			<DataObjectAttribute name="CNTRCT_BSDT_SGMNT_SYS_ID"    	type="Int"/>
+			<DataObjectAttribute name="EWPD_PROD_SYS_ID"    			type="Int"/>
+			<DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID"    	type="Int"/>
+			<DataObjectAttribute name="PRODUCT_NAME"    				type="String"/>
+			<DataObjectAttribute name="PRODUCT_FAMILY"			    	type="String"/>
+
+
+            <SQLTemplate transType="insert">
+                <SQLQuery>
+                    INSERT INTO MGRTD_CNTRCT_DT_SGMNT_MSTR 
+					( MGRTD_DT_SGMNT_SYS_ID, MGRTD_CNTRCT_SYS_ID, MGRTD_DT_SGMNT_EFCTV_DT, MGRTD_DT_SGMNT_RVSN_DT, MGRTD_DT_SGMNT_EXPRY_DT, GRP_SIZE, STNDRD_PLAN_CD, PROD_CD, BNFT_PLAN_NM, CRPRT_PLAN_CD, FUNDG_ARNGMNT_CD, BRND_NM, LAST_CHNGD_USER, LAST_CHNGD_TMS, CREATD_USER_ID, CREATD_TM_STMP, 
+						MGRTD_LGCY_DT_SGMNT_EFCTV_DT, LAST_ACSD_PAGE, STEP_NBR_CMPLTD, 
+						COB_ADJDCTN_IND, MEDI_ADJDCTN_IND,ITS_ADJDCTN_IND,
+						RGLTRY_AGNCY, CMPLANC_STTS, PROJ_NM_CODE, CNTRT_TRM_DT, 
+						MULTI_PLAN_IND, PRFRMNCE_GUARTE, SALE_MARKT_DT)
+						 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <DataObjectAttributeInput index="1" name="MGRTD_CNTRCT_SYS_ID"/>
+                <DataObjectAttributeInput index="2" name="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                <DataObjectAttributeInput index="3" name="MGRTD_DT_SGMNT_RVSN_DT"/>
+                <DataObjectAttributeInput index="4" name="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                <DataObjectAttributeInput index="5" name="GRP_SIZE"/>
+                <DataObjectAttributeInput index="6" name="STNDRD_PLAN_CD"/>
+                <DataObjectAttributeInput index="7" name="PROD_CD"/>
+                <DataObjectAttributeInput index="8" name="BNFT_PLAN_NM"/>
+                <DataObjectAttributeInput index="9" name="CRPRT_PLAN_CD"/>
+                <DataObjectAttributeInput index="10" name="FUNDG_ARNGMNT_CD"/>
+                <DataObjectAttributeInput index="11" name="BRND_NM"/>               
+                <DataObjectAttributeInput index="12" name="LAST_CHNGD_USER"/>
+                <DataObjectAttributeInput index="13" name="LAST_CHNGD_TMS"/>
+                <DataObjectAttributeInput index="14" name="CREATD_USER_ID"/>
+                <DataObjectAttributeInput index="15" name="CREATD_TM_STMP"/>                
+                <DataObjectAttributeInput index="16" name="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/>
+                <DataObjectAttributeInput index="17" name="LAST_ACSD_PAGE"/>
+                <DataObjectAttributeInput index="18" name="STEP_NBR_CMPLTD"/>
+				<DataObjectAttributeInput index="19" name="COB_ADJDCTN_IND"/>
+                <DataObjectAttributeInput index="20" name="MEDI_ADJDCTN_IND"/>
+                <DataObjectAttributeInput index="21" name="ITS_ADJDCTN_IND"/>
+				<DataObjectAttributeInput index="22" name="RGLTRY_AGNCY"/>
+                <DataObjectAttributeInput index="23" name="CMPLANC_STTS"/>
+                <DataObjectAttributeInput index="24" name="PROJ_NM_CODE"/>
+				<DataObjectAttributeInput index="25" name="CNTRT_TRM_DT"/>
+                <DataObjectAttributeInput index="26" name="MULTI_PLAN_IND"/>
+                <DataObjectAttributeInput index="27" name="PRFRMNCE_GUARTE"/>
+                <DataObjectAttributeInput index="28" name="SALE_MARKT_DT"/>
+			 </SQLTemplate>	
+            
+            <SQLTemplate transType="update">
+                <SQLQuery>
+                    UPDATE MGRTD_CNTRCT_DT_SGMNT_MSTR
+                     SET MGRTD_DT_SGMNT_EFCTV_DT = ?, MGRTD_DT_SGMNT_RVSN_DT = ?, MGRTD_DT_SGMNT_EXPRY_DT = ?, GRP_SIZE = ?, STNDRD_PLAN_CD = ?, 
+						PROD_CD = ?, BNFT_PLAN_NM = ?, CRPRT_PLAN_CD = ?, FUNDG_ARNGMNT_CD = ?, BRND_NM = ?, LAST_CHNGD_USER = ?, LAST_CHNGD_TMS = ?, 
+						CREATD_USER_ID = ?, CREATD_TM_STMP = ?, MGRTD_LGCY_DT_SGMNT_EFCTV_DT = ?, LAST_ACSD_PAGE = ?, 
+						STEP_NBR_CMPLTD = ?, COB_ADJDCTN_IND = ?, MEDI_ADJDCTN_IND = ?, ITS_ADJDCTN_IND = ?,
+						RGLTRY_AGNCY = ?, CMPLANC_STTS = ?, PROJ_NM_CODE = ?, CNTRT_TRM_DT = ?, MULTI_PLAN_IND = ?, 
+						PRFRMNCE_GUARTE = ?, SALE_MARKT_DT = ?, MGRT_NOTE_FLAG = ?, CNTRCT_BSDT_SGMNT_SYS_ID = ?
+                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+                </SQLQuery>
+
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                <DataObjectAttributeInput index="1" name="MGRTD_DT_SGMNT_RVSN_DT"/>
+                <DataObjectAttributeInput index="2" name="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                <DataObjectAttributeInput index="3" name="GRP_SIZE"/>
+                <DataObjectAttributeInput index="4" name="STNDRD_PLAN_CD"/>
+                <DataObjectAttributeInput index="5" name="PROD_CD"/>
+                <DataObjectAttributeInput index="6" name="BNFT_PLAN_NM"/>
+                <DataObjectAttributeInput index="7" name="CRPRT_PLAN_CD"/>
+                <DataObjectAttributeInput index="8" name="FUNDG_ARNGMNT_CD"/>
+                <DataObjectAttributeInput index="9" name="BRND_NM"/>               
+                <DataObjectAttributeInput index="10" name="LAST_CHNGD_USER"/>
+                <DataObjectAttributeInput index="11" name="LAST_CHNGD_TMS"/>
+                <DataObjectAttributeInput index="12" name="CREATD_USER_ID"/>
+                <DataObjectAttributeInput index="13" name="CREATD_TM_STMP"/>		                
+                <DataObjectAttributeInput index="14" name="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/>
+                <DataObjectAttributeInput index="15" name="LAST_ACSD_PAGE"/>
+                <DataObjectAttributeInput index="16" name="STEP_NBR_CMPLTD"/>
+				<DataObjectAttributeInput index="17" name="COB_ADJDCTN_IND"/>
+                <DataObjectAttributeInput index="18" name="MEDI_ADJDCTN_IND"/>
+                <DataObjectAttributeInput index="19" name="ITS_ADJDCTN_IND"/>
+				<DataObjectAttributeInput index="20" name="RGLTRY_AGNCY"/>
+                <DataObjectAttributeInput index="21" name="CMPLANC_STTS"/>
+                <DataObjectAttributeInput index="22" name="PROJ_NM_CODE"/>
+				<DataObjectAttributeInput index="23" name="CNTRT_TRM_DT"/>
+                <DataObjectAttributeInput index="24" name="MULTI_PLAN_IND"/>
+                <DataObjectAttributeInput index="25" name="PRFRMNCE_GUARTE"/>
+                <DataObjectAttributeInput index="26" name="SALE_MARKT_DT"/>
+				<DataObjectAttributeInput index="27" name="MGRT_NOTE_FLAG"/>
+				<DataObjectAttributeInput index="28" name="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+				<DataObjectAttributeInput index="29" name="MGRTD_DT_SGMNT_SYS_ID"/>
+            </SQLTemplate>
+
+
+           <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+                       <ResultIndex index="0" 	dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                       <ResultIndex index="1" 	dataObjectAttribName ="PROD_PARNT_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="retrieveProductParentSysId"/>
+			   
+         </SQLTemplate>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                    <ResultIndex index="3" dataObjectAttribName ="MGRTD_DT_SGMNT_RVSN_DT"/>
+                    <ResultIndex index="4" dataObjectAttribName ="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                    <ResultIndex index="5" dataObjectAttribName ="GRP_SIZE"/>
+                    <ResultIndex index="6" dataObjectAttribName ="STNDRD_PLAN_CD"/>
+                    <ResultIndex index="7" dataObjectAttribName ="PROD_CD"/>
+                    <ResultIndex index="8" dataObjectAttribName ="BNFT_PLAN_NM"/>
+                    <ResultIndex index="9" dataObjectAttribName ="CRPRT_PLAN_CD"/>
+                    <ResultIndex index="10" dataObjectAttribName ="FUNDG_ARNGMNT_CD"/>
+                    <ResultIndex index="11" dataObjectAttribName ="BRND_NM"/>                    
+                    <ResultIndex index="13" dataObjectAttribName ="LAST_CHNGD_USER"/>
+                    <ResultIndex index="14" dataObjectAttribName ="LAST_CHNGD_TMS"/>
+                    <ResultIndex index="15" dataObjectAttribName ="CREATD_USER_ID"/>
+                    <ResultIndex index="16" dataObjectAttribName ="CREATD_TM_STMP"/>
+					<ResultIndex index="18" dataObjectAttribName="GRP_SIZE_DESC"/>
+					<ResultIndex index="19" dataObjectAttribName="STNDRD_PLAN_CD_DESC"/>
+					<ResultIndex index="20" dataObjectAttribName="PROD_CD_DESC"/>
+					<ResultIndex index="21" dataObjectAttribName="CRPRT_PLAN_CD_DESC"/>
+					<ResultIndex index="22" dataObjectAttribName="FUNDG_ARNGMNT_DESC"/>
+					<ResultIndex index="23" dataObjectAttribName="HDQTR_ST_DESC"/>
+					<ResultIndex index="26" dataObjectAttribName="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/>
+					<ResultIndex index="27" dataObjectAttribName="LAST_ACSD_PAGE"/>
+					<ResultIndex index="28" dataObjectAttribName="STEP_NBR_CMPLTD"/>
+					<ResultIndex index="30" dataObjectAttribName="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+					<ResultIndex index="32" dataObjectAttribName="COB_ADJDCTN_IND"/>
+					<ResultIndex index="33" dataObjectAttribName="MEDI_ADJDCTN_IND"/>
+					<ResultIndex index="34" dataObjectAttribName="ITS_ADJDCTN_IND"/>
+					<ResultIndex index="35" dataObjectAttribName="RGLTRY_AGNCY"/>
+					<ResultIndex index="36" dataObjectAttribName="CMPLANC_STTS"/>
+					<ResultIndex index="37" dataObjectAttribName="PROJ_NM_CODE"/>
+					<ResultIndex index="38" dataObjectAttribName="CNTRT_TRM_DT"/>
+					<ResultIndex index="39" dataObjectAttribName="MULTI_PLAN_IND"/>
+					<ResultIndex index="40" dataObjectAttribName="PRFRMNCE_GUARTE"/>
+					<ResultIndex index="41" dataObjectAttribName="SALE_MARKT_DT"/>
+					<ResultIndex index="42" dataObjectAttribName="RGLTRY_AGNCY_DESC"/>
+					<ResultIndex index="43" dataObjectAttribName="PROJ_NM_CODE_DESC"/>
+					<ResultIndex index="44" dataObjectAttribName="EWPD_PROD_SYS_ID"/>
+                </RSIndexToDOAttributeMap>
+            </SQLTemplate>
+            
+           
+
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRT_NOTE_FLAG"/>                    
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getDateSegmentNotesFlag"/>
+            </SQLTemplate>
+
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                <DataObjectAttributeInput index="1" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="EWPD_PROD_SYS_ID"/>                          
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>   
+                    <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+                    <ResultIndex index="7" dataObjectAttribName ="PRODUCT_NAME"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getAutoPopulateValues"/>
+            </SQLTemplate>
+
+
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="contractStartDate"/>
+            </SQLTemplate>
+
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="contractRenewDate"/>
+            </SQLTemplate>
+
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="contractStartANDEndDate"/>
+            </SQLTemplate>
+
+			<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>  
+		            <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>  
+		            <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>  
+		        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="maxEffectiveOfMigratingContract"/>
+			</SQLTemplate>
+
+			<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+		        <DataObjectAttributeInput index="1" name="MGRTD_DT_SGMNT_SYS_ID"/>
+				<DataObjectAttributeInput index="2" name="BRND_NM"/>
+				<DataObjectAttributeInput index="3" name="LAST_CHNGD_USER"/>
+				<DataObjectAttributeInput index="4" name="LAST_CHNGD_TMS"/>
+				<RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>
+		            <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+		            <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+		            <ResultIndex index="3" dataObjectAttribName ="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+		        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="copyMigratedContract"/>
+			</SQLTemplate>
+
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                    <ResultIndex index="3" dataObjectAttribName ="MGRTD_DT_SGMNT_RVSN_DT"/>
+                    <ResultIndex index="4" dataObjectAttribName ="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                    <ResultIndex index="5" dataObjectAttribName ="GRP_SIZE"/>
+                    <ResultIndex index="6" dataObjectAttribName ="STNDRD_PLAN_CD"/>
+                    <ResultIndex index="7" dataObjectAttribName ="PROD_CD"/>
+                    <ResultIndex index="8" dataObjectAttribName ="BNFT_PLAN_NM"/>
+                    <ResultIndex index="9" dataObjectAttribName ="CRPRT_PLAN_CD"/>
+                    <ResultIndex index="10" dataObjectAttribName ="FUNDG_ARNGMNT_CD"/>
+                    <ResultIndex index="11" dataObjectAttribName ="BRND_NM"/>
+                    <ResultIndex index="12" dataObjectAttribName ="LAST_CHNGD_USER"/>
+                    <ResultIndex index="13" dataObjectAttribName ="LAST_CHNGD_TMS"/>
+                    <ResultIndex index="14" dataObjectAttribName ="CREATD_USER_ID"/>
+                    <ResultIndex index="15" dataObjectAttribName ="CREATD_TM_STMP"/>
+  					<ResultIndex index="16" dataObjectAttribName ="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/> 
+ 					<ResultIndex index="17" dataObjectAttribName ="LAST_ACSD_PAGE"/>
+  					<ResultIndex index="18" dataObjectAttribName ="STEP_NBR_CMPLTD"/>
+  					<ResultIndex index="19" dataObjectAttribName ="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+  					<ResultIndex index="20" dataObjectAttribName ="EWPD_PROD_SYS_ID"/>
+  					<ResultIndex index="21" dataObjectAttribName ="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getDateSegmentDetails"/>
+            </SQLTemplate>
+
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="searchNullPlanCode"/>
+            </SQLTemplate>
+
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MGRTD_DT_SGMNT_EFCTV_DT"/>
+                    <ResultIndex index="3" dataObjectAttribName ="MGRTD_DT_SGMNT_RVSN_DT"/>
+                    <ResultIndex index="4" dataObjectAttribName ="MGRTD_DT_SGMNT_EXPRY_DT"/>
+                    <ResultIndex index="5" dataObjectAttribName ="GRP_SIZE"/>
+                    <ResultIndex index="6" dataObjectAttribName ="STNDRD_PLAN_CD"/>
+                    <ResultIndex index="7" dataObjectAttribName ="PROD_CD"/>
+                    <ResultIndex index="8" dataObjectAttribName ="BNFT_PLAN_NM"/>
+                    <ResultIndex index="9" dataObjectAttribName ="CRPRT_PLAN_CD"/>
+                    <ResultIndex index="10" dataObjectAttribName ="FUNDG_ARNGMNT_CD"/>
+                    <ResultIndex index="11" dataObjectAttribName ="BRND_NM"/>
+                    <ResultIndex index="12" dataObjectAttribName ="LAST_CHNGD_USER"/>
+                    <ResultIndex index="13" dataObjectAttribName ="LAST_CHNGD_TMS"/>
+                    <ResultIndex index="14" dataObjectAttribName ="CREATD_USER_ID"/>
+                    <ResultIndex index="15" dataObjectAttribName ="CREATD_TM_STMP"/>
+  					<ResultIndex index="16" dataObjectAttribName ="MGRTD_LGCY_DT_SGMNT_EFCTV_DT"/> 
+ 					<ResultIndex index="17" dataObjectAttribName ="LAST_ACSD_PAGE"/>
+  					<ResultIndex index="18" dataObjectAttribName ="STEP_NBR_CMPLTD"/>
+					<ResultIndex index="19" dataObjectAttribName ="COB_ADJDCTN_IND"/>
+					<ResultIndex index="20" dataObjectAttribName ="MEDI_ADJDCTN_IND"/>
+					<ResultIndex index="21" dataObjectAttribName ="ITS_ADJDCTN_IND"/>
+					<ResultIndex index="22" dataObjectAttribName ="RGLTRY_AGNCY"/>
+					<ResultIndex index="23" dataObjectAttribName ="CMPLANC_STTS"/>
+					<ResultIndex index="24" dataObjectAttribName ="PROJ_NM_CODE"/>
+					<ResultIndex index="25" dataObjectAttribName ="CNTRT_TRM_DT"/>
+					<ResultIndex index="26" dataObjectAttribName ="MULTI_PLAN_IND"/>
+					<ResultIndex index="27" dataObjectAttribName ="PRFRMNCE_GUARTE"/>
+					<ResultIndex index="28" dataObjectAttribName ="SALE_MARKT_DT"/>
+
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="dateSegmentDetails"/>
+            </SQLTemplate>			
+
+            <SQLTemplate transType="delete">
+                <SQLQuery>
+                    DELETE FROM MGRTD_CNTRCT_DT_SGMNT_MSTR
+                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+            </SQLTemplate>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+                <DataObjectAttributeInput index="1" name="OPTION"/>
+                <DataObjectAttributeInput index="2" name="STARTDATE"/>
+                <DataObjectAttributeInput index="3" name="RENEWDATE"/>
+                <DataObjectAttributeInput index="4" name="DATESTRING"/>
+                <DataObjectAttributeInput index="5" name="SECONDTIMEMIGRATION"/>
+                <DataObjectAttributeInput index="6" name="USER"/>
+                <DataObjectAttributeInput index="7" name="DATESEGMENTID"/>
+				<RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="persistMigrationInfo"/>
+            </SQLTemplate>
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <DataObjectAttributeInput index="1" name="USER"/>
+                <DataObjectAttributeInput index="2" name="STARTDATELEGACY"/>
+				<RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="persistPricingInfo"/>
+            </SQLTemplate>
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+                <DataObjectAttributeInput index="1" name="STARTDATELEGACY"/>
+				<RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+                </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="persistVariableInfo"/>
+            </SQLTemplate>
+			
+
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    	toBOAttb="systemId"/>
+                <Pair DOAttb="MGRTD_CNTRCT_ID"    			toBOAttb="contractId"/>
+                <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    		toBOAttb="contractSysId"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_EFCTV_DT"  	toBOAttb="effectiveDate"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_RVSN_DT"   	toBOAttb="effectiveDate"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_EXPRY_DT"  	toBOAttb="expiryDate"/>
+                <Pair DOAttb="GRP_SIZE"    					toBOAttb="groupSize"/>
+                <Pair DOAttb="STNDRD_PLAN_CD"    			toBOAttb="standardPlanCode"/>
+                <Pair DOAttb="PROD_CD"    					toBOAttb="productCode"/>
+                <Pair DOAttb="BNFT_PLAN_NM"    				toBOAttb="benefitPlan"/>
+                <Pair DOAttb="CRPRT_PLAN_CD"    			toBOAttb="corporatePlanCode"/>
+                <Pair DOAttb="FUNDG_ARNGMNT_CD"    			toBOAttb="fundingArrangement"/>
+                <Pair DOAttb="BRND_NM"    					toBOAttb="brandName"/>                
+                <Pair DOAttb="LAST_CHNGD_USER"    			toBOAttb="lastUpdatedUser"/>
+                <Pair DOAttb="LAST_CHNGD_TMS"    			toBOAttb="lastUpdatedTimeStamp"/>
+                <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+                <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimeStamp"/>
+				<Pair DOAttb="GRP_SIZE_DESC"    			toBOAttb="groupSizeDesc"/>
+				<Pair DOAttb="STNDRD_PLAN_CD_DESC"    		toBOAttb="standardPlanCodeDesc"/>
+				<Pair DOAttb="PROD_CD_DESC"    				toBOAttb="productCodeDesc"/>
+				<Pair DOAttb="CRPRT_PLAN_CD_DESC"    		toBOAttb="corporatePlanCodeDesc"/>
+				<Pair DOAttb="FUNDG_ARNGMNT_DESC"    		toBOAttb="fundingArrangementDesc"/>
+				<Pair DOAttb="HDQTR_ST_DESC"    			toBOAttb="headQuartersStateDesc"/>				
+				<Pair DOAttb="MGRTD_LGCY_DT_SGMNT_EFCTV_DT" toBOAttb="legacyStartDate"/>
+				<Pair DOAttb="LAST_ACSD_PAGE" 				toBOAttb="lastAccessedPage"/>
+				<Pair DOAttb="STEP_NBR_CMPLTD" 				toBOAttb="stepCompleted"/>				
+				<Pair DOAttb="COB_ADJDCTN_IND" 				toBOAttb="cobAdjudInd"/>
+				<Pair DOAttb="MEDI_ADJDCTN_IND" 			toBOAttb="medicareAdjudInd"/>
+				<Pair DOAttb="ITS_ADJDCTN_IND" 				toBOAttb="itsHomeAdjInd"/>
+				<Pair DOAttb="RGLTRY_AGNCY" 				toBOAttb="regulatoryAgency"/>
+				<Pair DOAttb="CMPLANC_STTS" 				toBOAttb="complianceStatus"/>
+				<Pair DOAttb="PROJ_NM_CODE" 				toBOAttb="prodProjNameCode"/>
+				<Pair DOAttb="CNTRT_TRM_DT" 				toBOAttb="contractTermDate"/>
+				<Pair DOAttb="MULTI_PLAN_IND" 				toBOAttb="multiplanIndicator"/>
+				<Pair DOAttb="PRFRMNCE_GUARTE" 				toBOAttb="performanceGuarantee"/>
+				<Pair DOAttb="SALE_MARKT_DT" 				toBOAttb="salesMarketDate"/>
+				<Pair DOAttb="MGRT_NOTE_FLAG" 				toBOAttb="contractNoteMigrateFlag"/>
+				<Pair DOAttb="RGLTRY_AGNCY_DESC" 			toBOAttb="regulatoryAgencyDesc"/>
+				<Pair DOAttb="PROJ_NM_CODE_DESC" 			toBOAttb="prodProjNameCodeDesc"/>
+                <Pair DOAttb="PROD_PARNT_SYS_ID" 			toBOAttb="productParentSysId"/>
+				<Pair DOAttb="CNTRCT_BSDT_SGMNT_SYS_ID"    	toBOAttb="baseDateSegmentSysId"/>
+				<Pair DOAttb="EWPD_PROD_SYS_ID"    			toBOAttb="ewpdProductSystemId"/>
+				<Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID"    toBOAttb="mgrtdProductStructureMappingSysId"/>
+				<Pair DOAttb="PRODUCT_NAME"    				toBOAttb="productName"/>
+				<Pair DOAttb="PRODUCT_FAMILY"    			toBOAttb="productFamily"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    	toSCAttb="systemId"/>
+                <Pair DOAttb="MGRTD_CNTRCT_ID"    			toSCAttb="contractId"/>
+                <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    		toSCAttb="contractSysId"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_EFCTV_DT"    	toSCAttb="effectiveDate"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_RVSN_DT"    	toSCAttb="effectiveDate"/>
+                <Pair DOAttb="MGRTD_DT_SGMNT_EXPRY_DT"    	toSCAttb="expiryDate"/>
+                <Pair DOAttb="GRP_SIZE"    					toSCAttb="groupSize"/>
+                <Pair DOAttb="STNDRD_PLAN_CD"    			toSCAttb="standardPlanCode"/>
+                <Pair DOAttb="PROD_CD"    					toSCAttb="productCode"/>
+                <Pair DOAttb="BNFT_PLAN_NM"    				toSCAttb="benefitPlan"/>
+                <Pair DOAttb="CRPRT_PLAN_CD"    			toSCAttb="corporatePlanCode"/>
+                <Pair DOAttb="FUNDG_ARNGMNT_CD"    			toSCAttb="fundingArrangement"/>
+                <Pair DOAttb="BRND_NM"    					toSCAttb="brandName"/>
+                <Pair DOAttb="LAST_CHNGD_USER"    			toSCAttb="lastUpdatedUser"/>
+                <Pair DOAttb="LAST_CHNGD_TMS"    			toSCAttb="lastUpdatedTimeStamp"/>
+                <Pair DOAttb="CREATD_USER_ID"    			toSCAttb="createdUser"/> 
+                <Pair DOAttb="OPTION"    					toSCAttb="selectedOption"/> 
+                <Pair DOAttb="STARTDATE"    				toSCAttb="selectedDateSegmentStartDate"/> 
+                <Pair DOAttb="RENEWDATE"    				toSCAttb="selectedNewRenewDate"/> 
+                <Pair DOAttb="DATESTRING"    				toSCAttb="dateString"/> 
+                <Pair DOAttb="SECONDTIMEMIGRATION"    		toSCAttb="isSecondTimeMigration"/> 
+                <Pair DOAttb="USER"    						toSCAttb="user"/> 
+                <Pair DOAttb="DATESEGMENTID"    			toSCAttb="dateSegmentId"/> 
+                <Pair DOAttb="STARTDATELEGACY"    			toSCAttb="startDate"/> 
+
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+<!-- End Contract definition MigrationDateSegment  -->
+<!-- Start MigrationDomain Info -->
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationDomainInfo">
+    <BusinessAttribute name="contractSysId"  type="Int" keyAttrib="true"/>
+    <BusinessAttribute name="businessEntityId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="businessGroupId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="lobId"  type="String" keyAttrib="true"/>
+<BusinessAttribute name="lobDesc"  type="String" keyAttrib="false"/>
+<BusinessAttribute name="businessGroupDesc"  type="String" keyAttrib="false"/>
+<BusinessAttribute name="businessEntityDesc"  type="String" keyAttrib="false"/>
+
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractSysId"   type="Int"/>
+        <SearchCriteriaAttribute name="businessEntityId"   type="String"/>
+        <SearchCriteriaAttribute name="businessGroupId"   type="String"/>
+        <SearchCriteriaAttribute name="lobId"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>java:comp/env/wsbEwpdDS</jndi>
+        </Connection>
+        <SelectSQLQuery name="retrieveDomainInfo">
+            SELECT MGRTD_CNTRCT_SYS_ID, BUS_ENTY_CD, BUS_GRP_CD, LOB_CD,
+			(select CD_DESC_TXT from item where CTLG_ID = 1932 and PRMRY_CD = BUS_ENTY_CD) BUS_ENTY_CD_DESC,
+			(select CD_DESC_TXT from item where CTLG_ID = 1933 and PRMRY_CD = BUS_GRP_CD) BUS_GRP_CD_DESC,
+       		(select CD_DESC_TXT from item where CTLG_ID = 1925 and PRMRY_CD = LOB_CD) LOB_CD_DESC
+			FROM MGRTD_CNTRCT_DOMN_INFO
+            WHERE MGRTD_CNTRCT_SYS_ID = {0}
+        </SelectSQLQuery>
+        <DataObject name="MGRTD_CNTRCT_DOMN_INFO">
+            <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"    type="Int"/>
+            <DataObjectAttribute name="BUS_ENTY_CD"    type="String"/>
+            <DataObjectAttribute name="BUS_GRP_CD"    type="String"/>
+            <DataObjectAttribute name="LOB_CD"    type="String"/>
+<DataObjectAttribute name="BUS_ENTY_DESC"    type="String"/>
+<DataObjectAttribute name="BUS_GRP_DESC"    type="String"/>
+<DataObjectAttribute name="LOB_DESC"    type="String"/>
+            <SQLTemplate transType="insert">
+                <SQLQuery>
+                    INSERT INTO MGRTD_CNTRCT_DOMN_INFO ( MGRTD_CNTRCT_SYS_ID, BUS_ENTY_CD, BUS_GRP_CD, LOB_CD)
+                    VALUES(?, ?, ?, ?)
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                <DataObjectAttributeInput index="1" name="BUS_ENTY_CD"/>
+                <DataObjectAttributeInput index="2" name="BUS_GRP_CD"/>
+                <DataObjectAttributeInput index="3" name="LOB_CD"/>
+            </SQLTemplate>
+            <SQLTemplate transType="update">
+                <SQLQuery>
+                    UPDATE MGRTD_CNTRCT_DOMN_INFO
+                     SET BUS_ENTY_CD = ?, BUS_GRP_CD = ?, LOB_CD = ?
+                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="BUS_ENTY_CD"/>
+                <DataObjectAttributeInput index="1" name="BUS_GRP_CD"/>
+                <DataObjectAttributeInput index="2" name="LOB_CD"/>
+                <DataObjectAttributeInput index="3" name="MGRTD_CNTRCT_SYS_ID"/>
+            </SQLTemplate>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    <ResultIndex index="1" dataObjectAttribName ="BUS_ENTY_CD"/>
+                    <ResultIndex index="2" dataObjectAttribName ="BUS_GRP_CD"/>
+                    <ResultIndex index="3" dataObjectAttribName ="LOB_CD"/>
+<ResultIndex index="4" dataObjectAttribName ="BUS_ENTY_DESC"/>
+<ResultIndex index="5" dataObjectAttribName ="BUS_GRP_DESC"/>
+<ResultIndex index="6" dataObjectAttribName ="LOB_DESC"/>
+                </RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveDomainInfo"/>
+            </SQLTemplate>
+            <SQLTemplate transType="delete">
+                <SQLQuery>
+                    DELETE FROM MGRTD_CNTRCT_DOMN_INFO
+                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="contractSysId"/>
+                <Pair DOAttb="BUS_ENTY_CD"    toBOAttb="businessEntityId"/>
+                <Pair DOAttb="BUS_GRP_CD"    toBOAttb="businessGroupId"/>
+                <Pair DOAttb="LOB_CD"    toBOAttb="lobId"/>
+<Pair DOAttb="BUS_ENTY_DESC"    toBOAttb="businessEntityDesc"/>
+<Pair DOAttb="BUS_GRP_DESC"    toBOAttb="businessGroupDesc"/>
+<Pair DOAttb="LOB_DESC"    toBOAttb="lobDesc"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toSCAttb="contractSysId"/>
+                <Pair DOAttb="BUS_ENTY_CD"    toSCAttb="businessEntityId"/>
+                <Pair DOAttb="BUS_GRP_CD"    toSCAttb="businessGroupId"/>
+                <Pair DOAttb="LOB_CD"    toSCAttb="lobId"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+
+
+
+<!-- End igrationDomain Info -->
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationPricing">
+		<BusinessAttribute name="contractDateSegmentSysId"	type="Int"			keyAttrib="true"/>
+		<BusinessAttribute name="coverage" 					type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="pricing" 					type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="network" 					type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="coverageDesc" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="pricingDesc" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="networkDesc" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"			keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractDateSegmentSysId" 	type="Int"/>
+			<SearchCriteriaAttribute name="coverage" 					type="String"/>
+			<SearchCriteriaAttribute name="pricing" 					type="String"/>
+			<SearchCriteriaAttribute name="network" 					type="String"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="locateMigrationPricingInfo">
+				SELECT
+					d.mgrtd_dt_sgmnt_sys_id, d.cvrg_cd, d.prcg_cd, d.ntwk_cd, 
+				--	d.lst_chg_usr, d.lst_chg_tms, d.creatd_tm_stmp, d.creatd_user_id,
+					a.cd_desc_txt, b.cd_desc_txt, c.cd_desc_txt
+				FROM
+					mgrtd_cntrct_prcg_info d, item a, item b, item c
+				WHERE 
+					d.mgrtd_dt_sgmnt_sys_id= {0}
+					AND a.prmry_cd = d.cvrg_cd AND a.ctlg_id = 1695 
+					AND b.prmry_cd = d.prcg_cd AND b.ctlg_id = 1696 
+					AND c.prmry_cd = d.ntwk_cd AND c.ctlg_id = 1749
+				ORDER BY
+					d.prcg_cd 					
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getDuplicatePricingInfo">
+				SELECT
+					d.mgrtd_dt_sgmnt_sys_id, d.cvrg_cd, d.prcg_cd, d.ntwk_cd 
+				FROM
+					mgrtd_cntrct_prcg_info d
+				WHERE 
+					d.mgrtd_dt_sgmnt_sys_id= {0}
+					AND d.cvrg_cd = {1}
+					AND d.prcg_cd = {2}
+					AND d.ntwk_cd = {3}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="isDateSegmentContainPricing">
+				select mgrtd_dt_sgmnt_sys_id from mgrtd_cntrct_prcg_info where mgrtd_dt_sgmnt_sys_id = {0}
+			</SelectSQLQuery>
+			<DataObject name="MGRTD_CNTRCT_PRCG_INFO">
+			    <DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" type="Int"/>
+			    <DataObjectAttribute name="COVERAGE"    	type="String"/>
+			    <DataObjectAttribute name="PRICING"    		type="String"/>
+			    <DataObjectAttribute name="NETWORK"    		type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    	type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    	type="Date"/>
+			    <DataObjectAttribute name="CREATD_USR_ID"   type="String"/>	
+ 			    <DataObjectAttribute name="CREATD_TM_STMP"  type="Date"/>
+			    <DataObjectAttribute name="COVERAGE_DESC"   type="String"/>
+			    <DataObjectAttribute name="PRICING_DESC"    type="String"/>
+			    <DataObjectAttribute name="NETWORK_DESC"    type="String"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO 
+							mgrtd_cntrct_prcg_info 
+							(mgrtd_dt_sgmnt_sys_id, cvrg_cd, prcg_cd, ntwk_cd, lst_chg_usr, lst_chg_tms, creatd_user_id, creatd_tm_stmp)
+			            VALUES
+							(?, ?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="COVERAGE"/>
+			        <DataObjectAttributeInput index="2" name="PRICING"/>
+			        <DataObjectAttributeInput index="3" name="NETWORK"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="6" name="CREATD_USR_ID"/>
+			        <DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+			    </SQLTemplate>				
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="COVERAGE"/>
+			            <ResultIndex index="2" dataObjectAttribName ="PRICING"/>
+			            <ResultIndex index="3" dataObjectAttribName ="NETWORK"/>
+			            <ResultIndex index="4" dataObjectAttribName ="COVERAGE_DESC"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRICING_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="NETWORK_DESC"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateMigrationPricingInfo"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="COVERAGE"/>
+			        <DataObjectAttributeInput index="2" name="PRICING"/>
+			        <DataObjectAttributeInput index="3" name="NETWORK"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="COVERAGE"/>
+			            <ResultIndex index="2" dataObjectAttribName ="PRICING"/>
+			            <ResultIndex index="3" dataObjectAttribName ="NETWORK"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getDuplicatePricingInfo"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM 
+							mgrtd_cntrct_prcg_info
+			            WHERE 
+							mgrtd_dt_sgmnt_sys_id = ? and cvrg_cd = ? and prcg_cd = ? and ntwk_cd = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="COVERAGE"/>
+			        <DataObjectAttributeInput index="2" name="PRICING"/>
+			        <DataObjectAttributeInput index="3" name="NETWORK"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="MGRTD_DT_SGMNT_SYS_ID"/>
+	                </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="isDateSegmentContainPricing"/>
+            	</SQLTemplate>
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"  toBOAttb="contractDateSegmentSysId"/>
+			        <Pair DOAttb="COVERAGE"    		toBOAttb="coverage"/>
+			        <Pair DOAttb="PRICING"    		toBOAttb="pricing"/>
+			        <Pair DOAttb="NETWORK"    		toBOAttb="network"/>
+			        <Pair DOAttb="LST_CHG_USR"    	toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    	toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USR_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"   toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="COVERAGE_DESC"    toBOAttb="coverageDesc"/>
+			        <Pair DOAttb="PRICING_DESC"    	toBOAttb="pricingDesc"/>
+			        <Pair DOAttb="NETWORK_DESC"    	toBOAttb="networkDesc"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"  toSCAttb="contractDateSegmentSysId"/>
+			        <Pair DOAttb="COVERAGE"    		toSCAttb="coverage"/>
+			        <Pair DOAttb="PRICING"    		toSCAttb="pricing"/>
+			        <Pair DOAttb="NETWORK"    		toSCAttb="network"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>	
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.UpdateMigrationContractStatus">
+    	<BusinessAttribute name="migrationSystemId"  	type="Int" 		keyAttrib="true"/>
+    	<BusinessAttribute name="contractId"  			type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="doneFlag"  			type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="option"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="lastUpdatedUser"  		type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="lastUpdatedTimeStamp"  type="Date" 	keyAttrib="false"/>
+
+    	<DataSource name="prmd" domain="medical">
+        	<Connection preferred="jndi">
+            	<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            	<jndi>java:comp/env/wsbEwpdDS</jndi>
+        	</Connection>
+			<SelectSQLQuery/>
+        	<DataObject name="MGRTD_CNTRCT_MSTR">
+            	<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="String"/>
+            	<DataObjectAttribute name="MGRTD_CNTRCT_ID"    	type="String"/>
+            	<DataObjectAttribute name="MGRTN_CMPLTD_FLAG"   type="String"/>
+            	<DataObjectAttribute name="SLCTD_OPT_TYPE"   	type="String"/>
+            	<DataObjectAttribute name="LAST_CHNGD_USER"    	type="String"/>
+            	<DataObjectAttribute name="LAST_CHNGD_TMS"    	type="TimeStamp"/>
+            	<SQLTemplate transType="update">
+                	<SQLQuery>
+						UPDATE mgrtd_cntrct_mstr
+						   SET mgrtn_cmpltd_flag = ?,
+						   	   slctd_opt_type = ?,
+						       last_chngd_user = ?,
+						       last_chngd_tms = ?
+						 WHERE mgrtd_cntrct_sys_id = ?
+                 	</SQLQuery>
+                	<DataObjectAttributeInput index="0" name="MGRTN_CMPLTD_FLAG"/>
+                	<DataObjectAttributeInput index="1" name="SLCTD_OPT_TYPE"/>
+                	<DataObjectAttributeInput index="2" name="LAST_CHNGD_USER"/>
+                	<DataObjectAttributeInput index="3" name="LAST_CHNGD_TMS"/>
+					<DataObjectAttributeInput index="4" name="MGRTD_CNTRCT_SYS_ID"/>
+            	</SQLTemplate>
+            	
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="MGRTD_CNTRCT_SYS_ID"  toBOAttb="migrationSystemId"/>
+                	<Pair DOAttb="MGRTD_CNTRCT_ID"    	toBOAttb="contractId"/>
+                	<Pair DOAttb="MGRTN_CMPLTD_FLAG"    toBOAttb="doneFlag"/>
+                	<Pair DOAttb="SLCTD_OPT_TYPE"    	toBOAttb="option"/>
+                	<Pair DOAttb="LAST_CHNGD_USER"    	toBOAttb="lastUpdatedUser"/>
+                	<Pair DOAttb="LAST_CHNGD_TMS"    	toBOAttb="lastUpdatedTimeStamp"/>
+            	</DoAttributeToBOAttributeMap>
+        	</DataObject>
+    	</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrateNotesBO">
+    	<BusinessAttribute name="migratedDateSegmentId"  					type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="migratedProdStructureMappingSysID"  		type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="benefitComponentId"  			type="Int" 	keyAttrib="false"/>
+    	<BusinessAttribute name="majorheadingId"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="migrateNotesFlag"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="benefitId"  				type="Int" 	keyAttrib="true"/>
+    	<BusinessAttribute name="minorheadingId"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="identifer"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="contractSystemId"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="action"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="benefitComponentName"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="benefitName"  				type="String" 	keyAttrib="false"/>
+    	<BusinessAttribute name="benefitParentId"  				type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="seqNo"  				type="Int" 	keyAttrib="false"/>
+
+		
+		<SearchCriteria>
+        	<SearchCriteriaAttribute name="dateSegmentId"   type="String"/>
+        	<SearchCriteriaAttribute name="benefitComponentId"   type="String"/>
+        	<SearchCriteriaAttribute name="contractSystemId"   type="String"/>
+			<SearchCriteriaAttribute name="baseDateSegId"   type="Int"/>
+    	</SearchCriteria>
+    	<DataSource name="prmd" domain="medical">
+        	<Connection preferred="jndi">
+            	<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            	<jndi>java:comp/env/wsbEwpdDS</jndi>
+        	</Connection>
+			<SelectSQLQuery name="getBenefitList">
+				select distinct X.BNFT_ID_NM,Y.BNFT_SYS_ID,X.BNFT_PARNT_SYS_ID ,M.MINOR_HEADING_ID, M.MGRT_NOTE_FLAG,Y.SQNC_NBR 
+					    
+					      from BMST_BNFT_MSTR X, BNFT_CMPNT_HRCHY_ASSN Y, LGCY_MINOR_NOTE  M ,PROD_BNFT_CSTMZD P
+				                    where                       
+				                            X.BNFT_SYS_ID =Y.BNFT_SYS_ID 
+				                                 and Y.BNFT_CMPNT_SYS_ID = {0}  
+				                                 and X.BNFT_SYS_ID = M.BNFT_SYS_ID
+				                                 and P.BNFT_SYS_ID = X.BNFT_SYS_ID
+				                                 and P.PROD_SYS_ID = (select H.EWPD_PROD_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR H where H.MGRTD_DT_SGMNT_SYS_ID = {2} )
+				                                 and P.BNFT_CMPNT_SYS_ID = {0}
+												 and P.BNFT_HIDE_FLAG = 'F'
+				                                 and M.MGRTD_DT_SGMNT_SYS_ID= {2}
+			                                  UNION
+			                                  select distinct X.BNFT_ID_NM,Y.BNFT_SYS_ID,X.BNFT_PARNT_SYS_ID ,'' minor_heading,'' migrate_note_flag,Y.SQNC_NBR                        
+			                                       from BMST_BNFT_MSTR X, BNFT_CMPNT_HRCHY_ASSN Y ,PROD_BNFT_CSTMZD P
+			                                       where X.BNFT_SYS_ID =Y.BNFT_SYS_ID 
+			                                        and Y.BNFT_CMPNT_SYS_ID = {0}   
+			                                        and P.BNFT_SYS_ID = X.BNFT_SYS_ID
+			                                        and P.PROD_SYS_ID = (select H.EWPD_PROD_SYS_ID from MGRTD_CNTRCT_DT_SGMNT_MSTR H where H.MGRTD_DT_SGMNT_SYS_ID = {2} )
+			                                        and P.BNFT_CMPNT_SYS_ID = {0}
+													and P.BNFT_HIDE_FLAG = 'F'	
+			                                        and X.BNFT_SYS_ID NOT IN 
+	                                              (SELECT BNFT_SYS_ID FROM	LGCY_MINOR_NOTE WHERE BNFT_CMPNT_SYS_ID = {0} and MGRTD_DT_SGMNT_SYS_ID={2})		      	   
+			                     order by SQNC_NBR
+        	</SelectSQLQuery>
+			<SelectSQLQuery name="getBenefitListWithBaseDateSeg">
+				select distinct X.BNFT_ID_NM,Y.BNFT_SYS_ID,X.BNFT_PARNT_SYS_ID ,M.MINOR_HEADING_ID, M.MGRT_NOTE_FLAG,Y.SQNC_NBR 
+					    
+					      from BMST_BNFT_MSTR X, BNFT_CMPNT_HRCHY_ASSN Y, LGCY_MINOR_NOTE  M ,CNTRCT_BNFT_ASSN P
+				                    where                       
+				                            X.BNFT_SYS_ID =Y.BNFT_SYS_ID 
+				                                 and Y.BNFT_CMPNT_SYS_ID = P.BNFT_CMPNT_SYS_ID  
+				                                 and X.BNFT_SYS_ID = M.BNFT_SYS_ID
+				                                 and P.BNFT_SYS_ID = X.BNFT_SYS_ID
+				                                 and P.dt_sgmnt_sys_id = {1}
+				                                 and P.BNFT_CMPNT_SYS_ID = {0}
+												 and P.BNFT_HIDE_FLAG = 'F'
+				                                 and M.MGRTD_DT_SGMNT_SYS_ID= {2}
+			                                  UNION
+			                                  select distinct X.BNFT_ID_NM,Y.BNFT_SYS_ID,X.BNFT_PARNT_SYS_ID ,'' minor_heading,'' migrate_note_flag,Y.SQNC_NBR                        
+			                                       from BMST_BNFT_MSTR X, BNFT_CMPNT_HRCHY_ASSN Y ,CNTRCT_BNFT_ASSN P
+			                                       where X.BNFT_SYS_ID =Y.BNFT_SYS_ID 
+			                                        and Y.BNFT_CMPNT_SYS_ID = P.BNFT_CMPNT_SYS_ID   
+			                                        and P.BNFT_SYS_ID = X.BNFT_SYS_ID
+			                                        and P.dt_sgmnt_sys_id = {1}
+			                                        and P.BNFT_CMPNT_SYS_ID = {0}
+													and P.BNFT_HIDE_FLAG = 'F'	
+			                                        and X.BNFT_SYS_ID NOT IN 
+	                                              (SELECT BNFT_SYS_ID FROM	LGCY_MINOR_NOTE WHERE BNFT_CMPNT_SYS_ID = {0} and MGRTD_DT_SGMNT_SYS_ID={2})		      	   
+			                     order by SQNC_NBR
+        	</SelectSQLQuery>
+			
+
+        	<DataObject name="LEGACY_MINOR_NOTE">
+            	<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" 	type="Int"/>
+            	<DataObjectAttribute name="BNFT_SYS_ID"    	type="Int"/>
+            	<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   type="Int"/>
+            	<DataObjectAttribute name="MINOR_HEADING_ID"   	type="String"/>
+            	<DataObjectAttribute name="MGRT_NOTE_FLAG"    	type="String"/>
+            	
+            	<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="3" dataObjectAttribName ="MINOR_HEADING_ID"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MGRT_NOTE_FLAG"/>	
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitList"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="MGRTD_DT_SGMNT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="3" dataObjectAttribName ="MINOR_HEADING_ID"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MGRT_NOTE_FLAG"/>	
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitListWithBaseDateSeg"/>
+			    </SQLTemplate>
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"  			toBOAttb="migratedDateSegmentId"/>
+                	<Pair DOAttb="BNFT_SYS_ID"    					toBOAttb="benefitId"/>
+                	<Pair DOAttb="BNFT_CMPNT_SYS_ID"    			toBOAttb="benefitComponentId"/>
+                	<Pair DOAttb="MINOR_HEADING_ID"    				toBOAttb="minorheadingId"/>
+                	<Pair DOAttb="MGRT_NOTE_FLAG"    			toBOAttb="migrateNotesFlag"/>
+            	</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"  		toSCAttb="dateSegmentId"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toSCAttb="benefitComponentId"/>
+			    </DoAttributeToSCAttributeMap>
+        	</DataObject>
+        	
+        	<DataObject name="MGRTD_CNTRCT_MSTR">
+            	<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"   type="Int"/>
+				<DataObjectAttribute name="dt_sgmnt_sys_id"   type="Int"/>
+
+            	<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="1" name="MGRTD_CNTRCT_SYS_ID"/>
+			        <SearchQueryName name="getBenefitList"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="1" name="dt_sgmnt_sys_id"/>
+			        <SearchQueryName name="getBenefitListWithBaseDateSeg"/>
+			    </SQLTemplate>
+            	
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    	toBOAttb="contractSystemId"/>
+            	</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"  		toSCAttb="contractSystemId"/>
+					<Pair DOAttb="dt_sgmnt_sys_id"  		toSCAttb="baseDateSegId"/>
+			    </DoAttributeToSCAttributeMap>
+        	</DataObject>
+        	<DataObject name="BMST_BNFT_MSTR">
+            	<DataObjectAttribute name="BNFT_PARNT_SYS_ID"   type="Int"/>
+            	<DataObjectAttribute name="BNFT_ID_NM"   type="String"/>
+
+            	<SQLTemplate transType="select">
+			       <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>	
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitList"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			       <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>	
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitListWithBaseDateSeg"/>
+			    </SQLTemplate>
+            	
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="BNFT_ID_NM"    	toBOAttb="benefitName"/>
+                	<Pair DOAttb="BNFT_PARNT_SYS_ID"    	toBOAttb="benefitParentId"/>
+            	</DoAttributeToBOAttributeMap>
+        	</DataObject>
+        	<DataObject name="BNFT_CMPNT_HRCHY_ASSN">
+            	<DataObjectAttribute name="BNFT_SYS_ID"   type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR"   type="Int"/>
+            	<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitList"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getBenefitListWithBaseDateSeg"/>
+			    </SQLTemplate>
+            	
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="BNFT_SYS_ID"    	toBOAttb="benefitId"/>
+					<Pair DOAttb="SQNC_NBR"    	toBOAttb="seqNo"/>
+            	</DoAttributeToBOAttributeMap>
+        	</DataObject>
+
+    	</DataSource>
+
+	</BusinessObjectMetadata>
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationContract">
+    	<BusinessAttribute name="migrationSystemId"  type="String" keyAttrib="true"/>
+    	<BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="system"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="option"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="doneFlag"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="ewpdProductSystemId"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="productFamily"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="structreProductMappingId"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="contractType"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="createdUser"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="createdTimeStamp"  type="Date" keyAttrib="false"/>
+    	<BusinessAttribute name="lastUpdatedUser"  type="String" keyAttrib="false"/>
+    	<BusinessAttribute name="lastUpdatedTimeStamp"  type="Date" keyAttrib="false"/>
+    	<BusinessAttribute name="migratedProdStructureMappingSysID"  type="String" keyAttrib="false"/>
+		<BusinessAttribute name="headQuartersState"  type="String" keyAttrib="false"/>
+		<BusinessAttribute name="baseDateSegmentId"  type="String" keyAttrib="false"/>
+		<BusinessAttribute name="lastAccessMigDateSegmentSysID"	type="Int"	keyAttrib="false"/>
+		<BusinessAttribute name="mgrtdDatesegmentId"	type="Int"	keyAttrib="false"/>
+        
+
+    	<SearchCriteria>
+        	<SearchCriteriaAttribute name="contractId"   type="String"/>
+    	</SearchCriteria>
+    	<DataSource name="prmd" domain="medical">
+        	<Connection preferred="jndi">
+            	<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            	<jndi>java:comp/env/wsbEwpdDS</jndi>
+        	</Connection>
+        	<SelectSQLQuery>
+            	SELECT A.MGRTD_CNTRCT_SYS_ID, A.MGRTD_CNTRCT_ID, A.LGCY_SRC_SYS_NM, A.SLCTD_OPT_TYPE, A.MGRTN_CMPLTD_FLAG, A.PROD_FMLY_CD, 
+					A.LGCY_STRCTR_NM, A.CNTRCT_TYPE, A.LAST_CHNGD_USER, A.LAST_CHNGD_TMS, A.CREATD_USER_ID, A.CREATD_TM_STMP, A.HDQTR_ST_CD, 
+					A.LAST_ACSD_DT_SGMNT_SYS_ID, B.CNTRCT_BSDT_SGMNT_SYS_ID, B.EWPD_PROD_SYS_ID, B. MGRTD_PSTRCTR_MAPG_SYS_ID
+            	FROM MGRTD_CNTRCT_MSTR A, MGRTD_CNTRCT_DT_SGMNT_MSTR B
+            	WHERE A.MGRTD_CNTRCT_SYS_ID = ?
+					AND  B.MGRTD_DT_SGMNT_SYS_ID(+) = A.LAST_ACSD_DT_SGMNT_SYS_ID
+        	</SelectSQLQuery>
+			<SelectSQLQuery name="getMigrationContract">
+            	SELECT A.MGRTD_CNTRCT_SYS_ID, A.MGRTD_CNTRCT_ID, A.LGCY_SRC_SYS_NM, A.SLCTD_OPT_TYPE, A.MGRTN_CMPLTD_FLAG, A.PROD_FMLY_CD, 
+					A.LGCY_STRCTR_NM, A.CNTRCT_TYPE, A.LAST_CHNGD_USER, A.LAST_CHNGD_TMS, A.CREATD_USER_ID, A.CREATD_TM_STMP, A.HDQTR_ST_CD, 
+					A.LAST_ACSD_DT_SGMNT_SYS_ID, B.CNTRCT_BSDT_SGMNT_SYS_ID, B.EWPD_PROD_SYS_ID, B. MGRTD_PSTRCTR_MAPG_SYS_ID
+            	FROM MGRTD_CNTRCT_MSTR A, MGRTD_CNTRCT_DT_SGMNT_MSTR B
+            	WHERE A.MGRTD_CNTRCT_ID = {0}
+					AND  B.MGRTD_DT_SGMNT_SYS_ID(+) = A.LAST_ACSD_DT_SGMNT_SYS_ID
+        	</SelectSQLQuery>
+			<SelectSQLQuery name="migrationContractSysID">
+				SELECT A.mgrtd_cntrct_sys_id, A.mgrtd_cntrct_id, A.lgcy_src_sys_nm, A.slctd_opt_type,
+				       A.mgrtn_cmpltd_flag, A.prod_fmly_cd, A.lgcy_strctr_nm, A.cntrct_type, A.hdqtr_st_cd,
+				       A.last_acsd_dt_sgmnt_sys_id, B.CNTRCT_BSDT_SGMNT_SYS_ID, B.EWPD_PROD_SYS_ID, B. MGRTD_PSTRCTR_MAPG_SYS_ID
+				  FROM mgrtd_cntrct_mstr A, MGRTD_CNTRCT_DT_SGMNT_MSTR B
+				 WHERE A.mgrtd_cntrct_id = {0}
+					AND  B.MGRTD_DT_SGMNT_SYS_ID(+) = A.LAST_ACSD_DT_SGMNT_SYS_ID
+        	</SelectSQLQuery>
+           
+			<DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+            	<DataObjectAttribute name="CNTRCT_BSDT_SGMNT_SYS_ID"     type="String"/>
+            	<DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID"    type="String"/>
+				<DataObjectAttribute name="EWPD_PROD_SYS_ID"    		 type="String"/>
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"    	 type="Int"/>
+
+            	<SQLTemplate transType="update">
+                	<SQLQuery>
+                    	UPDATE MGRTD_CNTRCT_DT_SGMNT_MSTR SET EWPD_PROD_SYS_ID = ?, MGRTD_PSTRCTR_MAPG_SYS_ID = ?,  
+							CNTRCT_BSDT_SGMNT_SYS_ID = ? WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+                	</SQLQuery>
+                	<DataObjectAttributeInput index="0" name="EWPD_PROD_SYS_ID"/>
+                	<DataObjectAttributeInput index="1" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="MGRTD_DT_SGMNT_SYS_ID"/>
+            	</SQLTemplate>
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    	toBOAttb="mgrtdDatesegmentId"/>
+                	<Pair DOAttb="EWPD_PROD_SYS_ID"       		toBOAttb="ewpdProductSystemId"/>
+                	<Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID"    toBOAttb="migratedProdStructureMappingSysID"/>
+                	<Pair DOAttb="CNTRCT_BSDT_SGMNT_SYS_ID"    	toBOAttb="baseDateSegmentId"/>
+            	</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+        	<DataObject name="MGRTD_CNTRCT_MSTR">
+            	<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID"    type="String"/>
+            	<DataObjectAttribute name="MGRTD_CNTRCT_ID"    type="String"/>
+            	<DataObjectAttribute name="LGCY_SRC_SYS_NM"    type="String"/>
+            	<DataObjectAttribute name="SLCTD_OPT_TYPE"    type="String"/>
+            	<DataObjectAttribute name="MGRTN_CMPLTD_FLAG"    type="String"/>
+            	<DataObjectAttribute name="EWPD_PROD_SYS_ID"    type="String"/>
+            	<DataObjectAttribute name="PROD_FMLY_CD"    type="String"/>
+            	<DataObjectAttribute name="LGCY_STRCTR_NM"    type="String"/>
+            	<DataObjectAttribute name="CNTRCT_TYPE"    type="String"/>
+            	<DataObjectAttribute name="LAST_CHNGD_USER"    type="String"/>
+            	<DataObjectAttribute name="LAST_CHNGD_TMS"    type="TimeStamp"/>
+            	<DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+            	<DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+            	<DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID"    type="String"/>
+            	<DataObjectAttribute name="HDQTR_ST_CD"    type="String"/>
+            	<DataObjectAttribute name="CNTRCT_BSDT_SGMNT_SYS_ID"    type="String"/>
+            	<DataObjectAttribute name="LAST_ACSD_DT_SGMNT_SYS_ID"    type="Int"/>
+            	<SQLTemplate transType="insert">
+                	<SQLQuery>
+                    	INSERT INTO MGRTD_CNTRCT_MSTR ( MGRTD_CNTRCT_SYS_ID, MGRTD_CNTRCT_ID, LGCY_SRC_SYS_NM, SLCTD_OPT_TYPE, MGRTN_CMPLTD_FLAG, PROD_FMLY_CD, LGCY_STRCTR_NM, CNTRCT_TYPE, LAST_CHNGD_USER, LAST_CHNGD_TMS, CREATD_USER_ID, CREATD_TM_STMP, HDQTR_ST_CD)
+                    	VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                	</SQLQuery>
+                	<DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                	<DataObjectAttributeInput index="1" name="MGRTD_CNTRCT_ID"/>
+                	<DataObjectAttributeInput index="2" name="LGCY_SRC_SYS_NM"/>
+                	<DataObjectAttributeInput index="3" name="SLCTD_OPT_TYPE"/>
+                	<DataObjectAttributeInput index="4" name="MGRTN_CMPLTD_FLAG"/>
+                	<DataObjectAttributeInput index="5" name="PROD_FMLY_CD"/>
+                	<DataObjectAttributeInput index="6" name="LGCY_STRCTR_NM"/>
+                	<DataObjectAttributeInput index="7" name="CNTRCT_TYPE"/>
+                	<DataObjectAttributeInput index="8" name="LAST_CHNGD_USER"/>
+                	<DataObjectAttributeInput index="9" name="LAST_CHNGD_TMS"/>
+                	<DataObjectAttributeInput index="10" name="CREATD_USER_ID"/>
+                	<DataObjectAttributeInput index="11" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="12" name="HDQTR_ST_CD"/>
+            	</SQLTemplate>
+            	<SQLTemplate transType="update">
+                	<SQLQuery>
+                    	UPDATE MGRTD_CNTRCT_MSTR
+                     	SET MGRTD_CNTRCT_ID = ?, LGCY_SRC_SYS_NM = ?, 
+						PROD_FMLY_CD = ?, LGCY_STRCTR_NM = ?, CNTRCT_TYPE = ?, LAST_CHNGD_USER = ?, LAST_CHNGD_TMS = ?, 
+						CREATD_USER_ID = ?, CREATD_TM_STMP = ?, HDQTR_ST_CD = ?
+                    	WHERE MGRTD_CNTRCT_SYS_ID = ?
+                	</SQLQuery>
+                	<DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+                	<DataObjectAttributeInput index="1" name="LGCY_SRC_SYS_NM"/>
+	                <DataObjectAttributeInput index="2" name="PROD_FMLY_CD"/>
+	                <DataObjectAttributeInput index="3" name="LGCY_STRCTR_NM"/>
+                	<DataObjectAttributeInput index="4" name="CNTRCT_TYPE"/>
+                	<DataObjectAttributeInput index="5" name="LAST_CHNGD_USER"/>
+                	<DataObjectAttributeInput index="6" name="LAST_CHNGD_TMS"/>
+	                <DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+	                <DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="9" name="HDQTR_ST_CD"/> 
+					<DataObjectAttributeInput index="10" name="MGRTD_CNTRCT_SYS_ID"/>
+            	</SQLTemplate>
+            	<SQLTemplate transType="select">
+                	<DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+                	<RSIndexToDOAttributeMap>
+                    	<ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+                    	<ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>
+                    	<ResultIndex index="2" dataObjectAttribName ="LGCY_SRC_SYS_NM"/>
+                    	<ResultIndex index="3" dataObjectAttribName ="SLCTD_OPT_TYPE"/>
+                    	<ResultIndex index="4" dataObjectAttribName ="MGRTN_CMPLTD_FLAG"/>
+                    	<ResultIndex index="5" dataObjectAttribName ="PROD_FMLY_CD"/>
+                    	<ResultIndex index="6" dataObjectAttribName ="LGCY_STRCTR_NM"/>
+                    	<ResultIndex index="7" dataObjectAttribName ="CNTRCT_TYPE"/>
+                    	<ResultIndex index="8" dataObjectAttribName ="LAST_CHNGD_USER"/>
+                    	<ResultIndex index="9" dataObjectAttribName ="LAST_CHNGD_TMS"/>
+                    	<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+                    	<ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+						<ResultIndex index="12" dataObjectAttribName ="HDQTR_ST_CD"/>
+						<ResultIndex index="13" dataObjectAttribName ="LAST_ACSD_DT_SGMNT_SYS_ID"/>
+						<ResultIndex index="14" dataObjectAttribName ="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+						<ResultIndex index="15" dataObjectAttribName ="EWPD_PROD_SYS_ID"/>
+						<ResultIndex index="16" dataObjectAttribName ="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+                	</RSIndexToDOAttributeMap>
+            	</SQLTemplate>
+            	<SQLTemplate transType="delete">
+                	<SQLQuery>
+                    	DELETE FROM MGRTD_CNTRCT_MSTR
+                    	WHERE MGRTD_CNTRCT_SYS_ID = ?
+                	</SQLQuery>
+                	<DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+            	</SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>	
+						<ResultIndex index="2" dataObjectAttribName ="LGCY_SRC_SYS_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="SLCTD_OPT_TYPE"/>		
+						<ResultIndex index="4" dataObjectAttribName ="MGRTN_CMPLTD_FLAG"/>
+						<ResultIndex index="5" dataObjectAttribName ="PROD_FMLY_CD"/>
+						<ResultIndex index="6" dataObjectAttribName ="LGCY_STRCTR_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="CNTRCT_TYPE"/>
+						<ResultIndex index="8" dataObjectAttribName ="LAST_CHNGD_USER"/>
+						<ResultIndex index="9" dataObjectAttribName ="LAST_CHNGD_TMS"/>
+						<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+                	 	<ResultIndex index="12" dataObjectAttribName ="HDQTR_ST_CD"/>
+						<ResultIndex index="13" dataObjectAttribName ="LAST_ACSD_DT_SGMNT_SYS_ID"/>
+						<ResultIndex index="14" dataObjectAttribName ="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+						<ResultIndex index="15" dataObjectAttribName ="EWPD_PROD_SYS_ID"/>
+						<ResultIndex index="16" dataObjectAttribName ="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getMigrationContract"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MGRTD_CNTRCT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MGRTD_CNTRCT_ID"/>	
+						<ResultIndex index="2" dataObjectAttribName ="LGCY_SRC_SYS_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="SLCTD_OPT_TYPE"/>		
+						<ResultIndex index="4" dataObjectAttribName ="MGRTN_CMPLTD_FLAG"/>
+						<ResultIndex index="5" dataObjectAttribName ="PROD_FMLY_CD"/>
+						<ResultIndex index="6" dataObjectAttribName ="LGCY_STRCTR_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="CNTRCT_TYPE"/>
+                	 	<ResultIndex index="8" dataObjectAttribName ="HDQTR_ST_CD"/>
+						<ResultIndex index="9" dataObjectAttribName ="LAST_ACSD_DT_SGMNT_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="CNTRCT_BSDT_SGMNT_SYS_ID"/>
+						<ResultIndex index="11" dataObjectAttribName ="EWPD_PROD_SYS_ID"/>
+						<ResultIndex index="12" dataObjectAttribName ="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="migrationContractSysID"/>
+			    </SQLTemplate>
+            	<DoAttributeToBOAttributeMap>
+                	<Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    		toBOAttb="migrationSystemId"/>
+                	<Pair DOAttb="MGRTD_CNTRCT_ID"    	  		toBOAttb="contractId"/>
+                	<Pair DOAttb="LGCY_SRC_SYS_NM"        		toBOAttb="system"/>
+                	<Pair DOAttb="SLCTD_OPT_TYPE"         		toBOAttb="option"/>
+                	<Pair DOAttb="MGRTN_CMPLTD_FLAG"      		toBOAttb="doneFlag"/>
+                	<Pair DOAttb="EWPD_PROD_SYS_ID"       		toBOAttb="ewpdProductSystemId"/>
+                	<Pair DOAttb="PROD_FMLY_CD"           		toBOAttb="productFamily"/>
+                	<Pair DOAttb="LGCY_STRCTR_NM"         		toBOAttb="structreProductMappingId"/>
+                	<Pair DOAttb="CNTRCT_TYPE"            		toBOAttb="contractType"/>
+                	<Pair DOAttb="LAST_CHNGD_USER"        		toBOAttb="createdUser"/>
+                	<Pair DOAttb="LAST_CHNGD_TMS"    	  		toBOAttb="createdTimeStamp"/>
+                	<Pair DOAttb="CREATD_USER_ID"    			toBOAttb="lastUpdatedUser"/>
+                	<Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="lastUpdatedTimeStamp"/>
+                	<Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID"    toBOAttb="migratedProdStructureMappingSysID"/>
+                	<Pair DOAttb="HDQTR_ST_CD"    				toBOAttb="headQuartersState"/>
+                	<Pair DOAttb="CNTRCT_BSDT_SGMNT_SYS_ID"    	toBOAttb="baseDateSegmentId"/>
+                	<Pair DOAttb="LAST_ACSD_DT_SGMNT_SYS_ID"    toBOAttb="lastAccessMigDateSegmentSysID"/>
+            	</DoAttributeToBOAttributeMap>
+            	<DoAttributeToSCAttributeMap>
+                	<Pair DOAttb="MGRTD_CNTRCT_ID"    toSCAttb="contractId"/>
+            	</DoAttributeToSCAttributeMap>
+        	</DataObject>
+    	</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationProductStructureMappingUpdate">
+		<BusinessAttribute name="migratedProdStructureMappingSysID" type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="prodStructureLockStatus" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 				type="Date"		keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="migratedProdStructureMappingSysID" 	type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="prodStructureLockStatus">
+				SELECT mgrtd_pstrctr_mapg_sys_id, last_chngd_user
+				  FROM mgrtd_pstrctr_mapg_mstr
+				 WHERE mgrtd_pstrctr_mapg_sys_id = {0}
+				   AND (lock_stts_flag = 'Y' OR lock_stts_flag = 'y' OR lock_stts_flag = '1')
+			</SelectSQLQuery>
+			<DataObject name="CheckForProdStructureLockStatus">
+			    <DataObjectAttribute name="MGRTD_PSTRCTR_MAPG_SYS_ID" type="Int"/>			    	
+				<DataObjectAttribute name="LAST_CHNGD_USER"  		  type="String"/>	
+ 			    <DataObjectAttribute name="LAST_CHNGD_TMS"  		  type="TimeStamp"/>
+			    <DataObjectAttribute name="LOCK_STTS_FLAG"    		  type="String"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName = "MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName = "LAST_CHNGD_USER"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="prodStructureLockStatus"/>
+			    </SQLTemplate>			    
+				<SQLTemplate transType="update">
+			        <SQLQuery>
+						UPDATE mgrtd_pstrctr_mapg_mstr
+						   SET lock_stts_flag = ?, last_chngd_user = ?, last_chngd_tms = ? 
+						 WHERE mgrtd_pstrctr_mapg_sys_id = ?
+ 			        </SQLQuery>					
+			        <DataObjectAttributeInput index="0" name="LOCK_STTS_FLAG"/>
+			        <DataObjectAttributeInput index="1" name="LAST_CHNGD_USER"/>
+			        <DataObjectAttributeInput index="2" name="LAST_CHNGD_TMS"/>
+			        <DataObjectAttributeInput index="3" name="MGRTD_PSTRCTR_MAPG_SYS_ID"/>
+			    </SQLTemplate> 
+				<DoAttributeToBOAttributeMap>			        
+			        <Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID"   	toBOAttb="migratedProdStructureMappingSysID"/>
+					<Pair DOAttb="LOCK_STTS_FLAG"   			toBOAttb="prodStructureLockStatus"/>
+					<Pair DOAttb="LAST_CHNGD_USER"   			toBOAttb="lastUpdatedUser"/>
+					<Pair DOAttb="LAST_CHNGD_TMS" 				toBOAttb="lastUpdatedTimestamp"/>
+			    </DoAttributeToBOAttributeMap>	
+				<DoAttributeToSCAttributeMap>					
+					<Pair DOAttb="MGRTD_PSTRCTR_MAPG_SYS_ID" 	toSCAttb="migratedProdStructureMappingSysID" />
+				</DoAttributeToSCAttributeMap>     		
+
+			</DataObject>			
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.DetachProduct">
+	<BusinessAttribute name="migDateSegmentSysId" 	type="Int" 			keyAttrib="true"/>
+	<BusinessAttribute name="migContractSysId" 		type="Int" 			keyAttrib="false"/>
+	<BusinessAttribute name="lastChangedUser" 		type="String" 		keyAttrib="false"/>
+	<BusinessAttribute name="lastUpdatedTime" 		type="TimeStamp" 	keyAttrib="false"/>
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_RULE_ASSN
+			</SelectSQLQuery>
+			<DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="LAST_CHNGD_USER" 			type="String"/>
+				<DataObjectAttribute name="LAST_CHNGD_TMS" 				type="TimeStamp"/>
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" 		type="Int"/>
+				<SQLTemplate transType="update">
+                	<SQLQuery>
+						UPDATE MGRTD_CNTRCT_DT_SGMNT_MSTR SET MGRTD_PSTRCTR_MAPG_SYS_ID = null,
+							CNTRCT_BSDT_SGMNT_SYS_ID = null ,EWPD_PROD_SYS_ID = null, LAST_CHNGD_USER = ?, 
+							LAST_CHNGD_TMS = ?
+						 WHERE MGRTD_DT_SGMNT_SYS_ID = ? 
+                 	</SQLQuery>
+                	
+					<DataObjectAttributeInput index="0" name="LAST_CHNGD_USER"/>
+                	<DataObjectAttributeInput index="1" name="LAST_CHNGD_TMS"/>
+                	<DataObjectAttributeInput index="2" name="MGRTD_DT_SGMNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    	toBOAttb="migContractSysId"/>
+					<Pair DOAttb="LAST_CHNGD_USER"    		toBOAttb="lastChangedUser"/>
+					<Pair DOAttb="LAST_CHNGD_TMS"    		toBOAttb="lastUpdatedTime"/>
+					<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+			
+			<DataObject name="MGRTD_CNTRCT_DOMN_INFO">
+			    <DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_DOMN_INFO
+	                    WHERE MGRTD_CNTRCT_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_CNTRCT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					      <Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    toBOAttb="migContractSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="MGRTD_CNTRCT_RULE_ASSN">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_RULE_ASSN
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="TEMP_CNTRCT_MAPG">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM TEMP_CNTRCT_MAPG
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MJR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	               <SQLQuery>
+	                    DELETE FROM LGCY_MJR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MINOR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_MINOR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_VAR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_VAR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+	</DataSource>
+
+</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.RemoveProduct">
+	<BusinessAttribute name="migDateSegmentSysId" 	type="Int" 			keyAttrib="true"/>
+	<BusinessAttribute name="migContractSysId" 		type="Int" 			keyAttrib="false"/>
+	<BusinessAttribute name="stepNumberCompleted" 	type="Int" 			keyAttrib="false"/>
+	<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select MGRTD_DT_SGMNT_SYS_ID from MGRTD_CNTRCT_RULE_ASSN
+			</SelectSQLQuery>
+			<DataObject name="MGRTD_CNTRCT_DT_SGMNT_MSTR">
+				<DataObjectAttribute name="MGRTD_CNTRCT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="STEP_NBR_CMPLTD" 			type="Int"/>
+
+				<SQLTemplate transType="update">
+                	<SQLQuery>
+						UPDATE MGRTD_CNTRCT_DT_SGMNT_MSTR SET MGRTD_PSTRCTR_MAPG_SYS_ID = null,
+							EWPD_PROD_SYS_ID = null, STEP_NBR_CMPLTD = ?
+						 WHERE MGRTD_DT_SGMNT_SYS_ID = ? 
+                 	</SQLQuery>
+                	<DataObjectAttributeInput index="0" 	name="STEP_NBR_CMPLTD"/>
+                	<DataObjectAttributeInput index="1" 	name="MGRTD_DT_SGMNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="MGRTD_CNTRCT_SYS_ID"    	toBOAttb="migContractSysId"/>
+					<Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+					<Pair DOAttb="STEP_NBR_CMPLTD"    		toBOAttb="stepNumberCompleted"/>
+			 </DoAttributeToBOAttributeMap>				
+			</DataObject>
+			<DataObject name="MGRTD_DT_SGMNT_VRBL_INFO">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_DT_SGMNT_VRBL_INFO
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="MGRTD_CNTRCT_RULE_ASSN">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM MGRTD_CNTRCT_RULE_ASSN
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	            <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="TEMP_CNTRCT_MAPG">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM TEMP_CNTRCT_MAPG
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MJR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	               <SQLQuery>
+	                    DELETE FROM LGCY_MJR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_MINOR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_MINOR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="LGCY_VAR_NOTE">
+				<DataObjectAttribute name="MGRTD_DT_SGMNT_SYS_ID"   type="Int"/>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM LGCY_VAR_NOTE
+	                    WHERE MGRTD_DT_SGMNT_SYS_ID = ?
+				    </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="MGRTD_DT_SGMNT_SYS_ID"/>
+	            </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+				      <Pair DOAttb="MGRTD_DT_SGMNT_SYS_ID"    toBOAttb="migDateSegmentSysId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+	</DataSource>
+
+</BusinessObjectMetadata>
+
+</Metadata>

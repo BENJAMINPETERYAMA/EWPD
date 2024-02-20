@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\subcatalog\request
+2
+7
+1e:RetrieveSubCatalogRequest.java|1|16adf98045c|865|3f7c9043|4240c132f57243e79c45cb94b6b7eebb|0
+16:ItemLookUpRequest.java|1|16adf98045c|395|f50e30d3|723809581e504d0487bf57065ddc9da7|0
+1c:SubCatalogDeleteRequest.java|1|16adf98045c|592|c140dd59|4240dd9daf4a4fc0936d966e2c2e797f|0
+21:ItemAssociationDeleteRequest.java|1|16adf980343|3c9|35bb3687|bdfc049044ce4a6cbb4d1b7e9afdb14d|0
+1a:SubCatalogSaveRequest.java|1|16adf98041d|3ef|ba6938a9|e4d76d08b1ac448eaacfccedb670825a|0
+1f:SaveItemAssociationRequest.java|1|16adf98045c|395|407f2204|c8ea6a4eed5d479993fb47ed9b098dd4|0
+1c:SubCatalogSearchRequest.java|1|16adf9803ee|49b|9a8180a7|d51fc7c82bee404389aff0569d508b41|0

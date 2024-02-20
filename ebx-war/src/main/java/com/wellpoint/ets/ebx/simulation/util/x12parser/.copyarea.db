@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\util\x12parser
+2
+4
+e:X12Parser.java|1|16b935e62ae|1719|2b6964ca|d5c2972ca0974f9cb30ae7ff45cd4e15|0
+9:exception|2|0|0|0|16c544f721f04848a22a6e523869e18e|0
+4:util|2|0|0|0|354fb55bb6464cb2ab49fc51b2f345a9|0
+2:vo|2|0|0|0|233efc9d6e984093b8e53aedbaa26ec0|0

@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\migration\response
+2
+f
+23:RetrieveBenefitDetailsResponse.java|1|16adf9758f0|4c4|2a6e8993|cf54d0d77b9c4f89835e935a6d2acef0|0
+23:SaveMigVariableMappingResponse.java|1|16adf976169|2e8|17f6ea82|4a35c48da335411b954a69a77bebc4e9|0
+25:ConfirmMigrationContractResponse.java|1|16adf97574b|42a|8b27677e|2408e1f8e7d54444b6b9a8605202876f|0
+21:MigrationPricingInfoResponse.java|1|16adf97599c|62c|636bfdaf|03d4bc5f0ce84f71859039ff8a97dbae|0
+21:MigrationProductInfoResponse.java|1|16adf976169|1d91|cfe49f8b|2fbedc1b91b94638987c2c96494b175f|0
+27:RetrieveMigVariableMappingResponse.java|1|16adf9760bd|4a2|789e7fb3|efc86b281ba443cdad38195b242f464c|0
+1f:SaveMigrationNotesResponse.java|1|16adf9761b7|2e3|eae6e903|cfaf8129e0c144fab7063729a6ed7d41|0
+1f:SaveMigGeneralInfoResponse.java|1|16adf976188|733|9c933b9f|cd4014e2a92c46248d4bfbea674acb31|0
+23:SaveLastAccessPageInfoResponse.java|1|16adf9765fb|23e|8e74bfe3|fa95f4bd2aa4447a9f047d7a20c5d2c2|0
+1f:SaveLegacyContractResponse.java|1|16adf976639|437|7c9e4b02|be141d97a94849278ca15399630b758c|0
+1c:CancelMigrationResponse.java|1|16adf9756ed|37b|9dff175c|5859d02daa9f40cab1ae945aa5a90e3e|0
+23:RetrieveMigGeneralInfoResponse.java|1|16adf975a76|66c|1af20f28|bc5211e0851e419ebb4099693d5420d6|0
+1e:MigrationContractResponse.java|1|16adf975a09|946|6d5ccb33|dd4005c434544d00bc19d91884ebf85d|0
+23:MigrationContractRulesResponse.java|1|16adf975a09|3d3|ca963503|b3287dc4c4a347c49028bdc43c5c4456|0
+24:MigrationGenerateReportResponse.java|1|16adf975a09|569|a318c9d4|faea52f50b644b1c89a653aa0374cff2|0

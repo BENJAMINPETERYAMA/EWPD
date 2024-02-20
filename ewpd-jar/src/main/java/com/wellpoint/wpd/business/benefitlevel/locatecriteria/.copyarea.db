@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\benefitlevel\locatecriteria
+2
+7
+1e:BenefitLineLocateCriteria.java|1|16adf95aa3a|33b|fba0632|58a6746b7cf24a85971e1cda1bfc052e|0
+23:BenefitLevelTermLocateCriteria.java|1|16adf95b15b|37d|9783219d|0e7dc1d806964ea48e88febdf24d3c1b|0
+1a:BenefitLocateCriteria.java|1|16adf95aa2a|4ea|b8619993|e11a0058b55a49c08a94861ed4d9aed0|0
+28:BenfitLevelLineDeleteLocateCriteria.java|1|16adf95aa88|5bc|fa4ed31b|16bb717ccc3e49c79262ac7a32283d64|0
+1f:BenefitPopUpLocateCriteria.java|1|16adf95aa3a|45a|1a2b5f25|9aa69a51b6e14630a0b19c93ed4bd949|0
+1f:BenefitLevelLocateCriteria.java|1|16adf95a9cd|89d|6937ad3e|445ce73140824fefaf06cbbdebacb511|0
+1b:DataTypeLocateCriteria.java|1|16adf95b15b|36b|4ecd1be7|c9d09905999d4b548b6b6d9766026c41|0

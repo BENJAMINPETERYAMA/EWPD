@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\webtesttool\vo
+2
+5
+f:TestCaseVO.java|1|16adf98159a|a85|78594956|449a84ee8159439f8c2f1fdb90ec0960|0
+12:TestCaseRefVO.java|1|16adf98158b|56e|2ee1a698|a12d3bd595274b4ca62c8aeb7950e760|0
+12:ClaimHeaderVO.java|1|16adf98157b|108a|bcb2325d|fca74a28875045aeb47c832ae9c4808d|0
+10:ClaimLineVO.java|1|16adf98155c|1fee|db083997|ba21dea9534a4b288ab33e095d8f425e|0
+10:TestSuiteVO.java|1|16adf981608|b08|70fc52dd|ed591753fef34782b8e476db259d8e7d|0

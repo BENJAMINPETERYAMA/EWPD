@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\blaze
+2
+7
+21:XML_RSServiceSoapBindingStub.java|1|16adf9596ca|5fa3|803d31bf|2f277226d4004aa6b3325c3bc87b6615|0
+1b:XML_RSIFServiceLocator.java|1|16adf959360|1ab6|304831ac|9cb0cc3df8f8461abf787618e52e6b55|0
+b:ruleservice|2|0|0|0|6f008a2dc6214df095510278b90aee5a|0
+d:XML_RSIF.java|1|16adf9590a2|296|a49dee5|b6e772b23428455597855fa5ec6d8012|0
+14:XML_RSIFService.java|1|16adf958efd|21c|b527afdb|446bdca888e744fda094fd28eabac74e|0
+12:XML_RSIFProxy.java|1|16adf958efd|9f4|f9863781|b086dfa24e344251a98a4e467fbb5b95|0
+1f:XML_RSIFServiceInformation.java|1|16adf958f1c|3932|d2deb8d5|6962324c05fc49beae4ce8c48e3a42e9|0

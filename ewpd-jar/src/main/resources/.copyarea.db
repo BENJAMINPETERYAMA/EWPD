@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\resources
+2
+11
+3:com|2|0|0|0|b223e0102c0c11e3806c0002cbccc24c|0
+15:boundaries.properties|1|16adf984cb8|9f|39c1372f|b011facec220457b9a6358899d71e29b|0
+12:adapter.properties|1|16adf984ca9|138a|84a88a40|190386e56a5c45dbaab48b15350f8a19|0
+1a:commons-logging.properties|1|16adf984dc1|48|e3cd1b56|4538c134c6ce4995ac3a19cc54a8749c|0
+15:datasource-config.xml|1|16adf984e00|256|6745c936|314d7bf4a069452191744c2b5178e241|0
+22:OdysseyBrowserFramework.properties|1|16adf9851b7|125|37ae5480|73c57d38ebd3445f9e81fe6c52ca7d04|0
+19:cacheinstances.properties|1|16adf984de1|15e|51297f18|30c703c14fe6469fb5d2e5070bbcee48|0
+14:imageRWDA.properties|1|16adf984de1|3b|df340fb1|205153fcb7674aefadadc7410ed4bb5c|0
+15:spellcheck.properties|1|16adf9850dd|8e|3d525a0|c3f1df606ce840c7ab57857146054fce|0
+14:simplelog.properties|1|16adf984e7d|35|29de14ce|aa74fdcc59034c3184bb41c8525b5b04|0
+15:webservice.properties|1|16adf985198|11f|6d22675e|83562a14a7144b639a28d114371d6db0|0
+4:wsdl|2|0|0|0|a2f9b09247e24883bac36c2a1b9aa63b|0
+1e:codesortedreference.properties|1|16adf984e00|27e|ba7ec96d|8701ad17a537457280b40bfac828fb61|0
+15:massUpdate.properties|1|16adf984e1f|35|caa41204|8e919f6fcd874d18897025dfdf66a3a3|0
+e:rma.properties|1|16adf984e6d|80|fd9b2a80|623c74a92e434b14aacebffb026f24ca|0
+10:log4j.properties|1|16adf984e1f|2b1|f34af079|98d94e7ef4d7402fa44b25dff78300fd|0
+17:blueexchange.properties|1|16adf984ce7|37|f5ff123b|89ba8664da8e4cb89204eb41f5785e5c|0

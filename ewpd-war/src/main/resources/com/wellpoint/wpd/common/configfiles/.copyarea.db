@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\resources\com\wellpoint\wpd\common\configfiles
+2
+c
+12:logger-context.xml|1|16adf915117|81b|c96c9cf5|5b121dade1984ac69bec8612a14f969d|0
+12:object-context.xml|1|16adf915221|1f55|b35176cc|17b6d2a1b8474aad93eaff7d866f88fc|0
+1c:validationServiceMapping.xml|1|16adf915491|3963|14e31846|502a7bec152b415ab15000a1367655d5|0
+18:metadata-definitions.xml|1|16adf9151f2|b505|663cb30|e4d65b439c084bed92cf000b9d269f9c|0
+1f:businessServicesBeanFactory.xml|1|16adf9151d3|2171|85f73140|c8abbbb7ea0847ffbb3a2437c74479e9|0
+12:spellcheckjndi.xml|1|16adf91530b|24e|de98c0a5|5a8f437661b9415591d0a90ba3a5d936|0
+13:request-context.xml|1|16adf9151f2|14695|9c720dc8|89869902be244c18a3a58f4d61d20fc4|0
+21:validationServicesBeanFactory.xml|1|16adf91531a|bb5|697033a4|c15eb40b53c043a5a990a1388476a44c|0
+17:metadata-definition.xsd|1|16adf9151d3|261f|57f61f69|4e9d37a415db4fc186d6d6697fad6441|0
+1a:businessServiceMapping.xml|1|16adf915165|19471|5da3210d|f2cbe50bb25441a1bac4c6ddd158c6af|0
+f:dao-mapping.xml|1|16adf915194|318|1c7cf1eb|b0f67eb3fe57470bb93dbbc653fb5fdb|0
+16:Logger-dao-mapping.xml|1|16adf9151a4|301|4621eaf3|c614a326a96744829ebdb18ca61aef03|0

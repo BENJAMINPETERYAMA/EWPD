@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\question\vo
+2
+3
+1d:QuestionSearchCriteriaVO.java|1|16adf97c77b|962|3b2bdd96|4105f4dd3db74e978b1be014b774b4c9|0
+f:QuestionVO.java|1|16adf97c817|2208|4b262fd1|a9c5523a9e2e435bbf25654a9f005cda|0
+15:PossibleAnswerVO.java|1|16adf97c73d|918|690ebe34|e6b530e55ba14821acfc937e66885c47|0

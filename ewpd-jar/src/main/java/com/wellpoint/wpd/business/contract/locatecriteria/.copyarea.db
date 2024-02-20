@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\contract\locatecriteria
+2
+d
+26:ContractAllVersionsLocateCriteria.java|1|16adf95c5c5|396|7b8d2c6b|4aec77c0d8b442a1a69586984c77d831|0
+29:ContractComponentNotesLocateCriteria.java|1|16adf95c799|bc2|32aad2f5|65e12a641a7346018dc8c000c92976e4|0
+1e:DateSegmentLocateCriteria.java|1|16adf95cca8|9a1|4d0a08ac|276292c883954a48bb0efc6920c85155|0
+17:RuleLocateCriteria.java|1|16adf95ccc7|119d|43f0d557|366acd815bba441f9b3e0a44f4c9b941|0
+26:ContractAdminOptionLocateCriteria.java|1|16adf95c826|113c|2573a11d|55c461cbddb2457e98957d86d56bdd3c|0
+23:ExistingContractLocateCriteria.java|1|16adf95ccc7|4b8|b3a37926|fff8746c9e0c4c16b761705ffb829272|0
+20:ContractNotesLocateCriteria.java|1|16adf95c8f0|64f|371ef64b|0e77edf2d2e749ce94689777cf486ab9|0
+1b:ContractLocateCriteria.java|1|16adf95c7b8|20ee|41c648e5|0eb3bc0b18b840d5bf6eb9b1a0158652|0
+22:ContractProductLocateCriteria.java|1|16adf95c97d|1058|d074f402|cb4ceb1aeb5f40b3a9d748b6f11e30b9|0
+20:ContractAdminLocateCriteria.java|1|16adf95c374|5d9|9f19da3e|78d3860bfb9e4b7bae97589fd054d227|0
+2c:ContractBenefitDefinitionLocateCriteria.java|1|16adf95c97d|9b3|bece90a|311d3ae8990647ed80f9afd13136419a|0
+23:ContractMandatesLocateCriteria.java|1|16adf95c910|58e|44e0ac0c|7404337dea674f4fbafd0b8b4cea748b|0
+1b:DatafeedLocateCriteria.java|1|16adf95c94e|8f3|e00acc8b|eee7044699c249c7a12a213e6d8e38fa|0

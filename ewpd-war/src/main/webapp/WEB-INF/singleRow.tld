@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<!--custom tag componenet for single row select-->
+<taglib>
+   <tlib-version>0.03</tlib-version>
+   <jsp-version>1.2</jsp-version>
+   <short-name>wpd</short-name>
+   <uri>/WEB-INF/singleRow.tld</uri>
+   <description>Custom tag componenet for single row select radio button</description>
+	<tag> 
+		<name>singleRowSelect</name> 
+		<!--tag-class>proj.kontrol.TbsSingleRowSelectTag</tag-class--> 
+		<tag-class>com.wellpoint.wpd.web.framework.custom.SingleRowSelectTag</tag-class> 
+		<body-content>JSP</body-content> 
+		<attribute> 
+		<name>groupName</name> 
+		<required>true</required> 
+		<rtexprvalue>false</rtexprvalue> 
+		</attribute> 
+		<attribute> 
+		<name>id</name> 
+		<required>false</required> 
+		<rtexprvalue>false</rtexprvalue> 
+		</attribute> 
+		<attribute> 
+		<name>rendered</name> 
+		<required>false</required> 
+		<rtexprvalue>false</rtexprvalue> 
+		</attribute> 
+		<attribute> 
+		<name>value</name> 
+		<required>false</required> 
+		<rtexprvalue>false</rtexprvalue> 
+		</attribute> 
+	</tag> 
+</taglib>

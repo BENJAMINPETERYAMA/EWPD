@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\messages
+2
+3
+11:ErrorMessage.java|1|16adf970c57|519|8d597e00|9d76048d330749e9a953afac3444dd50|0
+c:Message.java|1|16adf971397|940|3688d08|751ef00f9d504d268f0293e3c73c9d36|0
+19:InformationalMessage.java|1|16adf9713a7|2c2|9328dd66|315022c1829c470594ab9526c2eef105|0

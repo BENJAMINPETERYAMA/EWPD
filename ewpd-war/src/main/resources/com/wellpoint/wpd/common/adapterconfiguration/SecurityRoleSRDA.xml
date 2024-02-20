@@ -1,0 +1,151 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.security.bo.RoleSrdaBo">
+		<BusinessAttribute name="roleId" type="Int"	keyAttrib="true"/>	 
+		<BusinessAttribute name="roleName" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="description" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="createdTimestamp" type="Date"	keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedTimestamp" type="Date"	keyAttrib="false"/>	 
+
+		<SearchCriteria name="criteria">
+	      <SearchCriteriaAttribute name="roleName" 	type="String"/>
+		  <SearchCriteriaAttribute name="moduleNameList" type="List" />
+           <SearchCriteriaAttribute name="taskNameList" type="List" />
+            <SearchCriteriaAttribute name="subTaskNameList" type="List" />
+		</SearchCriteria>
+
+		
+		<DataSource name="srda" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=va10dx03-scan1)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME = xprmusvc)))</url>
+				<jndi>jdbc/wsb</jndi>
+			</Connection>
+			
+			<SelectSQLQuery name="roleSequenceId">
+				SELECT MAX(acsr_accsr_id) FROM acsr_accsr
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery>
+			      SELECT ACSR_ACCSR_ID, ACSR_ROLE_NM, ACSR_ROLE_DESC_TXT, ACSR_LST_CHG_USRID, ACSR_LST_CHNGD_TMS FROM ACSR_ACCSR WHERE ACSR_ACCSR_ID = ?
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="findDuplicate">
+			     select acsr_accsr_id, acsr_role_nm, acsr_role_desc_txt, acsr_lst_chg_usrid, acsr_lst_chngd_tms 
+			    from acsr_accsr where acsr_role_nm= {0}
+			 </SelectSQLQuery>
+			
+			 <SelectSQLQuery name="locateRoleSRDA" dynamic="true">
+                      <STATIC><![CDATA[  select distinct acsr_accsr_id , acsr_role_nm, acsr_role_desc_txt from acsr_accsr where acsr_accsr_id is not null ]]></STATIC>
+                      <DYNAMIC><![CDATA[  and UPPER( ACSR_ROLE_NM) like upper({0}) escape '`']]></DYNAMIC>
+                      <DYNAMIC><![CDATA[ and acsr_accsr_id in (select acsr_accsr_id from acaz_acs_authzn where RSRI_RSRC_ITM_ID IN 
+                            (SELECT DISTINCT RSRI_RLTD_RSRC_ITM_ID FROM  RIRL_RSRC_ITM_RLTNSP WHERE RSRI_RSRC_ITM_ID {1})) ]]></DYNAMIC>
+                      <STATIC><![CDATA[ ORDER BY ACSR_ROLE_NM ASC ]]></STATIC>
+             </SelectSQLQuery>
+
+			<DataObject name="SCRTY_ROLE_INFO_SRDA">
+				<DataObjectAttribute name="ROLE_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="ROLE_NM"    type="String"/>
+			    <DataObjectAttribute name="ROLE_DESC"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+                <DataObjectAttribute name="MOD_SYS_IDLIST" 	type="Int"/>
+                <DataObjectAttribute name="TASK_SYS_IDLIST" 	type="Int"/>
+                 <DataObjectAttribute name="SUB_TASK_SYS_IDLIST" 	type="Int"/>
+                 <SQLTemplate transType="insert">
+			        <SQLQuery>
+			             Insert into acsr_accsr (acsr_accsr_id, acsr_role_nm, acsr_role_desc_txt, acsr_lst_chg_usrid, acsr_lst_chngd_tms) 
+			            values(?,?,?,?,?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ROLE_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ROLE_NM"/>
+			        <DataObjectAttributeInput index="2" name="ROLE_DESC"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/> 
+			    </SQLTemplate>   
+                 <SQLTemplate transType="update">
+			        <SQLQuery>
+			          UPDATE ACSR_ACCSR SET acsr_role_nm     = ? ,  acsr_role_desc_txt = ?,  acsr_lst_chg_usrid = ? ,  acsr_lst_chngd_tms = ?
+						WHERE acsr_accsr_id  = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ROLE_NM"/>
+			        <DataObjectAttributeInput index="1" name="ROLE_DESC"/>
+			        <DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="4" name="ROLE_SYS_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			          delete from ACSR_ACCSR   
+				           where ACSR_ACCSR_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ROLE_SYS_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			    	<RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="ROLE_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+			    	<SearchQueryName name="roleSequenceId"/>
+			    </SQLTemplate>
+                  <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="ROLE_NM"/>
+				        <DataObjectAttributeInput index="1" name="MOD_SYS_IDLIST"/>
+                         <DataObjectAttributeInput index="2" name="TASK_SYS_IDLIST"/>
+                         <DataObjectAttributeInput index="3" name="SUB_TASK_SYS_IDLIST"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="ROLE_SYS_ID"/>
+							<ResultIndex index="1"  dataObjectAttribName ="ROLE_NM"/>
+							<ResultIndex index="2"  dataObjectAttribName ="ROLE_DESC"/>
+							
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateRoleSRDA"/>
+				 </SQLTemplate> 
+				  <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ROLE_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ROLE_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ROLE_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="ROLE_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+			            
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+			     <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ROLE_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ROLE_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ROLE_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="ROLE_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="findDuplicate"/>
+			    </SQLTemplate> 
+				 <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ROLE_SYS_ID"    toBOAttb="roleId"/>
+			        <Pair DOAttb="ROLE_NM"    toBOAttb="roleName"/>
+			        <Pair DOAttb="ROLE_DESC"    toBOAttb="description"/>
+			        <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="ROLE_NM"    toSCAttb="roleName"/>
+                    <Pair DOAttb="MOD_SYS_IDLIST"		toSCAttb="moduleNameList"/>
+                    <Pair DOAttb="TASK_SYS_IDLIST "		toSCAttb="taskNameList"/>
+                    <Pair DOAttb="SUB_TASK_SYS_IDLIST"		toSCAttb="subTaskNameList"/>
+
+
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

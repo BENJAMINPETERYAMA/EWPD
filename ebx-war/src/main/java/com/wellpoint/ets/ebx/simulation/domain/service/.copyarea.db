@@ -1,0 +1,13 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\domain\service
+2
+9
+25:LockedVariableAuditReportService.java|1|16b935e6260|3e7|86f65328|5987f0a57f974f75add7f95dbbb6ea69|0
+16:SimulationService.java|1|16b935e6109|643|fa01507|6465cf8bb7424622adfcf88733c225e9|0
+29:LockedVariableAuditReportServiceImpl.java|1|16b935e605d|86d|ae4cd588|c6227fcc145946b3957c71b36e3d571f|0
+e:MQManager.java|1|16b935e61d3|11d8|7c75b0e6|ba6d6e6db42c4b79b5eaeb9a93f19ff1|0
+e:MQCommand.java|1|16b935e606d|222b|75ed12ba|4c1802c3403b49adab7e787b0b56b49f|0
+14:ContractService.java|1|16b935e626f|78a|75827902|c185a867d8274acfa54cda7cc661fa90|0
+18:ContractServiceImpl.java|1|16b935e605d|41f8|b4cbcb8a|39f31e59139640b88a78afe85e449c04|0
+e:MQAdapter.java|1|16b935e607c|34ea|1eb6aac6|714c5ad2109d4f0d9ea3607700abe040|0
+1a:SimulationServiceImpl.java|1|16b935e60bb|1496|4ac804e6|e13cfc12951c4385a45cfc67d6d65461|0

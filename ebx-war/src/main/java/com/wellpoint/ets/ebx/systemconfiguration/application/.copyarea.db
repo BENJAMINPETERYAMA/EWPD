@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\systemconfiguration\application
+2
+2
+22:SystemConfigurationFacadeImpl.java|1|16b935e6fc8|6c9|c09c6be6|f993dbccc8e14b329ad5fb7bb7cb9f9a|0
+1e:SystemConfigurationFacade.java|1|16b935e6fb8|51f|e1e6bf23|4e17645fe8d64130ab26632b9f7b9e8a|0

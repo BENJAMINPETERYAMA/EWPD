@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\contract\service
+2
+4
+26:ContractBusinessValidationService.java|1|16adf95ce0f|10aed|a2a4f69e|f830ddcc46f111e380110002cbcd824c|0
+22:ContractRuleValidationService.java|1|16adf95d06f|129a|70f65aa0|df055172c70042f99e6572b5909017a9|0
+1c:ContractBusinessService.java|1|16adf95ce7c|7642b|e973822c|d7c1d628475c43e4a9da1febbbe71f6c|0
+1a:ContractReportService.java|1|16adf95d06f|928|690e2b5a|65cdfb3114824130a24c818daa2c7e4c|0

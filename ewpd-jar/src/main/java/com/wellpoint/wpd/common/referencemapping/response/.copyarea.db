@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\referencemapping\response
+2
+5
+21:EditReferenceMappingResponse.java|1|16adf97cc7a|312|4932f973|78aef7e0cd424a508d63f313ab68adf3|0
+23:CreateReferenceMappingResponse.java|1|16adf97ccb9|311|3913fa21|c8da06908a40402daaf90af34757c854|0
+23:SearchReferenceMappingResponse.java|1|16adf97cc2c|804|ee0d85ba|f40dcc1b0e7a45f889694c194c68a17f|0
+23:DeleteReferenceMappingResponse.java|1|16adf97cbbf|213|48a6ac1e|ff815c160dd042d28496611bd6f2528d|0
+25:RetrieveReferenceMappingResponse.java|1|16adf97cc5b|ad8|44e6825d|ffe6abcc427c4245b2b08c948e609a16|0

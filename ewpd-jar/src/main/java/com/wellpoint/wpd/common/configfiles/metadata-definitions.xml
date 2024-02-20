@@ -1,0 +1,735 @@
+<metaData>
+	<!--  Two sample metaobject definitions. MetaObject definitions for the application
+		  have to be defined in the following format for the Business Object and specify the
+		  file path in the metaobject bean in object-context.xml. 
+		  
+		  The status-transition-universe tag defined below have to be copied as it is into
+		  the metaobject definition file directly under the metaData tag -->
+	<metaObject name="com.wellpoint.wpd.common.bo.BO1" type="BO1" module="BO1">
+		<checkoutDuration value="20" />
+		<builderClass name="com.xyz.package.BO1Builder" />
+
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.BO1LocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.common.bo.SubBO3LocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.common.bo.SubBO4LocateCriteria"/>
+		</locate>
+		<informationElement name="boKey1" type="String" attrType="key" />
+		<informationElement name="boKey2" type="String" attrType="key" />
+		<informationElement name="boKey3" type="List" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+	<metaObject name="com.wellpoint.wpd.common.bo.BO2" type="BO2" module="BO2">
+		<checkoutDuration value="20" />
+		<builderClass name="com.xyz.package.BO2Builder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.BO2LocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.common.bo.SubBO5LocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.common.bo.SubBO6LocateCriteria"/>
+		</locate>
+		<informationElement name="boKey1" type="String" attrType="key" />
+		<informationElement name="boKey2" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED"/> 
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+
+	<metaObject name="com.wellpoint.wpd.common.adminoption.bo.AdminOptionBO" type="AdminOptionBO" module="ADMINOPTIONDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.adminoption.builder.AdminOptionBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.adminoption.locatecriteria.AdminOptionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.adminoption.locatecriteria.AdminOptionQuestionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.adminoption.locatecriteria.RootQuestionnaireLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.adminoption.locatecriteria.ChildQuestionnaireLocateCriteria"/>
+		</locate>
+		<informationElement name="adminName" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+	<!-- Notes Attachment Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.notes.bo.AttachedNotesBO" type="AttachedNotesBO" module="ATTACHEDNOTESBO">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.notes.builder.NotesAttachmentBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.lookup.locateCriteria.NotesLookUpLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.lookup.locateCriteria.NotesOverrideLocateCriteria"/>
+		</locate>
+		<informationElement name="noteId" type="Int" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+	<!-- Mandate Business object mappings  -->
+	<metaObject name="com.wellpoint.wpd.common.mandate.bo.MandateBO" type="MandateBO" module="MANDATEBO">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.mandate.builder.MandateBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.mandate.locateCriteria.MandateLocateCriteria"/>
+		</locate>
+		<informationElement name="mandateName" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+
+	<metaObject name="com.wellpoint.wpd.common.benefit.bo.Question" type="Question" module="QUESTIONDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.benefit.builder.QuestionBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.LocateCriteria"/>
+		</locate>
+		<informationElement name="questionNumber" type="Int" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED"/>		 
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<metaObject name="com.wellpoint.wpd.common.question.bo.QuestionBO" type="QuestionBO" module="QUESTIONDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.question.builder.QuestionBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.question.locateCriteria.QuestionLocateCriteria"/>
+		</locate>
+		<informationElement name="questionDesc" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_PUBLISHED" override="CHECKIN/PUBLISH/CREATE/CHECKOUT"/> 
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/> 
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<!-- Product Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.product.bo.ProductBO" type="ProductBO" module="PRODUCTDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.product.builder.ProductBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ComponentLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductBenefitDefinitionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductBenefitAdminLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductStructureLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductLocatePreviousVersionsCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductComponentNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.AdminLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductRuleRefDataLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductBenefitLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.product.locatecriteria.ProductAdministrationLocateCriteria"/> 
+		</locate>
+		<informationElement name="productName" type="String" attrType="key" />
+		<informationElement name="businessDomains" type="List" attrType="key" />
+		<status-transitions>
+
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"  />
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST" />
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_OBJECT_TRANSFERRED" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED" />			
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_SUCCESSFUL" />       
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_FAILED" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_MARKED_FOR_DELETION" />    
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL" override="TESTPASS/TESTFAIL/SCHEDULETOAPPROVAL"/>    
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION" />         
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED" />           
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED" />          
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_CHECKED_OUT" />       
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT" />                     
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION" />             
+<!-- 		<transition name="TRANSITION_SCHEDULED_FOR_PRODUCTION_TO_PUBLISHED" />        -->
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT" />                    
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>		
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<metaObject name="com.wellpoint.wpd.common.contract.bo.Contract" type="Contract" module="CONTRACTDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.contract.builder.ContractBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.LocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractBenefitDefinitionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.DateSegmentLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractAllVersionsLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractComponentNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractAdminLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.RuleLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.contract.locatecriteria.ContractMandatesLocateCriteria"/>
+		</locate>
+		
+		<informationElement name="contractId" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"  />
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_OBJECT_TRANSFERRED" />
+			<!-- TO DO : Delete later -->
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL" />
+            <transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED" />   
+			<!-- until here -->
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_SUCCESSFUL" />       
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_FAILED" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_MARKED_FOR_DELETION" />    
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL" override="SCHEDULETOAPPROVAL/TESTPASS/TESTFAIL"/>    
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION" />         
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED" />           
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED" />          
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_CHECKED_OUT" />       
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT" />                     
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION" />             
+			<transition name="TRANSITION_SCHEDULED_FOR_PRODUCTION_TO_PUBLISHED"  />       
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT" />                    
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_APPROVED_TO_SCHEDULED_FOR_PRODUCTION" override="SCHEDULETOPRODUCTION/APPROVE/REJECT"/>		
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+
+	<metaObject name="com.wellpoint.wpd.common.contract.bo.DateSegment" type="DateSegment" module="CONTRACTDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.contract.builder.ContractBusinessObjectBuilder" />
+		<loggerName name="com.wellpoint.wpd.business.framework.bo.ContractLifeCycleHistoryLogger" />
+		
+		<informationElement name="contractId" type="String" attrType="key" />
+		<informationElement name="effectiveDateStr" type="String" attrType="key" />
+		<informationElement name="dateSegmentType" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"  enableLog="Y"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN" />
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_OBJECT_TRANSFERRED" enableLog="Y" />
+			<!-- TO DO : Delete later -->
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL" />
+            <transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED" />   
+			<!-- until here -->
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_SUCCESSFUL" />       
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_FAILED" />
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_MARKED_FOR_DELETION" />    
+			<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL" override="SCHEDULETOAPPROVAL/TESTPASS/TESTFAIL"/>    
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT" />
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION" />         
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED" />           
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED" />          
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_CHECKED_OUT" />       
+			<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT" />                     
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION" />             
+			<transition name="TRANSITION_SCHEDULED_FOR_PRODUCTION_TO_PUBLISHED"  enableLog="Y"/>       
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT" />                    
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION" />
+			<transition name="TRANSITION_APPROVED_TO_SCHEDULED_FOR_PRODUCTION" override="SCHEDULETOPRODUCTION/APPROVE/REJECT" enableLog="Y" />		
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+<!-- Product Structure Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.productstructure.bo.ProductStructureBO" type="ProductStructureBO" module="PRODUCTSTRUCTUREDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.productstructure.builder.ProductStructureBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureMandatesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureBenefitAdministrationLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ViewAllVersionsLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureBenefitDefinitionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureShowHiddenLocateCriteria"/>
+		</locate>
+		<informationElement name="productStructureName" type="String" attrType="key" />
+		<informationElement name="businessDomains" type="List" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<!-- BenefitComponent Business Object -->
+
+	<metaObject name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitComponentBO" type="BenefitComponentBO" module="BENEFITCOMPONENTDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.benefitcomponent.builder.BenefitComponentBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.productstructure.locatecriteria.ProductStructureBenefitComponentLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.NonAdjBenefitMandateLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitHierarchyLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.common.benefitcomponent.locatecriteria.BenefitComponentLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.ComponentsBenefitDefinitionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.ComponentsBenefitAdministrationLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitComponentDeleteLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitComponentSourceDestinationLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitComponentNotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitcomponent.locatecriteria.BenefitComponentLocateCriteria"/>
+		</locate>
+		<informationElement name="name" type="String" attrType="key" />
+		<informationElement name="businessDomainList" type="List" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+	
+	<!-- Standard Benefit Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.standardbenefit.bo.StandardBenefitBO" type="StandardBenefitBO" module="BENEFITDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.standardbenefit.builder.StandardBenefitBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.BenefitDefinitionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.MandateListLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.BenefitMandateLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.BenefitAdministrationLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.BenefitLevelListLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitlevel.locatecriteria.BenefitLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitlevel.locatecriteria.BenefitLevelLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.SelectedQuestionListLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.LookupAdminOptionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.AdministrativeOptionLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.PossibleAnswersLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.benefitlevel.locatecriteria.DataTypeLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.StandardBenefitLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.QuestionLocateCriteria"/>	
+			<criteria name="com.wellpoint.wpd.business.benefitlevel.locatecriteria.BenefitPopUpLocateCriteria"/>	
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.StandardBenefitViewAllLocateCriteria"/>		
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.AdminLevelLocateCriteria"/>	
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.StandardBenefitNotesLocateCriteria"/>	
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.NotesAttachmentForBenefitLineLocateCriteria"/>	
+			<criteria name="com.wellpoint.wpd.business.benefitlevel.locatecriteria.BenefitLevelTermLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.AssociateAdminOptionToBenefitLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.SelectedQuestionaireLocateCriteria"/>
+		</locate>
+		<informationElement name="benefitIdentifier" type="String" attrType="key" />
+		<informationElement name="businessDomains" type="List" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>	
+
+<!-- Standard Benefit Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.standardbenefit.bo.RuleBO" type="RuleBO" module="RULEBO">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.standardbenefit.builder.StandardBenefitBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.RuleLocateCriteria"/>	
+		</locate>
+		<informationElement name="ruleId" type="String" attrType="key" />
+		
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>	
+
+	<!-- Notes Business Object -->
+	<metaObject name="com.wellpoint.wpd.common.notes.bo.NoteBO" type="NoteBO" module="NOTESDEVELOPMENT">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.notes.builder.NotesBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.notes.locatecriteria.NotesLocateCriteria"/>
+			<criteria name="com.wellpoint.wpd.business.notes.locatecriteria.NotesLocateCriteriaForView"/>
+		</locate>
+		<informationElement name="noteName" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_APPROVED_TO_PUBLISHED" override="APPROVE/PUBLISH/REJECT"/>
+			<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<metaObject name="com.wellpoint.wpd.common.notes.bo.NoteDomainBO" type="NoteDomainBO" module="NOTEDOMAINBO">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.notes.builder.NotesBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.LocateCriteria"/>
+		</locate>
+		<informationElement name="noteId" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			 
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<metaObject name="com.wellpoint.wpd.common.notes.bo.NoteDomainDeleteBO" type="NoteDomainDeleteBO" module="NOTEDOMAINDELETEBO">
+		<checkoutDuration value="20" />
+		<builderClass name="com.wellpoint.wpd.business.notes.builder.NotesBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.common.bo.LocateCriteria"/>
+		</locate>
+		<informationElement name="noteId" type="String" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL" />
+			 
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+	<metaObject name="com.wellpoint.wpd.common.adminmethod.bo.AdminMethodBO" type="AdminMethodBO" module="ADMINMETHODBO">
+		<checkoutDuration value="20" />
+		<builderClass name=" com.wellpoint.wpd.business.adminmethod.builder.AdminMethodBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.adminmethod.locatecriteria.AdminMethodLocateCriteria"/>
+		</locate>
+		<informationElement name="spsId" type="Int" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			 
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<metaObject name="com.wellpoint.wpd.common.adminmethod.bo.AdminMethodOverrideBO" type="AdminMethodOverrideBO" module="ADMINMETHODOVERRIDEBO">
+		<checkoutDuration value="20" />
+		<builderClass name=" com.wellpoint.wpd.business.adminmethod.builder.AdminMethodOverrideBusinessObjectBuilder" />
+		<locate>
+			<criteria name="com.wellpoint.wpd.business.adminmethod.locatecriteria.AdminMethodLocateCriteria"/>
+		</locate>
+		<informationElement name="entitySysId" type="Int" attrType="key" />
+		<status-transitions>
+			<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+			<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/> 
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+			<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+			 
+			 
+			<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+			<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+			<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+		</status-transitions>
+		<security>
+			<activity name="create" taskName="CREATE"/>
+			<activity name="edit" taskName="EDIT"/>
+			<activity name="delete" taskName="DELETE"/>
+			<activity name="retrieve" taskName="VIEW"/>
+			<activity name="copy" taskName="COPY"/>
+		</security>
+	</metaObject>
+
+	<!-- Copy the transitions to the actual metaObject definition file -->
+	<status-transition-universe>
+		<transition name="TRANSITION_BUILDING_TO_CHECKED_IN"                      	from="BUILDING"                  to="CHECKED_IN" taskName="CHECKIN"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"                   	from="CHECKED_IN"                to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_PUBLISHED"                     	from="CHECKED_IN"                to="PUBLISHED" taskName="PUBLISH"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_APPROVED"                      	from="CHECKED_IN"                to="APPROVED" taskName="APPROVE"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_REJECTED"                      	from="CHECKED_IN"                to="REJECTED" taskName="REJECT"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"            	from="CHECKED_IN"                to="SCHEDULED_FOR_TEST" taskName="SCHEDULETOTEST"/>
+		<transition name="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"           	from="CHECKED_IN"                to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"                   	from="CHECKED_OUT"               to="CHECKED_IN" taskName="CHECKIN"/>	
+		<transition name="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"            from="CHECKED_OUT"               to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_OBJECT_TRANSFERRED"    	from="SCHEDULED_FOR_TEST"        to="OBJECT_TRANSFERRED" taskName="OBJECTTRANSFERRED"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"   	  	from="SCHEDULED_FOR_TEST"        to="TEST_SUCCESSFUL" taskName="TESTPASS"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"           	from="SCHEDULED_FOR_TEST"        to="TEST_FAILED" taskName="TESTFAIL"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_MARKED_FOR_DELETION"   	from="SCHEDULED_FOR_TEST"        to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_TEST_TO_CHECKED_OUT"           	from="SCHEDULED_FOR_TEST"        to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_SUCCESSFUL"       	from="OBJECT_TRANSFERRED"        to="TEST_SUCCESSFUL" taskName="TESTPASS"/>
+		<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_FAILED"           	from="OBJECT_TRANSFERRED"        to="TEST_FAILED" taskName="TESTFAIL"/>
+		<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_MARKED_FOR_DELETION"   	from="OBJECT_TRANSFERRED"        to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_OBJECT_TRANSFERRED_TO_CHECKED_OUT"           	from="OBJECT_TRANSFERRED"        to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL"   	from="TEST_SUCCESSFUL"           to="SCHEDULED_FOR_APPROVAL" taskName="SCHEDULETOAPPROVAL"/>
+		<transition name="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"              	from="TEST_SUCCESSFUL"           to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"      	from="TEST_SUCCESSFUL"           to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"                  	from="TEST_FAILED"               to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"          	from="TEST_FAILED"               to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED"          	from="SCHEDULED_FOR_APPROVAL"    to="APPROVED" taskName="APPROVE"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED"          	from="SCHEDULED_FOR_APPROVAL"    to="REJECTED" taskName="REJECT"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_CHECKED_OUT"       	from="SCHEDULED_FOR_APPROVAL"    to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_MARKED_FOR_DELETION"	from="SCHEDULED_FOR_APPROVAL"    to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_APPROVED_TO_SCHEDULED_FOR_PRODUCTION"        	from="APPROVED"                  to="SCHEDULED_FOR_PRODUCTION" taskName="SCHEDULETOPRODUCTION"/>
+		<transition name="TRANSITION_APPROVED_TO_PUBLISHED"                       	from="APPROVED"                  to="PUBLISHED" taskName="PUBLISH"/>
+		<transition name="TRANSITION_REJECTED_TO_CHECKED_OUT"                     	from="REJECTED"                  to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"             	from="REJECTED"                  to="MARKED_FOR_DELETION" taskName="DELETE"/>
+		<transition name="TRANSITION_SCHEDULED_FOR_PRODUCTION_TO_PUBLISHED"       	from="SCHEDULED_FOR_PRODUCTION"  to="PUBLISHED" taskName="PUBLISH"/>
+		<transition name="TRANSITION_PUBLISHED_TO_CHECKED_OUT"                    	from="PUBLISHED"                 to="CHECKED_OUT" taskName="CHECKOUT"/>
+		<transition name="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"            	from="PUBLISHED"                 to="MARKED_FOR_DELETION" taskName="DELETE"/>
+	</status-transition-universe>
+</metaData>

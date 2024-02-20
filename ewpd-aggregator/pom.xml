@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>enterprise-pom</artifactId>
+		<groupId>com.wellpoint.enterprise.build</groupId>
+		<version>3.0.0</version>
+	</parent>
+	<groupId>com.wellpoint.ewpd</groupId>
+	<artifactId>ewpd-aggregator</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>ewpd-aggregator Project</name>
+	<description>ewpd-aggregator Project</description>
+	  <build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>../ewpd-jar</module>
+		 <module>../ebx-war</module> 
+		<module>../ewpd-war</module>
+		<!-- <module>../massupdate-war</module>  -->
+		<module>../ewpd-ear</module>
+	</modules>
+</project>

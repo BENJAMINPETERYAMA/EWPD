@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\adminMethodMaintain
+2
+6
+13:adminMethodEdit.jsp|1|16adf919a47|4b2b|35e7390d|0f1890e1cdc746f9a9852438886b41ac|0
+13:adminMethodView.jsp|1|16adf919558|265f|33fc5f2|1034a34cd6b846ee88b0750e1ca32da5|0
+17:adminMethodMaintain.jsp|1|16adf919586|4641|b93b6d83|ee0369c0371946cebf2acba50c70ac19|0
+18:adminMethodEditPrint.jsp|1|16adf91a85b|2435|d0925174|e06fb206247848859bbf34ecdf62e669|0
+15:adminMethodCreate.jsp|1|16adf91948d|405a|56661ae7|1cb85b1a8a3d4f9a9fb2fc95f4556925|0
+14:adminMethodPrint.jsp|1|16adf919558|9d9|9045f993|9fe93a0d7ba648a2b1dfb3362d8d636e|0

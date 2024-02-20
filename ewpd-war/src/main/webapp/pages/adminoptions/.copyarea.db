@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\adminoptions
+2
+d
+25:adminOptionDuplicateReferenceView.jsp|1|16adf919bec|1927|f41e74b7|15a225cc665b46be99e9c1740cf86714|0
+15:adminOptionSearch.jsp|1|16adf919c5a|5e34|844b24c8|4fd7a5d06ea1433fb289e6a95e2e4984|0
+1b:adminOptionsDetailPrint.jsp|1|16adf919c79|313d|f70f9b6|1e6b62e2ecb54c2b93302b5ad4b4df0b|0
+1a:adminOptionSearchPrint.jsp|1|16adf919c4a|15b9|a6bd1ed3|8239df1a726d4571ac8267f2528d662b|0
+19:adminOptionsQuestions.jsp|1|16adf919ca8|5ef7|27890292|0d44d68272fe4e9a8f5b2b35a46d64d8|0
+14:adminOptionsView.jsp|1|16adf919d24|2b58|b1351fc1|e904738c4f9c43388f4359d926fcc482|0
+1d:adminOptionsQuestionsView.jsp|1|16adf919d24|358f|3164a051|f3e8599b8f914565bb385c757e7d5240|0
+16:adminOptionsCreate.jsp|1|16adf919bfc|2538|57afca7e|1597faed30bd4f98bece84451a836164|0
+14:adminOptionsEdit.jsp|1|16adf919c2b|2cb8|bc2ed8f9|ca6fa46ddc32462da1eee2b3fbed6f1a|0
+1e:adminOptionsQuestionsPrint.jsp|1|16adf919c98|21cc|79a890b8|4ecb1d14b0a94d49b02ff9e3204f1142|0
+15:adminOptionsPrint.jsp|1|16adf919c98|1e6c|445e8430|0236a584a45144b3ad4678ab0cf8f82e|0
+2d:adminOptionUniqueReferenceValidationPrint.jsp|1|16adf919d34|177c|3fcee541|5bd18f57b0964c2385dbac6182c6b2a1|0
+16:adminOptionViewAll.jsp|1|16adf91ab76|3f6b|1546ea66|557061a573794ef2a8ca869b69cd71fd|0

@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\referencedata\domain\service
+2
+2
+1d:ReferenceDataServiceImpl.java|1|16b935e5bdb|735e|92ce9887|d4d0684e8638409a8f4bb230a27ea6cc|0
+19:ReferenceDataService.java|1|16b935e5bcb|2f08|b7773bc9|2f786349daa64a1eb560ac125e4f7792|0

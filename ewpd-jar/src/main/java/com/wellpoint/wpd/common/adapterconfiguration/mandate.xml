@@ -1,0 +1,584 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.mandate.bo.MandateBO">
+		<BusinessAttribute name="mandateId" 		    	type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="mandateName" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="description" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="effectiveDate" 			type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="expiryDate" 			    type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="citationNumber" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="mandateTypeId" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="jurisdictionId" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="groupSizeId" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="fundingArrangementId"	 	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="mandateTypeDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="jurisdictionDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="groupSizeDesc" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="fundingArrangementDesc"	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"	 	keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="mandateId"			type="Int"/>
+	  		<SearchCriteriaAttribute name="effectiveDate"		type="Date"/>
+			<SearchCriteriaAttribute name="expiryDate"			type="Date"/>
+	  		<SearchCriteriaAttribute name="mandateType"			type="String"/>
+			<SearchCriteriaAttribute name="groupSize"			type="String"/>
+			<SearchCriteriaAttribute name="fundingArrangement"	type="String"/>
+			<SearchCriteriaAttribute name="jurisdiction"		type="List"/>
+			<SearchCriteriaAttribute name="citationNumber"		type="List"/>
+			<SearchCriteriaAttribute name="mandateName"			type="String"/>
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+		 	<SelectSQLQuery>
+			    SELECT 	a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+						a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+						a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD,
+						b.CD_DESC_TXT, c.CD_DESC_TXT, d.CD_DESC_TXT, e.CD_DESC_TXT
+						FROM 	MMST_MNDT_MSTR a, ITEM b, ITEM c, ITEM d, ITEM e
+						WHERE 	MNDT_SYS_ID = ?
+						AND a.MNDT_GRP_SIZE_ID = b.PRMRY_CD AND b.CTLG_ID = 1940
+						AND a.MNDT_FUNDG_ARNGMNT_ID = c.PRMRY_CD AND c.CTLG_ID = 1941 
+						AND a.MNDT_JURDCTN_CD = d.PRMRY_CD AND d.CTLG_ID = 1942
+						AND a.MNDT_TYPE_NM = e.PRMRY_CD AND e.CTLG_ID = 1939
+			</SelectSQLQuery>
+			
+		 	<SelectSQLQuery name="retrieveByMandateName">
+			    SELECT 	MNDT_SYS_ID, MNDT_VRSN_NBR, MNDT_STTS_CD, MNDT_TYPE_NM, MNDT_EFCTV_DT, MNDT_EXPIRY_DT, 
+						MNDT_GRP_SIZE_ID, MNDT_FUNDG_ARNGMNT_ID, MNDT_NM, MNDT_TXT, MNDT_CITTN_NBR, LST_CHG_USR, 
+						LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP, MNDT_JURDCTN_CD
+				FROM 	MMST_MNDT_MSTR 
+				WHERE 	upper(MNDT_NM) = upper({0})
+			</SelectSQLQuery>
+			<SelectSQLQuery name="ViewAllVersions">
+			    SELECT  a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+		                a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+		                a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD,
+		                b.CD_DESC_TXT, c.CD_DESC_TXT, d.CD_DESC_TXT, e.CD_DESC_TXT
+                FROM   MMST_MNDT_MSTR a, ITEM b, ITEM c, ITEM d, ITEM e
+                WHERE  upper(a.MNDT_NM) = upper({0})
+                AND    a.MNDT_GRP_SIZE_ID = b.PRMRY_CD AND b.CTLG_ID = 1940
+                AND    a.MNDT_FUNDG_ARNGMNT_ID = c.PRMRY_CD AND c.CTLG_ID = 1941 
+                AND    a.MNDT_JURDCTN_CD = d.PRMRY_CD AND d.CTLG_ID = 1942
+                AND    a.MNDT_TYPE_NM = e.PRMRY_CD AND e.CTLG_ID = 1939 
+				AND    a.MNDT_STTS_CD != 'MARKED_FOR_DELETION' ORDER BY a.MNDT_VRSN_NBR DESC
+				
+
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateForCopy">
+			    SELECT 	a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+						a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+						a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD,
+						b.CD_DESC_TXT
+						FROM 	MMST_MNDT_MSTR a, ITEM b
+						WHERE 	MNDT_SYS_ID = {0}
+						AND a.MNDT_JURDCTN_CD = b.PRMRY_CD AND b.CTLG_ID = 1942
+						
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveLatestVersionByMandateName">
+			  	SELECT 	a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+						a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, a.MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+						a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD, d.CD_DESC_TXT
+				FROM 	MMST_MNDT_MSTR a, ITEM d
+				WHERE 	upper(MNDT_NM) = upper({0}) AND  a.MNDT_VRSN_NBR =  (SELECT  MAX(e.MNDT_VRSN_NBR) 
+			    FROM 	MMST_MNDT_MSTR e
+                WHERE 	upper(e.MNDT_NM) = upper({0}) AND e.MNDT_STTS_CD != 'MARKED_FOR_DELETION') AND a.MNDT_JURDCTN_CD = d.PRMRY_CD AND d.CTLG_ID = 1942
+				
+			</SelectSQLQuery>
+
+		<SelectSQLQuery name="retrieveLatestVersionNumber">
+			  	SELECT 	a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+						a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, a.MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+						a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD, d.CD_DESC_TXT
+				FROM 	MMST_MNDT_MSTR a, ITEM d
+				WHERE 	upper(MNDT_NM) = upper({0}) AND  a.MNDT_VRSN_NBR =  (SELECT  MAX(e.MNDT_VRSN_NBR) 
+			    FROM 	MMST_MNDT_MSTR e
+                WHERE 	upper(e.MNDT_NM) = upper({0})) AND a.MNDT_JURDCTN_CD = d.PRMRY_CD AND d.CTLG_ID = 1942
+				
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchMandate" dynamic="true">                                     
+	            <STATIC>
+                    <![CDATA[
+                        SELECT 	a.MNDT_SYS_ID, a.MNDT_VRSN_NBR, a.MNDT_STTS_CD, a.MNDT_TYPE_NM, a.MNDT_EFCTV_DT, a.MNDT_EXPIRY_DT, 
+								a.MNDT_GRP_SIZE_ID, a.MNDT_FUNDG_ARNGMNT_ID, a.MNDT_NM, MNDT_TXT, a.MNDT_CITTN_NBR, a.LST_CHG_USR, 
+								a.LST_CHG_TMS, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.MNDT_JURDCTN_CD,
+								b.CD_DESC_TXT, c.CD_DESC_TXT, d.CD_DESC_TXT, e.CD_DESC_TXT
+						FROM 	MMST_MNDT_MSTR a, ITEM b, ITEM c, ITEM d, ITEM e
+                        WHERE   1 = 1
+					]]>
+	            </STATIC>
+
+	            <DYNAMIC>
+                       AND a.MNDT_EFCTV_DT  =  TO_DATE({0},'mm/dd/yyyy') 
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                       AND a.MNDT_EXPIRY_DT  =  TO_DATE({1},'mm/dd/yyyy')  
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                       AND a.MNDT_TYPE_NM  like {2} 
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                       AND a.MNDT_GRP_SIZE_ID  like {3} 
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                       AND a.MNDT_FUNDG_ARNGMNT_ID like {4} 
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                       AND a.MNDT_CITTN_NBR  {5} 
+	            </DYNAMIC> 
+
+	            <DYNAMIC>
+                        AND a.MNDT_JURDCTN_CD  {6}                     
+	            </DYNAMIC> 
+
+	            <STATIC>
+                    <![CDATA[
+						AND a.MNDT_GRP_SIZE_ID = b.PRMRY_CD AND b.CTLG_ID = 1940
+						AND a.MNDT_FUNDG_ARNGMNT_ID = c.PRMRY_CD AND c.CTLG_ID = 1941 
+						AND a.MNDT_JURDCTN_CD = d.PRMRY_CD AND d.CTLG_ID = 1942
+						AND a.MNDT_TYPE_NM = e.PRMRY_CD AND e.CTLG_ID = 1939
+						AND a.MNDT_VRSN_NBR = (select max(f.MNDT_VRSN_NBR)	from MMST_MNDT_MSTR f where UPPER(f.MNDT_NM) = UPPER(a.MNDT_NM) AND f.MNDT_STTS_CD != 'MARKED_FOR_DELETION' )
+						AND a.MNDT_STTS_CD != 'MARKED_FOR_DELETION' 
+					]]>
+	            </STATIC>
+			</SelectSQLQuery>
+
+				
+			<DataObject name="MMST_MNDT_MSTR">
+			    <DataObjectAttribute name="MNDT_SYS_ID"    			type="Int"/>
+			    <DataObjectAttribute name="MNDT_VRSN_NBR"    		type="Int"/>
+			    <DataObjectAttribute name="MNDT_STTS_CD"    		type="String"/>
+			    <DataObjectAttribute name="MNDT_TYPE_NM"    		type="String"/>
+			    <DataObjectAttribute name="MNDT_EFCTV_DT"    		type="Date"/>
+			    <DataObjectAttribute name="MNDT_EXPIRY_DT"    		type="Date"/>
+			    <DataObjectAttribute name="MNDT_GRP_SIZE_ID"    	type="String"/>
+			    <DataObjectAttribute name="MNDT_FUNDG_ARNGMNT_ID"   type="String"/>
+			    <DataObjectAttribute name="MNDT_NM"    				type="String"/>
+			    <DataObjectAttribute name="MNDT_TXT"    			type="String"/>
+			    <DataObjectAttribute name="MNDT_CITTN_NBR"    		type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="MNDT_JURDCTN_CD"    		type="String"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO MMST_MNDT_MSTR ( 
+									MNDT_SYS_ID, MNDT_VRSN_NBR, MNDT_STTS_CD, MNDT_TYPE_NM, MNDT_EFCTV_DT, MNDT_EXPIRY_DT, 
+									MNDT_GRP_SIZE_ID, MNDT_FUNDG_ARNGMNT_ID, MNDT_NM, MNDT_TXT, MNDT_CITTN_NBR, LST_CHG_USR, 
+									LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP, MNDT_JURDCTN_CD)
+			            VALUES		(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MNDT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="MNDT_VRSN_NBR"/>
+			        <DataObjectAttributeInput index="2" name="MNDT_STTS_CD"/>
+			        <DataObjectAttributeInput index="3" name="MNDT_TYPE_NM"/>
+			        <DataObjectAttributeInput index="4" name="MNDT_EFCTV_DT"/>
+			        <DataObjectAttributeInput index="5" name="MNDT_EXPIRY_DT"/>
+			        <DataObjectAttributeInput index="6" name="MNDT_GRP_SIZE_ID"/>
+			        <DataObjectAttributeInput index="7" name="MNDT_FUNDG_ARNGMNT_ID"/>
+			        <DataObjectAttributeInput index="8" name="MNDT_NM"/>
+			        <DataObjectAttributeInput index="9" name="MNDT_TXT"/>
+			        <DataObjectAttributeInput index="10" name="MNDT_CITTN_NBR"/>
+			        <DataObjectAttributeInput index="11" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="12" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="13" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="14" name="CREATD_TM_STMP"/>
+			        <DataObjectAttributeInput index="15" name="MNDT_JURDCTN_CD"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="update">
+			        <SQLQuery>
+			            UPDATE 	MMST_MNDT_MSTR
+			            SET 	MNDT_VRSN_NBR = ?, MNDT_STTS_CD = ?, MNDT_TYPE_NM = ?, MNDT_EFCTV_DT = ?, MNDT_EXPIRY_DT = ?, 
+								MNDT_GRP_SIZE_ID = ?, MNDT_FUNDG_ARNGMNT_ID = ?, MNDT_NM = ?, MNDT_TXT = ?, MNDT_CITTN_NBR = ?, 
+								LST_CHG_USR = ?, LST_CHG_TMS = ?, MNDT_JURDCTN_CD = ?
+			            WHERE 	MNDT_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MNDT_VRSN_NBR"/>
+			        <DataObjectAttributeInput index="1" name="MNDT_STTS_CD"/>
+			        <DataObjectAttributeInput index="2" name="MNDT_TYPE_NM"/>
+			        <DataObjectAttributeInput index="3" name="MNDT_EFCTV_DT"/>
+			        <DataObjectAttributeInput index="4" name="MNDT_EXPIRY_DT"/>
+			        <DataObjectAttributeInput index="5" name="MNDT_GRP_SIZE_ID"/>
+			        <DataObjectAttributeInput index="6" name="MNDT_FUNDG_ARNGMNT_ID"/>
+			        <DataObjectAttributeInput index="7" name="MNDT_NM"/>
+			        <DataObjectAttributeInput index="8" name="MNDT_TXT"/>
+			        <DataObjectAttributeInput index="9" name="MNDT_CITTN_NBR"/>
+			        <DataObjectAttributeInput index="10" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="11" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="12" name="MNDT_JURDCTN_CD"/>
+			        <DataObjectAttributeInput index="13" name="MNDT_SYS_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByMandateName"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="ViewAllVersions"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersionByMandateName"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersionNumber"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_EFCTV_DT"/>
+			        <DataObjectAttributeInput index="1" name="MNDT_EXPIRY_DT"/>
+			        <DataObjectAttributeInput index="2" name="MNDT_TYPE_NM"/>
+			        <DataObjectAttributeInput index="3" name="MNDT_GRP_SIZE_ID"/>
+			        <DataObjectAttributeInput index="4" name="MNDT_FUNDG_ARNGMNT_ID"/>
+			        <DataObjectAttributeInput index="5" name="MNDT_CITTN_NBR"/>
+			        <DataObjectAttributeInput index="6" name="MNDT_JURDCTN_CD"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchMandate"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MNDT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MNDT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MNDT_VRSN_NBR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MNDT_STTS_CD"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MNDT_TYPE_NM"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MNDT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="MNDT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="MNDT_GRP_SIZE_ID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="MNDT_NM"/>
+			            <ResultIndex index="9" dataObjectAttribName ="MNDT_TXT"/>
+			            <ResultIndex index="10" dataObjectAttribName ="MNDT_CITTN_NBR"/>
+			            <ResultIndex index="11" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="12" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="15" dataObjectAttribName ="MNDT_JURDCTN_CD"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateForCopy"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM MMST_MNDT_MSTR
+			            WHERE MNDT_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MNDT_SYS_ID"/>
+			    </SQLTemplate>
+			
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="MNDT_SYS_ID"    			toBOAttb="mandateId"/>
+			        <Pair DOAttb="MNDT_VRSN_NBR"    		toBOAttb="version"/>
+			        <Pair DOAttb="MNDT_STTS_CD"    			toBOAttb="status"/>
+			        <Pair DOAttb="MNDT_TYPE_NM"    			toBOAttb="mandateTypeId"/>
+			        <Pair DOAttb="MNDT_EFCTV_DT"    		toBOAttb="effectiveDate"/>
+			        <Pair DOAttb="MNDT_EXPIRY_DT"    		toBOAttb="expiryDate"/>
+			        <Pair DOAttb="MNDT_GRP_SIZE_ID"    		toBOAttb="groupSizeId"/>
+			        <Pair DOAttb="MNDT_FUNDG_ARNGMNT_ID"    toBOAttb="fundingArrangementId"/>
+			        <Pair DOAttb="MNDT_NM"    				toBOAttb="mandateName"/>
+			        <Pair DOAttb="MNDT_TXT"    				toBOAttb="description"/>
+			        <Pair DOAttb="MNDT_CITTN_NBR"    		toBOAttb="citationNumber"/>
+			        <Pair DOAttb="LST_CHG_USR"    			toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    			toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    		toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="MNDT_JURDCTN_CD"    		toBOAttb="jurisdictionId"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="MNDT_SYS_ID"    			toSCAttb="mandateId"/>
+			        <Pair DOAttb="MNDT_TYPE_NM"    			toSCAttb="mandateType"/>
+			        <Pair DOAttb="MNDT_EFCTV_DT"    		toSCAttb="effectiveDate"/>
+			        <Pair DOAttb="MNDT_EXPIRY_DT"    		toSCAttb="expiryDate"/>
+			        <Pair DOAttb="MNDT_GRP_SIZE_ID"    		toSCAttb="groupSize"/>
+			        <Pair DOAttb="MNDT_FUNDG_ARNGMNT_ID"    toSCAttb="fundingArrangement"/>
+			        <Pair DOAttb="MNDT_CITTN_NBR"    		toSCAttb="citationNumber"/>
+			        <Pair DOAttb="MNDT_JURDCTN_CD"    		toSCAttb="jurisdiction"/>
+					<Pair DOAttb="MNDT_NM"    				toSCAttb="mandateName"/>
+			    </DoAttributeToSCAttributeMap>
+			
+			</DataObject>
+
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+ 
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+				   <SearchQueryName name="searchMandate"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+				   <SearchQueryName name="ViewAllVersions"/>
+	  			</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="groupSizeDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ITEM2">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="17" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="17" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchMandate"/>
+	  			</SQLTemplate>
+ 				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="17" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="ViewAllVersions"/>
+	  			</SQLTemplate>
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="fundingArrangementDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ITEM3">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="18" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+ 	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="18" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchMandate"/>
+	  			</SQLTemplate>
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersionByMandateName"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersionNumber"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="16" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+				   <SearchQueryName name="locateForCopy"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="18" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="ViewAllVersions"/>
+	  			</SQLTemplate>
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="jurisdictionDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="ITEM4">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="19" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+ 	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="19" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchMandate"/>
+				</SQLTemplate>
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="19" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="ViewAllVersions"/>
+	  			</SQLTemplate>
+
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="mandateTypeDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+</Metadata> 

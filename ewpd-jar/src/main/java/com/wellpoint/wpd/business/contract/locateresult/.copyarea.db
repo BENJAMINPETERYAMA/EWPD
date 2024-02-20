@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\contract\locateresult
+2
+7
+13:RuleCodeRanges.java|1|16adf95cd73|650|5136000d|956200035c1146ea84cef0d60aaad263|0
+18:RuleSequenceResults.java|1|16adf95cd92|5df6|6af802a|0ac36103639f4cf18057c332c5cef588|0
+19:ContractLocateResult.java|1|16adf95cd25|2350|10eff45d|42d89c2240bf46e5b1a52dc58497b33d|0
+25:BenefitLevelOverrideLocateResult.java|1|16adf95cd44|537|bbfa9e21|d67707fb78da43019e45460d3c9f7d38|0
+30:ContractBenefitAdministrationLocateCriteria.java|1|16adf95cf47|1a3e|dd2c425d|dc62536f0a1f40e48fd318427d23b98f|0
+32:AllPossibleAnswerForAdminOptionLocateCriteria.java|1|16adf95ccd7|476|86906ddc|70700ae7ba824292864344f807b29a83|0
+15:RuleLocateResult.java|1|16adf95cd83|19ed|f2b53cc4|80e3cfb808e1442596e2a1524bc8f9ff|0

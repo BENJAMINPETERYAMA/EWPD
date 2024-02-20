@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\search
+2
+b
+1e:AdvancedSearchBackingBean.java|1|16adf983e66|de9d|eb1be7ce|60063c8d675c4c00886c0f28fff83bdd|0
+1e:SearchToLocateBackingBean.java|1|16adf983fec|160e|464b1ffc|1b7a7bd22ee54820a3a16d2307539319|0
+16:SearchBackingBean.java|1|16adf983f02|45c|71905fd4|83fba9e5cac04d6b88a02006a629d5bc|0
+a:pagination|2|0|0|0|81e5c6f156c249ccb11aaf749925f254|0
+4:util|2|0|0|0|e97a8ac990e74143b6a4a14c21671874|0
+1c:SearchResultBackingBean.java|1|16adf983fdd|5b6|3563be3d|15df716a72f34a659832123736d9dc33|0
+4:tree|2|0|0|0|5cf450d4414447c8844c4709f478d552|0
+23:SearchResultSummaryBackingBean.java|1|16adf9842ba|622d|287199f2|3f89723eca484e66ace1434661b3f504|0
+1d:SearchResultsBackingBean.java|1|16adf9842e9|1791d|4beb711b|9611542ff7df4312b113a8742adb6b5d|0
+1b:BasicSearchBackingBean.java|1|16adf983e76|8071|35072550|f33e460f8f084741b19f9f0a29024927|0
+1a:SearchTreeBackingBean.java|1|16adf9842ba|1990|3b842625|e10d2048cb6341378ef19f10a32833e3|0

@@ -1,0 +1,1334 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitComponentBO">
+		<BusinessAttribute name="benefitComponentId" 				type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="benefitComponentParentId" 			type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="name" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="description" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNum" 					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="status" 					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="effectiveDate" 				type="Date"	keyAttrib="false"/>
+		<BusinessAttribute name="expiryDate" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="stateDesc" 		  type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="componentType" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="mandateType" 		type="String"		keyAttrib="false"/>				
+		<BusinessAttribute name="stateId" 		type="String"		keyAttrib="false"/>		
+		<BusinessAttribute name="mandateDesc" 		type="String"		keyAttrib="false"/>
+		
+		
+		<SearchCriteria name="test">
+			<SearchCriteriaAttribute name="benefitComponentName" 	type="String"/>
+			<SearchCriteriaAttribute name="benefitComponentId" type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentParentId" type="Int"/>
+			<SearchCriteriaAttribute name="productStructureId" type="Int"/>
+			<SearchCriteriaAttribute name="lobCodeList" type="List"/>
+			<SearchCriteriaAttribute name="businessEntityCodeList" type="List"/>
+			<SearchCriteriaAttribute name="businessGroupCodeList" type="List"/>
+			<SearchCriteriaAttribute name="marketBusinessUnitList" type="List"/>
+			<SearchCriteriaAttribute name="effectiveDate" type="String"/>
+			<SearchCriteriaAttribute name="expiryDate" type="String"/>
+			<SearchCriteriaAttribute name="versionNo" type="Int"/>
+			<SearchCriteriaAttribute name="destinationKey" 			type="Int"/>
+			<SearchCriteriaAttribute name="sourceKey" 				type="Int"/>
+			<SearchCriteriaAttribute name="user" 					type="String"/>
+			<SearchCriteriaAttribute name="copyaction" 				type="String"/>
+			<SearchCriteriaAttribute name="noteId"    type="String"/>	
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT a.BNFT_CMPNT_SYS_ID, a.BNFT_CMPNT_NM, a.BNFT_CMPNT_VRSN_NBR, a.BNFT_CMPNT_DESC_TXT, a.BNFT_CMPNT_EFCTV_DT, a.BNFT_CMPNT_EXPIRY_DT, a.BNFT_CMPNT_STTS_CD, a.BNFT_CMPNT_PARNT_SYS_ID, 
+				a.LST_CHG_TMS, a.LST_CHG_USR, a.CREATD_USER_ID, a.CREATD_TM_STMP, a.BNFT_CMPNT_TYPE, a.BNFT_CMPNT_MDNT_TYPE, a.BNFT_CMPNT_ST_CD,b.CD_DESC_TXT, c.CD_DESC_TXT 
+  				  FROM BCM_BNFT_CMPNT_MSTR a, ITEM b,ITEM c
+    			  WHERE a.BNFT_CMPNT_SYS_ID = ? 
+				  AND (a.BNFT_CMPNT_ST_CD = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 1626)
+				  AND (a.BNFT_CMPNT_MDNT_TYPE = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1939)
+				  
+			</SelectSQLQuery>
+			<SelectSQLQuery name="selectBenefitComponent">
+				<![CDATA[
+			 select A.BNFT_CMPNT_SYS_ID , A.BNFT_CMPNT_NM , A.BNFT_CMPNT_STTS_CD, A.BNFT_CMPNT_VRSN_NBR
+             from  BCM_BNFT_CMPNT_MSTR A ,(select BNFT_CMPNT_PARNT_SYS_ID, MAX(BNFT_CMPNT_VRSN_NBR) BNFT_CMPNT_VRSN_NBR FROM  BCM_BNFT_CMPNT_MSTR X WHERE X.BNFT_CMPNT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_CMPNT_PARNT_SYS_ID) AA,
+			 PROD_STRCTR_MSTR F
+			 where 
+			 	    A.BNFT_CMPNT_PARNT_SYS_ID = AA.BNFT_CMPNT_PARNT_SYS_ID 
+								AND A.BNFT_CMPNT_VRSN_NBR = AA.BNFT_CMPNT_VRSN_NBR
+								AND A.BNFT_CMPNT_STTS_CD = 'PUBLISHED'	
+					AND A.BNFT_CMPNT_NM NOT IN (SELECT a.BNFT_CMPNT_NM FROM PROD_STRCTR_BNFT_CMPNT_ASSN e,BCM_BNFT_CMPNT_MSTR a  WHERE e.PROD_STRCTR_SYS_ID = {0} and a.BNFT_CMPNT_SYS_ID = e.BNFT_CMPNT_SYS_ID)
+					AND TRUNC(A.BNFT_CMPNT_EFCTV_DT) <= TRUNC(F.PROD_STRCTR_EFCTV_DT)
+					AND TRUNC(A.BNFT_CMPNT_EXPIRY_DT) >= TRUNC(F.PROD_STRCTR_EXPIRY_DT)
+					AND A.BNFT_CMPNT_TYPE= F.PROD_STRCTR_TYPE
+					AND nvl(A.BNFT_CMPNT_MDNT_TYPE,'NULL') = nvl(F.PROD_STRCTR_MNDT_TYPE,'NULL')
+					AND nvl(A.BNFT_CMPNT_ST_CD,'NULL') = nvl(F.PROD_STRCTR_ST_CD,'NULL')
+					AND F.PROD_STRCTR_SYS_ID =  {0}
+					AND
+					A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM {1}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.LOB_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {1} AND CTLG_ID = 1925))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM LIKE 'ALL') 
+					)
+			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM {2}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_ENTY_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {2} AND CTLG_ID = 1932))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM LIKE 'ALL') 
+					) 
+			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM {3}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_GRP_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {3} AND CTLG_ID = 1933))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM LIKE 'ALL')
+					)
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						AND b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT {4}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.MRKT_BUS_UNT) = (select count(PRMRY_CD) from item where PRMRY_CD {4} AND CTLG_ID = 3470))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT LIKE 'ALL')
+					)
+					order by A.BNFT_CMPNT_NM
+			    ]]>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveComponentsToBeAdded">
+				<![CDATA[
+				select distinct 
+				assn.BNFT_CMPNT_SYS_ID,assn.SQNC_NBR from PROD_STRCTR_BNFT_CMPNT_ASSN assn where assn.PROD_STRCTR_SYS_ID = {0} 
+				and assn.BNFT_CMPNT_SYS_ID in
+				(SELECT distinct
+				C.BNFT_CMPNT_SYS_ID
+				FROM 
+				ENTY_DOMN_INFO A, AVLBL_DOMN B, BCM_BNFT_CMPNT_MSTR C ,PROD_STRCTR_MSTR F
+				WHERE 
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND
+				A.ENTY_TYPE = 'BENEFITCOMP' AND
+				C.BNFT_CMPNT_SYS_ID = A.ENTY_SYS_ID AND
+				(B.BUS_GRP_NM IN (SELECT 
+						DISTINCT(avail_dom.BUS_GRP_NM) BGRP_NAME
+					FROM 
+						PROD_STRCTR_MSTR prd, ENTY_DOMN_INFO entity_dom, AVLBL_DOMN avail_dom 
+					WHERE 
+						entity_dom.ENTY_SYS_ID=prd.PROD_STRCTR_SYS_ID and 
+						entity_dom.ENTY_TYPE='ProdStructure'and 
+						prd.PROD_STRCTR_SYS_ID= {0} and
+						avail_dom.DOMN_SYS_ID=entity_dom.DOMN_SYS_ID
+				) OR  (B.BUS_GRP_NM = 'ALL')) AND
+				(B.BUS_ENTY_NM IN (SELECT 
+						DISTINCT(avail_dom.BUS_ENTY_NM)
+					FROM 
+						PROD_STRCTR_MSTR prd, ENTY_DOMN_INFO entity_dom, AVLBL_DOMN avail_dom 
+					WHERE 
+						entity_dom.ENTY_SYS_ID=prd.PROD_STRCTR_SYS_ID and 
+						entity_dom.ENTY_TYPE='ProdStructure'and 
+						prd.PROD_STRCTR_SYS_ID= {0} and
+						avail_dom.DOMN_SYS_ID=entity_dom.DOMN_SYS_ID
+				) OR  (B.BUS_ENTY_NM = 'ALL')) AND
+				(B.LOB_NM IN (SELECT 
+						DISTINCT(avail_dom.LOB_NM) BGRP_NAME
+					FROM 
+						PROD_STRCTR_MSTR prd, ENTY_DOMN_INFO entity_dom, AVLBL_DOMN avail_dom 
+					WHERE 
+						entity_dom.ENTY_SYS_ID=prd.PROD_STRCTR_SYS_ID and 
+						entity_dom.ENTY_TYPE='ProdStructure'and 
+						prd.PROD_STRCTR_SYS_ID= {0} and
+						avail_dom.DOMN_SYS_ID=entity_dom.DOMN_SYS_ID
+				) OR  (B.LOB_NM = 'ALL'))
+				AND C.BNFT_CMPNT_EFCTV_DT <= F.PROD_STRCTR_EFCTV_DT
+				AND C.BNFT_CMPNT_EXPIRY_DT >= F.PROD_STRCTR_EXPIRY_DT
+				)
+			    ]]>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveComponentsToBeRemoved">
+				<![CDATA[
+			 select prd.BNFT_CMPNT_SYS_ID, cmp.BNFT_CMPNT_NM from PROD_STRCTR_BNFT_CMPNT_ASSN prd, BCM_BNFT_CMPNT_MSTR cmp where prd.PROD_STRCTR_SYS_ID = {0} and prd.BNFT_CMPNT_SYS_ID not in(
+ 			 select  distinct    A.BNFT_CMPNT_SYS_ID
+             from  BCM_BNFT_CMPNT_MSTR A
+			 where 	
+					A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM {1}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.LOB_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {1} AND CTLG_ID = 1925))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.LOB_NM LIKE 'ALL') 
+					)
+			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM {2}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_ENTY_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {2} AND CTLG_ID = 1932))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_ENTY_NM LIKE 'ALL') 
+					)
+ 
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT {4}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.MRKT_BUS_UNT) = (select count(PRMRY_CD) from item where PRMRY_CD {4} AND CTLG_ID = 3470))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.MRKT_BUS_UNT LIKE 'ALL') 
+					) 			
+			
+					and A.BNFT_CMPNT_PARNT_SYS_ID in 
+					(
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID 
+						from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM {3}
+						GROUP BY a.BNFT_CMPNT_PARNT_SYS_ID
+						HAVING count(UNIQUE c.BUS_GRP_NM) = (select count(PRMRY_CD) from item where PRMRY_CD {3} AND CTLG_ID = 1933))
+						union
+						(select unique a.BNFT_CMPNT_PARNT_SYS_ID from  BCM_BNFT_CMPNT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+						where a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+						and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+						and b.ENTY_TYPE = 'BENEFITCOMP'
+						and c.BUS_GRP_NM LIKE 'ALL')
+					))
+					AND prd.BNFT_CMPNT_SYS_ID = cmp.BNFT_CMPNT_SYS_ID
+			    ]]>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateBenefitComponentForDelete">
+					select BNFT_CMPNT_SYS_ID from PROD_STRCTR_BNFT_CMPNT_ASSN where BNFT_CMPNT_SYS_ID = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveBenefitComponentLatestVersion">
+				 SELECT 	A.BNFT_CMPNT_SYS_ID, A.BNFT_CMPNT_NM, A.BNFT_CMPNT_VRSN_NBR, A.BNFT_CMPNT_DESC_TXT, A.BNFT_CMPNT_EFCTV_DT, A.BNFT_CMPNT_EXPIRY_DT,
+						A.BNFT_CMPNT_STTS_CD, A.BNFT_CMPNT_PARNT_SYS_ID, A.LST_CHG_TMS, A.LST_CHG_USR, A.CREATD_USER_ID, A.CREATD_TM_STMP, A.BNFT_CMPNT_TYPE,
+						A.BNFT_CMPNT_MDNT_TYPE, A.BNFT_CMPNT_ST_CD , B.CD_DESC_TXT
+				FROM	BCM_BNFT_CMPNT_MSTR A, ITEM B WHERE 				
+				(A.BNFT_CMPNT_ST_CD = B.PRMRY_CD(+) AND B.CTLG_ID(+) = 1626) AND
+				A.BNFT_CMPNT_PARNT_SYS_ID IN 
+						(
+						    select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+						    where 
+						    C.BUS_GRP_NM  {0}
+						    AND C.BUS_ENTY_NM  {1}
+						    AND C.LOB_NM  {2}
+						    AND C.MRKT_BUS_UNT  {4}
+						    AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+						    AND B.ENTY_TYPE='BENEFITCOMP'    
+						    AND B.ENTY_NM= {3}   
+						  )
+							AND A.BNFT_CMPNT_VRSN_NBR = (SELECT MAX(D.BNFT_CMPNT_VRSN_NBR)
+							FROM BCM_BNFT_CMPNT_MSTR D
+							WHERE A.BNFT_CMPNT_PARNT_SYS_ID = D.BNFT_CMPNT_PARNT_SYS_ID	AND D.BNFT_CMPNT_STTS_CD != 'MARKED_FOR_DELETION')
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveBenefitComponentLatestPublishedVersion">
+				SELECT C.BNFT_CMPNT_SYS_ID, C.BNFT_CMPNT_PARNT_SYS_ID, C.BNFT_CMPNT_NM, C.BNFT_CMPNT_VRSN_NBR, C.BNFT_CMPNT_EFCTV_DT, C.BNFT_CMPNT_EXPIRY_DT 
+ 				FROM BCM_BNFT_CMPNT_MSTR C , BCM_BNFT_CMPNT_MSTR D	
+ 				WHERE D.BNFT_CMPNT_SYS_ID = {0}
+ 				AND C.BNFT_CMPNT_PARNT_SYS_ID = D.BNFT_CMPNT_PARNT_SYS_ID
+ 				AND C.BNFT_CMPNT_VRSN_NBR = (SELECT MAX(E.BNFT_CMPNT_VRSN_NBR) FROM BCM_BNFT_CMPNT_MSTR E WHERE
+ 				E.BNFT_CMPNT_PARNT_SYS_ID = D.BNFT_CMPNT_PARNT_SYS_ID AND E.BNFT_CMPNT_STTS_CD = 'PUBLISHED')
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveBenefitComponentLatestVersionNumber">
+				SELECT 	A.BNFT_CMPNT_SYS_ID, A.BNFT_CMPNT_NM, A.BNFT_CMPNT_VRSN_NBR, A.BNFT_CMPNT_DESC_TXT, A.BNFT_CMPNT_EFCTV_DT, A.BNFT_CMPNT_EXPIRY_DT,
+						A.BNFT_CMPNT_STTS_CD, A.BNFT_CMPNT_PARNT_SYS_ID, A.LST_CHG_TMS, A.LST_CHG_USR, A.CREATD_USER_ID, A.CREATD_TM_STMP
+				FROM	BCM_BNFT_CMPNT_MSTR A WHERE A.BNFT_CMPNT_PARNT_SYS_ID IN 
+						(
+						    select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+						    where 
+						    C.BUS_GRP_NM  {0}
+						    AND C.BUS_ENTY_NM  {1}
+						    AND C.LOB_NM  {2}
+							AND C.MRKT_BUS_UNT {4} 
+						    AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+						    AND B.ENTY_TYPE='BENEFITCOMP'    
+						    AND B.ENTY_NM= {3}   
+						  )
+							AND A.BNFT_CMPNT_VRSN_NBR = (SELECT MAX(D.BNFT_CMPNT_VRSN_NBR)
+							FROM BCM_BNFT_CMPNT_MSTR D
+							WHERE A.BNFT_CMPNT_PARNT_SYS_ID = D.BNFT_CMPNT_PARNT_SYS_ID	)
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveBenefitComponentById">
+				SELECT BNFT_CMPNT_SYS_ID, BNFT_CMPNT_NM, BNFT_CMPNT_VRSN_NBR, BNFT_CMPNT_DESC_TXT, BNFT_CMPNT_EFCTV_DT, BNFT_CMPNT_EXPIRY_DT, BNFT_CMPNT_STTS_CD, BNFT_CMPNT_PARNT_SYS_ID, LST_CHG_TMS, LST_CHG_USR, CREATD_USER_ID, CREATD_TM_STMP,BNFT_CMPNT_ST_CD
+  				  FROM BCM_BNFT_CMPNT_MSTR
+    			  WHERE BNFT_CMPNT_SYS_ID = {0} 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="viewAllVersions">
+				SELECT B.BNFT_CMPNT_SYS_ID, B.BNFT_CMPNT_NM, B.BNFT_CMPNT_VRSN_NBR, B.BNFT_CMPNT_DESC_TXT, B.BNFT_CMPNT_EFCTV_DT, B.BNFT_CMPNT_EXPIRY_DT, B.BNFT_CMPNT_STTS_CD, B.BNFT_CMPNT_PARNT_SYS_ID, B.LST_CHG_TMS, B.LST_CHG_USR, B.CREATD_USER_ID, B.CREATD_TM_STMP
+                FROM BCM_BNFT_CMPNT_MSTR A,BCM_BNFT_CMPNT_MSTR B
+                WHERE A.BNFT_CMPNT_SYS_ID = {0} AND A.BNFT_CMPNT_PARNT_SYS_ID = B.BNFT_CMPNT_PARNT_SYS_ID
+                ORDER BY B.BNFT_CMPNT_VRSN_NBR DESC
+
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateComponents" dynamic="true">
+
+				 <STATIC>
+				  <![CDATA[
+				        SELECT distinct B.ENTY_SYS_ID, B.ENTY_NM from BCM_BNFT_CMPNT_MSTR A,ENTY_DOMN_INFO B, AVLBL_DOMN C
+				       			 WHERE   1 = 1
+			                        and B.ENTY_TYPE = 'BENEFITCOMP'
+			                        AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+		                            and  A.BNFT_CMPNT_SYS_ID = B.ENTY_SYS_ID
+								 and  A.BNFT_CMPNT_TYPE != 'MANDATE'
+								and to_char(B. ENTY_SYS_ID) not in
+											(select ENTY_SYS_ID from NOTE_DOMN_ASSN  where ENTY_TYPE ='AVAILCOMP' and NOTE_ID= {4}
+								AND NOTE_VRSN_NBR IN ( SELECT NOTE_VRSN_NBR FROM NMST_NOTE_MSTR WHERE NOTE_ID = {4} AND 
+			    			NOTE_STTS_CD != 'MARKED_FOR_DELETION'))
+				     ]]>
+			    </STATIC>	            
+			    <DYNAMIC>
+			       AND      C.BUS_GRP_NM {1}
+		        </DYNAMIC> 
+			    <DYNAMIC>
+			       AND      C.BUS_ENTY_NM {2}
+			    </DYNAMIC> 
+			    <DYNAMIC>
+			      AND       C.LOB_NM {3}
+			    </DYNAMIC>
+			    <DYNAMIC>
+				  AND		MRKT_BUS_UNT {5}
+			    </DYNAMIC>
+			    <DYNAMIC>
+			       AND  A.BNFT_CMPNT_SYS_ID in     
+			            (select BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR  where 
+							BNFT_CMPNT_STTS_CD != 'MARKED_FOR_DELETION' and								
+                                (BNFT_CMPNT_NM LIKE {0} escape '`' 
+                                or BNFT_CMPNT_NM LIKE UPPER ({0}) escape '`' 
+                                or BNFT_CMPNT_NM LIKE LOWER ({0}) escape '`'))
+			    </DYNAMIC> 
+		    	<STATIC>
+		            <![CDATA[
+							
+		              order by B.ENTY_NM asc
+		            ]]>
+			 	</STATIC>
+		                        
+			</SelectSQLQuery>
+			<SelectSQLQuery name="copyOneBenefitComponentToAnother">
+				CALL BC_COPYBENEFITCOMPONENTPROC({0},{1},{2},{3},{4})
+			</SelectSQLQuery>
+			<SelectSQLQuery name="copyOneBenefitComponentToAnotherForCheckOut">
+				CALL bc_checkoutbenefitcomponent({0},{1},{2},{3})
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateBenefitComponent" dynamic="true">
+				<STATIC>
+					<![CDATA[
+					SELECT * FROM (SELECT BNFT_CMPNT_SYS_ID, BNFT_CMPNT_NM, BNFT_CMPNT_DESC_TXT, BNFT_CMPNT_VRSN_NBR, 
+							BNFT_CMPNT_EFCTV_DT, BNFT_CMPNT_EXPIRY_DT, BNFT_CMPNT_STTS_CD, BNFT_CMPNT_PARNT_SYS_ID,BNFT_CMPNT_TYPE
+						FROM BCM_BNFT_CMPNT_MSTR 
+						WHERE BCM_BNFT_CMPNT_MSTR.BNFT_CMPNT_SYS_ID IN ( 
+							SELECT MAX(BNFT_CMPNT_SYS_ID) FROM BCM_BNFT_CMPNT_MSTR MSTR WHERE MSTR.BNFT_CMPNT_PARNT_SYS_ID IN (
+							SELECT ED.ENTY_SYS_ID FROM ENTY_DOMN_INFO ED WHERE ED.ENTY_TYPE = 'BENEFITCOMP' AND ED.DOMN_SYS_ID IN (
+							SELECT D.DOMN_SYS_ID FROM AVLBL_DOMN D WHERE D.LOB_NM {0} 
+							AND D.BUS_GRP_NM {1} 
+							AND D.BUS_ENTY_NM {2}
+							AND D.MRKT_BUS_UNT {6} 
+							)
+						)
+						AND
+							UPPER(MSTR.BNFT_CMPNT_NM) like UPPER({3}) escape '`'
+						]]>
+					</STATIC>
+					<DYNAMIC>
+						<![CDATA[
+						AND 
+							MSTR.BNFT_CMPNT_EFCTV_DT = TO_DATE({4},'mm/dd/yyyy')
+						]]>
+					</DYNAMIC>
+					<DYNAMIC>
+						<![CDATA[
+						AND
+						    MSTR.BNFT_CMPNT_EXPIRY_DT = TO_DATE({5},'mm/dd/yyyy')
+						]]>
+					</DYNAMIC>
+					<STATIC>
+						<![CDATA[
+						  group by BNFT_CMPNT_PARNT_SYS_ID,BNFT_CMPNT_NM
+						)) WHERE ROWNUM <=51 order by BNFT_CMPNT_NM asc
+						]]>
+					</STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkBenefitComponentDuplicate" dynamic="true">
+
+			  <STATIC>select A.BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR A, ENTY_DOMN_INFO B, AVLBL_DOMN C 
+						where A.BNFT_CMPNT_PARNT_SYS_ID != {0} 
+							and A.BNFT_CMPNT_PARNT_SYS_ID = B.ENTY_SYS_ID 
+							and B.ENTY_TYPE='BENEFITCOMP' 
+							and B.DOMN_SYS_ID = C.DOMN_SYS_ID</STATIC> 
+			  <DYNAMIC>and A.BNFT_CMPNT_NM = {1}</DYNAMIC> 
+			  <DYNAMIC>AND (C.LOB_NM {2} or C.LOB_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.BUS_ENTY_NM {3} or C.BUS_ENTY_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.BUS_GRP_NM {4} or C.BUS_GRP_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.MRKT_BUS_UNT {5} or C.MRKT_BUS_UNT in ('ALL'))</DYNAMIC> 
+
+			</SelectSQLQuery>	
+			<DataObject name="BCM_BNFT_CMPNT_MSTR">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_NM"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_VRSN_NBR"    type="Int"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_DESC_TXT"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_EFCTV_DT"    type="Date"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_EXPIRY_DT"    type="Date"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_STTS_CD"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_PARNT_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+				<DataObjectAttribute name="BNFT_CMPNT_TYPE"    type="String"/>
+   			    <DataObjectAttribute name="BNFT_CMPNT_MDNT_TYPE"    type="String"/>
+   			    <DataObjectAttribute name="BNFT_CMPNT_ST_CD"    type="String"/>
+				<DataObjectAttribute name="DOMN_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="LOB_NM"    type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID"    type="Int"/>
+				<DataObjectAttribute name="PROD_STRCTR_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="BUS_ENTY_NM"    type="String"/>
+ 				<DataObjectAttribute name="BUS_GRP_NM"    type="String"/>
+ 				<DataObjectAttribute name="MRKT_BUS_UNT"    type="String"/>
+				<DataObjectAttribute name="PROD_STRCTR_EXPIRY_DT"    type="Date"/>
+				<DataObjectAttribute name="PROD_STRCTR_EFCTV_DT"    type="Date"/>
+				<DataObjectAttribute name="cnt"    type="Int"/>				
+				<DataObjectAttribute name="SOURCE_ID" 			type="Int"/>
+				<DataObjectAttribute name="DESTINATION_ID" 		type="Int"/>
+				<DataObjectAttribute name="SEQ_NO" 		type="Int"/>
+				<DataObjectAttribute name="ITEM_STATE_DESC" type="String"/>
+				<DataObjectAttribute name="ITEM_MANDATE_DESC" type="String"/>
+				<DataObjectAttribute name="COPYACTION" type="String"/>
+				
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								 INSERT INTO BCM_BNFT_CMPNT_MSTR ( BNFT_CMPNT_SYS_ID, BNFT_CMPNT_NM, BNFT_CMPNT_VRSN_NBR, BNFT_CMPNT_DESC_TXT, 
+								  BNFT_CMPNT_EFCTV_DT, BNFT_CMPNT_EXPIRY_DT, BNFT_CMPNT_STTS_CD, BNFT_CMPNT_PARNT_SYS_ID, LST_CHG_TMS, 
+									LST_CHG_USR, CREATD_USER_ID, CREATD_TM_STMP, BNFT_CMPNT_TYPE, BNFT_CMPNT_MDNT_TYPE , BNFT_CMPNT_ST_CD)
+            						VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_NM"/>
+						<DataObjectAttributeInput index="2" name="BNFT_CMPNT_VRSN_NBR"/>
+						<DataObjectAttributeInput index="3" name="BNFT_CMPNT_DESC_TXT"/>
+						<DataObjectAttributeInput index="4" name="BNFT_CMPNT_EFCTV_DT"/>
+						<DataObjectAttributeInput index="5" name="BNFT_CMPNT_EXPIRY_DT"/>
+						<DataObjectAttributeInput index="6" name="BNFT_CMPNT_STTS_CD"/>
+						<DataObjectAttributeInput index="7" name="BNFT_CMPNT_PARNT_SYS_ID"/>
+						<DataObjectAttributeInput index="8" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="9" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="10" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="11" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="12" name="BNFT_CMPNT_TYPE"/>
+       				    <DataObjectAttributeInput index="13" name="BNFT_CMPNT_MDNT_TYPE"/>
+       				    <DataObjectAttributeInput index="14" name="BNFT_CMPNT_ST_CD"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						UPDATE BCM_BNFT_CMPNT_MSTR
+             			SET BNFT_CMPNT_NM = ?, BNFT_CMPNT_VRSN_NBR = ?, BNFT_CMPNT_EFCTV_DT = ?, 
+						BNFT_CMPNT_EXPIRY_DT = ?, BNFT_CMPNT_STTS_CD = ?, BNFT_CMPNT_PARNT_SYS_ID = ?, 
+						LST_CHG_TMS = ?, LST_CHG_USR = ?, BNFT_CMPNT_TYPE = ?, 
+						BNFT_CMPNT_MDNT_TYPE = ?, BNFT_CMPNT_ST_CD = ?, BNFT_CMPNT_DESC_TXT = ?
+          			    WHERE BNFT_CMPNT_SYS_ID = ?
+					</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+				        <DataObjectAttributeInput index="1" name="BNFT_CMPNT_VRSN_NBR"/>
+				        <DataObjectAttributeInput index="2" name="BNFT_CMPNT_EFCTV_DT"/>
+				        <DataObjectAttributeInput index="3" name="BNFT_CMPNT_EXPIRY_DT"/>
+				        <DataObjectAttributeInput index="4" name="BNFT_CMPNT_STTS_CD"/>
+				        <DataObjectAttributeInput index="5" name="BNFT_CMPNT_PARNT_SYS_ID"/>
+				        <DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+				        <DataObjectAttributeInput index="7" name="LST_CHG_USR"/>				       
+				        <DataObjectAttributeInput index="8" name="BNFT_CMPNT_TYPE"/>
+				        <DataObjectAttributeInput index="9" name="BNFT_CMPNT_MDNT_TYPE"/>
+				        <DataObjectAttributeInput index="10" name="BNFT_CMPNT_ST_CD"/>
+				        <DataObjectAttributeInput index="11" name="BNFT_CMPNT_DESC_TXT"/>
+				        <DataObjectAttributeInput index="12" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+		            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+		            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+		            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+		            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+		            <ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+		            <ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+		            <ResultIndex index="8" dataObjectAttribName ="LST_CHG_TMS"/>
+		            <ResultIndex index="9" dataObjectAttribName ="LST_CHG_USR"/>
+		            <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+		            <ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+					<ResultIndex index="12" dataObjectAttribName ="BNFT_CMPNT_TYPE"/>
+            		<ResultIndex index="13" dataObjectAttribName ="BNFT_CMPNT_MDNT_TYPE"/>
+            		<ResultIndex index="14" dataObjectAttribName ="BNFT_CMPNT_ST_CD"/>
+					<ResultIndex index="15" dataObjectAttribName ="ITEM_STATE_DESC"/>
+					<ResultIndex index="16" dataObjectAttribName ="ITEM_MANDATE_DESC"/>						
+		        </RSIndexToDOAttributeMap>
+				
+		    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PROD_STRCTR_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="LOB_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="selectBenefitComponent"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PROD_STRCTR_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="SEQ_NO"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveComponentsToBeAdded"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+					<SearchQueryName name="locateComponents"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PROD_STRCTR_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="LOB_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveComponentsToBeRemoved"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+			            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitComponentLatestPublishedVersion"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_NM"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+			            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+			            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="9" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BNFT_CMPNT_TYPE"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BNFT_CMPNT_MDNT_TYPE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="BNFT_CMPNT_ST_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitComponentLatestVersion"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_NM"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+			            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+			            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="9" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitComponentLatestVersionNumber"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+		            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+		            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+		            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+		            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+		            <ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+		            <ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+		            <ResultIndex index="8" dataObjectAttribName ="LST_CHG_TMS"/>
+		            <ResultIndex index="9" dataObjectAttribName ="LST_CHG_USR"/>
+		            <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+		            <ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+		            <ResultIndex index="12" dataObjectAttribName ="BNFT_CMPNT_ST_CD"/>
+		        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveBenefitComponentById"/>
+		    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_PARNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_CMPNT_NM"/>
+					<DataObjectAttributeInput index="2" name="LOB_NM"/>
+					<DataObjectAttributeInput index="3" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="4" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="5" name="MRKT_BUS_UNT"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkBenefitComponentDuplicate"/>
+				</SQLTemplate>
+				
+			<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+		            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+		            <ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+		            <ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+		            <ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+		            <ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+		            <ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+		            <ResultIndex index="8" dataObjectAttribName ="LST_CHG_TMS"/>
+		            <ResultIndex index="9" dataObjectAttribName ="LST_CHG_USR"/>
+		            <ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+		            <ResultIndex index="11" dataObjectAttribName ="CREATD_TM_STMP"/>
+		        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="viewAllVersions"/>
+		    </SQLTemplate>
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_NM"/>
+					<DataObjectAttributeInput index="4" name="BNFT_CMPNT_EFCTV_DT"/>
+					<DataObjectAttributeInput index="5" name="BNFT_CMPNT_EXPIRY_DT"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_DESC_TXT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_EFCTV_DT"/>
+						<ResultIndex index="5" dataObjectAttribName ="BNFT_CMPNT_EXPIRY_DT"/>
+						<ResultIndex index="6" dataObjectAttribName ="BNFT_CMPNT_STTS_CD"/>
+						<ResultIndex index="7" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="BNFT_CMPNT_TYPE"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateBenefitComponent"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="SOURCE_ID"/>
+					<DataObjectAttributeInput index="1" name="DESTINATION_ID"/>
+					<DataObjectAttributeInput index="2" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="3" name="COPYACTION"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>							
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="copyOneBenefitComponentToAnother"/>
+				</SQLTemplate>
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="SOURCE_ID"/>
+					<DataObjectAttributeInput index="1" name="DESTINATION_ID"/>
+					<DataObjectAttributeInput index="2" name="CREATD_USER_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>							
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="copyOneBenefitComponentToAnotherForCheckOut"/>
+				</SQLTemplate>
+			<SQLTemplate transType="delete">
+				<SQLQuery>
+						delete from BCM_BNFT_CMPNT_MSTR where BNFT_CMPNT_SYS_ID =?
+				</SQLQuery>
+				<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>	
+			</SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    toBOAttb="benefitComponentId"/>
+			        <Pair DOAttb="BNFT_CMPNT_NM"    toBOAttb="name"/>
+			        <Pair DOAttb="BNFT_CMPNT_VRSN_NBR"    toBOAttb="version"/>
+			        <Pair DOAttb="BNFT_CMPNT_DESC_TXT"    toBOAttb="description"/>
+			        <Pair DOAttb="BNFT_CMPNT_EFCTV_DT"    toBOAttb="effectiveDate"/>
+			        <Pair DOAttb="BNFT_CMPNT_EXPIRY_DT"    toBOAttb="expiryDate"/>
+			        <Pair DOAttb="BNFT_CMPNT_STTS_CD"    toBOAttb="status"/>
+			        <Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID"    toBOAttb="benefitComponentParentId"/>
+			        <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+					 <Pair DOAttb="SEQ_NO"    toBOAttb="sequenceNum"/>
+					 <Pair DOAttb="BNFT_CMPNT_TYPE"    toBOAttb="componentType"/>
+        			<Pair DOAttb="BNFT_CMPNT_MDNT_TYPE"    toBOAttb="mandateType"/>
+        			<Pair DOAttb="BNFT_CMPNT_ST_CD"    toBOAttb="stateId"/>
+					<Pair DOAttb="ITEM_STATE_DESC"    toBOAttb="stateDesc"/>
+					<Pair DOAttb="ITEM_MANDATE_DESC"    toBOAttb="mandateDesc"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID"    toSCAttb="benefitComponentParentId"/>
+			        <Pair DOAttb="BNFT_CMPNT_NM"    toSCAttb="benefitComponentName"/>
+					<Pair DOAttb="PROD_STRCTR_SYS_ID"    toSCAttb="productStructureId"/>
+					<Pair DOAttb="BNFT_CMPNT_EFCTV_DT"    toSCAttb="effectiveDate"/>
+					<Pair DOAttb="BNFT_CMPNT_EXPIRY_DT"    toSCAttb="expiryDate"/>
+					<Pair DOAttb="BNFT_CMPNT_VRSN_NBR"    toSCAttb="versionNo"/>
+					<Pair DOAttb="DESTINATION_ID" 	toSCAttb="destinationKey"/>
+					<Pair DOAttb="SOURCE_ID" 		toSCAttb="sourceKey"/>
+					<Pair DOAttb="CREATD_USER_ID" 	toSCAttb="user"/>
+					<Pair DOAttb="LOB_NM" 	toSCAttb="lobCodeList"/>
+					<Pair DOAttb="BUS_ENTY_NM" 	toSCAttb="businessEntityCodeList"/>
+					<Pair DOAttb="BUS_GRP_NM" 	toSCAttb="businessGroupCodeList"/>
+					<Pair DOAttb="MRKT_BUS_UNT" 	toSCAttb="marketBusinessUnitList" />
+					<Pair DOAttb="COPYACTION" 	toSCAttb="copyaction"/>
+			    </DoAttributeToSCAttributeMap>			
+			</DataObject>				
+			<DataObject name="AVLBL_DOMN">
+				<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+				<DataObjectAttribute name="DOMN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BUS_GRP_NM" 			type="String"/>
+				<DataObjectAttribute name="BUS_ENTY_NM" 		type="String"/>
+				<DataObjectAttribute name="LOB_NM" 				type="String"/>
+				<DataObjectAttribute name="MRKT_BUS_UNT" 		type="String"/>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="LOB_NM"/>
+						<DataObjectAttributeInput index="1" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="6" name="MRKT_BUS_UNT"/>
+						<SearchQueryName name="locateBenefitComponent"/>
+					</SQLTemplate>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="2" name="LOB_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<SearchQueryName name="retrieveBenefitComponentLatestVersion"/>
+					</SQLTemplate>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="2" name="LOB_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<SearchQueryName name="retrieveBenefitComponentLatestVersionNumber"/>
+					</SQLTemplate>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="1" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="LOB_NM"/>
+						<DataObjectAttributeInput index="4" name="NOTE_ID" />
+						<DataObjectAttributeInput index="5" name="MRKT_BUS_UNT" />
+						<SearchQueryName name="locateComponents"/>
+					</SQLTemplate>
+
+					<DoAttributeToBOAttributeMap>
+							<Pair DOAttb="BUS_GRP_NM"			toBOAttb="name"/>
+							<Pair DOAttb="BUS_ENTY_NM"		toBOAttb="name"/>
+							<Pair DOAttb="LOB_NM"		toBOAttb="name"/>
+							<Pair DOAttb="MRKT_BUS_UNT"		toBOAttb="name"/>
+					</DoAttributeToBOAttributeMap>
+	
+					<DoAttributeToSCAttributeMap>
+							<Pair DOAttb="LOB_NM" 			toSCAttb="lobCodeList"/>
+							<Pair DOAttb="BUS_ENTY_NM" 		toSCAttb="businessEntityCodeList"/>
+							<Pair DOAttb="BUS_GRP_NM" 		toSCAttb="businessGroupCodeList"/>
+							<Pair DOAttb="MRKT_BUS_UNT" 	toSCAttb="marketBusinessUnitList"/>
+							<Pair DOAttb="NOTE_ID" 			toSCAttb="noteId" />
+					</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="PROD_STRCTR_BNFT_CMPNT_ASSN">
+				<DataObjectAttribute name="PROD_STRCTR_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" type="String"/>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+    							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+    					</RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateBenefitComponentForDelete"></SearchQueryName>
+					</SQLTemplate>
+					<DoAttributeToBOAttributeMap>    						
+    						<Pair DOAttb="BNFT_CMPNT_SYS_ID"		toBOAttb="benefitComponentId"/>
+    				</DoAttributeToBOAttributeMap>
+    				<DoAttributeToSCAttributeMap>
+    						<Pair DOAttb="BNFT_CMPNT_SYS_ID" 		toSCAttb="benefitComponentId"/>    						
+    				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="BHRCY_BNFT_HRCY">
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" type="String"/>	
+				<DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from BHRCY_BNFT_HRCY where BNFT_CMPNT_SYS_ID=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>	
+				<DoAttributeToBOAttributeMap>    						
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"		toBOAttb="benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="BNFT_CMPNT_HRCHY_ASSN">
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_ASSN_DESC_TXT" type="String"/>
+				<DataObjectAttribute name="SQNC_NBR" type="Int"/>
+				<DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery >
+						delete from BNFT_CMPNT_HRCHY_ASSN where  BNFT_CMPNT_SYS_ID=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"         toBOAttb="benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>	
+			
+			<DataObject name="BNFT_CMPNT_BNFT_CSTMZD">
+				<DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>				
+			    <DataObjectAttribute name="BNFT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID"   	type="Int"/>
+				<DataObjectAttribute name="BLN_BNFT_LINE_ID"   	type="Int"/>
+				<DataObjectAttribute name="BVAL_BNFT_VAL"   	type="String"/>
+				<DataObjectAttribute name="BNFT_LVL_HIDE_FLAG"   	type="String"/>
+				<DataObjectAttribute name="BNFT_LINE_HIDE_FLAG"   	type="String"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery >
+						DELETE FROM BNFT_CMPNT_BNFT_CSTMZD where BNFT_CMPNT_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"         toBOAttb="benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>	
+
+			<DataObject name="BNFT_CMPT_ANSWR_OVRD">
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery>	
+            			delete from BNFT_CMPNT_ANSWR_OVRD 
+						where 		BNFT_CMPNT_SYS_ID = ?				
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>    						
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"		toBOAttb="benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="BNFT_CMPT_ADMN_OPT_CUSTM">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>
+				<SQLTemplate transType="delete">
+        			<SQLQuery>
+            			delete from BNFT_CMPNT_ADMN_OPT_CUSTM 
+						where 		BNFT_CMPNT_SYS_ID = ? 
+        			</SQLQuery>
+				 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+    			</SQLTemplate>
+				 <DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"		toBOAttb="benefitComponentId"/>
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+			
+			<DataObject name="ENTY_DOMN_INFO">
+				<DataObjectAttribute name="ENTY_SYS_ID" type="Int"/>
+			    <DataObjectAttribute name="ENTY_NM"    type="String"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from ENTY_DOMN_INFO where ENTY_TYPE = 'BENEFITCOMP' and  ENTY_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ENTY_NM"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateComponents"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>    						
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="benefitComponentParentId"/>
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="ENTY_NM"		toBOAttb="name"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>	
+			
+			<DataObject name="NOTE_DOMAIN_OVRD_VAL">
+				<DataObjectAttribute name="PRMRY_ENTY_ID" type="Int"/>
+				<DataObjectAttribute name="PRMRY_ENTY_TYPE" type="String"/>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from NOTE_DOMAIN_OVRD_VAL where PRMRY_ENTY_TYPE = 'ATTACHCOMP' and  PRMRY_ENTY_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>    						
+						<Pair DOAttb="PRMRY_ENTY_ID"		toBOAttb="benefitComponentId"/>					
+				</DoAttributeToBOAttributeMap>
+			</DataObject>			
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CD_DESC_TXT" type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="15" dataObjectAttribName ="CD_DESC_TXT"/>						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitComponentLatestVersion"/>	
+				</SQLTemplate>	
+				<DoAttributeToBOAttributeMap>    						
+						<Pair DOAttb="CD_DESC_TXT"		toBOAttb="stateDesc"/>						
+				</DoAttributeToBOAttributeMap>
+			</DataObject>	
+	</DataSource>
+</BusinessObjectMetadata >
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitComponent">
+		<BusinessAttribute name="benefitComponentId" 	 			type="Int" 	keyAttrib="true"/>
+		
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				select max(SQNC_NBR),BNFT_CMPNT_SYS_ID from BNFT_CMPNT_HRCHY_ASSN where BNFT_CMPNT_SYS_ID = ? group by BNFT_CMPNT_SYS_ID
+			</SelectSQLQuery>
+			<DataObject name="BNFT_CMPNT_HRCHY_ASSN ">
+					<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 	type="Int"/>
+					<SQLTemplate transType="delete">
+					<SQLQuery>
+						DELETE FROM BNFT_CMPNT_HRCHY_ASSN WHERE
+						BNFT_CMPNT_SYS_ID=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="BNFT_CMPNT_SYS_ID" />
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID" toBOAttb = "benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+				
+			<DataObject name="ANSWR_OVRD_INFO">
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 	type="Int"/>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+		    			delete from ANSWR_OVRD_INFO 
+						where 		ENTY_TYPE = 'BENEFITCOMP' and ENTY_SYS_ID = ? and 
+									ADMIN_LVL_OPT_ASSN_SYS_ID in ( select 	e.ADMIN_LVL_OPT_ASSN_SYS_ID
+																   from 	BNFT_CMPNT_HRCHY_ASSN b ,BDM_BNFT_DEFN_MSTR c ,	BNFT_ADMNSTRN_ASSN d ,BNFT_ADMIN_TO_LVL_ASSN e
+																   where 	b.BNFT_SYS_ID = c.BNFT_SYS_ID and
+																		  	c.BNFT_DEFN_SYS_ID = d.BNFT_DEFN_SYS_ID and
+																		  	d.BNFT_ADMIN_SYS_ID = e.BNFT_ADMIN_SYS_ID and
+																		  	BNFT_CMPNT_SYS_ID = ?)
+					</SQLQuery>
+			 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			 <DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+			</SQLTemplate>
+			<DoAttributeToBOAttributeMap>
+				<Pair DOAttb="BNFT_CMPNT_SYS_ID" toBOAttb = "benefitComponentId"/>
+			</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitComponentQuesitionnaireBO">
+		<BusinessAttribute name="questionnaireId"    		   type="Int"   keyAttrib="true"/>
+		<BusinessAttribute name="questionId"      			   type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="adminLevelOptionSysId"        type="Int"   keyAttrib="false"/>
+		<BusinessAttribute name="parentQuestionnaireId"        type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerid"             type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="referenceId"                  type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc"                type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="questionName"                 type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerDesc"           type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="possibleAnswerList"           type="List"  keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"          		   type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"             type="Date"  keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"              type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"         type="Date"  keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId"           type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="bnftDefId"        			   type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="notesExists"				   type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="validDomainToAttach"			type="String"	keyAttrib="false"/>
+
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="adminOptSysId" type="Int"/>
+			<SearchCriteriaAttribute name="benftAdminSysId"  type="Int"/>
+			<SearchCriteriaAttribute name="beneftComponentId"  type="Int"/>
+			<SearchCriteriaAttribute name="lastUpdatedUser"  type="String"/>
+		    <SearchCriteriaAttribute name="selectedAnswerid"  type="Int"/>
+		    <SearchCriteriaAttribute name="questionnaireId"  type="Int"/>
+		    <SearchCriteriaAttribute name="adminLvlOptSystemId"  type="Int"/>
+		    <SearchCriteriaAttribute name="bnftDefenitionId"  type="Int"/>
+			<SearchCriteriaAttribute name="beneftCompParentId"  type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getQuestionnaire">
+				 <!-- SELECT 	B.ADMIN_LVL_OPT_ASSN_SYS_ID,A.QSTNR_HRCHY_SYS_ID,A.ADQM_ADMN_QSTN_NBR,A.PRNT_QSTNR_HRCHY_SYS_ID,A.RFRNC_ID,B.OVRD_ANSWR_ID,
+				  			D.ADQM_ADMN_QSTN_DESC,E.PSBL_ANSWR,F.CD_DESC_TXT,c.bnft_defn_sys_id, case (select 'Y' from note_domain_ovrd_val where prmry_enty_type='ATTACHCOMP' and prmry_enty_id= {1} 
+                and adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR and scndry_enty_id=C.ADMIN_LVL_OPT_ASSN_SYS_ID and scndry_enty_type='ATTACHQUESTION'
+                and bnft_cmpnt_sys_id={1} and bnft_defn_sys_id=C.bnft_defn_sys_id)
+                 WHEN 'Y'
+				             THEN 'Y'
+                 ELSE 'N' 
+                END AS NOTE_EXIST ,DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = D.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN  
+			      FROM 		QSTNR_MSTR A,BNFT_CMPNT_ANSWR_OVRD B,BNFT_ADMIN_TO_LVL_ASSN C,ADQM_ADMN_QSTN_MSTR D,PSBL_ANSWR E,ITEM F
+			      WHERE 	A.QSTNR_HRCHY_SYS_ID = B.QSTNR_HRCHY_SYS_ID AND 
+						    A.RFRNC_ID =  F.PRMRY_CD(+) and F.CTLG_ID (+)=1938 and
+						    C.ADMIN_LVL_OPT_ASSN_SYS_ID = B.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+						    D.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR and
+						    E.PSBL_ANSWR_ID = B.OVRD_ANSWR_ID and
+						    C.BNFT_ADMIN_SYS_ID = {0} and 
+						    B.BNFT_CMPNT_SYS_ID = {1} and 
+						    C.ADMIN_OPT_SYS_ID = {2}
+				  ORDER BY	A.SQNC_NBR -->
+
+				SELECT G.ADMIN_LVL_OPT_ASSN_SYS_ID,A.QSTNR_HRCHY_SYS_ID, A.ADQM_ADMN_QSTN_NBR,
+				A.PRNT_QSTNR_HRCHY_SYS_ID,A.RFRNC_ID,B.OVRD_ANSWR_ID,
+            	D.ADQM_ADMN_QSTN_DESC,E.PSBL_ANSWR,F.CD_DESC_TXT,G.bnft_defn_sys_id,
+					  CASE
+				      (SELECT 'Y' FROM note_domain_ovrd_val note,BNFT_ADMIN_TO_LVL_ASSN admn
+				      WHERE prmry_enty_type ='ATTACHCOMP'
+				      AND prmry_enty_id     = {2}
+				      AND scndry_enty_id    = {1}	
+				      AND scndry_enty_type  ='ATTACHQUESTION'
+				      AND adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR
+				      AND NOTE.BNFT_DEFN_SYS_ID = admn.bnft_defn_sys_id 
+					    AND admn.admin_lvl_opt_assn_sys_id = note.scndry_enty_id 
+				      )
+				    WHEN 'Y'
+				    THEN 'Y'
+				    ELSE 'N'
+				  END AS NOTE_EXIST, 
+				  DECODE(
+				  (SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL')
+				  AND ADQM_ADMN_QSTN_NBR     = D.ADQM_ADMN_QSTN_NBR
+				  ), 0, 'N','Y') VALID_DOMAIN	  
+				  FROM QSTNR_MSTR A,				     
+				(SELECT  
+				  A.QSTNR_HRCHY_SYS_ID,
+				  A.OVRD_ANSWR_ID
+				FROM 
+				  BNFT_CMPNT_ANSWR_OVRD A 				  
+				WHERE 
+				 A.ADMIN_LVL_OPT_ASSN_SYS_ID = {1} 
+ 				 AND A.BNFT_CMPNT_SYS_ID         = {2}  
+				UNION ALL					
+				SELECT 
+				  qstnr_hrchy_sys_id, psbl_answr_id
+				FROM
+				  (SELECT a.qstnr_hrchy_sys_id, b.psbl_answr_id, a.adqm_admn_qstn_nbr 
+				  FROM
+				    (SELECT a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr
+				    FROM qstnr_mstr a
+				    WHERE a.admin_opt_sys_id      = {0} 
+				    AND A.prnt_qstnr_hrchy_sys_id = A.qstnr_hrchy_sys_id
+					    UNION ALL 
+				
+				  SELECT b.qstnr_hrchy_sys_id, b.adqm_admn_qstn_nbr							
+			    FROM BNFT_CMPNT_ANSWR_OVRD A, qstnr_mstr b 							
+			    WHERE A.admin_lvl_opt_assn_sys_id = {1} 					
+			    AND a.qstnr_hrchy_sys_id          = b.prnt_qstnr_hrchy_sys_id							
+			    AND a.ovrd_answr_id               = b.prnt_answr_id							
+			    AND b.admin_opt_sys_id            = {0} 
+				AND A.BNFT_CMPNT_SYS_ID         = {2}  						
+			    ) a,							
+			    psbl_answr b							
+			    WHERE A.adqm_admn_qstn_nbr    = b.adqm_admn_qstn_nbr							
+			  AND b.psbl_answr                = 'Not Answered'							
+			  AND a.qstnr_hrchy_sys_id NOT IN 							
+			    (SELECT qstnr_hrchy_sys_id FROM BNFT_CMPNT_ANSWR_OVRD A 						
+			    WHERE A.admin_lvl_opt_assn_sys_id = {1} 
+ 				AND A.BNFT_CMPNT_SYS_ID         = {2}  									    							
+			    )							
+			  ) a,							
+			  ADQM_ADMN_QSTN_MSTR e							
+			WHERE a.adqm_admn_qstn_nbr = e.ADQM_ADMN_QSTN_NBR							
+			AND isdomainvalid ('BENEFITCOMP', {3} ,'QUESTION',A.qstnr_hrchy_sys_id) = 'T' 																
+			  ) B,							
+			  ADQM_ADMN_QSTN_MSTR D,BNFT_ADMIN_TO_LVL_ASSN G, 							
+			  PSBL_ANSWR E,							
+			  ITEM F							
+			WHERE A.QSTNR_HRCHY_SYS_ID      = B.QSTNR_HRCHY_SYS_ID		
+			AND A.ADMIN_OPT_SYS_ID          = G.ADMIN_OPT_SYS_ID
+			AND G.ADMIN_LVL_OPT_ASSN_SYS_ID = {1} 					
+			AND D.ADQM_ADMN_QSTN_NBR        = A.ADQM_ADMN_QSTN_NBR							
+			AND E.PSBL_ANSWR_ID             = B.OVRD_ANSWR_ID							
+			AND E.adqm_admn_qstn_nbr        = A.adqm_admn_qstn_nbr							
+			AND A.RFRNC_ID                  = F.PRMRY_CD(+)							
+			AND F.CTLG_ID (+)               =1938								
+			ORDER BY A.QSTNR_DSPLY_SQNC_NBR
+      
+			</SelectSQLQuery>
+			<SelectSQLQuery name="refreshQuestionaireProc">
+				CALL BC_REFRESHQUESTIONARE({0},{1},{2})
+			</SelectSQLQuery>
+		   <SelectSQLQuery name="getChildQuestionnaire">
+			   SELECT  A.QSTNR_HRCHY_SYS_ID,A.ADQM_ADMN_QSTN_NBR,A.PRNT_QSTNR_HRCHY_SYS_ID,A.RFRNC_ID,C.PSBL_ANSWR_ID,B.ADQM_ADMN_QSTN_DESC,
+			 		    C.PSBL_ANSWR,D.CD_DESC_TXT,
+			 		    DECODE((SELECT COUNT(*) CNT FROM NOTE_DOMAIN_OVRD_VAL WHERE  
+					PRMRY_ENTY_ID = {2} AND PRMRY_ENTY_TYPE = 'ATTACHCOMP' 
+					AND SCNDRY_ENTY_ID ={3} 
+					and SCNDRY_ENTY_TYPE = 'ATTACHQUESTION' and ADQM_ADMN_QSTN_NBR=B.ADQM_ADMN_QSTN_NBR
+					and bnft_cmpnt_sys_id={2} and bnft_defn_sys_id={4}), 0, 'N','Y') NOTE_EXISTS ,
+					DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN  
+				FROM 	QSTNR_MSTR A,ADQM_ADMN_QSTN_MSTR B,PSBL_ANSWR C,ITEM D,BCM_BNFT_CMPNT_MSTR E
+				WHERE	B.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR and 
+				        C.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR and 
+				        PRNT_ANSWR_ID ={0} and  PRNT_QSTNR_HRCHY_SYS_ID ={1} and
+				        upper( C.PSBL_ANSWR) ='NOT ANSWERED' and
+				        A.RFRNC_ID =  D.PRMRY_CD(+) and D.CTLG_ID(+) =1938 and
+						E.BNFT_CMPNT_SYS_ID = {2} and 
+				        IsDomainValid('BENEFITCOMP',E.BNFT_CMPNT_PARNT_SYS_ID, 'QUESTION', QSTNR_HRCHY_SYS_ID)='T' 
+						ORDER BY  A.SQNC_NBR
+			</SelectSQLQuery>	
+			<DataObject name="BNFT_CMPT_ANSWR_OVRD">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  type="Int"/>
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"    			   type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    	   type="Int"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID"    		   type="Int"/>
+				<DataObjectAttribute name="RFRNC_ID"    			   type="String"/>
+				<DataObjectAttribute name="OVRD_ANSWR_ID"    		   type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC"        type="String"/>
+				<DataObjectAttribute name="PSBL_ANSWR"    		       type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	   type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	   type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	   type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR"    	           type="String"/>
+			    <DataObjectAttribute name="CD_DESC_TXT"         	   type="String"/>	
+				<DataObjectAttribute name="LST_CHG_TMS"   			   type="Date"/>
+   		        <DataObjectAttribute name="CREATD_USER_ID"    		   type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"   		   type="Date"/>
+			    <DataObjectAttribute name="BNFT_DEFN_SYS_ID"   		   type="String"/>
+			    <DataObjectAttribute name="NOTE_EXIST" 					type="String"/>	
+			    <DataObjectAttribute name="VALID_DOMAIN" 					type="String"/>
+			    <DataObjectAttribute name="BNFT_PARENT_ID"    	   		type="Int"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_PARENT_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="7" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="8" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="9" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="11" dataObjectAttribName ="VALID_DOMAIN"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionnaire"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="refreshQuestionaireProc"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+					<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="7" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="8" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="9" dataObjectAttribName ="VALID_DOMAIN"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getChildQuestionnaire"/>
+				</SQLTemplate>
+			<SQLTemplate transType="delete">
+			<SQLQuery>
+				DELETE FROM BNFT_CMPNT_ANSWR_OVRD
+				WHERE BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND QSTNR_HRCHY_SYS_ID = ?
+			</SQLQuery>
+				<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+				<DataObjectAttributeInput index="2" name="QSTNR_HRCHY_SYS_ID"/>
+		    </SQLTemplate>
+
+			<SQLTemplate transType="update">
+			<SQLQuery>
+				UPDATE BNFT_CMPNT_ANSWR_OVRD SET OVRD_ANSWR_ID = ? 
+				WHERE BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND QSTNR_HRCHY_SYS_ID = ?
+			</SQLQuery>
+				<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+				<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+				<DataObjectAttributeInput index="2" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+				<DataObjectAttributeInput index="3" name="QSTNR_HRCHY_SYS_ID"/>
+		    </SQLTemplate>
+			<SQLTemplate transType="insert">
+						<SQLQuery>
+								 INSERT INTO BNFT_CMPNT_ANSWR_OVRD ( ADMIN_LVL_OPT_ASSN_SYS_ID, QSTNR_HRCHY_SYS_ID, OVRD_ANSWR_ID, BNFT_CMPNT_SYS_ID, 
+								  LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP)
+            						VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="OVRD_ANSWR_ID"/>
+						<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    			toBOAttb="adminLevelOptionSysId"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"    					toBOAttb="questionnaireId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"   					toBOAttb="questionId"/>
+					<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID"    				toBOAttb="parentQuestionnaireId"/>
+					<Pair DOAttb="RFRNC_ID"    							    toBOAttb="referenceId"/>
+					<Pair DOAttb="OVRD_ANSWR_ID"    						toBOAttb="selectedAnswerid"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_DESC"   				    toBOAttb="questionName"/>
+					<Pair DOAttb="PSBL_ANSWR"    						    toBOAttb="selectedAnswerDesc"/>
+					<Pair DOAttb="CD_DESC_TXT"    						    toBOAttb="referenceDesc"/>
+ 					<Pair DOAttb="LST_CHG_TMS"   							toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="LST_CHG_USR"    							toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="CREATD_USER_ID"    						toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"   						toBOAttb="createdTimestamp"/>
+ 					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   						toBOAttb="benefitComponentId"/>
+ 					<Pair DOAttb="BNFT_DEFN_SYS_ID"   						toBOAttb="bnftDefId"/>
+ 					<Pair DOAttb="NOTE_EXIST"   							toBOAttb="notesExists"/>
+ 					<Pair DOAttb="VALID_DOMAIN"   							toBOAttb="validDomainToAttach"/>
+
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID"     toSCAttb="adminOptSysId"/>
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    toSCAttb="benftAdminSysId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"    toSCAttb="beneftComponentId"/>
+					<Pair DOAttb="LST_CHG_USR"          toSCAttb="lastUpdatedUser"/>
+				    <Pair DOAttb="OVRD_ANSWR_ID"        toSCAttb="selectedAnswerid"/>
+				    <Pair DOAttb="QSTNR_HRCHY_SYS_ID"             toSCAttb="questionnaireId"/>
+				    <Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"             toSCAttb="adminLvlOptSystemId"/>
+				     <Pair DOAttb="BNFT_DEFN_SYS_ID"             toSCAttb="bnftDefenitionId"/>
+				     <Pair DOAttb="BNFT_PARENT_ID"             toSCAttb="beneftCompParentId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation
+2
+7
+b:webservices|2|0|0|0|9f79745324ef4a8f99a7371b91cb150f|0
+b:application|2|0|0|0|61089d53dd8841728f0f4e68168d2df4|0
+a:repository|2|0|0|0|d3b993cd972a4e68b8462cafdef3981d|0
+6:domain|2|0|0|0|4cd5ce6cec664f51bc7d821fe9342c97|0
+3:web|2|0|0|0|59cc6a222a9148df9b53799e8597db61|0
+4:util|2|0|0|0|97fcf5c390724c5a8460371ab662ced3|0
+2:vo|2|0|0|0|0e7dee9353fc44dc847a35a25cacf838|0

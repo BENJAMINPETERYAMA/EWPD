@@ -1,0 +1,1009 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.domain.bo.DomainInfo">
+		<BusinessAttribute name="domainId" type="Int" keyAttrib="true" />
+		<BusinessAttribute name="lineOfBusinesId" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="businessEntityId" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="businessGroupId" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="marketBusinessUnit" type="String"
+			keyAttrib="true" />
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT DOMN_SYS_ID, BUS_GRP_NM, BUS_ENTY_NM, LOB_NM FROM
+				AVLBL_DOMN WHERE LOB_NM = ? AND BUS_ENTY_NM = ? AND
+				BUS_GRP_NM = ? AND MRKT_BUS_UNT = ?
+			</SelectSQLQuery>
+			<DataObject name="AVLBL_DOMN">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="BUS_GRP_NM" type="String" />
+				<DataObjectAttribute name="BUS_ENTY_NM" type="String" />
+				<DataObjectAttribute name="LOB_NM" type="String" />
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO AVLBL_DOMN (DOMN_SYS_ID, BUS_GRP_NM,
+						BUS_ENTY_NM, LOB_NM, MRKT_BUS_UNT) VALUES(?, ?, ?, ?, ?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="DOMN_SYS_ID" />
+					<DataObjectAttributeInput index="1"
+						name="BUS_GRP_NM" />
+					<DataObjectAttributeInput index="2"
+						name="BUS_ENTY_NM" />
+					<DataObjectAttributeInput index="3" name="LOB_NM" />
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="LOB_NM" />
+					<DataObjectAttributeInput index="1"
+						name="BUS_ENTY_NM" />
+					<DataObjectAttributeInput index="2"
+						name="BUS_GRP_NM" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="BUS_GRP_NM" />
+						<ResultIndex index="2"
+							dataObjectAttribName="BUS_ENTY_NM" />
+						<ResultIndex index="3"
+							dataObjectAttribName="LOB_NM" />
+						<ResultIndex index="4"
+							dataObjectAttribName="MRKT_BUS_UNT" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DOMN_SYS_ID" toBOAttb="domainId" />
+					<Pair DOAttb="BUS_GRP_NM"
+						toBOAttb="businessGroupId" />
+					<Pair DOAttb="BUS_ENTY_NM"
+						toBOAttb="businessEntityId" />
+					<Pair DOAttb="LOB_NM" toBOAttb="lineOfBusinesId" />
+					<Pair DOAttb="MRKT_BUS_UNT" toBOAttb="marketBusinessUnit" />
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.domain.bo.Domain">
+		<BusinessAttribute name="domainSysId" 		type="Int"	keyAttrib="true" />
+		<BusinessAttribute name="lineOfBusiness" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute name="businessEntity" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute name="businessGroup" 	type="String"	keyAttrib="true" />
+		<BusinessAttribute name="marketBusinessUnit" type="String" keyAttrib="true" />
+		<BusinessAttribute name="lineOfBusinessDesc" type="String"	keyAttrib="false" />
+		<BusinessAttribute name="businessEntityDesc" type="String"	keyAttrib="false" />
+		<BusinessAttribute name="businessGroupDesc" type="String"	keyAttrib="false" />
+		<BusinessAttribute name="marketBusinessUnitDesc" type="String"	keyAttrib="false" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="entityType" type="String" />
+			<SearchCriteriaAttribute name="parentId" type="Int" />
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getDomains">
+				SELECT 
+						b.LOB_NM,
+						b.BUS_ENTY_NM,
+						b.BUS_GRP_NM,
+						b.DOMN_SYS_ID,
+						b.MRKT_BUS_UNT,
+						LOB.CD_DESC_TXT,
+						BE.CD_DESC_TXT,
+						BG.CD_DESC_TXT
+				FROM
+						ENTY_DOMN_INFO a,
+						AVLBL_DOMN b ,
+						( SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1932) BE ,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG,
+						(SELECT * FROM ITEM WHERE CTLG_ID = 3470) BU
+				WHERE
+						a.DOMN_SYS_ID = b.DOMN_SYS_ID 
+						and a.ENTY_TYPE = {0}
+						and a.ENTY_SYS_ID = {1}
+						and b.LOB_NM=LOB.PRMRY_CD
+						and b.BUS_ENTY_NM=BE.PRMRY_CD
+						and b.BUS_GRP_NM=BG.PRMRY_CD
+						and b.MRKT_BUS_UNT = BU.PRMRY_CD
+			</SelectSQLQuery>
+			<SelectSQLQuery>
+				SELECT
+					DOMN_SYS_ID,
+					BUS_GRP_NM,
+					BUS_ENTY_NM,
+					LOB_NM,
+					MRKT_BUS_UNT
+				FROM
+					AVLBL_DOMN
+				WHERE
+					LOB_NM = ?
+					AND BUS_ENTY_NM = ?
+					AND	BUS_GRP_NM = ?
+					AND MRKT_BUS_UNT = ?
+			</SelectSQLQuery>
+			<DataObject name="AVLBL_DOMN">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="BUS_GRP_NM" type="String" />
+				<DataObjectAttribute name="BUS_ENTY_NM" type="String" />
+				<DataObjectAttribute name="LOB_NM" type="String" />
+				<DataObjectAttribute name="MRKT_BUS_UNT" type="String" />
+				<DataObjectAttribute name="PARENT_ID" type="Int" />
+				<DataObjectAttribute name="ENTITY_TYPE" type="String" />
+				<DataObjectAttribute name="LOBDESC" type="String" />
+				<DataObjectAttribute name="BEDESC" type="String" />
+				<DataObjectAttribute name="BGDESC" type="String" />
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO AVLBL_DOMN (DOMN_SYS_ID, BUS_GRP_NM,
+						BUS_ENTY_NM, LOB_NM, MRKT_BUS_UNT) VALUES(?, ?, ?, ?, ?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="DOMN_SYS_ID" />
+					<DataObjectAttributeInput index="1"
+						name="BUS_GRP_NM" />
+					<DataObjectAttributeInput index="2"
+						name="BUS_ENTY_NM" />
+					<DataObjectAttributeInput index="3" name="LOB_NM" />
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="LOB_NM" />
+					<DataObjectAttributeInput index="1"	name="BUS_ENTY_NM" />
+					<DataObjectAttributeInput index="2"	name="BUS_GRP_NM" />
+					<DataObjectAttributeInput index="3"	name="MRKT_BUS_UNT" />
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="BUS_GRP_NM" />
+						<ResultIndex index="2"
+							dataObjectAttribName="BUS_ENTY_NM" />
+						<ResultIndex index="3"
+							dataObjectAttribName="LOB_NM" />
+						<ResultIndex index="4"
+							dataObjectAttribName="MRKT_BUS_UNT" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTITY_TYPE" />
+					<DataObjectAttributeInput index="1"
+						name="PARENT_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="2"
+							dataObjectAttribName="BUS_GRP_NM" />
+						<ResultIndex index="1"
+							dataObjectAttribName="BUS_ENTY_NM" />
+						<ResultIndex index="0"
+							dataObjectAttribName="LOB_NM" />
+						<ResultIndex index="3"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="4"
+							dataObjectAttribName="MRKT_BUS_UNT" />
+						<ResultIndex index="5"
+							dataObjectAttribName="LOBDESC" />
+						<ResultIndex index="6"
+							dataObjectAttribName="BEDESC" />
+						<ResultIndex index="7"
+							dataObjectAttribName="BGDESC" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getDomains" />
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DOMN_SYS_ID" toBOAttb="domainSysId" />
+					<Pair DOAttb="BUS_GRP_NM" toBOAttb="businessGroup" />
+					<Pair DOAttb="BUS_ENTY_NM" toBOAttb="businessEntity" />
+					<Pair DOAttb="LOB_NM" toBOAttb="lineOfBusiness" />
+					<Pair DOAttb="MRKT_BUS_UNT" toBOAttb="marketBusinessUnit" />
+					<Pair DOAttb="LOBDESC"		toBOAttb="lineOfBusinessDesc" />
+					<Pair DOAttb="BEDESC" toBOAttb="businessEntityDesc" />
+					<Pair DOAttb="BGDESC" toBOAttb="businessGroupDesc" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTITY_TYPE" toSCAttb="entityType" />
+					<Pair DOAttb="PARENT_ID" toSCAttb="parentId" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.domain.bo.EntityDomainInfo">
+		<BusinessAttribute name="domainId" type="Int" keyAttrib="true" />
+		<BusinessAttribute name="entityName" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="entityType" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="entitySystemId" type="Int"
+			keyAttrib="true" />
+		<BusinessAttribute name="createdUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="createdTimeStamp" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedTimeStamp" type="Date"
+			keyAttrib="false" />
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="entityType" type="String" />
+			<SearchCriteriaAttribute name="entityName" type="String" />
+			<SearchCriteriaAttribute name="lineOfBusiness" type="List" />
+			<SearchCriteriaAttribute name="businessEntity" type="List" />
+			<SearchCriteriaAttribute name="businessGroup" type="List" />
+			<SearchCriteriaAttribute name="marketBusinessUnit" type="List" />
+			<SearchCriteriaAttribute name="lobCount" type="Int" />
+			<SearchCriteriaAttribute name="beCount" type="Int" />
+			<SearchCriteriaAttribute name="bgCount" type="Int" />
+			<SearchCriteriaAttribute name="mbuCount" type="Int" />
+			<SearchCriteriaAttribute name="entityId" type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="findDuplicate">
+				SELECT 
+					A.ENTY_SYS_ID,
+					A.ENTY_NM
+				FROM
+					ENTY_DOMN_INFO A,
+					AVLBL_DOMN B
+				WHERE 
+					A.DOMN_SYS_ID = B.DOMN_SYS_ID 
+					AND A.ENTY_TYPE = {0}
+					AND UPPER(A.ENTY_NM) = UPPER({1})
+					AND B.LOB_NM {2}
+					AND B.BUS_ENTY_NM {3}
+					AND B.BUS_GRP_NM {4}
+					AND B.MRKT_BUS_UNT {6}
+					AND A.ENTY_SYS_ID NOT IN {5}
+			</SelectSQLQuery>
+			<SelectSQLQuery>
+				SELECT DOMN_SYS_ID, ENTY_NM, ENTY_TYPE, ENTY_SYS_ID,
+				CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS
+				FROM ENTY_DOMN_INFO WHERE ENTY_TYPE = ? AND ENTY_NM = ?
+				AND ENTY_SYS_ID = ?
+			</SelectSQLQuery>
+			<DataObject name="ENTY_DOMN_INFO">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ENTY_NM" type="String" />
+				<DataObjectAttribute name="ENTY_TYPE" type="String" />
+				<DataObjectAttribute name="ENTY_SYS_ID" type="Int" />
+				<DataObjectAttribute name="CREATD_USER_ID"
+					type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP"
+					type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS"
+					type="TimeStamp" />
+				<!--  ADDITIONAL FIELDS - ADDED FOR SEARCH QUERY -->
+				<DataObjectAttribute name="LINE_OF_BUSINESS"
+					type="String" />
+				<DataObjectAttribute name="BUSINESS_ENTITY"
+					type="String" />
+				<DataObjectAttribute name="BUSINESS_GROUP"
+					type="String" />
+				<DataObjectAttribute name="MRKT_BUS_UNT"
+					type="String" />
+				<DataObjectAttribute name="LOB_COUNT" type="Int" />
+				<DataObjectAttribute name="BE_COUNT" type="Int" />
+				<DataObjectAttribute name="BG_COUNT" type="Int" />
+				<DataObjectAttribute name="MBU_COUNT" type="Int" />
+				<!-- END OF ADDITIONAL FIELDS -->
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO ENTY_DOMN_INFO ( DOMN_SYS_ID,
+						ENTY_NM, ENTY_TYPE, ENTY_SYS_ID, CREATD_USER_ID,
+						CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS)
+						VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="DOMN_SYS_ID" />
+					<DataObjectAttributeInput index="1" name="ENTY_NM" />
+					<DataObjectAttributeInput index="2"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="3"
+						name="ENTY_SYS_ID" />
+					<DataObjectAttributeInput index="4"
+						name="CREATD_USER_ID" />
+					<DataObjectAttributeInput index="5"
+						name="CREATD_TM_STMP" />
+					<DataObjectAttributeInput index="6"
+						name="LST_CHG_USR" />
+					<DataObjectAttributeInput index="7"
+						name="LST_CHG_TMS" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1" name="ENTY_NM" />
+					<DataObjectAttributeInput index="2"
+						name="ENTY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="ENTY_NM" />
+						<ResultIndex index="2"
+							dataObjectAttribName="ENTY_TYPE" />
+						<ResultIndex index="3"
+							dataObjectAttribName="ENTY_SYS_ID" />
+						<ResultIndex index="4"
+							dataObjectAttribName="CREATD_USER_ID" />
+						<ResultIndex index="5"
+							dataObjectAttribName="CREATD_TM_STMP" />
+						<ResultIndex index="6"
+							dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="7"
+							dataObjectAttribName="LST_CHG_TMS" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1" name="ENTY_NM" />
+					<DataObjectAttributeInput index="2"
+						name="LINE_OF_BUSINESS" />
+					<DataObjectAttributeInput index="3"
+						name="BUSINESS_ENTITY" />
+					<DataObjectAttributeInput index="4"
+						name="BUSINESS_GROUP" />
+					<DataObjectAttributeInput index="5"
+						name="ENTY_SYS_ID" />
+					<DataObjectAttributeInput index="6"
+						name="MRKT_BUS_UNT" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="ENTY_NM" />
+						<ResultIndex index="0"
+							dataObjectAttribName="ENTY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="findDuplicate" />
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						DELETE FROM ENTY_DOMN_INFO WHERE ENTY_TYPE = ?
+						AND ENTY_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1"
+						name="ENTY_SYS_ID" />
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DOMN_SYS_ID" toBOAttb="domainId" />
+					<Pair DOAttb="ENTY_NM" toBOAttb="entityName" />
+					<Pair DOAttb="ENTY_TYPE" toBOAttb="entityType" />
+					<Pair DOAttb="ENTY_SYS_ID"
+						toBOAttb="entitySystemId" />
+					<Pair DOAttb="CREATD_USER_ID"
+						toBOAttb="createdUser" />
+					<Pair DOAttb="CREATD_TM_STMP"
+						toBOAttb="createdTimeStamp" />
+					<Pair DOAttb="LST_CHG_USR"
+						toBOAttb="lastUpdatedUser" />
+					<Pair DOAttb="LST_CHG_TMS"
+						toBOAttb="lastUpdatedTimeStamp" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTY_TYPE" toSCAttb="entityType" />
+					<Pair DOAttb="ENTY_NM" toSCAttb="entityName" />
+					<Pair DOAttb="LINE_OF_BUSINESS"
+						toSCAttb="lineOfBusiness" />
+					<Pair DOAttb="BUSINESS_ENTITY"
+						toSCAttb="businessEntity" />
+					<Pair DOAttb="BUSINESS_GROUP"
+						toSCAttb="businessGroup" />
+					<Pair DOAttb="MRKT_BUS_UNT"	toSCAttb="marketBusinessUnit" />
+					<Pair DOAttb="LOB_COUNT" toSCAttb="lobCount" />
+					<Pair DOAttb="BE_COUNT" toSCAttb="beCount" />
+					<Pair DOAttb="BG_COUNT" toSCAttb="bgCount" />
+					<Pair DOAttb="MBU_COUNT" toSCAttb="mbuCount" />
+					<Pair DOAttb="ENTY_SYS_ID" toSCAttb="entityId" />
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.domain.bo.QuestionnaireDomainInfo">
+		<BusinessAttribute name="domainId" type="Int" keyAttrib="true" />
+		<BusinessAttribute name="questionnaireHrchySysId" type="Int"
+			keyAttrib="true" />
+		<BusinessAttribute name="createdUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="createdTimeStamp" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedTimeStamp" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="lobDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="beDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="bgDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="bgName" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="beName" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="lobName" type="String" keyAttrib="false" />
+		<BusinessAttribute name="buName" type="String" keyAttrib="false" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="lineOfBusiness" type="List" />
+			<SearchCriteriaAttribute name="businessEntity" type="List" />
+			<SearchCriteriaAttribute name="businessGroup" type="List" />
+			<SearchCriteriaAttribute name="marketBusinessUnit" type="List" />
+			<SearchCriteriaAttribute name="qstnrHrchyId" type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT DOMN_SYS_ID, QSTNR_HRCHY_SYS_ID, CREATD_USER_ID,
+				CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS FROM
+				QSTNR_DOMN_INFO WHERE QSTNR_HRCHY_SYS_ID = ?
+			</SelectSQLQuery>
+			<SelectSQLQuery name="findQuestionnaireDuplicate">
+				SELECT A.QSTNR_HRCHY_SYS_ID FROM QSTNR_DOMN_INFO A,
+				AVLBL_DOMN B WHERE A.DOMN_SYS_ID = B.DOMN_SYS_ID AND
+				B.LOB_NM {0} AND B.BUS_ENTY_NM {1} AND B.BUS_GRP_NM {2}
+				AND QSTNR_HRCHY_SYS_ID NOT IN {3} AND B.b.MRKT_BUS_UNT {4}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireDomains">
+				SELECT
+					b.LOB_NM,
+					b.BUS_ENTY_NM,
+					b.BUS_GRP_NM,
+					b.DOMN_SYS_ID,
+					LOB.CD_DESC_TXT,
+					BE.CD_DESC_TXT,
+					BG.CD_DESC_TXT,
+					b.MRKT_BUS_UNT
+				FROM
+					QSTNR_DOMN_INFO a,
+					AVLBL_DOMN b,
+					(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB ,
+					(SELECT	* FROM ITEM WHERE CTLG_ID = 1932) BE ,
+					(SELECT * FROM ITEM WHERE CTLG_ID = 1933) BG,
+					(SELECT * FROM ITEM WHERE CTLG_ID = 3470) BU
+				WHERE 
+					a.DOMN_SYS_ID = b.DOMN_SYS_ID
+					and a.QSTNR_HRCHY_SYS_ID = {0} 
+					and b.LOB_NM = LOB.PRMRY_CD
+					and b.BUS_ENTY_NM = BE.PRMRY_CD
+					and	b.BUS_GRP_NM = BG.PRMRY_CD
+					and	b.MRKT_BUS_UNT = BU.PRMRY_CD
+			</SelectSQLQuery>
+
+			<DataObject name="QSTNR_DOMN_INFO">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"
+					type="Int" />
+				<DataObjectAttribute name="CREATD_USER_ID"
+					type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP"
+					type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS"
+					type="TimeStamp" />
+				<DataObjectAttribute name="LINE_OF_BUSINESS"
+					type="String" />
+				<DataObjectAttribute name="BUSINESS_ENTITY"
+					type="String" />
+				<DataObjectAttribute name="BUSINESS_GROUP"
+					type="String" />
+				<DataObjectAttribute name="LOBDESC" type="String" />
+				<DataObjectAttribute name="BEDESC" type="String" />
+				<DataObjectAttribute name="BGDESC" type="String" />
+				<DataObjectAttribute name="BUS_GRP_NM" type="String" />
+				<DataObjectAttribute name="BUS_ENTY_NM" type="String" />
+				<DataObjectAttribute name="LOB_NM" type="String" />
+				<DataObjectAttribute name="MRKT_BUS_UNT" type="String" />
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO QSTNR_DOMN_INFO ( DOMN_SYS_ID,
+						QSTNR_HRCHY_SYS_ID, CREATD_USER_ID,
+						CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS)
+						VALUES(?, ?, ?, ?, ?, ?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="DOMN_SYS_ID" />
+					<DataObjectAttributeInput index="1"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<DataObjectAttributeInput index="2"
+						name="CREATD_USER_ID" />
+					<DataObjectAttributeInput index="3"
+						name="CREATD_TM_STMP" />
+					<DataObjectAttributeInput index="4"
+						name="LST_CHG_USR" />
+					<DataObjectAttributeInput index="5"
+						name="LST_CHG_TMS" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CREATD_USER_ID" />
+						<ResultIndex index="3"
+							dataObjectAttribName="CREATD_TM_STMP" />
+						<ResultIndex index="4"
+							dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="5"
+							dataObjectAttribName="LST_CHG_TMS" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="LOB_NM" />
+						<ResultIndex index="1"
+							dataObjectAttribName="BUS_ENTY_NM" />
+						<ResultIndex index="2"
+							dataObjectAttribName="BUS_GRP_NM" />
+						<ResultIndex index="3"
+							dataObjectAttribName="DOMN_SYS_ID" />
+						<ResultIndex index="4"
+							dataObjectAttribName="LOBDESC" />
+						<ResultIndex index="5"
+							dataObjectAttribName="BEDESC" />
+						<ResultIndex index="6"
+							dataObjectAttribName="BGDESC" />
+						<ResultIndex index="7" dataObjectAttribName="MRKT_BUS_UNT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionnaireDomains" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="LINE_OF_BUSINESS" />
+					<DataObjectAttributeInput index="1"
+						name="BUSINESS_ENTITY" />
+					<DataObjectAttributeInput index="2"
+						name="BUSINESS_GROUP" />
+					<DataObjectAttributeInput index="3"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="findQuestionnaireDuplicate" />
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						DELETE FROM QSTNR_DOMN_INFO WHERE
+						QSTNR_HRCHY_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DOMN_SYS_ID" toBOAttb="domainId" />
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"
+						toBOAttb="questionnaireHrchySysId" />
+					<Pair DOAttb="CREATD_USER_ID"
+						toBOAttb="createdUser" />
+					<Pair DOAttb="CREATD_TM_STMP"
+						toBOAttb="createdTimeStamp" />
+					<Pair DOAttb="LST_CHG_USR"
+						toBOAttb="lastUpdatedUser" />
+					<Pair DOAttb="LST_CHG_TMS"
+						toBOAttb="lastUpdatedTimeStamp" />
+					<Pair DOAttb="LOBDESC" toBOAttb="lobDesc" />
+					<Pair DOAttb="BEDESC" toBOAttb="beDesc" />
+					<Pair DOAttb="BGDESC" toBOAttb="bgDesc" />
+					<Pair DOAttb="BUS_GRP_NM" toBOAttb="bgName" />
+					<Pair DOAttb="BUS_ENTY_NM" toBOAttb="beName" />
+					<Pair DOAttb="LOB_NM" toBOAttb="lobName" />
+					<Pair DOAttb="MRKT_BUS_UNT"  toBOAttb="buName" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="LINE_OF_BUSINESS"
+						toSCAttb="lineOfBusiness" />
+					<Pair DOAttb="BUSINESS_ENTITY"
+						toSCAttb="businessEntity" />
+					<Pair DOAttb="BUSINESS_GROUP" toSCAttb="businessGroup" />
+					<Pair DOAttb="MRKT_BUS_UNT" toSCAttb="marketBusinessUnit"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"
+						toSCAttb="qstnrHrchyId" />
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.domain.bo.DomainItem">
+		<BusinessAttribute name="entitySystemId" type="Int"
+			keyAttrib="false" />
+		<BusinessAttribute name="itemId" type="String" keyAttrib="true" />
+		<BusinessAttribute name="itemDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="questionnaireHrchySysId" type="Int"
+			keyAttrib="true" />
+		<BusinessAttribute name="functionalDomain" type="String"
+			keyAttrib="false" />
+		<SearchCriteria name="test">
+			<SearchCriteriaAttribute name="catlogId" type="Int" />
+			<SearchCriteriaAttribute name="entitySystemId" type="Int" />
+			<SearchCriteriaAttribute name="entityName" type="String" />
+			<SearchCriteriaAttribute name="entityType" type="String" />
+			<SearchCriteriaAttribute name="qstnrHrchyId" type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getLineOfBusiness">
+				SELECT a.ENTY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT FROM
+				ENTY_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.LOB_NM = C.PRMRY_CD
+				AND A.ENTY_TYPE = {0} AND A.ENTY_SYS_ID = {1} AND
+				C.CTLG_ID = {2}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getBusinessEntity">
+				SELECT a.ENTY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT FROM
+				ENTY_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.BUS_ENTY_NM =
+				C.PRMRY_CD AND A.ENTY_TYPE = {0} AND A.ENTY_SYS_ID = {1}
+				AND C.CTLG_ID = {2}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getBusinessGroup">
+				SELECT a.ENTY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT FROM
+				ENTY_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.BUS_GRP_NM =
+				C.PRMRY_CD AND A.ENTY_TYPE = {0} AND A.ENTY_SYS_ID = {1}
+				AND C.CTLG_ID = {2}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getMarketBusinessUnit">
+				SELECT
+				  a.ENTY_SYS_ID,
+				  C.PRMRY_CD,
+				  C.CD_DESC_TXT
+				FROM
+				  ENTY_DOMN_INFO A,
+				  AVLBL_DOMN B,
+				  ITEM C
+				WHERE
+				  A.DOMN_SYS_ID = B.DOMN_SYS_ID
+				  AND B.MRKT_BUS_UNT = C.PRMRY_CD
+				  AND A.ENTY_TYPE = {0}
+				  AND A.ENTY_SYS_ID = {1}
+				  AND C.CTLG_ID = {2}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireLineOfBusiness">
+				SELECT a.QSTNR_HRCHY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT
+				FROM QSTNR_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.LOB_NM = C.PRMRY_CD
+				AND A.QSTNR_HRCHY_SYS_ID = {0} AND C.CTLG_ID = {1}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireBusinessEntity">
+				SELECT a.QSTNR_HRCHY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT
+				FROM QSTNR_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.BUS_ENTY_NM =
+				C.PRMRY_CD AND A.QSTNR_HRCHY_SYS_ID = {0} AND C.CTLG_ID
+				= {1}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireBusinessGroup">
+				SELECT a.QSTNR_HRCHY_SYS_ID, C.PRMRY_CD, C.CD_DESC_TXT
+				FROM QSTNR_DOMN_INFO A, AVLBL_DOMN B, ITEM C WHERE
+				A.DOMN_SYS_ID = B.DOMN_SYS_ID AND B.BUS_GRP_NM =
+				C.PRMRY_CD AND A.QSTNR_HRCHY_SYS_ID = {0} AND C.CTLG_ID
+				= {1}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireMarketBusinessUnit">
+				SELECT
+					a.QSTNR_HRCHY_SYS_ID,
+					C.PRMRY_CD,
+					C.CD_DESC_TXT
+				FROM
+					QSTNR_DOMN_INFO A,
+					AVLBL_DOMN B,
+					ITEM C
+				WHERE
+					A.DOMN_SYS_ID = B.DOMN_SYS_ID
+					AND B.MRKT_BUS_UNT = C.PRMRY_CD 
+					AND A.QSTNR_HRCHY_SYS_ID = {0} 
+					AND C.CTLG_ID = {1}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="functionalDomainSearch">
+				select b.PRMRY_CD, b.CD_DESC_TXT from QSTN_DOMN_ASSN
+				a,ITEM b,catalog c,QSTNR_MSTR d where
+				d.ADQM_ADMN_QSTN_NBR= a.ADQM_ADMN_QSTN_NBR and
+				d.QSTNR_HRCHY_SYS_ID = {0} and upper(c.CTLG_NAME) =
+				upper('FUNCTIONAL DOMAIN') and c.CTLG_ID = b.CTLG_ID and
+				a.DOMN_CD = b.PRMRY_CD
+			</SelectSQLQuery>
+			<DataObject name="ENTY_DOMN_INFO">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ENTY_NM" type="String" />
+				<DataObjectAttribute name="ENTY_TYPE" type="String" />
+				<DataObjectAttribute name="ENTY_SYS_ID" type="Int" />
+				<DataObjectAttribute name="CREATD_USER_ID"
+					type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP"
+					type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS"
+					type="TimeStamp" />
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1"
+						name="ENTY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ENTY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getLineOfBusiness" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1"
+						name="ENTY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ENTY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBusinessEntity" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1"
+						name="ENTY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ENTY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBusinessGroup" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTY_TYPE" />
+					<DataObjectAttributeInput index="1" name="ENTY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="ENTY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getMarketBusinessUnit" />
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID"
+						toBOAttb="entitySystemId" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTY_TYPE" toSCAttb="entityType" />
+					<Pair DOAttb="ENTY_NM" toSCAttb="entityName" />
+					<Pair DOAttb="ENTY_SYS_ID"
+						toSCAttb="entitySystemId" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="QSTNR_DOMN_INFO">
+				<DataObjectAttribute name="DOMN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"
+					type="Int" />
+				<DataObjectAttribute name="CREATD_USER_ID"
+					type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP"
+					type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS"
+					type="TimeStamp" />
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireLineOfBusiness" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireBusinessEntity" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireBusinessGroup" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="QSTNR_HRCHY_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionnaireMarketBusinessUnit" />
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"
+						toBOAttb="questionnaireHrchySysId" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"
+						toSCAttb="qstnrHrchyId" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" type="Int" />
+				<DataObjectAttribute name="PRMRY_CD" type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" type="String" />
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getLineOfBusiness" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBusinessEntity" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBusinessGroup" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1" dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2" dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getMarketBusinessUnit" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireLineOfBusiness" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireBusinessEntity" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName
+						name="getQuestionnaireBusinessGroup" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="CTLG_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1" dataObjectAttribName="PRMRY_CD" />
+						<ResultIndex index="2" dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionnaireMarketBusinessUnit" />
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="PRMRY_CD" toBOAttb="itemId" />
+					<Pair DOAttb="CD_DESC_TXT" toBOAttb="itemDesc" />
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CTLG_ID" toSCAttb="catlogId" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="QSTN_FUNC_DOMN_ASSN">
+
+				<DataObjectAttribute name="CD_DESC_TXT" type="String" />
+				<DataObjectAttribute name="FUNC_DMN_ID" type="String" />
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"
+					type="Int" />
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="QSTNR_HRCHY_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="FUNC_DMN_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name=" functionalDomainSearch " />
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CD_DESC_TXT"
+						toBOAttb="functionalDomain" />
+					<Pair DOAttb="FUNC_DMN_ID" toBOAttb="itemId" />
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"
+						toSCAttb="qstnrHrchyId" />
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

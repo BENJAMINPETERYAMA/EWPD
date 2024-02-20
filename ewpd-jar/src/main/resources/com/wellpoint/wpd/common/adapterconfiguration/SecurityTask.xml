@@ -1,0 +1,277 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.security.bo.TaskBO">
+		 <BusinessAttribute name="taskId" type="Int"	keyAttrib="true"/>	 
+		 <BusinessAttribute name="taskName" type="String"	keyAttrib="false"/>	 
+      	 <BusinessAttribute name="taskType" type="String"	keyAttrib="false"/>		
+   		 <BusinessAttribute name="moduleId" type="Int"	keyAttrib="true"/>	 	
+   		 <BusinessAttribute name="roleId" type="Int"	keyAttrib="true"/>	 
+		 <BusinessAttribute name="description" type="String"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="createdTimestamp" type="Date"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="lastUpdatedTimestamp" type="Date"	keyAttrib="false"/>	 
+
+
+		<SearchCriteria name="criteria">
+	       <SearchCriteriaAttribute name="taskName" 	type="String"/>
+		   <SearchCriteriaAttribute name="taskType" type="String" />
+		   <SearchCriteriaAttribute name="taskId" type="Int" />
+		   <SearchCriteriaAttribute name="description" type="String" />
+		   <SearchCriteriaAttribute name="moduleId" type="Int" />
+		   <SearchCriteriaAttribute name="roleId" type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+				<Connection preferred="jndi">
+					<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+					<jndi>java:comp/env/wsbEwpdDS</jndi>
+				</Connection>
+		<SelectSQLQuery >
+				SELECT TASK_SYS_ID,TASK_NM,TASK_DESC,CREATD_USER_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS
+			   	 FROM SCRTY_TASK_INFO WHERE TASK_SYS_ID=?
+		</SelectSQLQuery>
+		
+		<SelectSQLQuery name="findDuplicate">
+				SELECT TASK_SYS_ID, TASK_NM
+			   	 FROM SCRTY_TASK_INFO WHERE TASK_NM = {0} 
+		</SelectSQLQuery>
+		<SelectSQLQuery name="TaskLookUpQueryForRole">
+				SELECT TASK_SYS_ID,TASK_NM FROM SCRTY_TASK_INFO order by TASK_NM asc
+		</SelectSQLQuery>
+		<SelectSQLQuery name="retrieveAssociatedModulesOfTask">
+				select MOD_SYS_ID from SCRTY_MOD_TASK_ASSN where TASK_SYS_ID={0}
+		</SelectSQLQuery>
+
+		<SelectSQLQuery name="taskLookUpQuery">
+		    SELECT TASK_NM, TASK_SYS_ID FROM SCRTY_TASK_INFO order by TASK_NM asc
+		</SelectSQLQuery>
+		<SelectSQLQuery name="retrieveTaskBO">
+		    select a.TASK_SYS_ID, a.TASK_NM from SCRTY_TASK_INFO a,SCRTY_ROLE_MOD_TASK_ASSN b where a.TASK_SYS_ID =b.TASK_SYS_ID 
+			   and b.ROLE_MOD_ASSN_SYS_ID in(select ROLE_MOD_ASSN_SYS_ID 
+				from SCRTY_ROLE_MOD_ASSN where  MOD_SYS_ID = {0} and  ROLE_SYS_ID = {1})
+		</SelectSQLQuery>
+		<SelectSQLQuery name="locateTask" dynamic="true">
+				<STATIC><![CDATA[select c.TASK_NM, c.TASK_SYS_ID, c.TASK_DESC from SCRTY_TASK_INFO c where 1=1  ]]></STATIC>
+				<DYNAMIC><![CDATA[ and UPPER(TASK_NM) like upper({0}) escape '`' ]]></DYNAMIC>
+				<STATIC><![CDATA[order by TASK_NM asc]]></STATIC>
+		</SelectSQLQuery>
+		<SelectSQLQuery name="taskPopupQuery" >
+				select i.TASK_SYS_ID, i.TASK_NM from SCRTY_TASK_INFO i 
+				where UPPER(TASK_NM) like upper({1}) escape '`'
+				and	i.TASK_SYS_ID not in 
+	   			(select s.TASK_SYS_ID from SCRTY_MOD_TASK_ASSN s where s.MOD_SYS_ID = {0}) order by i.TASK_NM
+		</SelectSQLQuery>
+         <SelectSQLQuery name="roleTaskPopupQuery">
+                select t.TASK_NM, t.TASK_SYS_ID, n.ROLE_MOD_ASSN_SYS_ID from SCRTY_TASK_INFO t, SCRTY_ROLE_MOD_ASSN n
+                 where t.TASK_SYS_ID not in (select t.TASK_SYS_ID from SCRTY_ROLE_MOD_TASK_ASSN t
+                 where t.ROLE_MOD_ASSN_SYS_ID in (select m.ROLE_MOD_ASSN_SYS_ID from SCRTY_ROLE_MOD_ASSN m where
+                  m.MOD_SYS_ID = {0} and m.ROLE_SYS_ID = {1})
+                        ) and n.ROLE_MOD_ASSN_SYS_ID in (select m.ROLE_MOD_ASSN_SYS_ID from SCRTY_ROLE_MOD_ASSN m where
+                  m.MOD_SYS_ID = {0} and m.ROLE_SYS_ID = {1})
+				 and t.TASK_SYS_ID in (select a.TASK_SYS_ID from SCRTY_MOD_TASK_ASSN a where a.MOD_SYS_ID = {0} ) order by t.TASK_NM
+          </SelectSQLQuery>
+
+         <SelectSQLQuery name="roleTaskAssociationQuery">
+				select e.task_nm, e.task_sys_id, d.role_mod_assn_sys_id 
+				from   SCRTY_ROLE_MOD_ASSN a, scrty_role_info b, scrty_mod_info c,
+				       SCRTY_ROLE_MOD_TASK_ASSN d, SCRTY_TASK_INFO e
+				where  a.role_sys_id = b.role_sys_id 
+				and b.role_sys_id = {1}
+				and a.mod_sys_id = c.mod_sys_id
+				and a.mod_sys_id = {0}
+				and a.role_mod_assn_sys_id = d.role_mod_assn_sys_id
+				and d.task_sys_id = e.task_sys_id
+				order by e.task_nm asc
+         </SelectSQLQuery>
+
+		<SelectSQLQuery name="taskAsssociationQuery">
+				select i.TASK_SYS_ID, i.TASK_NM from SCRTY_TASK_INFO i where i.TASK_SYS_ID
+	   			in(select s.TASK_SYS_ID from SCRTY_MOD_TASK_ASSN s where s.MOD_SYS_ID = {0}) order by i.TASK_NM
+		</SelectSQLQuery>
+		
+			  <DataObject name="SCRTY_TASK_INFO">
+				  <DataObjectAttribute name="TASK_SYS_ID" type="Int" /> 
+				  <DataObjectAttribute name="TASK_NM" type="String" /> 
+				  <DataObjectAttribute name="TASK_DESC" type="String" /> 	
+				  <DataObjectAttribute name="CREATD_USER_ID" type="String" /> 
+				  <DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp" /> 
+				  <DataObjectAttribute name="LST_CHG_USR" type="String" />
+				  <DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp" />
+				  <DataObjectAttribute name="MOD_SYS_ID" type="Int" />
+				  <DataObjectAttribute name="ROLE_SYS_ID" type="Int" />
+				  <DataObjectAttribute name="ROLE_MOD_ASSN_SYS_ID" type="Int" />
+			<SQLTemplate transType="insert">
+				<SQLQuery>
+					INSERT INTO SCRTY_TASK_INFO(
+										TASK_SYS_ID,TASK_NM,TASK_DESC,CREATD_USER_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS)
+					VALUES			(?,?,?,?,?,?,?)
+				</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TASK_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="TASK_NM"/>
+					<DataObjectAttributeInput index="2" name="TASK_DESC"/>
+					<DataObjectAttributeInput index="3" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="4" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+			</SQLTemplate>
+
+
+
+			<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+		        <DataObjectAttributeInput index="1" name="ROLE_SYS_ID"/>
+		        <RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+		        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="retrieveTaskBO"/>
+		    </SQLTemplate>
+
+
+			<SQLTemplate transType="delete">
+				<SQLQuery>
+							delete from SCRTY_TASK_INFO where  TASK_SYS_ID= ?
+				</SQLQuery>
+						<DataObjectAttributeInput index="0" name="TASK_SYS_ID"/>
+				</SQLTemplate>
+
+
+			<SQLTemplate transType="update">
+				<SQLQuery>
+					UPDATE SCRTY_TASK_INFO set  TASK_DESC = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?
+							WHERE TASK_SYS_ID  = ?
+				</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TASK_DESC"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="3" name="TASK_SYS_ID"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="TASK_NM"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="findDuplicate"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="TaskLookUpQueryForRole"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_NM"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="taskLookUpQuery"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="TASK_NM"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_NM"/>
+					<ResultIndex index="2"  dataObjectAttribName ="TASK_DESC"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="locateTask"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="TASK_NM"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="taskPopupQuery"/>
+			</SQLTemplate>
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="ROLE_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_NM"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="2"  dataObjectAttribName ="ROLE_MOD_ASSN_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="roleTaskPopupQuery"/>
+			</SQLTemplate>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="ROLE_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_NM"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="2"  dataObjectAttribName ="ROLE_MOD_ASSN_SYS_ID"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="roleTaskAssociationQuery"/>
+			</SQLTemplate>	
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="taskAsssociationQuery"/>
+			</SQLTemplate>			
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="TASK_SYS_ID"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="TASK_SYS_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="TASK_NM"/>
+					<ResultIndex index="2"  dataObjectAttribName ="TASK_DESC"/>
+					<ResultIndex index="3"  dataObjectAttribName ="CREATD_USER_ID"/>
+					<ResultIndex index="4"  dataObjectAttribName ="CREATD_TM_STMP"/>
+					<ResultIndex index="5"  dataObjectAttribName ="LST_CHG_USR"/>
+					<ResultIndex index="6"  dataObjectAttribName ="LST_CHG_TMS"/>
+				</RSIndexToDOAttributeMap>
+			</SQLTemplate>	
+				<DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="TASK_SYS_ID" 			toBOAttb="taskId" /> 
+	                  <Pair DOAttb="TASK_NM" 			toBOAttb="taskName" /> 
+	                  <Pair DOAttb="TASK_DESC"				toBOAttb="description" /> 
+					  <Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+					  <Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+					  <Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+					  <Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+					  <Pair DOAttb="MOD_SYS_ID"			toBOAttb="moduleId"/>
+					  <Pair DOAttb="ROLE_MOD_ASSN_SYS_ID"			toBOAttb="moduleId"/>
+				  </DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+                        <Pair DOAttb="TASK_NM" 		toSCAttb="taskName"/>
+						<Pair DOAttb="TASK_SYS_ID" 		toSCAttb="taskId"/>
+						<Pair DOAttb="TASK_DESC" 	toSCAttb="description" /> 
+						<Pair DOAttb="MOD_SYS_ID" 	toSCAttb="moduleId" /> 
+						<Pair DOAttb="ROLE_SYS_ID"	toSCAttb="roleId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+			<DataObject name="SCRTY_MOD_TASK_ASSN"> 
+               <DataObjectAttribute name="MOD_SYS_ID" type="Int" /> 
+			   <DataObjectAttribute name="TASK_SYS_ID" type="Int" /> 
+	
+	           <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="TASK_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="retrieveAssociatedModulesOfTask"/>
+			  </SQLTemplate>
+
+	           <DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MOD_SYS_ID" toBOAttb="moduleId" />  
+					  <Pair DOAttb="TASK_SYS_ID" toBOAttb="taskId" />  
+	           </DoAttributeToBOAttributeMap>
+	           
+	           <DoAttributeToSCAttributeMap>
+							<Pair DOAttb="TASK_SYS_ID"		toSCAttb="taskId"/>
+	           </DoAttributeToSCAttributeMap>
+           </DataObject>  	
+		   
+		   		
+
+		</DataSource>	
+
+	</BusinessObjectMetadata>
+</Metadata>

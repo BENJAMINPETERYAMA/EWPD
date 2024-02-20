@@ -1,0 +1,603 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.sequence.bo.Sequence">
+		<BusinessAttribute name="nextSequenceNumber" type="Int" keyAttrib="true"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="Seq" type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="servTypeMappingSysId">
+				SELECT BX_SRVC_TYP_MAPNG_SYS_ID_SEQ.nextval FROM dual
+			</SelectSQLQuery>			
+			
+			<SelectSQLQuery name="cntrctBnftCstmzdSysId">
+				SELECT CNTRCT_BNFT_CSTMZD_SQNC.nextval FROM dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="productRuleSystemId">
+				SELECT prod_rule_sys_id_sqnc.nextval FROM dual
+			</SelectSQLQuery>
+	
+			<SelectSQLQuery name="contractSysIdSeq">
+				select CNTRCT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="productSystemId">
+				select  PROD_MSTR_SYS_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+	
+			<SelectSQLQuery name="standardBenefitSystemId">
+				select  BNFT_SYS_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="securityRoleSystemId">
+				select  SCRTY_ROLE_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="securitySubTaskSystemId">
+				select  SCRTY_SUB_TSK_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="securityRoleModuleAssociationSysId">
+				select  SCRTY_ROL_MOD_ASN_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+            <SelectSQLQuery name="securityRoleTaskAssociationSysId">
+				select  SCRTY_ROLMODTSK_ASN_SYSID_SQNC.nextval from dual
+			</SelectSQLQuery>
+                       
+            <SelectSQLQuery name="catalogSystemId">
+				select  CTLG_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="itemSystemId">
+				select  ITEM_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="subCatalogSysId">
+				select SUB_CTLG_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="taskId">
+				select SRCTY_TSK_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="moduleSystemId">
+				select SCRTY_MOD_SYS_ID_SQNC.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitAdministrationSystemId">
+				select  BNFT_ADMIN_SYS_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="productStructureSystemId">
+				select  PROD_STRCTR_MSTR_SYS_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitDefinitionMasterId">
+				select BNFT_DEFN_MST_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="adminOptionId">
+				select ADMIN_OPT_MSTR_ID_SEQ.nextval from dual
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="mandateId">
+				select MNDT_SYS_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="benefitLevelId">
+				select BLVL_BNFT_LVL_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="questionNbrSeq">
+				select ADQM_ADMN_QSTN_NBR_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="answerIdSeq">
+				select PSBL_ANSWR_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitLineId">
+				select BLN_BNFT_LINE_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="adminAssoQuestion">
+				select ADMIN_OPT_TO_QSTN_SQNC_NBR_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitLevelSeq">
+				select BLN_BNFT_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="domainSystemId">
+				select DOMN_SYS_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="nonAdjBenfitMandateId">
+				select NON_ADJ_BEN_MAND_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="productStructureBenefitCmpnt">
+				select PROD_STRCTR_BNFT_CMPNT_SEQ.nextval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="benefitAdminOptionId">
+				select BNFT_ADMIN_LVL_ASSCN_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="openQuestionSequenceNo">
+				select open_qstn_seq.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitComponentId">
+				select BNFT_CMPNT_SYS_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitHierarchyId">
+				select BNFT_HRCHY_SYS_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="benefitHierarchyAssociationId">
+				select BNFT_CMPNT_HRCHY_ASSN_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="noteId">
+				select lpad(NOTE_ID_SEQ.nextval, 8, 0)  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="contractIdSeq">
+				select SYS_CNTRCT_POOL_SQNC.nextval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="contractIdCurrSeq">
+				select SYS_CNTRCT_POOL_SQNC.currval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="commentIdSeq">
+				select CMNT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="dateSegmentSysIdSeq">
+				select DT_SGMNT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="reserveContractSysIdSeq">
+				select RSRVD_CNTRCT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="nextContractPoolIdSequence">
+				select RSRVD_CNTRCT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="migratedContractSysIdSeq">
+				select MGRTD_CNTRCT_SYS_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="migratedDateSegSysIdSeq">
+				select MGRTD_DT_SGMNT_SYS_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="migratedProdStructureMappingSysID">
+				select MGRTD_PSTRCTR_MAPG_MSTR_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="migratedNoteIdSequence">
+				select LGCY_NOTE_ID_SEQ.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="questionnaireHierarchySequence">
+				select QSTNR_HRCHY_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>			
+
+			<SelectSQLQuery name="masterTableRefIdIdSequence">
+				select CNTRCT_SYS_ID_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="reserveContractPoolSysIdSequence">
+				select CNTRCT_RSRV_PL_SQNC.nextval  from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="testSuiteId">
+					select TEST_SUITE_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="testCaseId">
+				select TEST_CASE_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="claimLineId">
+				select CLAIM_LINE_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="adminMethodSysID">
+				select ADMN_MTHD_MSTR_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+
+
+
+			<SelectSQLQuery name="adminMethodGroupID">
+				select ADMN_MTHD_SPS_GRP_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			<SelectSQLQuery name="filterCriteria">
+				select ADMN_MTHD_FLTR_CRITR_ID_SEQ.nextval from dual
+			</SelectSQLQuery>
+			
+
+			<DataObject name="SEQUENCE_DATA_OBJECT">
+				<DataObjectAttribute name="SEQUENCE_NUMBER" type="Int"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="migratedNoteIdSequence"/>
+				</SQLTemplate>
+
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="masterTableRefIdIdSequence"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="reserveContractPoolSysIdSequence"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="contractSysIdSeq"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="servTypeMappingSysId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="cntrctBnftCstmzdSysId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="productRuleSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="productSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="itemSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap >
+				<SearchQueryName name="subCatalogSysId"/>
+				</SQLTemplate>
+			
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName = "SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="taskId"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName = "SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="moduleSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="domainSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="standardBenefitSystemId"/>
+				</SQLTemplate>
+	
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="securityRoleSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="securitySubTaskSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitAdministrationSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="productStructureSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="productStructureBenefitCmpnt"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitDefinitionMasterId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="questionNbrSeq"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+								<RSIndexToDOAttributeMap>
+									<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+								</RSIndexToDOAttributeMap>
+							<SearchQueryName name="benefitLevelId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="answerIdSeq"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitLineId"/>
+				</SQLTemplate>   				
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="adminAssoQuestion"/>
+				</SQLTemplate>   				
+                 
+                <SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="catalogSystemId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="securityRoleModuleAssociationSysId"/>
+				</SQLTemplate>
+
+             <SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="securityRoleTaskAssociationSysId"/>
+				</SQLTemplate> 
+
+  				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="adminOptionId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="mandateId"/>
+				</SQLTemplate> 
+   				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitLevelSeq"/>
+				</SQLTemplate> 		
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="nonAdjBenfitMandateId"/>
+				</SQLTemplate> 
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitAdminOptionId"/>
+				</SQLTemplate> 
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="openQuestionSequenceNo"/>
+				</SQLTemplate> 
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitComponentId"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitHierarchyId"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitHierarchyAssociationId"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="noteId"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="contractIdSeq"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="nextContractPoolIdSequence"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="commentIdSeq"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="dateSegmentSysIdSeq"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="reserveContractSysIdSeq"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="migratedContractSysIdSeq"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="migratedDateSegSysIdSeq"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="migratedProdStructureMappingSysID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="questionnaireHierarchySequence"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="testSuiteId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="testCaseId"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="claimLineId"/>
+				</SQLTemplate>
+
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="adminMethodSysID"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="adminMethodGroupID"/>
+				</SQLTemplate>
+
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="filterCriteria"/>
+				</SQLTemplate>
+
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="SEQUENCE_NUMBER"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="adminMethodGroupID"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="SEQUENCE_NUMBER" toBOAttb="nextSequenceNumber"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="SEQUENCE_NUMBER" toSCAttb="Seq"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

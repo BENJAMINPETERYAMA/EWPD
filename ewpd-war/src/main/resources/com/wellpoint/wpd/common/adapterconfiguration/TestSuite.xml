@@ -1,0 +1,477 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.TestSuiteBO">
+		
+		<BusinessAttribute name="testSuiteId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="testSuiteName" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="testSuiteDesc" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="contractId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="startDate" type="Date" keyAttrib="false"/>
+		<BusinessAttribute name="endDate" type="Date" keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" type="Date" keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" type="Date" keyAttrib="false"/>
+		<BusinessAttribute name="testSuiteCount" type="Int" keyAttrib="false"/>
+		
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="testSuiteName" type="String"/>
+			<SearchCriteriaAttribute name="testSuiteId" type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="locateTestSuite" dynamic="true">
+			    <STATIC>
+				    <![CDATA[
+							SELECT 
+								TEST_SUITE_ID,
+								TEST_SUITE_NAME,
+								TEST_SUITE_DESC,
+								CONTRACT_ID,
+								CONTRACT_START_DT,
+								CONTRACT_END_DT
+							FROM
+								TEST_SUITE_DTL
+					]]>
+			    </STATIC>
+			    <DYNAMIC>
+			       WHERE upper(TEST_SUITE_NAME) like upper(('%'||{0}||'%')) order by TEST_SUITE_NAME
+			    </DYNAMIC> 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchTestSuiteById">
+					SELECT 
+						TEST_SUITE_ID,
+						TEST_SUITE_NAME,
+						TEST_SUITE_DESC,
+						CONTRACT_ID,
+						CONTRACT_START_DT,
+						CONTRACT_END_DT
+					FROM
+						TEST_SUITE_DTL
+					WHERE
+						TEST_SUITE_ID = {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchTestSuiteByName" dynamic="true">
+				<STATIC>
+					SELECT
+						COUNT(TEST_SUITE_NAME) AS TEST_SUITE_COUNT,
+						'DUMMY'
+					FROM
+						TEST_SUITE_DTL
+					WHERE
+						upper(TEST_SUITE_NAME) LIKE upper({0})
+				</STATIC>
+				<DYNAMIC>
+					<![CDATA[ AND TEST_SUITE_ID <> {1} ]]>
+				</DYNAMIC>
+			</SelectSQLQuery>
+
+			<DataObject name="TEST_SUITE_DTL">				
+				<DataObjectAttribute name="TEST_SUITE_ID" type="String"/>
+			    <DataObjectAttribute name="TEST_SUITE_NAME" type="String"/>
+			    <DataObjectAttribute name="TEST_SUITE_DESC" type="String"/>
+			    <DataObjectAttribute name="CONTRACT_ID" type="String"/>
+			    <DataObjectAttribute name="CONTRACT_START_DT" type="TimeStamp"/>
+			    <DataObjectAttribute name="CONTRACT_END_DT" type="TimeStamp"/>
+			    <DataObjectAttribute name="TEST_SUITE_CREATED_DT" type="TimeStamp"/>
+			    <DataObjectAttribute name="TEST_SUITE_CREATED_USER_ID" type="String"/>
+			    <DataObjectAttribute name="TEST_SUITE_LAST_CHS_DT" type="TimeStamp"/>
+			    <DataObjectAttribute name="TEST_SUITE_LAST_CHG_USERID" type="String"/>
+			    <DataObjectAttribute name="TEST_SUITE_COUNT" type="Int"/>
+			    
+				<SQLTemplate transType="insert">
+			        <SQLQuery>
+
+			            INSERT INTO TEST_SUITE_DTL ( 
+									TEST_SUITE_ID,
+									TEST_SUITE_NAME,
+									TEST_SUITE_DESC,
+									CONTRACT_ID,
+									CONTRACT_START_DT,
+									CONTRACT_END_DT,
+									TEST_SUITE_CREATED_DT,
+									TEST_SUITE_CREATED_USER_ID,
+									TEST_SUITE_LAST_CHS_DT,
+									TEST_SUITE_LAST_CHG_USERID)
+			            VALUES		(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/>
+			        <DataObjectAttributeInput index="1" name="TEST_SUITE_NAME"/>
+			        <DataObjectAttributeInput index="2" name="TEST_SUITE_DESC"/>
+			        <DataObjectAttributeInput index="3" name="CONTRACT_ID"/>
+			        <DataObjectAttributeInput index="4" name="CONTRACT_START_DT"/>
+			        <DataObjectAttributeInput index="5" name="CONTRACT_END_DT"/>
+			        <DataObjectAttributeInput index="6" name="TEST_SUITE_CREATED_DT"/>
+			        <DataObjectAttributeInput index="7" name="TEST_SUITE_CREATED_USER_ID"/>
+			        <DataObjectAttributeInput index="8" name="TEST_SUITE_LAST_CHS_DT"/>
+			        <DataObjectAttributeInput index="9" name="TEST_SUITE_LAST_CHG_USERID"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TEST_SUITE_DTL WHERE TEST_SUITE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="update">
+			        <SQLQuery>
+						 UPDATE TEST_SUITE_DTL
+						SET 
+							TEST_SUITE_NAME =?, TEST_SUITE_DESC =?, CONTRACT_ID =?, CONTRACT_START_DT =?, CONTRACT_END_DT =?,
+							TEST_SUITE_LAST_CHS_DT =?, TEST_SUITE_LAST_CHG_USERID =?
+						WHERE
+						TEST_SUITE_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_NAME"/>
+			        <DataObjectAttributeInput index="1" name="TEST_SUITE_DESC"/>
+			        <DataObjectAttributeInput index="2" name="CONTRACT_ID"/>
+			        <DataObjectAttributeInput index="3" name="CONTRACT_START_DT"/>
+			        <DataObjectAttributeInput index="4" name="CONTRACT_END_DT"/>
+			        <DataObjectAttributeInput index="5" name="TEST_SUITE_LAST_CHS_DT"/>
+			        <DataObjectAttributeInput index="6" name="TEST_SUITE_LAST_CHG_USERID"/>
+			        <DataObjectAttributeInput index="7" name="TEST_SUITE_ID"/>
+			   </SQLTemplate>
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_NAME"/> 
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_SUITE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_SUITE_NAME"/>
+			            <ResultIndex index="2" dataObjectAttribName ="TEST_SUITE_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="CONTRACT_ID"/>
+			            <ResultIndex index="4" dataObjectAttribName ="CONTRACT_START_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CONTRACT_END_DT"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateTestSuite"/>
+			    </SQLTemplate>
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/> 
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_SUITE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_SUITE_NAME"/>	
+			            <ResultIndex index="2" dataObjectAttribName ="TEST_SUITE_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="CONTRACT_ID"/>
+			            <ResultIndex index="4" dataObjectAttribName ="CONTRACT_START_DT"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CONTRACT_END_DT"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTestSuiteById"/>
+			    </SQLTemplate>
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_NAME"/> 
+			        <DataObjectAttributeInput index="1" name="TEST_SUITE_ID"/> 
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_SUITE_COUNT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_SUITE_ID"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTestSuiteByName"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="TEST_SUITE_ID"   toBOAttb="testSuiteId"/>
+			        <Pair DOAttb="TEST_SUITE_NAME" toBOAttb="testSuiteName"/>
+			        <Pair DOAttb="TEST_SUITE_DESC" toBOAttb="testSuiteDesc"/>
+			        <Pair DOAttb="CONTRACT_ID" toBOAttb="contractId"/>
+			        <Pair DOAttb="CONTRACT_START_DT" toBOAttb="startDate"/>
+			        <Pair DOAttb="CONTRACT_END_DT" toBOAttb="endDate"/>
+			        <Pair DOAttb="TEST_SUITE_CREATED_DT" toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="TEST_SUITE_CREATED_USER_ID" toBOAttb="createdUser"/>
+			        <Pair DOAttb="TEST_SUITE_LAST_CHS_DT" toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="TEST_SUITE_LAST_CHG_USERID" toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="TEST_SUITE_COUNT" toBOAttb="testSuiteCount"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TEST_SUITE_NAME" toSCAttb="testSuiteName"/>
+			        <Pair DOAttb="TEST_SUITE_ID" toSCAttb="testSuiteId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.TestCaseRefBO">
+		<BusinessAttribute name="testSuiteId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="testCaseId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="testCaseName" type="String" keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="testSuiteId" type="String"/>
+			<SearchCriteriaAttribute name="testCaseId" type="String"/>
+			<SearchCriteriaAttribute name="testCaseIdList" type="List"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="getTestCaseRef" dynamic="true">
+				<STATIC>
+					SELECT 
+					  R.TEST_SUITE_ID,
+					  R.TEST_CASE_ID,
+					  C.TEST_CASE_NAME
+					FROM
+					  TEST_SUITE_DTL S,
+					  TEST_REFERENCE_DTL R,
+					  TEST_CASE_DTL C
+					WHERE
+					  C.TEST_CASE_ID = R.TEST_CASE_ID AND
+					  R.TEST_SUITE_ID = S.TEST_SUITE_ID 
+				</STATIC>
+				<DYNAMIC>
+					  AND S.TEST_SUITE_ID ={0}
+				</DYNAMIC>
+				<DYNAMIC>
+					 AND R.TEST_CASE_ID {1}
+				</DYNAMIC>
+			</SelectSQLQuery>
+
+			<DataObject name="TEST_REFERENCE_DTL">				
+				<DataObjectAttribute name="TEST_SUITE_ID" type="String"/>
+				<DataObjectAttribute name="TEST_CASE_ID" type="String"/>
+				<DataObjectAttribute name="TEST_CASE_NAME" type="String"/>
+				<DataObjectAttribute name="TEST_CASE_IDS" type="String"/>
+
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/>
+					<DataObjectAttributeInput index="1" name="TEST_CASE_IDS"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_SUITE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_CASE_ID"/>	
+			            <ResultIndex index="2" dataObjectAttribName ="TEST_CASE_NAME"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getTestCaseRef"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="insert">
+			        <SQLQuery>
+
+			            INSERT INTO TEST_REFERENCE_DTL
+								( 
+									TEST_SUITE_ID,
+									TEST_CASE_ID		
+								)
+			            VALUES	(?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/>
+			        <DataObjectAttributeInput index="1" name="TEST_CASE_ID"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TEST_REFERENCE_DTL WHERE TEST_SUITE_ID = ? AND TEST_CASE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TEST_SUITE_ID"/>
+					<DataObjectAttributeInput index="1" name="TEST_CASE_ID"/>
+	  			</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="TEST_SUITE_ID"   toBOAttb="testSuiteId"/>
+			        <Pair DOAttb="TEST_CASE_ID" toBOAttb="testCaseId"/>
+					<Pair DOAttb="TEST_CASE_NAME" toBOAttb="testCaseName"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TEST_SUITE_ID" toSCAttb="testSuiteId"/>
+					<Pair DOAttb="TEST_CASE_ID" toSCAttb="testCaseId"/>
+					<Pair DOAttb="TEST_CASE_IDS" toSCAttb="testCaseIdList"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.BenefitComponentRuleIDBO">
+		<BusinessAttribute name="beneftCompId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="beneftCompName" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="beneftCompRuleId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="contractId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="startDate" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="endDate" type="String" keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="contractId" type="String"/>
+			<SearchCriteriaAttribute name="startDate" type="String"/>
+			<SearchCriteriaAttribute name="endDate" type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="getBeneftCompRuleId">
+				<![CDATA[
+                              SELECT DISTINCT
+                                    D.BNFT_CMPNT_NM,
+                                    D.BNFT_CMPNT_SYS_ID,
+                                    C.RULE_ID
+                              FROM
+                                    CNTRCT_DT_SGMNT A,
+                                    ( 
+                                          select dt_sgmnt_sys_id from CNTRCT_DT_SGMNT_ASSN
+                                          where cntrct_sys_id = ( select max(cntrct_sys_id) 
+                                                                              from CMST_CNTRCT_MSTR 
+                                                                              where
+																					upper(CNTRCT_ID) = upper({0})
+                                                                                    and cntrct_stts_cd <> 'MARKED_FOR_DELETION'
+                                                                              )
+                                    ) B,
+                                    PROD_BNFT_CMPNT_ASSN C,
+                                    BCM_BNFT_CMPNT_MSTR D,
+                                    CNTRCT_BNFT_CSTMZD E
+                              WHERE
+                                    A.DT_SGMNT_SYS_ID = B.DT_SGMNT_SYS_ID 
+                                    AND  A.DT_SGMNT_EFCTV_DT = to_date({1},'MM/DD/YYYY') 
+                                    AND  A.DT_SGMNT_EXPR_DT = to_date({2},'MM/DD/YYYY')
+                                    AND  A.PROD_SYS_ID = C.PROD_SYS_ID
+                                    AND  C.BNFT_CMPNT_SYS_ID = D.BNFT_CMPNT_SYS_ID
+                                    AND  E.dt_sgmnt_sys_id = A.DT_SGMNT_SYS_ID
+                                    AND  E.prod_sys_id = c.prod_sys_id
+                                    AND  E.bnft_cmpnt_sys_id = C.BNFT_CMPNT_SYS_ID 
+                                    AND  E.BNFT_CMPNT_HIDE_FLAG  ='F'
+                                    AND  E.bnft_cmpnt_sys_id = D.BNFT_CMPNT_SYS_ID
+				]]>
+			</SelectSQLQuery>
+			<DataObject name="CNTRCT_DT_SGMNT">				
+				<DataObjectAttribute name="BNFT_CMPNT_NM" type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="String"/>
+				<DataObjectAttribute name="RULE_ID" type="String"/>
+				<DataObjectAttribute name="CNTRCT_ID" type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_EXPR_DT" type="String"/>
+
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_EFCTV_DT"/>
+					<DataObjectAttributeInput index="2" name="DT_SGMNT_EXPR_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>	
+			            <ResultIndex index="2" dataObjectAttribName ="RULE_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBeneftCompRuleId"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID" toBOAttb="beneftCompId"/>
+			        <Pair DOAttb="BNFT_CMPNT_NM"   toBOAttb="beneftCompName"/>
+					<Pair DOAttb="RULE_ID" toBOAttb="beneftCompRuleId"/>
+					<Pair DOAttb="CNTRCT_ID" toBOAttb="contractId"/>
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" toBOAttb="startDate"/>
+					<Pair DOAttb="DT_SGMNT_EXPR_DT" toBOAttb="endDate"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CNTRCT_ID" toSCAttb="contractId"/>
+			        <Pair DOAttb="DT_SGMNT_EFCTV_DT" toSCAttb="startDate"/>
+			        <Pair DOAttb="DT_SGMNT_EXPR_DT" toSCAttb="endDate"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.BenefitRuleIDBO">
+		<BusinessAttribute name="benefitName" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="benefitCategory" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="benefitRuleId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="contractId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="startDate" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="endDate" type="String" keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="contractId" type="String"/>
+			<SearchCriteriaAttribute name="startDate" type="String"/>
+			<SearchCriteriaAttribute name="endDate" type="String"/>
+			<SearchCriteriaAttribute name="bnftCompId" type="List"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getBeneftRuleId">
+				<![CDATA[
+                                SELECT DISTINCT
+                                  D.BNFT_ID_NM,
+                                  D.BNFT_CTGRY,
+                                  C.RULE_ID
+                                FROM 
+                                  CNTRCT_DT_SGMNT A,
+                                      ( select dt_sgmnt_sys_id from CNTRCT_DT_SGMNT_ASSN
+                                        where cntrct_sys_id = ( select max(cntrct_sys_id) 
+                                                                from CMST_CNTRCT_MSTR 
+                                                                where
+																	upper(CNTRCT_ID) = upper({0})
+    	                                                            and cntrct_stts_cd <> 'MARKED_FOR_DELETION'
+                                                              )
+                                      ) B,
+                                      CNTRCT_BNFT_RULE_OVRD C,
+                                      BMST_BNFT_MSTR D,
+                                          CNTRCT_BNFT_CSTMZD E
+                                      
+                                WHERE A.DT_SGMNT_SYS_ID = B.DT_SGMNT_SYS_ID 
+                                AND  A.DT_SGMNT_EFCTV_DT = to_date({1},'MM/DD/YYYY') 
+                                AND  A.DT_SGMNT_EXPR_DT = to_date({2},'MM/DD/YYYY')
+                                AND  A.DT_SGMNT_SYS_ID = C.DT_SGMNT_SYS_ID
+                                AND  C.BNFT_CMPNT_SYS_ID {3}
+                                AND  C.BNFT_SYS_ID  = D.BNFT_SYS_ID
+                                AND  E.dt_sgmnt_sys_id = A.DT_SGMNT_SYS_ID
+                                AND  E.bnft_cmpnt_sys_id = C.BNFT_CMPNT_SYS_ID 
+                                AND  E.BNFT_SYS_ID = C.bnft_sys_id
+                                AND  E.BNFT_CMPNT_HIDE_FLAG  ='F'
+                                AND  E.bnft_hide_flag = 'F'
+                                AND  E.bnft_sys_id = D.bnft_sys_id
+				]]>
+			</SelectSQLQuery>
+			<DataObject name="CNTRCT_DT_SGMNT">				
+				<DataObjectAttribute name="BNFT_ID_NM" type="String"/>
+				<DataObjectAttribute name="BNFT_CTGRY" type="String"/>
+				<DataObjectAttribute name="RULE_ID" type="String"/>
+				<DataObjectAttribute name="CNTRCT_ID" type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_EFCTV_DT" type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_EXPR_DT" type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="String"/>
+
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_EFCTV_DT"/>
+					<DataObjectAttributeInput index="2" name="DT_SGMNT_EXPR_DT"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_CTGRY"/>	
+			            <ResultIndex index="2" dataObjectAttribName ="RULE_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBeneftRuleId"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BNFT_ID_NM" toBOAttb="benefitName"/>
+			        <Pair DOAttb="BNFT_CTGRY"   toBOAttb="benefitCategory"/>
+					<Pair DOAttb="RULE_ID" toBOAttb="benefitRuleId"/>
+					<Pair DOAttb="CNTRCT_ID" toBOAttb="contractId"/>
+					<Pair DOAttb="DT_SGMNT_EFCTV_DT" toBOAttb="startDate"/>
+					<Pair DOAttb="DT_SGMNT_EXPR_DT" toBOAttb="endDate"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CNTRCT_ID" toSCAttb="contractId"/>
+			        <Pair DOAttb="DT_SGMNT_EFCTV_DT" toSCAttb="startDate"/>
+			        <Pair DOAttb="DT_SGMNT_EXPR_DT" toSCAttb="endDate"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID" toSCAttb="bnftCompId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

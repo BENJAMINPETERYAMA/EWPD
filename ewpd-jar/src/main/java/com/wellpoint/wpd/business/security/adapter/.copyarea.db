@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\security\adapter
+2
+3
+19:ModuleAdapterManager.java|1|16adf9608cd|7c4c|67d52058|e1f8270a7ac64d94abb8f80c04045b17|0
+17:RoleAdapterManager.java|1|16adf96092b|9337|94d8e2a3|05735215848a47b499faa8b3a9086796|0
+17:TaskAdapterManager.java|1|16adf9612bc|585e|2f5021fa|d8b933816fdb438c93af2c9177971459|0

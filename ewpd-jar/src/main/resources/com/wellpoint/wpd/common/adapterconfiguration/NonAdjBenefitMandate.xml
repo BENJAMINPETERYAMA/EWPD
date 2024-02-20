@@ -1,0 +1,399 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.BenefitMandateBO">
+		<BusinessAttribute name="benefitMandateId"					type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="benefitSystemId"					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 					type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 						type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="fundingArrangement" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="effectiveness" 					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="text" 								type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="mandateCategory" 					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="fundingArrangementDesc" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="mandateCategoryDesc" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="mandateEffectivenessDesc" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="stateId" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="stateDesc" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitStateCodeList" 			type="List"	keyAttrib="false"/>
+
+
+		
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitSystemId" 	 	type="Int"/>	
+			<SearchCriteriaAttribute name="effectiveDate" 	 		type="Date"/>	
+			<SearchCriteriaAttribute name="expiryDate" 	 			type="Date"/>	
+			<SearchCriteriaAttribute name="benefitMandateId" 	 	type="Int"/>	
+			<SearchCriteriaAttribute name="mandateId" 	 			type="Int"/>	
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+				select A.BNFT_MNDT_SYS_ID, A.BNFT_SYS_ID, A.MNDT_CTGRY_CD, A.MNDT_FUNDG_ARNGMNT_ID, 
+					A.MNDT_EFCTV_CD, A.MNDT_TXT, A.LST_CHG_USR, A.LST_CHG_TMS, A.CREATD_TM_STMP, A.CREATD_USER_ID, B.CD_DESC_TXT,
+					C.CD_DESC_TXT,D.CD_DESC_TXT from BMNDT_BNFT_MNDT A , ITEM B , ITEM C , ITEM D
+					where A.BNFT_SYS_ID = ?
+						AND (A.MNDT_FUNDG_ARNGMNT_ID = B.PRMRY_CD(+) AND B.CTLG_ID(+) = 1941)
+						AND (A.MNDT_EFCTV_CD = C.PRMRY_CD(+) AND C.CTLG_ID(+) = 335)
+						AND (A.MNDT_CTGRY_CD = D.PRMRY_CD(+) AND D.CTLG_ID(+) = 334)            
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getStateAndFundArrangForRefData">
+						select bnmd.BNFT_MNDT_SYS_ID,bnmd.MNDT_FUNDG_ARNGMNT_ID,
+						bninf.BMNDT_ST_CD
+						from BMNDT_BNFT_MNDT bnmd,
+						BMNDT_STCD_INFO bninf
+						where 
+						bninf.BNFT_MNDT_SYS_ID=bnmd.BNFT_MNDT_SYS_ID and 
+						bnmd.BNFT_SYS_ID={0}
+			</SelectSQLQuery>
+
+			
+			<DataObject name="BMNDT_BNFT_MNDT">
+
+				<DataObjectAttribute name="BNFT_MNDT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" 				type="Int"/>
+				<DataObjectAttribute name="MNDT_CTGRY_CD" 				type="String"/>
+				<DataObjectAttribute name="MNDT_FUNDG_ARNGMNT_ID" 		type="String"/>
+				<DataObjectAttribute name="MNDT_EFCTV_CD" 				type="String"/>
+				<DataObjectAttribute name="MNDT_TXT" 					type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 				type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 				type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 				type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 				type="String"/>
+				<DataObjectAttribute name="BMNDT_ST_CD" 				type="String"/>
+				
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="BNFT_MNDT_SYS_ID"/>
+						<ResultIndex index="1"  dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="2"  dataObjectAttribName ="MNDT_CTGRY_CD"/>
+						<ResultIndex index="3"  dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+						<ResultIndex index="4"  dataObjectAttribName ="MNDT_EFCTV_CD"/>
+						<ResultIndex index="5"  dataObjectAttribName ="MNDT_TXT"/>
+						<ResultIndex index="6"  dataObjectAttribName ="LST_CHG_USR"/>					
+						<ResultIndex index="7"  dataObjectAttribName ="LST_CHG_TMS"/>					
+						<ResultIndex index="8"  dataObjectAttribName ="CREATD_TM_STMP"/>		
+						<ResultIndex index="9"  dataObjectAttribName ="CREATD_USER_ID"/>	
+
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>					
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_MNDT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="MNDT_FUNDG_ARNGMNT_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="BMNDT_ST_CD"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getStateAndFundArrangForRefData"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into BMNDT_BNFT_MNDT 
+								(BNFT_MNDT_SYS_ID, BNFT_SYS_ID, MNDT_CTGRY_CD, MNDT_FUNDG_ARNGMNT_ID,MNDT_EFCTV_CD, 
+									MNDT_TXT, LST_CHG_USR, LST_CHG_TMS, CREATD_TM_STMP, 
+										CREATD_USER_ID)
+								values (?, ?, ?,?,?, ?, ?, ?, ?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="MNDT_CTGRY_CD"/>
+						<DataObjectAttributeInput index="3" name="MNDT_FUNDG_ARNGMNT_ID"/>
+						<DataObjectAttributeInput index="4" name="MNDT_EFCTV_CD"/>
+						<DataObjectAttributeInput index="5" name="MNDT_TXT"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="7" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="9" name="CREATD_USER_ID"/>
+
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								update BMNDT_BNFT_MNDT set BNFT_SYS_ID = ?, MNDT_CTGRY_CD = ? ,
+									 MNDT_FUNDG_ARNGMNT_ID = ?,MNDT_EFCTV_CD = ?, MNDT_TXT = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?,
+											 CREATD_TM_STMP = ?, CREATD_USER_ID	= ?
+									where BNFT_MNDT_SYS_ID = ?		
+
+						</SQLQuery>
+						<DataObjectAttributeInput index="9" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="MNDT_CTGRY_CD"/>
+						<DataObjectAttributeInput index="2" name="MNDT_FUNDG_ARNGMNT_ID"/>
+						<DataObjectAttributeInput index="3" name="MNDT_EFCTV_CD"/>
+						<DataObjectAttributeInput index="4" name="MNDT_TXT"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="8" name="CREATD_USER_ID"/>
+
+				</SQLTemplate>
+				
+
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_MNDT_SYS_ID"				toBOAttb="benefitMandateId"/>
+						<Pair DOAttb="BNFT_SYS_ID"					toBOAttb="benefitSystemId"/>
+						<Pair DOAttb="MNDT_CTGRY_CD"					toBOAttb="mandateCategory"/>
+						<Pair DOAttb="MNDT_FUNDG_ARNGMNT_ID"		toBOAttb="fundingArrangement"/>
+						<Pair DOAttb="MNDT_EFCTV_CD"				toBOAttb="effectiveness"/>
+						<Pair DOAttb="MNDT_TXT"						toBOAttb="text"/>
+						<Pair DOAttb="LST_CHG_USR"					toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"					toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+						<Pair DOAttb="BMNDT_ST_CD"					toBOAttb="benefitStateCodeList"/>
+						
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_SYS_ID" 	toSCAttb="benefitSystemId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>	
+			
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+				<DataObjectAttribute name="MNDT_CATEGORY_DESC" 	type="String" />
+				<DataObjectAttribute name="MNDT_EFFECTIVENESS_DESC" 	type="String" />
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="10" dataObjectAttribName ="CD_DESC_TXT"/>	
+						<ResultIndex index="11" dataObjectAttribName ="MNDT_EFFECTIVENESS_DESC"/>	
+						<ResultIndex index="12" dataObjectAttribName ="MNDT_CATEGORY_DESC"/>				
+					</RSIndexToDOAttributeMap>					
+				</SQLTemplate>
+				
+ 
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="fundingArrangementDesc"/>
+						<Pair DOAttb="MNDT_CATEGORY_DESC"	toBOAttb="mandateCategoryDesc"/>
+						<Pair DOAttb="MNDT_EFFECTIVENESS_DESC"	toBOAttb="mandateEffectivenessDesc"/>
+					
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+	
+			
+</DataSource>	
+	</BusinessObjectMetadata>
+
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.CitationNumberBO">
+		<BusinessAttribute name="standardBenefitKey" 				type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitMandateId" 					type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="citationNumber" 					type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="createdTimestamp" 					type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 						type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 					type="String"	keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitMandateId" 	 	type="Int"/>	
+		</SearchCriteria>
+
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name = "getCitationNumber">
+					select BNFT_MNDT_SYS_ID,BMNDT_CIITTN_NBR, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP
+							 from BMNDT_CITTN_INFO where BNFT_MNDT_SYS_ID = {0}
+			</SelectSQLQuery>
+
+		
+			<DataObject name="BMNDT_CITTN_INFO">
+				<DataObjectAttribute name="BNFT_MNDT_SYS_ID" 		type="Int"	/>
+				<DataObjectAttribute name="BMNDT_CIITTN_NBR" 		type="String"	/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp" />
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into BMNDT_CITTN_INFO 
+								(BNFT_MNDT_SYS_ID, BMNDT_CIITTN_NBR, 
+									LST_CHG_USR, LST_CHG_TMS, CREATD_TM_STMP, 
+										CREATD_USER_ID)
+								values (?, ?, ?,?,?, ?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BMNDT_CIITTN_NBR"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+								delete from BMNDT_CITTN_INFO where BNFT_MNDT_SYS_ID = ? and BMNDT_CIITTN_NBR = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BMNDT_CIITTN_NBR"/>
+				</SQLTemplate>
+
+		
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_MNDT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BMNDT_CIITTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="3" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="4" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="CREATD_TM_STMP"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getCitationNumber"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_MNDT_SYS_ID"				toBOAttb="benefitMandateId"/>
+						<Pair DOAttb="BMNDT_CIITTN_NBR"				toBOAttb="citationNumber"/>
+						<Pair DOAttb="LST_CHG_USR"					toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"					toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_MNDT_SYS_ID" 		toSCAttb ="benefitMandateId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>			
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.StateBO">
+		<BusinessAttribute name="benefitMandateId" 					type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitStateCode" 					type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitStateDesc" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="flag"     					        type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 					type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 						type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 					type="String"	keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitMandateId" 	 	type="Int"/>	
+		</SearchCriteria>
+
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name = "getStateObject">
+					select A.BNFT_MNDT_SYS_ID,A.BMNDT_ST_CD,A.ENBL_DISBL_FLAG, A.LST_CHG_USR, A.LST_CHG_TMS, 
+					    A.CREATD_USER_ID, A.CREATD_TM_STMP , B.CD_DESC_TXT
+						  from BMNDT_STCD_INFO A, ITEM B where BNFT_MNDT_SYS_ID = {0}
+						  AND (A.BMNDT_ST_CD = B.PRMRY_CD(+) AND B.CTLG_ID(+) = 1626)
+			</SelectSQLQuery>
+
+		
+			<DataObject name="BMNDT_STCD_INFO">
+				<DataObjectAttribute name="BNFT_MNDT_SYS_ID" 		type="Int"	/>
+				<DataObjectAttribute name="BMNDT_ST_CD" 			type="String"	/>
+				<DataObjectAttribute name="ENBL_DISBL_FLAG" 		type="String"	/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp" />
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into BMNDT_STCD_INFO 
+								(BNFT_MNDT_SYS_ID, BMNDT_ST_CD, ENBL_DISBL_FLAG,
+									LST_CHG_USR, LST_CHG_TMS, CREATD_TM_STMP, 
+										CREATD_USER_ID)
+								values (?, ?, ?, ?, ?, ?, ?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BMNDT_ST_CD"/>
+						<DataObjectAttributeInput index="2" name="ENBL_DISBL_FLAG"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="5" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+								delete from BMNDT_STCD_INFO where BNFT_MNDT_SYS_ID = ? and BMNDT_ST_CD = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BMNDT_ST_CD"/>
+				</SQLTemplate>
+
+		
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_MNDT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_MNDT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BMNDT_ST_CD"/>
+						<ResultIndex index="2" dataObjectAttribName ="ENBL_DISBL_FLAG"/>
+						<ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="5" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getStateObject"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_MNDT_SYS_ID"				toBOAttb="benefitMandateId"/>
+						<Pair DOAttb="BMNDT_ST_CD"					toBOAttb="benefitStateCode"/>
+						<Pair DOAttb="ENBL_DISBL_FLAG"				toBOAttb="flag"/>
+						<Pair DOAttb="LST_CHG_USR"					toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"					toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_MNDT_SYS_ID" 		toSCAttb ="benefitMandateId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>	
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="7" dataObjectAttribName ="CD_DESC_TXT"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getStateObject"/>
+				</SQLTemplate>
+				
+ 
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="benefitStateDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>		
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+
+</Metadata>
+

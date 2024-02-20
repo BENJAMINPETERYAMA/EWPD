@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema targetNamespace="http://impl.webservices.simulation.ebx.ets.wellpoint.com/" version="1.0" xmlns:tns="http://impl.webservices.simulation.ebx.ets.wellpoint.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="SimulationWebServiceException" type="tns:SimulationWebServiceException"/>
+
+  <xs:element name="getContractInfo" type="tns:getContractInfo"/>
+
+  <xs:element name="getContractInfoResponse" type="tns:getContractInfoResponse"/>
+
+  <xs:complexType name="getContractInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:contractWebServiceVO"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="contractWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="backEndRegion" type="xs:string"/>
+      <xs:element minOccurs="0" name="businessEntity" type="xs:string"/>
+      <xs:element minOccurs="0" name="contractId" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="contractMappingVOList" nillable="true" type="tns:contractMappingWebServiceVO"/>
+      <xs:element minOccurs="0" name="effectiveDate" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="errorCodesList" nillable="true" type="tns:errorDetailWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="errorExclusionDetailList" nillable="true" type="tns:errorExclusionWebServiceVO"/>
+      <xs:element minOccurs="0" name="errorExclusionDetailVO" type="tns:errorExclusionDetailWebServiceVO"/>
+      <xs:element minOccurs="0" name="expiryDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="groupStateHQ" type="xs:string"/>
+      <xs:element name="majorHeadings">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="tns:majorHeadingsWebServiceVO"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="system" type="xs:string"/>
+      <xs:element name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="contractMappingWebServiceVO">
+    <xs:complexContent>
+      <xs:extension base="tns:mappingWebServiceVO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="benefitEffectiveEndDate" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="benefitEffectiveStartDate" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb04" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb05" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb07" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb08" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb10" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb11" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element minOccurs="0" name="eb12" type="tns:hippaSegmentWebServiceVO"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="errorCodesList" nillable="true" type="tns:errorDetailWebServiceVO"/>
+          <xs:element minOccurs="0" name="iiiMessage" type="xs:string"/>
+          <xs:element minOccurs="0" name="tierDescription" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="mappingWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="accum" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="auditLock" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="auditTrails" nillable="true" type="tns:auditTrailWebServiceVO"/>
+      <xs:element minOccurs="0" name="businessEntity" type="xs:string"/>
+      <xs:element minOccurs="0" name="businessGroup" type="xs:string"/>
+      <xs:element minOccurs="0" name="contractMapping" type="tns:contractMappingWebServiceVO"/>
+      <xs:element minOccurs="0" name="createdTmStamp" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataFeedInd" type="xs:string"/>
+      <xs:element minOccurs="0" name="datafeedStatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb01" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="eb02" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="eb03" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="eb06" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="eb09" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="endAge" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="endAgeCodedValue" type="xs:string"/>
+      <xs:element name="finalized" type="xs:boolean"/>
+      <xs:element name="finalizedFlagModified" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="formattedStringDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="hippaSegment" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd01" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd02" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd03" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd04" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd05" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd06" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd07" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="hsd08" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="ii02" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="inTempTable" type="xs:string"/>
+      <xs:element minOccurs="0" name="isMapgRequired" type="xs:string"/>
+      <xs:element minOccurs="0" name="lastChangedTmStamp" type="xs:dateTime"/>
+      <xs:element name="mapped" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="mappingComplete" type="xs:string"/>
+      <xs:element minOccurs="0" name="mbu" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="msg_type_required" type="xs:string"/>
+      <xs:element minOccurs="0" name="noteTypeCode" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="pageFrom" type="xs:string"/>
+      <xs:element minOccurs="0" name="rule" type="tns:ruleWebServiceVO"/>
+      <xs:element minOccurs="0" name="sensitiveBenefitIndicator" type="xs:string"/>
+      <xs:element minOccurs="0" name="sortField" type="xs:string"/>
+      <xs:element minOccurs="0" name="spsId" type="tns:spsIdWebServiceVO"/>
+      <xs:element minOccurs="0" name="startAge" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="startAgeCodedValue" type="xs:string"/>
+      <xs:element name="updateMstr" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="user" type="tns:userWebServiceVO"/>
+      <xs:element minOccurs="0" name="utilizationMgmntRule" type="tns:hippaSegmentWebServiceVO"/>
+      <xs:element minOccurs="0" name="variable" type="tns:variableWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="variableList" nillable="true" type="tns:variableWebServiceVO"/>
+      <xs:element minOccurs="0" name="variableMappingStatus" type="xs:string"/>
+      <xs:element name="variableStatusForAuditTrail" type="xs:int"/>
+      <xs:element minOccurs="0" name="variableSystemId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hippaSegmentWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="hippaCodePossibleValuesForEwpd" nillable="true" type="tns:hippaCodeValueWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="hippaCodePossibleValuesForLgIsg" nillable="true" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="hippaCodeSelectedValuesForEwpd" nillable="true" type="tns:hippaCodeValueWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="hippaCodeSelectedValuesForLgIsg" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="hippaSegmentDefinition" type="xs:string"/>
+      <xs:element minOccurs="0" name="hippaSegmentName" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+	  <xs:element maxOccurs="unbounded" minOccurs="0" name="eb03Association" nillable="true" type="tns:eb03AssociationWebServiceVO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hippaCodeValueWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="hippaCodeValueSysId" type="xs:long"/>
+      <xs:element minOccurs="0" name="seq_num" type="xs:long"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="eb03AssociationWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="eb03" type="tns:hippaCodeValueWebServiceVO"/>
+      <xs:element minOccurs="0" name="noteType" type="tns:hippaCodeValueWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="iii02List" nillable="true" type="tns:hippaCodeValueWebServiceVO"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+	  <xs:element minOccurs="0" name="msgReqdInd" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb03String" type="xs:string"/>
+      <xs:element minOccurs="0" name="seq_num" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="errorDetailWebServiceVO">
+    <xs:sequence>
+      <xs:element name="error" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="errorCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorDesc" type="xs:string"/>
+      <xs:element minOccurs="0" name="networkDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="associatedEb03" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="auditTrailWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="createdAuditDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="createdTmStamp" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="createdUser" type="xs:string"/>
+      <xs:element minOccurs="0" name="hippaSegmentMappingVO" type="tns:hippaSegmentMappingWebServiceVO"/>
+      <xs:element minOccurs="0" name="mappingStatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruleId" type="xs:string"/>
+      <xs:element minOccurs="0" name="spsId" type="xs:string"/>
+      <xs:element minOccurs="0" name="systemComments" type="xs:string"/>
+      <xs:element minOccurs="0" name="userComments" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableAuditStatus" type="xs:int"/>
+      <xs:element minOccurs="0" name="variableDesc" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hippaSegmentMappingWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="accum" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb01" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb02" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb03" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb06" type="xs:string"/>
+      <xs:element minOccurs="0" name="eb09" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd01" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd02" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd03" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd04" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd05" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd06" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd07" type="xs:string"/>
+      <xs:element minOccurs="0" name="hsd08" type="xs:string"/>
+      <xs:element minOccurs="0" name="ii02" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="messageTypeRequired" type="xs:string"/>
+      <xs:element minOccurs="0" name="noteTypeCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="sensitiveBenefitIndicator" type="xs:string"/>
+      <xs:element minOccurs="0" name="utilizationMgmntRule" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableMappingStatus" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ruleWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="headerRuleId" type="xs:string"/>
+      <xs:element minOccurs="0" name="notApplicable" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruleDesc" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="spsIdWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="levelDesc" type="xs:string"/>
+      <xs:element minOccurs="0" name="lineDataType" type="xs:string"/>
+      <xs:element minOccurs="0" name="linePVA" type="xs:string"/>
+      <xs:element minOccurs="0" name="lineValue" type="xs:string"/>
+      <xs:element minOccurs="0" name="spsDesc" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="spsDetail" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="spsId" type="xs:string"/>
+      <xs:element minOccurs="0" name="spsType" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="createdUserName" type="xs:string"/>
+      <xs:element minOccurs="0" name="lastUpdatedUserName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="variableWebServiceVO">
+    <xs:sequence>
+      <xs:element name="auditLock" type="xs:boolean"/>
+      <xs:element name="codedStatus" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="createdDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="isAdvanceSearch" type="xs:string"/>
+      <xs:element minOccurs="0" name="isgCatagory" type="xs:string"/>
+      <xs:element minOccurs="0" name="lgCatagory" type="xs:string"/>
+      <xs:element minOccurs="0" name="majorHeadings" type="xs:string"/>
+      <xs:element name="mappedVariable" type="xs:boolean"/>
+      <xs:element name="mappingRequired" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="minorHeadings" type="xs:string"/>
+      <xs:element name="notApplicable" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="pva" type="xs:string"/>
+      <xs:element minOccurs="0" name="sensitiveBenefitIndicator" type="xs:string"/>
+      <xs:element name="unmappedVariable" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="variableDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableFormat" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableId" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableStatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableSystem" type="xs:string"/>
+      <xs:element minOccurs="0" name="variableValue" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="errorExclusionWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="createdDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="createdUser" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorCode" type="xs:string"/>
+      <xs:element name="exclusionCount" type="xs:int"/>
+      <xs:element name="exclusionId" type="xs:int"/>
+      <xs:element minOccurs="0" name="lastUpdatedDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="lastUpdatedUser" type="xs:string"/>
+      <xs:element minOccurs="0" name="primaryExclusion" type="xs:string"/>
+      <xs:element minOccurs="0" name="primaryValues" type="xs:string"/>
+      <xs:element minOccurs="0" name="secondaryExclusion" type="xs:string"/>
+      <xs:element minOccurs="0" name="secondaryValues" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="errorExclusionDetailWebServiceVO">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="contractProductLevelExclusions" nillable="true" type="xs:string"/>
+      <xs:element name="e001ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e002ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e003ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e004ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e005ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e006ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e007ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e008ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e009ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e010ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e011ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e012ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e013ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e014ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e016ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e017ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e018ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e019ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e020ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e021ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e022ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e023ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e024ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e025ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e026ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e027ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e028ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e029ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e030ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e031ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e032ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e033ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e034ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e035ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e036ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e038ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e039ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e040ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e041ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e042ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element name="e043ExclusionValidationEnableFlag" type="xs:boolean"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="headerRuleExclusionsList" nillable="true" type="tns:errorExclusionWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="spsExclusionsList" nillable="true" type="tns:errorExclusionWebServiceVO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="variableExclusionsList" nillable="true" type="tns:errorExclusionWebServiceVO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="majorHeadingsWebServiceVO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="descriptionText" type="xs:string"/>
+      <xs:element name="minorHeadings">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="tns:minorHeadingsWebServiceVO"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="minorHeadingsWebServiceVO">
+    <xs:sequence>
+      <xs:element name="adminMethodSPS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="descriptionText" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="errorCodesList" nillable="true" type="tns:errorDetailWebServiceVO"/>
+      <xs:element name="flagBenefitCovered" type="xs:boolean"/>
+      <xs:element name="flagBenefitCoveredNpar" type="xs:boolean"/>
+      <xs:element name="flagBenefitCoveredPar" type="xs:boolean"/>
+      <xs:element name="mappings">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="tns:contractMappingWebServiceVO"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="ruleMapping" type="tns:contractMappingWebServiceVO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getContractInfoResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:contractWebServiceVO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SimulationWebServiceException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="displayDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="displayMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

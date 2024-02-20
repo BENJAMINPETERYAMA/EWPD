@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\adminmethod\locatecriteria
+2
+3
+1e:AdminMethodLocateCriteria.java|1|16adf959e48|18e1|822d2f7e|9a4566f5bb314be3af0a2502176ecbcd|0
+2a:AdminMethodValidationThreadForProduct.java|1|16adf959e48|dd2|55461f90|3b4a60d3c11b4cd798c08b83eff884eb|0
+20:AdminMethodValidationThread.java|1|16adf959e58|71b3|c885fc1c|3773640b067845608755f8ae20a7880f|0

@@ -1,0 +1,118 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.StandardBenefitDatatypeBO">
+		<BusinessAttribute name="standardBenefitKey"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="dataTypeId" 				type="Int" 		keyAttrib="true"/>
+		<BusinessAttribute name="dataTypeName" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="selectedItemCode" 			type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="selectedItemType" 			type="String" 	keyAttrib="true"/>
+		
+		<SearchCriteria name="benefitID">
+			<SearchCriteriaAttribute name="standardBenefitKey" 	type="Int"/>
+			
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="searchForDatatype">
+					select a.ENTY_SYS_ID, a.SLCTD_ITEM_CD, a.SLCTD_ITEM_TYPE, b.DTYP_DATA_TYPE_LGND from BNFT_BSIC_SLCTD_INFO a, DTYP_DATA_TYPE b
+ 						where a.SLCTD_ITEM_CD = to_char(b.DTYP_DATA_TYPE_ID) and a.ENTY_SYS_ID = {0} order by upper(DTYP_DATA_TYPE_LGND)		
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="checkDataTypeUpdate">
+				SELECT UNIQUE(a.SLCTD_ITEM_CD), B.DTYP_DATA_TYPE_NAME
+				FROM 
+				DTYP_DATA_TYPE B, 
+				BNFT_BSIC_SLCTD_INFO A,
+				( SELECT DISTINCT B.DTYP_DATA_TYPE_ID DT_TYP_ID
+				        FROM BDM_BNFT_DEFN_MSTR A, BLN_BNFT_LINE B
+				        WHERE 
+				        A.BNFT_SYS_ID = {0}  AND
+				        A.BNFT_DEFN_SYS_ID = B.BNFT_DEFN_SYS_ID) C
+				WHERE 
+				A.SLCTD_ITEM_CD = TO_CHAR(B.DTYP_DATA_TYPE_ID) AND 
+				A.SLCTD_ITEM_CD IS NOT NULL AND
+				B.DTYP_DATA_TYPE_ID = C.DT_TYP_ID
+			</SelectSQLQuery>
+
+			<DataObject name="DTYP_DATA_TYPE">
+				<DataObjectAttribute name="DTYP_DATA_TYPE_ID" 				type="Int"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_NAME" 			type="String"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_LGND" 			type="String"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_SYS_DATA_TYPE" 	type="String"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_LGND_TYPE" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 					type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 					type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 					type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 					type="String"/>
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						
+						<ResultIndex index="3" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>							
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchForDatatype"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						
+						<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>							
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkDataTypeUpdate"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="DTYP_DATA_TYPE_ID"	toBOAttb="dataTypeId"/>
+						<Pair DOAttb="DTYP_DATA_TYPE_NAME"	toBOAttb="dataTypeName"/>
+						
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			
+			<DataObject name="BNFT_BSIC_SLCTD_INFO">
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="SLCTD_ITEM_TYPE" 	type="String"/>
+				<DataObjectAttribute name="SLCTD_ITEM_CD" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="SLCTD_ITEM_CD"/>	
+						<ResultIndex index="2" dataObjectAttribName ="SLCTD_ITEM_TYPE"/>					
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchForDatatype"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						
+						<ResultIndex index="0" dataObjectAttribName ="SLCTD_ITEM_CD"/>	
+										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkDataTypeUpdate"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="standardBenefitKey"/>
+						<Pair DOAttb="SLCTD_ITEM_CD"	toBOAttb="selectedItemCode"/>
+						<Pair DOAttb="SLCTD_ITEM_TYPE"	toBOAttb="selectedItemType"/>
+						
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID" 		toSCAttb="standardBenefitKey"/>
+				</DoAttributeToSCAttributeMap>
+				
+			</DataObject>
+			
+		</DataSource>		
+
+	</BusinessObjectMetadata>
+</Metadata>
+

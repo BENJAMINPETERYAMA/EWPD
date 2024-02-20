@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\web\view
+2
+3
+14:ExcelSearchView.java|1|16b935e3d05|6893|16896f2|3e7a488674fa443daab63ab54b596962|0
+14:ExcelLocateView.java|1|16b935e3d05|1359|63e1f543|bd8904026bcc4f88a05e0ce39386f21a|0
+13:ExcelPrintView.java|1|16b935e39e9|1277|7a84c7a7|5f4ed5b5f2bb43f09d368ed4d6dc3807|0

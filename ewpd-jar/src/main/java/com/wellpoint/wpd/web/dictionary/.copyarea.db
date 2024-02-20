@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\dictionary
+2
+4
+13:CustomBoundary.java|1|16adf982edc|4fa|4fbd8fc7|dc837a7ca1ce4df1ab3415a45ae74dbd|0
+19:WPDRapidSpellChecker.java|1|16adf982e02|649|fd8013a1|7be2ae90fcb64d93a67dd30ec6eec2f0|0
+16:WPDUserDictionary.java|1|16adf982e02|78d|a9f5708b|2c3ef996caa0436c872476e98c70d402|0
+20:DictionaryManageBackingBean.java|1|16adf982de2|e92|299ab38a|695865f8be1b4a57ad8045458952c575|0

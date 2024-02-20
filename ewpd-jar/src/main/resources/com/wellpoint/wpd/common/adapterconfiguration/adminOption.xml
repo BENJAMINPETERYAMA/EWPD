@@ -1,0 +1,1620 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.AdminOptionBO">
+		<BusinessAttribute name="adminOptionId" 		    type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="adminName" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="termId" 			    	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifierId" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="termDesc" 			    	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifierDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		    type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	    type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionParentSysId" 	type="Int"	 	keyAttrib="true"/>
+
+		 <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="adminOptionId"	type="Int"/>
+	  		<SearchCriteriaAttribute name="adminOptionParentSysId"	type="Int"/>
+	  		<SearchCriteriaAttribute name="criteriaTerm"		type="String"/>
+			<SearchCriteriaAttribute name="criteriaQualifier"	type="String"/>
+	  		<SearchCriteriaAttribute name="adminName"		type="String"/>
+	  		<SearchCriteriaAttribute name="lastUpdatedUser"		type="String"/>
+	  		<SearchCriteriaAttribute name="sourceAdminOptId"		type="Int"/>
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+		 	<SelectSQLQuery>
+                                SELECT  a.ADMIN_OPT_SYS_ID, a.ADMIN_OPT_DESC_TXT, a.ADMIN_OPT_RFRNC_ID, a.TERM_CD, 
+                                        a.QLFR_CD, a.ADMIN_OPT_VRSN_NBR, a.ADMIN_OPT_STTS_CD, a.LST_CHG_TMS, a.LST_CHG_USR, 
+                                        a.CREATD_TM_STMP, a.CREATD_USER_ID, b.CD_DESC_TXT, c.CD_DESC_TXT
+                                FROM 	ADMIN_OPT_MSTR a, ITEM b, ITEM c
+                                WHERE 	a.ADMIN_OPT_SYS_ID = ? 
+                                AND     (a.TERM_CD = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 1934)
+                                AND     (a.QLFR_CD = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1935)
+                                
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveByAdminName">
+				SELECT  ADMIN_OPT_SYS_ID, ADMIN_OPT_DESC_TXT, ADMIN_OPT_RFRNC_ID, TERM_CD, QLFR_CD,
+						ADMIN_OPT_VRSN_NBR, ADMIN_OPT_STTS_CD, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID,ADMN_OPT_PARNT_SYS_ID
+				FROM 	ADMIN_OPT_MSTR 
+				WHERE 	UPPER(ADMIN_OPT_DESC_TXT) = UPPER({0})
+				AND		ADMIN_OPT_VRSN_NBR = (SELECT max(ADMIN_OPT_VRSN_NBR) FROM ADMIN_OPT_MSTR WHERE UPPER(ADMIN_OPT_DESC_TXT) = UPPER({0}))			
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveLatestVersion">
+				SELECT  ADMIN_OPT_SYS_ID, ADMIN_OPT_DESC_TXT, ADMIN_OPT_RFRNC_ID, TERM_CD, QLFR_CD,
+						ADMIN_OPT_VRSN_NBR, ADMIN_OPT_STTS_CD, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID,ADMN_OPT_PARNT_SYS_ID
+				FROM 	ADMIN_OPT_MSTR 
+				WHERE 	UPPER(ADMIN_OPT_DESC_TXT) = UPPER({0})
+				AND		ADMIN_OPT_VRSN_NBR = (SELECT max(ADMIN_OPT_VRSN_NBR) FROM ADMIN_OPT_MSTR WHERE UPPER(ADMIN_OPT_DESC_TXT) = UPPER({0})
+											  AND ADMIN_OPT_STTS_CD != 'MARKED_FOR_DELETION')			
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="viewAllAdminOption">
+				SELECT  A.ADMIN_OPT_SYS_ID, A.ADMIN_OPT_DESC_TXT, A.ADMIN_OPT_RFRNC_ID, A.TERM_CD, A.QLFR_CD,
+        				A.ADMIN_OPT_VRSN_NBR, A.ADMIN_OPT_STTS_CD, A.LST_CHG_TMS, A.LST_CHG_USR, A.CREATD_TM_STMP, A.CREATD_USER_ID,
+      					B.CD_DESC_TXT, C.CD_DESC_TXT
+				FROM    ADMIN_OPT_MSTR A, ITEM B, ITEM C
+				WHERE   UPPER(ADMIN_OPT_DESC_TXT) = UPPER({0}) 
+						AND A.TERM_CD = B.PRMRY_CD(+) AND B.CTLG_ID(+)=1934
+					    AND A.QLFR_CD = C.PRMRY_CD(+) AND C.CTLG_ID(+)=1935  ORDER BY A.ADMIN_OPT_VRSN_NBR DESC
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveAllLatestAdminOptons">
+				SELECT  ADMIN_OPT_SYS_ID, ADMIN_OPT_DESC_TXT, max(ADMIN_OPT_VRSN_NBR) AS ADMIN_OPT_VRSN_NBR
+				FROM 	ADMIN_OPT_MSTR 
+				WHERE 	ADMIN_OPT_STTS_CD = 'PUBLISHED'
+                GROUP BY ADMIN_OPT_SYS_ID, ADMIN_OPT_DESC_TXT 
+                ORDER BY ADMIN_OPT_DESC_TXT
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="copyForCheckout">
+				Call AO_CHECKOUT_REF({0}, {1}, {2}, {3})
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getAdminOption" dynamic="true">                                     
+	            <STATIC>
+                    <![CDATA[
+                            SELECT  DISTINCT A.ADMIN_OPT_SYS_ID, A.ADMIN_OPT_DESC_TXT, A.ADMIN_OPT_RFRNC_ID, A.TERM_CD, A.QLFR_CD,
+                            		A.ADMIN_OPT_VRSN_NBR, A.ADMIN_OPT_STTS_CD, A.LST_CHG_TMS, A.LST_CHG_USR, A.CREATD_TM_STMP, A.CREATD_USER_ID,
+									B.CD_DESC_TXT,C.CD_DESC_TXT
+                            FROM    ADMIN_OPT_MSTR A, ITEM B, ITEM C,QSTNR_MSTR D
+                            WHERE   1 = 1 
+					]]>
+	            </STATIC>
+	            <DYNAMIC>
+                    <![CDATA[
+                       AND UPPER(ADMIN_OPT_DESC_TXT) LIKE UPPER({0}) escape '`'
+                    ]]>
+	            </DYNAMIC> 
+				<DYNAMIC>
+                    <![CDATA[
+                       AND TERM_CD  {1} 
+                    ]]>
+	            </DYNAMIC>
+	            <DYNAMIC>
+                    <![CDATA[
+                       AND QLFR_CD  {2}                     
+                    ]]>
+	            </DYNAMIC> 
+	            <STATIC>
+                    <![CDATA[
+                        AND     A.TERM_CD = B.PRMRY_CD(+) AND b.CTLG_ID(+) = 1934
+                        AND     A.QLFR_CD = C.PRMRY_CD(+) AND c.CTLG_ID(+) = 1935
+						AND		A.ADMIN_OPT_VRSN_NBR = (SELECT max(X.ADMIN_OPT_VRSN_NBR) FROM ADMIN_OPT_MSTR X WHERE UPPER(X.ADMIN_OPT_DESC_TXT) = UPPER(A.ADMIN_OPT_DESC_TXT))			
+						
+								ORDER BY UPPER(A.ADMIN_OPT_DESC_TXT) ASC
+					]]>
+	            </STATIC>
+			</SelectSQLQuery>
+			<DataObject name="ADMIN_OPT_MSTR">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_RFRNC_ID" 		type="String"/>
+				<DataObjectAttribute name="TERM_CD"					type="String"/>
+				<DataObjectAttribute name="QLFR_CD"					type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_VRSN_NBR"		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_STTS_CD"		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="ADMN_OPT_PARNT_SYS_ID"   type="Int"/>
+				<DataObjectAttribute name="SRC_ADMN_OPT_SYS_ID"   	type="Int"/>
+			
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+					   </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_DESC_TXT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="11" dataObjectAttribName ="ADMN_OPT_PARNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="retrieveByAdminName"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_DESC_TXT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="11" dataObjectAttribName ="ADMN_OPT_PARNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="retrieveLatestVersion"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="SRC_ADMN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="copyForCheckout"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="retrieveAllLatestAdminOptons"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_DESC_TXT"/>
+						<DataObjectAttributeInput index="1" name="TERM_CD"/>
+						<DataObjectAttributeInput index="2" name="QLFR_CD"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="getAdminOption"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_DESC_TXT"/>
+					<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+					</RSIndexToDOAttributeMap>
+					 <SearchQueryName name="viewAllAdminOption"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							INSERT INTO ADMIN_OPT_MSTR(
+								ADMIN_OPT_SYS_ID, ADMIN_OPT_DESC_TXT, TERM_CD, QLFR_CD, 
+								ADMIN_OPT_VRSN_NBR, ADMIN_OPT_STTS_CD,LST_CHG_TMS, LST_CHG_USR,CREATD_TM_STMP, CREATD_USER_ID,ADMN_OPT_PARNT_SYS_ID)
+						 	VALUES(?,?,?,?,?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_DESC_TXT"/>
+						<DataObjectAttributeInput index="2" name="TERM_CD"/>
+						<DataObjectAttributeInput index="3" name="QLFR_CD"/>
+						<DataObjectAttributeInput index="4" name="ADMIN_OPT_VRSN_NBR"/>
+						<DataObjectAttributeInput index="5" name="ADMIN_OPT_STTS_CD"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="7" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="9" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="10" name="ADMN_OPT_PARNT_SYS_ID"/>
+
+				</SQLTemplate>
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE  ADMIN_OPT_MSTR SET  
+								TERM_CD = ?,
+								QLFR_CD = ?,
+								LST_CHG_TMS = ?,
+								LST_CHG_USR = ?,
+								ADMIN_OPT_STTS_CD = ?
+							WHERE   ADMIN_OPT_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="TERM_CD"/>
+						<DataObjectAttributeInput index="1" name="QLFR_CD"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>						
+						<DataObjectAttributeInput index="4" name="ADMIN_OPT_STTS_CD"/>
+						<DataObjectAttributeInput index="5" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM ADMIN_OPT_MSTR WHERE ADMIN_OPT_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>
+						<Pair DOAttb="ADMN_OPT_PARNT_SYS_ID" toBOAttb="adminOptionParentSysId"/>
+						<Pair DOAttb="ADMIN_OPT_DESC_TXT"	toBOAttb="adminName"/>
+						<Pair DOAttb="ADMIN_OPT_RFRNC_ID"	toBOAttb="referenceId"/>
+						<Pair DOAttb="TERM_CD"			toBOAttb="termId"/>
+						<Pair DOAttb="QLFR_CD"			toBOAttb="qualifierId"/>
+						<Pair DOAttb="ADMIN_OPT_VRSN_NBR"	toBOAttb="version"/>
+						<Pair DOAttb="ADMIN_OPT_STTS_CD"	toBOAttb="status"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID" 	toSCAttb="adminOptionId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT" 	toSCAttb="adminName"/>
+					<Pair DOAttb="TERM_CD" 				toSCAttb="criteriaTerm"/>
+					<Pair DOAttb="QLFR_CD" 				toSCAttb="criteriaQualifier"/>
+					<Pair DOAttb="SRC_ADMN_OPT_SYS_ID" 				toSCAttb="sourceAdminOptId"/>
+					<Pair DOAttb="LST_CHG_USR" 				toSCAttb="lastUpdatedUser"/>
+				</DoAttributeToSCAttributeMap>
+ 			</DataObject>
+		
+			<DataObject name="QSTNR_MSTR">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 	type="Int"/>				
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM QSTNR_MSTR WHERE ADMIN_OPT_SYS_ID = ? 
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>						
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="QSTNR_DOMN_INFO">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 	type="Int"/>				
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM QSTNR_DOMN_INFO WHERE QSTNR_HRCHY_SYS_ID IN 
+							(SELECT QSTNR_HRCHY_SYS_ID FROM QSTNR_MSTR WHERE ADMIN_OPT_SYS_ID = ?)  
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>						
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="11" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+ 
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="11" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+				   <SearchQueryName name="getAdminOption"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="11" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+				   <SearchQueryName name="viewAllAdminOption"/>
+	  			</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="termDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ITEM2">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="12" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+	  			</SQLTemplate>
+
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="12" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAdminOption"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="12" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="viewAllAdminOption"/>
+	  			</SQLTemplate>
+ 
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="qualifierDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.AssociatedQuestionBO">
+		<BusinessAttribute name="adminOptionId" 		 type="Int"			keyAttrib="true"/>
+		<BusinessAttribute name="associatedQuestionId" 	 type="Int" 		keyAttrib="true"/>
+		<BusinessAttribute name="associatedQuestionDesc" type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="seqNumber" 			 type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			 type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		 type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		 type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	 type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId" 			 type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc" 		 type="String"	 	keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="adminOptionId"	type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionQuestionId"	type="Int"/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="retrieveAdminOptionQuestions">
+
+				      SELECT  A.ADQM_ADMN_QSTN_NBR, A.ADMIN_OPT_SYS_ID, A.SQNC_NBR, B.ADQM_ADMN_QSTN_DESC, A.PRMRY_CD,c.CD_DESC_TXT
+				                FROM 	ADMIN_OPT_TO_QSTN_ASSN A, ADQM_ADMN_QSTN_MSTR B,ITEM c
+				                  where  A.ADMIN_OPT_SYS_ID = {0}
+				                  and A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR 
+								  AND (a.PRMRY_CD = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1938)
+								        order by A.SQNC_NBR
+					
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveLatestAdminOptionQuestions">
+				SELECT  B.ADQM_ADMN_QSTN_NBR, A.ADMIN_OPT_SYS_ID, A.SQNC_NBR,A.PRMRY_CD,C.CD_DESC_TXT
+				FROM 	ADMIN_OPT_TO_QSTN_ASSN A, ADQM_ADMN_QSTN_MSTR B,ITEM C
+				WHERE 	A.ADMIN_OPT_SYS_ID = {0} AND
+				(A.PRMRY_CD = C.PRMRY_CD(+) AND C.CTLG_ID(+) = 1938)  AND 
+				 B.ADQM_ADMN_QSTN_DESC IN
+                (SELECT x.ADQM_ADMN_QSTN_DESC FROM ADQM_ADMN_QSTN_MSTR X 
+                WHERE X.ADQM_ADMN_QSTN_DESC in 
+                (SELECT Y.ADQM_ADMN_QSTN_DESC FROM ADQM_ADMN_QSTN_MSTR Y 
+                WHERE Y.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR) 
+                AND B.QSTN_VRSN_NBR = (SELECT max(QSTN_VRSN_NBR) FROM ADQM_ADMN_QSTN_MSTR 
+                WHERE QSTN_STTS_CD = 'PUBLISHED' AND ADQM_ADMN_QSTN_DESC in 
+                (SELECT Z.ADQM_ADMN_QSTN_DESC FROM ADQM_ADMN_QSTN_MSTR Z WHERE 
+                Z.ADQM_ADMN_QSTN_NBR = a.ADQM_ADMN_QSTN_NBR)))
+                <!--   and A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR-->
+                ORDER BY A.SQNC_NBR
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkAdminQuestionDuplicate">
+				SELECT  ADQM_ADMN_QSTN_NBR, ADMIN_OPT_SYS_ID, SQNC_NBR
+				FROM 	ADMIN_OPT_TO_QSTN_ASSN 
+				WHERE 	ADMIN_OPT_SYS_ID = {0} and ADQM_ADMN_QSTN_NBR = {1}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getSeqNumber">
+				SELECT max(SQNC_NBR),ADMIN_OPT_SYS_ID FROM ADMIN_OPT_TO_QSTN_ASSN WHERE ADMIN_OPT_SYS_ID = {0} group by ADMIN_OPT_SYS_ID
+			</SelectSQLQuery>
+				
+			<DataObject name="ADMIN_OPT_TO_QSTN_ASSN">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 	type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 	type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" 			type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR"			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS"			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID"		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP"		type="TimeStamp"/>
+				<DataObjectAttribute name="CTLG_ID"				type="Int"/>
+				<DataObjectAttribute name="PRMRY_CD"			type="String"/>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="4" dataObjectAttribName ="PRMRY_CD"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="retrieveAdminOptionQuestions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="3" dataObjectAttribName ="PRMRY_CD"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="retrieveLatestAdminOptionQuestions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="SQNC_NBR"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="checkAdminQuestionDuplicate"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					   <SearchQueryName name="getSeqNumber"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							INSERT INTO ADMIN_OPT_TO_QSTN_ASSN (ADQM_ADMN_QSTN_NBR, 
+																ADMIN_OPT_SYS_ID, 
+																SQNC_NBR, 
+																PRMRY_CD,
+																LST_CHG_USR, 
+																LST_CHG_TMS, 
+																CREATD_USER_ID, 
+																CREATD_TM_STMP) 
+							VALUES ( ?, ?,? ,? ,? ,? ,? ,?)						
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="3" name="PRMRY_CD"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE 	ADMIN_OPT_TO_QSTN_ASSN 
+							SET		SQNC_NBR	=	?, PRMRY_CD = ?,
+									LST_CHG_USR	=	?, 
+									LST_CHG_TMS	=	? 
+ 							WHERE 	ADQM_ADMN_QSTN_NBR = ? and 		
+									ADMIN_OPT_SYS_ID = ?				
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="1" name="PRMRY_CD"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="5" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+
+
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM ADMIN_OPT_TO_QSTN_ASSN WHERE ADMIN_OPT_SYS_ID = ? and ADQM_ADMN_QSTN_NBR = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"	toBOAttb="associatedQuestionId"/>
+						<Pair DOAttb="SQNC_NBR"				toBOAttb="seqNumber"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="PRMRY_CD"				toBOAttb="referenceId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID" 	toSCAttb="adminOptionId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 	toSCAttb="adminOptionQuestionId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="ADQM_ADMN_QSTN_MSTR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 	type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" type="String"/>				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="3" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveAdminOptionQuestions"/>
+				</SQLTemplate>
+					<DoAttributeToBOAttributeMap>
+							<Pair DOAttb="ADQM_ADMN_QSTN_DESC"	toBOAttb="associatedQuestionDesc"/>
+					</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="5" dataObjectAttribName ="CD_DESC_TXT"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveAdminOptionQuestions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="4" dataObjectAttribName ="CD_DESC_TXT"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestAdminOptionQuestions"/>
+				</SQLTemplate>
+ 
+ 				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="referenceDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.AdminOptionTempBO">
+		<BusinessAttribute name="adminOptionId" 		    type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="adminName" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="termId" 			    	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifierId" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="termDesc" 			    	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifierDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		    type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		    type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	    type="Date"	 	keyAttrib="false"/>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+		 	<SelectSQLQuery>
+                                SELECT  a.ADMIN_OPT_SYS_ID, a.ADMIN_OPT_DESC_TXT, a.ADMIN_OPT_RFRNC_ID, a.TERM_CD, 
+                                        a.QLFR_CD, a.ADMIN_OPT_VRSN_NBR, a.ADMIN_OPT_STTS_CD, a.LST_CHG_TMS, a.LST_CHG_USR, 
+                                        a.CREATD_TM_STMP, a.CREATD_USER_ID, b.CD_DESC_TXT, c.CD_DESC_TXT
+                                FROM 	ADMIN_OPT_MSTR a, ITEM b, ITEM c
+                                WHERE 	a.ADMIN_OPT_SYS_ID = ? 
+                                AND     (a.TERM_CD = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 1934)
+                                AND     (a.QLFR_CD = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1935)
+                                
+			</SelectSQLQuery>
+			<DataObject name="ADMIN_OPT_MSTR">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_RFRNC_ID" 		type="String"/>
+				<DataObjectAttribute name="TERM_CD"					type="String"/>
+				<DataObjectAttribute name="QLFR_CD"					type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_VRSN_NBR"		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_STTS_CD"		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="TERM_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QLFR_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="ADMIN_OPT_STTS_CD"/>
+							<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="8" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="CREATD_USER_ID"/>
+					   </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE  ADMIN_OPT_MSTR SET  
+								TERM_CD = ?,
+								QLFR_CD = ?,
+								LST_CHG_TMS = ?,
+								LST_CHG_USR = ?,
+								ADMIN_OPT_STTS_CD = ?,ADMIN_OPT_VRSN_NBR = ?
+							WHERE   ADMIN_OPT_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="TERM_CD"/>
+						<DataObjectAttributeInput index="1" name="QLFR_CD"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>						
+						<DataObjectAttributeInput index="4" name="ADMIN_OPT_STTS_CD"/>
+						<DataObjectAttributeInput index="5" name="ADMIN_OPT_VRSN_NBR"/>
+						<DataObjectAttributeInput index="6" name="ADMIN_OPT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>
+						<Pair DOAttb="ADMIN_OPT_DESC_TXT"	toBOAttb="adminName"/>
+						<Pair DOAttb="ADMIN_OPT_RFRNC_ID"	toBOAttb="referenceId"/>
+						<Pair DOAttb="TERM_CD"			toBOAttb="termId"/>
+						<Pair DOAttb="QLFR_CD"			toBOAttb="qualifierId"/>
+						<Pair DOAttb="ADMIN_OPT_VRSN_NBR"	toBOAttb="version"/>
+						<Pair DOAttb="ADMIN_OPT_STTS_CD"	toBOAttb="status"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.contract.bo.ContractQuesitionnaireBO">
+		<BusinessAttribute name="questionnaireId"    		   	type="Int"   	keyAttrib="true"/>
+		<BusinessAttribute name="questionId"      			   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="adminLevelOptionSysId"        	type="Int"   	keyAttrib="false"/>
+		<BusinessAttribute name="parentQuestionnaireId"        	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerid"             	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId"                  	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc"                	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="questionName"                 	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerDesc"           	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="possibleAnswerList"           	type="List"  	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"          		   	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"             	type="Date"  	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"              	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"         	type="Date"  	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId"           	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="dateSegmentId"         	   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber"         	   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="providerArrangement"         	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="bnftDefId"         			type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="noteExist"         			type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="validDomainToAttach"			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="tierSysId"		   				type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="isExcluded"         			type="String"   keyAttrib="true"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="adminOptSysId" 		type="Int"/>
+			<SearchCriteriaAttribute name="benftAdminSysId"  	type="Int"/>
+			<SearchCriteriaAttribute name="beneftComponentId"  	type="Int"/>
+			<SearchCriteriaAttribute name="lastUpdatedUser"  	type="String"/>
+		    <SearchCriteriaAttribute name="selectedAnswerid"  	type="Int"/>
+		    <SearchCriteriaAttribute name="questionnaireId"  	type="Int"/>
+			<SearchCriteriaAttribute name="dateSegmentId"  		type="Int"/>
+			<SearchCriteriaAttribute name="contractSysId"  		type="Int"/>
+			<SearchCriteriaAttribute name="adminLvlOptSystemId"  type="Int"/>
+			<SearchCriteriaAttribute name="bnftDefenitionId"  type="Int"/>
+			<SearchCriteriaAttribute name="tierList"   type="List"/>
+			<SearchCriteriaAttribute name="tierSysID"   type="List"/>	
+			<!-- minu start -->
+			<SearchCriteriaAttribute name="cntrctParntSysId"  type="Int"/>
+			<!-- minu end -->
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="isAdminOptionExcluded">
+			 SELECT 'Y' AS IS_ADMIN_OPTION_EXCLUDED FROM ADMIN_OPT_MSTR A, ITEM B,CATALOG C
+			WHERE A.ADMIN_OPT_DESC_TXT =B.CD_DESC_TXT AND B.CTLG_ID =C.CTLG_ID AND C.CTLG_NAME='TIERING EXCLUDED ADMIN OPTIONS'
+			AND A.ADMIN_OPT_SYS_ID={0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQuestionnaireContract">
+			<!-- minu
+			SELECT 	B.ADMIN_LVL_OPT_ASSN_SYS_ID,A.QSTNR_HRCHY_SYS_ID,A.ADQM_ADMN_QSTN_NBR,A.PRNT_QSTNR_HRCHY_SYS_ID,A.RFRNC_ID,B.OVRD_ANSWR_ID,
+				  			D.ADQM_ADMN_QSTN_DESC,E.PSBL_ANSWR,F.CD_DESC_TXT, D.PRVDR_ARNGMNT,C.bnft_defn_sys_id,B.DT_SGMNT_SYS_ID,case (select 'Y' from note_domain_ovrd_val 
+				  			where prmry_enty_type='ATTACHCONTRACT' and prmry_enty_id= {1}  and scndry_enty_id=C.ADMIN_LVL_OPT_ASSN_SYS_ID and scndry_enty_type='ATTACHQUESTION'
+                and adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR and bnft_cmpnt_sys_id={3} and bnft_defn_sys_id=C.bnft_defn_sys_id)
+                 WHEN 'Y'
+				             THEN 'Y'
+                 ELSE 'N' 
+                END AS NOTE_EXIST,
+                DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = D.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN  
+			      FROM 		QSTNR_MSTR A,CNTRCT_ANSWR_OVRD B,BNFT_ADMIN_TO_LVL_ASSN C,ADQM_ADMN_QSTN_MSTR D,PSBL_ANSWR E,ITEM F
+			      WHERE 	A.QSTNR_HRCHY_SYS_ID = B.QSTNR_HRCHY_SYS_ID AND 
+						    A.RFRNC_ID =  F.PRMRY_CD(+) and F.CTLG_ID (+)=1938 and
+						    C.ADMIN_LVL_OPT_ASSN_SYS_ID = B.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+						    D.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR and
+						    E.PSBL_ANSWR_ID = B.OVRD_ANSWR_ID and
+						    E.adqm_admn_qstn_nbr= A.adqm_admn_qstn_nbr and 
+						    C.BNFT_ADMIN_SYS_ID = {0} and 
+						    B.DT_SGMNT_SYS_ID = {1} and
+						    C.ADMIN_OPT_SYS_ID = {2} and
+							B.BNFT_CMPNT_SYS_ID ={3}
+							ORDER BY A.QSTNR_DSPLY_SQNC_NBR
+ -->
+SELECT 
+				  G.ADMIN_LVL_OPT_ASSN_SYS_ID,
+                  A.QSTNR_HRCHY_SYS_ID,
+				  A.ADQM_ADMN_QSTN_NBR,
+				  A.PRNT_QSTNR_HRCHY_SYS_ID,
+				  A.RFRNC_ID,
+				  B.OVRD_ANSWR_ID,
+				  D.ADQM_ADMN_QSTN_DESC,
+				  E.PSBL_ANSWR,
+				  F.CD_DESC_TXT,
+				  D.PRVDR_ARNGMNT,
+				  G.BNFT_DEFN_SYS_ID,
+				  CASE
+				      (SELECT 'Y'
+				      FROM note_domain_ovrd_val note,BNFT_ADMIN_TO_LVL_ASSN admn
+				      WHERE prmry_enty_type ='ATTACHCONTRACT'
+				      AND prmry_enty_id     = {1}
+				      AND scndry_enty_id    = {4}	
+				      AND scndry_enty_type  ='ATTACHQUESTION'
+				      AND adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR
+				      AND bnft_cmpnt_sys_id = {3}
+				      AND admn.bnft_admin_sys_id = {0}				      
+					  AND NOTE.BNFT_DEFN_SYS_ID = admn.bnft_defn_sys_id 
+					  AND admn.admin_lvl_opt_assn_sys_id = note.scndry_enty_id 
+				      )
+				    WHEN 'Y'
+				    THEN 'Y'
+				    ELSE 'N'
+				  END AS NOTE_EXIST,	
+				  DECODE(
+				  (SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL')
+				  AND ADQM_ADMN_QSTN_NBR                                  = D.ADQM_ADMN_QSTN_NBR
+				  ), 0, 'N','Y') VALID_DOMAIN	
+				  FROM QSTNR_MSTR A,
+				     
+				(SELECT  
+				  A.QSTNR_HRCHY_SYS_ID,
+				  A.OVRD_ANSWR_ID
+				FROM 
+				  CNTRCT_ANSWR_OVRD A 
+				  <!-- ,BNFT_ADMIN_TO_LVL_ASSN B  -->
+				WHERE 
+				 A.ADMIN_LVL_OPT_ASSN_SYS_ID = {4}  <!--B.ADMIN_LVL_OPT_ASSN_SYS_ID
+				AND B.BNFT_ADMIN_SYS_ID         = {0} -->
+				AND A.DT_SGMNT_SYS_ID           = {1} 
+				<!-- AND B.ADMIN_OPT_SYS_ID          = {2} -->
+				AND A.BNFT_CMPNT_SYS_ID         = {3}
+				
+				UNION ALL	
+				
+				SELECT 
+				  qstnr_hrchy_sys_id, psbl_answr_id
+				FROM
+				  (SELECT 
+				    a.qstnr_hrchy_sys_id,
+				    b.psbl_answr_id,
+				    a.adqm_admn_qstn_nbr
+				  FROM
+				    (SELECT 
+				      a.qstnr_hrchy_sys_id,
+				      a.adqm_admn_qstn_nbr
+				    FROM qstnr_mstr a
+				    WHERE a.admin_opt_sys_id      = {2}
+				    AND A.prnt_qstnr_hrchy_sys_id = A.qstnr_hrchy_sys_id
+					    UNION ALL 
+				
+				    SELECT 	
+								
+						b.qstnr_hrchy_sys_id,							
+						b.adqm_admn_qstn_nbr
+							
+			    	FROM cntrct_answr_ovrd A,
+							
+			      	qstnr_mstr b <!-- , BNFT_ADMIN_TO_LVL_ASSN c -->
+							
+			    WHERE A.admin_lvl_opt_assn_sys_id = {4} <!--  c.admin_lvl_opt_assn_sys_id							
+			    AND C.BNFT_ADMIN_SYS_ID           = {0}	 -->						
+			    AND a.bnft_cmpnt_sys_id           = {3}							
+			    AND a.dt_sgmnt_sys_id             = {1}							
+			    AND a.qstnr_hrchy_sys_id          = b.prnt_qstnr_hrchy_sys_id							
+			    AND a.ovrd_answr_id               = b.prnt_answr_id							
+			    AND b.admin_opt_sys_id            = {2}							
+			    ) a,							
+			    psbl_answr b							
+			    WHERE A.adqm_admn_qstn_nbr    = b.adqm_admn_qstn_nbr							
+			  AND b.psbl_answr              = 'Not Answered'							
+			  AND a.qstnr_hrchy_sys_id NOT IN 							
+			    (SELECT qstnr_hrchy_sys_id							
+			    FROM cntrct_answr_ovrd A <!-- , BNFT_ADMIN_TO_LVL_ASSN b	-->						
+			    WHERE A.admin_lvl_opt_assn_sys_id = {4} <!-- b.admin_lvl_opt_assn_sys_id -->								
+			    <!-- AND b.BNFT_ADMIN_SYS_ID         = {0} 							
+			         AND b.ADMIN_OPT_SYS_ID          = {2} -->							
+			    AND bnft_cmpnt_sys_id           = {3}							
+			    AND dt_sgmnt_sys_id             = {1}							
+			    )							
+			  ) a,							
+			  ADQM_ADMN_QSTN_MSTR e
+							
+			WHERE a.adqm_admn_qstn_nbr = e.ADQM_ADMN_QSTN_NBR							
+			AND isdomainvalid ('contract',{5},'QUESTION',A.qstnr_hrchy_sys_id) = 'T'							
+			AND (e.PRVDR_ARNGMNT   is null or  e.PRVDR_ARNGMNT IN								
+			  (SELECT z.pva_id							
+			  FROM enty_domn_info x,							
+			    avlbl_domn y,							
+			    prod_fmly_buss_enty_pva_map z ,							
+			    cntrct_dt_sgmnt a,							
+			    prod_mstr b							
+			  WHERE x.enty_type     = 'contract'							
+			  AND x.enty_sys_id     = {5} 							
+			  AND x.domn_sys_id     = y.domn_sys_id							
+			  AND y.bus_enty_nm     = z.buss_enty_id							
+			  AND z.prod_fmly_id    = b.prod_fmly_nm							
+			  AND b.prod_sys_id     = A.prod_sys_id							
+			  AND A.dt_sgmnt_sys_id = {1}							
+			  ))							
+			  ) B,							
+			  ADQM_ADMN_QSTN_MSTR D,BNFT_ADMIN_TO_LVL_ASSN G,							
+			  PSBL_ANSWR E,							
+			  ITEM F
+							
+			WHERE A.QSTNR_HRCHY_SYS_ID      = B.QSTNR_HRCHY_SYS_ID		
+			AND A.ADMIN_OPT_SYS_ID = G.ADMIN_OPT_SYS_ID
+			AND G.ADMIN_LVL_OPT_ASSN_SYS_ID = {4}					
+			AND D.ADQM_ADMN_QSTN_NBR        = A.ADQM_ADMN_QSTN_NBR							
+			AND E.PSBL_ANSWR_ID             = B.OVRD_ANSWR_ID							
+			AND E.adqm_admn_qstn_nbr        = A.adqm_admn_qstn_nbr							
+			AND A.RFRNC_ID                  = F.PRMRY_CD(+)							
+			AND F.CTLG_ID (+)               =1938								
+			ORDER BY A.QSTNR_DSPLY_SQNC_NBR
+				  
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getTierQuestionnaireContract">
+				  <!--  SELECT 	B.ADMIN_LVL_OPT_ASSN_SYS_ID,A.QSTNR_HRCHY_SYS_ID,A.ADQM_ADMN_QSTN_NBR,A.PRNT_QSTNR_HRCHY_SYS_ID,A.RFRNC_ID,B.OVRD_ANSWR_ID,
+				  			D.ADQM_ADMN_QSTN_DESC,E.PSBL_ANSWR,F.CD_DESC_TXT, D.PRVDR_ARNGMNT,C.bnft_defn_sys_id,B.CNTRCT_TIER_SYS_ID,B.DT_SGMNT_SYS_ID,case (select 'Y' from TIER_NOTE_OVRD_VAL 
+				  			where prmry_enty_type='ATTACHCONTRACT' and prmry_enty_id= {1}  and scndry_enty_id=C.ADMIN_LVL_OPT_ASSN_SYS_ID and scndry_enty_type='ATTACHQUESTION'
+                and adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR and bnft_cmpnt_sys_id={3} and bnft_defn_sys_id=C.bnft_defn_sys_id AND TIER_SYS_ID= B.CNTRCT_TIER_SYS_ID)
+                 WHEN 'Y'
+				             THEN 'Y'
+                 ELSE 'N' 
+                END AS NOTE_EXIST,
+                DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = D.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN  
+			      FROM 		QSTNR_MSTR A,CNTRCT_TIER_ANSWR_OVRD B,BNFT_ADMIN_TO_LVL_ASSN C,ADQM_ADMN_QSTN_MSTR D,PSBL_ANSWR E,ITEM F
+			      WHERE 	A.QSTNR_HRCHY_SYS_ID = B.QSTNR_HRCHY_SYS_ID AND 
+						    A.RFRNC_ID =  F.PRMRY_CD(+) and F.CTLG_ID (+)=1938 and
+						    C.ADMIN_LVL_OPT_ASSN_SYS_ID = B.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+						    D.ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR and
+						    E.PSBL_ANSWR_ID = B.OVRD_ANSWR_ID and
+						    E.adqm_admn_qstn_nbr= A.adqm_admn_qstn_nbr and 
+						    C.BNFT_ADMIN_SYS_ID = {0} and 
+						    B.DT_SGMNT_SYS_ID = {1} and
+						    C.ADMIN_OPT_SYS_ID = {2} and
+							B.BNFT_CMPNT_SYS_ID ={3} and 
+							B.CNTRCT_TIER_SYS_ID {4}
+							ORDER BY  B.CNTRCT_TIER_SYS_ID,A.SQNC_NBR -->
+
+            				  SELECT 
+							  G.ADMIN_LVL_OPT_ASSN_SYS_ID,
+							  A.QSTNR_HRCHY_SYS_ID,
+							  A.ADQM_ADMN_QSTN_NBR,
+							  A.PRNT_QSTNR_HRCHY_SYS_ID,
+							  A.RFRNC_ID,
+							  B.OVRD_ANSWR_ID,
+							  D.ADQM_ADMN_QSTN_DESC,
+							  E.PSBL_ANSWR,
+							  F.CD_DESC_TXT,
+							  D.PRVDR_ARNGMNT,
+							  G.BNFT_DEFN_SYS_ID,
+							  B.CNTRCT_TIER_SYS_ID,
+							  CASE
+							      (SELECT 'Y'
+							      FROM TIER_NOTE_OVRD_VAL t, BNFT_ADMIN_TO_LVL_ASSN a
+							      WHERE t.scndry_enty_id = a.admin_lvl_opt_assn_sys_id
+								  AND t.prmry_enty_type ='ATTACHCONTRACT'
+							      AND t.prmry_enty_id     = {1} <!--datesegment id-->
+							      AND scndry_enty_id    = {5} <!--admin_lvl_opt_assn_sys_id-->
+							      AND scndry_enty_type  ='ATTACHQUESTION'
+							      AND adqm_admn_qstn_nbr=D.ADQM_ADMN_QSTN_NBR
+							      AND bnft_cmpnt_sys_id = {3}
+								  AND a.bnft_admin_sys_id = {0}
+							      AND t.bnft_defn_sys_id  =a.bnft_defn_sys_id
+							      AND TIER_SYS_ID       = B.CNTRCT_TIER_SYS_ID
+								  AND a.admin_lvl_opt_assn_sys_id = t.scndry_enty_id
+							      )
+							    WHEN 'Y'
+							    THEN 'Y'
+							    ELSE 'N'
+							  END AS NOTE_EXIST,
+							  DECODE(
+							  (SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL')
+							  AND ADQM_ADMN_QSTN_NBR                                  = D.ADQM_ADMN_QSTN_NBR
+							  ), 0, 'N','Y') VALID_DOMAIN
+							FROM QSTNR_MSTR A,
+							  (SELECT  <!-- Select all answered questions from contract. Pva and domain validation not required as it is done while creating contract-->
+							  A.QSTNR_HRCHY_SYS_ID,
+							  A.OVRD_ANSWR_ID,
+							  A.CNTRCT_TIER_SYS_ID
+							
+							FROM 
+							  CNTRCT_TIER_ANSWR_OVRD A 
+							  <!-- ,BNFT_ADMIN_TO_LVL_ASSN B  -->
+							WHERE 
+							 A.ADMIN_LVL_OPT_ASSN_SYS_ID = {5} <!-- B.ADMIN_LVL_OPT_ASSN_SYS_ID
+							AND B.BNFT_ADMIN_SYS_ID         = {0}  -->
+							AND A.DT_SGMNT_SYS_ID           = {1} 
+							<!-- AND B.ADMIN_OPT_SYS_ID          = {2}  -->
+							AND A.BNFT_CMPNT_SYS_ID         = {3}
+							
+							UNION ALL	<!-- Combine answered and not answered questions -->
+							
+							SELECT <!--Select all root and leaf questions of contract which are not answered after domain and pva validation -->
+							  qstnr_hrchy_sys_id, psbl_answr_id, cntrct_tier_sys_id
+							FROM
+							  (SELECT <!--Select all root and leaf questions of contract which are not answered-->
+							    a.qstnr_hrchy_sys_id,
+							    b.psbl_answr_id,
+							    a.adqm_admn_qstn_nbr,
+								a.cntrct_tier_sys_id
+							  FROM
+							    (SELECT <!--select all root questions for the admin option-->
+							      a.qstnr_hrchy_sys_id,
+							      a.adqm_admn_qstn_nbr,
+								  m.cntrct_tier_sys_id
+							    FROM qstnr_mstr a, cntrct_tier_mstr m	<!--cartesian join as root question should be available in all tiers-->
+							    WHERE a.admin_opt_sys_id      = {2}
+							    AND A.prnt_qstnr_hrchy_sys_id = A.qstnr_hrchy_sys_id
+								and m.cntrct_tier_sys_id {4} 
+							    UNION ALL <!-- Combine root question and child questions of questions in contract -->
+							    SELECT 	<!--Select all child questions of questions which are answered in contract -->
+									b.qstnr_hrchy_sys_id,
+									b.adqm_admn_qstn_nbr,
+									a.cntrct_tier_sys_id
+							    FROM cntrct_tier_answr_ovrd A, 
+							      qstnr_mstr b <!-- , BNFT_ADMIN_TO_LVL_ASSN c -->
+							    WHERE A.admin_lvl_opt_assn_sys_id = {5} <!-- c.admin_lvl_opt_assn_sys_id
+							    AND C.BNFT_ADMIN_SYS_ID         = {0}  -->
+							    AND a.bnft_cmpnt_sys_id           = {3}
+							    AND a.dt_sgmnt_sys_id             = {1}
+							    AND a.qstnr_hrchy_sys_id          = b.prnt_qstnr_hrchy_sys_id
+							    AND a.ovrd_answr_id               = b.prnt_answr_id
+							    AND b.admin_opt_sys_id            = {2}
+							    ) a,
+							    psbl_answr b
+							  WHERE A.adqm_admn_qstn_nbr    = b.adqm_admn_qstn_nbr
+							  AND b.psbl_answr              = 'Not Answered'
+							  AND (a.cntrct_tier_sys_id, a.qstnr_hrchy_sys_id) NOT IN <!-- Remove questions which are already answered in contract -->
+							    (SELECT a.cntrct_tier_sys_id, a.qstnr_hrchy_sys_id
+							    FROM cntrct_tier_answr_ovrd A <!-- , BNFT_ADMIN_TO_LVL_ASSN b -->
+							    WHERE A.admin_lvl_opt_assn_sys_id = {5} <!-- b.admin_lvl_opt_assn_sys_id
+							    AND b.BNFT_ADMIN_SYS_ID         = {0}
+							    AND b.ADMIN_OPT_SYS_ID          = {2}  -->
+							    AND bnft_cmpnt_sys_id           = {3}
+							    AND dt_sgmnt_sys_id             = {1}
+							    )
+							  ) a,
+							  ADQM_ADMN_QSTN_MSTR e
+							WHERE a.adqm_admn_qstn_nbr = e.ADQM_ADMN_QSTN_NBR
+							AND isdomainvalid ('contract',
+								{6}, <!--Contract parent sys id-->
+								'QUESTION',A.qstnr_hrchy_sys_id) = 'T'
+							AND (e.PRVDR_ARNGMNT   is null or  e.PRVDR_ARNGMNT IN	<!--PVA validation -->
+							  (SELECT z.pva_id
+							  FROM enty_domn_info x,
+							    avlbl_domn y,
+							    prod_fmly_buss_enty_pva_map z ,
+							    cntrct_dt_sgmnt a,
+							    prod_mstr b
+							  WHERE x.enty_type     = 'contract'
+							  AND x.enty_sys_id     = {6}  <!--Contract parent sys id-->
+							  AND x.domn_sys_id     = y.domn_sys_id
+							  AND y.bus_enty_nm     = z.buss_enty_id
+							  AND z.prod_fmly_id    = b.prod_fmly_nm
+							  AND b.prod_sys_id     =A.prod_sys_id
+							  AND A.dt_sgmnt_sys_id ={1}
+							  ))
+							  ) B,
+							  ADQM_ADMN_QSTN_MSTR D,BNFT_ADMIN_TO_LVL_ASSN G,
+							  PSBL_ANSWR E,
+							  ITEM F
+							WHERE A.QSTNR_HRCHY_SYS_ID      = B.QSTNR_HRCHY_SYS_ID
+							AND A.ADMIN_OPT_SYS_ID = G.ADMIN_OPT_SYS_ID
+							and G.ADMIN_LVL_OPT_ASSN_SYS_ID = {5}
+							AND D.ADQM_ADMN_QSTN_NBR        = A.ADQM_ADMN_QSTN_NBR
+							AND E.adqm_admn_qstn_nbr        = A.adqm_admn_qstn_nbr
+							AND E.PSBL_ANSWR_ID             = B.OVRD_ANSWR_ID
+							AND A.RFRNC_ID                  = F.PRMRY_CD(+)
+							AND F.CTLG_ID (+)               =1938
+							ORDER BY B.CNTRCT_TIER_SYS_ID,  A.SQNC_NBR
+
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractLevelQuestionnaire">
+				SELECT UNIQUE a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr,
+				              d.adqm_admn_qstn_desc, a.rfrnc_id, e.cd_desc_txt,
+				              a.prnt_qstnr_hrchy_sys_id, c.ovrd_answr_id, f.psbl_answr,
+				              a.sqnc_nbr
+				         FROM qstnr_mstr a,
+				              enty_admn_opt_assn b,
+				              cntrct_admin_qstn_answr_ovrd c,
+				              adqm_admn_qstn_mstr d,
+				              item e,
+				              psbl_answr f
+				        WHERE a.qstnr_hrchy_sys_id = c.qstnr_hrchy_sys_id
+				          AND a.admin_opt_sys_id = c.admin_opt_sys_id
+				          AND a.adqm_admn_qstn_nbr = d.adqm_admn_qstn_nbr
+				          AND a.rfrnc_id = e.prmry_cd
+				          AND e.ctlg_id = 1938
+				          AND c.ovrd_answr_id = f.psbl_answr_id
+				          AND b.enty_type = 'CONTRACT'
+				          AND b.enty_sys_id = {0}
+				          AND a.admin_opt_sys_id = {1}
+				     ORDER BY a.sqnc_nbr
+			</SelectSQLQuery>
+			<SelectSQLQuery name="refreshQuestionaireProc">
+				CALL BC_REFRESHQUESTIONARE({0},{1},{2})
+			</SelectSQLQuery>
+		   <SelectSQLQuery name="getChildQuestionnaireContract">
+				SELECT   a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr,
+				         a.prnt_qstnr_hrchy_sys_id, a.rfrnc_id, c.psbl_answr_id,
+				         b.adqm_admn_qstn_desc, c.psbl_answr, d.cd_desc_txt, a.sqnc_nbr, b.prvdr_arngmnt,
+				          DECODE(
+(SELECT COUNT(*) CNT FROM NOTE_DOMAIN_OVRD_VAL note,BNFT_ADMIN_TO_LVL_ASSN admn WHERE  
+					PRMRY_ENTY_ID = {3} AND PRMRY_ENTY_TYPE = 'ATTACHCONTRACT' 
+					AND SCNDRY_ENTY_ID ={4} 
+					and SCNDRY_ENTY_TYPE = 'ATTACHQUESTION' and ADQM_ADMN_QSTN_NBR=b.ADQM_ADMN_QSTN_NBR
+					and bnft_cmpnt_sys_id={5} 
+					AND admn.bnft_admin_sys_id = {6}				      
+AND NOTE.BNFT_DEFN_SYS_ID = admn.bnft_defn_sys_id), 0, 'N','Y') NOTE_EXISTS ,
+
+					DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = b.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN,f.BNFT_DEFN_SYS_ID  
+				    FROM qstnr_mstr a,
+				         adqm_admn_qstn_mstr b,
+				         psbl_answr c,
+				         item d,
+				         cmst_cntrct_mstr e,
+				          BNFT_ADMIN_TO_LVL_ASSN f
+				   WHERE b.adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr
+				     AND c.adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr
+				     AND prnt_answr_id = {0}
+				     AND prnt_qstnr_hrchy_sys_id = {1}
+				     AND UPPER (c.psbl_answr) = 'NOT ANSWERED'
+				     AND a.rfrnc_id = d.prmry_cd(+)
+				     AND d.ctlg_id(+) = 1938
+				     AND e.cntrct_sys_id = {2}
+				     AND  f.ADMIN_LVL_OPT_ASSN_SYS_ID ={4}
+				     AND isdomainvalid ('contract',
+				                        e.cntrct_parnt_sys_id,
+				                        'QUESTION',
+				                        qstnr_hrchy_sys_id
+				                       ) = 'T'
+					AND IsValidQuestionPVA ('contract',{3},'question',B.PRVDR_ARNGMNT,B.ADQM_ADMN_QSTN_NBR) ='T'	 
+					ORDER BY a.sqnc_nbr
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getChildTierQuestionnaireContract">
+				SELECT   a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr,
+				         a.prnt_qstnr_hrchy_sys_id, a.rfrnc_id, c.psbl_answr_id,
+				         b.adqm_admn_qstn_desc, c.psbl_answr, d.cd_desc_txt, a.sqnc_nbr, b.prvdr_arngmnt,
+				          DECODE(
+					(SELECT COUNT(*) CNT FROM TIER_NOTE_OVRD_VAL note,BNFT_ADMIN_TO_LVL_ASSN admn  WHERE  
+					PRMRY_ENTY_ID = {3} 
+					AND PRMRY_ENTY_TYPE = 'ATTACHCONTRACT' 
+					AND SCNDRY_ENTY_ID ={4} 
+					and SCNDRY_ENTY_TYPE = 'ATTACHQUESTION' 
+					and ADQM_ADMN_QSTN_NBR=b.ADQM_ADMN_QSTN_NBR
+					and bnft_cmpnt_sys_id={5} 
+					AND admn.bnft_admin_sys_id = {6}				      
+					AND NOTE.BNFT_DEFN_SYS_ID = admn.bnft_defn_sys_id  
+					and TIER_SYS_ID={7}), 0, 'N','Y') NOTE_EXISTS ,
+					DECODE((SELECT COUNT(*) CNT FROM QSTN_DOMN_ASSN WHERE DOMN_CD  IN ('INFO-CC','INFO-SS','C-CNFG','C-MNUL') 
+					and ADQM_ADMN_QSTN_NBR = b.ADQM_ADMN_QSTN_NBR), 0, 'N','Y') VALID_DOMAIN,f.BNFT_DEFN_SYS_ID  
+				    FROM qstnr_mstr a,
+				         adqm_admn_qstn_mstr b,
+				         psbl_answr c,
+				         item d,
+				         cmst_cntrct_mstr e,
+				          BNFT_ADMIN_TO_LVL_ASSN f
+				   WHERE b.adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr
+				     AND c.adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr
+				     AND prnt_answr_id = {0}
+				     AND prnt_qstnr_hrchy_sys_id = {1}
+				     AND UPPER (c.psbl_answr) = 'NOT ANSWERED'
+				     AND a.rfrnc_id = d.prmry_cd(+)
+				     AND d.ctlg_id(+) = 1938
+				     AND e.cntrct_sys_id = {2}
+				     AND  f.ADMIN_LVL_OPT_ASSN_SYS_ID ={4}
+				     AND isdomainvalid ('contract',
+				                        e.cntrct_parnt_sys_id,
+				                        'QUESTION',
+				                        qstnr_hrchy_sys_id
+				                       ) = 'T'
+					AND IsValidQuestionPVA ('contract',{3},'question',B.PRVDR_ARNGMNT,B.ADQM_ADMN_QSTN_NBR) ='T'	 
+					ORDER BY a.sqnc_nbr
+			</SelectSQLQuery>	
+
+			<DataObject name="CNTRCT_ANSWR_OVRD">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    	   	type="Int"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID"    	type="Int"/>
+				<DataObjectAttribute name="RFRNC_ID"    			   	type="String"/>
+				<DataObjectAttribute name="OVRD_ANSWR_ID"    		   	type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC"        	type="String"/>
+				<DataObjectAttribute name="PSBL_ANSWR"    		       	type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR"    	           	type="String"/>
+			    <DataObjectAttribute name="CD_DESC_TXT"         	   	type="String"/>	
+				<DataObjectAttribute name="LST_CHG_TMS"   			   	type="Date"/>
+   		        <DataObjectAttribute name="CREATD_USER_ID"    		   	type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"   		   	type="Date"/>	
+				<DataObjectAttribute name="DT_SGMNT_SYS_ID"    	   	   	type="Int"/>
+				<DataObjectAttribute name="CNTRCT_SYS_ID"    	   	   	type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR"    	   	   		type="Int"/>
+				<DataObjectAttribute name="PRVDR_ARNGMNT"    	   	    type="String"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"    	   	    type="String"/>
+				<DataObjectAttribute name="NOTE_EXIST" 					type="String"/>	
+			    <DataObjectAttribute name="VALID_DOMAIN" 					type="String"/>
+				<DataObjectAttribute name="TIER_SYS_ID" 			   type="Int"/>
+				<DataObjectAttribute name="TIER_SYS_ID_IN" 			   type="Int"/>
+				<!-- minu start -->
+				<DataObjectAttribute name="CNTRCT_PARNT_SYS_ID" 	   type="Int"/>
+				<!-- minu end -->
+				<DataObjectAttribute name="IS_ADMIN_OPTION_EXCLUDED"   type="String"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="IS_ADMIN_OPTION_EXCLUDED"/>						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="isAdminOptionExcluded"/>
+				</SQLTemplate>	
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+
+                    <!-- minu start -->
+					<DataObjectAttributeInput index="4" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="CNTRCT_PARNT_SYS_ID"/>
+					<!-- minu end -->
+
+					<RSIndexToDOAttributeMap>
+						<!--  ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="7" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="8" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="11" dataObjectAttribName ="DT_SGMNT_SYS_ID"/>
+						<ResultIndex index="12" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="13" dataObjectAttribName ="VALID_DOMAIN"/ -->
+
+						<ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="7" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="8" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="11" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="12" dataObjectAttribName ="VALID_DOMAIN"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionnaireContract"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="TIER_SYS_ID"/>
+					<!-- minu added -->
+					<DataObjectAttributeInput index="5" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="6" name="CNTRCT_PARNT_SYS_ID"/>
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/> 
+						<ResultIndex index="1" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="7" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="8" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="11" dataObjectAttribName ="TIER_SYS_ID"/>
+						<!-- ResultIndex index="12" dataObjectAttribName ="DT_SGMNT_SYS_ID"/ -->
+						<ResultIndex index="12" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="13" dataObjectAttribName ="VALID_DOMAIN"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getTierQuestionnaireContract"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="5" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="8" dataObjectAttribName ="SQNC_NBR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractLevelQuestionnaire"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="refreshQuestionaireProc"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+					<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="BNFT_CMPNT_SYS_ID"/>
+					<!--DataObjectAttributeInput index="6" name="BNFT_DEFN_SYS_ID"/ -->
+					<DataObjectAttributeInput index="6" name="BNFT_ADMIN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="7" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="8" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+						<ResultIndex index="10" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="11" dataObjectAttribName ="VALID_DOMAIN"/>
+						<ResultIndex index="12" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getChildQuestionnaireContract"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+					<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="CNTRCT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="BNFT_CMPNT_SYS_ID"/>
+					<!-- DataObjectAttributeInput index="6" name="BNFT_DEFN_SYS_ID"/ -->
+					<DataObjectAttributeInput index="6" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="7" name="TIER_SYS_ID_IN"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="OVRD_ANSWR_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="PSBL_ANSWR"/>
+						<ResultIndex index="7" dataObjectAttribName ="CD_DESC_TXT"/>
+						<ResultIndex index="8" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+						<ResultIndex index="10" dataObjectAttribName ="NOTE_EXIST"/>
+						<ResultIndex index="11" dataObjectAttribName ="VALID_DOMAIN"/>
+						<ResultIndex index="12" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getChildTierQuestionnaireContract"/>
+				</SQLTemplate>
+			<SQLTemplate transType="delete">
+			<SQLQuery>
+				DELETE FROM CNTRCT_ANSWR_OVRD
+				WHERE BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND DT_SGMNT_SYS_ID =? AND QSTNR_HRCHY_SYS_ID =?
+			</SQLQuery>
+				<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+				<DataObjectAttributeInput index="2" name="DT_SGMNT_SYS_ID"/>
+				<DataObjectAttributeInput index="3" name="QSTNR_HRCHY_SYS_ID"/>
+		    </SQLTemplate>
+			<SQLTemplate transType="insert">
+						<SQLQuery>
+								 INSERT INTO CNTRCT_ANSWR_OVRD ( ADMIN_LVL_OPT_ASSN_SYS_ID, QSTNR_HRCHY_SYS_ID, OVRD_ANSWR_ID, DT_SGMNT_SYS_ID, 
+								  LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP,BNFT_CMPNT_SYS_ID)
+            						VALUES(?, ?, ?, ?, ?, ?, ?, ?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="OVRD_ANSWR_ID"/>
+						<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="8" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+                <SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE  CNTRCT_ANSWR_OVRD SET  
+								OVRD_ANSWR_ID = ?
+							WHERE (BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND DT_SGMNT_SYS_ID =? AND QSTNR_HRCHY_SYS_ID =?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>						
+						<DataObjectAttributeInput index="4" name="QSTNR_HRCHY_SYS_ID"/>						
+				</SQLTemplate> 
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    	toBOAttb="adminLevelOptionSysId"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"    			toBOAttb="questionnaireId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"   			toBOAttb="questionId"/>
+					<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID"    		toBOAttb="parentQuestionnaireId"/>
+					<Pair DOAttb="RFRNC_ID"    						toBOAttb="referenceId"/>
+					<Pair DOAttb="OVRD_ANSWR_ID"    				toBOAttb="selectedAnswerid"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_DESC"   			toBOAttb="questionName"/>
+					<Pair DOAttb="PSBL_ANSWR"    					toBOAttb="selectedAnswerDesc"/>
+					<Pair DOAttb="CD_DESC_TXT"    					toBOAttb="referenceDesc"/>
+ 					<Pair DOAttb="LST_CHG_TMS"   					toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="LST_CHG_USR"    					toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="CREATD_USER_ID"    				toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"   				toBOAttb="createdTimestamp"/>
+ 					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   				toBOAttb="benefitComponentId"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID"   				toBOAttb="dateSegmentId"/>
+					<Pair DOAttb="SQNC_NBR"   						toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="PRVDR_ARNGMNT"   					toBOAttb="providerArrangement"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"   				toBOAttb="bnftDefId"/>
+					<Pair DOAttb="NOTE_EXIST"   					toBOAttb="noteExist"/>
+					<Pair DOAttb="VALID_DOMAIN"   					toBOAttb="validDomainToAttach"/>
+					<Pair DOAttb="TIER_SYS_ID"   					toBOAttb="tierSysId"/>
+					<Pair DOAttb="IS_ADMIN_OPTION_EXCLUDED"   		toBOAttb="isExcluded"/>
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID"     toSCAttb="adminOptSysId"/>
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    toSCAttb="benftAdminSysId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"    toSCAttb="beneftComponentId"/>
+					<Pair DOAttb="LST_CHG_USR"          toSCAttb="lastUpdatedUser"/>
+				    <Pair DOAttb="OVRD_ANSWR_ID"        toSCAttb="selectedAnswerid"/>
+				    <Pair DOAttb="QSTNR_HRCHY_SYS_ID"   toSCAttb="questionnaireId"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID"    	toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="CNTRCT_SYS_ID"    	toSCAttb="contractSysId"/>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"   toSCAttb="adminLvlOptSystemId"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"     toSCAttb="bnftDefenitionId"/>
+					<Pair DOAttb="TIER_SYS_ID"   		toSCAttb="tierList"/>
+					<Pair DOAttb="TIER_SYS_ID_IN"   	toSCAttb="tierSysID"/>
+					<!-- minu start -->						
+					<Pair DOAttb="CNTRCT_PARNT_SYS_ID"   toSCAttb="cntrctParntSysId"/>    			
+					<!-- minu end -->
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.contract.bo.ContractTierQuesitionnaireBO">
+		<BusinessAttribute name="questionnaireId"    		   	type="Int"   	keyAttrib="true"/>
+		<BusinessAttribute name="questionId"      			   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="adminLevelOptionSysId"        	type="Int"   	keyAttrib="false"/>
+		<BusinessAttribute name="parentQuestionnaireId"        	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerid"             	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId"                  	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc"                	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="questionName"                 	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="selectedAnswerDesc"           	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="possibleAnswerList"           	type="List"  	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"          		   	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"             	type="Date"  	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"              	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"         	type="Date"  	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId"           	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="dateSegmentId"         	   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber"         	   	type="Int"  	keyAttrib="false"/>
+		<BusinessAttribute name="providerArrangement"         	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="bnftDefId"         	type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="noteExist"         			type="String"  	keyAttrib="false"/>
+		<BusinessAttribute name="validDomainToAttach"			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="tierSysId"		   				type="Int"	keyAttrib="true"/>
+		
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+			<SelectSQLQuery >
+				   SELECT CNTRCT_TIER_SYS_ID
+  						FROM   CNTRCT_TIER_ANSWR_OVRD 
+                        WHERE CNTRCT_TIER_SYS_ID= ?
+			</SelectSQLQuery>	
+		
+
+			<DataObject name="CNTRCT_TIER_ANSWR_OVRD">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    	   	type="Int"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID"    	type="Int"/>
+				<DataObjectAttribute name="RFRNC_ID"    			   	type="String"/>
+				<DataObjectAttribute name="OVRD_ANSWR_ID"    		   	type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC"        	type="String"/>
+				<DataObjectAttribute name="PSBL_ANSWR"    		       	type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	   	type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR"    	           	type="String"/>
+			    <DataObjectAttribute name="CD_DESC_TXT"         	   	type="String"/>	
+				<DataObjectAttribute name="LST_CHG_TMS"   			   	type="Date"/>
+   		        <DataObjectAttribute name="CREATD_USER_ID"    		   	type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"   		   	type="Date"/>	
+				<DataObjectAttribute name="DT_SGMNT_SYS_ID"    	   	   	type="Int"/>
+				<DataObjectAttribute name="CNTRCT_SYS_ID"    	   	   	type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR"    	   	   		type="Int"/>
+				<DataObjectAttribute name="PRVDR_ARNGMNT"    	   	    type="String"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"    	   	type="String"/>
+				<DataObjectAttribute name="NOTE_EXIST" 					type="String"/>	
+			    <DataObjectAttribute name="VALID_DOMAIN" 				type="String"/>
+				<DataObjectAttribute name="TIER_SYS_ID" 			    type="Int"/>
+				
+				
+				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="TIER_SYS_ID"/>
+				           <RSIndexToDOAttributeMap>
+								<ResultIndex index="0" dataObjectAttribName ="TIER_SYS_ID"/>
+				           </RSIndexToDOAttributeMap>
+		 		</SQLTemplate>
+
+				
+			<SQLTemplate transType="delete">
+			<SQLQuery>
+				DELETE FROM CNTRCT_TIER_ANSWR_OVRD
+				WHERE BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND DT_SGMNT_SYS_ID =? AND QSTNR_HRCHY_SYS_ID =? 
+			</SQLQuery>
+				<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+				<DataObjectAttributeInput index="2" name="DT_SGMNT_SYS_ID"/>
+			    <DataObjectAttributeInput index="3" name="QSTNR_HRCHY_SYS_ID"/>
+		    </SQLTemplate>
+			<SQLTemplate transType="insert">
+						<SQLQuery>
+								 INSERT INTO CNTRCT_TIER_ANSWR_OVRD ( ADMIN_LVL_OPT_ASSN_SYS_ID, QSTNR_HRCHY_SYS_ID, OVRD_ANSWR_ID, DT_SGMNT_SYS_ID, 
+								  LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP,BNFT_CMPNT_SYS_ID,CNTRCT_TIER_SYS_ID)
+            						VALUES(?, ?, ?, ?, ?, ?, ?, ?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="OVRD_ANSWR_ID"/>
+						<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="8" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="9" name="TIER_SYS_ID"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE  CNTRCT_TIER_ANSWR_OVRD SET  
+								OVRD_ANSWR_ID = ?
+							WHERE (BNFT_CMPNT_SYS_ID = ? AND ADMIN_LVL_OPT_ASSN_SYS_ID = ? AND DT_SGMNT_SYS_ID =? AND QSTNR_HRCHY_SYS_ID =? AND CNTRCT_TIER_SYS_ID = ? )
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="OVRD_ANSWR_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="3" name="DT_SGMNT_SYS_ID"/>						
+						<DataObjectAttributeInput index="4" name="QSTNR_HRCHY_SYS_ID"/>	
+						<DataObjectAttributeInput index="5" name="TIER_SYS_ID"/>	<!-- added -->				
+				</SQLTemplate> 
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    	toBOAttb="adminLevelOptionSysId"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID"    			toBOAttb="questionnaireId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"   			toBOAttb="questionId"/>
+					<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID"    		toBOAttb="parentQuestionnaireId"/>
+					<Pair DOAttb="RFRNC_ID"    						toBOAttb="referenceId"/>
+					<Pair DOAttb="OVRD_ANSWR_ID"    				toBOAttb="selectedAnswerid"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_DESC"   			toBOAttb="questionName"/>
+					<Pair DOAttb="PSBL_ANSWR"    					toBOAttb="selectedAnswerDesc"/>
+					<Pair DOAttb="CD_DESC_TXT"    					toBOAttb="referenceDesc"/>
+ 					<Pair DOAttb="LST_CHG_TMS"   					toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="LST_CHG_USR"    					toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="CREATD_USER_ID"    				toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"   				toBOAttb="createdTimestamp"/>
+ 					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   				toBOAttb="benefitComponentId"/>
+					<Pair DOAttb="DT_SGMNT_SYS_ID"   				toBOAttb="dateSegmentId"/>
+					<Pair DOAttb="SQNC_NBR"   						toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="PRVDR_ARNGMNT"   					toBOAttb="providerArrangement"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"   					toBOAttb="bnftDefId"/>
+					<Pair DOAttb="NOTE_EXIST"   					toBOAttb="noteExist"/>
+					<Pair DOAttb="VALID_DOMAIN"   							toBOAttb="validDomainToAttach"/>
+					<Pair DOAttb="TIER_SYS_ID"   							toBOAttb="tierSysId"/>
+				</DoAttributeToBOAttributeMap>
+
+				
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+</Metadata> 

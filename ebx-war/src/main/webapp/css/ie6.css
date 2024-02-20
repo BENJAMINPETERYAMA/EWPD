@@ -1,0 +1,501 @@
+/* Common CSS -- email seenugj@ust-global.com if you have questions or need to change the style sheet - PLEASE do NOT change this style sheet */
+
+@charset "utf-8";
+
+/*-----------------------------------------------------------------------------------------------------GENERAL CSS---------------------------------------------------------------------------*/
+* {
+	padding: 0;
+	margin-top: 0;
+	margin-right: 0px;
+	margin-bottom: 0;
+	margin-left: 0;
+}
+html {
+	overflow:hidden;
+	/* min-height:100%; */
+	height:100%;
+}
+body {
+	font: 21px Arial, sans-serif;
+	color: #000;
+	background: url(../images/body_bg.gif) repeat-x;
+	/* min-height:100%; */
+	height:100%;
+}
+body.normal{
+	font: 21px Arial, sans-serif;
+	color: #000;
+	background: #fff;
+	height:100%;
+	}
+/* body 
+	{
+	word-wrap: break-word;
+	} */
+.fR{
+	float:right;
+	}
+.fL{
+	float:left;
+	}	
+
+table.pad3{
+	padding:3px;
+	}	
+table.Pd3 tr td{
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:4px;
+	}
+.bT{
+	border-top:1px solid black; /*#d9e5eb*/
+	}	
+.clear {
+	clear:both;
+}
+.pT5{
+	padding-top:5px;
+	}
+.pT10{
+	padding-top:10px;
+	}
+.pT15{
+	padding-top:15px;
+	}
+.mT5{
+	margin-top:5px;
+	}			
+.mt10{
+	margin-top:10px;
+	}
+.mL10{
+	margin-left:10px;
+	}
+.mR10{
+	margin-right:10px;
+	}	
+
+#wrapper {
+	/*height:590px !important; *//*To avoid scrollbars in browsers*/  
+	/* position: relative; */
+	width: 989px;
+	margin: 0 auto;
+	overflow:hidden;
+	overflow-y:hidden;
+	height: 100%;
+	
+	}
+.header_right {
+	width: 989px;
+	margin: 0 auto;
+	height: 20px;
+	float: right;
+	text-align:right;
+	color:#fff;
+}
+.header_right ul{
+	list-style:none;
+	padding-top: 5px;
+	padding-bottom:5px;
+}
+.header_right li{
+	display: inline;
+	margin-right:5px;
+}
+.header{
+	margin: 0px auto;
+	background: url(../images/header.gif) repeat-x;
+	width:989px;
+	height:63px;
+	margin-top:20px;
+	_margin-top:0px;
+}
+#container {
+	width:977px;
+	margin:0 auto;
+	background:#fff;
+	_border:0px 1px 1px 1px solid #c5d4d6;
+	border-right:1px solid #c5d4d6;
+	border-left:1px solid #c5d4d6;
+	border-top:2px solid #23698a;
+	height: 73%;
+	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+	position:relative;
+	padding-top:10px;
+	padding-right:5px;
+	padding-left:5px;
+	padding-bottom:10px;
+	}
+.innerContainer{
+	width:960px;
+	margin:0 auto;
+	height:auto;
+	
+	}
+
+/*-------------------------------------------------------------------- Level1 Left Div---------------------------------------------*/		
+.Level1{
+	width:auto;
+	height:auto;
+	}
+.unmapped{
+	width:470px;
+	/*height:250px;
+	_height:200px;*/
+	float:left;
+	border:1px solid #898989;
+	}
+.titleBar{
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 28px;
+	border-bottom: 1px solid #a6b0b0;
+	}
+.headerTitle{
+	float:left;
+	font:14px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:6px;
+	padding-left:5px;
+	color:#000;
+	}
+.UnmappedVariables {
+	height:auto;
+	}
+table.unmappedTable{
+	width: 470px;
+	border: 1px solid #949494;
+	background:url(../images/title_bg.gif) repeat-x ;
+	}
+.tableHeader{
+	height: 25px;
+	_height:20px;
+	font-weight:bold;
+	color: #FFF;
+	text-align:left;
+	padding-top:5px;
+	padding-left:3px;
+	}
+.ListTable{
+	height:190px; /* Also related with the 1px solid white border for .Level2 - holy hack */
+	width: 470px;
+	overflow:auto;
+	overflow-x:hidden;
+	wrap-word:break-word;
+	}
+
+table.mappedTable{
+	width: 470px;
+	}	
+table.mappedTable tr{
+	border-right:1px solid #d9e5eb;
+	}
+table.mappedTable td{
+	border-right:1px solid #d9e5eb;
+	}
+table.mappedTable tr:hover{
+	background-color:#eef;
+	}
+table.mappedTable tr.alternate{
+	background-color:#e9f3f9;
+	}
+/*-------------------------------------------------------------------- Level1 Right Div---------------------------------------------*/	
+.inprogress{
+	width:470px;
+	/*height:250px;
+	_height:230px;*/
+	float:right;
+	border:1px solid #898989;
+	}
+/*-------------------------------------------------------------------- Level2 Left Div---------------------------------------------*/		
+.Level2{
+	width:auto;
+	height:auto;
+	border:1px solid white;
+	}
+.mapping{
+	width:470px;
+	height:150px;
+	float:left;
+	border:1px solid #898989;
+	}
+span.star{
+	color:#bd1516;
+	}
+input.input{
+	border: 1px solid #868686;
+	height:20px;
+	}
+/*-------------------------------------------------------------------- Level2 Right Div---------------------------------------------*/		
+.Locate{
+	width:470px;
+	height:150px;
+	float:right;
+	border:1px solid #898989;
+	}	
+/*-------------------------------------------------------------------- Create Edit Page---------------------------------------------*/			
+table tr.createEditTable1{
+	width: 960px;
+	height:25px;
+	_height:20px;
+	background:url(../images/title_bg.gif) repeat-x ;
+	color:#fff;
+	}
+table tr.createEditTable1 th{
+	padding-left:3px;
+	padding-top:5px;
+	}
+table tr.createEditTable1-Listdata td{
+	padding-left:4px;
+	}
+	
+table tr.alternate{
+	background-color:#e9f3f9;
+	}	
+#createEditContainer{
+	width:960px;
+	height:320px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	}
+
+		
+input.inputbox60{
+	width:87px;
+	border: 1px solid #868686;
+	height:20px;
+	padding-left:3px;
+	}
+input.inputbox470{
+	width:467px;
+	border: 1px solid #868686;
+	height:20px;
+	padding-left:3px;
+	}	
+input.textarea{
+	width:930px;
+	margin:0 auto;
+	height:100px;
+	}	
+/*-------------------------------------------------------------------- View History Popup Page---------------------------------------------*/		
+.link a{
+	color:#064ceb;
+	text-decoration:underline;
+	}
+	
+/*----------------------------Footer----------------------*/
+.footer {
+	height: 36px;
+	background: url(../images/footer.gif) no-repeat;
+	width: 989px;
+	margin: 0 auto;
+	text-align: center;
+	bottom: 0px;
+	color:	#000;
+	padding-top: 8px;
+	}
+.footer a{
+	line-height: 19px;
+	color: #000;
+}
+.footer a:hover{
+	color: #fff;
+}
+.aboutIcon{
+	width:24px;
+	height:24px;
+	float:right;
+	margin-right:10px;
+
+	background: url(../images/aboutIcon.gif) no-repeat;
+	}
+
+.footerTable {
+	padding:0px;
+	text-align:center;
+	background-color:#86c6db;
+
+	
+}
+
+#exclusionEditContainer1 {
+	width:97%;
+ 	height:520px;
+	margin-top:15px;
+	margin-top:5px;
+	padding-left:14px;
+	padding-right:4px;
+	overflow-y:hidden;
+	overflow-x:hidden;
+}
+.exclusionTitleBarSectionTwo {
+	background: url(../images/title_bg.gif) repeat-x;
+	height: 19px;
+
+table.mappedTable1{
+	width: 916px;
+	}	
+table.mappedTable1 tr{
+	border-right:1px solid #d9e5eb;
+	border-bottom: 10px solid #d9e5eb;
+	}
+table.mappedTable1 td{
+	border-right:1px solid #d9e5eb;
+	}
+table.mappedTable1 tr:hover{
+	background-color:#eef;
+	}
+table.mappedTable1 tr.alternate{
+	background-color:#e9f3f9;
+	}
+	#exclusionContentSectionTwo1 {
+	padding-top:4px;
+	height:170px;
+	overflow-y:auto;
+	overflow-x: hidden;
+	width: 916px;
+}
+	
+	#exclusionSectionOne1 {
+	width:916px;
+	border:1px solid #898989;
+	height:118px;
+}
+#exclusionTitleBarSectionOne1 {
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 23px;
+	border-bottom: 1px solid #a6b0b0;
+	width:916px;
+}
+#exclusionSectionTwo1 {
+	margin-top:3px;
+	height:195px;
+	border:1px solid #898989;
+	width:916px;
+}
+#exclusionSectionThree1 {
+	margin-top:3px;
+	height:178px;
+	border:1px solid #898989;
+	width:916px;
+}
+#exclusionContentSectionTwo1 {
+	padding-top:4px;
+	height:170px;
+	width:916px;
+	overflow-y:auto;
+	overflow-x: hidden;
+}
+#exclusionTableWidth1{
+	width : 916px;
+}
+/* advanced search page */
+table.advancedSearchWidth {
+	_width:99%;
+}
+/** For Manage Reference Data Values - START **/
+	
+.dvshadedText{
+	color:#545353;;
+	font-size: 12px
+}
+	
+textarea.dataValuesText {
+	width:388px;
+	height:82px;
+}
+#referenceDataValueContainer {
+	width:97%;
+ 	height:auto;
+	margin-top:15px;
+	margin-top:5px;
+	padding-left:14px;
+	padding-right:4px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+#referenceDataValueSectionOne {
+	width:912px;
+	border:1px solid #898989;
+	height:65px;
+}
+#referenceDataValueTitleBarOne {
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 23px;
+	border-bottom: 1px solid #a6b0b0;
+	width:912px;
+}
+.headerTitleDataValue{
+	float:left;
+	font:12px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#000;
+}
+#referenceDataValueContentOne {
+	height:39px;
+}
+
+#referenceDataValueSectionThree {
+	margin-top:3px;
+	height:200px;
+	border:1px solid #898989;
+	width:912px;
+}
+.dvheaderTitleSub {
+	float:left;
+	font:11px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#FFFFFF;
+}
+.dvcriteriatable td {
+	vertical-align: middle;
+}
+
+.dataValueSectionThreeSub {
+	padding-left:6px;
+	padding-top:6px;
+	padding-right:6px;
+	
+}
+
+table.dvmappedTable tbody{
+	width: 470px;
+	font-size: 11px;
+	overflow-y: scroll;
+	}	
+table.dvmappedTable tbody tr{
+	border-right:1px solid #d9e5eb;
+	word-wrap:break-word;
+	}
+table.dvmappedTable tbody td{
+	border-right:1px solid #d9e5eb;
+	font-size: 11px
+	}
+	table.dvmappedTable thead th{
+	font-size: 11px
+	}
+table.dvmappedTable tbody tr:hover{
+	background-color:#eef;
+	}
+table.dvmappedTable tbody tr.alternate{
+	background-color:#e9f3f9;
+	}
+.topVerticalAlign{
+	vertical-align:top;
+	}
+	
+input.inputbox90{
+                width:110px;
+                border: 1px solid #868686;
+                height:20px;
+                padding-left:3px;
+                }
+/** For Manage Reference Data Values - END **/

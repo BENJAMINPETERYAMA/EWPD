@@ -1,0 +1,20 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\mapping\domain\service
+2
+10
+19:AdvanceSearchService.java|1|16b935e3eba|6ea|baa84041|50c12227937747eab038b819a365945c|0
+1c:MappingSpsIdServiceImpl.java|1|16b935e40fb|5de6|ae0846c9|c64062d8dd2f4f63837176c89348e511|0
+1c:LocateRuleIdServiceImpl.java|1|16b935e3ed9|20ec|ecc2f03f|53924a6ed7ee49ef829fc061c679c86f|0
+1b:LocateSpsIdServiceImpl.java|1|16b935e3ed9|2e6f|98881f67|53ab73fa99644a33bb8f0dd53234574e|0
+13:MappingService.java|1|16b935e3f94|bd7|2c8ddd55|e92ae8ed631c483aa7536d8362cb8537|0
+1d:WPDValidationServiceImpl.java|1|16b935e3fa4|57f|ea80de0c|3ff2bfb7957e4beba71f1be8af8e326a|0
+16:ValidationService.java|1|16b935e3f94|39b|95062ea0|4da44e2a233c481f9a70ce9f8ad3ba71|0
+1a:LockRuleIdServiceImpl.java|1|16b935e3f56|c61|b8673237|5b895868172c4513b07ef3927313a9be|0
+21:LockCustomMessageServiceImpl.java|1|16b935e405f|cdb|35d2600a|48ac0d84c43d430cace401f492fe9492|0
+23:LocateCustomMessageServiceImpl.java|1|16b935e3ec9|2233|b98974af|2e27b461e28c479ea966f059e43c31ad|0
+19:LockSpsIdServiceImpl.java|1|16b935e3f75|c3a|2e7d20f2|05b12b2940024f2fa61cdeb10327f94f|0
+1d:AdvanceSearchServiceImpl.java|1|16b935e3ee9|ef8|e66d090b|3deee65156ac4893862f0b58ba97b668|0
+12:LocateService.java|1|16b935e3f37|a15|8ffc5caa|c45dae93afad4f3fba20762e3323371a|0
+1e:EWPDValidationServiceImpl.java|1|16b935e3f46|55e|ab3d296|ecb0d5b1f9264981a90b85a4c39264cd|0
+1d:MappingRuleIdServiceImpl.java|1|16b935e3f56|74b3|6a34a49f|edc883749e284012bf9ee89c68ea0320|0
+24:MappingCustomMessageServiceImpl.java|1|16b935e40eb|68b3|6f37cc32|ae36c219ebbe438596a5d9180db173e5|0

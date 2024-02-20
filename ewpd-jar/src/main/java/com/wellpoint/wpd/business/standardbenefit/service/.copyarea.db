@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\standardbenefit\service
+2
+2
+23:StandardBenefitBusinessService.java|1|16adf9617ea|4e03e|5cc70ef7|0364c79c46f211e380360002cbcd824c|0
+2d:StandardBenefitBusinessValidationService.java|1|16adf9617db|17d6c|76eca106|70bf2873dfee4048bdc69c9e67a1ada1|0

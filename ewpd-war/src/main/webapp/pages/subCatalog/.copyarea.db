@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\subCatalog
+2
+a
+12:subCatalogEdit.jsp|1|16adf930094|3420|c7bc7f81|8a77221c4bb04316a51a79649d1bb1f1|0
+1a:itemPopupForSubCatalog.jsp|1|16adf92caba|1106|c3463598|490edd21042146699035554e111198c6|0
+12:subCatalogView.jsp|1|16adf92f889|24c0|310ab2cc|75070696af1b4264b81fc185f2867372|0
+13:associatedItems.jsp|1|16adf92c454|3865|656916fb|0e59e8cae5b94f9a9f63103fae831e75|0
+13:subCatalogPrint.jsp|1|16adf92f83b|183e|d914d356|742a863ea99a49fcbfe98a5515c8304f|0
+19:subCatalogDetailPrint.jsp|1|16adf92d3fd|1e14|82d36163|8ae99d255a4044e2bc0e7ef847704136|0
+18:associatedItemsPrint.jsp|1|16adf92c435|fb1|e4f255cb|9694adc7c1364b1d88f56f8c38088c4e|0
+14:subCatalogSearch.jsp|1|16adf930804|30fe|4ee24472|385bf98dc9274c229ba282b6b099f3bb|0
+17:associatedItemsView.jsp|1|16adf92c454|1a37|9c37ce37|2b6c9a42743645b39f7707fade4cb992|0
+14:subCatalogCreate.jsp|1|16adf92d6cb|3419|198373e9|8b956224f166462ca4181b39c156a9f2|0

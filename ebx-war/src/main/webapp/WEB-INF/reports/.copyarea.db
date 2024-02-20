@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\WEB-INF\reports
+2
+6
+f:wpdReport.jrxml|1|16b935e96c8|6e4a|444c5ddd|41c46817795149ea92c3507f892a9fb6|0
+1a:wpdReport_subreport0.jrxml|1|16b935e96d7|50d9|32abc234|4d47c747035d44f6b19e6e5e68e1c1eb|0
+11:ewpdReport.jasper|1|16b935e9c44|c473|e8b41b04|5d4ef41a18c547d586838caa84ed1d50|0
+10:ewpdReport.jrxml|1|16b935e96b8|98e2|6b04d8c4|6163eb115a814a9387430146b9a5f8fb|0
+1b:wpdReport_subreport0.jasper|1|16b935e96c8|7dd6|14518e9c|a2f5f817dab44affac71f5670f7e1dc2|0
+10:wpdReport.jasper|1|16b935e96b8|970c|e069ad57|22f9228a70ab443189328523340c81ba|0

@@ -1,0 +1,23 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\application\security
+2
+13
+f:ModuleImpl.java|1|16b935dc253|ba1|c6a52c4|70c40f19746e4fb5bff0f9b9fe6b6772|0
+b:Module.java|1|16b935dc1d6|2c7|34a7e4dc|2e73bfe601aa405ea5450062c1f65096|0
+d:TaskImpl.java|1|16b935dc6a7|7d8|d8263f7a|d4352b39e20249babdf3c315d74d40e5|0
+15:LoginInterceptor.java|1|16b935dc82d|16a3|146e0085|e18513ebfd4647648f62c4abfef754ae|0
+d:RoleImpl.java|1|16b935dc292|e54|316f1d9f|984e62c89fc84d23accfa05280cd8e3b|0
+b:TaskBO.java|1|16b935dc733|ff5|4612c001|967af4f37c9e4e4ba8279b3fdb453efc|0
+16:UserUIPermissions.java|1|16b935dc80e|4d9c|eeb4db71|5e971ecdc6444ea9ae44de483c40b253|0
+12:LoginUserImpl.java|1|16b935dc205|c2e|a8768936|4997f0371ddb48a198125f2b8015d414|0
+e:LoginUser.java|1|16b935dc1f6|334|7cde0ac6|a98dd9cb02d141b0b99569957a2243a6|0
+9:Role.java|1|16b935dc234|2a7|cef8daa5|853b08837a8b46f38e2bd933635d6b88|0
+16:SecurityConstants.java|1|16b935dc3e9|e7e|63a06fbb|4fe1087d212e491f94d1e5b633983569|0
+14:SecurityService.java|1|16b935dc4d3|227|9fa9b0e5|c89ddbdfd66f4f9db3b0ea610e3c6f22|0
+16:SecurityException.java|1|16b935dc3e9|389|64b6161f|f59594d1697244edb574b59040b65607|0
+d:ModuleBO.java|1|16b935dc1d6|fb6|8a0ba3a8|e5551a470f7840cab4066798b41fdc09|0
+9:Task.java|1|16b935dc59e|287|5e5ecddd|1f4c432f90e94d96ab1d9373adb9cd39|0
+10:Environment.java|1|16b935dbc99|833|aa69074|3b5ac3d39ef348c0843eea938edad074|0
+9:Lock.java|1|16b935dc6c6|d0a|bafed06|e5684307e03042aeb0c9f20f26c88d8c|0
+b:RoleBO.java|1|16b935dc253|109c|b4c2f447|855c8d5da67446adba4069936dae01f2|0
+18:SecurityServiceImpl.java|1|16b935dccce|170c|25c7e5b7|75127f3ce8304cc980366c3ddfe87a03|0

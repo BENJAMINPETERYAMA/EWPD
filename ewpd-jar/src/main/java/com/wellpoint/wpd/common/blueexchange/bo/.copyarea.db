@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\blueexchange\bo
+2
+a
+16:DummyVarMappingBO.java|1|16adf969812|1c65|4096f1d8|f9a7d951563f4ebe9994d606b4c4ca57|0
+1e:ContractVariableMappingBO.java|1|16adf9695f0|1d23|c30325d3|afef1d9394d14d6487ae2b3cc565fee7|0
+1f:DeletedCustomMessageTextBO.java|1|16adf9697f2|7c1|151b8b44|a7a1e82ab84e4ec980e068f4aa9809c5|0
+16:VariableMappingBO.java|1|16adf969d9d|a97|532b4816|d9998520b46248779968d2b602f0fd20|0
+1f:RuleServiceTypeAssociation.java|1|16adf9698ec|142e|3dce79d8|ce509e0e07f94fdc868925c1fc34ef13|0
+20:ServiceTypeLocateCriteriaBO.java|1|16adf969c56|5c2|b70fd244|d40f015eb69a4846aba3f7e5d3d70d85|0
+11:SPSMappingBO.java|1|16adf969c56|36f8|4ea91a10|e0f5dfaa8c104347aa09a1f24d80efc7|0
+18:CustomMessageTextBO.java|1|16adf96969b|1270|b5eab6d1|89e63227eb124996af6830d4d6c7fac7|0
+10:RuleMapping.java|1|16adf96988e|efb|36a2d0bb|84ac07aaaa1440a7889c8715c9113eb7|0
+17:ServiceTypeMapping.java|1|16adf969c56|2e85|a9df0be1|fcbea464983546f5bd42fd5c6db42504|0

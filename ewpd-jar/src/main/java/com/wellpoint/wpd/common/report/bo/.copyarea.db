@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\report\bo
+2
+3
+17:ContractReportBean.java|1|16adf97cc8a|c3d|913f9e6|d7725067ea8341c6ab9f38cbd2d3eeb0|0
+1b:ContractReportCriteria.java|1|16adf97d8aa|d9c|b08b7386|b37202758d574a5bbe34d704d2796f97|0
+11:RuleReportBO.java|1|16adf97cc99|539b|9eefd3a3|8732cce7efd8447a9bd3492a7034d923|0

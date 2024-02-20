@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\util\x12parser\vo
+2
+5
+10:controlsegmentvo|2|0|0|0|1696d346427646169af96dd7fe1d8ae3|0
+14:SegmentMetaData.java|1|16b935e6637|19f|2ee69265|5e450ff1a96d485bbe035b8d2ee277e8|0
+17:X12SegmentTypeEnum.java|1|16b935e63a7|111|c81a4d72|109e126cf9ad411fac38d2bfb29ffc75|0
+f:X12Segment.java|1|16b935e63a7|13f|e0b36a4e|abce8c18a9ec4db69084be7d7411377d|0
+d:datasegmentvo|2|0|0|0|4e5fa2b48280413eb7e642709ff7adb7|0

@@ -1,0 +1,284 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.subcatalog.bo.SubCatalogBO">
+		<BusinessAttribute name="subCatalogSysId"					type="Int"			keyAttrib="true"/>
+		<BusinessAttribute name="subCatalogId"					type="Int"			keyAttrib="false"/>
+		<BusinessAttribute name="primaryCode"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="parentCatalogId"					type="Int"			keyAttrib="false"/>
+		<BusinessAttribute name="description"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"			type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="parentCatalogName"		type="String"			keyAttrib="false"/>			
+		<BusinessAttribute name="businessGroup"		type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="lineOfBusiness"		type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="businessEntity"		type="String"			keyAttrib="false"/>
+		
+		<SearchCriteria name="criteria">
+	        <SearchCriteriaAttribute name="primaryCode" 	type="String"/>
+	        <SearchCriteriaAttribute name="parentCatalogName" 	type="String"/>
+	        <SearchCriteriaAttribute name="ctlgNameForSortByPC" 	type="String"/>
+	        <SearchCriteriaAttribute name="ctlgNameForSortByCD" 	type="String"/>
+		    <SearchCriteriaAttribute name="catalogId" type="Int" />
+		    <SearchCriteriaAttribute name="parentcatalogId" type="Int" />
+		    <SearchCriteriaAttribute name="lob" type="List" />
+		    <SearchCriteriaAttribute name="be" type="List" />
+		    <SearchCriteriaAttribute name="bg" type="List" />
+		    <SearchCriteriaAttribute name="termValue" type="String" />
+		    <SearchCriteriaAttribute name="pvaValue" type="String" />
+		    <SearchCriteriaAttribute name="searchValue" type="String" />
+	   </SearchCriteria>
+		
+		<DataSource name="prmd" domain="medical" >
+		<Connection preferred="jndi">
+			<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+			<jndi>java:comp/env/wsbEwpdDS</jndi>
+		</Connection>
+		<SelectSQLQuery>
+		    SELECT SUB_CTLG_SYS_ID, SUB_CTLG_ID, SUB_CTLG_PARNT_ID, SUB_CTLG_ITEM_PRMRY_CD, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID
+		    FROM SUB_CTLG_ASSN
+		    WHERE SUB_CTLG_ID = ? AND SUB_CTLG_PARNT_ID = ? AND SUB_CTLG_ITEM_PRMRY_CD = ?
+		</SelectSQLQuery>
+		<SelectSQLQuery name="locateAssociation">
+				SELECT s.SUB_CTLG_ID, s.SUB_CTLG_ITEM_PRMRY_CD, s.SUB_CTLG_PARNT_ID, s.SUB_CTLG_SYS_ID, i.CD_DESC_TXT FROM SUB_CTLG_ASSN s, ITEM i WHERE SUB_CTLG_ID = {0}
+				and s.SUB_CTLG_ITEM_PRMRY_CD = i.PRMRY_CD and i.CTLG_ID = (select c.CTLG_PARNT_ID from CATALOG c where c.CTLG_ID = {0}) order by i.CD_DESC_TXT asc
+		</SelectSQLQuery>
+		<SelectSQLQuery name="locateReferenceData" dynamic="true">
+					<STATIC><![CDATA[select s1.SUB_CTLG_SYS_ID, s1.SUB_CTLG_ITEM_PRMRY_CD, s1.SUB_CTLG_PARNT_ID, i.CD_DESC_TXT from SUB_CTLG_ASSN s1, ITEM i where 
+					i.PRMRY_CD = s1.SUB_CTLG_ITEM_PRMRY_CD and i.CTLG_ID = s1.SUB_CTLG_PARNT_ID]]></STATIC>
+	                <DYNAMIC><![CDATA[ and s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where CTLG_ID in (select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+	                where C.BUS_GRP_NM {0} AND C.BUS_ENTY_NM {1} AND C.LOB_NM {2}
+	                AND B.DOMN_SYS_ID = C.DOMN_SYS_ID
+	                AND B.ENTY_TYPE = 'SubCatalog' ))]]></DYNAMIC><DYNAMIC><![CDATA[
+					AND s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where  
+					CTLG_PARNT_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME )= upper({3}))
+					and CTLG_ID != CTLG_PARNT_ID )  order by i.CD_DESC_TXT asc]]></DYNAMIC><DYNAMIC><![CDATA[
+					AND s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where  
+					CTLG_PARNT_ID in (select CTLG_ID from CATALOG where upper(CTLG_NAME) = upper({4}))
+					and CTLG_ID != CTLG_PARNT_ID )  order by i.PRMRY_CD asc]]></DYNAMIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="getAssociatedItemByTermPvaForReference" dynamic="true">
+					<STATIC><![CDATA[select s1.SUB_CTLG_SYS_ID, s1.SUB_CTLG_ITEM_PRMRY_CD, s1.SUB_CTLG_PARNT_ID, i.CD_DESC_TXT from SUB_CTLG_ASSN s1, ITEM i where 
+					i.PRMRY_CD = s1.SUB_CTLG_ITEM_PRMRY_CD and i.CTLG_ID = s1.SUB_CTLG_PARNT_ID and
+	                s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where CTLG_ID in (select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+	                where C.BUS_GRP_NM {0} AND C.BUS_ENTY_NM {1} AND C.LOB_NM {2}
+	                AND B.DOMN_SYS_ID = C.DOMN_SYS_ID
+	                AND B.ENTY_TYPE = 'SubCatalog' )) ]]></STATIC>
+					<DYNAMIC><![CDATA[
+					AND s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where  
+					CTLG_PARNT_ID = (select CTLG_ID from CATALOG where CTLG_NAME = {5})
+					and CTLG_ID != CTLG_PARNT_ID ) and]]></DYNAMIC>
+					<DYNAMIC><![CDATA[i.CD_DESC_TXT like {4} ]]></DYNAMIC> 
+					<STATIC><![CDATA[AND i.CD_DESC_TXT like {3}]]></STATIC>
+					 <STATIC><![CDATA[order by i.CD_DESC_TXT asc]]></STATIC>
+
+		</SelectSQLQuery>
+		<SelectSQLQuery name="getAssociatedItemByCatalogNameForReference" dynamic="true">
+					<STATIC><![CDATA[select s1.SUB_CTLG_SYS_ID, s1.SUB_CTLG_ITEM_PRMRY_CD, s1.SUB_CTLG_PARNT_ID, i.CD_DESC_TXT from SUB_CTLG_ASSN s1, ITEM i where 
+					i.PRMRY_CD = s1.SUB_CTLG_ITEM_PRMRY_CD and i.CTLG_ID = s1.SUB_CTLG_PARNT_ID and
+	                s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where CTLG_ID in (select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+	                where C.BUS_GRP_NM {0} AND C.BUS_ENTY_NM {1} AND C.LOB_NM {2}
+	                AND B.DOMN_SYS_ID = C.DOMN_SYS_ID
+	                AND B.ENTY_TYPE = 'SubCatalog' ))  ]]></STATIC>
+					<DYNAMIC><![CDATA[
+					AND s1.SUB_CTLG_ID in (select CTLG_ID from CATALOG where  
+					CTLG_PARNT_ID = (select CTLG_ID from CATALOG where CTLG_NAME = {4})
+					and CTLG_ID != CTLG_PARNT_ID )]]></DYNAMIC>
+					<DYNAMIC><![CDATA[and upper(i.CD_DESC_TXT) like upper({3}) escape '`' ]]></DYNAMIC> 
+					 <STATIC><![CDATA[order by i.CD_DESC_TXT asc]]></STATIC>
+
+		</SelectSQLQuery>
+		<DataObject name="SUB_CTLG_ASSN">
+		    <DataObjectAttribute name="SUB_CTLG_SYS_ID"    			type="Int"/>
+		    <DataObjectAttribute name="SUB_CTLG_ID"    				type="Int"/>
+		    <DataObjectAttribute name="SUB_CTLG_PARNT_ID"    		type="Int"/>
+		    <DataObjectAttribute name="SUB_CTLG_ITEM_PRMRY_CD"    	type="String"/>
+		    <DataObjectAttribute name="LST_CHG_TMS"    				type="TimeStamp"/>
+		    <DataObjectAttribute name="LST_CHG_USR"    				type="String"/>
+		    <DataObjectAttribute name="CD_DESC_TXT"    				type="String"/>
+		    <DataObjectAttribute name="CREATD_TM_STMP"    			type="TimeStamp"/>
+		    <DataObjectAttribute name="CREATD_USER_ID"    			type="String"/>
+		    <DataObjectAttribute name="CTLG_ID"    					type="Int"/>
+		    <DataObjectAttribute name="CTLG_NAME"    				type="String"/>
+		    <DataObjectAttribute name="CTLG_PARNT_ID"    			type="Int"/>
+		    <DataObjectAttribute name="ENTY_SYS_ID"    				type="Int"/>
+		    <DataObjectAttribute name="BUS_GRP_NM"    				type="String"/>
+		    <DataObjectAttribute name="BUS_ENTY_NM"    				type="String"/>
+		    <DataObjectAttribute name="LOB_NM"    					type="String"/>
+		    <DataObjectAttribute name="DOMN_SYS_ID"    				type="Int"/>
+		    <DataObjectAttribute name="ENTY_TYPE"    				type="String"/>
+		    <DataObjectAttribute name="CTLG_NAME_DUMMY_CD" 			type="String"/>
+		    <DataObjectAttribute name="CTLG_NAME_DUMMY_PC" 			type="String"/>
+			<DataObjectAttribute name="TERM_VALUE"    				type="String"/>
+			<DataObjectAttribute name="PVA_VALUE"    				type="String"/>
+			<DataObjectAttribute name="SEARCH_VALUE"    	type="String"/>
+		    <SQLTemplate transType="insert">
+		        <SQLQuery>
+		            INSERT INTO SUB_CTLG_ASSN ( SUB_CTLG_SYS_ID, SUB_CTLG_ID, SUB_CTLG_PARNT_ID, SUB_CTLG_ITEM_PRMRY_CD, LST_CHG_TMS, LST_CHG_USR, CREATD_TM_STMP, CREATD_USER_ID)
+		            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+		        </SQLQuery>
+		        <DataObjectAttributeInput index="0" name="SUB_CTLG_SYS_ID"/>
+		        <DataObjectAttributeInput index="1" name="SUB_CTLG_ID"/>
+		        <DataObjectAttributeInput index="2" name="SUB_CTLG_PARNT_ID"/>
+		        <DataObjectAttributeInput index="3" name="SUB_CTLG_ITEM_PRMRY_CD"/>
+		        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+		        <DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+		        <DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+		        <DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+		    </SQLTemplate>
+		    <SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="SUB_CTLG_ID"/>
+		        <DataObjectAttributeInput index="1" name="SUB_CTLG_PARNT_ID"/>
+		        <DataObjectAttributeInput index="2" name="SUB_CTLG_ITEM_PRMRY_CD"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="SUB_CTLG_SYS_ID"/>
+		            <ResultIndex index="1" dataObjectAttribName ="SUB_CTLG_ID"/>
+		            <ResultIndex index="2" dataObjectAttribName ="SUB_CTLG_PARNT_ID"/>
+		            <ResultIndex index="3" dataObjectAttribName ="SUB_CTLG_ITEM_PRMRY_CD"/>
+		            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+		            <ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+		            <ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+		            <ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+		        </RSIndexToDOAttributeMap>
+		    </SQLTemplate>
+		    <SQLTemplate transType="delete">
+		        <SQLQuery>
+		            DELETE FROM SUB_CTLG_ASSN
+		            WHERE SUB_CTLG_ID = ? AND SUB_CTLG_SYS_ID = ? 
+		        </SQLQuery>
+		        <DataObjectAttributeInput index="0" name="SUB_CTLG_ID"/>
+		        <DataObjectAttributeInput index="1" name="SUB_CTLG_SYS_ID"/>
+		    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="SUB_CTLG_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="SUB_CTLG_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="SUB_CTLG_ITEM_PRMRY_CD"/>
+				            <ResultIndex index="2" dataObjectAttribName ="SUB_CTLG_PARNT_ID"/>
+				            <ResultIndex index="3" dataObjectAttribName ="SUB_CTLG_SYS_ID"/>
+				            <ResultIndex index="4" dataObjectAttribName ="CD_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateAssociation"/>
+				 </SQLTemplate>
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+				        <DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+				        <DataObjectAttributeInput index="2" name="LOB_NM"/>
+				        <DataObjectAttributeInput index="3" name="CTLG_NAME_DUMMY_CD"/>
+				        <DataObjectAttributeInput index="4" name="CTLG_NAME_DUMMY_PC"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SUB_CTLG_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="SUB_CTLG_ITEM_PRMRY_CD"/>
+				            <ResultIndex index="2" dataObjectAttribName ="SUB_CTLG_PARNT_ID"/>
+				            <ResultIndex index="3" dataObjectAttribName ="CD_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateReferenceData"/>
+				 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+				        <DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+				        <DataObjectAttributeInput index="2" name="LOB_NM"/>
+				        <DataObjectAttributeInput index="3" name="TERM_VALUE"/>
+				        <DataObjectAttributeInput index="4" name="PVA_VALUE"/>
+				        <DataObjectAttributeInput index="5" name="CTLG_NAME"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SUB_CTLG_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="SUB_CTLG_ITEM_PRMRY_CD"/>
+				            <ResultIndex index="2" dataObjectAttribName ="SUB_CTLG_PARNT_ID"/>
+				            <ResultIndex index="3" dataObjectAttribName ="CD_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="getAssociatedItemByTermPvaForReference"/>
+				 </SQLTemplate>
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+				        <DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+				        <DataObjectAttributeInput index="2" name="LOB_NM"/>
+						<DataObjectAttributeInput index="3" name="SEARCH_VALUE"/>
+				        <DataObjectAttributeInput index="4" name="CTLG_NAME"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SUB_CTLG_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="SUB_CTLG_ITEM_PRMRY_CD"/>
+				            <ResultIndex index="2" dataObjectAttribName ="SUB_CTLG_PARNT_ID"/>
+				            <ResultIndex index="3" dataObjectAttribName ="CD_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="getAssociatedItemByCatalogNameForReference"/>
+				 </SQLTemplate>
+		
+		    <DoAttributeToBOAttributeMap>
+		        <Pair DOAttb="SUB_CTLG_SYS_ID"   		 toBOAttb="subCatalogSysId"/>
+		        <Pair DOAttb="SUB_CTLG_ID"   			 toBOAttb="subCatalogId"/>
+		        <Pair DOAttb="SUB_CTLG_PARNT_ID"   		 toBOAttb="parentCatalogId"/>
+		        <Pair DOAttb="SUB_CTLG_ITEM_PRMRY_CD"    toBOAttb="primaryCode"/>
+		        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+		        <Pair DOAttb="LST_CHG_USR"    			toBOAttb="lastUpdatedUser"/>
+		        <Pair DOAttb="CREATD_TM_STMP"   		 toBOAttb="createdTimestamp"/>
+		        <Pair DOAttb="CREATD_USER_ID"   		toBOAttb="createdUser"/>
+		        <Pair DOAttb="CTLG_NAME"   				toBOAttb="parentCatalogName"/>
+		        <Pair DOAttb="BUS_GRP_NM"   				toBOAttb="businessGroup"/>
+		        <Pair DOAttb="LOB_NM"   				toBOAttb="lineOfBusiness"/>
+		        <Pair DOAttb="BUS_ENTY_NM"   				toBOAttb="businessEntity"/>
+		        <Pair DOAttb="CD_DESC_TXT"   				toBOAttb="description"/>
+		    </DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+				<Pair DOAttb="SUB_CTLG_ID"					toSCAttb="catalogId"/>
+				<Pair DOAttb="SUB_CTLG_PARNT_ID"			toSCAttb="parentcatalogId"/>
+                <Pair DOAttb="SUB_CTLG_ITEM_PRMRY_CD" 		toSCAttb="primaryCode"/>
+                <Pair DOAttb="CTLG_NAME" 					toSCAttb="parentCatalogName"/>
+				<Pair DOAttb="CTLG_NAME_DUMMY_PC" 			toSCAttb="ctlgNameForSortByPC"/>
+				<Pair DOAttb="CTLG_NAME_DUMMY_CD" 			toSCAttb="ctlgNameForSortByCD"/>
+                <Pair DOAttb="BUS_GRP_NM" 					toSCAttb="bg"/>
+                <Pair DOAttb="BUS_ENTY_NM" 					toSCAttb="be"/>
+                <Pair DOAttb="LOB_NM" 						toSCAttb="lob"/>
+            	<Pair DOAttb="TERM_VALUE" 					toSCAttb="termValue"/>
+            	<Pair DOAttb="PVA_VALUE" 					toSCAttb="pvaValue"/>
+            	<Pair DOAttb="SEARCH_VALUE" 				toSCAttb="searchValue"/>
+	      </DoAttributeToSCAttributeMap>				   
+		
+		</DataObject>
+	</DataSource>
+	</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.subcatalog.bo.SPSMappingBO">
+		<BusinessAttribute name="value"					type="String"			keyAttrib="true"/>
+		<BusinessAttribute name="desc"					type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="comment"				type="String"		keyAttrib="false"/>
+		<SearchCriteria name="criteria">
+		    <SearchCriteriaAttribute name="spsmappingcode" type="Int" />
+	   </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+		<Connection preferred="jndi">
+			<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+			<jndi>java:comp/env/wsbEwpdDS</jndi>
+		</Connection>
+		<SelectSQLQuery name="locatespsmapping">
+			select PRMRY_CD,SCNDRY_CD,CD_DESC_TXT from ITEM where  CTLG_ID={0}
+		</SelectSQLQuery>
+		<DataObject name="ITEM">
+		    <DataObjectAttribute name="PRMRY_CD"    	type="String"/>
+		    <DataObjectAttribute name="SCNDRY_CD"    	type="String"/>
+		    <DataObjectAttribute name="CD_DESC_TXT"    	type="String"/>
+			<DataObjectAttribute name="MAP_CODE"    	type="Int"/>
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="MAP_CODE"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+							<ResultIndex index="1" dataObjectAttribName ="SCNDRY_CD"/>
+							<ResultIndex index="2" dataObjectAttribName ="CD_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locatespsmapping"/>
+				 </SQLTemplate>
+		    <DoAttributeToBOAttributeMap>
+		        <Pair DOAttb="PRMRY_CD"   		 toBOAttb="value"/>
+		        <Pair DOAttb="SCNDRY_CD"   	     toBOAttb="desc"/>
+		        <Pair DOAttb="CD_DESC_TXT"   	 toBOAttb="comment"/>
+		    </DoAttributeToBOAttributeMap>
+			<DoAttributeToSCAttributeMap>
+				<Pair DOAttb="MAP_CODE"			 toSCAttb="spsmappingcode"/>
+	        </DoAttributeToSCAttributeMap>				   
+		</DataObject>
+	</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

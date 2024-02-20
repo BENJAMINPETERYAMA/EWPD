@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\contract\adapter
+2
+3
+1b:ContractAdapterManager.java|1|16adf95b947|335d8|37a78e82|b03962a250b944ef858804c7d6e002cd|0
+1f:ContractTreeAdapterManager.java|1|16adf95b986|16e0|b7292ad4|64af019e2f0a428c9abd3a5b29ef7267|0
+20:ContractModelAdapterManager.java|1|16adf95c317|5096|5ee82d05|6c136b57c22341a1b5992759e8637726|0

@@ -1,0 +1,1690 @@
+<Metadata> 
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.report.bo.RuleReportBO">
+	<BusinessAttribute name="keyValue" 			type="Int"	  keyAttrib="true"/>
+	<BusinessAttribute name="ruleID" 		    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleTypeDesc" 	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleVersion"       type="String" keyAttrib="false"/>
+	<BusinessAttribute name="tag"               type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleSequenceNo"    type="Int"    keyAttrib="false"/>
+	<BusinessAttribute name="benefitComponent"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="benefit" 		    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="exclusionInd" 	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="claimType"         type="String" keyAttrib="false"/>
+	<BusinessAttribute name="plcOfSrvc"         type="String" keyAttrib="false"/>
+	<BusinessAttribute name="patLowAge"  		type="Int" 	  keyAttrib="false"/>
+	<BusinessAttribute name="patHighAge"  		type="Int"    keyAttrib="false"/>
+	<BusinessAttribute name="genderCode"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="providerID"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="providerSpcltyCode" type="String" keyAttrib="false"/>
+	<BusinessAttribute name="bnftAccumNm"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="bnftAccumLmtAmt"   type="String"    keyAttrib="false"/>
+	<BusinessAttribute name="bnftAccumLmtNmr"  	type="Int" 	  keyAttrib="false"/>
+	<BusinessAttribute name="notifyOnlyInd"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clnlRvwInd"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="dollarLimit"  		type="String"    keyAttrib="false"/>
+	<BusinessAttribute name="serviceCode"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="groupState"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="lenOfStay"  		type="Int" 	  keyAttrib="false"/>
+	<BusinessAttribute name="itsSpecltyCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="mbrRelshpCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="hcpcsModfr2Code"   type="String" keyAttrib="false"/>
+	<BusinessAttribute name="hcpcsModfrCode"    type="String" keyAttrib="false"/>	
+    <BusinessAttribute name="providerStateCode" type="String" keyAttrib="false"/>
+	<BusinessAttribute name="billTypeCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ttCode"  			type="String" keyAttrib="false"/>
+	<BusinessAttribute name="atchmtInd"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="patmbrCode"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="hospFcilCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="daysFromInjry"  	type="Int" 	  keyAttrib="false"/>
+	<BusinessAttribute name="daysFromIlns"  	type="Int"    keyAttrib="false"/>
+	<BusinessAttribute name="hmoClassCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="editCode1"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="editCode2"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="copayInd"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="pct100Ind"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ageTypCode"        type="String" keyAttrib="false"/>
+	<BusinessAttribute name="srvcStrtDate"      type="Date" keyAttrib="false"/>
+	<BusinessAttribute name="srvcEndDate"       type="Date" keyAttrib="false"/>
+	<BusinessAttribute name="totlChrgSignVal"   type="String" keyAttrib="false"/>
+	<BusinessAttribute name="totlChrgAmt"       type="String" keyAttrib="false"/>
+	<BusinessAttribute name="medcrAsgnmentInd"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="sprtgProcCodeInd"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="drugCode"          type="String" keyAttrib="false"/>	
+	<BusinessAttribute name="diagCode"          type="String" keyAttrib="false"/>
+	<BusinessAttribute name="pcpInd"            type="String" keyAttrib="false"/>
+	<BusinessAttribute name="providerSpecialityIndicator"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="provLncsId"        type="String" keyAttrib="false"/>
+	<BusinessAttribute name="provMedcrId"       type="String" keyAttrib="false"/>
+    <BusinessAttribute name="billgProvNbr"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="rndrgProvNbr"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="billgNpiNbr"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="rndrgNpiNbr"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="elgblExpansSignCode"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="elgblExpansAmt"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="codeSequenceNo"  	type="Int" keyAttrib="false"/>
+	<BusinessAttribute name="hcptLowVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="hcptHighVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="revLowVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="revHighVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="icdpLowVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="icdpHighVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="icdpVrsnInd"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="diagLowVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="diagHighVal"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="diagvrsnInd"  	    type="String" keyAttrib="false"/>
+	<BusinessAttribute name="srvcClassLow"  	type="String" keyAttrib="false"/>
+    <BusinessAttribute name="srvcClassHigh"     type="String" keyAttrib="false"/>
+	<BusinessAttribute name="lmtClassLow"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="lmtClassHigh"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmSeqNumber"  	type="Int" keyAttrib="false"/>
+	<BusinessAttribute name="clmSrvcCode"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmProcdrModfrCode1"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="clmProcdrModfrCode2"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmttCode"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmPlaceOfSrvc"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmHmoClassCode"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmSameDaySvcInd"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmDiagInd"        type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmSprtgProcCdInd" type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmCdSeqNumber"    type="Int" keyAttrib="false"/>
+	<BusinessAttribute name="clmHcptLowVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmHcptHighVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmRevLowVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmRevHighVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmIcdpLowVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmIcdpHighVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmIcdVrsnInd"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmDiagLowVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmDiagHighVal"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmDiagVrsnInd"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmSrvcClassLow"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmSrvcClassHigh"  type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmLmtClassLow"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="clmLmtClassHigh"  	type="String" keyAttrib="false"/>
+	<BusinessAttribute name="grpRuleId"  		type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleTypeCode"      type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleShortDesc"     type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleGrpInd"        type="String" keyAttrib="false"/>
+	<BusinessAttribute name="ruleAprvdDate"     type="Date" keyAttrib="false"/>	
+	
+		
+	<SearchCriteria>
+		<SearchCriteriaAttribute name="dateSgmntSysId"   		type="Int"/>
+		<SearchCriteriaAttribute name="ruleType"   				type="List"/>	
+		<SearchCriteriaAttribute name="productSysId" 	 		type="Int"/>	
+		<SearchCriteriaAttribute name="ruleId" 	 				type="String"/>
+		<SearchCriteriaAttribute name="benefitComponentId" 	 	type="Int"/>
+		<SearchCriteriaAttribute name="groupIdLists" 	 		type="List"/>
+	</SearchCriteria>
+	<DataSource name="prmd" domain="medical">
+		<Connection preferred="jndi">
+			<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+			<jndi>java:comp/env/wsbEwpdDS</jndi>
+		</Connection>
+		 <SelectSQLQuery name="retrieveContractRules">
+	        	<![CDATA[
+			SELECT  dbms_random.random as keyval, rule.Rule_ID, 
+             CASE SUBSTR (PRA.GNRTD_RULE_ID, 1, 1)
+                                                                WHEN '#'
+                                                                THEN 'UM Rule'
+                                                                WHEN '&'
+                                                                THEN 'Exclusion Rule'
+                                                                WHEN '*'
+                                                                THEN 'Denial Rule'
+                                                                END AS RULE_TYP_DESC,
+     rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,''  BENEFITCOMPONENT,'' BENEFIT,
+   rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+  rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH,rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+FROM Rule rule
+JOIN
+PROD_RULE_ASSN  pra
+on rule.rule_id = pra.rule_id AND SUBSTR(pra.GNRTD_RULE_ID,1,1) {1}
+--AND rule.RULE_VRSN_NBR =  (SELECT MAX(rule.RULE_VRSN_NBR )FROM Rule rule join PROD_RULE_ASSN rdt  on  rdt.rule_id =rule.rule_id  )
+JOIN CNTRCT_RULE_ASSN CRA
+ON pra.PROD_RULE_SYS_ID  = CRA.PROD_RULE_SYS_ID  and CRA.DT_SGMNT_SYS_ID = {0} 
+LEFT OUTER JOIN rule_dat rldt
+ON rldt.rule_id      = rule.rule_id
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+and rule.WPD_DEL_FLAG = 'N'
+ORDER BY RULE_TYP_DESC ,rule.rule_id,rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR,rcls.CLM_SQNC_NBR,rccs.CLM_CD_SQNC_NBR DESC
+
+						]]>		
+		</SelectSQLQuery>	
+		
+		
+		<SelectSQLQuery name="retrieveContractHeaderRules">
+	        	<![CDATA[
+			 SELECT  dbms_random.random as keyval, rule.RULE_ID,'Header Rule' RULE_TYP_DESC,rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,BNFT.BENEFITCOMPONENT  BENEFITCOMPONENT,
+			BNFT.BENEFIT BENEFIT,
+   rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+  rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH,rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+FROM Rule rule 
+JOIN (SELECT d.rule_id,f.bnft_cmpnt_nm BENEFITCOMPONENT,'' BENEFIT FROM PROD_BNFT_CMPNT_ASSN d,cntrct_dt_sgmnt e, bcm_bnft_cmpnt_mstr f,
+      				(select distinct dt_sgmnt_sys_id, bnft_cmpnt_sys_id, bnft_cmpnt_hide_flag from cntrct_bnft_assn 
+         			 where DT_SGMNT_SYS_ID = {0} and BNFT_CMPNT_HIDE_FLAG = 'F') assn 
+   			 	WHERE e.DT_SGMNT_SYS_ID = {0} and d.prod_sys_id = e.prod_sys_id and f.BNFT_CMPNT_SYS_ID = d.BNFT_CMPNT_SYS_ID 
+   			 	and assn.dt_sgmnt_sys_id = e.dt_sgmnt_sys_id and d.bnft_cmpnt_sys_id = assn.bnft_cmpnt_sys_id and assn.BNFT_CMPNT_HIDE_FLAG = 'F'
+   			 	UNION ALL
+  		    	 SELECT d.rule_id, h.bnft_cmpnt_nm  BENEFITCOMPONENT, e.BNFT_ID_NM BENEFIT 
+    			 FROM cntrct_bnft_rule_ovrd d, BMST_BNFT_MSTR e ,cntrct_bnft_assn  g, bcm_bnft_cmpnt_mstr h
+   				 WHERE d.DT_SGMNT_SYS_ID = {0} and g.DT_SGMNT_SYS_ID = d.DT_SGMNT_SYS_ID  and d.BNFT_CMPNT_SYS_ID = g.BNFT_CMPNT_SYS_ID  
+  				 and d.BNFT_CMPNT_SYS_ID = h.BNFT_CMPNT_SYS_ID and  d.BNFT_SYS_ID = g.BNFT_SYS_ID and g.BNFT_HIDE_FLAG ='F' and 
+   				 d.BNFT_SYS_ID = e.BNFT_SYS_ID) BNFT
+ON BNFT.RULE_ID = rule.RULE_ID AND rule.RULE_TYP_CD = 'WPDAUTOBG' AND rule.WPD_DEL_FLAG = 'N'
+--AND rule.RULE_VRSN_NBR =  (SELECT MAX(rule.RULE_VRSN_NBR )FROM Rule rule,Rule_dat rdt where rdt.rule_id =rule.rule_id)
+LEFT OUTER JOIN rule_dat rldt   
+ON rldt.rule_id = rule.rule_id
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY RULE_TYP_DESC,rule.RULE_ID,  rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR DESC
+						]]>		
+		</SelectSQLQuery>
+	  
+	  <SelectSQLQuery name="retrieveContractGroupRules">
+	        	<![CDATA[
+			SELECT  DBMS_RANDOM.RANDOM AS KEYVAL,rule.rule_id,grp.grp_rule_id ,   
+                CASE RULE_TYP_CD
+                                                                WHEN 'UMRULE'
+                                                                THEN 'UM Rule'
+                                                                WHEN 'ADJUD'
+                                                                THEN 'Exclusion Rule'
+                                                                WHEN 'BNFTDENY'
+                                                                THEN 'Denial Rule'
+                                                                WHEN 'WPDAUTOBG'
+                                                                THEN 'Header Rule'
+                                                                END AS RULE_TYP_DESC,
+  rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,''  BENEFITCOMPONENT,'' BENEFIT,
+  rlDt.EXCLSN_IND ,rlDt.CLM_TYPE ,rlDt.PLC_OF_SRVC,rlDt.PAT_LOW_AGE ,rlDt.PAT_HIGH_AGE ,rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,rlDt.PRVDR_SPCLTY_CD ,rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,rlDt.BNFT_ACCUM_LMT_NBR ,rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,rlDt.DLR_LMT ,rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,rlDt.LEN_OF_STAY ,rlDt.ITS_SPCLTY_CD ,rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,rlDt.TT_CD ,rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,rlDt.HOSP_FCIL_CD ,rlDt.DAYS_FROM_INJRY,rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2,rlDt.CPAY_IND,rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,rcs.LINE_DIAG_HIGH_VAL ,rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,rcls.CLM_SRVC_CD ,rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,rcls.CLM_TT_CD ,rcls.CLM_POS_CD ,rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,rccs.CLM_HCPT_LOW_VAL ,rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,rccs.CLM_ICDP_LOW_VAL ,rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,rccs.CLM_DIAG_HIGH_VAL ,
+  rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH,
+  rule.RULE_APRVD_DT,rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_TYP_CD
+FROM Rule rule
+JOIN GRP_RULE grp
+on grp.rule_id        = rule.rule_id and grp.WPD_DEL_FLAG = 'N'  and grp.grp_rule_id {0}
+JOIN rule_dat rldt
+ON rldt.rule_id        = rule.rule_id
+--AND rldt.RULE_VRSN_NBR =  (SELECT MAX(rule.RULE_VRSN_NBR )FROM Rule rule,Rule_dat rdt where rdt.rule_id =rule.rule_id  )
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY RULE_TYP_DESC,rule.RULE_ID ,rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR DESC
+	]]>		
+		</SelectSQLQuery>
+	  
+	  <SelectSQLQuery name="individualRuleExtractQuery">
+	        	<![CDATA[
+			SELECT dbms_random.random as keyval,rlDt.RULE_ID,'' RULE_TYP_DESC,rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,
+'' BENEFITCOMPONENT,'' BENEFIT, rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,
+  rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+   rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH , 
+  rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+ FROM Rule rule
+JOIN rule_dat rldt
+ON rldt.rule_id        = rule.rule_id
+AND rldt.RULE_VRSN_NBR =  (SELECT MAX(RULE_VRSN_NBR )FROM Rule where rule_id={0} )
+AND rldt.rule_id={0}
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY  rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR,rcls.CLM_SQNC_NBR,rccs.CLM_CD_SQNC_NBR DESC
+						]]>		
+	</SelectSQLQuery>
+	
+	<SelectSQLQuery name="individualHeaderRuleExtractQueryBC">
+	        	<![CDATA[
+			SELECT dbms_random.random as keyval,rlDt.RULE_ID,'' RULE_TYP_DESC,rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,
+'' BENEFITCOMPONENT,'' BENEFIT, rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,
+  rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+   rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH , 
+   rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+ FROM Rule rule
+JOIN rule_dat rldt
+ON rldt.rule_id        = rule.rule_id
+AND rldt.RULE_VRSN_NBR =  (SELECT MAX(RULE_VRSN_NBR )FROM Rule where rule_id={0} )
+AND rldt.rule_id={0}
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR,rcls.CLM_SQNC_NBR,rccs.CLM_CD_SQNC_NBR DESC
+						]]>		
+		</SelectSQLQuery>
+	
+	<SelectSQLQuery name="individualHeaderRuleExtractQueryBnft">
+	        	<![CDATA[
+			SELECT dbms_random.random as keyval,rlDt.RULE_ID,
+    		'' RULE_TYP_DESC,
+			rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,
+      		(SELECT BNFT_CMPNT_NM FROM BCM_BNFT_CMPNT_MSTR WHERE BNFT_CMPNT_SYS_ID = {1} )  BENEFITCOMPONENT,
+     		 '' BENEFIT,rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,
+  rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+   rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH , 
+   rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+       		FROM Rule rule
+JOIN rule_dat rldt
+ON rldt.rule_id        = rule.rule_id
+AND rldt.RULE_VRSN_NBR =  (SELECT MAX(RULE_VRSN_NBR )FROM Rule where rule_id={0} )
+AND rldt.rule_id={0}
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR,rcls.CLM_SQNC_NBR,rccs.CLM_CD_SQNC_NBR DESC
+						]]>		
+		</SelectSQLQuery>
+	
+	
+	<SelectSQLQuery name="retriveProductAllRules">
+		<![CDATA[
+			SELECT dbms_random.random as keyval,B.Rule_ID,'Header Rule  'RULE_TYP_DESC,
+     B.RULE_VRSN_NBR,B.TAG,rlDt.RULE_SQNC_NBR,BNFT.BENEFITCOMPONENT  BENEFITCOMPONENT,
+                                                BNFT.BENEFIT BENEFIT,
+   rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+  rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH,B.RULE_GRP_IND,B.RULE_SHRT_DESC,B.RULE_APRVD_DT
+FROM   RULE B JOIN (SELECT  d.rule_id,H.BNFT_CMPNT_NM  BENEFITCOMPONENT,E.BNFT_ID_NM BENEFIT FROM  PROD_BNFT_RULE_OVRD D, BMST_BNFT_MSTR E ,
+                                                                  (SELECT DISTINCT PROD_SYS_ID,BNFT_SYS_ID, BNFT_CMPNT_SYS_ID, BNFT_HIDE_FLAG FROM PROD_BNFT_CSTMZD WHERE BNFT_HIDE_FLAG = 'F') G, BCM_BNFT_CMPNT_MSTR H
+                                                           WHERE D.PROD_SYS_ID   = {0} AND D.PROD_SYS_ID   = G.PROD_SYS_ID AND D.BNFT_CMPNT_SYS_ID = G.BNFT_CMPNT_SYS_ID  
+                                                                AND D.BNFT_SYS_ID = G.BNFT_SYS_ID AND D.BNFT_CMPNT_SYS_ID = H.BNFT_CMPNT_SYS_ID AND G.BNFT_CMPNT_SYS_ID = H.BNFT_CMPNT_SYS_ID
+                                                                AND G.BNFT_SYS_ID = E.BNFT_SYS_ID AND D.BNFT_SYS_ID = E.BNFT_SYS_ID 
+                                                 UNION ALL
+                                                                SELECT d.rule_id,f.bnft_cmpnt_nm BenefitComponent,'' Benefit FROM PROD_BNFT_CMPNT_ASSN d, bcm_bnft_cmpnt_mstr f
+                                                                where d.PROD_SYS_ID = {0} AND F.BNFT_CMPNT_SYS_ID = D.BNFT_CMPNT_SYS_ID ) BNFT
+ON  BNFT.RULE_ID = B.RULE_ID AND B.RULE_TYP_CD = 'WPDAUTOBG' AND  B.WPD_DEL_FLAG = 'N'
+--AND B.RULE_VRSN_NBR =  (SELECT MAX(rule.RULE_VRSN_NBR )FROM Rule rule,Rule_dat rdt where rdt.rule_id =rule.rule_id)
+LEFT OUTER JOIN RULE_DAT rldt 
+ON rldt.RULE_ID =B.RULE_ID
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY RULE_TYP_DESC,B.RULE_ID,rldt.RULE_SQNC_NBR DESC
+]]>
+		</SelectSQLQuery>
+	
+	
+	<SelectSQLQuery name="retriveProductExclusionDenailUmRules">
+		<![CDATA[
+			SELECT  dbms_random.random as keyval,rule.rule_id,    
+               CASE SUBSTR (PR.GNRTD_RULE_ID, 1, 1)
+                                                                WHEN '#'
+                                                                THEN 'UM Rule'
+                                                                WHEN '&'
+                                                                THEN 'Exclusion Rule'
+                                                                WHEN '*'
+                                                                THEN 'Denial Rule'
+                                                END AS RULE_TYP_DESC,
+   rule.RULE_VRSN_NBR,rule.TAG,rlDt.RULE_SQNC_NBR,''  BENEFITCOMPONENT,'' BENEFIT,
+   rlDt.EXCLSN_IND ,  rlDt.CLM_TYPE ,rlDt.PLC_OF_SRVC,  rlDt.PAT_LOW_AGE ,  rlDt.PAT_HIGH_AGE ,  rlDt.GNDR_CD, 
+  rlDt.PRVDR_ID ,  rlDt.PRVDR_SPCLTY_CD ,  rlDt.BNFT_ACCUM_NM ,
+  rlDt.BNFT_ACCUM_LMT_AMT ,  rlDt.BNFT_ACCUM_LMT_NBR ,  rlDt.NTFY_ONLY_IND, 
+  rlDt.CLNL_RVW_IND,  rlDt.DLR_LMT ,  rlDt.SERIVCE_CD ,
+  rlDt.GRP_ST ,  rlDt.LEN_OF_STAY ,  rlDt.ITS_SPCLTY_CD , rlDt.MBR_RELSHP_CDE ,rlDt.PROC_MDFR_CD2,rlDt.PRCDR_MODFR_CDE,rlDt.PRVDR_ST_CD ,
+  rlDt.BILL_TYP_CD ,  rlDt.TT_CD ,  rlDt.ATCHMT_IND,
+  rlDt.PAT_MBR_CD ,  rlDt.HOSP_FCIL_CD ,  rlDt.DAYS_FROM_INJRY,  rlDt.DAYS_FROM_ILNS , 
+  rlDt.HMO_CLS_CD ,rlDt.EDIT_CDE_1 ,rlDt.EDIT_CDE_2 ,rlDt.CPAY_IND ,
+  rlDt.HNDRD_PCT_IND,rlDt.AGE_TYPE_CD,rlDt.SRVC_STRT_DT ,rlDt.SRVC_END_DT ,rlDt.TOT_CHRG_SIGN ,
+  rlDt.TOT_CHARGE_AMOUNT,rlDt.MEDCR_ASGN_IND ,rlDt.SPRT_HCPS_IND,rlDt.DRG_CD,rlDt.DIAG_IND,rlDt.PCP_IND ,rlDt.PROV_SPEC_CD_IND,rlDt.PVDR_LIC_ID,rlDt.PVDR_MDCR_ID,
+  rlDt.BLNG_PVDR_NR,rlDt.RNDR_PVDR_NR,rlDt.BLNG_NPI,rlDt.RNDR_NPI,rlDt.ELGBL_EXPNS_SIGN_CD,rlDt.ELGBL_EXPNS_AMT,rcs.CD_SQNC_NBR,
+   rcs.LINE_HCPT_LOW_VAL,  rcs.LINE_HCPT_HIGH_VAL,rcs.LINE_REV_LOW_VAL ,rcs.LINE_REV_HIGH_VAL ,rcs.LINE_ICDP_LOW_VAL ,  rcs.LINE_ICDP_HIGH_VAL ,
+   rcs.LINE_ICDP_VRSN_IND ,rcs.LINE_DIAG_LOW_VAL,  rcs.LINE_DIAG_HIGH_VAL , rcs.LINE_DIAG_VRSN_IND,rcs.LINE_SRVC_CLS_LOW ,
+   rcs.LINE_SRVC_CLS_HIGH ,rcs.LINE_LMT_CLS_LOW ,rcs.LINE_LMT_CLS_HIGH ,
+   rcls.CLM_SQNC_NBR ,  rcls.CLM_SRVC_CD ,  rcls.CLM_PROC_MDFR_CD1,rcls.CLM_PROC_MDFR_CD2 ,  rcls.CLM_TT_CD ,  rcls.CLM_POS_CD ,  rcls.CLM_HMO_CLS_CD , 
+  rcls.CLM_SAME_DAY_SVC_IND ,rcls.CLM_DIAG_IND,rcls.CLM_SPRTG_PROC_CD_IND,
+  rccs.CLM_CD_SQNC_NBR ,  rccs.CLM_HCPT_LOW_VAL ,  rccs.CLM_HCPT_HIGH_VAL ,rccs.CLM_REV_LOW_VAL ,
+  rccs.CLM_REV_HIGH_VAL ,  rccs.CLM_ICDP_LOW_VAL ,  rccs.CLM_ICDP_HIGH_VAL ,rccs.CLM_ICDP_VRSN_IND ,rccs.CLM_DIAG_LOW_VAL ,  rccs.CLM_DIAG_HIGH_VAL ,
+  rccs.CLM_DIAG_VRSN_IND,rccs.CLM_SRVC_CLS_LOW ,rccs.CLM_SRVC_CLS_HIGH ,rccs.CLM_LMT_CLS_LOW ,rccs.CLM_LMT_CLS_HIGH,rule.RULE_GRP_IND,rule.RULE_SHRT_DESC,rule.RULE_APRVD_DT
+FROM Rule rule
+JOIN PROD_RULE_ASSN PR
+on pr.rule_id        = rule.rule_id and rule.WPD_DEL_FLAG = 'N'  and PR.PROD_SYS_ID ={0} and SUBSTR(PR.GNRTD_RULE_ID,1,1) {1}
+--AND rule.RULE_VRSN_NBR =  (SELECT MAX(rule.RULE_VRSN_NBR )FROM Rule rule join PROD_RULE_ASSN rdt on rdt.rule_id =rule.rule_id  )
+LEFT OUTER JOIN rule_dat rldt
+ON rldt.rule_id        = rule.rule_id
+
+LEFT OUTER JOIN rule_cd_sqnc rcs
+ON rcs.rule_id        = rldt.rule_id
+AND rcs.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcs.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_sqnc rcls
+ON rcls.rule_id        = rldt.rule_id
+AND rcls.rule_sqnc_nbr = rldt.rule_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rcls.RULE_VRSN_NBR
+LEFT OUTER JOIN rule_clm_cd_sqnc rccs
+ON rcls.rule_id        =rccs.rule_id
+AND rcls.rule_sqnc_nbr = rccs.rule_sqnc_nbr
+AND rccs.clm_sqnc_nbr  = rcls.clm_sqnc_nbr 
+and rldt.RULE_VRSN_NBR=rccs.RULE_VRSN_NBR
+ORDER BY RULE_TYP_DESC,rule.RULE_ID ,rldt.RULE_SQNC_NBR,rcs.CD_SQNC_NBR DESC
+			]]>
+		</SelectSQLQuery>
+		
+		
+	   <DataObject name="RULE_EXTRACT">
+	   		<DataObjectAttribute name="KEY_VAL" 		 type="Int"/>
+			<DataObjectAttribute name="RULE_ID"    		 type="String"/>
+			<DataObjectAttribute name="RULE_TYP_DESC"    type="String"/>
+			<DataObjectAttribute name="RULE_VRSN_NBR"    type="String"/>
+			<DataObjectAttribute name="TAG"              type="String"/>
+			<DataObjectAttribute name="RULE_SQNC_NBR"    type="Int"/>
+			<DataObjectAttribute name="BENEFITCOMPONENT" type="String"/>
+			<DataObjectAttribute name="BENEFIT"    		 type="String"/>
+			<DataObjectAttribute name="EXCLSN_IND"    	 type="String"/>
+			<DataObjectAttribute name="CLM_TYPE"    	 type="String"/>
+			<DataObjectAttribute name="PLC_OF_SRVC"      type="String"/>
+			<DataObjectAttribute name="PAT_LOW_AGE"      type="Int"/>
+			<DataObjectAttribute name="PAT_HIGH_AGE"     type="Int"/>
+			<DataObjectAttribute name="GNDR_CD"    		 type="String"/>
+			<DataObjectAttribute name="PRVDR_ID"         type="String"/>
+			<DataObjectAttribute name="PRVDR_SPCLTY_CD"  type="String"/>
+			<DataObjectAttribute name="BNFT_ACCUM_NM"    type="String"/>
+			<DataObjectAttribute name="BNFT_ACCUM_LMT_AMT" type="String"/>
+			<DataObjectAttribute name="BNFT_ACCUM_LMT_NBR" type="Int"/>			
+			<DataObjectAttribute name="NTFY_ONLY_IND"    type="String"/>
+			<DataObjectAttribute name="CLNL_RVW_IND"     type="String"/>
+			<DataObjectAttribute name="DLR_LMT"          type="String"/>
+			<DataObjectAttribute name="SERIVCE_CD"       type="String"/>
+			<DataObjectAttribute name="GRP_ST"           type="String"/>
+			<DataObjectAttribute name="LEN_OF_STAY"    	 type="Int"/>
+			<DataObjectAttribute name="ITS_SPCLTY_CD"    type="String"/>
+			<DataObjectAttribute name="MBR_RELSHP_CDE"   type="String"/>
+			<DataObjectAttribute name="PROC_MDFR_CD2"    type="String"/>
+			<DataObjectAttribute name="PRCDR_MODFR_CDE"  type="String"/>
+			<DataObjectAttribute name="PRVDR_ST_CD"      type="String"/>
+			<DataObjectAttribute name="BILL_TYP_CD"   	 type="String"/>
+			<DataObjectAttribute name="TT_CD"    		 type="String"/>
+			<DataObjectAttribute name="ATCHMT_IND"    	 type="String"/>
+			<DataObjectAttribute name="PAT_MBR_CD"    	 type="String"/>
+			<DataObjectAttribute name="HOSP_FCIL_CD"     type="String"/>
+			<DataObjectAttribute name="DAYS_FROM_INJRY"  type="Int"/>
+			<DataObjectAttribute name="DAYS_FROM_ILNS"   type="Int"/>
+			<DataObjectAttribute name="HMO_CLS_CD"       type="String"/>
+			<DataObjectAttribute name="EDIT_CDE_1"  	 type="String"/>
+			<DataObjectAttribute name="EDIT_CDE_2"  	 type="String"/>
+			<DataObjectAttribute name="CPAY_IND" 		  type="String"/>
+			<DataObjectAttribute name="HNDRD_PCT_IND" 	  type="String"/>	
+			<DataObjectAttribute name="AGE_TYPE_CD" 	  type="String"/>
+			<DataObjectAttribute name="SRVC_STRT_DT" 	  type="Date"/>
+			<DataObjectAttribute name="SRVC_END_DT" 	  type="Date"/>
+			<DataObjectAttribute name="TOT_CHRG_SIGN" 	  type="String"/>
+			<DataObjectAttribute name="TOT_CHARGE_AMOUNT" type="String"/>
+			<DataObjectAttribute name="MEDCR_ASGN_IND"    type="String"/>
+			<DataObjectAttribute name="SPRT_HCPS_IND"     type="String"/>
+			<DataObjectAttribute name="DRG_CD"        type="String"/>
+			<DataObjectAttribute name="DIAG_IND"          type="String"/>
+			<DataObjectAttribute name="PCP_IND"           type="String"/>
+			<DataObjectAttribute name="PROV_SPEC_CD_IND"  type="String"/>
+		    <DataObjectAttribute name="PVDR_LIC_ID"       type="String"/>
+			<DataObjectAttribute name="PVDR_MDCR_ID"      type="String"/>
+			<DataObjectAttribute name="BLNG_PVDR_NR"      type="String"/>
+            <DataObjectAttribute name="RNDR_PVDR_NR"      type="String"/>
+            <DataObjectAttribute name="BLNG_NPI"      	  type="String"/>
+            <DataObjectAttribute name="RNDR_NPI"          type="String"/>
+            <DataObjectAttribute name="ELGBL_EXPNS_SIGN_CD"   type="String"/>
+            <DataObjectAttribute name="ELGBL_EXPNS_AMT"       type="String"/>			
+			<DataObjectAttribute name="CD_SQNC_NBR" 	      type="Int"/>
+			<DataObjectAttribute name="LINE_HCPT_LOW_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_HCPT_HIGH_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_REV_LOW_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_REV_HIGH_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_ICDP_LOW_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_ICDP_HIGH_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_ICDP_VRSN_IND" 	  type="String"/>
+			<DataObjectAttribute name="LINE_DIAG_LOW_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_DIAG_HIGH_VAL" 	  type="String"/>
+			<DataObjectAttribute name="LINE_DIAG_VRSN_IND" 	  type="String"/>
+			<DataObjectAttribute name="LINE_SRVC_CLS_LOW" 	  type="String"/>
+			<DataObjectAttribute name="LINE_SRVC_CLS_HIGH" 	  type="String"/>
+			<DataObjectAttribute name="LINE_LMT_CLS_LOW" 	  type="String"/>
+			<DataObjectAttribute name="LINE_LMT_CLS_HIGH" 	  type="String"/>
+			<DataObjectAttribute name="CLM_SQNC_NBR" 	      type="Int"/>
+			<DataObjectAttribute name="CLM_SRVC_CD" 	      type="String"/>
+			<DataObjectAttribute name="CLM_PROC_MDFR_CD1" 	  type="String"/>
+			<DataObjectAttribute name="CLM_PROC_MDFR_CD2" 	  type="String"/>
+			<DataObjectAttribute name="CLM_TT_CD"  	          type="String"/>
+			<DataObjectAttribute name="CLM_POS_CD" 	          type="String"/>
+			<DataObjectAttribute name="CLM_HMO_CLS_CD" 	      type="String"/>
+			<DataObjectAttribute name="CLM_SAME_DAY_SVC_IND"  type="String"/>
+			<DataObjectAttribute name="CLM_DIAG_IND" 	      type="String"/>
+			<DataObjectAttribute name="CLM_SPRTG_PROC_CD_IND" type="String"/>
+			<DataObjectAttribute name="CLM_CD_SQNC_NBR" 	  type="Int"/>
+			<DataObjectAttribute name="CLM_HCPT_LOW_VAL"      type="String"/>
+			<DataObjectAttribute name="CLM_HCPT_HIGH_VAL"     type="String"/>
+			<DataObjectAttribute name="CLM_REV_LOW_VAL"       type="String"/>
+			<DataObjectAttribute name="CLM_REV_HIGH_VAL"      type="String"/>
+			<DataObjectAttribute name="CLM_ICDP_LOW_VAL"      type="String"/>
+			<DataObjectAttribute name="CLM_ICDP_HIGH_VAL"     type="String"/>
+			<DataObjectAttribute name="CLM_ICD_VRSN_IND" 	  type="String"/>
+			<DataObjectAttribute name="CLM_DIAG_LOW_VAL"      type="String"/>
+			<DataObjectAttribute name="CLM_DIAG_HIGH_VAL"     type="String"/>
+			<DataObjectAttribute name="CLM_DIAG_VRSN_IND" 	  type="String"/>
+			<DataObjectAttribute name="CLM_SRVC_CLS_LOW"      type="String"/>
+			<DataObjectAttribute name="CLM_SRVC_CLS_HIGH"     type="String"/>
+			<DataObjectAttribute name="CLM_LMT_CLS_LOW"       type="String"/>
+			<DataObjectAttribute name="CLM_LMT_CLS_HIGH"      type="String"/>
+			<DataObjectAttribute name="DT_SGMNT_SYS_ID"       type="Int"/>
+			<DataObjectAttribute name="GNRTD_RULE_ID"         type="String"/>
+			<DataObjectAttribute name="PROD_SYS_ID"		      type="Int"/>
+			<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"     type="Int"/>
+			<DataObjectAttribute name="GRP_RULE_ID"  		  type="String"/>
+			<DataObjectAttribute name="RULE_TYP_CD"    	      type="String"/>
+			<DataObjectAttribute name="RULE_SHRT_DESC"        type="String"/>
+		   <DataObjectAttribute name="RULE_GRP_IND"          type="String"/>
+			<DataObjectAttribute name="RULE_APRVD_DT"         type="Date"/>				
+			
+			
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="DT_SGMNT_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="GNRTD_RULE_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>
+                     	<ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/> 
+                     	<ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/>							                    	                    
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="retrieveContractRules"/>
+	        </SQLTemplate>
+			
+			  <SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="DT_SGMNT_SYS_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>	
+                     	<ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                        <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/> 		                    	                    	                    	                    
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="retrieveContractHeaderRules"/>
+	        </SQLTemplate>
+			
+			
+			
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="GRP_RULE_ID"/>	
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+						<ResultIndex index="2"  dataObjectAttribName ="GRP_RULE_ID"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="9"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="19" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="20" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="27" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="29" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="41" dataObjectAttribName="CPAY_IND"/>
+	                    <ResultIndex index="42" dataObjectAttribName="HNDRD_PCT_IND"/>
+	                    <ResultIndex index="43" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="47" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="48" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+						<ResultIndex index="101" dataObjectAttribName ="RULE_APRVD_DT"/>
+                     	<ResultIndex index="102" dataObjectAttribName ="RULE_GRP_IND"/>	
+						<ResultIndex index="103" dataObjectAttribName ="RULE_SHRT_DESC"/>
+						<ResultIndex index="104" dataObjectAttribName ="RULE_TYP_CD"/>
+												                    	                   
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="retrieveContractGroupRules"/>
+	        </SQLTemplate>
+			
+			<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="RULE_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>	
+						<ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                        <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/>                  	                    	                    
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="individualRuleExtractQuery"/>
+	        </SQLTemplate>
+	        
+	        <SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="RULE_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>	 
+                         <ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                         <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/>          
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="individualHeaderRuleExtractQueryBC"/>
+	        </SQLTemplate>
+	        
+	         <SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="RULE_ID"/>
+				<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"></ResultIndex>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>             
+	                    <ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                        <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/> 
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="individualHeaderRuleExtractQueryBnft"/>
+	        </SQLTemplate>
+	        
+	         
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="PROD_SYS_ID"/>
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>	                        
+	                   <ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                       <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/> 
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="retriveProductAllRules"/>
+	        </SQLTemplate>
+	        
+	        
+	        <SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="PROD_SYS_ID"/>
+				<DataObjectAttributeInput index="1" name="GNRTD_RULE_ID"/>
+				
+	                <RSIndexToDOAttributeMap>
+	                	<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>
+	                    <ResultIndex index="1"  dataObjectAttribName ="RULE_ID"/>
+	                    <ResultIndex index="2"  dataObjectAttribName ="RULE_TYP_DESC"/>
+	                    <ResultIndex index="3"  dataObjectAttribName ="RULE_VRSN_NBR"/>
+	                    <ResultIndex index="4"  dataObjectAttribName ="TAG"/>
+	                    <ResultIndex index="5"  dataObjectAttribName ="RULE_SQNC_NBR"/>
+	                    <ResultIndex index="6"  dataObjectAttribName ="BENEFITCOMPONENT"/>
+	                    <ResultIndex index="7"  dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="8"  dataObjectAttribName ="EXCLSN_IND"/>
+	                    <ResultIndex index="9" dataObjectAttribName ="CLM_TYPE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="PLC_OF_SRVC"/>
+	                    <ResultIndex index="11" dataObjectAttribName ="PAT_LOW_AGE"/>
+	                    <ResultIndex index="12" dataObjectAttribName ="PAT_HIGH_AGE"/>
+	                    <ResultIndex index="13" dataObjectAttribName ="GNDR_CD"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="PRVDR_ID"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="PRVDR_SPCLTY_CD"/>
+	                    <ResultIndex index="16" dataObjectAttribName ="BNFT_ACCUM_NM"/>
+	                    <ResultIndex index="17" dataObjectAttribName ="BNFT_ACCUM_LMT_AMT"/>
+	                    <ResultIndex index="18" dataObjectAttribName ="BNFT_ACCUM_LMT_NBR"/>	                    
+	                    <ResultIndex index="19" dataObjectAttribName ="NTFY_ONLY_IND"/>
+	                    <ResultIndex index="20" dataObjectAttribName ="CLNL_RVW_IND"/>
+	                    <ResultIndex index="21" dataObjectAttribName ="DLR_LMT"/>
+	                    <ResultIndex index="22" dataObjectAttribName ="SERIVCE_CD"/>
+	                    <ResultIndex index="23" dataObjectAttribName ="GRP_ST"/>
+	                    <ResultIndex index="24" dataObjectAttribName ="LEN_OF_STAY"/>
+	                    <ResultIndex index="25" dataObjectAttribName ="ITS_SPCLTY_CD"/>
+	                    <ResultIndex index="26" dataObjectAttribName ="MBR_RELSHP_CDE"/>
+	                    <ResultIndex index="27" dataObjectAttribName="PROC_MDFR_CD2"/>
+	                    <ResultIndex index="28" dataObjectAttribName="PRCDR_MODFR_CDE"/>
+	                    <ResultIndex index="29" dataObjectAttribName ="PRVDR_ST_CD"/>
+	                    <ResultIndex index="30" dataObjectAttribName ="BILL_TYP_CD"/>
+	                    <ResultIndex index="31" dataObjectAttribName ="TT_CD"/>
+	                    <ResultIndex index="32" dataObjectAttribName ="ATCHMT_IND"/>
+	                    <ResultIndex index="33" dataObjectAttribName ="PAT_MBR_CD"/>
+	                    <ResultIndex index="34" dataObjectAttribName ="HOSP_FCIL_CD"/>
+	                    <ResultIndex index="35" dataObjectAttribName ="DAYS_FROM_INJRY"/>
+	                    <ResultIndex index="36" dataObjectAttribName ="DAYS_FROM_ILNS"/>
+	                    <ResultIndex index="37" dataObjectAttribName ="HMO_CLS_CD"/>
+	                    <ResultIndex index="38" dataObjectAttribName ="EDIT_CDE_1"/>
+	                    <ResultIndex index="39" dataObjectAttribName ="EDIT_CDE_2"/>
+	                    <ResultIndex index="40" dataObjectAttribName ="CPAY_IND"/>
+	                    <ResultIndex index="41" dataObjectAttribName ="HNDRD_PCT_IND"/>	
+	                    <ResultIndex index="42" dataObjectAttribName ="AGE_TYPE_CD"/>	
+	                    <ResultIndex index="43" dataObjectAttribName ="SRVC_STRT_DT"/>	
+	                    <ResultIndex index="44" dataObjectAttribName ="SRVC_END_DT"/>	
+	                    <ResultIndex index="45" dataObjectAttribName ="TOT_CHRG_SIGN"/>	
+	                    <ResultIndex index="46" dataObjectAttribName ="TOT_CHARGE_AMOUNT"/>
+	                    <ResultIndex index="47" dataObjectAttribName ="MEDCR_ASGN_IND"/>
+	                    <ResultIndex index="48" dataObjectAttribName="SPRT_HCPS_IND"/>
+	                    <ResultIndex index="49" dataObjectAttribName ="DRG_CD"/>
+	                    <ResultIndex index="50" dataObjectAttribName ="DIAG_IND"/>
+	                    <ResultIndex index="51" dataObjectAttribName ="PCP_IND"/>
+	                    <ResultIndex index="52" dataObjectAttribName ="PROV_SPEC_CD_IND"/>
+	                    <ResultIndex index="53" dataObjectAttribName ="PVDR_LIC_ID"/>
+	                    <ResultIndex index="54" dataObjectAttribName ="PVDR_MDCR_ID"/>
+	                    <ResultIndex index="55" dataObjectAttribName ="BLNG_PVDR_NR"/>
+	                    <ResultIndex index="56" dataObjectAttribName ="RNDR_PVDR_NR"/>
+	                    <ResultIndex index="57" dataObjectAttribName ="BLNG_NPI"/>
+	                    <ResultIndex index="58" dataObjectAttribName ="RNDR_NPI"/>
+	                    <ResultIndex index="59" dataObjectAttribName ="ELGBL_EXPNS_SIGN_CD"/>
+	                    <ResultIndex index="60" dataObjectAttribName ="ELGBL_EXPNS_AMT"/>
+	                    <ResultIndex index="61" dataObjectAttribName ="CD_SQNC_NBR"/>
+	                    <ResultIndex index="62" dataObjectAttribName ="LINE_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="63" dataObjectAttribName ="LINE_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="64" dataObjectAttribName ="LINE_REV_LOW_VAL"/>
+	                    <ResultIndex index="65" dataObjectAttribName ="LINE_REV_HIGH_VAL"/>
+	                    <ResultIndex index="66" dataObjectAttribName ="LINE_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="67" dataObjectAttribName ="LINE_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="68" dataObjectAttribName ="LINE_ICDP_VRSN_IND"/>
+	                    <ResultIndex index="69" dataObjectAttribName ="LINE_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="70" dataObjectAttribName ="LINE_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="71" dataObjectAttribName ="LINE_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="72" dataObjectAttribName ="LINE_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="73" dataObjectAttribName ="LINE_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="74" dataObjectAttribName ="LINE_LMT_CLS_LOW"/>
+	                    <ResultIndex index="75" dataObjectAttribName ="LINE_LMT_CLS_HIGH"/>
+	                    <ResultIndex index="76" dataObjectAttribName ="CLM_SQNC_NBR"/>
+	                    <ResultIndex index="77" dataObjectAttribName ="CLM_SRVC_CD"/>
+	                    <ResultIndex index="78" dataObjectAttribName ="CLM_PROC_MDFR_CD1"/>
+	                    <ResultIndex index="79" dataObjectAttribName ="CLM_PROC_MDFR_CD2"/>
+	                    <ResultIndex index="80" dataObjectAttribName ="CLM_TT_CD"/>
+	                    <ResultIndex index="81" dataObjectAttribName ="CLM_POS_CD"/>
+	                    <ResultIndex index="82" dataObjectAttribName ="CLM_HMO_CLS_CD"/>
+	                    <ResultIndex index="83" dataObjectAttribName ="CLM_SAME_DAY_SVC_IND"/>
+	                    <ResultIndex index="84" dataObjectAttribName ="CLM_DIAG_IND"/>
+	                    <ResultIndex index="85" dataObjectAttribName ="CLM_SPRTG_PROC_CD_IND"/>
+	                    <ResultIndex index="86" dataObjectAttribName ="CLM_CD_SQNC_NBR"/>
+	                    <ResultIndex index="87" dataObjectAttribName ="CLM_HCPT_LOW_VAL"/>
+	                    <ResultIndex index="88" dataObjectAttribName ="CLM_HCPT_HIGH_VAL"/>
+	                    <ResultIndex index="89" dataObjectAttribName ="CLM_REV_LOW_VAL"/>
+	                    <ResultIndex index="90" dataObjectAttribName ="CLM_REV_HIGH_VAL"/>
+	                    <ResultIndex index="91" dataObjectAttribName ="CLM_ICDP_LOW_VAL"/>
+	                    <ResultIndex index="92" dataObjectAttribName ="CLM_ICDP_HIGH_VAL"/>
+	                    <ResultIndex index="93" dataObjectAttribName ="CLM_ICD_VRSN_IND"/>
+	                    <ResultIndex index="94" dataObjectAttribName ="CLM_DIAG_LOW_VAL"/>
+	                    <ResultIndex index="95" dataObjectAttribName ="CLM_DIAG_HIGH_VAL"/>
+	                    <ResultIndex index="96" dataObjectAttribName  ="CLM_DIAG_VRSN_IND"/>
+	                    <ResultIndex index="97" dataObjectAttribName ="CLM_SRVC_CLS_LOW"/>
+	                    <ResultIndex index="98" dataObjectAttribName ="CLM_SRVC_CLS_HIGH"/>
+	                    <ResultIndex index="99" dataObjectAttribName ="CLM_LMT_CLS_LOW"/>
+	                    <ResultIndex index="100" dataObjectAttribName ="CLM_LMT_CLS_HIGH"/>	
+                     	<ResultIndex index="101" dataObjectAttribName ="RULE_GRP_IND"/>	
+                        <ResultIndex index="102" dataObjectAttribName ="RULE_SHRT_DESC"/>  
+                        <ResultIndex index="103" dataObjectAttribName ="RULE_APRVD_DT"/>                     	                    
+	                </RSIndexToDOAttributeMap>
+	        <SearchQueryName name="retriveProductExclusionDenailUmRules"/>
+	        </SQLTemplate>
+	        
+	        
+	        
+	        
+	        
+
+	            <DoAttributeToBOAttributeMap> 
+		            <Pair DOAttb="KEY_VAL"    		  toBOAttb="keyValue"/>
+		            <Pair DOAttb="RULE_ID"    		  toBOAttb="ruleID"/>
+		            <Pair DOAttb="RULE_TYP_DESC"      toBOAttb="ruleTypeDesc"/>
+					<Pair DOAttb="RULE_VRSN_NBR"      toBOAttb="ruleVersion"/>
+					<Pair DOAttb="TAG"                toBOAttb="tag"/>
+		            <Pair DOAttb="RULE_SQNC_NBR"      toBOAttb="ruleSequenceNo"/>
+		            <Pair DOAttb="BENEFITCOMPONENT"   toBOAttb="benefitComponent"/>
+		            <Pair DOAttb="BENEFIT"   		  toBOAttb="benefit"/>
+		            <Pair DOAttb="EXCLSN_IND"   	  toBOAttb="exclusionInd"/>
+		            <Pair DOAttb="CLM_TYPE"   	      toBOAttb="claimType"/>
+					<Pair DOAttb="PLC_OF_SRVC"  	  toBOAttb="plcOfSrvc"/>
+		            <Pair DOAttb="PAT_LOW_AGE"        toBOAttb="patLowAge"/>
+		            <Pair DOAttb="PAT_HIGH_AGE"       toBOAttb="patHighAge"/>
+		            <Pair DOAttb="GNDR_CD"  		  toBOAttb="genderCode"/>
+		            <Pair DOAttb="PRVDR_ID"  		  toBOAttb="providerID"/>
+		            <Pair DOAttb="PRVDR_SPCLTY_CD"    toBOAttb="providerSpcltyCode"/>
+		            <Pair DOAttb="BNFT_ACCUM_NM"   	  toBOAttb="bnftAccumNm"/>
+		            <Pair DOAttb="BNFT_ACCUM_LMT_AMT" toBOAttb="bnftAccumLmtAmt"/>
+		            <Pair DOAttb="BNFT_ACCUM_LMT_NBR" toBOAttb="bnftAccumLmtNmr"/>	            
+		            <Pair DOAttb="NTFY_ONLY_IND"      toBOAttb="notifyOnlyInd"/>
+		            <Pair DOAttb="CLNL_RVW_IND"  	  toBOAttb="clnlRvwInd"/>
+		            <Pair DOAttb="DLR_LMT"  		  toBOAttb="dollarLimit"/>
+		            <Pair DOAttb="SERIVCE_CD"  		  toBOAttb="serviceCode"/>
+		            <Pair DOAttb="GRP_ST"   		  toBOAttb="groupState"/>
+		            <Pair DOAttb="LEN_OF_STAY"   	  toBOAttb="lenOfStay"/>
+		            <Pair DOAttb="ITS_SPCLTY_CD"  	  toBOAttb="itsSpecltyCode"/>
+		            <Pair DOAttb="MBR_RELSHP_CDE"     toBOAttb="mbrRelshpCode"/>
+		            <Pair DOAttb="PROC_MDFR_CD2"      toBOAttb="hcpcsModfr2Code"/>
+		            <Pair DOAttb="PRCDR_MODFR_CDE"    toBOAttb="hcpcsModfrCode"/>
+					<Pair DOAttb="PRVDR_ST_CD"   	  toBOAttb="providerStateCode"/>
+		            <Pair DOAttb="BILL_TYP_CD"        toBOAttb="billTypeCode"/>
+		            <Pair DOAttb="TT_CD" 			  toBOAttb="ttCode"/>
+		            <Pair DOAttb="ATCHMT_IND" 		  toBOAttb="atchmtInd"/>
+		            <Pair DOAttb="PAT_MBR_CD"  		  toBOAttb="patmbrCode"/>
+		            <Pair DOAttb="HOSP_FCIL_CD"  	  toBOAttb="hospFcilCode"/>
+					<Pair DOAttb="DAYS_FROM_INJRY"    toBOAttb="daysFromInjry"/>
+		  			<Pair DOAttb="DAYS_FROM_ILNS"     toBOAttb="daysFromIlns"/>
+		  			<Pair DOAttb="HMO_CLS_CD"   	  toBOAttb="hmoClassCode"/>
+		  			<Pair DOAttb="EDIT_CDE_1"         toBOAttb="editCode1"/>
+		  			<Pair DOAttb="EDIT_CDE_2"  		  toBOAttb="editCode2"/>
+					<Pair DOAttb="CPAY_IND"           toBOAttb="copayInd"/>
+		  			<Pair DOAttb="HNDRD_PCT_IND"      toBOAttb="pct100Ind"/>	
+					<Pair DOAttb="AGE_TYPE_CD"        toBOAttb="ageTypCode"/>
+					<Pair DOAttb="SRVC_STRT_DT"       toBOAttb="srvcStrtDate"/>
+					<Pair DOAttb="SRVC_END_DT"        toBOAttb="srvcEndDate"/>
+					<Pair DOAttb="TOT_CHRG_SIGN"      toBOAttb="totlChrgSignVal"/>
+					<Pair DOAttb="TOT_CHARGE_AMOUNT"  toBOAttb="totlChrgAmt"/>
+					<Pair DOAttb="MEDCR_ASGN_IND"     toBOAttb="medcrAsgnmentInd"/>
+					<Pair DOAttb="SPRT_HCPS_IND"      toBOAttb="sprtgProcCodeInd"></Pair>
+					<Pair DOAttb="DRG_CD"             toBOAttb="drugCode"/>
+					<Pair DOAttb="DIAG_IND"           toBOAttb="diagCode"/>
+					<Pair DOAttb="PCP_IND"            toBOAttb="pcpInd"/>
+					<Pair DOAttb="PROV_SPEC_CD_IND" toBOAttb="providerSpecialityIndicator"/>
+					<Pair DOAttb="PVDR_LIC_ID"        toBOAttb="provLncsId"/>
+					<Pair DOAttb="PVDR_MDCR_ID"       toBOAttb="provMedcrId"/>
+					<Pair DOAttb="BLNG_PVDR_NR"       toBOAttb="billgProvNbr"/>
+					<Pair DOAttb="RNDR_PVDR_NR"       toBOAttb="rndrgProvNbr"/>
+					<Pair DOAttb="BLNG_NPI"           toBOAttb="billgNpiNbr"/>
+					<Pair DOAttb="RNDR_NPI"           toBOAttb="rndrgNpiNbr"/>
+					<Pair DOAttb="ELGBL_EXPNS_SIGN_CD" toBOAttb="elgblExpansSignCode"/>
+					<Pair DOAttb="ELGBL_EXPNS_AMT"    toBOAttb="elgblExpansAmt"/>
+					<Pair DOAttb="CD_SQNC_NBR"        toBOAttb="codeSequenceNo"/>
+					<Pair DOAttb="LINE_HCPT_LOW_VAL"  toBOAttb="hcptLowVal"/>
+					<Pair DOAttb="LINE_HCPT_HIGH_VAL" toBOAttb="hcptHighVal"/>
+					<Pair DOAttb="LINE_REV_LOW_VAL"   toBOAttb="revLowVal"/>
+					<Pair DOAttb="LINE_REV_HIGH_VAL"  toBOAttb="revHighVal"/>
+					<Pair DOAttb="LINE_ICDP_LOW_VAL"  toBOAttb="icdpLowVal"/>
+					<Pair DOAttb="LINE_ICDP_HIGH_VAL" toBOAttb="icdpHighVal"/>
+					<Pair DOAttb="LINE_ICDP_VRSN_IND" toBOAttb="icdpVrsnInd"/>
+					<Pair DOAttb="LINE_DIAG_LOW_VAL"  toBOAttb="diagLowVal"/>
+					<Pair DOAttb="LINE_DIAG_HIGH_VAL" toBOAttb="diagHighVal"/>
+					<Pair DOAttb="LINE_DIAG_VRSN_IND" toBOAttb="diagvrsnInd"/>
+					<Pair DOAttb="LINE_SRVC_CLS_LOW"  toBOAttb="srvcClassLow"/>
+					<Pair DOAttb="LINE_SRVC_CLS_HIGH" toBOAttb="srvcClassHigh"/>
+					<Pair DOAttb="LINE_LMT_CLS_LOW"   toBOAttb="lmtClassLow"/>
+					<Pair DOAttb="LINE_LMT_CLS_HIGH"  toBOAttb="lmtClassHigh"/>
+					<Pair DOAttb="CLM_SQNC_NBR"       toBOAttb="clmSeqNumber"/>
+					<Pair DOAttb="CLM_SRVC_CD"        toBOAttb="clmSrvcCode"/>
+					<Pair DOAttb="CLM_PROC_MDFR_CD1"  toBOAttb="clmProcdrModfrCode1"/>
+					<Pair DOAttb="CLM_PROC_MDFR_CD2"  toBOAttb="clmProcdrModfrCode2"/>
+					<Pair DOAttb="CLM_TT_CD"   		  toBOAttb="clmttCode"/>
+					<Pair DOAttb="CLM_POS_CD"         toBOAttb="clmPlaceOfSrvc"/>
+					<Pair DOAttb="CLM_HMO_CLS_CD"     toBOAttb="clmHmoClassCode"/>
+					<Pair DOAttb="CLM_SAME_DAY_SVC_IND" toBOAttb="clmSameDaySvcInd"/>
+					
+					<Pair DOAttb="CLM_DIAG_IND"       toBOAttb="clmDiagInd"/>
+					<Pair DOAttb="CLM_SPRTG_PROC_CD_IND"  toBOAttb="clmSprtgProcCdInd"/>
+					<Pair DOAttb="CLM_CD_SQNC_NBR"     toBOAttb="clmCdSeqNumber"/>
+					<Pair DOAttb="CLM_HCPT_LOW_VAL"   toBOAttb="clmHcptLowVal"/>
+		  			<Pair DOAttb="CLM_HCPT_HIGH_VAL"  toBOAttb="clmHcptHighVal"/>
+					<Pair DOAttb="CLM_REV_LOW_VAL"    toBOAttb="clmRevLowVal"/>
+		  			<Pair DOAttb="CLM_REV_HIGH_VAL"   toBOAttb="clmRevHighVal"/>
+					<Pair DOAttb="CLM_ICDP_LOW_VAL"   toBOAttb="clmIcdpLowVal"/>
+		  			<Pair DOAttb="CLM_ICDP_HIGH_VAL"  toBOAttb="clmIcdpHighVal"/>
+					<Pair DOAttb="CLM_ICD_VRSN_IND"   toBOAttb="clmIcdVrsnInd"/>
+					<Pair DOAttb="CLM_DIAG_LOW_VAL"   toBOAttb="clmDiagLowVal"/>
+		  			<Pair DOAttb="CLM_DIAG_HIGH_VAL"  toBOAttb="clmDiagHighVal"/>
+					<Pair DOAttb="CLM_DIAG_VRSN_IND"  toBOAttb="clmDiagVrsnInd"/>
+					<Pair DOAttb="CLM_SRVC_CLS_LOW"   toBOAttb="clmSrvcClassLow"/>
+					<Pair DOAttb="CLM_SRVC_CLS_HIGH"  toBOAttb="clmSrvcClassHigh"/>
+					<Pair DOAttb="CLM_LMT_CLS_LOW"    toBOAttb="clmLmtClassLow"/>
+					<Pair DOAttb="CLM_LMT_CLS_HIGH"   toBOAttb="clmLmtClassHigh"/>
+				    <Pair DOAttb="GRP_RULE_ID"        toBOAttb="grpRuleId"/>
+					<Pair DOAttb="RULE_TYP_CD"        toBOAttb="ruleTypeCode"/>
+					<Pair DOAttb="RULE_SHRT_DESC"     toBOAttb="ruleShortDesc"/>
+					<Pair DOAttb="RULE_GRP_IND"       toBOAttb="ruleGrpInd"/>
+					<Pair DOAttb="RULE_APRVD_DT"      toBOAttb="ruleAprvdDate"/>
+				</DoAttributeToBOAttributeMap>
+	            
+	            <DoAttributeToSCAttributeMap>
+	               	<Pair DOAttb="DT_SGMNT_SYS_ID"   	toSCAttb="dateSgmntSysId"/>
+	               	<Pair DOAttb="GNRTD_RULE_ID"     	toSCAttb="ruleType"/>
+	               	<Pair DOAttb="PROD_SYS_ID" 			toSCAttb="productSysId"/>
+				    <Pair DOAttb="RULE_ID" 		    	toSCAttb="ruleId"/>
+				    <Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+				    <Pair DOAttb="GRP_RULE_ID"      	toSCAttb="groupIdLists"/>									   
+	            </DoAttributeToSCAttributeMap>
+		</DataObject>
+	</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

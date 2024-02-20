@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\migration\util
+2
+3
+1b:ExclusionMigrationUtil.java|1|16adf95f119|4d0c|4045fea4|a7b214fca1f649aeb26736d59bbb2a7e|0
+19:CombinationGenerator.java|1|16adf95f000|c7c|60495b4b|cfaa14b741084251950e68618b6016f8|0
+1a:MigrationContractUtil.java|1|16adf95f1b5|8fab|eab3ef94|3e49f7c1ccfa45599d9a17fe34490112|0

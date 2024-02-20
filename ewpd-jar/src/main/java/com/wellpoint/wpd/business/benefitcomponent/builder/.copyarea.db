@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\benefitcomponent\builder
+2
+2
+20:BenefitComponentTreeBuilder.java|1|16adf95a75d|9ad|e47d2fdc|e783e6b4d1f746888f31da4016948649|0
+2a:BenefitComponentBusinessObjectBuilder.java|1|16adf95a78c|25779|4a4f3574|6b36cda4b6834325a58509597a3e826f|0

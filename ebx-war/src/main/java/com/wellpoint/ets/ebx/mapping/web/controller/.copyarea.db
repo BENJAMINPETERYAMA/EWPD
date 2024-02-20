@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\mapping\web\controller
+2
+d
+25:CreateOrEditSpsMappingController.java|1|16b935e4a4e|6e95|d4ea32fa|1243552425c64db6b55ec8be323cf0d2|0
+21:VieworExportReportController.java|1|16b935e4bc4|368c|e1d7d5d5|f9e9ea6a88f711e9801c0002c056e04b|0
+1c:AdvanceSearchController.java|1|16b935e4a1f|969c|bd61b705|e7709f46fb754b8096cb97f53a62e9c1|0
+26:CreateOrEditRuleMappingController.java|1|16b935e4a5d|d14a|5eaf2b17|66225ab86d694c2c93d02f9251965573|0
+1c:MassUpdateEbxController.java|1|16b935e4a9c|5e85|7db68f7d|a4bf94b4f719459db6222d6ecb6ecf4d|0
+1f:AdvanceSearchEbxController.java|1|16b935e4a3e|5f7f|4ff19d0f|b605a5bd8054445f91f84e284b8d7668|0
+19:OOAMessageController.java|1|16b935e4bb5|13ef|625baca5|1f7b35bc27a3424fbc123eb5931ad61e|0
+1e:StateFlowEwpdBxController.java|1|16b935e4abb|e738|b5ad3f3b|46093fa1927941cbb6e8b46b5ada4c0d|0
+28:LockedVariableAuditReportController.java|1|16b935e4a6d|9913|3621fd2a|81d13119a66e4a8f91dc37d4a63ff034|0
+22:ViewOrCreateMappingController.java|1|16b935e4a9c|649b|2d555b60|b3e09d1f49ef4402b7c6e4fc8bf133f5|0
+20:ViewLandingEwpdBxController.java|1|16b935e4b76|10c6|e572be16|6626b0a0910142c8bcdeced9e1605923|0
+2f:CreateOrEditCustomMessageMappingController.java|1|16b935e4a5d|c54b|40f4bb32|27f33d661dfd494e9119f4c2f06ca945|0
+1f:LocateEbxResultsController.java|1|16b935e4a6d|2760|3bf3db12|21c427de2e284c73a27b606dd214af9a|0

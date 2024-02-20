@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\filters
+2
+5
+e:SIT.properties|1|16b935db2f8|11|3ba205da|34299ec03ea54df8ad32d4f377f803d9|0
+f:PERF.properties|1|16b935db5b6|10|35e50600|34b8cfa93bd1451388005d85d9427363|0
+10:LOCAL.properties|1|16b935db2f8|13|48ae0655|cabaa5f906c74f64a67229cdcfd86faa|0
+e:UAT.properties|1|16b935db690|f|2fee05bd|373dd9698b544364b0d7c09dca9a3380|0
+f:PROD.properties|1|16b935db549|10|36040608|636f5ff305a64fbdaa2f184c0c67aa82|0

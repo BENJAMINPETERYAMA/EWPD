@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\adminoptionspopups
+2
+8
+1b:selectOneReferencePopup.jsp|1|16adf919e0e|e0c|46854efc|fda85470e69846e7b472e2ee17066c4e|0
+1f:selectMultipleQuestionPopup.jsp|1|16adf919d82|1384|e88039f|bafeb0d894664be98de67f12190941e1|0
+16:selectOneTermPopup.jsp|1|16adf919e4d|188d|fc489ea|40e7b8fb07194c59a106fb00fb2aad14|0
+32:MultiselectquestionPopupForStandardAccumulator.jsp|1|16adf919d82|13b9|e9cf1551|d63d7b7827ea4a3d8423c8ba81aa485a|0
+27:QuestionPopupForStandardAccumulator.jsp|1|16adf919de0|12a6|ceb9bbdf|0586c22cd0d84a3b8603c7e8ba29e55d|0
+1b:selectOneQualifierPopup.jsp|1|16adf919e1e|21af|25dfec6c|cd3dd694fbf249289ec518ec79d2f32a|0
+1a:selectOneQuestionPopup.jsp|1|16adf919dff|1306|c136d7de|d8b1bd0048374765b5e70fe4c581c6bd|0
+27:selectOneReferencePopupFilterSearch.jsp|1|16adf919e3d|131d|5095e9b0|bea911b8aca145148858d23888298bbf|0

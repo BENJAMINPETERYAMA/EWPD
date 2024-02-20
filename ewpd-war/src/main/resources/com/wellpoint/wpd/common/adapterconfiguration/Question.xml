@@ -1,0 +1,779 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.question.bo.QuestionBO">
+		<BusinessAttribute name="questionNumber" 				type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="dataTypeId" 					type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="dataTypeName" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="questionDesc" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="status" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 				type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 			type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="providerArrangement" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="questionNumberParentSysId" 	type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="functionalDomainCD" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="spsReference" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="term" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifier" 		type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="noteId" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="description" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="adminMethodMapIndicator" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitLineDataType" 			type="String" 	keyAttrib="false"/>
+    <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="questionDesc"   type="String"/>
+			<SearchCriteriaAttribute name="dataTypeId"   type="Int"	/>
+			<SearchCriteriaAttribute name="questionNumber"   type="Int"	/>
+			<SearchCriteriaAttribute name="questionNumberParentSysId"   type="Int"	/>
+	  		<SearchCriteriaAttribute name="functionalDomain"   type="String"/>
+			<SearchCriteriaAttribute name="noteId"   type="String"/>
+			<SearchCriteriaAttribute name="spsReference"   type="List"/>	
+			<SearchCriteriaAttribute name="catalogId"   type="List"/>	
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery>
+				select  ADQM_ADMN_QSTN_NBR, DTYP_DATA_TYPE_ID, 
+						ADQM_ADMN_QSTN_DESC,QSTN_STTS_CD, QSTN_VRSN_NBR,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP,PRVDR_ARNGMNT, SPS_ID, QSTN_QLFR, QSTN_TERM,BNFT_LINE_DATA_TYPE_ID
+				from 	ADQM_ADMN_QSTN_MSTR 
+				where 	ADQM_ADMN_QSTN_NBR = ?				
+			</SelectSQLQuery>
+		 	<SelectSQLQuery name="retrieveQuestionDesc">
+				select  ADQM_ADMN_QSTN_NBR, DTYP_DATA_TYPE_ID, 
+						ADQM_ADMN_QSTN_DESC,QSTN_STTS_CD, QSTN_VRSN_NBR,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP
+				from 	ADQM_ADMN_QSTN_MSTR 
+				where 	UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0})	and QSTN_VRSN_NBR = 
+						(select max(QSTN_VRSN_NBR)	from ADQM_ADMN_QSTN_MSTR where UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0}))		
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="retrieveSPSDesc">
+				select a.cd_desc_txt, dbms_random.random
+				 from item a,ADQM_ADMN_QSTN_MSTR b  
+				where a.ctlg_id='1938' and b.ADQM_ADMN_QSTN_NBR = {0} 
+				and a.prmry_cd =b.sps_id ORDER BY a.prmry_cd 	
+			</SelectSQLQuery>
+			<SelectSQLQuery name="selectTerm">
+				select i.PRMRY_CD,i.CD_DESC_TXT, dbms_random.random
+						from item i,catalog c 
+						where c.CTLG_ID = i.CTLG_ID and upper(c.CTLG_NAME) ='TERM' and i.prmry_cd {0} order by i.PRMRY_CD asc   
+			</SelectSQLQuery>
+			<SelectSQLQuery name="selectQualifier">
+				select i.PRMRY_CD,i.CD_DESC_TXT, dbms_random.random
+						from item i,catalog c 
+						where c.CTLG_ID = i.CTLG_ID 
+		       			and upper(c.CTLG_NAME) ='QUALIFIER' 
+		         and i.prmry_cd {0} order by i.PRMRY_CD asc  
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="selectDatatype">
+				select DTYP_DATA_TYPE_ID,DTYP_DATA_TYPE_LGND, dbms_random.random from DTYP_DATA_TYPE where dtyp_data_type_id {0} 
+			</SelectSQLQuery>	
+		 	<SelectSQLQuery name="latestVersion">
+				select  ADQM_ADMN_QSTN_NBR, DTYP_DATA_TYPE_ID, 
+						ADQM_ADMN_QSTN_DESC,QSTN_STTS_CD, QSTN_VRSN_NBR,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP,ADQM_QSTN_MSTR_PARNT_SYS_ID, PRVDR_ARNGMNT, SPS_ID, QSTN_TERM, QSTN_QLFR,BNFT_LINE_DATA_TYPE_ID
+				from 	ADQM_ADMN_QSTN_MSTR 
+				where 	UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0})	and QSTN_VRSN_NBR = 
+						(select max(QSTN_VRSN_NBR)	from ADQM_ADMN_QSTN_MSTR where UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0})
+						 AND QSTN_STTS_CD != 'MARKED_FOR_DELETION')		
+			</SelectSQLQuery>
+		 	<SelectSQLQuery name="latestVersionNumber">
+				select  ADQM_ADMN_QSTN_NBR, DTYP_DATA_TYPE_ID, 
+						ADQM_ADMN_QSTN_DESC,QSTN_STTS_CD, QSTN_VRSN_NBR,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP,ADQM_QSTN_MSTR_PARNT_SYS_ID
+				from 	ADQM_ADMN_QSTN_MSTR 
+				where 	UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0})	and QSTN_VRSN_NBR = 
+				(select max(QSTN_VRSN_NBR)	from ADQM_ADMN_QSTN_MSTR where UPPER(ADQM_ADMN_QSTN_DESC) = UPPER({0}))		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="allVersions">
+				select  A.ADQM_ADMN_QSTN_NBR, A.DTYP_DATA_TYPE_ID, 
+						A.ADQM_ADMN_QSTN_DESC,A.QSTN_STTS_CD, A.QSTN_VRSN_NBR, B.DTYP_DATA_TYPE_LGND, A.PRVDR_ARNGMNT, A.SPS_ID, D.cd_desc_txt,A.is_admn_mthd_mapped
+				from 	ADQM_ADMN_QSTN_MSTR A, DTYP_DATA_TYPE B, 
+						(select a.cd_desc_txt,a.prmry_cd from item a,ADQM_ADMN_QSTN_MSTR b  where a.ctlg_id='1938' and UPPER(b.ADQM_ADMN_QSTN_DESC) = UPPER({0}) and a.prmry_cd =b.sps_id ORDER BY a.prmry_cd ) D
+				where 	UPPER(A.ADQM_ADMN_QSTN_DESC) = UPPER({0}) 
+						AND A.DTYP_DATA_TYPE_ID = B.DTYP_DATA_TYPE_ID  AND A.SPS_ID= D.prmry_cd (+)	ORDER BY A.QSTN_VRSN_NBR DESC
+			</SelectSQLQuery>
+			<SelectSQLQuery name = "view">
+				select  A.ADQM_ADMN_QSTN_NBR, A.DTYP_DATA_TYPE_ID, 
+						A.ADQM_ADMN_QSTN_DESC,A.QSTN_STTS_CD, A.QSTN_VRSN_NBR,
+						A.LST_CHG_USR,A.LST_CHG_TMS,A.CREATD_USER_ID,A.CREATD_TM_STMP, B.DTYP_DATA_TYPE_LGND, A.PRVDR_ARNGMNT, A.SPS_ID, A.QSTN_TERM, A.QSTN_QLFR, D.cd_desc_txt,A.is_admn_mthd_mapped
+						,A.BNFT_LINE_DATA_TYPE_ID
+				from 	ADQM_ADMN_QSTN_MSTR A,  DTYP_DATA_TYPE B , 
+				(select a.cd_desc_txt,a.prmry_cd from item a,ADQM_ADMN_QSTN_MSTR b  where a.ctlg_id='1938' and b.ADQM_ADMN_QSTN_NBR = {0} and a.prmry_cd =b.sps_id ORDER BY a.prmry_cd ) D
+				where 	A.ADQM_ADMN_QSTN_NBR = {0} and A.DTYP_DATA_TYPE_ID = B.DTYP_DATA_TYPE_ID  AND A.SPS_ID= D.prmry_cd (+)		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="isQuestionInUse">
+				select ADQM_ADMN_QSTN_NBR from ADMIN_OPT_TO_QSTN_ASSN where ADQM_ADMN_QSTN_NBR = {0} 
+				union
+				select ADQM_ADMN_QSTN_NBR from BNFT_ADMIN_OPT_QSTN_ASSN where ADQM_ADMN_QSTN_NBR = {0}	
+			</SelectSQLQuery>
+			<SelectSQLQuery name="questionSearch" dynamic="true">				
+				<STATIC>
+					<![CDATA[
+					select DISTINCT A.DTYP_DATA_TYPE_ID,A.ADQM_ADMN_QSTN_DESC,A.ADQM_ADMN_QSTN_NBR,B.DTYP_DATA_TYPE_LGND, 
+						   A.QSTN_STTS_CD, A.QSTN_VRSN_NBR, A.PRVDR_ARNGMNT, A.SPS_ID, D.cd_desc_txt,A.is_admn_mthd_mapped
+					from   ADQM_ADMN_QSTN_MSTR A , DTYP_DATA_TYPE B,QSTN_DOMN_ASSN C, (select cd_desc_txt,prmry_cd from item where ctlg_id='1938' and prmry_cd {3} ORDER BY prmry_cd ) D
+					where  1=1
+					]]>
+				</STATIC>
+				<DYNAMIC>
+					<![CDATA[
+							AND UPPER(A.ADQM_ADMN_QSTN_DESC) like UPPER({1}) escape '`'
+					]]>
+				</DYNAMIC> 
+				<DYNAMIC>
+					<![CDATA[
+							AND B.DTYP_DATA_TYPE_ID {0} 
+					]]>
+				</DYNAMIC> 
+				<DYNAMIC>
+					<![CDATA[
+							AND C.DOMN_CD {2} 
+					]]>
+				</DYNAMIC>
+				<DYNAMIC>
+					<![CDATA[
+							AND UPPER(A.SPS_ID) {3} 
+					]]>
+				</DYNAMIC>
+				<STATIC>
+					<![CDATA[
+						AND A.DTYP_DATA_TYPE_ID = B.DTYP_DATA_TYPE_ID
+						AND A.ADQM_ADMN_QSTN_NBR = C.ADQM_ADMN_QSTN_NBR
+						AND A.SPS_ID= D.prmry_cd (+)
+						AND A.QSTN_VRSN_NBR = (select max(C.QSTN_VRSN_NBR)	from ADQM_ADMN_QSTN_MSTR C where UPPER(C.ADQM_ADMN_QSTN_DESC) = UPPER(A.ADQM_ADMN_QSTN_DESC)
+						)
+						ORDER BY UPPER(A.ADQM_ADMN_QSTN_DESC)
+					]]>
+				</STATIC>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateQuestions">	 
+					<![CDATA[
+					SELECT * FROM (
+					SELECT DISTINCT (ADQM_QSTN_MSTR_PARNT_SYS_ID), ADQM_ADMN_QSTN_DESC
+			           FROM ADQM_ADMN_QSTN_MSTR QM, QSTN_DOMN_ASSN QDA
+			          WHERE QM.QSTN_STTS_CD != 'MARKED_FOR_DELETION'
+			            AND QM.ADQM_QSTN_MSTR_PARNT_SYS_ID NOT IN (
+			                   SELECT DISTINCT ENTY_SYS_ID
+			                              FROM NOTE_DOMN_ASSN NDA, NMST_NOTE_MSTR NMST
+			                             WHERE ENTY_TYPE = 'AVAILQUESTION'
+			                               AND BNFT_DEFN_SYS_ID IS NULL
+			                               AND NDA.NOTE_ID = {1}
+			                               AND NDA.NOTE_ID = NMST.NOTE_ID
+			                               AND NMST.NOTE_STTS_CD != 'MARKED_FOR_DELETION'
+			                               AND NDA.NOTE_VRSN_NBR = NMST.NOTE_VRSN_NBR)
+			            AND QM.ADQM_ADMN_QSTN_NBR = QDA.ADQM_ADMN_QSTN_NBR
+			            AND QDA.DOMN_CD IN ('INFO-CC','INFO-SS', 'C-CNFG', 'C-MNUL')
+			            AND QM.ADQM_ADMN_QSTN_DESC LIKE {0} ESCAPE '`'
+			       ORDER BY QM.ADQM_ADMN_QSTN_DESC ASC) WHERE ROWNUM <=51	]]>				
+			</SelectSQLQuery> 
+				
+			<DataObject name="ADQM_ADMN_QSTN_MSTR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 	type="String"/>
+				<DataObjectAttribute name="QSTN_STTS_CD" 			type="String"/>
+				<DataObjectAttribute name="QSTN_VRSN_NBR" 			type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="ADQM_QSTN_MSTR_PARNT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="PRVDR_ARNGMNT" 			type="String"/>
+				<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+				<DataObjectAttribute name="SPS_ID" 			type="String"/>
+				<DataObjectAttribute name="QSTN_TERM" 		type="String"/>
+				<DataObjectAttribute name="QSTN_QLFR" 			type="String"/>
+				<DataObjectAttribute name="DESC" 		type="String"/>
+				<DataObjectAttribute name="DESC_CRTR" 		type="String"/>
+				<DataObjectAttribute name="ADMN_METHOD_MAPD" 		type="String"/>
+				<DataObjectAttribute name="BNFT_LINE_DATA_TYPE_ID" 		type="String"/>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="6" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="9" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+							<ResultIndex index="10" dataObjectAttribName ="SPS_ID"/>
+							<ResultIndex index="11" dataObjectAttribName ="QSTN_QLFR"/>
+							<ResultIndex index="12" dataObjectAttribName ="QSTN_TERM"/>
+							<ResultIndex index="13" dataObjectAttribName ="BNFT_LINE_DATA_TYPE_ID"/>
+					   </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+						
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="6" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+							<ResultIndex index="7" dataObjectAttribName ="SPS_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="9" dataObjectAttribName ="ADMN_METHOD_MAPD"/>
+					    </RSIndexToDOAttributeMap>
+						<SearchQueryName name="allVersions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					    </RSIndexToDOAttributeMap>
+						<SearchQueryName name="retrieveSPSDesc"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="6" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="retrieveQuestionDesc"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="DESC_CRTR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="QSTN_TERM"/>
+							<ResultIndex index="1" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="selectTerm"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="DESC_CRTR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="QSTN_QLFR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="selectQualifier"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="DESC_CRTR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="QSTN_QLFR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="selectDatatype"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="6" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="9" dataObjectAttribName ="ADQM_QSTN_MSTR_PARNT_SYS_ID"/>
+							<ResultIndex index="10" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+							<ResultIndex index="11" dataObjectAttribName ="SPS_ID"/>
+							<ResultIndex index="12" dataObjectAttribName ="QSTN_TERM"/>
+							<ResultIndex index="13" dataObjectAttribName ="QSTN_QLFR"/>
+							<ResultIndex index="14" dataObjectAttribName ="BNFT_LINE_DATA_TYPE_ID"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="latestVersion"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="6" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="9" dataObjectAttribName ="ADQM_QSTN_MSTR_PARNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="latestVersionNumber"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+							<ResultIndex index="3" dataObjectAttribName ="QSTN_STTS_CD"/>
+							<ResultIndex index="4" dataObjectAttribName ="QSTN_VRSN_NBR"/>
+							<ResultIndex index="5" dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="6" dataObjectAttribName ="LST_CHG_TMS"/>
+							<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="10" dataObjectAttribName ="PRVDR_ARNGMNT"/>
+							<ResultIndex index="11" dataObjectAttribName ="SPS_ID"/>
+							<ResultIndex index="12" dataObjectAttribName ="QSTN_TERM"/>
+							<ResultIndex index="13" dataObjectAttribName ="QSTN_QLFR"/>
+							<ResultIndex index="14" dataObjectAttribName ="DESC"/>
+							<ResultIndex index="15" dataObjectAttribName ="ADMN_METHOD_MAPD"/>
+							<ResultIndex index="16" dataObjectAttribName ="BNFT_LINE_DATA_TYPE_ID"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="view"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					   </RSIndexToDOAttributeMap>
+						<SearchQueryName name="isQuestionInUse"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_DESC"/>
+					<DataObjectAttributeInput index="3" name="SPS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>										
+						<ResultIndex index="4" dataObjectAttribName ="QSTN_STTS_CD"/>										
+						<ResultIndex index="5" dataObjectAttribName ="QSTN_VRSN_NBR"/>										
+						<ResultIndex index="6" dataObjectAttribName ="PRVDR_ARNGMNT"/>	
+						<ResultIndex index="7" dataObjectAttribName ="SPS_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="DESC"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMN_METHOD_MAPD"/>
+					</RSIndexToDOAttributeMap>
+				<SearchQueryName name="questionSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into ADQM_ADMN_QSTN_MSTR(ADQM_ADMN_QSTN_NBR,DTYP_DATA_TYPE_ID,ADQM_ADMN_QSTN_DESC,LST_CHG_TMS,LST_CHG_USR,CREATD_TM_STMP,CREATD_USER_ID,QSTN_STTS_CD,QSTN_VRSN_NBR,ADQM_QSTN_MSTR_PARNT_SYS_ID,PRVDR_ARNGMNT,
+							SPS_ID,QSTN_TERM,QSTN_QLFR,is_admn_mthd_mapped,BNFT_LINE_DATA_TYPE_ID) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,'N',?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="DTYP_DATA_TYPE_ID"/>
+						<DataObjectAttributeInput index="2" name="ADQM_ADMN_QSTN_DESC"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="QSTN_STTS_CD"/>
+						<DataObjectAttributeInput index="8" name="QSTN_VRSN_NBR"/>
+						<DataObjectAttributeInput index="9" name="ADQM_QSTN_MSTR_PARNT_SYS_ID"/>
+						<DataObjectAttributeInput index="10" name="PRVDR_ARNGMNT"/>
+						<DataObjectAttributeInput index="11" name="SPS_ID"/>
+						<DataObjectAttributeInput index="12" name="QSTN_TERM"/>
+						<DataObjectAttributeInput index="13" name="QSTN_QLFR"/>
+						<DataObjectAttributeInput index="14" name="BNFT_LINE_DATA_TYPE_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							update  ADQM_ADMN_QSTN_MSTR set DTYP_DATA_TYPE_ID = ?,
+															ADQM_ADMN_QSTN_DESC = ?,
+															LST_CHG_TMS = ?,
+															LST_CHG_USR = ?,
+															QSTN_STTS_CD = ?,
+															QSTN_VRSN_NBR = ?,
+															PRVDR_ARNGMNT = ?,
+															SPS_ID = ?,
+															QSTN_TERM = ?,
+															QSTN_QLFR = ?,
+															BNFT_LINE_DATA_TYPE_ID = ?
+							where ADQM_ADMN_QSTN_NBR = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="DTYP_DATA_TYPE_ID"/>
+						<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_DESC"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="QSTN_STTS_CD"/>
+						<DataObjectAttributeInput index="5" name="QSTN_VRSN_NBR"/>
+						<DataObjectAttributeInput index="6" name="PRVDR_ARNGMNT"/>
+						<DataObjectAttributeInput index="7" name="SPS_ID"/>
+						<DataObjectAttributeInput index="8" name="QSTN_TERM"/>
+						<DataObjectAttributeInput index="9" name="QSTN_QLFR"/>
+						<DataObjectAttributeInput index="10" name="BNFT_LINE_DATA_TYPE_ID"/>
+						<DataObjectAttributeInput index="11" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from ADQM_ADMN_QSTN_MSTR where ADQM_ADMN_QSTN_NBR = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_DESC"/>
+					<DataObjectAttributeInput index="1" name="NOTE_ID"/>
+					<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>							
+							<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateQuestions"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"	toBOAttb="questionNumber"/>
+						<Pair DOAttb="DTYP_DATA_TYPE_ID"	toBOAttb="dataTypeId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC"	toBOAttb="questionDesc"/>
+						<Pair DOAttb="QSTN_STTS_CD"			toBOAttb="status"/>
+						<Pair DOAttb="QSTN_VRSN_NBR"		toBOAttb="version"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="ADQM_QSTN_MSTR_PARNT_SYS_ID"		toBOAttb="questionNumberParentSysId"/>
+						<Pair DOAttb="PRVDR_ARNGMNT"		toBOAttb="providerArrangement"/>
+						<Pair DOAttb="NOTE_ID"		toBOAttb="noteId"/>
+						<Pair DOAttb="SPS_ID"		toBOAttb="spsReference"/>
+						<Pair DOAttb="QSTN_TERM"		toBOAttb="term"/>
+						<Pair DOAttb="QSTN_QLFR"		toBOAttb="qualifier"/>
+						<Pair DOAttb="DESC"			toBOAttb="description"/>
+						<Pair DOAttb="ADMN_METHOD_MAPD"			toBOAttb="adminMethodMapIndicator"/>
+						<Pair DOAttb="BNFT_LINE_DATA_TYPE_ID"			toBOAttb="benefitLineDataType"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADQM_ADMN_QSTN_DESC" 	toSCAttb="questionDesc"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 	toSCAttb="questionNumber"/>
+					<Pair DOAttb="ADQM_QSTN_MSTR_PARNT_SYS_ID" 	toSCAttb="questionNumberParentSysId"/>
+					<Pair DOAttb="NOTE_ID" 	toSCAttb="noteId"/>
+					<Pair DOAttb="SPS_ID" 	toSCAttb="spsReference"/>
+					<Pair DOAttb="DESC_CRTR" 	toSCAttb="catalogId"/>
+			</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="DTYP_DATA_TYPE">
+				<DataObjectAttribute name="DTYP_DATA_TYPE_ID" type="Int"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_NAME" 	type="String"/>				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="DTYP_DATA_TYPE_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="3" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="questionSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="5" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="allVersions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="9" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>										
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="view"/>
+				</SQLTemplate>
+					<DoAttributeToBOAttributeMap>
+							<Pair DOAttb="DTYP_DATA_TYPE_NAME"	toBOAttb="dataTypeName"/>
+					</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="DTYP_DATA_TYPE_ID" 	toSCAttb="dataTypeId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+<!-- DO added for functional domian Search Starts -->
+			<DataObject name="QSTN_DOMN_ASSN">
+				<DataObjectAttribute name="DOMN_CD" 			type="String"/>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="2" name="DOMN_CD"/>
+					<SearchQueryName name="questionSearch"/>
+				</SQLTemplate>
+					<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="DOMN_CD" 				toBOAttb="functionalDomainCD"/>
+					</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="DOMN_CD" 			toSCAttb="functionalDomain"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+<!-- DO added for functional domian Search Ends -->
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<!-- BusinessObjectMetadata name="com.wellpoint.wpd.common.question.bo.PossibleAnswerBO">
+		<BusinessAttribute name="questionNumber" 		type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="possibleAnswerId" 		type="Int" 		keyAttrib="true"/>
+		<BusinessAttribute name="possibleAnswerDesc" 	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date" 	keyAttrib="false"/>
+	    <SearchCriteria name="possibleAnswerSearch">
+	  		<SearchCriteriaAttribute name="questionNumber"   type="Int"	/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="possibleAnswerSearch">
+				select  ADQM_ADMN_QSTN_NBR, PSBL_ANSWR_ID, PSBL_ANSWR
+				from 	PSBL_ANSWR
+				where 	ADQM_ADMN_QSTN_NBR = {0} ORDER BY PSBL_ANSWR
+			</SelectSQLQuery>
+			
+			<DataObject name="PSBL_ANSWR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 	type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR_ID" 		type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="PSBL_ANSWR_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="PSBL_ANSWR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="possibleAnswerSearch"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into PSBL_ANSWR(ADQM_ADMN_QSTN_NBR,PSBL_ANSWR_ID,PSBL_ANSWR,LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP) values(?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="PSBL_ANSWR_ID"/>
+						<DataObjectAttributeInput index="2" name="PSBL_ANSWR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from PSBL_ANSWR where ADQM_ADMN_QSTN_NBR = ? and PSBL_ANSWR_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="PSBL_ANSWR_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"	toBOAttb="questionNumber"/>
+						<Pair DOAttb="PSBL_ANSWR_ID"		toBOAttb="possibleAnswerId"/>
+						<Pair DOAttb="PSBL_ANSWR"			toBOAttb="possibleAnswerDesc"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="ADQM_ADMN_QSTN_NBR" toSCAttb="questionNumber"/>
+	  			</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata -->
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.question.bo.PossibleAnswerBO">
+		<BusinessAttribute name="questionNumber" 		type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="possibleAnswerId" 		type="Int" 		keyAttrib="true"/>
+		<BusinessAttribute name="possibleAnswerDesc" 	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="accumQuestion" 		type="String" 	keyAttrib="false"/>
+	    <SearchCriteria name="possibleAnswerSearch">
+	  		<SearchCriteriaAttribute name="questionNumber"   type="Int"	/>
+    		<SearchCriteriaAttribute name="adminOptSysId"   type="Int"	/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="possibleAnswerSearch">
+				select  ADQM_ADMN_QSTN_NBR, PSBL_ANSWR_ID, PSBL_ANSWR
+				from 	PSBL_ANSWR
+				where 	ADQM_ADMN_QSTN_NBR = {0} ORDER BY PSBL_ANSWR
+			</SelectSQLQuery>
+			<SelectSQLQuery name="allPossibleAnswerSearch">
+			 SELECT A.ADQM_ADMN_QSTN_NBR,
+				  B.PSBL_ANSWR_ID           ,
+				  B.PSBL_ANSWR  , decode(C.DOMN_CD,NULL ,'N','Y') ACCUM_QUESTION			
+				   FROM QSTNR_MSTR A
+				INNER JOIN PSBL_ANSWR B
+				     ON (A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR)
+				LEFT OUTER JOIN QSTN_DOMN_ASSN C
+				     ON(A.ADQM_ADMN_QSTN_NBR = C.ADQM_ADMN_QSTN_NBR AND C.DOMN_CD = 'C-ACCUM')
+				  WHERE A.ADMIN_OPT_SYS_ID = {0} 
+				<!-- ORDER BY PSBL_ANSWR --> 
+			</SelectSQLQuery>
+			
+			<DataObject name="PSBL_ANSWR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 	type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR_ID" 		type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR" 			type="String"/>
+				<!-- added -->
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="ACCUM_QUESTION"	type="String"/>
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="PSBL_ANSWR_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="PSBL_ANSWR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="possibleAnswerSearch"/>
+	  			</SQLTemplate>
+				<!-- added -->
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="PSBL_ANSWR_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="PSBL_ANSWR"/>
+	  					<ResultIndex index="3" dataObjectAttribName ="ACCUM_QUESTION"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="allPossibleAnswerSearch"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into PSBL_ANSWR(ADQM_ADMN_QSTN_NBR,PSBL_ANSWR_ID,PSBL_ANSWR,LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP) values(?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="PSBL_ANSWR_ID"/>
+						<DataObjectAttributeInput index="2" name="PSBL_ANSWR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from PSBL_ANSWR where ADQM_ADMN_QSTN_NBR = ? and PSBL_ANSWR_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="PSBL_ANSWR_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"	toBOAttb="questionNumber"/>
+						<Pair DOAttb="PSBL_ANSWR_ID"		toBOAttb="possibleAnswerId"/>
+						<Pair DOAttb="PSBL_ANSWR"			toBOAttb="possibleAnswerDesc"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="ACCUM_QUESTION"	toBOAttb="accumQuestion"/>
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="ADQM_ADMN_QSTN_NBR" toSCAttb="questionNumber"/>
+					<!-- added -->
+					<Pair DOAttb="ADMIN_OPT_SYS_ID" toSCAttb="adminOptSysId"/>
+	  			</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.question.bo.FunctionalDomainBO">
+		<BusinessAttribute name="questionNumber" 			type="Int"		    keyAttrib="true"/>
+		<BusinessAttribute name="functionalDomainCD" 	    type="String" 		keyAttrib="true"/>
+		<BusinessAttribute name="functionalDomainDesc" 		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		    type="Date" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 	            type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="secondaryCode" 	        type="String" 		keyAttrib="false"/>
+	    <SearchCriteria name="functionalDomainSearch">
+	  		<SearchCriteriaAttribute name="questionNumber"   type="String"	/>
+	    </SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="functionalDomainSearch">
+				select  a.DOMN_CD,b.CD_DESC_TXT,b.scndry_cd
+				from 	QSTN_DOMN_ASSN a,ITEM b,CATALOG c
+				where 	a.ADQM_ADMN_QSTN_NBR = {0} and upper(c.CTLG_NAME) = upper('FUNCTIONAL DOMAIN') 
+						and c.CTLG_ID = b.CTLG_ID and a.DOMN_CD = b.PRMRY_CD
+			</SelectSQLQuery>
+			<DataObject name="QSTN_DOMN_ASSN">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="DOMN_CD" 		    	type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USR_ID" 			type="String"/>
+			    <DataObjectAttribute name="CD_DESC_TXT"         	type="String"/>
+			    <DataObjectAttribute name="scndry_cd"         	type="String"/>
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" 	dataObjectAttribName ="DOMN_CD"/> 
+			            <ResultIndex index="1" 	dataObjectAttribName ="CD_DESC_TXT"/>	
+			            <ResultIndex index="2" 	dataObjectAttribName ="scndry_cd"/>					
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="functionalDomainSearch"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into QSTN_DOMN_ASSN(ADQM_ADMN_QSTN_NBR,DOMN_CD,LST_CHG_USR,LST_CHG_TMS,CREATD_TM_STMP,CREATD_USR_ID) 
+									values(?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="1" name="DOMN_CD"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="5" name="CREATD_USR_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							update QSTN_DOMN_ASSN set DOMN_CD = ?,
+									LST_CHG_USR = ?,
+									LST_CHG_TMS = ?,
+									CREATD_TM_STMP = ?,
+									CREATD_USR_ID = ?
+							where ADQM_ADMN_QSTN_NBR = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="DOMN_CD"/>
+						<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="4" name="CREATD_USR_ID"/>
+						<DataObjectAttributeInput index="5" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+
+						<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from QSTN_DOMN_ASSN where ADQM_ADMN_QSTN_NBR = ? 
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"	toBOAttb="questionNumber"/>
+						<Pair DOAttb="DOMN_CD"		        toBOAttb="functionalDomainCD"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USR_ID"		toBOAttb="createdUser"/>
+					    <Pair DOAttb="CD_DESC_TXT" 			toBOAttb="functionalDomainDesc" />
+					    <Pair DOAttb="scndry_cd" 			toBOAttb="secondaryCode" />
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 		toSCAttb="questionNumber"/>
+	  			</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata> 

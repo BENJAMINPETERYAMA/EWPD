@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\security\bo
+2
+11
+15:RoleTaskConfigBO.java|1|16adf97e373|1139|e0a5e999|a3b0c67b23624cb2915ec3bbc8b37996|0
+d:ModuleBO.java|1|16adf97e2e7|10ae|c2a9eb11|cc19ceae254c40d1b5d5d30beb9a793f|0
+e:SubTaskBO.java|1|16adf97e393|1533|dce2d41|7a4146dc7553406885390c70db44f095|0
+15:RoleConfigSrdaBO.java|1|16adf97e3d1|e3a|d8f027d1|9f511b69798e48ecb853d165759d4ff6|0
+b:RoleBO.java|1|16adf97e2f7|108f|e9afef18|8566310692744a8790ce1b8d6ecb6e02|0
+b:TaskBO.java|1|16adf97e3c1|10ed|9ab90779|a3c6787bddc34cceac4bc479805c4155|0
+11:RoleConfigBO.java|1|16adf97e373|fcc|5d10aaa3|caeb9c6a10f340168bc8cb2e1f9da0fb|0
+17:ModuleConfigSrdaBO.java|1|16adf97e400|aed|f22439dd|ff39f246c1af48fea04194a8185e71c7|0
+1c:RoleSubTaskSrdaConfigBO.java|1|16adf97e3d1|c89|cc4abeb|78178641865443b8b55ae298c537b966|0
+11:TaskConfigBO.java|1|16adf97e393|95a|256bf598|c4857e5ff897462bb614e9bbcf917b83|0
+f:RoleSrdaBo.java|1|16adf97e3e1|1097|5540f26c|a9f0e16670d34491add14a5e6f308ad0|0
+f:TaskSrdaBO.java|1|16adf97ea66|f37|e8ea7771|62f4183758e947aca893b42565caf2d6|0
+12:SubTaskSrdaBO.java|1|16adf97e40f|13a2|198aab74|18ed1d778dc94cc08cfe34518c0e18ee|0
+13:ModuleConfigBO.java|1|16adf97e393|c81|2bdbd83|174594cf26414937bcfde4d6245a0a6f|0
+19:RoleTaskSrdaConfigBO.java|1|16adf97e3e1|fa2|9964d4|926a00282a2d4dea827ef790ba7bec16|0
+18:RoleSubTaskConfigBO.java|1|16adf97e3a2|e21|16ea3180|48129e93f9ef4cfa8b4f0a35b55ec5e3|0
+11:ModuleSrdaBO.java|1|16adf97e4f9|eed|d9665937|8eae1674c67046188ba378caa18b17d2|0

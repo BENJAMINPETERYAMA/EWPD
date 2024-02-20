@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\productstructure
+2
+b
+2f:ProductStructureBenefitMandatesBackingBean.java|1|16adf9839d4|3bab|a8388acc|75b7e7b9752e47ddbeda72ca67fd4552|0
+20:ProductStructureBackingBean.java|1|16adf983919|3f29|a46db371|2cd1125e8e6649b697f60e332b3b1b67|0
+2a:AssociatedBenefitComponentBackingBean.java|1|16adf983928|11b5|8426a4c1|1718b2ef87274b30b0264ad660e773b3|0
+30:ProductStructureBenefitComponentBackingBean.java|1|16adf9839a5|ca32|c9e48ad9|696d305040cf46a69b283c46583e913d|0
+2b:ProductStructureGeneralInfoBackingBean.java|1|16adf983add|2002e|257dda55|8f644140fbc345d4b4e48a0dc97f4747|0
+24:ProductStructureTreeBackingBean.java|1|16adf983aed|3410|7816992f|0a7eb18f123349fd9d77531dcc05f8e5|0
+4:tree|2|0|0|0|bcdb313dd3f94bdca1cea4680251fc75|0
+22:ProductStructureSessionObject.java|1|16adf983ace|2f5e|f17e8076|f50be497d9924252b983b0a74aea539e|0
+26:ProductStructureSearchBackingBean.java|1|16adf983add|8c27|4972f541|ae2ab6035d2f4a61abfd8fade5df2050|0
+35:ProductStructureBenefitAdministrationBackingBean.java|1|16adf9839c4|137b8|4ec67ebb|b5310e0b99094464be29b16593c2102c|0
+31:ProductStructureBenefitDefenitionBackingBean.java|1|16adf983996|26c0d|6a5e2ad1|80c8cf7dd5654e29accade7b2161edc3|0

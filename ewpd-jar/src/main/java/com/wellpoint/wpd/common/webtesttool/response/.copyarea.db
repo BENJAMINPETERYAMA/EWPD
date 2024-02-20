@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\webtesttool\response
+2
+f
+1b:TestCaseChangeResponse.java|1|16adf981443|469|720d64c7|5937377c361a4969a22ada327a756eea|0
+1b:TestCaseCreateResponse.java|1|16adf981414|589|4bcbbb3f|dd5d73184d284725b380cd8048138fb8|0
+1b:TestCaseDeleteResponse.java|1|16adf9814ef|468|a52a74e0|68aad99d814f4c36b839b9732da6b6be|0
+1b:TestCaseSearchResponse.java|1|16adf981491|4ca|e404855f|ff16dd5d65b446a5b52036a1b541ee1a|0
+1d:TestSuiteExecuteResponse.java|1|16adf98158b|727|10ef42e8|8ec53a839dd84321984bb30c0161b1b4|0
+19:TestCaseEditResponse.java|1|16adf9814d0|5ef|6b5de372|c51d024825a54b4d8ec12c5330e7edf8|0
+1e:TestCaseRefCreateResponse.java|1|16adf9814df|3a0|1bfb2bd8|4ae8910b9c7c4479ad99b2e09590a6ae|0
+1c:TestSuiteCreateResponse.java|1|16adf98159a|5fa|42dbe185|9f70c689060244769f3dee96cab077d9|0
+1c:TestSuiteSearchResponse.java|1|16adf98157b|675|4b9d0893|4b756ed4344e4385ae979fa9e5ddd259|0
+1c:TestSuiteDeleteResponse.java|1|16adf981646|1e9|6a32a884|39b6a27e782543a5832f79ade793d9a5|0
+1e:TestCaseRefDeleteResponse.java|1|16adf9814ef|3a1|f9de2bf7|7e5839d8065449438d5cc73f5bf1394d|0
+22:BenefitComponentPopupResponse.java|1|16adf981482|504|e586a266|07ecec9cfc8f437ea1d96ca7d88a13f1|0
+23:BenefitComponentSearchResponse.java|1|16adf981482|4e3|eeed991a|ca8ce97fb6d04b7b96185557bea64876|0
+1c:TestSuiteChangeResponse.java|1|16adf98154c|5fb|a729e16e|23a1f1483bb54210b562e928e7419d82|0
+19:BenefitPopupResponse.java|1|16adf981414|48e|9c09769d|6156fee4ffc94fb0a4e55147d37ca192|0

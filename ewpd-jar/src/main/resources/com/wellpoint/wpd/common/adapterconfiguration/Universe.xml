@@ -1,0 +1,535 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.UniverseBO">
+		<BusinessAttribute name="standardBenefitKey"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="universeType"				type="String"	keyAttrib="true"/>	
+		<BusinessAttribute name="universeCode"				type="String"	keyAttrib="true"/>	
+		<BusinessAttribute name="createdUser"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"			type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"		type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="catalogId"					type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="secondaryCode"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="codeDescText"				type="String"	keyAttrib="true"/>	
+		<BusinessAttribute name="catDescText"				type="String"	keyAttrib="false"/>	
+		
+		<SearchCriteria name = "test">
+			<SearchCriteriaAttribute name="standardBenefitKey" 	type="Int"/>
+			<SearchCriteriaAttribute name="itemType" 	type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name = "UniverseSearch">
+								
+				SELECT itm.CD_DESC_TXT, itm.CTLG_ID, cat.CTLG_DESC_TXT, itm.PRMRY_CD FROM ITEM itm,CATALOG cat  WHERE itm.CTLG_ID in (
+					SELECT CTLG_ID FROM CATALOG WHERE UPPER(CTLG_DESC_TXT) IN 
+						(SELECT UPPER(SLCTD_ITEM_TYPE) FROM BNFT_BSIC_SLCTD_INFO WHERE ENTY_SYS_ID = {0})) and itm.prmry_cd in 
+							(SELECT SLCTD_ITEM_CD FROM BNFT_BSIC_SLCTD_INFO WHERE ENTY_SYS_ID = {0})
+								and cat.CTLG_ID = itm.CTLG_ID
+
+			</SelectSQLQuery>
+			<SelectSQLQuery  name="SearchForReferenceIds">
+				select item.CD_DESC_TXT,item.PRMRY_CD from ITEM item, BNFT_BSIC_SLCTD_INFO m where 
+				item.PRMRY_CD = m.SLCTD_ITEM_CD 
+				AND item.CTLG_ID = 1938
+				and m.ENTY_SYS_ID={0} and m.SLCTD_ITEM_TYPE={1}
+			</SelectSQLQuery>
+			
+			<DataObject name="BNFT_BSIC_SLCTD_INFO">
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="SLCTD_ITEM_TYPE" 	type="String"/>
+				<DataObjectAttribute name="SLCTD_ITEM_CD" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into BNFT_BSIC_SLCTD_INFO 
+								(ENTY_SYS_ID, SLCTD_ITEM_TYPE, SLCTD_ITEM_CD, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP)
+								values (?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="SLCTD_ITEM_TYPE"/>
+						<DataObjectAttributeInput index="2" name="SLCTD_ITEM_CD"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+				</SQLTemplate>				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<SearchQueryName name="UniverseSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="SLCTD_ITEM_TYPE"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="2" dataObjectAttribName ="SLCTD_ITEM_CD"/>
+							
+						</RSIndexToDOAttributeMap>						
+						<SearchQueryName name="SearchForReferenceIds"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM BNFT_BSIC_SLCTD_INFO WHERE ENTY_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="standardBenefitKey"/>
+						<Pair DOAttb="SLCTD_ITEM_TYPE"	toBOAttb="universeType"/>
+						<Pair DOAttb="SLCTD_ITEM_CD"	toBOAttb="universeCode"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"	toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"	toBOAttb="createdTimestamp"/>
+						
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID" 	toSCAttb = "standardBenefitKey"/>
+						<Pair DOAttb="SLCTD_ITEM_TYPE" 	toSCAttb = "itemType"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 			type="Int"/>
+				<DataObjectAttribute name="PRMRY_CD" 			type="String"/>
+				<DataObjectAttribute name="SCNDRY_CD" 			type="String"/>
+				<DataObjectAttribute name="CD_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="CD_DESC_TXT"/>
+							<ResultIndex index="1" dataObjectAttribName ="CTLG_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="PRMRY_CD"/>
+
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="UniverseSearch"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="CD_DESC_TXT"/>							
+							<ResultIndex index="1" dataObjectAttribName ="PRMRY_CD"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="SearchForReferenceIds"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CTLG_ID"			toBOAttb="catalogId"/>
+						<Pair DOAttb="PRMRY_CD"			toBOAttb="universeCode"/>
+						<Pair DOAttb="SCNDRY_CD"		toBOAttb="secondaryCode"/>
+						<Pair DOAttb="CD_DESC_TXT"		toBOAttb="codeDescText"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"	toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"	toBOAttb="createdTimestamp"/>
+				</DoAttributeToBOAttributeMap>
+		
+			</DataObject>
+
+			<DataObject name="CATALOG">
+				<DataObjectAttribute name="CTLG_ID" 			type="Int"/>
+				<DataObjectAttribute name="CTLG_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="DATA_TYPE" 			type="String"/>
+				<DataObjectAttribute name="CTLG_SIZE" 			type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="2" dataObjectAttribName ="CTLG_DESC_TXT"/>
+							
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="UniverseSearch"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CTLG_DESC_TXT"	toBOAttb="catDescText"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+		</DataSource>		
+
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.TermQualifierPVABO">
+
+		<BusinessAttribute name="standardBenefitKey"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="codeDescText"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="termCode"					type="String"	keyAttrib="true"/>	
+		<BusinessAttribute name="qualifierCode"				type="String"	keyAttrib="true"/>
+		<BusinessAttribute name="pvaCode"					type="String"	keyAttrib="true"/>
+
+		<SearchCriteria name = "test">
+			<SearchCriteriaAttribute name="standardBenefitKey" 	type="Int"/>
+			<SearchCriteriaAttribute name="termCodeList" 	type="List"/>
+			<SearchCriteriaAttribute name="qualifierCodeList" 	type="List"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name = "getTermCodeDesc"> 
+				                                                                        
+				select PRMRY_CD, CD_DESC_TXT 
+				    from ITEM 
+				    where PRMRY_CD {0}
+				    and CTLG_ID(+) = 1934
+			
+			</SelectSQLQuery>
+			<SelectSQLQuery name = "getQualifierCodeDesc"> 
+				                                                                        
+				select PRMRY_CD, CD_DESC_TXT 
+				    from ITEM 
+				    where PRMRY_CD {0}
+				    and CTLG_ID(+) = 1935
+			
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name = "checkTermUpdate"> 
+
+                  select unique(A.BLVL_BNFT_LVL_TERM), c.CD_DESC_TXT  
+                        from BLVL_BNFT_LVL A,ITEM c where (A.BLVL_BNFT_LVL_ID,A.BNFT_DEFN_SYS_ID) in
+                              (select BLVL_BNFT_LVL_ID,BNFT_DEFN_SYS_ID from BLVL_BNFT_LVL where BNFT_DEFN_SYS_ID in
+                               (select BNFT_DEFN_SYS_ID from BDM_BNFT_DEFN_MSTR where BNFT_SYS_ID = {0}))
+                                                      and (A.BLVL_BNFT_LVL_TERM = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1934)  
+                                                      and A.BLVL_BNFT_LVL_TERM is not null
+            </SelectSQLQuery>
+
+               <SelectSQLQuery name = "checkQualifierUpdate">
+                  select unique(A.BLVL_BNFT_LVL_QLFR), c.CD_DESC_TXT 
+                    from ITEM c, BLVL_BNFT_LVL A where (A.BLVL_BNFT_LVL_ID,A.BNFT_DEFN_SYS_ID) in
+                              (select BLVL_BNFT_LVL_ID,BNFT_DEFN_SYS_ID from BLVL_BNFT_LVL where BNFT_DEFN_SYS_ID in 
+                                    (select BNFT_DEFN_SYS_ID from BDM_BNFT_DEFN_MSTR where BNFT_SYS_ID = {0}))
+                                    and (A.BLVL_BNFT_LVL_QLFR = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1935)   
+                                                      and A.BLVL_BNFT_LVL_QLFR is not null
+                  </SelectSQLQuery>
+
+                  <SelectSQLQuery name = "checkPVAUpdate">
+                  select unique(A.BLN_BNFT_LINE_PVA), b.CD_DESC_TXT 
+                 from ITEM B, BLN_BNFT_LINE A where (A.BLN_BNFT_LINE_ID,A.BNFT_DEFN_SYS_ID) in
+                            (select BLN_BNFT_LINE_ID,BNFT_DEFN_SYS_ID from BLN_BNFT_LINE where (BLVL_BNFT_LVL_ID,BNFT_DEFN_SYS_ID) in
+                              (select BLVL_BNFT_LVL_ID,BNFT_DEFN_SYS_ID from BLVL_BNFT_LVL where BNFT_DEFN_SYS_ID in 
+                                    (select BNFT_DEFN_SYS_ID from BDM_BNFT_DEFN_MSTR where BNFT_SYS_ID = {0})))
+                                          and (A.BLN_BNFT_LINE_PVA = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 1936)
+                                                            and A.BLN_BNFT_LINE_PVA is not null                                                                        
+                  </SelectSQLQuery>
+
+
+			<DataObject name="BNFT_BSIC_SLCTD_INFO">
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="SLCTD_ITEM_TYPE" 	type="String"/>
+				<DataObjectAttribute name="SLCTD_ITEM_CD" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				
+				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<SearchQueryName name="checkTermUpdate"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<SearchQueryName name="checkQualifierUpdate"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<SearchQueryName name="checkPVAUpdate"/>
+				</SQLTemplate>
+		
+								
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID" 	toSCAttb = "standardBenefitKey"/>
+						
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 			type="Int"/>
+				<DataObjectAttribute name="PRMRY_CD" 			type="String"/>
+				<DataObjectAttribute name="SCNDRY_CD" 			type="String"/>
+				<DataObjectAttribute name="CD_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="PRMRY_CD1" 			type="String"/>
+				
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="PRMRY_CD"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+							<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="getTermCodeDesc"/>
+				</SQLTemplate>	
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="PRMRY_CD1"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD1"/>
+							<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="getQualifierCodeDesc"/>
+				</SQLTemplate>			
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkTermUpdate"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkQualifierUpdate"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkPVAUpdate"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"		toBOAttb="codeDescText"/>
+						<Pair DOAttb="PRMRY_CD"		toBOAttb="termCode"/>
+						<Pair DOAttb="PRMRY_CD1"		toBOAttb="qualifierCode"/>
+						
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="PRMRY_CD" 	toSCAttb = "termCodeList"/>
+						<Pair DOAttb="PRMRY_CD1" 	toSCAttb = "qualifierCodeList"/>
+				</DoAttributeToSCAttributeMap>
+		
+			</DataObject>
+
+			<DataObject name="BLVL_BNFT_LVL">
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID" 	type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 	type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_TERM" 	type="String"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_QLFR" 	type="String"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_DESC"			type="String"/>
+				<DataObjectAttribute name="BNFT_LVL_EXTRNL_RFRNC_ID"	type="String"/>
+				<DataObjectAttribute name="BNFT_LVL_SQNC"				type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BLVL_BNFT_LVL_TERM"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkTermUpdate"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BLVL_BNFT_LVL_QLFR"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkQualifierUpdate"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BLVL_BNFT_LVL_TERM"	toBOAttb="termCode"/>
+						<Pair DOAttb="BLVL_BNFT_LVL_QLFR"	toBOAttb="qualifierCode"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+
+			<DataObject name="BLN_BNFT_LINE">
+				<DataObjectAttribute name="BLN_BNFT_LINE_ID" 	type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID" 	type="Int"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_ID" 	type="Int"/>
+				<DataObjectAttribute name="BLN_BNFT_LINE_PVA" 	type="String"/>
+				<DataObjectAttribute name="LINE_VAL" 			type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BLN_BNFT_LINE_PVA"/>
+						
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="checkPVAUpdate"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BLN_BNFT_LINE_PVA"		toBOAttb="pvaCode"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+		</DataSource>		
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.business.refdata.bo.AssignedRuleIdBO">	
+		<BusinessAttribute name="entitySystemId" 		type="Int"    	keyAttrib="true"/>
+		<BusinessAttribute name="entityType"     		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="catalogId"      		type="Int"    	keyAttrib="false"/>
+		<BusinessAttribute name="primaryCode"      		type="String"   keyAttrib="true"/>
+		<BusinessAttribute name="createdUserId"      	type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="createdTimeStamp"      type="Date"    	keyAttrib="false"/>
+		<BusinessAttribute name="lastchangesUser"      	type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="lastChangesTimeStamp"  type="Date"    	keyAttrib="false"/>
+		<BusinessAttribute name="codeDescText"      	type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="productId"      		type="Int"    	keyAttrib="false"/>
+		<BusinessAttribute name="dateSegmentId"      	type="Int"    	keyAttrib="false"/>
+		
+		<SearchCriteria name = "test">
+			<SearchCriteriaAttribute name="entityKey" 			type="Int"/>
+			<SearchCriteriaAttribute name="entityKeys" 			type="List"/>	
+			<SearchCriteriaAttribute name="itemType" 			type="String"/>
+			<SearchCriteriaAttribute name="productSysId" 		type="Int"/>
+			<SearchCriteriaAttribute name="dateSegmentSysId" 	type="Int"/>			
+		</SearchCriteria>		
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>	
+		
+		 	<SelectSQLQuery name="SearchForReferenceIds">
+				select rule.RULE_SHRT_DESC,rule.RULE_ID,m.ENTY_SYS_ID,rule.RULE_TYP_CD from RULE rule, ENTY_RULE_INFO_ASSN m where 
+				rule.RULE_ID = m.RULE_ID 
+				and m.ENTY_SYS_ID={0} and m.ENTY_TYPE={1}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="SearchForReferenceIdsDatafeed">
+				SELECT a.rule_shrt_desc, b.rule_id, b.bnft_cmpnt_sys_id
+				  FROM rule a, prod_bnft_cmpnt_assn b
+				 WHERE a.rule_id = b.rule_id
+				   AND b.prod_sys_id = {0}
+				   AND b.bnft_cmpnt_sys_id IN (
+				          SELECT DISTINCT bnft_cmpnt_sys_id
+				                     FROM CNTRCT_BNFT_ASSN
+				                    WHERE dt_sgmnt_sys_id = {1}
+				                      AND bnft_cmpnt_hide_flag = 'F')
+			</SelectSQLQuery>
+	
+			<DataObject name="ENTY_RULE_INFO_ASSN">
+			    <DataObjectAttribute name="ENTY_SYS_ID"    		type="Int"/>
+			    <DataObjectAttribute name="ENTY_TYPE"    		type="String"/>
+			    <DataObjectAttribute name="RULE_ID"    			type="String"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    	type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    	type="TimeStamp"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    		type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="ENTY_SYS_ID_LIST"    type="Int"/>
+			    <DataObjectAttribute name="PRODUCT_SYS_ID"    	type="Int"/>
+			    <DataObjectAttribute name="DT_SGMNT_SYS_ID"     type="Int"/>
+			   
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            insert into ENTY_RULE_INFO_ASSN ( ENTY_SYS_ID, ENTY_TYPE, RULE_ID, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS)
+			            values(?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="RULE_ID"/>
+			        <DataObjectAttributeInput index="3" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="4" name="CREATD_TM_STMP"/>
+			        <DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="delete">
+			        <SQLQuery>
+			            delete from ENTY_RULE_INFO_ASSN
+			            where ENTY_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="2" dataObjectAttribName ="ENTY_SYS_ID"/>	
+									
+						</RSIndexToDOAttributeMap>						
+						<SearchQueryName name="SearchForReferenceIds"/>
+				</SQLTemplate>
+			    <SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="PRODUCT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="DT_SGMNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="2" dataObjectAttribName ="ENTY_SYS_ID"/>										
+						</RSIndexToDOAttributeMap>						
+						<SearchQueryName name="SearchForReferenceIdsDatafeed"/>
+				</SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb ="ENTY_SYS_ID"  				toBOAttb="entitySystemId"/>
+			        <Pair DOAttb="ENTY_TYPE"    				toBOAttb="entityType"/>
+			        <Pair DOAttb="RULE_ID"   	 				toBOAttb="primaryCode"/>
+			        <Pair DOAttb="CREATD_USER_ID"   			toBOAttb="createdUserId"/>
+			        <Pair DOAttb="CREATD_TM_STMP"   			toBOAttb="createdTimeStamp"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastchangesUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastChangesTimeStamp"/>
+			        <Pair DOAttb="PRODUCT_SYS_ID"   			toBOAttb="productId"/>
+			        <Pair DOAttb="DT_SGMNT_SYS_ID"  			toBOAttb="dateSegmentId"/>
+			    </DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ENTY_SYS_ID" 				toSCAttb = "entityKey"/>
+						<Pair DOAttb="ENTY_SYS_ID_LIST" 		toSCAttb = "entityKeys"/>
+						<Pair DOAttb="ENTY_TYPE" 				toSCAttb = "itemType"/>
+						<Pair DOAttb="PRODUCT_SYS_ID" 			toSCAttb = "productSysId"/>
+						<Pair DOAttb="DT_SGMNT_SYS_ID" 			toSCAttb = "dateSegmentSysId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="RULE">
+				<DataObjectAttribute name="RULE_ID" 			type="String"/>
+				<DataObjectAttribute name="RULE_SHRT_DESC" 		type="String"/>
+				<DataObjectAttribute name="RULE_TYPE_CODE" 		type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_SHRT_DESC"/>							
+						<ResultIndex index="1" dataObjectAttribName ="RULE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="RULE_TYPE_CODE"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="SearchForReferenceIds"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_SHRT_DESC"/>							
+						<ResultIndex index="1" dataObjectAttribName ="RULE_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="SearchForReferenceIdsDatafeed"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>			
+						<Pair DOAttb="RULE_ID"				toBOAttb="primaryCode"/>			
+						<Pair DOAttb="RULE_SHRT_DESC"		toBOAttb="codeDescText"/>	
+						<Pair DOAttb="RULE_TYPE_CODE"		toBOAttb="entityType"/>			
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>
+

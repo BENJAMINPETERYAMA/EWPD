@@ -1,0 +1,232 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.ContractVariableMappingBO">
+		<BusinessAttribute name="contractVaiable" 			type="String" 	keyAttrib="false"/>
+
+		<BusinessAttribute name="contrctDesc" 				type="String" 	keyAttrib="false"/>
+	    <BusinessAttribute name="message" 					type="String" 	keyAttrib="false"/>
+	    <BusinessAttribute name="msgTypeInd" 				type="String" 	keyAttrib="false"/>
+	    <BusinessAttribute name="senBnftInd" 				type="String" 	keyAttrib="false"/>
+	    <BusinessAttribute name="mappngReq" 				type="String" 	keyAttrib="false"/>
+	    <BusinessAttribute name="createdUser" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="dataElementID" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="dataElementVal" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="rownum" 					type="Int" 		keyAttrib="true"/>
+		<BusinessAttribute name="seqNum" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="status" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="mappingsysid"				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="preAuthExlInd"				type="String" 	keyAttrib="false"/>
+	    <SearchCriteria>
+		     <SearchCriteriaAttribute name="status" 		type="String" />
+	    </SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+				 select sysdate from dual
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrievevariableMappingValues">
+						        select  a.cntrct_var_id, A.msg,a.msg_type,a.sen_bnft_ind,
+						   b.data_element_id, b.data_element_val , b.seq_num,a.lst_chg_tms, a.proc_excld_ind,rownum
+						    from bx_cntrct_var_mapg A,bx_cntrct_var_mapg_val b
+						    where a.VAR_MAPG_STTS_CD = {0}
+                				and a.in_temp_tab = 'N'
+						     and b.var_mapg_sys_id= a.var_mapg_sys_id
+        				order by a.lst_chg_tms desc
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveTempVariableMappingValues">
+
+ 						select a.cntrct_var_id, A.msg,a.msg_type,a.sen_bnft_ind,
+						   b.data_element_id, b.data_element_val , b.seq_num,a.lst_chg_tms, a.proc_excld_ind,rownum
+              				 from temp_bx_cntrct_var_mapg A, temp_bx_cntrct_var_mapg_val B
+               				where a.VAR_MAPG_STTS_CD = {0}
+						     and b.var_mapg_sys_id= a.var_mapg_sys_id
+        					order by a.lst_chg_tms desc
+
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retriveNotApplicableMappings">
+							select  a.cntrct_var_id,rownum
+						    from bx_cntrct_var_mapg A
+						    where a.VAR_MAPG_STTS_CD = {0}
+							and a.in_temp_tab = 'N'
+        				order by a.lst_chg_tms desc
+			</SelectSQLQuery><!--
+			<SelectSQLQuery name="retriveTempNotApplicableMappings">
+							select  a.cntrct_var_id,rownum
+						    from temp_bx_cntrct_var_mapg A
+						    where a.VAR_MAPG_STTS_CD = {0}
+        				order by a.cntrct_var_id asc
+			</SelectSQLQuery>
+
+		--><DataObject name="BX_CNTRCT_VAR_MAPG">
+				<DataObjectAttribute name="VAR_MAPG_SYS_ID" 		type="String"/>
+				<DataObjectAttribute name="CNTRCT_VAR_ID" 			type="String"/>
+				<DataObjectAttribute name="CNTRCT_VAR_DESC" 		type="String"/>
+				<DataObjectAttribute name="MSG" 					type="String"/>
+				<DataObjectAttribute name="MSG_TYPE" 				type="String"/>
+				<DataObjectAttribute name="SEN_BNFT_IND" 			type="String"/>
+				<DataObjectAttribute name="VAR_MAPG_STTS_CD" 		type="String"/>
+				<DataObjectAttribute name="IS_MAPG_REQUIRED" 		type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="Date"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="Date"/>
+				<DataObjectAttribute name="DATA_ELEMENT_ID" 		type="String"/>
+				<DataObjectAttribute name="DATA_ELEMENT_VAL" 		type="String"/>
+				<DataObjectAttribute name="rownum" 					type="Int"/>
+				<DataObjectAttribute name="seq_num" 				type="String"/>
+				<DataObjectAttribute name="PROC_EXCLD_IND" 			type="String"/>
+
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+			<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="CNTRCT_VAR_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="MSG" />
+						<ResultIndex index="2"   		dataObjectAttribName="MSG_TYPE" />
+						<ResultIndex index="3"			dataObjectAttribName="SEN_BNFT_IND" />
+						<ResultIndex index="4"			dataObjectAttribName="DATA_ELEMENT_ID" />
+						<ResultIndex index="5"			dataObjectAttribName="DATA_ELEMENT_VAL" />
+						<ResultIndex index="6"			dataObjectAttribName="seq_num" />
+						<ResultIndex index="7"			dataObjectAttribName="LST_CHG_TMS" />
+						<ResultIndex index="8"			dataObjectAttribName="PROC_EXCLD_IND" />
+						<ResultIndex index="9"			dataObjectAttribName="rownum" />
+			</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrievevariableMappingValues" />
+				</SQLTemplate>
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+			<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="CNTRCT_VAR_ID" />						
+						<ResultIndex index="1"			dataObjectAttribName="rownum" />
+
+
+			</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retriveNotApplicableMappings" />
+				</SQLTemplate><!--
+		<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+			<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="CNTRCT_VAR_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="rownum" />
+			</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retriveTempNotApplicableMappings" />
+				</SQLTemplate>
+			--><SQLTemplate transType="update">
+						<SQLQuery>
+						<![CDATA[ 
+
+						UPDATE BX_CNTRCT_VAR_MAPG set var_mapg_stts_cd ='OBJECT_TRANSFERRED',LST_CHG_USR = 'DATAFEED'
+						where var_mapg_stts_cd = 'SCHEDULED_TO_TEST' and lst_chg_tms <= ?
+						]]>
+
+
+						</SQLQuery>
+					<!--<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+					--><DataObjectAttributeInput index="1"          name="LST_CHG_TMS" />
+			</SQLTemplate>
+
+			<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="VAR_MAPG_SYS_ID"		toBOAttb="mappingsysid"/>
+						<Pair DOAttb="CNTRCT_VAR_ID"		toBOAttb="contractVaiable"/>
+						<Pair DOAttb="CNTRCT_VAR_DESC"		toBOAttb="contrctDesc"/>
+						<Pair DOAttb="MSG"					toBOAttb="message"/>
+						<Pair DOAttb="MSG_TYPE"				toBOAttb="msgTypeInd"/>
+						<Pair DOAttb="SEN_BNFT_IND"			toBOAttb="senBnftInd"/>
+						<Pair DOAttb="VAR_MAPG_STTS_CD"		toBOAttb="status"/>
+						<Pair DOAttb="IS_MAPG_REQUIRED"		toBOAttb="mappngReq"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="DATA_ELEMENT_ID"		toBOAttb="dataElementID"/>
+						<Pair DOAttb="DATA_ELEMENT_VAL"		toBOAttb="dataElementVal"/>
+						<Pair DOAttb="rownum"				toBOAttb="rownum"/>
+						<Pair DOAttb="seq_num"				toBOAttb="seqNum"/>
+						<Pair DOAttb="PROC_EXCLD_IND"		toBOAttb="preAuthExlInd"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="VAR_MAPG_STTS_CD" 		toSCAttb="status" />
+		    	</DoAttributeToSCAttributeMap>
+			</DataObject>
+		<DataObject name="TEMP_BX_CNTRCT_VAR_MAPG">
+				<DataObjectAttribute name="VAR_MAPG_SYS_ID" 		type="String"/>
+				<DataObjectAttribute name="CNTRCT_VAR_ID" 			type="String"/>
+				<DataObjectAttribute name="CNTRCT_VAR_DESC" 		type="String"/>
+				<DataObjectAttribute name="MSG" 					type="String"/>
+				<DataObjectAttribute name="MSG_TYPE" 				type="String"/>
+				<DataObjectAttribute name="SEN_BNFT_IND" 			type="String"/>
+				<DataObjectAttribute name="VAR_MAPG_STTS_CD" 		type="String"/>
+				<DataObjectAttribute name="IS_MAPG_REQUIRED" 		type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="Date"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="Date"/>
+				<DataObjectAttribute name="DATA_ELEMENT_ID" 		type="String"/>
+				<DataObjectAttribute name="DATA_ELEMENT_VAL" 		type="String"/>
+				<DataObjectAttribute name="rownum" 					type="Int"/>
+				<DataObjectAttribute name="seq_num" 				type="String"/>
+				<DataObjectAttribute name="PROC_EXCLD_IND" 			type="String"/>
+
+			
+			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+			<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="CNTRCT_VAR_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="MSG" />
+						<ResultIndex index="2"   		dataObjectAttribName="MSG_TYPE" />
+						<ResultIndex index="3"			dataObjectAttribName="SEN_BNFT_IND" />
+						<ResultIndex index="4"			dataObjectAttribName="DATA_ELEMENT_ID" />
+						<ResultIndex index="5"			dataObjectAttribName="DATA_ELEMENT_VAL" />
+						<ResultIndex index="6"			dataObjectAttribName="seq_num" />
+						<ResultIndex index="7"			dataObjectAttribName="LST_CHG_TMS" />
+						<ResultIndex index="8"			dataObjectAttribName="PROC_EXCLD_IND" />
+						<ResultIndex index="9"			dataObjectAttribName="rownum" />
+			</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveTempVariableMappingValues" />
+				</SQLTemplate>
+			<SQLTemplate transType="update">
+						<SQLQuery>
+						 <![CDATA[ 
+						update TEMP_BX_CNTRCT_VAR_MAPG set var_mapg_stts_cd ='OBJECT_TRANSFERRED',LST_CHG_USR = 'DATAFEED'
+						where var_mapg_stts_cd = 'SCHEDULED_TO_TEST' and lst_chg_tms <= to_date(?,'DD-MON-RR')+1
+						]]>
+
+						</SQLQuery>
+					<!--<DataObjectAttributeInput index="0"			 name="VAR_MAPG_STTS_CD" />
+					--><DataObjectAttributeInput index="1"          name="LST_CHG_TMS" />
+			</SQLTemplate>
+
+			<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="VAR_MAPG_SYS_ID"		toBOAttb="mappingsysid"/>
+						<Pair DOAttb="CNTRCT_VAR_ID"		toBOAttb="contractVaiable"/>
+						<Pair DOAttb="CNTRCT_VAR_DESC"		toBOAttb="contrctDesc"/>
+						<Pair DOAttb="MSG"					toBOAttb="message"/>
+						<Pair DOAttb="MSG_TYPE"				toBOAttb="msgTypeInd"/>
+						<Pair DOAttb="SEN_BNFT_IND"			toBOAttb="senBnftInd"/>
+						<Pair DOAttb="VAR_MAPG_STTS_CD"		toBOAttb="status"/>
+						<Pair DOAttb="IS_MAPG_REQUIRED"		toBOAttb="mappngReq"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="DATA_ELEMENT_ID"		toBOAttb="dataElementID"/>
+						<Pair DOAttb="DATA_ELEMENT_VAL"		toBOAttb="dataElementVal"/>
+						<Pair DOAttb="rownum"				toBOAttb="rownum"/>
+						<Pair DOAttb="seq_num"				toBOAttb="seqNum"/>
+						<Pair DOAttb="PROC_EXCLD_IND"		toBOAttb="preAuthExlInd"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="VAR_MAPG_STTS_CD" 		toSCAttb="status" />
+		    	</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata> 

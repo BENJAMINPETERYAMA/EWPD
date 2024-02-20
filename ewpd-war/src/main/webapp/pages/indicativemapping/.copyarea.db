@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\indicativemapping
+2
+6
+1b:createindicativemapping.jsp|1|16adf91eeec|27cd|789b6e0d|28ce3947e9a244e9b9c9f26d7ca3a89c|0
+1d:indicativemappingmaintain.jsp|1|16adf91ef2a|3aa1|409647b6|a3069426078d4e42b5c5681b9bcf8062|0
+19:editindicativemapping.jsp|1|16adf9217a1|334e|648b6db0|a9d09f9c14a547748e9c050b82c2147d|0
+1e:editindicativemappingprint.jsp|1|16adf91ef1b|1798|664d385|e3282639f5c1468381226f574e583e0e|0
+19:indicativemappingview.jsp|1|16adf91efa7|1aee|2bdd46a9|75521f8767294d0cb9fd67d475cb671e|0
+1a:indicativemappingprint.jsp|1|16adf91ef49|805|7b1d778d|bbe53eb939a74931b7d4e18f5a07d273|0

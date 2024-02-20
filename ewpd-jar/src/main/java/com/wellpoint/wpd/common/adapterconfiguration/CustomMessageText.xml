@@ -1,0 +1,208 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.CustomMessageTextBO">
+		<BusinessAttribute name="headerRuleId" 			type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="spsParameterId" 		type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="headerRuleDesc" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="spsParameterDesc" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="messagetext" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="messageReqIndicator" 	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="noteTypeCode" 	 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="noteTypeDesc" 	 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date" 	keyAttrib="false"/>
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="headerRuleId" 		type="String" />
+			<SearchCriteriaAttribute name="spsId" 			type="String" />
+			<SearchCriteriaAttribute name="spsParameterList" 		type="List" />
+			<SearchCriteriaAttribute name="headerRuleList" 			type="List" />
+			<SearchCriteriaAttribute name="messagetext" 			type="String" />
+			<SearchCriteriaAttribute name="messageReqIndicator" 	type="String" />
+		</SearchCriteria>
+	
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			select  SPS_ID,HDR_RULE_ID,MSG_TEXT,MSG_RQRD_IND,CREATD_USER_ID,CREATD_TM_STMP,LST_CHG_USR,
+					LST_CHG_TMS from BX_CSTM_MSG_TEXT where SPS_ID = ? and HDR_RULE_ID = ?				
+		    </SelectSQLQuery>
+			
+			<SelectSQLQuery name="retrieveCustomMesssageText">					
+				SELECT a.hdr_rule_id, b.rule_shrt_desc, a.sps_id, c.cd_desc_txt, a.msg_text,
+			           a.msg_rqrd_ind, a.creatd_user_id, a.creatd_tm_stmp, a.lst_chg_usr,
+			           a.lst_chg_tms,a.NOTE_TYP_CD,(select CD_DESC_TXT from item where CTLG_ID = 3887 and PRMRY_CD = a.NOTE_TYP_CD) NOTE_TYP_CD_DESC
+			  	  FROM bx_cstm_msg_text a, rule b, item c,item d
+			 	  WHERE a.sps_id = c.prmry_cd
+			  	 	AND a.hdr_rule_id = b.rule_id
+			   		AND c.ctlg_id = 1938
+			   		AND a.sps_id = {0}
+		  		    AND a.hdr_rule_id = {1}
+		    </SelectSQLQuery>	
+			<SelectSQLQuery name="retrieveCustomMessagesDF">
+				SELECT A.HDR_RULE_ID , A.SPS_ID, A.MSG_TEXT, A.MSG_RQRD_IND, A.NOTE_TYP_CD, B.CD_DESC_TXT 
+					FROM BX_CSTM_MSG_TEXT A, ITEM B
+					WHERE A.NOTE_TYP_CD = B.PRMRY_CD(+)
+						AND B.CTLG_ID(+) = 3887
+						AND MSG_TEXT IS NOT NULL
+				ORDER BY HDR_RULE_ID
+			</SelectSQLQuery>
+			<SelectSQLQuery name="searchCustomMessages" dynamic="true">
+			<STATIC>
+					<![CDATA[
+				SELECT HDR_RULE_ID, SPS_ID, SUBSTR(MSG_TEXT,1,16), MSG_RQRD_IND FROM BX_CSTM_MSG_TEXT WHERE 1=1 
+					]]>
+			</STATIC>
+			<DYNAMIC>
+					and HDR_RULE_ID {0} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and SPS_ID {1} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and MSG_TEXT like upper({2})
+			</DYNAMIC>
+			<DYNAMIC>
+					and MSG_RQRD_IND = {3} 
+			</DYNAMIC>
+			
+			<STATIC>
+					<![CDATA[
+				              order by SPS_ID asc
+			         ]]>
+			</STATIC>
+			</SelectSQLQuery>
+			<DataObject name="BX_CSTM_MSG_TEXT">
+				<DataObjectAttribute name="HDRRULEID" 		    type="String"/>
+				<DataObjectAttribute name="SPSID"  				type="String"/>
+				<DataObjectAttribute name="HDR_RULE_ID" 		type="String"/>
+				<DataObjectAttribute name="RULE_SHRT_DESC" 		type="String"/>
+				<DataObjectAttribute name="SPS_ID" 		        type="String"/>
+				<DataObjectAttribute name="CD_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="MSG_TEXT" 			type="String"/>
+				<DataObjectAttribute name="MSG_RQRD_IND" 	    type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="NOTE_TYP_CD" 		type="String"/>
+				<DataObjectAttribute name="NOTE_TYP_CD_DESC" 	type="String"/>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							INSERT INTO BX_CSTM_MSG_TEXT VALUES (?,?,?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="HDR_RULE_ID"/>
+						<DataObjectAttributeInput index="1" name="SPS_ID"/>
+						<DataObjectAttributeInput index="2" name="MSG_RQRD_IND"/>
+						<DataObjectAttributeInput index="3" name="MSG_TEXT"/>
+						<DataObjectAttributeInput index="4" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="5" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="7" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="8" name="NOTE_TYP_CD"/>
+
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE BX_CSTM_MSG_TEXT 
+								SET MSG_RQRD_IND = ?,
+									MSG_TEXT = ?,
+									LST_CHG_USR=?,
+									LST_CHG_TMS=?,
+									NOTE_TYP_CD=?
+								WHERE SPS_ID=?
+								AND HDR_RULE_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="MSG_RQRD_IND"/>
+						<DataObjectAttributeInput index="1" name="MSG_TEXT"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name="NOTE_TYP_CD"/>
+						<DataObjectAttributeInput index="5" name="SPS_ID"/>
+						<DataObjectAttributeInput index="6" name="HDR_RULE_ID"/>
+
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="HDRRULEID" />
+					<DataObjectAttributeInput index="1" 		 name="SPSID" />
+					<DataObjectAttributeInput index="2"			 name="MSG_TEXT" />
+					<DataObjectAttributeInput index="3" 		 name="MSG_RQRD_IND" />
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="HDR_RULE_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="2"   		dataObjectAttribName="MSG_TEXT" />
+						<ResultIndex index="3"			dataObjectAttribName="MSG_RQRD_IND" />
+						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchCustomMessages" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 		 name="SPS_ID" />
+					<DataObjectAttributeInput index="1"			 name="HDR_RULE_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="HDR_RULE_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="RULE_SHRT_DESC" />
+						<ResultIndex index="2"   		dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="3"			dataObjectAttribName="CD_DESC_TXT" />
+						<ResultIndex index="4"			dataObjectAttribName="MSG_TEXT" />
+						<ResultIndex index="5"			dataObjectAttribName="MSG_RQRD_IND" />
+						<ResultIndex index="6"			dataObjectAttribName="CREATD_USER_ID" />
+						<ResultIndex index="7"			dataObjectAttribName="CREATD_TM_STMP" />
+						<ResultIndex index="8" 			dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="9"			dataObjectAttribName="LST_CHG_TMS" />
+						<ResultIndex index="10"			dataObjectAttribName="NOTE_TYP_CD" />
+						<ResultIndex index="11" 		dataObjectAttribName="NOTE_TYP_CD_DESC" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveCustomMesssageText" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="HDR_RULE_ID" />
+						<ResultIndex index="1"   		dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="2"			dataObjectAttribName="MSG_TEXT" />
+						<ResultIndex index="3"			dataObjectAttribName="MSG_RQRD_IND" />
+						<ResultIndex index="4"			dataObjectAttribName="NOTE_TYP_CD" />
+						<ResultIndex index="5"			dataObjectAttribName="NOTE_TYP_CD_DESC" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveCustomMessagesDF" />
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from BX_CSTM_MSG_TEXT where HDR_RULE_ID = ? and SPS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="HDR_RULE_ID"/>
+						<DataObjectAttributeInput index="1" name="SPS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="HDR_RULE_ID"	    toBOAttb="headerRuleId"/>
+						<Pair DOAttb="RULE_SHRT_DESC"	toBOAttb="headerRuleDesc"/>
+						<Pair DOAttb="SPS_ID"	        toBOAttb="spsParameterId"/>
+						<Pair DOAttb="CD_DESC_TXT"		toBOAttb="spsParameterDesc"/>
+						<Pair DOAttb="MSG_TEXT"		    toBOAttb="messagetext"/>
+						<Pair DOAttb="MSG_RQRD_IND"		toBOAttb="messageReqIndicator"/>
+						<Pair DOAttb="CREATD_USER_ID"	toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"	toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="NOTE_TYP_CD"		toBOAttb="noteTypeCode"/>
+						<Pair DOAttb="NOTE_TYP_CD_DESC"		toBOAttb="noteTypeDesc"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="HDR_RULE_ID" 		toSCAttb="headerRuleId" />
+						<Pair DOAttb="SPS_ID"			toSCAttb="spsId"/>
+						<Pair DOAttb="HDRRULEID" 		toSCAttb="headerRuleList" />
+						<Pair DOAttb="SPSID" 			toSCAttb="spsParameterList" />
+						<Pair DOAttb="MSG_TEXT" 		toSCAttb="messagetext" />
+						<Pair DOAttb="MSG_RQRD_IND" 	toSCAttb="messageReqIndicator" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata> 

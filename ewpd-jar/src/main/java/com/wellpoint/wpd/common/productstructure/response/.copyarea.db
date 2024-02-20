@@ -1,0 +1,22 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\productstructure\response
+2
+12
+27:AttachNotesToQuestionResponseForPS.java|1|16adf97bc93|3bd|7a043078|1ca33b129f394c89a0d347a34f0ca3e1|0
+21:SaveAdminOptionResponseForPS.java|1|16adf97c1a1|37d|c61e4b|6b8e56541de1489c8b30169d335899b5|0
+23:DeleteProductStructureResponse.java|1|16adf97bd2f|80b|9b8834e|2b95a7a893dc4b89862a72cda0ab6f2a|0
+26:RetrieveComponentFromTreeResponse.java|1|16adf97bdbb|92b|16b6cf41|7221d4fabacc456f8025320d1d9ef2b6|0
+21:SaveProductStructureResponse.java|1|16adf97c04a|cd1|5ad30518|e7cbd5995b554490b0af63baf76e945f|0
+26:SaveBenefitAdministrationResponse.java|1|16adf97c192|430|cc3f5794|c044a5d247ae4713be663087de81cbdd|0
+25:RetrieveProductStructureResponse.java|1|16adf97bd8c|949|5b26e0ce|24d2afb129ae4cf9a348224e38ccf630|0
+32:SaveProductStructureBenefitDefinitionResponse.java|1|16adf97c04a|5e1|f33ad590|671f216cc73740aeb51b6b5ea7a1b8ff|0
+25:RetrieveBenefitComponentResponse.java|1|16adf97c04a|6d7|78dd3160|082dcc13cb8e45a4912d8c1ebbaafa44|0
+24:RetrieveBenefitMandatesResponse.java|1|16adf97be38|c46|5fc7b98f|5221e0699aa24e61b50ea412a5ba8cd3|0
+34:RetrieveProdStructureComponentHierarchyResponse.java|1|16adf97bd9c|458|761c7688|05daca89b5b346688270bf8c0958f057|0
+26:ProductStructureLifeCycleResponse.java|1|16adf97babf|61a|73e8e3d7|8844928745e34da6add3a53b4a62d097|0
+23:SearchProductStructureResponse.java|1|16adf97c1b1|478|ea35731d|82e5a88432474705bacf993bd35435b5|0
+22:ProductStructureNotesResponse.java|1|16adf97bb1c|3ea|f0d64945|36a61a13c167477794bd2f42f26fa9b0|0
+2d:RetrieveProductStructureVersionsResponse.java|1|16adf97c163|673|f7720989|5524804c39764b84b2e79c794121203f|0
+2a:RetrieveBenefitComponentPopUpResponse.java|1|16adf97bb2c|45b|15026af6|247636aac3374a15a0c826844c500ab5|0
+3a:RetrieveProductStructureBenefitAdministrationResponse.java|1|16adf97bdcb|4bb|b86b8fff|20a7a9138676460aa1e9040f3cc6c97e|0
+26:RetrieveBenefitDefenitionResponse.java|1|16adf97c04a|89c|c876aef0|fd868d1dec3a40acb924c2ad87edf210|0

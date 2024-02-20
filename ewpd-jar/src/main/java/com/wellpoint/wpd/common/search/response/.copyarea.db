@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\search\response
+2
+4
+20:RetrieveAssociationResponse.java|1|16adf97d206|3e4|108b3ade|f439e764358d4c9daaf1e98be5b4701c|0
+18:DomainFetchResponse.java|1|16adf97d1e7|55c|4cc0b102|c6ffe5627cdf43beac98887397de5999|0
+1f:RetrieveAttachmentResponse.java|1|16adf97d2e0|30c|79b8f528|bb6e6161c5994613b8dd272e5fecdcc8|0
+13:SearchResponse.java|1|16adf97d2e0|52b|d66ab00|86265de437ce43eba46efaac1c6f2c95|0

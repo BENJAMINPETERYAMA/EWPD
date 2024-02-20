@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\question\response
+2
+b
+1d:RetrieveQuestionResponse.java|1|16adf97c5c6|928|bf7c973|4157a84aae204393927cdf326f11f2b9|0
+19:SaveQuestionResponse.java|1|16adf97c605|b4f|7acd5b2d|8c9a789187e34e2fba609b368801da7e|0
+1d:TestPassQuestionResponse.java|1|16adf97c71d|61a|2300e7f0|93fc221129d9493b9a2a1b6e6433744e|0
+1d:TestFailQuestionResponse.java|1|16adf97c653|61a|a4a9e676|62a97cf4a9c34f2a8b180fe16d0534f9|0
+19:QuestionViewResponse.java|1|16adf97c5c6|618|6796e645|d2a261ce965444d79cdbb518337916c1|0
+24:ScheduleForTestQuestionResponse.java|1|16adf97c653|886|b22aa7fc|198b2ffd5b094dbab071d69475997bda|0
+1b:UnlockQuestionResponse.java|1|16adf97c6cf|36a|6e1f191b|2070f7e9308f4e849fffd295580851a6|0
+1d:CheckOutQuestionResponse.java|1|16adf97c588|7a0|7fc15dad|1f7c703f05bb4c32bd7b2c187179d339|0
+1b:DeleteQuestionResponse.java|1|16adf97c578|57f|e4e5a4ed|8a0ba6f977444366aeef534ba0768407|0
+1b:SearchQuestionResponse.java|1|16adf97c653|4bb|8c168abb|1a4c339de0ca4653a179c3f7018812af|0
+1c:PublishQuestionResponse.java|1|16adf97c588|623|7a5be702|de6d2f5257cc479f9dfe6fdb831a27ca|0

@@ -1,0 +1,1347 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitBO">
+		<BusinessAttribute name="benefitId" 		type="Int"	keyAttrib="true"/>
+		<BusinessAttribute name="benefitName" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitParentId" 			type="Int" 	keyAttrib="false"/>
+		 <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="benefitComponentId"   type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentName"   type="String"/>
+			<SearchCriteriaAttribute name="lobList"   type="List"/>
+			<SearchCriteriaAttribute name="businessEntityList"   type="List"/>
+			<SearchCriteriaAttribute name="businessGroupList"   type="List"/>
+			<SearchCriteriaAttribute name="marketBusinessUnitList" 			type="List"/>
+			
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="invalidBenefit">
+				SELECT a.bnft_sys_id, a.bnft_id_nm, a.bnft_parnt_sys_id
+				  FROM bmst_bnft_mstr a, bnft_cmpnt_hrchy_assn b
+				 WHERE b.bnft_cmpnt_sys_id = {0}
+				   AND a.bnft_sys_id = b.bnft_sys_id
+				MINUS
+				SELECT benefits_st.benefit_id, benefits_st.benefit_nm, benefits_st.bnft_parnt_id
+				  FROM (SELECT bft_mstr.bnft_sys_id benefit_id,
+				               bft_mstr.bnft_id_nm benefit_nm,
+				               bft_mstr.bnft_parnt_sys_id bnft_parnt_id,
+				               (CASE
+				                   WHEN ben_comp.bnft_cmpnt_st_cd IS NULL
+				                      THEN 'TRUE'
+				                   ELSE (CASE
+				                            WHEN ben_comp.bnft_cmpnt_st_cd IN (
+				                                   SELECT mdt_st.bmndt_st_cd
+				                                     FROM bmndt_stcd_info mdt_st,
+				                                          bmndt_bnft_mndt bn_md
+				                                    WHERE bn_md.bnft_mndt_sys_id = mdt_st.bnft_mndt_sys_id
+				                                      AND bn_md.bnft_sys_id = bft_mstr.bnft_sys_id)
+				                               THEN 'TRUE'
+				                            ELSE 'FALSE'
+				                         END
+				                        )
+				                END
+				               ) mul_states
+				          FROM (SELECT a.bnft_sys_id bft_id, a.bnft_id_nm bft_nm,
+				                       c.bnft_cmpnt_sys_id bft_cmp_id
+				                  FROM bmst_bnft_mstr a,
+				                       bdm_bnft_defn_mstr f,
+				                       bcm_bnft_cmpnt_mstr c,
+				                       (SELECT   bnft_parnt_sys_id,
+				                                 MAX (bnft_vrsn_nbr) bnft_vrsn_nbr
+				                            FROM bmst_bnft_mstr x
+				                           WHERE x.bnft_stts_cd = 'PUBLISHED'
+				                        GROUP BY bnft_parnt_sys_id) aa
+				                 WHERE a.bnft_parnt_sys_id = aa.bnft_parnt_sys_id
+				                   AND a.bnft_vrsn_nbr = aa.bnft_vrsn_nbr
+				                   AND a.bnft_stts_cd = 'PUBLISHED'
+				                   AND f.bnft_sys_id = a.bnft_sys_id
+				                   AND a.bnft_type = c.bnft_cmpnt_type
+				                   AND NVL (a.mndt_type, 'NULL') = NVL (c.bnft_cmpnt_mdnt_type, 'NULL')
+				                   AND TRUNC (c.bnft_cmpnt_efctv_dt) >= TRUNC (f.bnft_defn_efctv_dt)
+				                   AND TRUNC (f.bnft_defn_expiry_dt) >= TRUNC (c.bnft_cmpnt_expiry_dt)
+				                   AND c.bnft_cmpnt_sys_id = {0}
+				                   AND a.bnft_stts_cd = 'PUBLISHED'
+				                   AND a.bnft_parnt_sys_id IN (
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND c.lob_nm {1}
+				                                GROUP BY a.bnft_parnt_sys_id
+				                                  HAVING COUNT (UNIQUE c.lob_nm) =
+				                                            (SELECT COUNT (prmry_cd)
+				                                               FROM item
+				                                              WHERE prmry_cd {1}
+				                                                AND ctlg_id = 1925))
+				                          UNION
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND b.enty_type = 'stdbenefit'
+				                                     AND c.lob_nm LIKE 'ALL'))
+				                   AND a.bnft_parnt_sys_id IN (
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND c.bus_enty_nm {2}
+				                                GROUP BY a.bnft_parnt_sys_id
+				                                  HAVING COUNT (UNIQUE c.bus_enty_nm) =
+				                                            (SELECT COUNT (prmry_cd)
+				                                               FROM item
+				                                              WHERE prmry_cd {2})
+				                                                AND ctlg_id = 1932))
+				                          UNION
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND b.enty_type = 'stdbenefit'
+				                                     AND c.bus_enty_nm LIKE 'ALL'))
+				                   AND a.bnft_parnt_sys_id IN (
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND c.bus_grp_nm {3}
+				                                GROUP BY a.bnft_parnt_sys_id
+				                                  HAVING COUNT (UNIQUE c.bus_grp_nm) =
+				                                            (SELECT COUNT (prmry_cd)
+				                                               FROM item
+				                                              WHERE prmry_cd {3}
+				                                                AND ctlg_id = 1933))
+				                          UNION
+				                          (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                    FROM bmst_bnft_mstr a,
+				                                         enty_domn_info b,
+				                                         avlbl_domn c
+				                                   WHERE a.bnft_parnt_sys_id = b.enty_sys_id
+				                                     AND b.domn_sys_id = c.domn_sys_id
+				                                     AND b.enty_type = 'stdbenefit'
+				                                     AND c.bus_grp_nm LIKE 'ALL'))) benefits,
+				               bcm_bnft_cmpnt_mstr ben_comp,
+				               bmst_bnft_mstr bft_mstr
+				         WHERE ben_comp.bnft_cmpnt_sys_id = benefits.bft_cmp_id
+				           AND bft_mstr.bnft_sys_id = benefits.bft_id) benefits_st
+				 WHERE benefits_st.mul_states = 'TRUE'
+				</SelectSQLQuery>
+		 	<SelectSQLQuery name="benefitSearch">
+				SELECT 
+                        BENEFITS_ST.BENEFIT_ID,
+                        BENEFITS_ST.BENEFIT_NM,
+						BENEFITS_ST.BNFT_PARNT_ID	
+                        FROM
+                              (SELECT
+                              BFT_MSTR.BNFT_SYS_ID BENEFIT_ID,
+                              BFT_MSTR.BNFT_ID_NM BENEFIT_NM,
+							  BFT_MSTR.BNFT_PARNT_SYS_ID BNFT_PARNT_ID,
+                              (CASE WHEN BEN_COMP.BNFT_CMPNT_ST_CD IS NULL THEN 'TRUE' ELSE 
+                                            (CASE WHEN BEN_COMP.BNFT_CMPNT_ST_CD IN 
+                                                (SELECT MDT_ST.BMNDT_ST_CD 
+                                                            FROM BMNDT_STCD_INFO MDT_ST, BMNDT_BNFT_MNDT BN_MD 
+                                                            WHERE 
+                                                            BN_MD. BNFT_MNDT_SYS_ID = MDT_ST. BNFT_MNDT_SYS_ID AND BN_MD.BNFT_SYS_ID = BFT_MSTR.BNFT_SYS_ID
+                                                ) THEN 'TRUE' ELSE 'FALSE' END)
+                              END) MUL_STATES
+                              FROM
+                                    (SELECT     
+                                    A.BNFT_SYS_ID BFT_ID, 
+                                    A.BNFT_ID_NM BFT_NM,
+                                    C.BNFT_CMPNT_SYS_ID BFT_CMP_ID
+                                     FROM
+                                    BMST_BNFT_MSTR A ,
+                                    BDM_BNFT_DEFN_MSTR F,BCM_BNFT_CMPNT_MSTR C,
+                                    (SELECT BNFT_PARNT_SYS_ID, MAX(BNFT_VRSN_NBR) BNFT_VRSN_NBR FROM  BMST_BNFT_MSTR X  
+												where BNFT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_PARNT_SYS_ID) AA
+                                    WHERE 
+                                    A.BNFT_PARNT_SYS_ID = AA.BNFT_PARNT_SYS_ID 
+                                    AND A.BNFT_VRSN_NBR = AA.BNFT_VRSN_NBR
+                                    AND F.BNFT_SYS_ID = A.BNFT_SYS_ID
+                                    AND A.BNFT_TYPE = C.BNFT_CMPNT_TYPE
+                                    AND NVL(A.MNDT_TYPE,'NULL') = NVL(C.BNFT_CMPNT_MDNT_TYPE,'NULL')   
+                                    AND TRUNC(C.BNFT_CMPNT_EFCTV_DT) >= TRUNC(F.BNFT_DEFN_EFCTV_DT)
+                                    AND TRUNC(F.BNFT_DEFN_EXPIRY_DT) >= TRUNC(C.BNFT_CMPNT_EXPIRY_DT)
+                                    AND C.BNFT_CMPNT_SYS_ID =  {0}                                    
+                                    AND A.BNFT_STTS_CD = 'PUBLISHED'
+									
+                                    AND
+                                    A.BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.LOB_NM   {1} 
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.LOB_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {1}    AND CTLG_ID = 1925))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.LOB_NM LIKE 'ALL') 
+                                    )
+                                    AND 
+                                    A.BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.BUS_ENTY_NM   {2} 
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.BUS_ENTY_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD   {2}   AND CTLG_ID = 1932))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.BUS_ENTY_NM LIKE 'ALL') 
+                                    ) 
+                                    AND 
+                                    A.BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.BUS_GRP_NM   {3}
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.BUS_GRP_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {3}   AND CTLG_ID = 1933))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.BUS_GRP_NM LIKE 'ALL') 
+                                          )
+                                    AND 
+                                    A.BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.MRKT_BUS_UNT   {4}
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.MRKT_BUS_UNT) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {4}   AND CTLG_ID = 3470))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.MRKT_BUS_UNT LIKE 'ALL') 
+                                          )
+                              ) benefits,
+                                    BCM_BNFT_CMPNT_MSTR BEN_COMP,
+                                    BMST_BNFT_MSTR BFT_MSTR
+                              WHERE
+                              BEN_COMP.BNFT_CMPNT_SYS_ID = benefits.BFT_CMP_ID AND
+                              BFT_MSTR.BNFT_SYS_ID = benefits.BFT_ID
+                              ) BENEFITS_ST
+                        WHERE
+                        BENEFITS_ST.MUL_STATES = 'TRUE'
+                        AND BENEFITS_ST.BNFT_PARNT_ID NOT IN 
+							(SELECT A.BNFT_PARNT_SYS_ID from BMST_BNFT_MSTR A,BNFT_CMPNT_HRCHY_ASSN B where B.BNFT_CMPNT_SYS_ID= {0} AND (A.BNFT_SYS_ID = B.BNFT_SYS_ID) )							
+                        ORDER BY BENEFITS_ST.BENEFIT_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitNameSearch">
+				select BNFT_ID_NM,BNFT_SYS_ID from BMST_BNFT_MSTR where BNFT_PARNT_SYS_ID in 
+                                                      ( (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                                        FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                                        WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                                        AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                                         AND c.LOB_NM   {1} 
+                                                         AND b.ENTY_TYPE = 'stdbenefit'
+                                                        GROUP BY a.BNFT_PARNT_SYS_ID
+                                                         HAVING COUNT(UNIQUE c.LOB_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {1}    AND CTLG_ID = 1925))
+                                                         UNION
+                                                         (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                                         WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                                         AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                                         AND b.ENTY_TYPE = 'stdbenefit'
+                                                         AND c.LOB_NM LIKE 'ALL') 
+                                                      )
+                                                      AND 
+                                    BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.BUS_ENTY_NM   {2} 
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.BUS_ENTY_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD   {2}   AND CTLG_ID = 1932))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.BUS_ENTY_NM LIKE 'ALL') 
+                                    ) 
+                                    AND 
+                                    BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.BUS_GRP_NM   {3}
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.BUS_GRP_NM) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {3}   AND CTLG_ID = 1933))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.BUS_GRP_NM LIKE 'ALL') 
+                                          )
+                                    AND 
+                                    BNFT_PARNT_SYS_ID IN 
+                                    (
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID 
+                                          FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND c.MRKT_BUS_UNT   {4}
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          GROUP BY a.BNFT_PARNT_SYS_ID
+                                          HAVING COUNT(UNIQUE c.MRKT_BUS_UNT) = (SELECT COUNT(PRMRY_CD) FROM item WHERE PRMRY_CD  {4}   AND CTLG_ID = 3470))
+                                          UNION
+                                          (SELECT UNIQUE a.BNFT_PARNT_SYS_ID  FROM  BMST_BNFT_MSTR a, ENTY_DOMN_INFO b, AVLBL_DOMN c
+                                          WHERE a.BNFT_PARNT_SYS_ID = b.ENTY_SYS_ID
+                                          AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                                          AND b.ENTY_TYPE = 'stdbenefit'
+                                          AND c.MRKT_BUS_UNT LIKE 'ALL') 
+                                          )
+                                          and BNFT_ID_NM = {0}
+
+
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitComponentNameSearch">
+				select BNFT_CMPNT_NM,BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR where
+									BNFT_CMPNT_PARNT_SYS_ID in 
+										(   
+										 select unique BB.parentID from   
+										  (select unique DECODE((select count(*) from 
+										  (select unique LOB_NM lbName from AVLBL_DOMN where LOB_NM {1})SAME_DOMAIN
+										  where SAME_DOMAIN.lbName in ('ALL')
+										  ),0,(select count(lobName) from (select a.BNFT_CMPNT_PARNT_SYS_ID bcParentId,
+											c.LOB_NM lobName,a.BNFT_CMPNT_NM name 
+										  		  from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.LOB_NM,a.BNFT_CMPNT_NM) where lobName not {1}),0
+										  ) countLob from
+										   ENTY_DOMN_INFO
+											)AA,
+											(select a.BNFT_CMPNT_PARNT_SYS_ID parentId,c.LOB_NM busEntityName,a.BNFT_CMPNT_NM name from AVLBL_DOMN c,
+											ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.LOB_NM,a.BNFT_CMPNT_NM )BB 
+											where
+											(0 >= AA.countLob)  
+								)
+                                                      
+								AND BNFT_CMPNT_PARNT_SYS_ID IN 
+                                    (
+                                        select unique BB.parentID from   
+										   (select unique DECODE((select count(*) from 
+										  (select unique BUS_ENTY_NM bEName from AVLBL_DOMN where BUS_ENTY_NM {2})SAME_DOMAIN
+										  where SAME_DOMAIN.bEName in ('ALL')
+										  ),0,(select count(busEntityName) from (select a.BNFT_CMPNT_PARNT_SYS_ID bcParentId,
+											c.BUS_ENTY_NM busEntityName,a.BNFT_CMPNT_NM name 
+										  		  from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.BUS_ENTY_NM,a.BNFT_CMPNT_NM) where busEntityName not {2}),0
+										  ) countBusEntity from
+										   ENTY_DOMN_INFO
+											)AA,
+											(select a.BNFT_CMPNT_PARNT_SYS_ID parentId,c.BUS_ENTY_NM busEntityName,a.BNFT_CMPNT_NM name from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.BUS_ENTY_NM,a.BNFT_CMPNT_NM )BB 
+											where
+											(0 >= AA.countBusEntity)          
+									) 
+                                    AND 
+                                    BNFT_CMPNT_PARNT_SYS_ID IN 
+                                    (
+                                          select unique BB.parentID from   
+										  (select unique DECODE((select count(*) from 
+										  (select unique BUS_GRP_NM bGName from AVLBL_DOMN where BUS_GRP_NM {3})SAME_DOMAIN
+										  where SAME_DOMAIN.bGName in ('ALL')
+										  ),0,(select count(busGrpName) from (select a.BNFT_CMPNT_PARNT_SYS_ID bcParentId,
+											c.BUS_GRP_NM busGrpName,a.BNFT_CMPNT_NM name 
+										  		  from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.BUS_GRP_NM,a.BNFT_CMPNT_NM) where busGrpName not {3}),0
+										  ) countBusGrp from
+										   ENTY_DOMN_INFO
+											)AA,
+											(select a.BNFT_CMPNT_PARNT_SYS_ID parentId,c.BUS_GRP_NM busGrpName,a.BNFT_CMPNT_NM name from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.BUS_GRP_NM,a.BNFT_CMPNT_NM )BB 
+											where
+											(0 >= AA.countBusGrp)                                
+                                              )
+                                    AND 
+                                    BNFT_CMPNT_PARNT_SYS_ID IN 
+                                    (
+                                          select unique BB.parentID from   
+										  (select unique DECODE((select count(*) from 
+										  (select unique MRKT_BUS_UNT mrktBusUnit from AVLBL_DOMN where MRKT_BUS_UNT {4})SAME_DOMAIN
+										  where SAME_DOMAIN.mrktBusUnit in ('ALL')
+										  ),0,(select count(mrktBusUnitName) from (select a.BNFT_CMPNT_PARNT_SYS_ID bcParentId,
+											c.MRKT_BUS_UNT mrktBusUnitName,a.BNFT_CMPNT_NM name 
+										  		  from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.MRKT_BUS_UNT,a.BNFT_CMPNT_NM) where mrktBusUnitName not {4}),0
+										  ) countBusGrp from
+										   ENTY_DOMN_INFO
+											)AA,
+											(select a.BNFT_CMPNT_PARNT_SYS_ID parentId,c.MRKT_BUS_UNT mrktBusUnitName,a.BNFT_CMPNT_NM name from AVLBL_DOMN c,ENTY_DOMN_INFO b,BCM_BNFT_CMPNT_MSTR a 
+													WHERE a.BNFT_CMPNT_PARNT_SYS_ID = b.ENTY_SYS_ID
+											 AND b.DOMN_SYS_ID = c.DOMN_SYS_ID
+											AND a.BNFT_CMPNT_NM = {0}
+										 AND b.ENTY_TYPE = 'BENEFITCOMP'
+											group by a.BNFT_CMPNT_PARNT_SYS_ID,c.MRKT_BUS_UNT,a.BNFT_CMPNT_NM )BB 
+											where
+											(0 >= AA.countBusGrp)                                
+                                              )
+                                          and BNFT_CMPNT_NM = {0}										  
+										 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitComponentNameSearchForAll">
+					select BNFT_CMPNT_NM,BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR 
+						WHERE BNFT_CMPNT_NM = {0}
+			</SelectSQLQuery>
+			<DataObject name="BMST_BNFT_MSTR">
+				<DataObjectAttribute name="BNFT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_ID_NM" 			type="String"/>
+				<DataObjectAttribute name="BNFT_PARNT_SYS_ID" 	type="Int"/>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+				   	</RSIndexToDOAttributeMap>
+					<SearchQueryName name="invalidBenefit"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitNameSearch"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_SYS_ID"	     toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_ID_NM"	 toBOAttb="benefitName"/>
+						<Pair DOAttb="BNFT_PARNT_SYS_ID"	 toBOAttb="benefitParentId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>			
+			<DataObject name="BCM_BNFT_CMPNT_MSTR">
+				<DataObjectAttribute name="BNFT_CMPNT_PARNT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="LOB_NM" 		type="String"/>
+			    <DataObjectAttribute name="BUS_ENTY_NM"    type="String"/>
+ 				<DataObjectAttribute name="BUS_GRP_NM"    type="String"/>
+				<DataObjectAttribute name="MRKT_BUS_UNT"  type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_NM" 		type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 		type="Int"/>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_PARNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<SearchQueryName name="benefitSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<SearchQueryName name="benefitNameSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitComponentNameSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitComponentNameSearchForAll"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_NM"	     toBOAttb="benefitName"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	     toBOAttb="benefitId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_CMPNT_NM" 	toSCAttb="benefitComponentName"/>
+						<Pair DOAttb="LOB_NM" 	toSCAttb="lobList"/>
+						<Pair DOAttb="BUS_ENTY_NM" 	toSCAttb="businessEntityList"/>
+						<Pair DOAttb="BUS_GRP_NM" 	toSCAttb="businessGroupList"/>
+						<Pair DOAttb="MRKT_BUS_UNT" toSCAttb="marketBusinessUnitList" />
+				</DoAttributeToSCAttributeMap>	
+			
+			</DataObject>				
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitHierarchyAssociationBO">
+		<BusinessAttribute name="benefitHierarchyId" 		type="Int"	keyAttrib="true"/>
+		<BusinessAttribute name="benefitHierarchyAssociationId" 			type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitComponentId" 			type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitId" 			type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitName" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber" 				type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 				type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 				type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitValid" 				type="String" 	keyAttrib="false"/>
+			
+		 <SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="benefitComponentId"   type="Int"/>
+			<SearchCriteriaAttribute name="benefitHierarchyId"   type="Int"/>
+			<SearchCriteriaAttribute name="lobList"   type="List"/>
+			<SearchCriteriaAttribute name="businessEntityList"   type="List"/>
+			<SearchCriteriaAttribute name="businessGroupList"   type="List"/>
+			<SearchCriteriaAttribute name="marketBusinessUnitList"   type="List"/>
+			<SearchCriteriaAttribute name="benefitId"   type="Int"/>
+			<SearchCriteriaAttribute name="user"   type="String"/>
+			<SearchCriteriaAttribute name="benefitIds"   type="String"/>
+
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery>
+					select SQNC_NBR,BNFT_HRCHY_ASSN_DESC_TXT,BNFT_HRCHY_SYS_ID,
+					BNFT_CMPNT_HRCHY_ASSN_SYS_ID,BNFT_CMPNT_SYS_ID
+					from BNFT_CMPNT_HRCHY_ASSN where BNFT_CMPNT_SYS_ID = ?
+			</SelectSQLQuery>
+		 	<SelectSQLQuery name="getMaxBenefitCount">
+					select BNFT_HRCHY_SYS_ID,BNFT_CMPNT_HRCHY_ASSN_SYS_ID,BNFT_CMPNT_SYS_ID  FROM 
+					BNFT_CMPNT_HRCHY_ASSN WHERE BNFT_CMPNT_SYS_ID = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="forBenefitHierarchy">
+				SELECT   sqnc_nbr, bnft_hrchy_assn_desc_txt, bnft_hrchy_sys_id,
+				         bnft_cmpnt_hrchy_assn_sys_id, bnft_cmpnt_sys_id, bnft_sys_id,
+				         (CASE
+				             WHEN bnft_sys_id IN (
+				                    SELECT benefits_st.benefit_id
+				                      FROM (SELECT bft_mstr.bnft_sys_id benefit_id,
+				                                   bft_mstr.bnft_id_nm benefit_nm,
+				                                   bft_mstr.bnft_parnt_sys_id bnft_parnt_id,
+				                                   (CASE
+				                                       WHEN ben_comp.bnft_cmpnt_st_cd IS NULL
+				                                          THEN 'TRUE'
+				                                       ELSE (CASE
+				                                                WHEN ben_comp.bnft_cmpnt_st_cd IN (
+				                                                       SELECT mdt_st.bmndt_st_cd
+				                                                         FROM bmndt_stcd_info mdt_st,
+				                                                              bmndt_bnft_mndt bn_md
+				                                                        WHERE bn_md.bnft_mndt_sys_id =
+				                                                                 mdt_st.bnft_mndt_sys_id
+				                                                          AND bn_md.bnft_sys_id =
+				                                                                 bft_mstr.bnft_sys_id)
+				                                                   THEN 'TRUE'
+				                                                ELSE 'FALSE'
+				                                             END
+				                                            )
+				                                    END
+				                                   ) mul_states
+				                              FROM (SELECT a.bnft_sys_id bft_id,
+				                                           a.bnft_id_nm bft_nm,
+				                                           c.bnft_cmpnt_sys_id bft_cmp_id
+				                                      FROM bmst_bnft_mstr a,
+				                                           bdm_bnft_defn_mstr f,
+				                                           bcm_bnft_cmpnt_mstr c,
+				                                           (SELECT   bnft_parnt_sys_id,
+				                                                     MAX
+				                                                        (bnft_vrsn_nbr
+				                                                        ) bnft_vrsn_nbr
+				                                                FROM bmst_bnft_mstr x
+				                                               WHERE x.bnft_stts_cd =
+				                                                                   'PUBLISHED'
+				                                            GROUP BY bnft_parnt_sys_id) aa
+				                                     WHERE a.bnft_parnt_sys_id =
+				                                                          aa.bnft_parnt_sys_id
+				                                       AND a.bnft_vrsn_nbr = aa.bnft_vrsn_nbr
+				                                       AND a.bnft_stts_cd = 'PUBLISHED'
+				                                       AND f.bnft_sys_id = a.bnft_sys_id
+				                                       AND a.bnft_type = c.bnft_cmpnt_type
+				                                       AND NVL (a.mndt_type, 'NULL') =
+				                                              NVL (c.bnft_cmpnt_mdnt_type,
+				                                                   'NULL'
+				                                                  )
+				                                       AND TRUNC (c.bnft_cmpnt_efctv_dt) >=
+				                                                  TRUNC (f.bnft_defn_efctv_dt)
+				                                       AND TRUNC (f.bnft_defn_expiry_dt) >=
+				                                                TRUNC (c.bnft_cmpnt_expiry_dt)
+				                                       AND c.bnft_cmpnt_sys_id = {0}
+				                                       AND a.bnft_stts_cd = 'PUBLISHED'
+				                                       AND a.bnft_parnt_sys_id IN (
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND c.lob_nm {1}
+				                                                    GROUP BY a.bnft_parnt_sys_id
+				                                                      HAVING COUNT
+				                                                                (UNIQUE c.lob_nm
+				                                                                ) =
+				                                                                (SELECT COUNT (prmry_cd)
+				                                                                   FROM item
+				                                                                  WHERE prmry_cd {1}
+				                                                                    AND ctlg_id = 1925))
+				                                              UNION
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND b.enty_type =
+				                                                                  'stdbenefit'
+				                                                         AND c.lob_nm LIKE
+				                                                                         'ALL'))
+				                                       AND a.bnft_parnt_sys_id IN (
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND c.bus_enty_nm {2}
+				                                                    GROUP BY a.bnft_parnt_sys_id
+				                                                      HAVING COUNT
+				                                                                (UNIQUE c.bus_enty_nm
+				                                                                ) =
+				                                                                (SELECT COUNT
+				                                                                           (prmry_cd
+				                                                                           )
+				                                                                   FROM item
+				                                                                  WHERE prmry_cd {2}
+				                                                                    AND ctlg_id =
+				                                                                           1932))
+				                                              UNION
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND b.enty_type =
+				                                                                  'stdbenefit'
+				                                                         AND c.bus_enty_nm LIKE
+				                                                                         'ALL'))
+				                                       AND a.bnft_parnt_sys_id IN 
+														(
+				                                              (
+																  SELECT
+																	UNIQUE a.bnft_parnt_sys_id
+					                                              FROM
+																	bmst_bnft_mstr a,
+					                                                enty_domn_info b,
+					                                                avlbl_domn c
+					                                              WHERE
+																	a.bnft_parnt_sys_id = b.enty_sys_id
+					                                                AND b.domn_sys_id = c.domn_sys_id
+					                                                AND c.MRKT_BUS_UNT {4}
+					                                              GROUP BY
+																	a.bnft_parnt_sys_id
+					                                              HAVING
+																		COUNT(UNIQUE c.MRKT_BUS_UNT)
+																			=
+					                                                    (SELECT 
+																			COUNT(prmry_cd)
+					                                                     FROM
+																			item
+					                                                     WHERE
+																			prmry_cd {4}
+					                                                        AND ctlg_id =3470
+																		)
+																)
+				                                              UNION
+				                                              (
+																	SELECT
+																		UNIQUE a.bnft_parnt_sys_id
+				                                                    FROM
+																		bmst_bnft_mstr a,
+				                                                        enty_domn_info b,
+				                                                        avlbl_domn c
+				                                                    WHERE
+																		a.bnft_parnt_sys_id = b.enty_sys_id
+				                                                         AND b.domn_sys_id = c.domn_sys_id
+				                                                         AND b.enty_type = 'stdbenefit'
+				                                                         AND c.MRKT_BUS_UNT LIKE 'ALL'
+																)
+														)
+				                                       AND a.bnft_parnt_sys_id IN (
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND c.bus_grp_nm {3}
+				                                                    GROUP BY a.bnft_parnt_sys_id
+				                                                      HAVING COUNT
+				                                                                (UNIQUE c.bus_grp_nm
+				                                                                ) =
+				                                                                (SELECT COUNT
+				                                                                           (prmry_cd
+				                                                                           )
+				                                                                   FROM item
+				                                                                  WHERE prmry_cd {3}
+				                                                                    AND ctlg_id =
+				                                                                           1933))
+				                                              UNION
+				                                              (SELECT UNIQUE a.bnft_parnt_sys_id
+				                                                        FROM bmst_bnft_mstr a,
+				                                                             enty_domn_info b,
+				                                                             avlbl_domn c
+				                                                       WHERE a.bnft_parnt_sys_id =
+				                                                                 b.enty_sys_id
+				                                                         AND b.domn_sys_id =
+				                                                                 c.domn_sys_id
+				                                                         AND b.enty_type =
+				                                                                  'stdbenefit'
+				                                                         AND c.bus_grp_nm LIKE
+				                                                                         'ALL'))) benefits,
+				                                   bcm_bnft_cmpnt_mstr ben_comp,
+				                                   bmst_bnft_mstr bft_mstr
+				                             WHERE ben_comp.bnft_cmpnt_sys_id = benefits.bft_cmp_id
+				                               AND bft_mstr.bnft_sys_id = benefits.bft_id) benefits_st
+				                     WHERE benefits_st.mul_states = 'TRUE')
+				                THEN 'TRUE'
+				             ELSE 'FALSE'
+				          END
+				         ) valid_ben_comp
+				    FROM bnft_cmpnt_hrchy_assn
+				   WHERE bnft_cmpnt_sys_id = {0}			
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitHierarchySearchForPrintandView">
+
+				select sqnc_nbr, bnft_hrchy_assn_desc_txt, bnft_hrchy_sys_id,
+					bnft_cmpnt_hrchy_assn_sys_id, bnft_cmpnt_sys_id, bnft_sys_id,'T' from bnft_cmpnt_hrchy_assn
+						   WHERE bnft_cmpnt_sys_id = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitHierarchySearch">
+			SELECT SQNC_NBR, BNFT_ID_NM, BNFT_HRCHY_SYS_ID, BNFT_CMPNT_HRCHY_ASSN_SYS_ID, BNFT_CMPNT_SYS_ID, 
+			bnft_cmpnt_hrchy_assn.BNFT_SYS_ID, 'TRUE' VALID_BEN_COMP
+			FROM bnft_cmpnt_hrchy_assn , BMST_BNFT_MSTR
+			WHERE BNFT_CMPNT_SYS_ID = {0}
+			AND BNFT_CMPNT_HRCHY_ASSN.BNFT_SYS_ID = BMST_BNFT_MSTR.BNFT_SYS_ID
+			order by SQNC_NBR
+				
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitSearch">
+					select BNFT_SYS_ID,BNFT_CMPNT_HRCHY_ASSN_SYS_ID,BNFT_HRCHY_SYS_ID,BNFT_CMPNT_SYS_ID
+					from BNFT_CMPNT_HRCHY_ASSN  where BNFT_CMPNT_SYS_ID = {0} and  BNFT_HRCHY_SYS_ID = {1} 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="maxSequenceNumber">
+					select BNFT_CMPNT_SYS_ID,MAX(SQNC_NBR)+1
+				    from BNFT_CMPNT_HRCHY_ASSN 
+					where BNFT_CMPNT_SYS_ID = {0} 
+					group by BNFT_CMPNT_SYS_ID
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="retrieveBenefitHierarchiesToBeRemoved">
+					SELECT distinct BNFT_CMPNT_HRCHY_ASSN_SYS_ID, BNFT_HRCHY_SYS_ID,BNFT_CMPNT_SYS_ID FROM
+(
+  SELECT BNFT_CMPNT_HRCHY_ASSN_SYS_ID, BNFT_HRCHY_SYS_ID,A_BNFT_CMPNT_SYS_ID,B_BNFT_CMPNT_SYS_ID BNFT_CMPNT_SYS_ID FROM
+            (
+                SELECT A.BNFT_CMPNT_SYS_ID A_BNFT_CMPNT_SYS_ID,B.BNFT_CMPNT_SYS_ID B_BNFT_CMPNT_SYS_ID,A.BNFT_SYS_ID BNFT_SYS_ID,
+                                                B.BNFT_CMPNT_SYS_ID H_BNFT_CMPNT_SYS_ID,B.BNFT_SYS_ID H_BNFT_SYS_ID,
+                b.bnft_cmpnt_hrchy_assn_sys_id, b.bnft_hrchy_sys_id from
+                (
+                    SELECT a.bnft_sys_id, BNFT_CMPNT_SYS_ID
+                    FROM bmst_bnft_mstr a,bdm_bnft_defn_mstr f,bcm_bnft_cmpnt_mstr c
+                    WHERE a.bnft_stts_cd = 'PUBLISHED'  AND f.bnft_sys_id = a.bnft_sys_id
+                    AND TRUNC (c.bnft_cmpnt_efctv_dt) >= TRUNC (f.bnft_defn_efctv_dt)
+                    AND TRUNC (f.bnft_defn_expiry_dt) >= TRUNC (c.bnft_cmpnt_expiry_dt)
+                    AND C.BNFT_CMPNT_SYS_ID =  {0} AND A.BNFT_PARNT_SYS_ID IN
+                    (
+                        select y.bnft_parnt_sys_id from bmst_bnft_mstr Y  where (y.bnft_parnt_sys_id, y.bnft_vrsn_nbr) in
+                                                                                                            (
+                                                                                                                                    SELECT bnft_parnt_sys_id, MAX(BNFT_VRSN_NBR) BNFT_VRSN_NBR FROM  BMST_BNFT_MSTR X
+                                                                                                                                    where BNFT_STTS_CD = 'PUBLISHED' GROUP BY BNFT_PARNT_SYS_ID
+                                                                                                            )
+                                                                        and DMNVLD('BENEFITCOMP',c.bnft_cmpnt_parnt_sys_id,'stdbenefit',y.bnft_parnt_sys_id )='T'
+                    )
+              )
+                                      A RIGHT OUTER JOIN
+              (
+                SELECT BNFT_CMPNT_SYS_ID,bnft_cmpnt_hrchy_assn_sys_id, bnft_hrchy_sys_id,BNFT_SYS_ID FROM BNFT_CMPNT_HRCHY_ASSN WHERE BNFT_CMPNT_SYS_ID =  {0}
+              ) B ON A.BNFT_CMPNT_SYS_ID = B.BNFT_CMPNT_SYS_ID AND A.BNFT_SYS_ID=B.BNFT_SYS_ID
+           ) WHERE A_BNFT_CMPNT_SYS_ID IS NULL AND BNFT_SYS_ID IS NULL
+)
+				</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveDuplicateBenefitHierarchies">
+					select count(A.BNFT_CMPNT_SYS_ID) from BNFT_CMPNT_HRCHY_ASSN A,BMST_BNFT_MSTR B WHERE 
+	A.BNFT_SYS_ID = B.BNFT_SYS_ID
+        And B.BNFT_PARNT_SYS_ID IN
+	(
+		select B.BNFT_PARNT_SYS_ID from  BNFT_CMPNT_HRCHY_ASSN AA,BMST_BNFT_MSTR B WHERE 
+		AA.BNFT_CMPNT_SYS_ID = {0}
+        AND AA.BNFT_SYS_ID = B.BNFT_SYS_ID
+		AND AA.SQNC_NBR = A.SQNC_NBR
+	)					  
+	AND A.BNFT_CMPNT_SYS_ID != {0}
+	AND A.BNFT_CMPNT_SYS_ID not in
+	(
+		select distinct C.BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR C where
+		C.BNFT_CMPNT_STTS_CD != 'MARKED_FOR_DELETION' 
+		AND C.BNFT_CMPNT_STTS_CD != 'CHECKED_OUT'	
+		AND C.BNFT_CMPNT_STTS_CD != 'BUILDING'		
+		AND C.BNFT_CMPNT_PARNT_SYS_ID  in 
+		(
+			select BCM_BNFT_CMPNT_MSTR.BNFT_CMPNT_PARNT_SYS_ID from BCM_BNFT_CMPNT_MSTR where 
+			BCM_BNFT_CMPNT_MSTR.BNFT_CMPNT_SYS_ID= {0} 
+		)
+	)
+        AND A.BNFT_CMPNT_SYS_ID IN
+        (
+			select BNFT_CMPNT_SYS_ID from BCM_BNFT_CMPNT_MSTR where BNFT_CMPNT_PARNT_SYS_ID IN
+			(
+				select X.ENTY_SYS_ID from ENTY_DOMN_INFO X where X.ENTY_SYS_ID  in
+                (
+					select ENTY_SYS_ID from ENTY_DOMN_INFO where ENTY_DOMN_INFO.DOMN_SYS_ID in
+                        (
+							select A.DOMN_SYS_ID from ENTY_DOMN_INFO A,BCM_BNFT_CMPNT_MSTR B where B.BNFT_CMPNT_SYS_ID={0} AND A.ENTY_SYS_ID = B.BNFT_CMPNT_PARNT_SYS_ID AND A.ENTY_TYPE='BENEFITCOMP'
+                        )
+                        AND ENTY_TYPE='BENEFITCOMP'
+                        HAVING COUNT(DOMN_SYS_ID) = (select COUNT(DOMN_SYS_ID) from ENTY_DOMN_INFO where ENTY_SYS_ID = (SELECT BNFT_CMPNT_PARNT_SYS_ID FROM BCM_BNFT_CMPNT_MSTR WHERE BNFT_CMPNT_SYS_ID ={0}) AND ENTY_TYPE='BENEFITCOMP')
+						group by ENTY_SYS_ID 
+                )
+            AND X.ENTY_TYPE='BENEFITCOMP'
+            AND X.ENTY_SYS_ID != {0} 
+            GROUP BY (X.ENTY_SYS_ID)
+            HAVING COUNT(X.DOMN_SYS_ID) = (select COUNT(A.DOMN_SYS_ID) from ENTY_DOMN_INFO A,BCM_BNFT_CMPNT_MSTR B  where B.BNFT_CMPNT_SYS_ID={0} AND A.ENTY_SYS_ID = B.BNFT_CMPNT_PARNT_SYS_ID AND A.ENTY_TYPE='BENEFITCOMP')
+			)
+        )
+        group by A.BNFT_CMPNT_SYS_ID
+	having count(A.BNFT_CMPNT_SYS_ID) = (select count(C.BNFT_SYS_ID) from BNFT_CMPNT_HRCHY_ASSN C WHERE C.BNFT_CMPNT_SYS_ID = {0})
+	AND count(A.BNFT_CMPNT_SYS_ID) = (select count(C.BNFT_SYS_ID) from BNFT_CMPNT_HRCHY_ASSN C WHERE C.BNFT_CMPNT_SYS_ID = A.BNFT_CMPNT_SYS_ID)
+	AND (select BNFT_CMPNT_STTS_CD from BCM_BNFT_CMPNT_MSTR where BNFT_CMPNT_SYS_ID = A.BNFT_CMPNT_SYS_ID ) IN('PUBLISHED','CHECKED_IN') 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="attachSBToBC">
+				CALL BC_ATTACHBENEFITTOBCPROC({0},{1},{2},{3})
+			</SelectSQLQuery>
+			<DataObject name="BNFT_CMPNT_HRCHY_ASSN">
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_ASSN_DESC_TXT" 				type="String"/>
+				<DataObjectAttribute name="SQNC_NBR" 				type="Int"/>
+				<DataObjectAttribute name="LOB_NM" 		type="String"/>
+			    <DataObjectAttribute name="BUS_ENTY_NM"    type="String"/>
+ 				<DataObjectAttribute name="BUS_GRP_NM"    type="String"/>
+ 				<DataObjectAttribute name="MRKT_BUS_UNT"    type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+				<DataObjectAttribute name="BENEFIT_VALID"    type="String"/>
+				<DataObjectAttribute name="BNFT_SYS_IDS"    type="String"/>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_HRCHY_ASSN_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+				   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getMaxBenefitCount"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_HRCHY_ASSN_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+							<ResultIndex index="5" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="6" dataObjectAttribName ="BENEFIT_VALID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitHierarchySearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_HRCHY_ASSN_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+							<ResultIndex index="5" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="6" dataObjectAttribName ="BENEFIT_VALID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitHierarchySearchForPrintandView"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_HRCHY_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="1" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="maxSequenceNumber"/>
+				</SQLTemplate>	
+			
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_HRCHY_ASSN_DESC_TXT"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+							<ResultIndex index="5" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="6" dataObjectAttribName ="BENEFIT_VALID"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="forBenefitHierarchy"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="LOB_NM"/>
+						<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+						<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitHierarchiesToBeRemoved"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_SYS_IDS"/>
+						<DataObjectAttributeInput index="2" name="CREATD_USER_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="attachSBToBC"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveDuplicateBenefitHierarchies"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into BNFT_CMPNT_HRCHY_ASSN(BNFT_CMPNT_HRCHY_ASSN_SYS_ID,
+							BNFT_HRCHY_SYS_ID,BNFT_SYS_ID,BNFT_HRCHY_ASSN_DESC_TXT,SQNC_NBR,BNFT_CMPNT_SYS_ID,
+							LST_CHG_USR,LST_CHG_TMS,CREATD_TM_STMP,CREATD_USER_ID) 
+							values(?,?,?,?,?,?,'USER',sysdate,sysdate,'USER')
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="BNFT_SYS_ID"/>
+						<DataObjectAttributeInput index="3" name="BNFT_HRCHY_ASSN_DESC_TXT"/>
+						<DataObjectAttributeInput index="4" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="5" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							update  BNFT_CMPNT_HRCHY_ASSN set SQNC_NBR = ?
+							where BNFT_CMPNT_HRCHY_ASSN_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from BNFT_CMPNT_HRCHY_ASSN where BNFT_CMPNT_HRCHY_ASSN_SYS_ID = ? 
+							and BNFT_HRCHY_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_HRCHY_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"	     toBOAttb="benefitHierarchyAssociationId"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	 toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_HRCHY_SYS_ID"	 toBOAttb="benefitHierarchyId"/>
+						<Pair DOAttb="BNFT_SYS_ID"	 toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_HRCHY_ASSN_DESC_TXT"		 toBOAttb="benefitName"/>
+						<Pair DOAttb="SQNC_NBR"		 toBOAttb="sequenceNumber"/>
+						<Pair DOAttb="CREATD_USER_ID"		 toBOAttb="createdUser"/>
+						<Pair DOAttb="BNFT_SYS_ID"		 toBOAttb="benefitId"/>
+						<Pair DOAttb="BENEFIT_VALID"		 toBOAttb="benefitValid"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BNFT_HRCHY_SYS_ID" 	toSCAttb="benefitHierarchyId"/>
+					<Pair DOAttb="LOB_NM" 	toSCAttb="lobList"/>
+					<Pair DOAttb="BUS_ENTY_NM" 	toSCAttb="businessEntityList"/>
+					<Pair DOAttb="BUS_GRP_NM" 	toSCAttb="businessGroupList"/>
+					<Pair DOAttb="MRKT_BUS_UNT" 	toSCAttb="marketBusinessUnitList"/>
+					<Pair DOAttb="BNFT_SYS_ID" 	toSCAttb="benefitId"/>
+					<Pair DOAttb="CREATD_USER_ID" 	toSCAttb="user"/>
+					<Pair DOAttb="BNFT_SYS_IDS" 	toSCAttb="benefitIds"/>
+
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="BMST_BNFT_MSTR">
+				<DataObjectAttribute name="BNFT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_ID_NM" 		type="String"/>
+				<SQLTemplate transType="select">
+					<SearchQueryName name="retrieveBenefitHierarchiesToBeRemoved"/>
+				</SQLTemplate>					
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_SYS_ID"	     toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_ID_NM"	 toBOAttb="benefitName"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>			
+			<DataObject name="BCM_BNFT_CMPNT_MSTR">
+				<DataObjectAttribute name="BNFT_CMPNT_PARNT_SYS_ID" 		type="Int"/>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_PARNT_SYS_ID"/>
+					<SearchQueryName name="retrieveBenefitHierarchiesToBeRemoved"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID"	     toBOAttb="benefitComponentId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+				</DoAttributeToSCAttributeMap>	
+			</DataObject>	
+			
+			<DataObject name="BNFT_CMPNT_BNFT_CSTMZD">
+				<DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>				
+			    <DataObjectAttribute name="BNFT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID"   	type="Int"/>
+				<DataObjectAttribute name="BLN_BNFT_LINE_ID"   	type="Int"/>
+				<DataObjectAttribute name="BVAL_BNFT_VAL"   	type="String"/>
+				<DataObjectAttribute name="BNFT_LVL_HIDE_FLAG"   	type="String"/>
+				<DataObjectAttribute name="BNFT_LINE_HIDE_FLAG"   	type="String"/>
+			   
+				<SQLTemplate transType="delete">
+        			<SQLQuery>
+						delete from BNFT_CMPNT_BNFT_CSTMZD where 
+							                     BNFT_CMPNT_SYS_ID = ?
+							                      and BNFT_SYS_ID = ?
+        			</SQLQuery>
+				 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="1" name="BNFT_SYS_ID"/>
+    			</SQLTemplate>
+				 <DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_SYS_ID"	toBOAttb="benefitId"/>
+						
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="BNFT_CMPNT_ANSWR_OVRD">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID"   	type="Int"/>
+				<SQLTemplate transType="delete">
+        			<SQLQuery>
+            			delete from BNFT_CMPNT_ANSWR_OVRD 
+						where 		BNFT_CMPNT_SYS_ID = ? and 
+									ADMIN_LVL_OPT_ASSN_SYS_ID in ( select 	e.ADMIN_LVL_OPT_ASSN_SYS_ID
+																   from 	BNFT_CMPNT_HRCHY_ASSN b ,BDM_BNFT_DEFN_MSTR c ,	BNFT_ADMNSTRN_ASSN d ,BNFT_ADMIN_TO_LVL_ASSN e
+																   where 	b.BNFT_SYS_ID = c.BNFT_SYS_ID and
+																  	c.BNFT_DEFN_SYS_ID = d.BNFT_DEFN_SYS_ID and
+																  	d.BNFT_ADMIN_SYS_ID = e.BNFT_ADMIN_SYS_ID and
+																  	BNFT_CMPNT_SYS_ID = ?
+																	and b.bnft_cmpnt_hrchy_assn_sys_id = ?
+																	and b.bnft_hrchy_sys_id = ?)
+        			</SQLQuery>
+				 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="2" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+				 <DataObjectAttributeInput index="3" name="BNFT_HRCHY_SYS_ID"/>
+    			</SQLTemplate>
+				 <DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_SYS_ID"	toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"	toBOAttb="benefitHierarchyAssociationId"/>
+						<Pair DOAttb="BNFT_HRCHY_SYS_ID"	toBOAttb="benefitHierarchyId"/>
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="BNFT_CMPT_ADMN_OPT_CUSTM">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID"   	type="Int"/>
+				<SQLTemplate transType="delete">
+        			<SQLQuery>
+            			delete from BNFT_CMPNT_ADMN_OPT_CUSTM 
+						where 		BNFT_CMPNT_SYS_ID = ? and 
+									ADMIN_LVL_OPT_ASSN_SYS_ID in ( select 	e.ADMIN_LVL_OPT_ASSN_SYS_ID
+																   from 	BNFT_CMPNT_HRCHY_ASSN b ,BDM_BNFT_DEFN_MSTR c ,	BNFT_ADMNSTRN_ASSN d ,BNFT_ADMIN_TO_LVL_ASSN e
+																   where 	b.BNFT_SYS_ID = c.BNFT_SYS_ID and
+																  	c.BNFT_DEFN_SYS_ID = d.BNFT_DEFN_SYS_ID and
+																  	d.BNFT_ADMIN_SYS_ID = e.BNFT_ADMIN_SYS_ID and
+																  	BNFT_CMPNT_SYS_ID = ?
+																	and b.bnft_cmpnt_hrchy_assn_sys_id = ?
+																	and b.bnft_hrchy_sys_id = ?)
+        			</SQLQuery>
+				 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="2" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+				 <DataObjectAttributeInput index="3" name="BNFT_HRCHY_SYS_ID"/>
+    			</SQLTemplate>
+				 <DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_SYS_ID"	toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"	toBOAttb="benefitHierarchyAssociationId"/>
+						<Pair DOAttb="BNFT_HRCHY_SYS_ID"	toBOAttb="benefitHierarchyId"/>
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="ADMN_MTHD_OVRD">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"   	type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID"   	type="Int"/>
+
+				<SQLTemplate transType="delete">
+        			<SQLQuery>
+            			delete from ADMN_MTHD_OVRD 
+						where 		ENTY_TYPE = 'BENEFITCOMP' and ENTY_SYS_ID = ? and 
+									BNFT_ADMTN_ID in ( select 	e.BNFT_ADMTN_ID
+																   from 	BNFT_CMPNT_HRCHY_ASSN b ,BDM_BNFT_DEFN_MSTR c ,	BNFT_ADMNSTRN_ASSN d ,ADMN_MTHD_OVRD e
+																   where 	b.BNFT_SYS_ID = c.BNFT_SYS_ID and
+																  	c.BNFT_DEFN_SYS_ID = d.BNFT_DEFN_SYS_ID and
+																  	d.BNFT_ADMIN_SYS_ID = e.BNFT_ADMTN_ID and
+																  	b.BNFT_CMPNT_SYS_ID = ?
+																	and b.bnft_cmpnt_hrchy_assn_sys_id = ?
+																	and b.bnft_hrchy_sys_id = ?)
+        			</SQLQuery>
+				 <DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+				 <DataObjectAttributeInput index="2" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+				 <DataObjectAttributeInput index="3" name="BNFT_HRCHY_SYS_ID"/>
+    			</SQLTemplate>
+				 <DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_SYS_ID"	toBOAttb="benefitId"/>
+						<Pair DOAttb="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"	toBOAttb="benefitHierarchyAssociationId"/>
+						<Pair DOAttb="BNFT_HRCHY_SYS_ID"	toBOAttb="benefitHierarchyId"/>
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="NOTE_DOMAIN_OVRD_VAL">
+			    <DataObjectAttribute name="PRMRY_ENTY_ID"    type="Int"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    type="Int"/>
+				 <DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"    type="Int"/>
+
+				 <SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM NOTE_DOMAIN_OVRD_VAL  WHERE 
+						            PRMRY_ENTY_ID = ?  
+						            and PRMRY_ENTY_TYPE = 'ATTACHCOMP'
+								    and BNFT_CMPNT_SYS_ID = ? 
+						            and (
+							 				  (
+					        				     SCNDRY_ENTY_ID in 
+									 				  (
+			            			                   select BNFT_SYS_ID from BNFT_CMPNT_HRCHY_ASSN where BNFT_CMPNT_HRCHY_ASSN_SYS_ID = ?
+						                         	   )
+						          					and SCNDRY_ENTY_TYPE in ('ATTACHBENEFIT','ATTACHQUESTION')
+						                        )
+							            	    OR 
+							                    ( 
+												     BNFT_DEFN_SYS_ID in
+						                            (
+						                              select BNFT_DEFN_SYS_ID from BNFT_CMPNT_BNFT_CSTMZD where BNFT_SYS_ID in 
+					                                    (
+					                                      select BNFT_SYS_ID from BNFT_CMPNT_HRCHY_ASSN where BNFT_CMPNT_HRCHY_ASSN_SYS_ID = ?
+					                                    )and BNFT_CMPNT_SYS_ID = ?
+			                                        )
+						                          and SCNDRY_ENTY_TYPE in ('ATTACHBNFTLINE','ATTACHQUESTION')
+			    				                 )
+										 )
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="BNFT_CMPNT_SYS_ID"/>
+	  			</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="PRMRY_ENTY_ID"	toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>	
+						<Pair DOAttb="BNFT_CMPNT_HRCHY_ASSN_SYS_ID"	toBOAttb="benefitHierarchyAssociationId"/>	
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.bo.BenefitHierarchyBO">
+		<BusinessAttribute name="benefitHierarchyId" 		type="Int"	keyAttrib="true"/>
+		<BusinessAttribute name="benefitComponentId" 			type="Int" 	keyAttrib="true"/>
+		 <SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="benefitComponentId"   type="Int"/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery>
+					select BNFT_HRCHY_SYS_ID,BNFT_CMPNT_SYS_ID
+					from BNFT_CMPNT_HRCHY where BNFT_CMPNT_SYS_ID = ?
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitHierarchyIdSearch">
+					select BNFT_HRCHY_SYS_ID,BNFT_CMPNT_SYS_ID
+					from BHRCY_BNFT_HRCY where BNFT_CMPNT_SYS_ID = {0} 
+			</SelectSQLQuery>
+			<DataObject name="BHRCY_BNFT_HRCY">
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID" 	type="Int"/>	
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_HRCHY_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+					   </RSIndexToDOAttributeMap>
+				<SearchQueryName name="benefitHierarchyIdSearch"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into BHRCY_BNFT_HRCY(BNFT_CMPNT_SYS_ID,BNFT_HRCHY_SYS_ID,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_TM_STMP,CREATD_USER_ID) values(?,?,'USER',sysdate,sysdate,'USER')
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_HRCHY_SYS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						update BHRCY_BNFT_HRCY set BNFT_HRCHY_SYS_ID = ? where BNFT_HRCHY_SYS_ID = ? and BNFT_CMPNT_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="0" name="BNFT_HRCHY_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	  toBOAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_HRCHY_SYS_ID"	 toBOAttb="benefitHierarchyId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+				</DoAttributeToSCAttributeMap>	
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

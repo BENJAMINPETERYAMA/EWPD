@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\referencemapping
+2
+6
+18:editreferencemapping.jsp|1|16adf9284d4|4550|5fe9c44f|32a4e27643184d27ae648d5ff29f929c|0
+1d:editReferenceMappingPrint.jsp|1|16adf9289a5|1de2|ff7ba01a|575e80d5f55c48ba95fbafd86343f66a|0
+1c:maintainreferencemapping.jsp|1|16adf9289b4|6b18|fee565a8|3ebd0f4b6ef84ee0a7485ba9c5895cf7|0
+18:viewreferencemapping.jsp|1|16adf9288ca|1e1f|71331040|1192fb02df6e426bbccb5ef618fb630c|0
+1a:createreferencemapping.jsp|1|16adf9284d4|3b90|b37f264c|057d4c54a9e349cdae3fa5e4716de9d3|0
+19:referencemappingprint.jsp|1|16adf9289a5|805|d6de76c2|14bbaf195f4e40c0a03c18a24dc30354|0

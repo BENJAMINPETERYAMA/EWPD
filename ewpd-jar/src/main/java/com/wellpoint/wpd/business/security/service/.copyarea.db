@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\security\service
+2
+6
+24:ModuleBusinessValidationservice.java|1|16adf960a44|455d|4de0ca49|89510e8a7d5c4531a4620b4fef62843f|0
+1a:ModuleBusinessService.java|1|16adf960a53|749a|2f0e9efe|09ff88a3481e468a80b4f9cf9ef2d8da|0
+18:TaskBusinessService.java|1|16adf960b5d|6c7c|296ab619|8c8315346c7843a98d5c081ad5ee899c|0
+18:RoleBusinessService.java|1|16adf960a44|a33d|240b77f2|c30008d0348c43df9e8f9b8fa8093227|0
+22:RoleValidationBusinessService.java|1|16adf9610f8|2e9b|b0266b9a|d29e9a51f8074a9793e5f630c813281b|0
+22:TaskBusinessValidationService.java|1|16adf960b4d|3fc5|38547ed1|5337cfb19e854fc4955b178110f889dd|0

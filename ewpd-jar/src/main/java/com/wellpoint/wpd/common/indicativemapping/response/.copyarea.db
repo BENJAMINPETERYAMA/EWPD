@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\indicativemapping\response
+2
+8
+2b:ConfirmImportIndicativeMappingResponse.java|1|16adf9719af|25b|1a69ca0f|4decb77d1e394bafb97412a9e4fc1732|0
+24:DeleteIndicativeMappingResponse.java|1|16adf971a0d|24b|2784bcef|6eb3eafbc9944c618d7c30ca0e604701|0
+24:CreateIndicativeMappingResponse.java|1|16adf971720|636|2d2ff06|490ca8a34d2149d58c8a8c942cb14e3f|0
+22:EditIndicativeMappingResponse.java|1|16adf971a8a|30d|7981f791|73c743bb0ab7492bbbde1998d986e23d|0
+1d:IndicativeDetailResponse.java|1|16adf971c3e|5ab|2adc02a6|55df682a28dc4b2db28ffec4bc564623|0
+24:ImportIndicativeMappingResponse.java|1|16adf9719af|67d|7e8e1c35|90fcd3b2f2c24ef8add70db5c8d34c7c|0
+26:RetrieveIndicativeMappingResponse.java|1|16adf971a8a|fdf|5bb6118e|f5f166084b5a4457b0f46276246bf4ff|0
+24:SearchIndicativeMappingResponse.java|1|16adf9719af|346|5ba80b1e|0db85d739cec4c8883637db1422066bf|0

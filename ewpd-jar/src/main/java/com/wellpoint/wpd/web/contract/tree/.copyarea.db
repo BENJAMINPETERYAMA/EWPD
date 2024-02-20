@@ -1,0 +1,18 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\contract\tree
+2
+e
+29:ContractAdminOptionsMainTreeNodeBase.java|1|16adf982d56|733|ca39438f|0918eab962d24c6a8544ac337d02819d|0
+24:ContractProductMainTreeNodeBase.java|1|16adf982da4|e1a|52927475|a82325a0dd7b4851a98131d1b47cc22b|0
+28:ContractStandardBenefitTreeNodeBase.java|1|16adf982da4|492|69da6d1f|045c5bde2922488e9b75a0a6e87b2e2e|0
+2c:ContractStandardBenefitMainTreeNodeBase.java|1|16adf982da4|e66|1a15b9da|33ecc73eb0b14026a5a9890b64e225f0|0
+2d:ContractBenefitComponentMainTreeNodeBase.java|1|16adf982d46|f67|8e59d757|74375eb64db34fc9828ebbbe80e56e10|0
+2a:ContactAdministrationMainTreeNodeBase.java|1|16adf982cf8|f46|649ad85a|ae8b316aa4804157a301282eebe7f0fe|0
+2b:ContractAdministrationHeadTreeNodeBase.java|1|16adf982cca|a56|8d42428d|75dc0b440345405ca4a7ebf97edf99aa|0
+27:ContractAdministrationTreeNodeBase.java|1|16adf982ce9|486|af126b9b|bc295f8003b44972a2ba6952efc66b26|0
+1d:ContractMainTreeNodeBase.java|1|16adf982e02|f6a|9bc2c3df|317ca999f9f2456d8457a14db3b57c13|0
+19:ContractMainTreeNode.java|1|16adf982d85|112d|5e0c95a|7cbf2e78444946558e8bc5ef9c01e85e|0
+29:ContractBenefitComponentTreeNodeBase.java|1|16adf982d46|eba|1c798b6e|a7f6ca19843c47d89fe4507f33db4742|0
+32:ContractBenefitAdministrationMainTreeNodeBase.java|1|16adf982d46|c2a|10bad4f2|41d03c0a20aa48328b7b4a22d14ce6a3|0
+19:ContractTreeNodeBase.java|1|16adf982da4|e42|aa23530d|66e263f64dca4ad9920fc973fbcc0db8|0
+29:ContractBenefitLevelMainTreeNodeBase.java|1|16adf982d56|107e|34b4689c|823b853de8444fb7bffd2c26f5491cac|0

@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\productstructure\locatecriteria
+2
+8
+28:ProductStructureNotesLocateCriteria.java|1|16adf960036|bbd|19e264ad|5c560a9b54e24623b4d344860987a314|0
+34:ProductStructureBenefitDefinitionLocateCriteria.java|1|16adf960026|ac6|90ab6435|64a958dad7ef4d9ca6091a90c159b695|0
+23:ProductStructureLocateCriteria.java|1|16adf960055|1004|6908c8e8|d96ec022b7d04665887fa890c48f40b8|0
+2d:ProductStructureShowHiddenLocateCriteria.java|1|16adf96020a|7cc|949c8909|8102fa229ba348beaccf420bce76e694|0
+2b:ProductStructureMandatesLocateCriteria.java|1|16adf960045|5a9|a3f7b6dd|8d60f6885ee44f39a6385d09b6fbd275|0
+38:ProductStructureBenefitAdministrationLocateCriteria.java|1|16adf960248|190b|8deec233|fbffdd3d493d488f88906fff4bef4e8b|0
+33:ProductStructureBenefitComponentLocateCriteria.java|1|16adf960248|e94|dcb45165|3a339428442644689f092f1694269eca|0
+22:ViewAllVersionsLocateCriteria.java|1|16adf960267|445|2685f27|8e0bd677d34942ba894082a82bd95efd|0

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- Application context definition -->
+<beans>
+	<bean id="serviceTypeMappingValidationService"
+		class="com.wellpoint.wpd.business.blueexchange.ServiceTypeMappingBusinessValidationService">
+	</bean>
+
+	<bean id="roleValidationBusinessService" class="com.wellpoint.wpd.business.security.service.RoleValidationBusinessService">
+	</bean>
+	<bean id="securityBusinessValidationService" class="com.wellpoint.wpd.business.security.service.TaskBusinessValidationService">
+	</bean>
+	<bean id="contractValidationService"
+		class="com.wellpoint.wpd.business.contract.service.ContractBusinessValidationService">
+	</bean>
+	<bean id="standardBenefitBusinessValidation"
+		class="com.wellpoint.wpd.business.standardbenefit.service.StandardBenefitBusinessValidationService">
+	</bean>
+	<bean id="productStructurevalidationService"
+		class="com.wellpoint.wpd.business.productstructure.service.validation.ProductStructureBusinessValidationService">
+	</bean>
+	<bean id="catalogBusinessValidationService"
+		class="com.wellpoint.wpd.business.catalog.service.CatalogBusinessValidationService">
+	</bean>
+	<bean id="subCatalogBusinessValidationService"
+		class="com.wellpoint.wpd.business.subcatalog.service.SubCatalogBusinessValidationService">
+	</bean>
+	<bean id="questionBusinessValidationService"
+		class="com.wellpoint.wpd.business.question.service.validation.QuestionBusinessValidationService">
+	</bean>
+	<bean id="adminOptionBusinessServiceValidation"
+		class="com.wellpoint.wpd.business.adminoption.service.validation.AdminOptionBusinessValidationService">
+	</bean>
+	<bean id="mandateBusinessServiceValidation"
+		class="com.wellpoint.wpd.business.mandate.service.validation.MandateBusinessValidationService">
+	</bean>
+	<bean id="productValidationService"
+		class="com.wellpoint.wpd.business.product.service.ProductBusinessValidationService">
+	</bean>
+	<bean id="benefitComponentBusinessValidation"
+		class="com.wellpoint.wpd.business.benefitcomponent.service.BenefitComponentBusinessValidationService">
+	</bean>
+	<bean id="notesBusinessValidation"
+		class="com.wellpoint.wpd.business.notes.service.validation.NotesBusinessValidationService">
+	</bean>
+	<bean id="itemBusinessValidationService"
+		class="com.wellpoint.wpd.business.item.service.ItemBusinessValidationService">
+	</bean>
+	<bean id="moduleBusinessValidationService" class="com.wellpoint.wpd.business.security.service.ModuleBusinessValidationservice"/>
+	<bean id="migrationValidationSerivice" class="com.wellpoint.wpd.business.migration.service.MigrationValidationService"/>
+	<bean id="adminMethodValidationSerivice" class="com.wellpoint.wpd.business.adminmethod.service.AdminMethodBusinessValidationService"/>
+	<bean id="customMessageValidationSerivice"
+		class="com.wellpoint.wpd.business.blueexchange.CustomMessageValidationService">
+	</bean>
+</beans>

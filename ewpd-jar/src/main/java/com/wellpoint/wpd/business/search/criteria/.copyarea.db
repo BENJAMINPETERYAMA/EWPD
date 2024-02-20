@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\search\criteria
+2
+4
+11:QueryCreator.java|1|16adf960998|26cd|26b18f42|7f99bd4a41a443e1bb6d6733be4d62df|0
+1c:SearchCriteriaValidator.java|1|16adf960870|3bef|6b22c3a|ca3d7d8d7ffe49cfa9b8578bf7880e81|0
+13:CriteriaParser.java|1|16adf960860|3f2b|9eff64f7|ca3f44af35884a91a4596a01208632a3|0
+1b:SearchCriteriaAnalyzer.java|1|16adf960851|138c|253f25ff|7ce844cc64154c5289097be0124059b1|0

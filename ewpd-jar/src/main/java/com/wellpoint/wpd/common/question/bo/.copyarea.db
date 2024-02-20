@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\question\bo
+2
+3
+15:PossibleAnswerBO.java|1|16adf97c375|110a|9e460b|1968ca25f3f64096bdb80271af7425e0|0
+f:QuestionBO.java|1|16adf97c411|1ffb|6d06d81b|e982806248304aebb8dd56d7d07aaccb|0
+17:FunctionalDomainBO.java|1|16adf97c356|a81|5f45f47|b987550620b04da8a1bd10344289477f|0

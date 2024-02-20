@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\dictionary\repository
+2
+2
+20:WPDUserDictionaryRepository.java|1|16b935e3d24|de|47f1471c|fdbc7308439e47b7bb97e061e272b937|0
+24:WPDUserDictionaryRepositoryImpl.java|1|16b935e3dff|6e3|b50a45b2|75d10863d8834b36adffadb5dccaf010|0

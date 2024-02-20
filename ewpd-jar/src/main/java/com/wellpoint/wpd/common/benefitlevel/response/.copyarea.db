@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\benefitlevel\response
+2
+a
+27:BenefitLineNotesAttachmentResponse.java|1|16adf9691da|27d|f8fdd743|88715e5f19b6474a97e5aa1e4ea35838|0
+23:SearchBenefitLevelTermResponse.java|1|16adf969498|498|4dee790a|bfdf33e5e4434c8e808048618ef65f86|0
+1e:DeleteBenefitLineResponse.java|1|16adf969322|3c1|4fc3c62|60b83751635c40b6931440ced8a8a404|0
+1d:DataTypeRetrieveResponse.java|1|16adf9691da|34e|d8a20e0c|44023841c1644be8b42d0a5da0429b64|0
+1f:SearchBenefitLevelResponse.java|1|16adf969498|3c7|b93a3ca6|f56a8fdb773a42fba4d674f1122a9b40|0
+1e:BenefitLevelPopUpResponse.java|1|16adf9690c2|379|b6bb1fc4|5f0f100469714c678aacef180918d36e|0
+1f:DeleteBenefitLevelResponse.java|1|16adf969312|3c2|b1463ca9|de7d397e964345e28561db596fe6da7e|0
+1d:SaveBenefitLevelResponse.java|1|16adf9694d7|349|2df81780|eb823be3f14748dd9cc49bce5305d2f3|0
+27:NotesAttachmentResponseForBnftLine.java|1|16adf969322|427|81f05d6c|f7f101602bb847cf98999e9e56b9c64a|0
+19:BenefitLevelResponse.java|1|16adf9691da|3c0|64173a46|00db29ac27c6469caf29e8b913887066|0

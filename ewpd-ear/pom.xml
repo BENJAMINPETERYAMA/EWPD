@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.wellpoint.ewpd</groupId>
+		<artifactId>ewpd-aggregator</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../ewpd-aggregator</relativePath>
+	</parent>
+	
+	<artifactId>ewpd-ear</artifactId>    
+	<name>ewpd-ear Project</name>
+	<description>ewpd-ear Project</description>
+	<packaging>ear</packaging>
+
+	<properties>
+	
+	    <deploy.application.name>ewpdEAR</deploy.application.name> 
+		<deploy.earfile>${project.basedir}/target/${project.build.finalName}.${project.packaging}</deploy.earfile>
+	</properties>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-ear-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>generate-application-xml</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<earSourceDirectory>${basedir}/META-INF</earSourceDirectory>
+					<earSourceIncludes>**/*</earSourceIncludes>
+					<earSourceExcludes>**/application.xml</earSourceExcludes>
+					<version>6</version>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<modules>
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>ewpd-war</artifactId>
+							<contextRoot>/wsbewpd</contextRoot>
+							<uri>ewpd-war-${project.parent.version}.war</uri>	
+						</webModule>
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>ebx-war</artifactId>
+							<contextRoot>/wsbebx</contextRoot>
+							<uri>ebx-war-${project.parent.version}.war</uri>							
+						</webModule>
+						<!-- <webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>massupdate-war</artifactId>
+							<contextRoot>/wsbmassupdate</contextRoot>
+							<uri>massupdate-war-${project.parent.version}.war</uri>					
+						</webModule> -->
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>ewpd-war</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.wellpoint.ewpd</groupId>
+			<artifactId>ebx-war</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+		 <!-- <dependency>
+			<groupId>com.wellpoint.ewpd</groupId>
+			<artifactId>massupdate-war</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>  -->
+		
+	</dependencies>
+	
+</project>

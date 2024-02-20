@@ -1,0 +1,532 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.indicativemapping.bo.IndicativeMappingBO">
+		<BusinessAttribute name="indicativeSegment"         type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="spsParameter" 		        type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefit" 			        type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="indicativeSegmentCode" 	type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="indicativeSegmentNumber"   type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="spsParameterCode" 			type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="indSegDesc" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="countIndicativeMapping"    type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="preBen"    				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			 	type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="indicativeSegmentSeq"      type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="defaultIndicativeValue"    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="logicIndValue"    			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="indValue"    				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="fieldLength"    			type="Int" 	    keyAttrib="false"/>
+		<BusinessAttribute name="indComments"    	        type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="indicativeRegion"    	    type="String" 	keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="indicativeList" 				type="List" />
+			<SearchCriteriaAttribute name="spsList" 					type="List" />
+			<SearchCriteriaAttribute name="benefitList" 				type="List" />
+			<SearchCriteriaAttribute name="indicativeSegmentCode" 		type="String" />
+			<SearchCriteriaAttribute name="spsParameterCode" 			type="String" />
+			<SearchCriteriaAttribute name="benefit" 					type="String" />
+			<SearchCriteriaAttribute name="indicativeSegmentNumber" 	type="String" />
+			<SearchCriteriaAttribute name="indicativeRegion" 			type="String" />
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT * FROM INDCTV_MAPG			
+		    </SelectSQLQuery>
+			<SelectSQLQuery name="searchIndicativeMapping" dynamic="true" >
+	        <STATIC>
+			<![CDATA[
+			select A.INDCTV_CD,C.cd_desc_txt, b.indctv_sgmnt,A.BNFT_NM,A.SPS_ID,D.cd_desc_txt,A.MAPG_DESC from INDCTV_MAPG A, 
+			indctv_dtl B,
+			(select prmry_cd, cd_desc_txt from item where ctlg_id =4147) C,
+			(select prmry_cd, cd_desc_txt from item where ctlg_id =1938) D
+			where C.prmry_cd=A.INDCTV_CD and D.prmry_cd=A.SPS_ID and b.INDCTV_CD=a.INDCTV_CD
+			   ]]>
+			</STATIC>
+			<DYNAMIC>
+				and A.INDCTV_CD {0}
+			</DYNAMIC>
+			<DYNAMIC>
+				and A.BNFT_NM {1} 
+			</DYNAMIC>
+			<DYNAMIC>
+				and A.SPS_ID {2}
+			</DYNAMIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveIndicativeMapping" dynamic="true" >
+	        <STATIC>
+			<![CDATA[
+					select A.indctv_cd,C.cd_desc_txt, b.indctv_sgmnt, A.bnft_nm, A.sps_id, D.cd_desc_txt,
+					A.mapg_desc, A.lst_chg_tms, A.lst_chg_usr, 
+					A.creatd_user_id, A.creatd_tm_stmp from indctv_mapg A, 
+					indctv_dtl B,
+					(select prmry_cd, cd_desc_txt from item where ctlg_id =4147) C,
+					(select prmry_cd, cd_desc_txt from item where ctlg_id =1938) D
+					where C.prmry_cd=A.INDCTV_CD and D.prmry_cd=A.SPS_ID and b.INDCTV_CD=a.INDCTV_CD
+					and a.indctv_cd = {0}  and a.sps_id =  {1} and a.bnft_nm = {2}
+			   ]]>
+			</STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkMappingExist" dynamic="true" >
+			<STATIC><![CDATA[select count(*) from INDCTV_MAPG where INDCTV_CD = {0} and
+							BNFT_NM = {1} and	SPS_ID = {2} ]]>
+						</STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveIndicativeMappingsForDatafeed">
+					SELECT   B.INDCTV_SGMNT, B.INDCTV_SEQ, B.INDCTV_CD, NVL(A.BNFT_NM, 'STRING'), 
+						NVL(A.SPS_ID, 'STRING'), B.DFLT_INDCTV_IND
+					    FROM INDCTV_MAPG A, INDCTV_DTL B
+					    WHERE A.INDCTV_CD(+) = B.INDCTV_CD
+					ORDER BY B.INDCTV_SGMNT, B.INDCTV_SEQ	
+			</SelectSQLQuery>
+			
+
+			<DataObject name="INDCTV_MAPG">
+				<DataObjectAttribute name="IND_LIST" 			type="String"/>
+				<DataObjectAttribute name="BEN_LIST" 			type="String"/>
+				<DataObjectAttribute name="SPS_LIST" 			type="String"/>
+				<DataObjectAttribute name="IND_CD" 				type="String"/>
+				<DataObjectAttribute name="IND_DESC" 			type="String"/>
+				<DataObjectAttribute name="IND_SEG_NR" 			type="String"/>
+				<DataObjectAttribute name="BEN_NM" 				type="String"/>
+				<DataObjectAttribute name="SPS_ID" 				type="String"/>
+				<DataObjectAttribute name="SPS_DESC" 			type="String"/>
+				<DataObjectAttribute name="IND_MAP_DESC" 		type="String"/>
+				<DataObjectAttribute name="MAP_CRT_USR" 		type="String"/>
+				<DataObjectAttribute name="MAP_CRT_TM" 			type="TimeStamp"/>
+				<DataObjectAttribute name="MAP_LST_USR" 		type="String"/>
+				<DataObjectAttribute name="MAP_LST_TM" 			type="TimeStamp"/>
+				<DataObjectAttribute name="COUNT" 				type="Int"/>
+				<DataObjectAttribute name="IND_CD_PRE" 			type="String"/>
+				<DataObjectAttribute name="BEN_NM_PRE" 			type="String"/>
+				<DataObjectAttribute name="SPS_ID_PRE" 			type="String"/>
+				<DataObjectAttribute name="IND_SGMNT_SEQ" 		type="Int"/>
+				<DataObjectAttribute name="DFLT_INDCTV_IND" 	type="String"/>
+				<DataObjectAttribute name="LGC_IND" 			type="String"/>
+				<DataObjectAttribute name="INDCTV_VAL" 			type="String"/>
+				<DataObjectAttribute name="FLD_LENGTH" 			type="Int"/>
+				<DataObjectAttribute name="IND_COMMENT" 		type="String"/>
+				<DataObjectAttribute name="INDCTV_RGN" 			type="String"/>
+				
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="IND_LIST" />
+					<DataObjectAttributeInput index="1" 		 name="BEN_LIST" />
+					<DataObjectAttributeInput index="2" 		 name="SPS_LIST" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="IND_CD" />
+						<ResultIndex index="1"			dataObjectAttribName="IND_DESC" />
+						<ResultIndex index="2"			dataObjectAttribName="IND_SEG_NR" />
+						<ResultIndex index="3"   		dataObjectAttribName="BEN_NM" />
+						<ResultIndex index="4"			dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="5"			dataObjectAttribName="SPS_DESC" />
+						<ResultIndex index="6"			dataObjectAttribName="IND_MAP_DESC" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchIndicativeMapping" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="IND_SEG_NR" />
+						<ResultIndex index="1"			dataObjectAttribName="IND_SGMNT_SEQ" />
+						<ResultIndex index="2"			dataObjectAttribName="IND_CD" />
+						<ResultIndex index="3"   		dataObjectAttribName="BEN_NM" />
+						<ResultIndex index="4"			dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="5"			dataObjectAttribName="DFLT_INDCTV_IND" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveIndicativeMappingsForDatafeed" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="IND_CD" />
+					<DataObjectAttributeInput index="1" 		 name="BEN_NM" />
+					<DataObjectAttributeInput index="2" 		 name="SPS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="COUNT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkMappingExist" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="IND_CD" />
+					<DataObjectAttributeInput index="1" 		 name="SPS_ID" />
+					<DataObjectAttributeInput index="2" 		 name="BEN_NM" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="IND_CD" />
+						<ResultIndex index="1"			dataObjectAttribName="IND_DESC" />
+						<ResultIndex index="2"			dataObjectAttribName="IND_SEG_NR" />
+						<ResultIndex index="3"   		dataObjectAttribName="BEN_NM" />
+						<ResultIndex index="4"			dataObjectAttribName="SPS_ID" />
+						<ResultIndex index="5"			dataObjectAttribName="SPS_DESC" />
+						<ResultIndex index="6"			dataObjectAttribName="IND_MAP_DESC" />
+						<ResultIndex index="7"			dataObjectAttribName="MAP_LST_TM" />
+						<ResultIndex index="8"			dataObjectAttribName="MAP_LST_USR" />
+						<ResultIndex index="9"			dataObjectAttribName="MAP_CRT_USR" />
+						<ResultIndex index="10"			dataObjectAttribName="MAP_CRT_TM" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveIndicativeMapping" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into INDCTV_MAPG (INDCTV_CD,BNFT_NM,SPS_ID,MAPG_DESC,LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP)
+								values (?,?,?,?,?,sysdate,?,sysdate)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="IND_CD"/>
+						<DataObjectAttributeInput index="1" name="BEN_NM"/>
+						<DataObjectAttributeInput index="2" name="SPS_ID"/>
+						<DataObjectAttributeInput index="3" name="IND_MAP_DESC"/>
+						<DataObjectAttributeInput index="4" name="MAP_CRT_USR"/>
+						<DataObjectAttributeInput index="5" name="MAP_LST_USR"/>
+					
+
+				</SQLTemplate> 
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								update INDCTV_MAPG set INDCTV_CD=?,BNFT_NM= ?,SPS_ID=?,MAPG_DESC=?,LST_CHG_USR=?, lst_chg_tms = SYSDATE
+								where INDCTV_CD=? and BNFT_NM= ? and SPS_ID=?
+
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="IND_CD"/>
+						<DataObjectAttributeInput index="1" name="BEN_NM"/>
+						<DataObjectAttributeInput index="2" name="SPS_ID"/>
+						<DataObjectAttributeInput index="3" name="IND_MAP_DESC"/>
+						<DataObjectAttributeInput index="4" name="MAP_LST_USR"/>
+						<DataObjectAttributeInput index="5" name="IND_CD_PRE"/>
+						<DataObjectAttributeInput index="6" name="BEN_NM_PRE"/>
+						<DataObjectAttributeInput index="7" name="SPS_ID_PRE"/>
+					
+
+				</SQLTemplate> 
+
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM INDCTV_MAPG where indctv_cd =? and sps_id=? and bnft_nm=?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="IND_CD"/>
+						<DataObjectAttributeInput index="1" name="SPS_ID"/>
+						<DataObjectAttributeInput index="2" name="BEN_NM"/>
+				</SQLTemplate>
+
+			<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="IND_CD"			toBOAttb="indicativeSegmentCode"/>
+						<Pair DOAttb="IND_DESC"			toBOAttb="indicativeSegment"/>
+						<Pair DOAttb="IND_SEG_NR"		toBOAttb="indicativeSegmentNumber"/>
+						<Pair DOAttb="BEN_NM"			toBOAttb="benefit"/>
+						<Pair DOAttb="SPS_ID"			toBOAttb="spsParameterCode"/>
+						<Pair DOAttb="SPS_DESC"			toBOAttb="spsParameter"/>
+						<Pair DOAttb="IND_MAP_DESC"		toBOAttb="indSegDesc"/>
+						<Pair DOAttb="MAP_LST_TM"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="MAP_LST_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="MAP_CRT_USR"		toBOAttb="createdUser"/>
+						<Pair DOAttb="MAP_CRT_TM"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="COUNT"			toBOAttb="countIndicativeMapping"/>
+						<Pair DOAttb="IND_CD_PRE"		toBOAttb="indicativeSegment"/>
+						<Pair DOAttb="BEN_NM_PRE"		toBOAttb="preBen"/>
+						<Pair DOAttb="SPS_ID_PRE"		toBOAttb="spsParameter"/>
+						<Pair DOAttb="IND_SGMNT_SEQ"	toBOAttb="indicativeSegmentSeq"/>
+						<Pair DOAttb="DFLT_INDCTV_IND"	toBOAttb="defaultIndicativeValue"/>
+						<Pair DOAttb="LGC_IND"	        toBOAttb="logicIndValue"/>		
+						<Pair DOAttb="INDCTV_VAL"	    toBOAttb="indValue"/>	
+						<Pair DOAttb="FLD_LENGTH"	    toBOAttb="fieldLength"/>		
+						<Pair DOAttb="IND_COMMENT"	    toBOAttb="indComments"/>	
+						<Pair DOAttb="INDCTV_RGN"	    toBOAttb="indicativeRegion"/>	
+							
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="IND_LIST" 		toSCAttb="indicativeList" />
+						<Pair DOAttb="SPS_LIST"			toSCAttb="spsList"/>
+						<Pair DOAttb="BEN_LIST"			toSCAttb="benefitList"/>
+						<Pair DOAttb="IND_CD" 			toSCAttb="indicativeSegmentCode" />
+						<Pair DOAttb="SPS_ID"			toSCAttb="spsParameterCode"/>
+						<Pair DOAttb="BEN_NM"			toSCAttb="benefit"/>
+						<Pair DOAttb="IND_SEG_NR" 		toSCAttb="indicativeSegmentNumber" />	
+						<Pair DOAttb="INDCTV_RGN" 		toSCAttb="indicativeRegion" />						
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+ <!-- Added to Backup INDCTV_DTL -->
+	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.indicativemapping.bo.IndicativeDetailBackUpBO">
+		<BusinessAttribute name="indicativeRegion"         	type="String" 		keyAttrib="true"/>
+		<BusinessAttribute name="indicativeSegmentNumber"   type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="backUpUser" 			 	type="String" 		keyAttrib="true"/>
+		<BusinessAttribute name="indicativeSegmentSeq" 		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="indicativeSegmentCode" 	type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="indValue" 			 		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="defaultIndicativeValue" 	type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="logicIndValue" 			type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="indicativeSegLength" 		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="comment" 			 		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="backUpTimestamp" 			type="Date" 		keyAttrib="false"/>
+
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="indicativeRegion" 			type="String" />
+			<SearchCriteriaAttribute name="indicativeSegmentNumber" 	type="String" />
+			<SearchCriteriaAttribute name="backUpUser" 					type="String" />
+		</SearchCriteria> 
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 <SelectSQLQuery name="backUpIndicativeMappings">
+				CALL BACKUP_INDICATIVE_DTL({0},{1},{2})
+			</SelectSQLQuery>
+			
+			<DataObject name="INDCTV_DTL_BKP">
+				<DataObjectAttribute name="INDCTV_SEQ" 				type="Int"/>
+				<DataObjectAttribute name="INDCTV_SGMNT" 			type="String"/>
+				<DataObjectAttribute name="INDCTV_CD" 				type="String"/>
+				<DataObjectAttribute name="INDCTV_VAL" 				type="String"/>
+				<DataObjectAttribute name="DFLT_INDCTV_IND" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="LGC_IND" 				type="String"/>
+				<DataObjectAttribute name="INDCTV_RGN" 				type="String"/>
+				<DataObjectAttribute name="FLD_LENGTH" 				type="Int"/>
+				<DataObjectAttribute name="IND_COMMENT" 			type="String"/>
+				<DataObjectAttribute name="BKP_TIME" 				type="TimeStamp"/>
+				<DataObjectAttribute name="BKP_USER" 				type="String"/>
+				
+			<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BKP_USER"/>
+			        <DataObjectAttributeInput index="1" name="INDCTV_SGMNT"/>
+					<DataObjectAttributeInput index="2" name="INDCTV_RGN"/>
+					
+					<SearchQueryName name="backUpIndicativeMappings"/>
+ 				</SQLTemplate>
+				
+							
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into INDCTV_DTL_BKP SELECT A.INDCTV_SEQ,A.INDCTV_SGMNT,A.INDCTV_CD,
+								A.INDCTV_VAL,A.DFLT_INDCTV_IND,A.LST_CHG_TMS,
+								A.LST_CHG_USR,A.CREATD_USER_ID,A.CREATD_TM_STMP,A.LGC_IND,A.INDCTV_RGN,A.FLD_LENGTH,
+								A.IND_COMMENT,sysdate, ?
+								from INDCTV_DTL A where A.indctv_sgmnt = ? and A.indctv_rgn = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BKP_USER"/>
+						<DataObjectAttributeInput index="1" name="INDCTV_SGMNT"/>
+						<DataObjectAttributeInput index="2" name="INDCTV_RGN"/>
+					
+
+				</SQLTemplate> 
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="INDCTV_SEQ"			toBOAttb="indicativeSegmentSeq"/>
+						<Pair DOAttb="INDCTV_SGMNT"			toBOAttb="indicativeSegmentNumber"/>
+						<Pair DOAttb="INDCTV_CD"			toBOAttb="indicativeSegmentCode"/>
+						<Pair DOAttb="INDCTV_VAL"			toBOAttb="indValue"/>
+						<Pair DOAttb="DFLT_INDCTV_IND"		toBOAttb="defaultIndicativeValue"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="backUpTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="backUpUser"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="backUpUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="backUpTimestamp"/>
+						<Pair DOAttb="LGC_IND"				toBOAttb="logicIndValue"/>
+						<Pair DOAttb="INDCTV_RGN"			toBOAttb="indicativeRegion"/>
+						<Pair DOAttb="FLD_LENGTH"			toBOAttb="indicativeSegLength"/>
+						<Pair DOAttb="IND_COMMENT"			toBOAttb="comment"/>
+						<Pair DOAttb="BKP_TIME"				toBOAttb="backUpTimestamp"/>
+						<Pair DOAttb="BKP_USER"				toBOAttb="backUpUser"/>
+				</DoAttributeToBOAttributeMap>
+			 <DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BKP_USER" 			toSCAttb="backUpUser" />
+						<Pair DOAttb="INDCTV_RGN"			toSCAttb="indicativeRegion"/>
+						<Pair DOAttb="INDCTV_SGMNT"			toSCAttb="indicativeSegmentNumber"/>
+
+			</DoAttributeToSCAttributeMap> 
+			</DataObject>
+			
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+	 <!-- Added for INDCTV_DTL -->
+	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.indicativemapping.bo.IndicativeDetailBO">
+		<BusinessAttribute name="indicativeSeq"    			type="Int" 			keyAttrib="false"/>
+		<BusinessAttribute name="indicativeSegment"    		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="indicativeCode"    		type="String" 	    keyAttrib="true"/>
+		<BusinessAttribute name="indValue"    	        	type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="dfltIndicativeIndicator"   type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="lastChangeTimestamp"    	type="Date" 		keyAttrib="false"/>
+		<BusinessAttribute name="lastChangeUser"    		type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"    			type="String" 	    keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp"    	    type="Date" 		keyAttrib="false"/>
+		<BusinessAttribute name="logicIndicator"    	    type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="fieldLength"    			type="Int" 	    	keyAttrib="false"/>
+		<BusinessAttribute name="indComments"    	        type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="indicativeRegion"    	    type="String" 		keyAttrib="true"/>
+		<BusinessAttribute name="indicativeCodeDescText"    type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="existsInItem"    		    type="String" 		keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="indicativeSegment" 		type="String" />
+			<SearchCriteriaAttribute name="indicativeRegion" 		type="String" />
+			<SearchCriteriaAttribute name="indicativeSeq" 			type="Int" />
+			<SearchCriteriaAttribute name="indicativeCode" 			type="String" />
+			<SearchCriteriaAttribute name="indValue" 				type="String" />
+			<SearchCriteriaAttribute name="dfltIndicativeIndicator" type="String" />
+			<SearchCriteriaAttribute name="lastChangeUser" 			type="String" />
+			<SearchCriteriaAttribute name="createdUser" 			type="String" />
+			<SearchCriteriaAttribute name="logicIndicator" 			type="String" />
+			<SearchCriteriaAttribute name="fieldLength" 			type="Int" />
+			<SearchCriteriaAttribute name="indComments" 			type="String" />
+			<SearchCriteriaAttribute name="indicativeCodeDescText" 	type="String" />
+		</SearchCriteria>
+		
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+						
+			<SelectSQLQuery name="exportIndicativeDetails" dynamic="true" >
+	        <STATIC>
+			<![CDATA[
+					select A.indctv_rgn,A.indctv_sgmnt, A.indctv_seq, A.indctv_cd, B.cd_desc_txt,A.indctv_val, A.dflt_indctv_ind,A.lgc_ind,A.fld_length,A.ind_comment, 'true' AS isExist from indctv_dtl A, 
+			(select prmry_cd, cd_desc_txt from item where ctlg_id =4147) B where A.indctv_cd = B.prmry_cd and A.indctv_sgmnt = {0} and A.indctv_rgn = {1} ORDER BY A.indctv_sgmnt, A.indctv_seq
+			   ]]>
+			</STATIC>
+			</SelectSQLQuery>	
+			
+			
+			<DataObject name="INDCTV_DTL">
+				<DataObjectAttribute name="INDCTV_SEQ" 			type="Int"/>
+				<DataObjectAttribute name="INDCTV_SGMNT" 		type="String"/>
+				<DataObjectAttribute name="INDCTV_CD" 			type="String"/>
+				<DataObjectAttribute name="INDCTV_VAL" 			type="String"/>
+				<DataObjectAttribute name="DFLT_INDCTV_IND" 	type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LGC_IND" 			type="String"/>
+				<DataObjectAttribute name="INDCTV_RGN" 			type="String"/>
+				<DataObjectAttribute name="FLD_LENGTH" 			type="Int"/>
+				<DataObjectAttribute name="IND_COMMENT" 		type="String"/>
+				<DataObjectAttribute name="IND_CD_DESC_TEXT" 	type="String"/>
+				<DataObjectAttribute name="EXISTS_IN_ITEM" 		type="String"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="INDCTV_SGMNT" />
+					<DataObjectAttributeInput index="1" 		 name="INDCTV_RGN" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="INDCTV_RGN" />
+						<ResultIndex index="1"			dataObjectAttribName="INDCTV_SGMNT" />
+						<ResultIndex index="2"			dataObjectAttribName="INDCTV_SEQ" />
+						<ResultIndex index="3"   		dataObjectAttribName="INDCTV_CD" />
+						<ResultIndex index="4"			dataObjectAttribName="IND_CD_DESC_TEXT" />
+						<ResultIndex index="5"			dataObjectAttribName="INDCTV_VAL" />
+						<ResultIndex index="6"			dataObjectAttribName="DFLT_INDCTV_IND" />
+						<ResultIndex index="7"			dataObjectAttribName="LGC_IND" />
+						<ResultIndex index="8"			dataObjectAttribName="FLD_LENGTH" />
+						<ResultIndex index="9"			dataObjectAttribName="IND_COMMENT" />
+						<ResultIndex index="10"			dataObjectAttribName="EXISTS_IN_ITEM" />
+						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="exportIndicativeDetails" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								Insert into INDCTV_DTL (INDCTV_SEQ, INDCTV_SGMNT,    
+								INDCTV_CD, INDCTV_VAL, DFLT_INDCTV_IND, LST_CHG_TMS,LST_CHG_USR, 
+								CREATD_USER_ID, CREATD_TM_STMP, LGC_IND, INDCTV_RGN, FLD_LENGTH,IND_COMMENT) values (
+								?,?,?,?,?,sysdate,?,?,sysdate,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="INDCTV_SEQ"/>
+						<DataObjectAttributeInput index="1" name="INDCTV_SGMNT"/>
+						<DataObjectAttributeInput index="2" name="INDCTV_CD"/>
+						<DataObjectAttributeInput index="3" name="INDCTV_VAL"/>
+						<DataObjectAttributeInput index="4" name="DFLT_INDCTV_IND"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="7" name="LGC_IND"/>
+						<DataObjectAttributeInput index="8" name="INDCTV_RGN"/>
+						<DataObjectAttributeInput index="9" name="FLD_LENGTH"/>
+						<DataObjectAttributeInput index="10" name="IND_COMMENT"/>
+					
+
+				</SQLTemplate> 
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								Update INDCTV_DTL set INDCTV_SEQ = ?, FLD_LENGTH = ?, DFLT_INDCTV_IND =?, LGC_IND = ?, IND_COMMENT = ?, 
+								LST_CHG_TMS = sysdate, LST_CHG_USR = ?  where
+								INDCTV_CD = ? AND INDCTV_RGN = ?
+
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="INDCTV_SEQ"/>
+						<DataObjectAttributeInput index="1" name="FLD_LENGTH"/>
+						<DataObjectAttributeInput index="2" name="DFLT_INDCTV_IND"/>
+						<DataObjectAttributeInput index="3" name="LGC_IND"/>
+						<DataObjectAttributeInput index="4" name="IND_COMMENT"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="6" name="INDCTV_CD"/>
+						<DataObjectAttributeInput index="7" name="INDCTV_RGN"/>
+							
+
+				</SQLTemplate> 
+
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							Delete from INDCTV_DTL where INDCTV_RGN = ? AND INDCTV_CD = ? 
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="INDCTV_RGN"/>
+						<DataObjectAttributeInput index="1" name="INDCTV_CD"/>
+				</SQLTemplate>
+				
+			<DoAttributeToBOAttributeMap>
+			
+						<Pair DOAttb="INDCTV_SEQ"			toBOAttb="indicativeSeq"/>
+						<Pair DOAttb="INDCTV_SGMNT"			toBOAttb="indicativeSegment"/>
+						<Pair DOAttb="INDCTV_CD"			toBOAttb="indicativeCode"/>
+						<Pair DOAttb="INDCTV_VAL"			toBOAttb="indValue"/>
+						<Pair DOAttb="DFLT_INDCTV_IND"		toBOAttb="dfltIndicativeIndicator"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastChangeTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastChangeUser"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="LGC_IND"				toBOAttb="logicIndicator"/>
+						<Pair DOAttb="INDCTV_RGN"			toBOAttb="indicativeRegion"/>
+						<Pair DOAttb="FLD_LENGTH"			toBOAttb="fieldLength"/>
+						<Pair DOAttb="IND_COMMENT"			toBOAttb="indComments"/>
+						<Pair DOAttb="IND_CD_DESC_TEXT"		toBOAttb="indicativeCodeDescText"/>
+						<Pair DOAttb="EXISTS_IN_ITEM"		toBOAttb="existsInItem"/>
+							
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="INDCTV_SGMNT" 		toSCAttb="indicativeSegment" />
+						<Pair DOAttb="INDCTV_RGN"			toSCAttb="indicativeRegion"/>
+						<Pair DOAttb="INDCTV_SEQ" 			toSCAttb="indicativeSeq" />
+						<Pair DOAttb="INDCTV_CD" 			toSCAttb="indicativeCode" />
+						<Pair DOAttb="INDCTV_VAL" 			toSCAttb="indValue" />
+						<Pair DOAttb="DFLT_INDCTV_IND" 		toSCAttb="dfltIndicativeIndicator" />
+						<Pair DOAttb="LST_CHG_USR" 			toSCAttb="lastChangeUser" />
+						<Pair DOAttb="CREATD_USER_ID" 		toSCAttb="createdUser" />
+						<Pair DOAttb="LGC_IND" 				toSCAttb="logicIndicator" />
+						<Pair DOAttb="FLD_LENGTH" 			toSCAttb="fieldLength" />
+						<Pair DOAttb="IND_COMMENT" 			toSCAttb="indComments" />
+						<Pair DOAttb="IND_CD_DESC_TEXT" 	toSCAttb="indicativeCodeDescText" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+</Metadata> 

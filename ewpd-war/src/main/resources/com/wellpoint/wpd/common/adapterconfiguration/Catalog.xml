@@ -1,0 +1,317 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.catalog.bo.CatalogBO">
+	  <BusinessAttribute name="catalogId" type="Int"	keyAttrib="true"/>	 
+      <BusinessAttribute name="catalogParentid" type="Int"	keyAttrib="false"/>	 
+      <BusinessAttribute name="catalogName" type="String"	keyAttrib="false"/>	 
+      <BusinessAttribute name="parentCatalog" type="String"	keyAttrib="false"/>	
+	  <BusinessAttribute name="catalogSize" type="Int"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="catalogDatatype" type="String"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="description" type="String"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="createdTimestamp" type="Date"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="lastUpdatedTimestamp" type="Date"	keyAttrib="false"/>	 
+	  <BusinessAttribute name="catalogParentID" type="String"	keyAttrib="false"/>	 
+		
+
+       <SearchCriteria name="criteria">
+       <SearchCriteriaAttribute name="catalogName" 	type="String"/>
+	   <SearchCriteriaAttribute name="description" type="String" />
+	   <SearchCriteriaAttribute name="catalogId" type="Int" />
+	   <SearchCriteriaAttribute name="parentcatalogId" type="Int" />
+		<SearchCriteriaAttribute name="parentCatalogList" type="List" />
+		<SearchCriteriaAttribute name="lob" type="List" />
+		<SearchCriteriaAttribute name="be" type="List" />
+		<SearchCriteriaAttribute name="bg" type="List" />
+		<SearchCriteriaAttribute name="mbu" type="List" />
+	   </SearchCriteria>
+       
+		   <DataSource name="prmd" domain="medical" >
+				<Connection preferred="jndi">
+					<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+					<jndi>java:comp/env/wsbEwpdDS</jndi>
+				</Connection>
+			    <SelectSQLQuery>
+				select CTLG_ID,CTLG_PARNT_ID,CTLG_DESC_TXT, CTLG_NAME, DATA_TYPE, CTLG_SIZE, CREATD_USER_ID, CREATD_TM_STMP, LST_CHG_USR, LST_CHG_TMS
+							 from CATALOG where CTLG_ID = ?
+			    </SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveSubCatalog">
+				select a.CTLG_ID, a.CTLG_PARNT_ID, a.CTLG_DESC_TXT, a.CTLG_NAME, b.CTLG_NAME,a.DATA_TYPE,a.CTLG_SIZE, 
+				a.CREATD_USER_ID, a.CREATD_TM_STMP, a.LST_CHG_USR, a.LST_CHG_TMS
+				from CATALOG a, (select CTLG_NAME from CATALOG 
+				where CTLG_ID = (select CTLG_PARNT_ID from CATALOG where CTLG_ID = {0}) ) b where CTLG_ID = {0} 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findDuplicate">
+					select CTLG_ID from CATALOG where CTLG_NAME = {0} and CTLG_PARNT_ID is null
+			</SelectSQLQuery>
+            
+			<SelectSQLQuery name="findSubCatalogDuplicate">
+					select CTLG_ID,CTLG_PARNT_ID from CATALOG where CTLG_PARNT_ID={3}
+					AND 
+					CTLG_ID in 
+					(
+						select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+						where 
+						C.BUS_GRP_NM {2}
+						AND C.BUS_ENTY_NM {1}
+						AND C.LOB_NM {0}
+						AND C.MRKT_BUS_UNT {4}
+						AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+						AND B.ENTY_TYPE = 'SubCatalog'    
+						
+					)
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="findSubCatalogAndCatalogDuplicate">
+					select CTLG_ID,CTLG_PARNT_ID from CATALOG where CTLG_NAME = {0} AND CTLG_PARNT_ID={1}
+					
+			</SelectSQLQuery>
+
+            <SelectSQLQuery name="findItem">
+					select CTLG_ID from ITEM where CTLG_ID= {0} 
+			</SelectSQLQuery>
+
+            <SelectSQLQuery name="findAssociatedSubCatalog">
+					select CTLG_ID from CATALOG where CTLG_PARNT_ID= {0} and CTLG_PARNT_ID != CTLG_ID
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findCatalog">
+				select CTLG_ID, CTLG_NAME, CTLG_SIZE from CATALOG where CTLG_PARNT_ID is null order by CTLG_NAME asc
+			</SelectSQLQuery>
+				
+			<SelectSQLQuery name="locateSubCatalog" dynamic="true">
+				<STATIC><![CDATA[select c.CTLG_NAME, c.CTLG_ID, c.CTLG_PARNT_ID, c.CTLG_DESC_TXT from CATALOG c where 1=1 and c.CTLG_PARNT_ID is not null ]]></STATIC>
+				<DYNAMIC><![CDATA[ and UPPER(CTLG_NAME) like upper({0}) escape '`' ]]></DYNAMIC>
+				<DYNAMIC><![CDATA[ and c.CTLG_PARNT_ID {1} ]]></DYNAMIC><STATIC><![CDATA[order by CTLG_NAME asc]]></STATIC>
+			</SelectSQLQuery>
+            
+			<SelectSQLQuery name="locateCatalog" >
+				SELECT CTLG_ID,CTLG_NAME,CTLG_DESC_TXT 
+					FROM  CATALOG
+					where CTLG_PARNT_ID is null 
+					AND UPPER(CTLG_NAME) like upper({0}) escape '`' 
+					AND  UPPER(CTLG_DESC_TXT) like  upper({1}) escape '`'
+ 					order by CTLG_NAME asc
+			</SelectSQLQuery>
+			  <DataObject name="CATALOG">
+				  <DataObjectAttribute name="CTLG_ID" type="Int" /> 
+				  <DataObjectAttribute name="CTLG_PARNT_ID" type="Int" /> 	
+				  <DataObjectAttribute name="CTLG_DESC_TXT" type="String" /> 
+                  <DataObjectAttribute name="CTLG_NAME" type="String" /> 
+                  <DataObjectAttribute name="PRNT_CTLG_NAME" type="String" /> 
+				  <DataObjectAttribute name="DATA_TYPE" type="String" /> 
+				  <DataObjectAttribute name="CTLG_SIZE" type="Int" /> 
+				  <DataObjectAttribute name="CREATD_USER_ID" type="String" /> 
+				  <DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp" /> 
+				  <DataObjectAttribute name="LST_CHG_USR" type="String" />
+				  <DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp" />
+				 <DataObjectAttribute name="ENTY_SYS_ID" 	type="Int"/>	
+				 <DataObjectAttribute name="ENTY_TYPE" 	type="String"/>	
+				 <DataObjectAttribute name="DOMN_SYS_ID" type="Int"/>
+				  <DataObjectAttribute name="LOB_NM" 	type="String"/>	
+				  <DataObjectAttribute name="BUS_GRP_NM" 	type="String"/>	
+				  <DataObjectAttribute name="BUS_ENTY_NM" 	type="String"/>	
+				  <DataObjectAttribute name="CTLG_PARNT_IDLIST" 	type="Int"/>
+				  <DataObjectAttribute name="INSERT_PRNT_ID" 	type="String"/>	
+				  <DataObjectAttribute name="MRKT_BUS_UNT" 	type="String"/>				
+				  <SQLTemplate transType="insert">
+				  <SQLQuery>insert into CATALOG (CTLG_ID,CTLG_PARNT_ID,CTLG_DESC_TXT,CTLG_NAME,DATA_TYPE,CTLG_SIZE,CREATD_USER_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS) values (?,?,?,?,?,?,?,?,?,?)</SQLQuery> 
+				  <DataObjectAttributeInput index="0" name="CTLG_ID" /> 
+				  <DataObjectAttributeInput index="1" name="INSERT_PRNT_ID" /> 
+				  <DataObjectAttributeInput index="2" name="CTLG_DESC_TXT" /> 
+                  <DataObjectAttributeInput index="3" name="CTLG_NAME" /> 
+				  <DataObjectAttributeInput index="4" name="DATA_TYPE" /> 
+				  <DataObjectAttributeInput index="5" name="CTLG_SIZE"/>
+				  <DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+				  <DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+				  <DataObjectAttributeInput index="8" name="LST_CHG_USR"/>
+				  <DataObjectAttributeInput index="9" name="LST_CHG_TMS"/>
+				  </SQLTemplate>
+
+                  <SQLTemplate transType="update">
+						<SQLQuery>
+								update CATALOG SET CTLG_DESC_TXT = ?,CTLG_NAME=?, DATA_TYPE = ?, CTLG_PARNT_ID = ?, CTLG_SIZE = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?
+								where CTLG_ID =?
+						</SQLQuery>
+						  <DataObjectAttributeInput index="0" name="CTLG_DESC_TXT" />
+                          <DataObjectAttributeInput index="1" name="CTLG_NAME" />  
+						  <DataObjectAttributeInput index="2" name="DATA_TYPE" /> 
+						  <DataObjectAttributeInput index="3" name="INSERT_PRNT_ID" />
+						  <DataObjectAttributeInput index="4" name="CTLG_SIZE"/>
+						  <DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						  <DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+                          <DataObjectAttributeInput index="7" name="CTLG_ID" />  
+								
+				</SQLTemplate>
+                
+                <SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from CATALOG where  CTLG_ID= ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="CTLG_ID"/>
+				</SQLTemplate>
+ 
+                <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="CTLG_ID"/>
+							<ResultIndex index="1"  dataObjectAttribName ="CTLG_PARNT_ID"/>
+							<ResultIndex index="2"  dataObjectAttribName ="CTLG_DESC_TXT"/>
+							<ResultIndex index="3"  dataObjectAttribName ="CTLG_NAME"/>
+							<ResultIndex index="4"  dataObjectAttribName ="DATA_TYPE"/>
+							<ResultIndex index="5"  dataObjectAttribName ="CTLG_SIZE"/>
+							<ResultIndex index="6"  dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="7"  dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="8"  dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="9"  dataObjectAttribName ="LST_CHG_TMS"/>
+				        </RSIndexToDOAttributeMap>
+				 </SQLTemplate>
+
+                <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="CTLG_ID"/>
+							<ResultIndex index="1"  dataObjectAttribName ="CTLG_PARNT_ID"/>
+							<ResultIndex index="2"  dataObjectAttribName ="CTLG_DESC_TXT"/>
+							<ResultIndex index="3"  dataObjectAttribName ="CTLG_NAME"/>
+							<ResultIndex index="4"  dataObjectAttribName ="PRNT_CTLG_NAME"/>
+							<ResultIndex index="5"  dataObjectAttribName ="DATA_TYPE"/>
+							<ResultIndex index="6"  dataObjectAttribName ="CTLG_SIZE"/>
+							<ResultIndex index="7"  dataObjectAttribName ="CREATD_USER_ID"/>
+							<ResultIndex index="8"  dataObjectAttribName ="CREATD_TM_STMP"/>
+							<ResultIndex index="9"  dataObjectAttribName ="LST_CHG_USR"/>
+							<ResultIndex index="10"  dataObjectAttribName ="LST_CHG_TMS"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="retrieveSubCatalog"/>
+				 </SQLTemplate>
+
+                <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				        <DataObjectAttributeInput index="1" name="CTLG_PARNT_IDLIST"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="CTLG_NAME"/>
+							<ResultIndex index="1"  dataObjectAttribName ="CTLG_ID"/>
+							<ResultIndex index="2"  dataObjectAttribName ="CTLG_PARNT_ID"/>
+							<ResultIndex index="3"  dataObjectAttribName ="CTLG_DESC_TXT"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateSubCatalog"/>
+				 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findDuplicate"/>
+				 </SQLTemplate>
+
+	           <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_PARNT_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findAssociatedSubCatalog"/>
+			  </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="LOB_NM"/>
+				        <DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+				        <DataObjectAttributeInput index="2" name="BUS_GRP_NM"/>
+						<DataObjectAttributeInput index="3" name="CTLG_PARNT_ID"/>
+						<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+						
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+							 <ResultIndex index="1" dataObjectAttribName ="CTLG_PARNT_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findSubCatalogDuplicate"/>
+				 </SQLTemplate>
+				
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				        <DataObjectAttributeInput index="1" name="CTLG_PARNT_ID"/>
+				        						
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+							 <ResultIndex index="1" dataObjectAttribName ="CTLG_PARNT_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findSubCatalogAndCatalogDuplicate"/>
+				 </SQLTemplate>
+	
+                <SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="CTLG_NAME"/>
+				<DataObjectAttributeInput index="1" name="CTLG_DESC_TXT"/>
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0"  dataObjectAttribName ="CTLG_ID"/>
+					<ResultIndex index="1"  dataObjectAttribName ="CTLG_NAME"/>
+					<ResultIndex index="2"  dataObjectAttribName ="CTLG_DESC_TXT"/>
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="locateCatalog"/>
+				</SQLTemplate>	
+		
+        		<SQLTemplate transType="select">
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="CTLG_NAME"/>
+							<ResultIndex index="2" dataObjectAttribName ="CTLG_SIZE"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findCatalog"/>
+				 </SQLTemplate>
+
+
+				  <DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="CTLG_ID" 				toBOAttb="catalogId" /> 
+					  <Pair DOAttb="CTLG_PARNT_ID" 		toBOAttb="catalogParentid" /> 
+					  <Pair DOAttb="CTLG_DESC_TXT"			 toBOAttb="description" /> 
+	                  <Pair DOAttb="CTLG_NAME" 				toBOAttb="catalogName" /> 
+	                  <Pair DOAttb="PRNT_CTLG_NAME" 				toBOAttb="parentCatalog" /> 
+	                  <Pair DOAttb="DATA_TYPE" 			toBOAttb="catalogDatatype" /> 
+					  <Pair DOAttb="CTLG_SIZE" 			toBOAttb="catalogSize" /> 
+					  <Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+					  <Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+					  <Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+					  <Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+					  <Pair DOAttb="INSERT_PRNT_ID"			toBOAttb="catalogParentID"/>
+
+				  </DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="CTLG_ID"		toSCAttb="catalogId"/>
+						<Pair DOAttb="CTLG_PARNT_ID"		toSCAttb="parentcatalogId"/>
+                        <Pair DOAttb="CTLG_NAME" 		toSCAttb="catalogName"/>
+						<Pair DOAttb="CTLG_DESC_TXT"		toSCAttb="description"/>
+						<Pair DOAttb="CTLG_PARNT_IDLIST"		toSCAttb="parentCatalogList"/>
+						<Pair DOAttb="LOB_NM"		toSCAttb="lob"/>
+						<Pair DOAttb="BUS_ENTY_NM"		toSCAttb="be"/>
+						<Pair DOAttb="BUS_GRP_NM"		toSCAttb="bg"/>
+						<Pair DOAttb="MRKT_BUS_UNT"		toSCAttb="mbu"/>
+			    </DoAttributeToSCAttributeMap>
+		    </DataObject>  
+            
+              <DataObject name="ITEM"> 
+               <DataObjectAttribute name="CTLG_ID" type="Int" /> 
+
+	           <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="CTLG_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="CTLG_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findItem"/>
+			  </SQLTemplate>
+
+
+            
+	           <DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="CTLG_ID" toBOAttb="catalogId" />  
+	           </DoAttributeToBOAttributeMap>
+	           
+	           <DoAttributeToSCAttributeMap>
+							<Pair DOAttb="CTLG_ID"		toSCAttb="catalogId"/>
+	           </DoAttributeToSCAttributeMap>
+           </DataObject>  
+      </DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

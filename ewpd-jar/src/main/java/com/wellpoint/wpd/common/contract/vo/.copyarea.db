@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\contract\vo
+2
+6
+1d:RuleTypeValidateOutputVO.java|1|16adf96ef26|39a|d118244f|7fb625a0c3a84defbd78d6954b31ca7a|0
+16:PricingInfoItemVO.java|1|16adf96eca7|e70|75339e84|d8a826590b634458980c513c6f7900cb|0
+16:ReserveContractVO.java|1|16adf96ef26|96d|edd60550|a867dc8c7605440a8cc36bc983faa886|0
+19:PricingInformationVO.java|1|16adf96ef93|62d|62d0f2eb|d56bc2bedc504e46a7af1248d94fc956|0
+f:ContractVO.java|1|16adf96ecd5|360a|45ac70d4|1a4b2052857e403bab3b1117b158dd4a|0
+1d:ContractLocateCriteriaVO.java|1|16adf96eca7|22f2|b881e73b|4fb6a7e2c58640978041d77e371f7e7f|0

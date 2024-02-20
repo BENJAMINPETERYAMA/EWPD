@@ -1,0 +1,27 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\standardbenefit\locatecriteria
+2
+17
+28:StandardBenefitDeleteLocateCriteria.java|1|16adf961616|4f9|db788c03|f058b32ebfaf427280ba70a933275495|0
+33:StandardBenefitSourceDestinationLocateCriteria.java|1|16adf961684|589|4bd2c4c5|db9244e21b2b442f8c66e2858ccbd6d5|0
+23:BenefitLevelListLocateCriteria.java|1|16adf9612bc|35b|acf71513|6dde905f2513400cb5d5b463235d8cee|0
+24:BenefitDefinitionLocateCriteria.java|1|16adf9612eb|c67|bdbd1765|2dc7b9adfdcc4ed08761387648e12396|0
+29:StandardBenefitViewAllLocateCriteria.java|1|16adf9616e1|407|2918424a|ceb008277dbb4b9482fb9ad58c6320c9|0
+28:BenefitTierDefinitionLocateCriteria.java|1|16adf961fc7|498|4caf69a1|db4aa33e3f2e4cf681ca0bb78e1baaea|0
+21:TierDefinitionLocateCriteria.java|1|16adf96173f|73f|f8873312|b1660551aed645e8a641fbe4adc2d623|0
+27:AdministrativeOptionLocateCriteria.java|1|16adf960f62|f6b|bb6d02e7|9eb7e7feeabc417e94a8431199eceff3|0
+27:StandardBenefitNotesLocateCriteria.java|1|16adf961674|6e0|90ab1d3d|2d71146c6dd344fab62903a637bfdcf6|0
+28:BenefitAdministrationLocateCriteria.java|1|16adf9612eb|7f0|1dc489a0|771d02b4b37240a4b2aafc9c8ec14c74|0
+17:RuleLocateCriteria.java|1|16adf96157a|5f0|1fcde393|685a522a8ec14c96b6af3ec21f6669d5|0
+27:SelectedQuestionListLocateCriteria.java|1|16adf9615b9|54e|5eabb4fa|bff82064b0344d29b3fac02c7f8e37a8|0
+1d:AdminLevelLocateCriteria.java|1|16adf960f72|50b|e5769fb7|8feb9dcd7496487baa25e15cec8c0007|0
+24:LookupAdminOptionLocateCriteria.java|1|16adf9615c8|50e|1adaa434|ab530caeec654c868fee0c077d04df98|0
+21:BenefitMandateLocateCriteria.java|1|16adf9612cc|77f|e0a264b9|70da4a442e8b4fcd92dc431a0cb0d9c2|0
+27:SelectedQuestionaireLocateCriteria.java|1|16adf96158a|1270|3f91f937|46f0ba10d4aa403b8fb1c18bcd76ca06|0
+1b:QuestionLocateCriteria.java|1|16adf96152c|8d0|5fe0a925|c5a3f679b17247b4adf405c54c01658b|0
+30:AssociateAdminOptionToBenefitLocateCriteria.java|1|16adf9613d5|703|20006a01|522918d7b1864b24a0bc5f2ffb8fca19|0
+18:StateLocateCriteria.java|1|16adf9616e1|570|b88dc97d|0470a61596534341b3f36615714110df|0
+30:NotesAttachmentForBenefitLineLocateCriteria.java|1|16adf961fc7|b42|37816ebf|980a1732db0c4e35ad798cca3c58adf0|0
+1e:MandateListLocateCriteria.java|1|16adf96153c|577|919fb5f8|74b11183e49b4bb6bb85694fc63151ac|0
+22:StandardBenefitLocateCriteria.java|1|16adf961626|1314|9bd2287d|b33acd82292c4e5e8f8b5a97ea698ec4|0
+22:PossibleAnswersLocateCriteria.java|1|16adf961442|400|64874bb6|04dd33dcf6a545dc975be5810af736cd|0

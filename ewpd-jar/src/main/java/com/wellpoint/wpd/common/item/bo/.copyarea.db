@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\item\bo
+2
+5
+15:ItemSoftDeleteBO.java|1|16adf971b16|bf4|db1f85c7|77c1a3a7c8104262918f311f7e61e03e|0
+12:ItemSrdaHCSBO.java|1|16adf971b16|1621|89e14f16|afb3351679374b72b06e6975ac295e79|0
+f:ItemSrdaBO.java|1|16adf971e51|1561|762f47c1|afbf9a86492247f982bf530f79bd528e|0
+b:ItemBO.java|1|16adf9719fd|1653|6a75a27a|bc259b3e02c2476e880cdaa238e20b64|0
+14:ItemFrequencyBO.java|1|16adf971e32|531|5feaa116|f464505e1c4d422a921aa51d3822bec8|0

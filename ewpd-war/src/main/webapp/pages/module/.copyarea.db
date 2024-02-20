@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\module
+2
+d
+19:associatedSubTaskView.jsp|1|16adf91fbb8|19cc|cca12929|5d5c2daee57044a794972f3f230fe177|0
+20:moduleGeneralInformationView.jsp|1|16adf92002b|18cd|ed549478|b5b74e739f4f44d2bf831c6ea88c0979|0
+21:moduleGeneralInformationPrint.jsp|1|16adf92001b|121b|14383219|5529a407e05443fcbe694ec080ac8a62|0
+10:moduleSearch.jsp|1|16adf92046f|3564|10523a|27e657a2c75741628a9bcb0caf835aed|0
+1a:associatedSubTaskPrint.jsp|1|16adf91fdbb|12f2|8667e34a|98ded3f15e744a4cad97225aff04936f|0
+1c:moduleConfigurationPrint.jsp|1|16adf91fcb2|1417|76ee9a7c|5f499f65d5354aa2bbc6e324a4b9a286|0
+e:moduleTree.jsp|1|16adf92046f|a9c|eff770f9|8fbf967e62334180a5dccb63007ffaad|0
+1b:moduleConfigurationView.jsp|1|16adf91ffcd|1c73|6068a872|61fbfd7870ee4e6eb52ecd3a80b474f0|0
+26:moduleAssociatedSubTaskAssociation.jsp|1|16adf91fbc8|3198|c3d65860|67d036da14c84d898935d7063eeb2b65|0
+15:moduleDetailPrint.jsp|1|16adf91ffcd|18e2|d3dd1008|b4c8c939cc954510835bce0862b4b715|0
+17:moduleConfiguration.jsp|1|16adf91fcb2|3c86|e747a659|c73b93fe0b43437f9a7c665287cbacbe|0
+10:moduleCreate.jsp|1|16adf91ffcd|1e35|4a455712|8ae0cbadf79f4a848de347543d713a5c|0
+e:moduleEdit.jsp|1|16adf92000c|2568|24c35ecb|5d705c529c6c4e3fbe56acf4c58f19a8|0

@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\application
+2
+5
+1e:VariableMappingFacadeImpl.java|1|16b935dbc99|320d|9bc912a4|2bc7b41e2f0c4ee5ab197a7e8a8c8ec7|0
+1a:VariableMappingFacade.java|1|16b935dbc99|18b9|35d73036|7320cc8714814bf8addcd869000a2dda|0
+15:LocateFacadeImpl.java|1|16b935dbb32|3ce3|51b5dfd0|84f4e9ae8b8511e9803e0002c056e04b|0
+11:LocateFacade.java|1|16b935dbb32|19a3|d59d2327|8494e9a68b8511e9803e0002c056e04b|0
+8:security|2|0|0|0|fd28a4912d4a4547aa4aae0e17ff3bed|0

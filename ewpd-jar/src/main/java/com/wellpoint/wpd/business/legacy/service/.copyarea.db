@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\legacy\service
+2
+2
+1a:LegacyContractService.java|1|16adf95ed23|65c7|8d1f22cf|05332e782a664deca64042a7016c5963|0
+16:ValidationService.java|1|16adf95ed04|1179|84a8f4ef|71ee76e3b9f144969bd03836dd895d5c|0

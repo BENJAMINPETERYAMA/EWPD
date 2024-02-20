@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\config
+2
+3
+15:27xRequest.properties|1|16b935e7821|5c6|2329c166|db8f308eb76f4b109b0499f51720a033|0
+16:messages_en.properties|1|16b935e791b|5198|83d9961e|60d7b9b6f0c844958f2393e918e06186|0
+14:mqAdapter.properties|1|16b935e78bd|f3|a6014c21|40eca3b74d6a46788db1a0eecee78600|0

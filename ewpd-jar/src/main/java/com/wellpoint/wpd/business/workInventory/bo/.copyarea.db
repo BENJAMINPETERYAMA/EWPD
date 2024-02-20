@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\workInventory\bo
+2
+3
+1d:LocateCheckOutObjDaoImpl.java|1|16adf961fc7|c2d|8e18f8fb|dded5a0be00343d3b85409ff1a213194|0
+19:LocateCheckOutObjDao.java|1|16adf961f98|2ae|8085e061|d9d617148e4e49feb049b709c18309b4|0
+1b:CheckOutLocateCriteria.java|1|16adf961f98|39b|d4a6232e|ffeea5db0f304d05a7b9897d276cf93f|0

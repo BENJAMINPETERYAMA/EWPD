@@ -1,0 +1,20 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\role
+2
+10
+1a:roleConfigurationPrint.jsp|1|16adf928a22|c7b|69d592a7|6739027cf1c74deea396e83a5e52a9c8|0
+e:roleCreate.jsp|1|16adf928a22|1f62|88cc8c90|54dac41d00d0481386220bf607e63251|0
+e:roleSearch.jsp|1|16adf929b32|4043|94352b93|772f1b0a73fd43a0bdcb72a5b3ff0e48|0
+19:roleConfigurationView.jsp|1|16adf928a22|1b2e|1ce66be3|92a8c6eaa52d4933850973ed988b4179|0
+13:roleDetailPrint.jsp|1|16adf928b79|1749|17d7c89|58bd72e910234b29a532811ebf8fceae|0
+20:roleSubTaskConfigurationView.jsp|1|16adf928dd9|178c|6bbb64d2|d12749c2bb634e2e8ff715dc0d7ec0fe|0
+15:roleConfiguration.jsp|1|16adf928a60|3b33|2b230a85|179974bcb28e429889b6932d09704ef0|0
+1f:roleGeneralInformationPrint.jsp|1|16adf928ba8|115f|92cff1b4|cfb6837208a9467ca10d28b738db38da|0
+21:roleSubTaskConfigurationPrint.jsp|1|16adf929b12|e15|8b57f38c|6bb0515e5f074cf9a8dabf1707e6d783|0
+1a:roleAssociatedSubTasks.jsp|1|16adf9289e3|3c31|92c25b89|b80f8f51574e4a359f0b4482e8bcf25e|0
+c:roleEdit.jsp|1|16adf928ba8|2666|403fbd25|7078b33f4a1644ad90ed46bf436f484e|0
+1e:roleTaskConfigurationPrint.jsp|1|16adf928df8|df1|9952e62a|4f768e323d514d6eb8feda32e1a684c2|0
+17:roleAssociatedTasks.jsp|1|16adf9289e3|3930|37efb6b8|f926b4461eed45f098f36c5fc0387d19|0
+12:roleConfigTree.jsp|1|16adf9289e3|c8d|d28013ef|855ef83ff7fe414b9a868085a14b4d4c|0
+1e:roleGeneralInformationView.jsp|1|16adf928a7f|1ab6|b82016a7|ea5d063725b74001931b493360e4cd31|0
+1d:roleTaskConfigurationView.jsp|1|16adf928e08|16fd|41972f84|27a0c915d30e49fd9d9fd92cb9911145|0

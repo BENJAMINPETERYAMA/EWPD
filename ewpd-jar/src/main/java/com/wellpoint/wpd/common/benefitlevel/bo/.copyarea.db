@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\benefitlevel\bo
+2
+7
+15:BenefitWrapperBO.java|1|16adf968f8a|b34|deb49d17|70cc2eabca4f4a92bd6ccc078f20c4f4|0
+18:BenefitLevelPopUpBO.java|1|16adf968e42|839|a6a19093|4628428732e4405aa873237f57bbac9a|0
+12:BenefitTermBO.java|1|16adf968ea0|69e|1771fcd1|0b13286d52934905ae324b517bf45b01|0
+17:NotesBOForBnftLine.java|1|16adf968f3c|730|cc470b5b|b0afea3bf1384fe5b95b51f32204a0b7|0
+13:BenefitLevelBO.java|1|16adf968e52|277d|f563656e|cd015d2ff6284a49ae6790963b456a49|0
+17:BenefitQualifierBO.java|1|16adf968e90|5c2|8136d617|b2375fd9d5fe421ba637937aed654f5d|0
+12:BenefitLineBO.java|1|16adf968ebf|1b8f|9a335e04|c63a649a59b443669c40426b1736db5d|0

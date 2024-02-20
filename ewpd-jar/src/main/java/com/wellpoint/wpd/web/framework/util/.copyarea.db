@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\framework\util
+2
+4
+b:TestBO.java|1|16adf9830a0|598|e71ba9b1|eaf7df2c63854e0088a1a767e8af450e|0
+11:SequenceUtil.java|1|16adf98315c|521f|52389210|51ea384ba4a443c18f8a4899a2a35203|0
+10:Sequensable.java|1|16adf9830a0|fcf|b5d9741a|9b40ad9bd7f142b382c661f0e4121e1e|0
+d:TestMain.java|1|16adf9831b9|556|ae7f969b|4470901813e64b3da5224f372a798085|0

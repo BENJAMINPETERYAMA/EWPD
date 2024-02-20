@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\mapping\web\view
+2
+b
+14:ExcelSearchView.java|1|16b935e4c7f|74b0|3bb5aca2|bc4621b90a8a4652acabcea91f008b0a|0
+13:TextReportView.java|1|16b935e52c6|164ac|b6975335|3fa9fbbe764511e9800a0002c056e04b|0
+14:ExcelLocateView.java|1|16b935e4bc4|2d3b|56d5de33|34cf6a1b1a0e42bb8af73782fa5e3765|0
+14:ExcelReportView.java|1|16b935e4ccd|141ed|e7f683c2|e669641482eb11e9801c0002c056e04b|0
+24:ExcelLockedVariableAuditWPDView.java|1|16b935e4bd4|16d8|a42844f2|1ccef28f00f648c5acf69e0a4cec6775|0
+19:MassUpdateReportView.java|1|16b935e4cbe|3de9|93fb1fe9|b2d1eae3655e47119bf119c7ba161055|0
+12:PdfReportView.java|1|16b935e52c6|16311|2335f0b3|3e89fbae764511e9800a0002c056e04b|0
+24:ExcelLockedVariableAuditEbxView.java|1|16b935e4ccd|12e6|4d0d080e|9527cdfaec744cc69f43e2223dcabf41|0
+1a:JasperReportsTextView.java|1|16b935e4c70|3f0|9b835eba|5f0b562a6ddf406694224846c181a240|0
+16:OOAMsgExcelReport.java|1|16b935e520b|1860|ed50b168|df42c7da851e4578934082e34f41cc9f|0
+13:ExcelPrintView.java|1|16b935e4c70|3192|59bf2ea6|a032bea9ad53420c99b473321b903399|0

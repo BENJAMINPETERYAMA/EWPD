@@ -1,0 +1,13 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\benefitcomponent\locatecriteria
+2
+9
+28:BenefitComponentNotesLocateCriteria.java|1|16adf95a7ba|bbd|125d6429|429c3e221827478289bc739ae2cc3ae7|0
+29:BenefitComponentDeleteLocateCriteria.java|1|16adf95a76c|4bf|56d1861f|267cc9aca8fa49c0a43b9f1e3de9c674|0
+1a:BenefitLocateCriteria.java|1|16adf95a7f9|ab0|a296455a|63d0d6dfebbd474ba154d507e92bc1a2|0
+23:BenefitComponentLocateCriteria.java|1|16adf95a7ba|377|476c2034|f1161ddf05c54967892bbaf0fd2a1d23|0
+2e:ComponentsBenefitDefinitionLocateCriteria.java|1|16adf95a847|75a|d7013dab|216480d826dc45cda3ff5c14ad8c86e9|0
+23:BenefitHierarchyLocateCriteria.java|1|16adf95a818|106d|d090f2f9|02284541302d45c2beef89f19bd63a0b|0
+32:ComponentsBenefitAdministrationLocateCriteria.java|1|16adf95a7e9|1bcf|a0a0e16c|9fdff2102b7343ce94c9542a2de612a9|0
+34:BenefitComponentSourceDestinationLocateCriteria.java|1|16adf95a7ba|725|e5022c62|d8feca5a317e488cbb25b64686e1e3b6|0
+27:NonAdjBenefitMandateLocateCriteria.java|1|16adf95a895|440|8bb65d18|06041f440c8e4f6b947bdfadbec38a4f|0

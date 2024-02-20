@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\dictionary\util
+2
+4
+19:WPDRapidSpellChecker.java|1|16b935e3d43|305|e3fc010e|cd82b869a5f84d6f848dec4652ead18e|0
+16:WPDUserDictionary.java|1|16b935e3e1e|76d|89075a7c|9a57d28c62b344d09e44d0b1d393e3bb|0
+13:CustomBoundary.java|1|16b935e3dd0|50d|e08994bc|885ee0caad824bd0baa28b972071868d|0
+14:EWPDContextUtil.java|1|16b935e3d72|174|8c778139|7c69a8e6366c44c688b0c21434acae9a|0

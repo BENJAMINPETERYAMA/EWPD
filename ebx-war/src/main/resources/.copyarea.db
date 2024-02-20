@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\resources
+2
+d
+10:views.properties|1|16b935e7209|460|bc1f9ded|739f7791a74b46b193806c2b5ab36f7b|0
+19:errorvalidator.properties|1|16b935e7498|1cc1|10a0f31|6acf69700c904b88a134b17364ce82c3|0
+e:dao-config.xml|1|16b935e7247|195a9|3aa60737|6a5bd0ac841e47c4b9f2f7bfa5f24202|0
+16:webconstant.properties|1|16b935e7209|b1|a7ea3d2a|1ba4c1e942df44e290bebd076d082545|0
+e:X12.properties|1|16b935e7209|1057|8c33242c|acc9ca1f9467441cb8daeaf4a1c56163|0
+19:x12Translation.properties|1|16b935e7238|4a8f|4f3dff40|e5014595b8134d2b81b426625f1af055|0
+20:referencedatamessages.properties|1|16b935e7209|21e|1e9ac34e|bbcbda662131418888c0d8352f851c61|0
+e:aop-config.xml|1|16b935e7238|d46|45844d72|86e2e2c448df41bfac53f63b955b174f|0
+10:log4j.properties|1|16b935e7489|2f8|15d70943|3637f6b1c4464202a8723c6daf1047e5|0
+16:messages_en.properties|1|16b935e7498|51dd|1504aa20|40f9fbce764511e9800a0002c056e04b|0
+9:views.xml|1|16b935e7295|c01|a76da6bb|cf9340ee714f4d219fb28ade4023010a|0
+14:mqAdapter.properties|1|16b935e7295|f3|a6014c21|31d3edf2b441499db5b8f8dd528d9574|0
+12:version.properties|1|16b935e7238|89|70f28a1|b33c903f3bd74189aad22757fa526224|0

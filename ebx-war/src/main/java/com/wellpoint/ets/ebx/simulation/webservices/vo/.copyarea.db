@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\webservices\vo
+2
+11
+19:VariableWebServiceVO.java|1|16b935e6fd7|1303|603a3e3b|104d300d866d4b17807b05f34ea51771|0
+15:RuleWebServiceVO.java|1|16b935e6f7a|29b|6995d8a9|6c979696a9cf4399bd9a48d9b0ea1032|0
+24:HippaSegmentMappingWebServiceVO.java|1|16b935e6f2c|e6c|41966b20|f1c728a6e4364719a7908ea47d4a95e7|0
+16:SPSIdWebServiceVO.java|1|16b935e7045|5dd|cd18d8a5|7bf4f3b629b44b4dbc3379af940b352c|0
+19:ContractWebServiceVO.java|1|16b935e6eed|e45|601fdb32|3a08b58f556b46fba529a58bd327e9e2|0
+1b:AuditTrailWebServiceVO.java|1|16b935e7100|9f3|1f066121|beaa1312792f44d689394cf8b9a9da7e|0
+20:EB03AssociationWebServiceVO.java|1|16b935e6fa9|886|d0258f0e|f527b817c9cb4b82aa99c6bac7b760c0|0
+1e:MajorHeadingsWebServiceVO.java|1|16b935e6f7a|280|6933dd82|32064513dc5c438ea6722ec5fb5b5d07|0
+1f:ErrorExclusionWebServiceVO.java|1|16b935e6f2c|ba9|92b3c95c|332a7eb6aceb4c33b43846b309292cda|0
+1c:ErrorDetailWebServiceVO.java|1|16b935e6eed|62e|52cc0078|e0e98eafcfaf41d7be997b03082b2ecf|0
+1d:HippaSegmentWebServiceVO.java|1|16b935e6f4b|111e|d1cc9e15|412deccf9daf4286adfc513076cd7d3b|0
+1e:MinorHeadingsWebServiceVO.java|1|16b935e6f89|8bf|16ae068e|3e46d4e197404516aa4fa21e84c7adec|0
+18:MappingWebServiceVO.java|1|16b935e6f89|354f|d1b83a6f|8680e30abf6640809fb3f9912529c686|0
+15:UserWebServiceVO.java|1|16b935e6f99|22d|7f05be7b|93a6b7c26ea24b20977af5ec87758592|0
+20:ContractMappingWebServiceVO.java|1|16b935e6eed|bbc|fc5dd37b|fd75b0f268e64d39aa996eee163c474b|0
+1f:HippaCodeValueWebServiceVO.java|1|16b935e6f3b|6e0|5a1c1728|0081ff8135544060be9e9772aae1fcc5|0
+25:ErrorExclusionDetailWebServiceVO.java|1|16b935e6f1c|4a2d|beecf657|267997d7b54b40749c885be9749b8ef4|0

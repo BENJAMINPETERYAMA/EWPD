@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\adminmethod\tree
+2
+b
+2c:AdminMethodBenefitComponentTreeNodeBase.java|1|16adf981bb2|1275|4138b60b|173cd4c19a7d473c95b5267d00f60a82|0
+2f:AdminMethodDateSegmentCodedSPSTreeNodeBase.java|1|16adf981cf0|c6a|571a167a|1e1beeda9ac741c38702958d82997e35|0
+34:AdminMethodBenefitComponentCodedSPSTreeNodeBase.java|1|16adf981bc2|f6f|ea571629|c97136f010b647cc8f1f03bc519fd12b|0
+1f:AdminMethodTreeBackingBean.java|1|16adf981dad|2f73|c2c4738|f00b527386054611a29ac594c94599a9|0
+33:AdminMethodStandardBenefitCodedSPSTreeNodeBase.java|1|16adf981d18|41b|f6344ded|49730031a7ca40a1b9e846fdf76a157c|0
+2b:AdminMethodStandardBenefitTreeNodeBase.java|1|16adf981db8|663|209ff98f|0d512c50636945a2a81c375f023aa8e6|0
+27:AdminMethodContractTreeBackingBean.java|1|16adf981c9a|2527|68566045|85701e622dc24057ad6a5b582ea9aac2|0
+1c:AdminMethodTreeNodeBase.java|1|16adf981dd3|1018|8fb2e62b|b02cd3e8a8ec4648b7063ec99a95d104|0
+24:AdminMethodCodedSPSTreeNodeBase.java|1|16adf981bc2|d9f|ef7d6b38|c0f193d2809f490086a380f5f2c89086|0
+27:AdminMethodDateSegmentTreeNodeBase.java|1|16adf981c66|ea7|43117fca|35ffa8220a174d969fc28734252d451b|0
+2f:AdminMethodContractCodedSPSTreeBackingBean.java|1|16adf981c7e|241d|69324361|97198cd60f594d94aa4f005cf5842ce4|0

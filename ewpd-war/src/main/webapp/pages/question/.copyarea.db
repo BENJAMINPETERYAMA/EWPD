@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\question
+2
+8
+11:editQuestions.jsp|1|16adf926dbc|7990|55645159|ab3bd117189b446c9084ac1ece12b6aa|0
+16:questionNotesPopup.jsp|1|16adf926dfa|3b80|971f6282|7202cb8249ae4b00bc3308b2ff69cdf3|0
+17:questionSearchPrint.jsp|1|16adf9280ee|166d|bdb955b7|df9ccfb3b6ca45e1beb500fca3360fa9|0
+13:questionViewAll.jsp|1|16adf92811d|3a37|c66d6ed9|37b38c26cfe54cf187446e14fa086383|0
+12:questionSearch.jsp|1|16adf926e39|5ffc|ee03c0f0|5c067f53dae941eeb9448fe4c5bcb235|0
+12:printQuestions.jsp|1|16adf926deb|1ff6|f1013c79|3eb5402de35348af8245dfd558bd6a3a|0
+13:createQuestions.jsp|1|16adf926dcb|6de9|9ce7c0f|3c9877d6177146a896be121880b4013f|0
+10:questionView.jsp|1|16adf92810d|278f|226232ad|9d8fd0d0ce3340c0a7344385e8056fed|0

@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\spellcheck\dictionary\db
+2
+4
+1f:WPDUserDictionaryRowMapper.java|1|16adf981858|3e6|5e324157|cdb68b400ead493f9ef21a6c51fe6d38|0
+19:JndiDataSourceLoader.java|1|16adf981ced|71d|a3f9544c|1dc0ddfc46f211e380110002cbcd824c|0
+1d:WPDUserDictionaryDaoImpl.java|1|16adf981a1d|14e5|207fc00d|a244c9f7c66b421e8fceaec32b331f78|0
+19:WPDUserDictionaryDao.java|1|16adf98182a|30b|e7a306ca|23635761a47b4e838fddf06692114602|0

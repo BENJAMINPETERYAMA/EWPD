@@ -1,0 +1,22 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\repository
+2
+12
+20:SequenceGeneratorRepository.java|1|16b935de37a|1e7|fc039ac5|8e7f6577bd464f32941d633f697bba06|0
+17:LockRepositoryImpl.java|1|16b935de57c|1d29|da1b1f72|ddae193ba69f4a3cbc34ddac3c48c732|0
+1f:HippaSegmentRepositoryImpl.java|1|16b935de270|d566|e3dce7b5|996db864940411e9801e0002c056e04b|0
+1c:AuditLockRepositoryImpl.java|1|16b935de31c|2b59|9a1b9aa9|8f23183be1704528b4a1019282a18382|0
+21:VariableLocateRepositoryImpl.java|1|16b935de666|12952|8cafe8be|4160f17230cb485eb72e62ae035e002c|0
+17:SecurityRepository.java|1|16b935de37a|327|b1af2dc|35aacd729241464d994fd70cd27352c3|0
+1d:AuditTrailRepositoryImpl.java|1|16b935de270|2c0c|f79ed4d9|34a1b051fa1042ef8e1308dd5773ff74|0
+19:AuditTrailRepository.java|1|16b935de242|447|592d73d4|c7b0ac3c9cd7414b91120178ab42ea75|0
+22:StateTransitionRepositoryImpl.java|1|16b935de57c|4d31|41843b2a|186a42fe0a214e8bbac02674b589033a|0
+1a:MappingRepositoryImpl.java|1|16b935de37a|1f81c|dbe104c2|b228a77a969911e980360002c056e04b|0
+1b:SecurityRepositoryImpl.java|1|16b935de290|1410|b62f4fe1|0861492dbad34d66aef08109fa7c3a14|0
+18:AuditLockRepository.java|1|16b935de1c5|76d|dba94fc6|f677f1182a754f89838d608ba2ac9a57|0
+1d:VariableLocateRepository.java|1|16b935de5ab|4e0|2044991d|0a7f7a7154b44ec1a15eebfa767a9bc5|0
+24:SequenceGeneratorRepositoryImpl.java|1|16b935de52e|819|e7e79971|96388c34c97b499186b5fd9f5587a629|0
+1b:HippaSegmentRepository.java|1|16b935de270|1816|9a91bc3f|8694e9ce8b8511e9803e0002c056e04b|0
+1e:StateTransitionRepository.java|1|16b935de57c|470|320b81d4|f07a3bd42c404f888e848b1eb08458b2|0
+13:LockRepository.java|1|16b935de270|35f|5c991809|18d21acb524541448b2bbd8307191d93|0
+16:MappingRepository.java|1|16b935de2fd|6c5|d6a15595|1c843429982b4280b57d6614054942e2|0

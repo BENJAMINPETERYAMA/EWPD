@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\catalog\service
+2
+2
+25:CatalogBusinessValidationService.java|1|16adf95b4b5|285a|c5f2d01d|0cf97c35279246948e2c605fafd58d80|0
+1b:CatalogBusinessService.java|1|16adf95b5be|5446|fac5e919|c0542acc536847e09f086cf1ae6f9f3a|0

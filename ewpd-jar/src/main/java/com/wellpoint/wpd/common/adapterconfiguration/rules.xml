@@ -1,0 +1,340 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.bo.RuleValidationBO">	
+		<BusinessAttribute name="ruleId" 				type="String"   keyAttrib="true"/>
+		<BusinessAttribute name="ruleType"     			type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="ruleDescription"     	type="String" 	keyAttrib="false"/>
+	
+		<SearchCriteria name = "getRules">
+			<SearchCriteriaAttribute name="entityId" 			type="List"/>	
+			<SearchCriteriaAttribute name="entityType" 			type="String"/>		
+		</SearchCriteria>		
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>	
+		
+		 	<SelectSQLQuery name="findBenefitComponentRuleIds">
+				select rule.RULE_ID,rule.RULE_TYP_CD,rule.RULE_SHRT_DESC from RULE rule, ENTY_RULE_INFO_ASSN m where 
+				rule.RULE_ID = m.RULE_ID 
+				and m.ENTY_SYS_ID {0} and m.ENTY_TYPE={1}
+			</SelectSQLQuery>
+
+		 	<SelectSQLQuery name="findproductRuleIds">
+				select a.RULE_ID,c.RULE_TYP_CD,c.RULE_SHRT_DESC  from
+					PROD_BNFT_CMPNT_ASSN a, RULE c, BCM_BNFT_CMPNT_MSTR b where
+					a.RULE_ID = c.RULE_ID and 
+					b.bnft_cmpnt_sys_id = a.bnft_cmpnt_sys_id and 
+					a.PROD_SYS_ID {0}
+					union
+					select   rule.RULE_ID,rule.RULE_TYP_CD,rule.RULE_SHRT_DESC 
+					from RULE rule, PROD_BNFT_RULE_OVRD  m, PROD_BNFT_CSTMZD c
+					where 
+					rule.RULE_ID = m.RULE_ID 
+					and m.bnft_cmpnt_sys_id = c.bnft_cmpnt_sys_id
+					and m.bnft_sys_id = c.bnft_sys_id
+					and m.prod_sys_id = c.prod_sys_id
+					and c.bnft_hide_flag = 'F'
+					and m.prod_sys_id {0}
+			</SelectSQLQuery>
+
+		 	<SelectSQLQuery name="findContractRuleIds">
+		  		select distinct rule.RULE_ID,rule.RULE_TYP_CD,rule.RULE_SHRT_DESC 
+		           from RULE rule, 
+		                 PROD_BNFT_CMPNT_ASSN  m,
+		                 CNTRCT_BNFT_ASSN c,
+		                    cntrct_dt_sgmnt d
+		           where 
+		           rule.RULE_ID = m.RULE_ID 
+		           and m.PROD_SYS_ID = d.PROD_SYS_ID
+		              and d.dt_sgmnt_sys_id = c.dt_sgmnt_sys_id
+		           and m.BNFT_CMPNT_SYS_ID = c.BNFT_CMPNT_SYS_ID 
+		           and c.BNFT_CMPNT_HIDE_FLAG  ='F'
+		           and c.dt_sgmnt_sys_id {0} 
+		            
+		     		UNION
+		           
+			     select distinct rule.RULE_ID,rule.RULE_TYP_CD,rule.RULE_SHRT_DESC 
+			           from RULE rule, 
+			             CNTRCT_BNFT_RULE_OVRD  m ,
+			             CNTRCT_BNFT_ASSN c 
+			           where 
+			       rule.RULE_ID = m.RULE_ID 
+			           and m.dt_sgmnt_sys_id = c.dt_sgmnt_sys_id
+			           and m.bnft_cmpnt_sys_id = c.bnft_cmpnt_sys_id
+			           and m.bnft_sys_id = c.bnft_sys_id
+			           and c.bnft_cmpnt_hide_flag = 'F'
+			           and c.bnft_hide_flag = 'F'
+			           and m.DT_SGMNT_SYS_ID {0} 
+			</SelectSQLQuery>
+	
+			<DataObject name="RULE_INFO">
+			    <DataObjectAttribute name="RULE_ID"    			type="String"/>
+			    <DataObjectAttribute name="RULE_TYPE"    		type="String"/>
+				<DataObjectAttribute name="RULE_DESCRIPTION"    type="String"/>
+				<DataObjectAttribute name="ENTITY_ID"    		type="Int"/>
+				<DataObjectAttribute name="ENTITY_TYPE"    		type="String"/>
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTITY_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTITY_TYPE"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="RULE_TYPE"/>	
+						<ResultIndex index="2" dataObjectAttribName ="RULE_DESCRIPTION"/>										
+					</RSIndexToDOAttributeMap>						
+					<SearchQueryName name="findBenefitComponentRuleIds"/>
+				</SQLTemplate>
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTITY_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="RULE_TYPE"/>	
+						<ResultIndex index="2" dataObjectAttribName ="RULE_DESCRIPTION"/>										
+					</RSIndexToDOAttributeMap>						
+					<SearchQueryName name="findproductRuleIds"/>
+				</SQLTemplate>
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ENTITY_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="RULE_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="RULE_TYPE"/>	
+						<ResultIndex index="2" dataObjectAttribName ="RULE_DESCRIPTION"/>										
+					</RSIndexToDOAttributeMap>						
+					<SearchQueryName name="findContractRuleIds"/>
+				</SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb ="RULE_ID"  				toBOAttb="ruleId"/>
+			        <Pair DOAttb ="RULE_TYPE"    			toBOAttb="ruleType"/>
+			        <Pair DOAttb ="RULE_DESCRIPTION"   	 	toBOAttb="ruleDescription"/>
+			    </DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTITY_ID" 				toSCAttb = "entityId"/>
+					<Pair DOAttb="ENTITY_TYPE" 				toSCAttb = "entityType"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.product.bo.RuleDetailBO">
+		<BusinessAttribute name="dateSegmentId" 						type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="dateSegmentEffectiveDate" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="dateSegmentExpiryDate" 				type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="productId" 							type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="productName" 							type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId" 					type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="benefitComponentName" 					type="String"	keyAttrib="false"/>		
+		<BusinessAttribute name="benefitId" 							type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="benefitName" 							type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="ruleId" 								type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="ruleDesc" 								type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="ruleType" 								type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="seqNumber" 							type="Int"		keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="entitySysId" 					type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		
+			<SelectSQLQuery>
+				SELECT DISTINCT RULE_SHRT_DESC FROM RULE WHERE RULE_SHRT_DESC = {0}		
+		    </SelectSQLQuery>
+	
+			<SelectSQLQuery name="getRuleListBCforProduct" >		
+					select  b.BNFT_CMPNT_NM, a.BNFT_CMPNT_SYS_ID,a.RULE_ID,c.RULE_SHRT_DESC,c.RULE_TYP_CD, a.sqnc_nbr  from
+					PROD_BNFT_CMPNT_ASSN a, RULE c, BCM_BNFT_CMPNT_MSTR b where
+					a.RULE_ID = c.RULE_ID and 
+					b.bnft_cmpnt_sys_id = a.bnft_cmpnt_sys_id and 
+					a.PROD_SYS_ID = {0}
+    				order by a.sqnc_nbr
+			</SelectSQLQuery>		
+			<SelectSQLQuery name="getRuleListBenefitForProduct" >		
+				select temp.BNFT_CMPNT_NM, temp.BNFT_CMPNT_SYS_ID, temp.bnft_id_nm,temp.RULE_ID,temp.RULE_TYP_CD,
+    				temp.RULE_SHRT_DESC,temp.BNFT_SYS_ID from    
+				    (select distinct b.BNFT_CMPNT_NM, b.BNFT_CMPNT_SYS_ID, d.bnft_id_nm,rule.RULE_ID,rule.RULE_TYP_CD,
+				    rule.RULE_SHRT_DESC,d.BNFT_SYS_ID, p.sqnc_nbr, q.sqnc_nbr
+					from RULE rule, PROD_BNFT_RULE_OVRD  m, PROD_BNFT_CSTMZD c, BMST_BNFT_MSTR d, BCM_BNFT_CMPNT_MSTR b, 
+				    PROD_BNFT_CMPNT_ASSN p,BNFT_CMPNT_HRCHY_ASSN q
+					where 
+					rule.RULE_ID = m.RULE_ID 
+				    and m.bnft_cmpnt_sys_id = c.bnft_cmpnt_sys_id
+				    and m.bnft_sys_id = c.bnft_sys_id
+				    and d.bnft_sys_id = m.bnft_sys_id
+				    and b.bnft_cmpnt_sys_id = m.bnft_cmpnt_sys_id
+				    and m.prod_sys_id = c.prod_sys_id
+					and c.prod_sys_id = p.prod_sys_id
+				    and c.bnft_hide_flag = 'F'
+				    and p.bnft_cmpnt_sys_id = b.bnft_cmpnt_sys_id
+				    and q.bnft_cmpnt_sys_id = b.bnft_cmpnt_sys_id
+				    and q.bnft_sys_id = d.bnft_sys_id
+					and m.prod_sys_id = {0}
+				    order by p.sqnc_nbr, q.sqnc_nbr) temp
+		 	</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getRuleListBCforContract" >
+				SELECT temp.BNFT_CMPNT_NM,
+					  temp.BNFT_CMPNT_SYS_ID  ,
+					  temp.RULE_ID            ,
+					  temp.RULE_SHRT_DESC     ,
+					  temp.RULE_TYP_CD
+					   FROM
+					  (SELECT DISTINCT b.BNFT_CMPNT_NM,
+					    a.BNFT_CMPNT_SYS_ID           ,
+					    a.RULE_ID                     ,
+					    c.RULE_SHRT_DESC              ,
+					    c.RULE_TYP_CD                 ,
+					    a.SQNC_NBR
+					     FROM PROD_BNFT_CMPNT_ASSN a,
+					    RULE c                      ,
+					    BCM_BNFT_CMPNT_MSTR b       ,
+					    CNTRCT_BNFT_ASSN d          ,
+					    ENTY_RULE_INFO_ASSN f       ,
+					    CNTRCT_DT_SGMNT g
+					    WHERE a.RULE_ID       = c.RULE_ID
+					  AND f.ENTY_TYPE         ='BENEFITCOMP'
+					  AND a.BNFT_CMPNT_SYS_ID = d.BNFT_CMPNT_SYS_ID
+					  AND a.BNFT_CMPNT_SYS_ID = b.BNFT_CMPNT_SYS_ID
+					  AND a.PROD_SYS_ID       = g.PROD_SYS_ID
+					  AND d.dt_sgmnt_sys_id   = g.dt_sgmnt_sys_id
+					  AND d.BNFT_CMPNT_HIDE_FLAG LIKE 'F'
+					  AND d.DT_SGMNT_SYS_ID =  {0}
+					 ORDER BY a.SQNC_NBR
+					  )temp
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getRuleListBenefitForContract" >
+				   SELECT temp.BNFT_CMPNT_NM,
+				  temp.BNFT_CMPNT_SYS_ID  ,
+				  temp.bnft_id_nm         ,
+				  temp.RULE_ID            ,
+				  temp.RULE_TYP_CD        ,
+				  temp.RULE_SHRT_DESC     ,
+				  temp.BNFT_SYS_ID
+				   FROM
+				  (SELECT DISTINCT b.BNFT_CMPNT_NM,
+				    b.BNFT_CMPNT_SYS_ID           ,
+				    d.bnft_id_nm                  ,
+				    rule.RULE_ID                  ,
+				    rule.RULE_TYP_CD              ,
+				    rule.RULE_SHRT_DESC           ,
+				    d.BNFT_SYS_ID                 ,
+				    p.sqnc_nbr                    ,
+				    q.sqnc_nbr
+				     FROM RULE rule        ,
+				    CNTRCT_BNFT_RULE_OVRD m,
+				    CNTRCT_BNFT_ASSN c   ,
+				    BMST_BNFT_MSTR d       ,
+				    BCM_BNFT_CMPNT_MSTR b  ,
+				    PROD_BNFT_CMPNT_ASSN p ,
+				    BNFT_CMPNT_HRCHY_ASSN q
+				    WHERE rule.RULE_ID       = m.RULE_ID
+				  AND m.dt_sgmnt_sys_id      = c.dt_sgmnt_sys_id
+				  AND m.bnft_cmpnt_sys_id    = c.bnft_cmpnt_sys_id
+				  AND m.bnft_sys_id          = c.bnft_sys_id
+				  AND c.bnft_cmpnt_hide_flag = 'F'
+				  AND c.bnft_hide_flag       = 'F'
+				  AND d.bnft_sys_id          = m.bnft_sys_id
+				  AND b.bnft_cmpnt_sys_id    = c.bnft_cmpnt_sys_id
+				  AND b.bnft_cmpnt_sys_id    = p.bnft_cmpnt_sys_id
+				  AND q.bnft_cmpnt_sys_id    = b.bnft_cmpnt_sys_id
+				  AND q.bnft_sys_id          = d.bnft_sys_id
+				  AND m.DT_SGMNT_SYS_ID      = {0}
+				 ORDER BY p.sqnc_nbr,
+				    q.sqnc_nbr
+				  ) temp
+			</SelectSQLQuery>
+
+			<DataObject name="RULE">
+				<DataObjectAttribute name="BC_NAME" 				type="String" />			
+				<DataObjectAttribute name="BC_ID"		 			type="Int" />	
+				<DataObjectAttribute name="RULE_ID" 				type="String" />	
+				<DataObjectAttribute name="RULE_DESC" 				type="String" />	
+				<DataObjectAttribute name="RULE_TYPE"				type="String" />	
+				<DataObjectAttribute name="BENEFIT_NAME" 			type="String" />	
+				<DataObjectAttribute name="BENEFIT_ID" 				type="Int" />	
+				<DataObjectAttribute name="ENTITY_ID" 				type="Int" />	
+				<DataObjectAttribute name="SQNC_NBR" 				type="Int" />	
+				
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+	    		        <ResultIndex index="0"  dataObjectAttribName ="RULE_DESC"/>						
+			        </RSIndexToDOAttributeMap>
+	    		</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="ENTITY_ID" />					
+						<RSIndexToDOAttributeMap>
+			            	<ResultIndex index="0"  		dataObjectAttribName = "BC_NAME"/>
+							<ResultIndex index="1"      	dataObjectAttribName = "BC_ID" />
+							<ResultIndex index="2"      	dataObjectAttribName = "RULE_ID" />		
+							<ResultIndex index="3"      	dataObjectAttribName = "RULE_DESC" />
+							<ResultIndex index="4"      	dataObjectAttribName = "RULE_TYPE" />				
+							<ResultIndex index="5"      	dataObjectAttribName = "SQNC_NBR" />	
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getRuleListBCforProduct" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="ENTITY_ID" />					
+						<RSIndexToDOAttributeMap>
+			            	<ResultIndex index="0"  		dataObjectAttribName = "BC_NAME"/>
+							<ResultIndex index="1"      	dataObjectAttribName = "BC_ID" />
+							<ResultIndex index="2"  		dataObjectAttribName = "BENEFIT_NAME"/>
+							<ResultIndex index="3"      	dataObjectAttribName = "RULE_ID" />		
+							<ResultIndex index="4"      	dataObjectAttribName = "RULE_TYPE" />
+							<ResultIndex index="5"      	dataObjectAttribName = "RULE_DESC" />				
+							<ResultIndex index="6"      	dataObjectAttribName = "BENEFIT_ID" />	
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getRuleListBenefitForProduct" />
+				</SQLTemplate>
+
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="ENTITY_ID" />					
+						<RSIndexToDOAttributeMap>
+			            	<ResultIndex index="0"  		dataObjectAttribName = "BC_NAME"/>
+							<ResultIndex index="1"      	dataObjectAttribName = "BC_ID" />
+							<ResultIndex index="2"      	dataObjectAttribName = "RULE_ID" />		
+							<ResultIndex index="3"      	dataObjectAttribName = "RULE_DESC" />
+							<ResultIndex index="4"      	dataObjectAttribName = "RULE_TYPE" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getRuleListBCforContract" />
+				</SQLTemplate>
+			
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="ENTITY_ID" />					
+						<RSIndexToDOAttributeMap>
+			            	<ResultIndex index="0"  		dataObjectAttribName = "BC_NAME"/>
+							<ResultIndex index="1"      	dataObjectAttribName = "BC_ID" />
+							<ResultIndex index="2"  		dataObjectAttribName = "BENEFIT_NAME"/>
+							<ResultIndex index="3"      	dataObjectAttribName = "RULE_ID" />		
+							<ResultIndex index="4"      	dataObjectAttribName = "RULE_TYPE" />
+							<ResultIndex index="5"      	dataObjectAttribName = "RULE_DESC" />	
+							<ResultIndex index="6"      	dataObjectAttribName = "BENEFIT_ID" />	
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getRuleListBenefitForContract" />
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BC_NAME" 					toBOAttb="benefitComponentName" />
+					<Pair DOAttb="BC_ID"		 			toBOAttb="benefitComponentId" />
+					<Pair DOAttb="RULE_ID" 					toBOAttb="ruleId" />						
+					<Pair DOAttb="RULE_DESC" 				toBOAttb="ruleDesc" />
+					<Pair DOAttb="RULE_TYPE" 				toBOAttb="ruleType" />
+					<Pair DOAttb="BENEFIT_NAME" 			toBOAttb="benefitName" />
+					<Pair DOAttb="BENEFIT_ID" 				toBOAttb="benefitId" />
+					<Pair DOAttb="SQNC_NBR" 				toBOAttb="seqNumber" />
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTITY_ID" 			toSCAttb="entitySysId" />					
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

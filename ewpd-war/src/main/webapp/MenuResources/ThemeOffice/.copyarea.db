@@ -1,0 +1,24 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\MenuResources\ThemeOffice
+2
+14
+9:Thumbs.db|1|16adf918de8|4600|aa06b224|ef59d2df97b24b939a425f7aa05bde9f|0
+9:theme.css|1|16adf918f40|185b|c87d0612|a33e1bb86c0f40e49923dda88ea36df9|0
+8:help.gif|1|16adf918c91|94|87e538c0|56f1c37c6fea45799433fe5cb493e1e6|0
+8:copy.gif|1|16adf918947|70|960b25ac|e23ea0d730444771a40eee85e7f8af64|0
+9:paste.gif|1|16adf918c14|91|d35b36d4|1ac70575133b4249bc2f1ffc1460dfea|0
+d:cutshadow.gif|1|16adf918c91|73|aefd2950|ffd374f09b71423fa4c9aa96a6cee745|0
+e:saveshadow.gif|1|16adf918d7b|8f|d82631ce|a80a9e0b48eb40c7a645361a1d3e1392|0
+7:cut.gif|1|16adf9189d3|5e|5e5b1ca2|a4df7590f0ce4067911431bfae52115d|0
+e:openshadow.gif|1|16adf918b88|8b|ce5b33e1|579f34002a634d0db5e5e3f334508531|0
+e:helpshadow.gif|1|16adf918b88|a5|1edf4057|6b725a9f58cd4568815d1a92ca99138f|0
+e:copyshadow.gif|1|16adf9189e3|8b|b1dc2dad|1aa337699f58429a95344e2029c7bf55|0
+8:theme.js|1|16adf918d9a|75c|137159fd|52832ffa6a2743beb2ec404dac9cb8d0|0
+8:save.gif|1|16adf918feb|6f|934c24bc|31f6fbd592c6481ca96313c6a665ab65|0
+9:blank.gif|1|16adf918947|327|7a9c4893|791dacde9cfe4fecb4e2acc923501e5e|0
+9:arrow.gif|1|16adf918763|36|b18d0ed0|bdb8f469ddcf42d88ff414efd96a1a5d|0
+8:open.gif|1|16adf918f5f|78|1af29ef|45d4a8744ceb442098debb45726436c7|0
+7:new.gif|1|16adf918b88|76|cf22a9b|3df062f15b0841b5912db1efeb2cf421|0
+a:spacer.gif|1|16adf918f11|3a|666a105e|28e60904bb014d57accce87dd6579066|0
+d:arrowdown.gif|1|16adf918976|3f|fa0f130f|fdf8be9051dc4b74845ba0b8e94b9c2f|0
+f:pasteshadow.gif|1|16adf918d4c|9e|24253d51|e956c8bdfb944c4eb2728fc11f4fade9|0

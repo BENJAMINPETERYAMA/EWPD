@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-reserve-war\src\main\java\com\wellpoint\ewpd\rest\service
+2
+4
+13:EnquireService.java|1|16b22ec580b|489|7cf87f9e|cd3c1c4c9c2f11e980050002c884f74c|0
+13:ReserveService.java|1|16a4ee8cec0|2ce4|9f8ffe0f|e66dfb17411a4611b1a70c9aa7c9b762|0
+13:PropertyGetter.java|1|16a4ee8ce8b|8ab|18adb9df|faf4701725194a868c3e4f790a5b95a3|0
+13:ReleaseService.java|1|16a4ee8ce9e|13b2|e3668aa4|196ccce5a8d04b6b896e647029acdab1|0

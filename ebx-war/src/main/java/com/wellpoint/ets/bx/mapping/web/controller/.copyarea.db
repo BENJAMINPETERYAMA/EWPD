@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\web\controller
+2
+c
+15:CopyToController.java|1|16b935e1fa6|104f|4098691b|4f37cda854594c9f96b9286a86eb5110|0
+19:CreatePageController.java|1|16b935e3863|bad7|c60bd265|e599640482eb11e9801c0002c056e04b|0
+23:LandingPageStateFlowController.java|1|16b935e3863|2a06|71abd96|0440f7d07e6149c392fddd06b7be7a5e|0
+22:LocatePageStateFlowController.java|1|16b935e392e|1c47|c9574efb|0c2569ec5525421981eb8cd1efeaec38|0
+1e:ViewLandingPageController.java|1|16b935e3d15|965|b934910|4ba3368ad14f4dc8a7c85d1ac4f43856|0
+24:ViewCreateMappingPageController.java|1|16b935e3d15|1d3c|d089bda8|252fdd88e79e4a2f817ac443c4c10675|0
+1c:MassUpdateWpdController.java|1|16b935e392e|738|324882ef|a04784aa053446c2985d532418633e15|0
+18:StateFlowController.java|1|16b935e394d|10ae8|15db9263|3739fb4e764511e9800a0002c056e04b|0
+1a:EditMappingController.java|1|16b935e3863|10354|c9b3e870|35e9fb3e764511e9800a0002c056e04b|0
+1e:ViewMappingPageController.java|1|16b935e3d05|8870|379dd984|e619640c82eb11e9801c0002c056e04b|0
+1c:LocateResultsController.java|1|16b935e392e|15d3|1b663266|09bd366f78c84bcbb141005ac9756936|0
+26:HippaSegmentDescriptionController.java|1|16b935e3863|5ce|389fefd9|c377e547cc994257a61ad8f099032f7b|0

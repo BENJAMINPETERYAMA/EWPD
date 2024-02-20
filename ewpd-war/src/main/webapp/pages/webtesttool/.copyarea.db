@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\webtesttool
+2
+b
+17:claimSelectTestCase.jsp|1|16adf930ad1|252e|621021de|d1eef0e45eac41bb92f64ecffd09a521|0
+19:claimTestCaseMaintain.jsp|1|16adf930a64|262c|47538f16|7ee005f2b3d1453bb50810f91f601002|0
+18:expectedBenefitPopup.jsp|1|16adf930bdb|c66|72c1df1a|96d736fee9bc4184b3d17cf31f844864|0
+1a:claimTestSuiteMaintain.jsp|1|16adf930ac2|2963|9971accc|2137d296ca8440b5898a478b550d300d|0
+17:claimTestCaseCreate.jsp|1|16adf930a64|5f7a|8cd84438|f75015dd64924de1aa428d82bfbf7813|0
+21:expectedBenefitComponentPopup.jsp|1|16adf930bfa|f79|8b4adc6d|dd65fc3764db4f9197072541140fe921|0
+16:claimTestCasePopup.jsp|1|16adf9309a9|efb|4f6f8eec|44d80fccad6845609ddcb773a6b86194|0
+1b:expectedTypeOfBillPopup.jsp|1|16adf930bfa|d7e|4fb2354f|819fe93c5cff4d0f874796d5d9c97b00|0
+18:claimTestSuiteCreate.jsp|1|16adf930a64|1bc3|54068dcc|e3a3b3b87f434cd89e256a08bc88ec54|0
+18:claimTestSuiteResult.jsp|1|16adf930ac2|2228|554bc91e|bb23891d580747158f170a80bd105498|0
+16:claimTestSuiteEdit.jsp|1|16adf930ac2|2139|e315314b|6eb99a8ece534224b9a7dde07beb891f|0

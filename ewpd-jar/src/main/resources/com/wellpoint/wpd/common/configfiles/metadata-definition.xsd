@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="metaData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="metaObject"  minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="status-transition-universe"  minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="metaObject">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="checkoutDuration" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="builderClass" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="loggerName" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="locate" minOccurs="0" maxOccurs="1"/>				
+				<xs:element ref="informationElement" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="status-transitions"  minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="security"  minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="module" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="builderClass">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="loggerName">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="locate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="criteria" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	<xs:element name="criteria">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checkoutDuration">
+		<xs:complexType>
+			<xs:attribute name="value" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="informationElement">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="String"/>
+						<xs:enumeration value="Int"/>
+						<xs:enumeration value="Long"/>						
+						<xs:enumeration value="Float"/>
+						<xs:enumeration value="Double"/>						
+						<xs:enumeration value="Date"/>																
+						<xs:enumeration value="List"/>						
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="attrType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="key"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="status-transition-universe">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="transition" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>		
+	<xs:element name="status-transitions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="transition" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	<xs:element name="security">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="activity" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	<xs:element name="activity">
+		<xs:complexType>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="taskName" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="transition">
+		<xs:complexType>
+			<xs:attribute name="name" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="TRANSITION_BUILDING_TO_CHECKED_IN"/>
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_CHECKED_OUT"/>
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_PUBLISHED"/>
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_APPROVED"/>
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_REJECTED"/>
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_SCHEDULED_FOR_TEST"/>						
+						<xs:enumeration value="TRANSITION_CHECKED_IN_TO_MARKED_FOR_DELETION"/>
+						<xs:enumeration value="TRANSITION_CHECKED_OUT_TO_CHECKED_IN"/>
+						<xs:enumeration value="TRANSITION_CHECKED_OUT_TO_MARKED_FOR_DELETION"/>
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_TEST_TO_OBJECT_TRANSFERRED"/>
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_SUCCESSFUL"/>
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_TEST_TO_TEST_FAILED"/>
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_TEST_TO_MARKED_FOR_DELETION"/>
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_TEST_TO_CHECKED_OUT"/>
+						<xs:enumeration value="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_SUCCESSFUL"/>												
+						<xs:enumeration value="TRANSITION_OBJECT_TRANSFERRED_TO_TEST_FAILED"/>
+						<xs:enumeration value="TRANSITION_OBJECT_TRANSFERRED_TO_MARKED_FOR_DELETION"/>
+						<xs:enumeration value="TRANSITION_OBJECT_TRANSFERRED_TO_CHECKED_OUT"/>
+						<xs:enumeration value="TRANSITION_TEST_SUCCESSFUL_TO_SCHEDULED_FOR_APPROVAL"/>
+						<xs:enumeration value="TRANSITION_TEST_SUCCESSFUL_TO_CHECKED_OUT"/>
+						<xs:enumeration value="TRANSITION_TEST_SUCCESSFUL_TO_MARKED_FOR_DELETION"/>
+						<xs:enumeration value="TRANSITION_TEST_FAILED_TO_CHECKED_OUT"/>
+						<xs:enumeration value="TRANSITION_TEST_FAILED_TO_MARKED_FOR_DELETION"/>																														
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_APPROVED"/>																														
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_REJECTED"/>																														
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_CHECKED_OUT"/>																														
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_APPROVAL_TO_MARKED_FOR_DELETION"/>																														
+						<xs:enumeration value="TRANSITION_APPROVED_TO_SCHEDULED_FOR_PRODUCTION"/>																														
+						<xs:enumeration value="TRANSITION_APPROVED_TO_PUBLISHED"/>		
+						<xs:enumeration value="TRANSITION_REJECTED_TO_CHECKED_OUT"/>	
+						<xs:enumeration value="TRANSITION_REJECTED_TO_MARKED_FOR_DELETION"/>	
+						<xs:enumeration value="TRANSITION_SCHEDULED_FOR_PRODUCTION_TO_PUBLISHED"/>	
+						<xs:enumeration value="TRANSITION_PUBLISHED_TO_CHECKED_OUT"/>	
+						<xs:enumeration value="TRANSITION_PUBLISHED_TO_MARKED_FOR_DELETION"/>																													
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>	
+				
+			<xs:attribute name="from" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="BUILDING"/>
+						<xs:enumeration value="CHECKED_IN"/>
+						<xs:enumeration value="SCHEDULED_FOR_TEST"/>
+						<xs:enumeration value="TEST_FAILED"/>
+						<xs:enumeration value="TEST_SUCCESSFUL"/>
+						<xs:enumeration value="OBJECT_TRANSFERRED"/>
+						<xs:enumeration value="SCHEDULED_FOR_APPROVAL"/>
+						<xs:enumeration value="APPROVED"/>
+						<xs:enumeration value="REJECTED"/>
+						<xs:enumeration value="CHECKED_OUT"/>
+						<xs:enumeration value="PUBLISHED"/>
+						<xs:enumeration value="SCHEDULED_FOR_PRODUCTION"/>																												
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="to" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CHECKED_IN"/>
+						<xs:enumeration value="SCHEDULED_FOR_TEST"/>
+						<xs:enumeration value="TEST_FAILED"/>
+						<xs:enumeration value="TEST_SUCCESSFUL"/>
+						<xs:enumeration value="OBJECT_TRANSFERRED"/>
+						<xs:enumeration value="SCHEDULED_FOR_APPROVAL"/>
+						<xs:enumeration value="APPROVED"/>
+						<xs:enumeration value="REJECTED"/>
+						<xs:enumeration value="CHECKED_OUT"/>
+						<xs:enumeration value="PUBLISHED"/>
+						<xs:enumeration value="SCHEDULED_FOR_PRODUCTION"/>																											
+						<xs:enumeration value="MARKED_FOR_DELETION"/>				
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="taskName" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="override" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="enableLog" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN"/>
+				</xs:simpleType>
+			</xs:attribute>
+			
+			
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

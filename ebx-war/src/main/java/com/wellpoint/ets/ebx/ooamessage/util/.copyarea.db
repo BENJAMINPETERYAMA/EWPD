@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\ooamessage\util
+2
+2
+1e:MaintainOOAMessageRequest.java|1|16b935e71da|1c29|6398f98d|70cc5946377043a1bb0aa298dd0b0939|0
+18:OOAMessageConstants.java|1|16b935e71da|724|f2014c43|9c5c7be14445472da8e545e72755746e|0

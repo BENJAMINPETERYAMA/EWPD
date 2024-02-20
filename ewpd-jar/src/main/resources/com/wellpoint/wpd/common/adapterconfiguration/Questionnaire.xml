@@ -1,0 +1,665 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.RootQuestionnaireBO">
+		<BusinessAttribute name="questionnaireHierachySystemId" 		type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="parentHierachySystemId" 				type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionSystemId" 					type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="questionNumber" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="questionDescription" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId" 							type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceDescription" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 							type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 						type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 					type="Date" 	keyAttrib="false"/>
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="questionnaireHierarchySysId"   type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionId"   type="Int"/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>	
+			<SelectSQLQuery name="locateRootQuestionnaireDetails">
+				select 
+				  A.QSTNR_HRCHY_SYS_ID, A.ADMIN_OPT_SYS_ID, A.ADQM_ADMN_QSTN_NBR,
+				  B.ADQM_ADMN_QSTN_DESC, C.CD_DESC_TXT
+				  from QSTNR_MSTR A, ADQM_ADMN_QSTN_MSTR B, ITEM C
+				  where A.QSTNR_HRCHY_SYS_ID = {0}
+				  and A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR
+				  and A.RFRNC_ID = C.PRMRY_CD(+) 
+				  and C.CTLG_ID(+) = 1938				
+			</SelectSQLQuery>	  
+			<SelectSQLQuery name="locateRootQuestions">
+				SELECT a.qstnr_hrchy_sys_id, a.admin_opt_sys_id, a.adqm_admn_qstn_nbr,
+				       a.rfrnc_id, c.cd_desc_txt, b.adqm_admn_qstn_desc, a.sqnc_nbr				       
+				  FROM qstnr_mstr a, adqm_admn_qstn_mstr b, item c
+				 WHERE a.qstnr_hrchy_sys_id = a.prnt_qstnr_hrchy_sys_id
+				   AND a.admin_opt_sys_id = {0}
+				   AND a.adqm_admn_qstn_nbr = b.adqm_admn_qstn_nbr
+				   AND a.rfrnc_id = c.prmry_cd (+)
+				   AND c.ctlg_id (+) = 1938	order by a.sqnc_nbr	
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getMaxAdminOptionVersion">
+				SELECT dbms_random.random, MAX (a.sqnc_nbr)
+			      FROM qstnr_mstr a
+			     WHERE a.admin_opt_sys_id = {0}
+			       AND a.prnt_qstnr_hrchy_sys_id = a.qstnr_hrchy_sys_id
+			</SelectSQLQuery>			
+			<DataObject name="QSTNR_MSTR">
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID" type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" 				type="Int"/>
+				<DataObjectAttribute name="RFRNC_ID" 				type="String"/>
+				<DataObjectAttribute name="QSTN_DESC" 				type="String"/>				
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="RFRNC_DESC" 				type="String"/>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							insert into QSTNR_MSTR(QSTNR_HRCHY_SYS_ID, ADMIN_OPT_SYS_ID, ADQM_ADMN_QSTN_NBR, RFRNC_ID, SQNC_NBR, PRNT_QSTNR_HRCHY_SYS_ID, LST_CHG_TMS,LST_CHG_USR,CREATD_TM_STMP,CREATD_USER_ID) values(?,?,?,?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="ADQM_ADMN_QSTN_NBR"/>
+						<DataObjectAttributeInput index="3" name="RFRNC_ID"/>
+						<DataObjectAttributeInput index="4" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="5" name="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="7" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="9" name="CREATD_USER_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							update QSTNR_MSTR set RFRNC_ID = ?, SQNC_NBR = ?, LST_CHG_TMS = ?, LST_CHG_USR = ? 
+											where QSTNR_HRCHY_SYS_ID = ?											
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="RFRNC_ID"/>
+						<DataObjectAttributeInput index="1" name="SQNC_NBR"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="4" name="QSTNR_HRCHY_SYS_ID"/>
+				</SQLTemplate>
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="QSTN_DESC"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_DESC"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="locateRootQuestionnaireDetails"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_DESC"/>
+						<ResultIndex index="5" dataObjectAttribName ="QSTN_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="SQNC_NBR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="locateRootQuestions"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="SQNC_NBR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="getMaxAdminOptionVersion"/>
+	  			</SQLTemplate>				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="QSTNR_HRCHY_SYS_ID"		toBOAttb="questionnaireHierachySystemId"/>
+						<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID"	toBOAttb="parentHierachySystemId"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"			toBOAttb="adminOptionSystemId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"		toBOAttb="questionNumber"/>
+						<Pair DOAttb="SQNC_NBR"					toBOAttb="sequenceNumber"/>
+						<Pair DOAttb="RFRNC_ID"					toBOAttb="referenceId"/>
+						<Pair DOAttb="RFRNC_DESC"				toBOAttb="referenceDescription"/>
+						<Pair DOAttb="QSTN_DESC"				toBOAttb="questionDescription"/>
+						<Pair DOAttb="LST_CHG_TMS"				toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"				toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"			toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"			toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="QSTNR_HRCHY_SYS_ID" 	toSCAttb="questionnaireHierarchySysId"/>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID" 	toSCAttb="adminOptionId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.ChildQuestionnaireBO">
+		<BusinessAttribute name="sequenceNumber" 		type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="answerId" 		type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="questionNumber" 		type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="questionDescription" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceId" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="referenceDescription" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="questionnaireHierarchySystemId" 		type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="adminOptionSystemId" 					type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="parentQuestionnaireId" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimeStamp" 					type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastChangedUser" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastChangedTimeStamp" 					type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="parentRequired" 					type="String" 	keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="parentQuestionnaireSysId"   type="Int"	/>
+			<SearchCriteriaAttribute name="questionnaireHierarchySystemId"   type="Int"	/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>	
+			<SelectSQLQuery name="locateChildQuestionnaires">
+				select 
+				  A.SQNC_NBR,A.PRNT_ANSWR_ID, A.ADQM_ADMN_QSTN_NBR,
+				  B.ADQM_ADMN_QSTN_DESC, A.RFRNC_ID, C.CD_DESC_TXT,
+				  A.QSTNR_HRCHY_SYS_ID, A.ADMIN_OPT_SYS_ID, A.PRNT_QSTNR_HRCHY_SYS_ID,A.PARENT_RQD
+				  from QSTNR_MSTR A, ADQM_ADMN_QSTN_MSTR B, ITEM C
+				  where A.PRNT_QSTNR_HRCHY_SYS_ID = {0}
+    			  and A.QSTNR_HRCHY_SYS_ID !=  A.PRNT_QSTNR_HRCHY_SYS_ID
+				  and A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR
+				  and A.RFRNC_ID = C.PRMRY_CD(+) 
+				  and C.CTLG_ID(+) = 1938					
+			</SelectSQLQuery>		
+			<SelectSQLQuery name="locateInvalidChildQuestionnaires">
+				select QSTNR_HRCHY_SYS_ID from QSTNR_MSTR
+				  where PRNT_QSTNR_HRCHY_SYS_ID = {0}
+				  and RFRNC_ID IS NULL					
+			</SelectSQLQuery>	
+
+		 <SelectSQLQuery name="locateChildQuestionnairesForPR">
+				select 
+				  A.SQNC_NBR, A.PRNT_ANSWR_ID, A.ADQM_ADMN_QSTN_NBR,
+				   A.RFRNC_ID,A.QSTNR_HRCHY_SYS_ID  from QSTNR_MSTR A  where A.QSTNR_HRCHY_SYS_ID in {0}
+    			  and A.QSTNR_HRCHY_SYS_ID !=  A.PRNT_QSTNR_HRCHY_SYS_ID				  		
+			</SelectSQLQuery>
+
+		
+			<DataObject name="QSTNR_MSTR">
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="RFRNC_ID" 				type="String"/>
+				<DataObjectAttribute name="RFRNC_DESC" 				type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="QSTN_DESC" 				type="String"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PRNT_ANSWR_ID" 		type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" 		type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 				type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="Date"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="Date"/>
+				<DataObjectAttribute name="PARENT_RQD" 		    type="String"/>
+
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="PRNT_QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="PRNT_ANSWR_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="QSTN_DESC"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/> 					
+	  					<ResultIndex index="5" dataObjectAttribName ="RFRNC_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="PARENT_RQD"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="locateChildQuestionnaires"/>
+	  			</SQLTemplate>	
+
+
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="SQNC_NBR"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="PRNT_ANSWR_ID"/>  					
+	  					<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>						
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  				
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="locateChildQuestionnairesForPR"/>
+	  			</SQLTemplate>	
+
+	  			<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="PRNT_QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="locateInvalidChildQuestionnaires"/>
+	  			</SQLTemplate>			
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into QSTNR_MSTR
+						  (
+						    QSTNR_HRCHY_SYS_ID, ADMIN_OPT_SYS_ID, ADQM_ADMN_QSTN_NBR,
+						    PRNT_QSTNR_HRCHY_SYS_ID, PRNT_ANSWR_ID, LST_CHG_USR,
+						    LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP, SQNC_NBR, rfrnc_id
+						  )
+						  values
+						  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)						
+					</SQLQuery>						
+					<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="3" name="PRNT_QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="PRNT_ANSWR_ID"/>
+					<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="9" name="SQNC_NBR"/>
+					<DataObjectAttributeInput index="10" name="RFRNC_ID"/>
+					
+				</SQLTemplate>	
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						update QSTNR_MSTR
+						  set ADQM_ADMN_QSTN_NBR = ?,
+						      RFRNC_ID = ?,
+						      PRNT_ANSWR_ID = ?,
+						      LST_CHG_USR = ?,
+						      LST_CHG_TMS = ?,
+						      SQNC_NBR = ?							 
+						  where QSTNR_HRCHY_SYS_ID = ?						
+					</SQLQuery>	
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="1" name="RFRNC_ID"/>
+					<DataObjectAttributeInput index="2" name="PRNT_ANSWR_ID"/>
+					<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="5" name="SQNC_NBR"/>									
+					<DataObjectAttributeInput index="7" name="QSTNR_HRCHY_SYS_ID"/>
+				</SQLTemplate>	
+	
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="QSTNR_HRCHY_SYS_ID"	toBOAttb="questionnaireHierarchySystemId"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionSystemId"/>
+						<Pair DOAttb="RFRNC_ID"	toBOAttb="referenceId"/>
+						<Pair DOAttb="RFRNC_DESC"				toBOAttb="referenceDescription"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"				toBOAttb="questionNumber"/>
+						<Pair DOAttb="QSTN_DESC"		toBOAttb="questionDescription"/>
+						<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID"	toBOAttb="parentQuestionnaireId"/>
+						<Pair DOAttb="PRNT_ANSWR_ID"				toBOAttb="answerId"/>
+						<Pair DOAttb="SQNC_NBR"				toBOAttb="sequenceNumber"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastChangedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"	toBOAttb="lastChangedTimeStamp"/>
+						<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdTimeStamp"/>	
+						<Pair DOAttb="PARENT_RQD"				toBOAttb="parentRequired"/>									
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID" 	toSCAttb="parentQuestionnaireSysId"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID" 	toSCAttb="questionnaireHierarchySystemId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+			<DataObject name="QSTNR_MSTR_PR">
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID" 		type="Int"/>				
+				<DataObjectAttribute name="LST_CHG_USR" 				type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="Date"/>
+				<DataObjectAttribute name="PARENT_RQD" 		type="String"/>				
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						update QSTNR_MSTR
+						  set 
+						      LST_CHG_USR = ?,
+						      LST_CHG_TMS = ?,
+						    	PARENT_RQD = ?				 
+						  where QSTNR_HRCHY_SYS_ID = ?						
+					</SQLQuery>					
+					<DataObjectAttributeInput index="0" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="2" name="PARENT_RQD"/>
+					<DataObjectAttributeInput index="3" name="QSTNR_HRCHY_SYS_ID"/>
+				</SQLTemplate>		
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="QSTNR_HRCHY_SYS_ID"	toBOAttb="questionnaireHierarchySystemId"/>
+						<Pair DOAttb="PARENT_RQD"	toBOAttb="parentRequired"/>						
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastChangedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"	toBOAttb="lastChangedTimeStamp"/>										
+				</DoAttributeToBOAttributeMap>	  			
+			</DataObject>
+			
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.AssociatedQuestionnaireBO">
+		<BusinessAttribute name="questionnaireId" 					type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="adminOptionId" 					type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="questionId" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="questionDesc" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceid" 						type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="referenceDesc" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="parentQuestionnaireId" 			type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="answerId" 							type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="answerDesc" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="sequence" 						type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="productId" 			        type="Int" 		keyAttrib="true"/>
+	    <BusinessAttribute name="parentRequired" 			        type="String" 		keyAttrib="false"/>
+		<BusinessAttribute name="contractSysId" 			        type="Int" 		keyAttrib="true"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="adminOptionId"   type="Int"	/>
+			<SearchCriteriaAttribute name="questionnaireId"   type="Int"	/>
+			<SearchCriteriaAttribute name="userId"   type="String"	/>
+			<SearchCriteriaAttribute name="questionnaireIdTildaString"   type="String"	/>
+			<SearchCriteriaAttribute name="productId"   type="Int"	/>
+			<SearchCriteriaAttribute name="contractSysId"   type="Int"	/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="deleteQuestionnaire">
+				CALL delete_qstn_from_qstnr({0},{1},{2})
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="updateQuestionnaireDomain">
+				CALL refresh_questionnaires({0},{1},{2})
+			</SelectSQLQuery>		
+			<SelectSQLQuery name="searchQuestionnaire">
+			Select A.QSTNR_HRCHY_SYS_ID,A.PARENT_RQD,A.ADQM_ADMN_QSTN_NBR,(Select ADQM_ADMN_QSTN_DESC from ADQM_ADMN_QSTN_MSTR where ADQM_ADMN_QSTN_NBR = A.ADQM_ADMN_QSTN_NBR),
+				A.RFRNC_ID,(select CD_DESC_TXT from item where CTLG_ID = 1938 and PRMRY_CD = A.RFRNC_ID),A.PRNT_QSTNR_HRCHY_SYS_ID,
+				A.PRNT_ANSWR_ID ,(Select PSBL_ANSWR from PSBL_ANSWR where PSBL_ANSWR_ID = A.PRNT_ANSWR_ID AND ADQM_ADMN_QSTN_NBR in 
+				(select ADQM_ADMN_QSTN_NBR from QSTNR_MSTR where QSTNR_HRCHY_SYS_ID in (select PRNT_QSTNR_HRCHY_SYS_ID from
+				 QSTNR_MSTR where PRNT_ANSWR_ID = A.PRNT_ANSWR_ID))) from QSTNR_MSTR A  
+				where A.ADMIN_OPT_SYS_ID = {0} ORDER BY A.PRNT_ANSWR_ID ,A.SQNC_NBR
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="searchRemaingQuestions">
+				select QSTNR_HRCHY_SYS_ID, SQNC_NBR from qstnr_mstr
+				where PRNT_QSTNR_HRCHY_SYS_ID in (select PRNT_QSTNR_HRCHY_SYS_ID from qstnr_mstr where QSTNR_HRCHY_SYS_ID = {0})
+				AND QSTNR_HRCHY_SYS_ID != {0} AND PRNT_QSTNR_HRCHY_SYS_ID != QSTNR_HRCHY_SYS_ID
+			</SelectSQLQuery>
+			<SelectSQLQuery name="searchRemaingRootQuestions">
+				select QSTNR_HRCHY_SYS_ID, SQNC_NBR from qstnr_mstr
+				where ADMIN_OPT_SYS_ID in (select ADMIN_OPT_SYS_ID from qstnr_mstr where QSTNR_HRCHY_SYS_ID = {0})
+				AND QSTNR_HRCHY_SYS_ID != {0}	AND PRNT_QSTNR_HRCHY_SYS_ID = QSTNR_HRCHY_SYS_ID
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="searchDuplicateReferenceQuestions">
+				Select A.QSTNR_HRCHY_SYS_ID,B.ADQM_ADMN_QSTN_DESC, A.RFRNC_ID,(select CD_DESC_TXT from item where CTLG_ID = 1938 and PRMRY_CD = A.RFRNC_ID) from
+				  QSTNR_MSTR A, ADQM_ADMN_QSTN_MSTR B
+				  Where   A.ADMIN_OPT_SYS_ID = {0}
+				  AND A.RFRNC_ID IN
+				  (	Select RFRNC_ID  from QSTNR_MSTR where ADMIN_OPT_SYS_ID = {0}         
+            	   	Having  Count(RFRNC_ID) > 1 Group   By RFRNC_ID
+				   )
+				   AND A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR
+			</SelectSQLQuery>	
+				
+			<SelectSQLQuery name="searchProductViewQuestionnaire">
+				SELECT   a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr,
+				         (SELECT adqm_admn_qstn_desc
+				            FROM adqm_admn_qstn_mstr
+				           WHERE adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr), a.rfrnc_id,
+				         (SELECT cd_desc_txt
+				            FROM item
+				           WHERE ctlg_id = 1938 AND prmry_cd = a.rfrnc_id),
+				         a.prnt_qstnr_hrchy_sys_id, a.prnt_answr_id,
+				         (SELECT psbl_answr
+				            FROM psbl_answr
+				           WHERE psbl_answr_id = a.prnt_answr_id
+				             AND adqm_admn_qstn_nbr IN (
+				                    SELECT adqm_admn_qstn_nbr
+				                      FROM qstnr_mstr
+				                     WHERE qstnr_hrchy_sys_id IN (
+				                                         SELECT prnt_qstnr_hrchy_sys_id
+				                                           FROM qstnr_mstr
+				                                          WHERE prnt_answr_id =
+				                                                               a.prnt_answr_id)))
+				    FROM qstnr_mstr a
+				   WHERE a.admin_opt_sys_id = {0}
+				     AND isdomainvalid_qn ('product', {1}, a.qstnr_hrchy_sys_id) = 'T'
+				ORDER BY a.prnt_answr_id, a.sqnc_nbr					
+			</SelectSQLQuery>	
+            <SelectSQLQuery name="searchContractViewQuestionnaire">
+
+					SELECT   a.qstnr_hrchy_sys_id, a.adqm_admn_qstn_nbr,A.PARENT_RQD,
+				         (SELECT adqm_admn_qstn_desc
+				            FROM adqm_admn_qstn_mstr
+				           WHERE adqm_admn_qstn_nbr = a.adqm_admn_qstn_nbr), a.rfrnc_id,
+				         (SELECT cd_desc_txt
+				            FROM item
+				           WHERE ctlg_id = 1938 AND prmry_cd = a.rfrnc_id),
+				         a.prnt_qstnr_hrchy_sys_id, a.prnt_answr_id,
+				         (SELECT psbl_answr
+				            FROM psbl_answr
+				           WHERE psbl_answr_id = a.prnt_answr_id
+				             AND adqm_admn_qstn_nbr IN (
+				                    SELECT adqm_admn_qstn_nbr
+				                      FROM qstnr_mstr
+				                     WHERE qstnr_hrchy_sys_id IN (
+				                                         SELECT prnt_qstnr_hrchy_sys_id
+				                                           FROM qstnr_mstr
+				                                          WHERE prnt_answr_id =
+				                                                               a.prnt_answr_id)))
+				    FROM qstnr_mstr a
+				   WHERE a.admin_opt_sys_id = {0}
+				     AND isdomainvalid_qn ('contract', {1}, a.qstnr_hrchy_sys_id) = 'T'
+				ORDER BY a.prnt_answr_id, a.sqnc_nbr
+
+			</SelectSQLQuery>
+	
+			<DataObject name="QSTNR_MSTR">
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+	 			<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID_TILDA" type="String"/> 
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		    type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 		type="String"/>
+				<DataObjectAttribute name="RFRNC_ID" 					type="String"/>
+				<DataObjectAttribute name="RFRNC_DESC" 					type="String"/>
+				<DataObjectAttribute name="PRNT_QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PRNT_ANSWR_ID" 				type="Int"/>
+				<DataObjectAttribute name="PRNT_ANSWR_DESC" 		type="String"/>
+				<DataObjectAttribute name="SQNC_NBR" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PROD_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PARENT_RQD" 		type="String"/>
+	  			<SQLTemplate transType="select">
+	  			<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID_TILDA"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="deleteQuestionnaire"/>
+	  			</SQLTemplate>	 
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="CREATD_USER_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="updateQuestionnaireDomain"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="PARENT_RQD"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="RFRNC_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="PRNT_ANSWR_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="PRNT_ANSWR_DESC"/>					
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchQuestionnaire"/>
+	  			</SQLTemplate>		
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<DataObjectAttributeInput index="1" name="PROD_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_DESC"/>
+						<ResultIndex index="5" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="PRNT_ANSWR_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="PRNT_ANSWR_DESC"/>					
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchProductViewQuestionnaire"/>
+	  			</SQLTemplate>	
+
+				<!-- for contract -->	
+					<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<DataObjectAttributeInput index="1" name="CNTRCT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="PARENT_RQD"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="4" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="RFRNC_DESC"/>
+						<ResultIndex index="6" dataObjectAttribName ="PRNT_QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="PRNT_ANSWR_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="PRNT_ANSWR_DESC"/>	
+				
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchContractViewQuestionnaire"/>
+	  			</SQLTemplate>	
+
+				<!-- for contract ends -->			
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="SQNC_NBR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchRemaingQuestions"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="SQNC_NBR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchRemaingRootQuestions"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="2" dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="RFRNC_DESC"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchDuplicateReferenceQuestions"/>
+	  			</SQLTemplate>			
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						update QSTNR_MSTR
+						     set SQNC_NBR = ?
+						  where QSTNR_HRCHY_SYS_ID = ?						
+					</SQLQuery>	
+					<DataObjectAttributeInput index="0" name="SQNC_NBR"/>					
+					<DataObjectAttributeInput index="1" name="QSTNR_HRCHY_SYS_ID"/>
+				</SQLTemplate>									
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="QSTNR_HRCHY_SYS_ID"	toBOAttb="questionnaireId"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 		toBOAttb="questionId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC" 		toBOAttb="questionDesc"/>
+						<Pair DOAttb="RFRNC_ID" 				toBOAttb="referenceid"/>
+						<Pair DOAttb="RFRNC_DESC" 				toBOAttb="referenceDesc"/>
+						<Pair DOAttb="PRNT_QSTNR_HRCHY_SYS_ID" 	toBOAttb="parentQuestionnaireId"/>
+						<Pair DOAttb="PRNT_ANSWR_ID" 			toBOAttb="answerId"/>
+						<Pair DOAttb="PRNT_ANSWR_DESC" 			toBOAttb="answerDesc"/>
+						<Pair DOAttb="SQNC_NBR" 			toBOAttb="sequence"/>			
+						<Pair DOAttb="PROD_SYS_ID"              toBOAttb="productId"/>
+						<Pair DOAttb="PARENT_RQD"              toBOAttb="parentRequired"/>
+						<Pair DOAttb="CNTRCT_SYS_ID"              toBOAttb="contractSysId"/>
+						
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+	  			  	<Pair DOAttb="QSTNR_HRCHY_SYS_ID_TILDA" 	toSCAttb="questionnaireIdTildaString"/> 
+					<Pair DOAttb="ADMIN_OPT_SYS_ID" 	toSCAttb="adminOptionId"/>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID" 	toSCAttb="questionnaireId"/>
+					<Pair DOAttb="CREATD_USER_ID" 	toSCAttb="userId"/>
+					<Pair DOAttb="PROD_SYS_ID"    	   toSCAttb="productId"/>
+					<Pair DOAttb="CNTRCT_SYS_ID"    	   toSCAttb="contractSysId"/>
+					
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminoption.bo.AssociatedQuestionnaireCpyBO">
+		<BusinessAttribute name="questionnaireId" 					type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="qustnrDsplySeqNum" 			    type="Int" 		keyAttrib="false"/>
+		<BusinessAttribute name="qstnrLvl" 			                type="Int" 		keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="questionnaireId"   type="Int"	/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	
+			<SelectSQLQuery name="searchRemaingQuestions">
+				select QSTNR_HRCHY_SYS_ID from qstnr_mstr
+				where PRNT_QSTNR_HRCHY_SYS_ID in (select PRNT_QSTNR_HRCHY_SYS_ID from qstnr_mstr where QSTNR_HRCHY_SYS_ID = {0})
+				AND QSTNR_HRCHY_SYS_ID != {0} AND PRNT_QSTNR_HRCHY_SYS_ID != QSTNR_HRCHY_SYS_ID
+			</SelectSQLQuery>
+				
+			<DataObject name="QSTNR_MSTR">
+				<DataObjectAttribute name="QSTNR_HRCHY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="QSTNR_DSPLY_SQNC_NBR" 		type="Int"/>
+				<DataObjectAttribute name="QSTNR_LVL" 					type="Int"/>
+
+							
+				<SQLTemplate transType="select">
+	  				<DataObjectAttributeInput index="0" name="QSTNR_HRCHY_SYS_ID"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="QSTNR_HRCHY_SYS_ID"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchRemaingQuestions"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						update QSTNR_MSTR
+						     set QSTNR_DSPLY_SQNC_NBR = ?,QSTNR_LVL =?
+						  where QSTNR_HRCHY_SYS_ID = ?						
+					</SQLQuery>	
+					<DataObjectAttributeInput index="0" name="QSTNR_DSPLY_SQNC_NBR"/>	
+					<DataObjectAttributeInput index="1" name="QSTNR_LVL"/>					
+					<DataObjectAttributeInput index="2" name="QSTNR_HRCHY_SYS_ID"/>
+				</SQLTemplate>									
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="QSTNR_HRCHY_SYS_ID"	toBOAttb="questionnaireId"/>
+						<Pair DOAttb="QSTNR_DSPLY_SQNC_NBR" 	toBOAttb="qustnrDsplySeqNum"/>			
+						<Pair DOAttb="QSTNR_LVL"                toBOAttb="qstnrLvl"/>
+						
+				</DoAttributeToBOAttributeMap>
+	  			<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="QSTNR_HRCHY_SYS_ID" 	toSCAttb="questionnaireId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata> 

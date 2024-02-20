@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\application
+2
+2
+15:SimulationFacade.java|1|16b935e602e|b5a|e4b6c69e|68e8eb4d78774a36b6183c37e8897e84|0
+19:SimulationFacadeImpl.java|1|16b935e603e|10a7|567b98ce|7ca788a392414677b578bff8947e2b50|0

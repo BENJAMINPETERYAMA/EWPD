@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\accumulator\bo
+2
+6
+14:AccumulatorImpl.java|1|16adf962034|216e|6f245ec0|3a42a85a14b6453ea2adfeb1a3fcd9b2|0
+14:SearchResultSet.java|1|16adf962072|1cc|cc508b50|6fbbfdf4e07e4240a515c68f332ef8e3|0
+13:SearchCriteria.java|1|16adf962034|2a4|630ed872|3ebbb3717fe04af494f3e4b67231bef3|0
+18:StandardAccumulator.java|1|16adf96217c|1384|17db791c|7a4ebd5433834a599d97ff01324bdb82|0
+18:SearchResultSetImpl.java|1|16adf96211e|3bd|316823e1|7a26c61d207045158f619522de967127|0
+10:Accumulator.java|1|16adf962044|ce0|59cdddda|8306632ff2a2449b9a9781de57b64bd8|0

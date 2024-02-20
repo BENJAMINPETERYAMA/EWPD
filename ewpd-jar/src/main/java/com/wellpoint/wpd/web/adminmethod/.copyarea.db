@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\adminmethod
+2
+7
+1b:AdminMethodBackingBean.java|1|16adf981942|4e82b|f3a7d730|1218c117e370402dbd4961685805fcfd|0
+18:AdminMethodTreeNode.java|1|16adf981cc4|10d7|bafda9f4|b2bd18ff0b3f4ec2863342128e64c9c2|0
+4:tree|2|0|0|0|a43db366feee438c90db48fb73aba798|0
+28:AdminMethodSPSValidationBackingBean.java|1|16adf981b74|4fe8|af1dbc2a|a1182f1b86584530b9ae8362d19f3f8f|0
+20:AdminMethodPopupBackingBean.java|1|16adf981c33|5289|f0e68ee|7ea7199b853847f5832799bbc85268ea|0
+1b:AdminOptionBackingBean.java|1|16adf981ba3|1914c|a9939d3c|03258595c3f249148f9aaa1b86901963|0
+7:viewall|2|0|0|0|61948a7006914ec48c2d602d68e59924|0

@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\product\tree
+2
+a
+21:ProductAdminNodeTreeNodeBase.java|1|16adf9837c2|3de|7e2e28d8|8e21f3caee7044008e470cd3efaf74b0|0
+26:ProductAdministrationTreeNodeBase.java|1|16adf9837c2|f9c|24b7dcc2|f0322a5b6de941b7b0f2e72649253466|0
+24:ProductAdminOptionsTreeNodeBase.java|1|16adf983cff|6fd|db7f2f0a|fd296adf645b408a99e8ee1d4ea1dbf8|0
+2d:ProductBenefitAdministrationTreeNodeBase.java|1|16adf9838da|c0c|7cb2bd4c|8e15268ad4344461a7e4e7762b0d4633|0
+2a:ProductAdministrationHeadTreeNodeBase.java|1|16adf98386d|986|7f5f20f|97a509ba4e3b44708de8dd8f7dc5cbfe|0
+14:ProductTreeNode.java|1|16adf983928|11df|94cf06b1|9d5e3406b1de4a84b1ebe50b43a8e5e1|0
+18:ProductTreeNodeBase.java|1|16adf9838fa|107d|e2fc0ae9|52a945b1a9984502b649a529051cc8ed|0
+27:ProductStandardBenefitTreeNodeBase.java|1|16adf9838cb|f5d|fd59d1a5|e8db0ed239ac4026b058fa449f6347ac|0
+28:ProductBenefitComponentTreeNodeBase.java|1|16adf9838da|f27|9605ac54|4a91015229d74a328639bb02ebaafe57|0
+24:ProductBenefitLevelTreeNodeBase.java|1|16adf9838da|10bd|ae566e0d|f87673cfb6c24fe982352b562a014b6b|0

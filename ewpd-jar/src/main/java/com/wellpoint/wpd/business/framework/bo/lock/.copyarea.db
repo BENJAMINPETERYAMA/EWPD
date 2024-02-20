@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\framework\bo\lock
+2
+3
+10:LockDaoImpl.java|1|16adf95e805|394b|c156ef33|c2b8b439b6a34b328a8cb94b1e5f13fc|0
+c:LockDao.java|1|16adf95e7c6|38e|5ef02996|f0cda0ba25694b1592a2b0fe8260cad1|0
+9:Lock.java|1|16adf95e8a1|c5a|5875b5c3|5406eab2af814a57bd89c4b6fca2b8f9|0

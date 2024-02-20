@@ -1,0 +1,234 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="log" class="com.wellpoint.wpd.business.framework.bo.LogEntryFactoryImpl">
+		<property name="viewLoggerDao">
+			<ref local="viewLoggerDao" />
+		</property>
+	</bean>
+	<bean id="security" class="com.wellpoint.wpd.business.framework.bo.SecurityFactoryImpl">
+		<property name="securityDao">
+			<ref local="securityDao" />
+		</property>
+	</bean>
+	<bean id="lock" class="com.wellpoint.wpd.business.framework.bo.LockFactoryImpl">
+		<property name="lockDao">
+			<ref local="lockDao" />
+		</property>
+	</bean>
+	<bean id="securityDao" class="com.wellpoint.wpd.db.SecurityDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sql">
+			<value>select module.acsr_accsr_id, module.acsr_role_nm, module.acsr_role_desc_txt, module.rsri_rsrc_itm_id as moduleId, module.rsri_rsrc_itm_nm as modulename, rsri.rsri_rsrc_itm_id as taskId, rsri.rsri_rsrc_itm_nm as taskname, rsri.rsri_rsrc_itm_desc_txt
+			from (select distinct acsr1.acsr_accsr_id, acsr1.acsr_role_nm, acsr1.acsr_role_desc_txt, rsri1.RSRI_RSRC_ITM_ID,rsri1.rsri_rsrc_itm_nm,rirl1.rsri_rltd_rsrc_itm_id
+        	from ACAZ_ACS_AUTHZN acaz1,
+             ACSR_ACCSR acsr1,
+             RSRI_RSRC_ITM rsri1,
+             RIRL_RSRC_ITM_RLTNSP rirl1
+        where acsr1.ACSR_ROLE_NM = ?
+        and acsr1.ACSR_ACCSR_ID = acaz1.ACSR_ACCSR_ID
+        and acaz1.RSRI_RSRC_ITM_ID = rirl1.RSRI_RLTD_RSRC_ITM_ID
+        and rirl1.RSRI_RSRC_ITM_ID = rsri1.RSRI_RSRC_ITM_ID)module,
+        RSRI_RSRC_ITM rsri
+		where rsri.RSRI_RSRC_ITM_ID = module.rsri_rltd_rsrc_itm_id
+		order by 1, 2, 3</value>
+		</property>
+		
+	</bean>
+	<bean id="viewLoggerDao" class="com.wellpoint.wpd.common.framework.logging.ViewLoggerDaoImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="detailsSql">
+			<value>SELECT apxl_log_id,apxl_srvr_nm,apxl_msg_txt,apxl_parm,apxl_stk,apxl_lst_chg_usr_id,apxl_lst_tms
+				   FROM apxl_appl_xcptn_log
+			       WHERE apxl_log_id = ?
+			</value>
+		</property>
+		<property name="summarySql">
+			<value><![CDATA[select * from ( SELECT apxl_log_id,apxl_srvr_nm,apxl_msg_txt,apxl_lst_chg_usr_id,apxl_lst_tms
+                            FROM apxl_appl_xcptn_log 
+                            order by apxl_log_id desc )
+                            WHERE ROWNUM <= nvl(?,(select count(apxl_log_id) from apxl_appl_xcptn_log))]]>
+			</value>
+		</property>
+		<property name="deleteEntrySql">
+		  <value>DELETE FROM apxl_appl_xcptn_log WHERE apxl_log_id = ?</value> 
+		</property>
+		<property name="deleteMultipleEntriesSql">
+			<value>DELETE FROM apxl_appl_xcptn_log WHERE apxl_log_id = ?</value>
+		</property>
+	</bean>
+
+	<bean id="auditDao" class="com.wellpoint.wpd.business.framework.bo.AuditDaoImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="retrieveSql">
+			<value>
+					select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss') from dual
+			</value>
+		</property>
+		<property name="retrieveTimeZoneSql">
+			<value>
+				select trim(tz_offset (dbtimezone))from dual
+			</value>
+		</property>
+	</bean>
+
+	<bean id="lockDao" class="com.wellpoint.wpd.business.framework.bo.lock.LockDaoImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="insertSQL">
+			<value>
+					INSERT 	INTO BOLK_BUS_OBJ_LOCK(
+							BOLK_BUS_OBJ_TYPE_NM, 
+							BOLK_BUS_OBJ_KEY_ID, 
+							BOLK_BUS_OBJ_LOCK_USR_ID, 
+							BOLK_BUS_OBJ_LOCK_DURATION, 
+							BOLK_BUS_OBJ_LOCK_TMS) 
+					VALUES 	(?, ?, ?, ?, ?)
+			</value>
+		</property>
+		<property name="updateSQL">
+			<value>
+					UPDATE 	BOLK_BUS_OBJ_LOCK 
+					SET 	BOLK_BUS_OBJ_LOCK_USR_ID = ?, 
+							BOLK_BUS_OBJ_LOCK_DURATION = ?, 
+							BOLK_BUS_OBJ_LOCK_TMS = ? 
+					WHERE 	BOLK_BUS_OBJ_TYPE_NM = ? 
+					AND 	BOLK_BUS_OBJ_KEY_ID = ?
+			</value>
+		</property>
+		<property name="updateKeySQL">
+			<value>
+					UPDATE 	BOLK_BUS_OBJ_LOCK 
+					SET 	BOLK_BUS_OBJ_KEY_ID = ?,
+							BOLK_BUS_OBJ_LOCK_USR_ID = ?, 
+							BOLK_BUS_OBJ_LOCK_DURATION = ?, 
+							BOLK_BUS_OBJ_LOCK_TMS = ? 
+					WHERE 	BOLK_BUS_OBJ_TYPE_NM = ? 
+					AND 	BOLK_BUS_OBJ_KEY_ID = ?
+			</value>
+		</property>
+		<property name="deleteSQL">
+			<value>
+					DELETE 	FROM BOLK_BUS_OBJ_LOCK 
+					WHERE	BOLK_BUS_OBJ_TYPE_NM = ? 
+					AND 	BOLK_BUS_OBJ_KEY_ID = ?
+			</value>
+		</property>
+		<property name="retrieveSQL">
+			<value>
+					SELECT 	BOLK_BUS_OBJ_TYPE_NM, 
+							BOLK_BUS_OBJ_KEY_ID, 
+							BOLK_BUS_OBJ_LOCK_USR_ID, 
+							BOLK_BUS_OBJ_LOCK_DURATION, 
+							BOLK_BUS_OBJ_LOCK_TMS 
+					FROM 	BOLK_BUS_OBJ_LOCK 
+					WHERE 	BOLK_BUS_OBJ_TYPE_NM = ? 
+					AND 	BOLK_BUS_OBJ_KEY_ID = ?
+			</value>
+		</property>
+
+	</bean>
+
+
+
+ <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/wsbEwpdDS</value>
+		</property>
+	</bean> 
+<!--
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@ac0gaax172.wellpoint.com:1521:PRMD</value>
+		</property>
+		<property name="username">
+			<value>WSB_ADMN_DEV</value>
+		</property>
+		<property name="password">
+			<value>prmd</value>
+		</property>
+	</bean>-->
+	<!-- Work Inventory added - start -->
+	<bean id="locateChkOutFactory"
+		class="com.wellpoint.wpd.business.framework.bo.WorkInventoryFactoryImpl">
+		<property name="chkOutObjDao">
+			<ref local="chkOutObjDao" />
+		</property>
+	</bean>
+
+<bean id="commandFactory"
+		class="com.wellpoint.wpd.business.framework.bo.CommandFactoryImpl">
+	</bean>
+	<bean id="chkOutObjDao"
+		class="com.wellpoint.wpd.business.workInventory.bo.LocateCheckOutObjDaoImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="locateQuery">
+			<value>
+				select BOLK_BUS_OBJ_TYPE_NM, BOLK_BUS_OBJ_KEY_ID,
+				BOLK_BUS_OBJ_LOCK_TMS, BOLK_BUS_OBJ_LOCK_DURATION,
+				BOLK_BUS_OBJ_LOCK_USR_ID
+				from BOLK_BUS_OBJ_LOCK where
+				BOLK_BUS_OBJ_LOCK_USR_ID = ?
+			</value>
+		</property>
+	</bean>
+
+	<!-- Work Inventory added  - end -->
+
+	<bean id="metaobject" class="com.wellpoint.wpd.business.framework.bo.MetaObjectFactoryImpl">
+		<property name="metadataDefinitionFile">
+			<value>/com/wellpoint/wpd/common/configfiles/metadata-definitions.xml</value>
+		</property>
+	</bean>
+  
+	<bean id="audit" class="com.wellpoint.wpd.business.framework.bo.AuditFactoryImpl">
+		<property name="auditDao">
+			<ref local="auditDao" />
+		</property>
+	</bean>
+
+
+	<bean id="state" class="com.wellpoint.wpd.business.framework.bo.StateFactoryImpl">
+	</bean>
+      <!-- start added by arun -->
+        <bean id="request" class="com.wellpoint.wpd.common.framework.request.WPDRequestFactoryImpl">
+	</bean>
+        <bean id="bomanager" class="com.wellpoint.wpd.business.framework.bo.BusinessObjectManagerFactoryImpl">
+	</bean>
+        <!-- end added by arun --> 
+	<bean id="referenceData" class="com.wellpoint.wpd.business.framework.bo.ReferenceDataFactoryImpl">
+		<property name="referenceDataDao">
+			<ref local="referenceDataDao" />
+		</property> 
+	</bean>
+	<bean id="referenceDataDao" class="com.wellpoint.wpd.db.ReferenceDataDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="referenceDataSetSql">
+			<value>
+				select CTLG_ID,CTLG_DESC_TXT FROM CATALOG WHERE CTLG_ID = ?
+			</value>
+		</property>
+		<property name="referenceDataSql">
+			<value>
+				SELECT CTLG_ID, PRMRY_CD, SCNDRY_CD ,CD_DESC_TXT 
+				FROM ITEM 
+				WHERE CTLG_ID = ? order by upper(CD_DESC_TXT) asc
+			</value>
+		</property>
+	</bean>
+
+</beans>

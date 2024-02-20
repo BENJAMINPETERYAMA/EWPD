@@ -1,0 +1,1940 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000Contract">
+		<BusinessAttribute name="contractId" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="startDate" 			type="Date"			keyAttrib="true"/>
+		<BusinessAttribute name="endDate" 				type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="rowStatus" 			type="Int"			keyAttrib="false"/>
+		<BusinessAttribute name="modelIndicator" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="productCode" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="productFamily" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitPlan" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="structure" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="standardPlanCode" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="corporatePlanCode" 	type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="variation" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="valueId" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="contractStatus" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="adjudicationInd" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="groupName" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="headQuarterState" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="showNotesInd" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitYearAccumInd" 	type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="docComplianceInd" 		type="String"		keyAttrib="false"/> 
+		<BusinessAttribute name="gmisInd" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="multiPlanInd" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitInqInd" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitStructure" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="comment" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="note" 					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="adjLastUpdatedDate" 	type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="itsHomeAdjInd" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="sendToMainframeInd" 	type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="cobAdjudInd" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="medicareAdjudInd" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="businessEntity" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="asoInd" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="guaranteeInd" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="contractStat" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="prodInd" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="testInd" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String"/>
+			<SearchCriteriaAttribute name="startDate" 		type="String"/>
+			<SearchCriteriaAttribute name="contractStat" 	type="String"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STRUCTURE, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, VARIATION, VALUE_ID, 
+			    		CONTRACT_STATUS, ADJUDICATION_IND, GROUP_NM, GROUP_STATE_HQ, SHOW_NOTES_IND, 
+			    		BENEFIT_YEAR_ACCUM_IND, DOC_COMPLIANCE_IND, GMIS_IND, MULTI_PLAN_IND, BENEFIT_INQ_IND, 
+			    		BENEFIT_STRUCTURE, COMMENTS, NOTE, CREATION_USERID, CREATION_DT, LAST_UPDATED_USERID, 
+			    		LAST_UPDATED_DT, ADJ_LAST_UPDATED_DT, ITS_HOME_ADJ_IND, SEND_TO_MF_IND, COB_ADJUD_IND, 
+			    		MEDICARE_ADJUD_IND, BUSINESS_ENTITY, ASO_IND, GUARANTEE_IND, CNTRC_STAT, PROD_IND, 
+			    		TEST_IND
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = ? 
+				AND START_DT = ? 
+				AND CNTRC_STAT LIKE  ?
+				AND ROW_STATUS != 0
+			</SelectSQLQuery>
+			<SelectSQLQuery name="checkContract">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	CNTRC_STAT LIKE {1}
+				AND 	ROW_STATUS != 0
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="benefitYearAccumIndicator">
+				SELECT contract, start_dt, benefit_year_accum_ind
+				  FROM contract
+				 WHERE contract = {0}
+				   AND start_dt = TO_DATE({1},'mm/dd/yyyy')
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getScheduleToTestContracts">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS != 0 
+			    AND 	CNTRC_STAT = 'Schedule to Test'
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getTransferredToProductionContracts">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS != 0 
+			    AND 	CNTRC_STAT = 'Transferred to Production'
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getLeftOverDateSegments">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS != 0 
+			    AND 	CNTRC_STAT != 'Migrated'
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getScheduleToProductionContracts">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS != 0
+			    AND	 	CNTRC_STAT = 'Schedule to Production'
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getcontractsNotHavingStructure">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS != 0 
+				AND 	(BENEFIT_STRUCTURE is null or trim(BENEFIT_STRUCTURE) = '' )
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getAllDateSegments">
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, GROUP_NM, GROUP_STATE_HQ, 
+			    		BENEFIT_YEAR_ACCUM_IND, BENEFIT_STRUCTURE, CREATION_USERID, CREATION_DT, 
+			    		LAST_UPDATED_USERID,LAST_UPDATED_DT, BUSINESS_ENTITY, CNTRC_STAT,
+						ITS_HOME_ADJ_IND, COB_ADJUD_IND, MEDICARE_ADJUD_IND
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	CNTRC_STAT LIKE {1}
+				AND 	ROW_STATUS != 0
+				ORDER BY END_DT, START_DT DESC
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getLatestDS">
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, GROUP_NM, GROUP_STATE_HQ, 
+			    		BENEFIT_YEAR_ACCUM_IND, BENEFIT_STRUCTURE, CREATION_USERID, CREATION_DT, 
+			    		LAST_UPDATED_USERID,LAST_UPDATED_DT, BUSINESS_ENTITY, CNTRC_STAT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	CNTRC_STAT LIKE {1}
+				AND 	ROW_STATUS != 0
+                AND 	START_DT = 	(SELECT MAX(START_DT)
+                                       FROM CONTRACT
+                                      WHERE CONTRACT = {0} 
+										AND CNTRC_STAT LIKE  {1}
+										AND ROW_STATUS != 0)
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getDS">
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, GROUP_NM, GROUP_STATE_HQ, 
+			    		BENEFIT_YEAR_ACCUM_IND, BENEFIT_STRUCTURE, CREATION_USERID, CREATION_DT, 
+			    		LAST_UPDATED_USERID,LAST_UPDATED_DT, BUSINESS_ENTITY, CNTRC_STAT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	CNTRC_STAT LIKE {1}
+				AND 	ROW_STATUS != 0
+                AND 	START_DT =  TO_DATE({2},'mm/dd/yyyy')
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getFirstDS">
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, GROUP_NM, GROUP_STATE_HQ, 
+			    		BENEFIT_YEAR_ACCUM_IND, BENEFIT_STRUCTURE, CREATION_USERID, CREATION_DT, 
+			    		LAST_UPDATED_USERID,LAST_UPDATED_DT, BUSINESS_ENTITY, CNTRC_STAT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+--				AND 	CNTRC_STAT LIKE {0}
+				AND 	ROW_STATUS != 0
+                AND 	START_DT = 	(SELECT MIN(START_DT)
+                                       FROM CONTRACT
+                                      WHERE CONTRACT = {0} 
+--										AND CNTRC_STAT LIKE  {0}
+										AND ROW_STATUS != 0)
+			</SelectSQLQuery>			
+			<SelectSQLQuery name="getSecondLastDS">
+			    SELECT 	CONTRACT, START_DT, END_DT, ROW_STATUS, MODEL_IND, PRODUCT, PRODUCT_FAMILY, 
+			    		BENEFIT_PLAN, STANDARD_PLAN_CD, CORPORATE_PLAN_CD, GROUP_NM, GROUP_STATE_HQ, 
+			    		BENEFIT_YEAR_ACCUM_IND, BENEFIT_STRUCTURE, CREATION_USERID, CREATION_DT, 
+			    		LAST_UPDATED_USERID,LAST_UPDATED_DT, BUSINESS_ENTITY, CNTRC_STAT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	CNTRC_STAT LIKE {1}
+				AND 	ROW_STATUS != 0
+                AND 	START_DT = 	(SELECT MAX(START_DT)
+                                       FROM CONTRACT
+                                      WHERE CONTRACT = {0} 
+										AND CNTRC_STAT LIKE  {1}
+										AND ROW_STATUS != 0
+	                            		AND START_DT != (
+	    	                                        SELECT 	MAX(START_DT)
+		                                            FROM 	CONTRACT
+			                                      WHERE CONTRACT = {0} 
+													AND CNTRC_STAT LIKE  {1}
+													AND ROW_STATUS != 0)
+									)
+			</SelectSQLQuery>			
+			<SelectSQLQuery name="getPartialDatesegments">
+			    SELECT 	CONTRACT, START_DT
+			    FROM 	CONTRACT
+			    WHERE 	CONTRACT = {0} 
+				AND 	ROW_STATUS = 1 
+			</SelectSQLQuery>
+			<DataObject name="CONTRACT">
+			    <DataObjectAttribute name="CONTRACT"    		type="String"/>
+			    <DataObjectAttribute name="START_DT"    		type="Date"/>
+			    <DataObjectAttribute name="END_DT"    			type="Date"/>
+			    <DataObjectAttribute name="ROW_STATUS"    		type="Int"/>
+			    <DataObjectAttribute name="MODEL_IND"    		type="String"/>
+			    <DataObjectAttribute name="PRODUCT"    			type="String"/>
+			    <DataObjectAttribute name="PRODUCT_FAMILY"    	type="String"/>
+			    <DataObjectAttribute name="BENEFIT_PLAN"   		type="String"/>
+			    <DataObjectAttribute name="STRUCTURE"    		type="String"/>
+			    <DataObjectAttribute name="STANDARD_PLAN_CD"    type="String"/>
+			    <DataObjectAttribute name="CORPORATE_PLAN_CD"   type="String"/>
+			    <DataObjectAttribute name="VARIATION"    		type="String"/>
+			    <DataObjectAttribute name="VALUE_ID"    		type="String"/>
+			    <DataObjectAttribute name="CONTRACT_STATUS"    	type="String"/>
+			    <DataObjectAttribute name="ADJUDICATION_IND"    type="String"/>
+			    <DataObjectAttribute name="GROUP_NM"    		type="String"/>
+			    <DataObjectAttribute name="GROUP_STATE_HQ"    	type="String"/>
+			    <DataObjectAttribute name="SHOW_NOTES_IND"    	type="String"/>
+			    <DataObjectAttribute name="BENEFIT_YEAR_ACCUM_IND" type="String"/>
+			    <DataObjectAttribute name="DOC_COMPLIANCE_IND"	type="String"/>
+			    <DataObjectAttribute name="GMIS_IND"    		type="String"/>
+			    <DataObjectAttribute name="MULTI_PLAN_IND"    	type="String"/>
+			    <DataObjectAttribute name="BENEFIT_INQ_IND"    	type="String"/>
+			    <DataObjectAttribute name="BENEFIT_STRUCTURE"   type="String"/>
+			    <DataObjectAttribute name="COMMENTS"    		type="Clob"/>
+			    <DataObjectAttribute name="NOTE"    			type="Clob"/>
+			    <DataObjectAttribute name="CREATION_USERID"    	type="String"/>
+			    <DataObjectAttribute name="CREATION_DT"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_DT"    	type="TimeStamp"/>
+			    <DataObjectAttribute name="ADJ_LAST_UPDATED_DT" type="Date"/>
+			    <DataObjectAttribute name="ITS_HOME_ADJ_IND"    type="String"/>
+			    <DataObjectAttribute name="SEND_TO_MF_IND"    	type="String"/>
+			    <DataObjectAttribute name="COB_ADJUD_IND"   	type="String"/>
+			    <DataObjectAttribute name="MEDICARE_ADJUD_IND" 	type="String"/>
+			    <DataObjectAttribute name="BUSINESS_ENTITY"    	type="String"/>
+			    <DataObjectAttribute name="ASO_IND"    			type="String"/>
+			    <DataObjectAttribute name="GUARANTEE_IND"    	type="String"/>
+			    <DataObjectAttribute name="CNTRC_STAT"    		type="String"/>
+			    <DataObjectAttribute name="PROD_IND"    		type="String"/>
+			    <DataObjectAttribute name="TEST_IND"    		type="String"/>
+    			
+	            <SQLTemplate transType="update">
+	                <SQLQuery>
+	                    UPDATE CONTRACT
+	                     SET ROW_STATUS = ?, CNTRC_STAT = ?, END_DT = ?, LAST_UPDATED_USERID = ?, LAST_UPDATED_DT = ?
+	                    WHERE CONTRACT = ? AND START_DT = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="ROW_STATUS"/>
+	                <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+	                <DataObjectAttributeInput index="2" name="END_DT"/>
+	                <DataObjectAttributeInput index="3" name="LAST_UPDATED_USERID"/>
+	                <DataObjectAttributeInput index="4" name="LAST_UPDATED_DT"/>
+	                <DataObjectAttributeInput index="5" name="CONTRACT"/>
+	                <DataObjectAttributeInput index="6" name="START_DT"/>
+	            </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="START_DT"/>
+			        <DataObjectAttributeInput index="2" name="CNTRC_STAT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STRUCTURE"/>
+			            <ResultIndex index="9" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="11" dataObjectAttribName ="VARIATION"/>
+			            <ResultIndex index="12" dataObjectAttribName ="VALUE_ID"/>
+			            <ResultIndex index="13" dataObjectAttribName ="CONTRACT_STATUS"/>
+			            <ResultIndex index="14" dataObjectAttribName ="ADJUDICATION_IND"/>
+			            <ResultIndex index="15" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="16" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="17" dataObjectAttribName ="SHOW_NOTES_IND"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="19" dataObjectAttribName ="DOC_COMPLIANCE_IND"/>
+			            <ResultIndex index="20" dataObjectAttribName ="GMIS_IND"/>
+			            <ResultIndex index="21" dataObjectAttribName ="MULTI_PLAN_IND"/>
+			            <ResultIndex index="22" dataObjectAttribName ="BENEFIT_INQ_IND"/>
+			            <ResultIndex index="23" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="24" dataObjectAttribName ="COMMENTS"/>
+			            <ResultIndex index="25" dataObjectAttribName ="NOTE"/>
+			            <ResultIndex index="26" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="27" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="28" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="29" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="30" dataObjectAttribName ="ADJ_LAST_UPDATED_DT"/>
+			            <ResultIndex index="31" dataObjectAttribName ="ITS_HOME_ADJ_IND"/>
+			            <ResultIndex index="32" dataObjectAttribName ="SEND_TO_MF_IND"/>
+			            <ResultIndex index="33" dataObjectAttribName ="COB_ADJUD_IND"/>
+			            <ResultIndex index="34" dataObjectAttribName ="MEDICARE_ADJUD_IND"/>
+			            <ResultIndex index="35" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="36" dataObjectAttribName ="ASO_IND"/>
+			            <ResultIndex index="37" dataObjectAttribName ="GUARANTEE_IND"/>
+			            <ResultIndex index="38" dataObjectAttribName ="CNTRC_STAT"/>
+			            <ResultIndex index="39" dataObjectAttribName ="PROD_IND"/>
+			            <ResultIndex index="40" dataObjectAttribName ="TEST_IND"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="checkContract"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="START_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="benefitYearAccumIndicator"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getScheduleToTestContracts"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getTransferredToProductionContracts"/>
+			    </SQLTemplate>
+				  <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getLeftOverDateSegments"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getScheduleToProductionContracts"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getcontractsNotHavingStructure"/>
+			    </SQLTemplate>		
+				 <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getPartialDatesegments"/>
+			    </SQLTemplate>	    			    			    
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="9" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="11" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="15" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="16" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="17" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="19" dataObjectAttribName ="CNTRC_STAT"/>
+						<ResultIndex index="20" dataObjectAttribName ="ITS_HOME_ADJ_IND"/>			            
+			            <ResultIndex index="21" dataObjectAttribName ="COB_ADJUD_IND"/>
+			            <ResultIndex index="22" dataObjectAttribName ="MEDICARE_ADJUD_IND"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getAllDateSegments"/>
+			    </SQLTemplate>	
+			    		    
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="9" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="11" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="15" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="16" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="17" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="19" dataObjectAttribName ="CNTRC_STAT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getLatestDS"/>
+			    </SQLTemplate>	
+
+				 <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+					<DataObjectAttributeInput index="2" name="START_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="9" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="11" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="15" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="16" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="17" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="19" dataObjectAttribName ="CNTRC_STAT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getDS"/>
+			    </SQLTemplate>	
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="9" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="11" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="15" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="16" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="17" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="19" dataObjectAttribName ="CNTRC_STAT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getFirstDS"/>
+			    </SQLTemplate>			
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="END_DT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ROW_STATUS"/>
+			            <ResultIndex index="4" dataObjectAttribName ="MODEL_IND"/>
+			            <ResultIndex index="5" dataObjectAttribName ="PRODUCT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="PRODUCT_FAMILY"/>
+			            <ResultIndex index="7" dataObjectAttribName ="BENEFIT_PLAN"/>
+			            <ResultIndex index="8" dataObjectAttribName ="STANDARD_PLAN_CD"/>
+			            <ResultIndex index="9" dataObjectAttribName ="CORPORATE_PLAN_CD"/>
+			            <ResultIndex index="10" dataObjectAttribName ="GROUP_NM"/>
+			            <ResultIndex index="11" dataObjectAttribName ="GROUP_STATE_HQ"/>
+			            <ResultIndex index="12" dataObjectAttribName ="BENEFIT_YEAR_ACCUM_IND"/>
+			            <ResultIndex index="13" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="14" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="15" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="16" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="17" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="18" dataObjectAttribName ="BUSINESS_ENTITY"/>
+			            <ResultIndex index="19" dataObjectAttribName ="CNTRC_STAT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getSecondLastDS"/>
+			    </SQLTemplate>			    	    
+			    <DoAttributeToBOAttributeMap>
+			       <Pair DOAttb="CONTRACT"    				toBOAttb="contractId" 		/>
+			        <Pair DOAttb="START_DT"    				toBOAttb="startDate" 		/>
+			        <Pair DOAttb="END_DT"   				toBOAttb="endDate" 		/>
+			        <Pair DOAttb="ROW_STATUS"    			toBOAttb="rowStatus" 		/>
+			        <Pair DOAttb="MODEL_IND"    			toBOAttb="modelIndicator" 	/>
+			        <Pair DOAttb="PRODUCT"    				toBOAttb="productCode" 		/>
+			        <Pair DOAttb="PRODUCT_FAMILY"    		toBOAttb="productFamily" 	/>
+			        <Pair DOAttb="BENEFIT_PLAN"    			toBOAttb="benefitPlan" 		/>
+			        <Pair DOAttb="STRUCTURE"    			toBOAttb="structure" 		/>
+			        <Pair DOAttb="STANDARD_PLAN_CD"    		toBOAttb="standardPlanCode" 	/>
+			        <Pair DOAttb="CORPORATE_PLAN_CD"    	toBOAttb="corporatePlanCode" 	/>
+			        <Pair DOAttb="VARIATION"    			toBOAttb="variation" 		/>
+			        <Pair DOAttb="VALUE_ID"    				toBOAttb="valueId" 		/>
+			        <Pair DOAttb="CONTRACT_STATUS"    		toBOAttb="contractStatus" 	/>
+			        <Pair DOAttb="ADJUDICATION_IND"    		toBOAttb="adjudicationInd" 	/>
+			        <Pair DOAttb="GROUP_NM"    				toBOAttb="groupName" 		/>
+			        <Pair DOAttb="GROUP_STATE_HQ"    		toBOAttb="headQuarterState" 	/>
+			        <Pair DOAttb="SHOW_NOTES_IND"    		toBOAttb="showNotesInd" 	/>		
+			        <Pair DOAttb="BENEFIT_YEAR_ACCUM_IND"   toBOAttb="benefitYearAccumInd" 	/>
+			        <Pair DOAttb="DOC_COMPLIANCE_IND"    	toBOAttb="docComplianceInd" 	/>
+			        <Pair DOAttb="GMIS_IND"    				toBOAttb="gmisInd" 		/>
+			        <Pair DOAttb="MULTI_PLAN_IND"    		toBOAttb="multiPlanInd" 	/>		
+			        <Pair DOAttb="BENEFIT_INQ_IND"    		toBOAttb="benefitInqInd" 	/>
+			        <Pair DOAttb="BENEFIT_STRUCTURE"    	toBOAttb="benefitStructure" 	/>
+			        <Pair DOAttb="COMMENTS"    				toBOAttb="comment" 		/>
+			        <Pair DOAttb="NOTE"    					toBOAttb="note" 		/>		
+			        <Pair DOAttb="ADJ_LAST_UPDATED_DT"    	toBOAttb="adjLastUpdatedDate" 	/>
+			        <Pair DOAttb="ITS_HOME_ADJ_IND"    		toBOAttb="itsHomeAdjInd" 	/>
+			        <Pair DOAttb="SEND_TO_MF_IND"    		toBOAttb="sendToMainframeInd" 	/>
+			        <Pair DOAttb="COB_ADJUD_IND"    		toBOAttb="cobAdjudInd" 		/>	
+			        <Pair DOAttb="MEDICARE_ADJUD_IND"    	toBOAttb="medicareAdjudInd" 	/>	
+			        <Pair DOAttb="BUSINESS_ENTITY"    		toBOAttb="businessEntity" 	/>
+			        <Pair DOAttb="ASO_IND"    				toBOAttb="asoInd" 		/>
+			        <Pair DOAttb="GUARANTEE_IND"    		toBOAttb="guaranteeInd" 	/>	
+			        <Pair DOAttb="CNTRC_STAT"    			toBOAttb="contractStat" 	/>	
+			        <Pair DOAttb="PROD_IND"    				toBOAttb="prodInd" 		/>
+			        <Pair DOAttb="TEST_IND"    				toBOAttb="testInd" 		/>
+			        <Pair DOAttb="CREATION_USERID"			toBOAttb="createdUser" 		/>
+			        <Pair DOAttb="CREATION_DT" 				toBOAttb="createdTimestamp" 	/>
+			        <Pair DOAttb="LAST_UPDATED_USERID" 		toBOAttb="lastUpdatedUser" 	/>
+			        <Pair DOAttb="LAST_UPDATED_DT"			toBOAttb="lastUpdatedTimestamp" />
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+			        <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+			        <Pair DOAttb="CNTRC_STAT"  toSCAttb="contractStat"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000ContractLock">
+		<BusinessAttribute name="contractId" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="lockedUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lockedTime" 			type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String"/>
+			<SearchCriteriaAttribute name="lockedUser" 		type="String"/>
+		</SearchCriteria>
+	
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			    SELECT 	CONTRACT_ID, LOCK_USR, LOCK_TMS, CREATE_DATE, CREATION_USERID, 
+			    		LAST_UPDATED_USERID, LAST_UPDATED_DT, CREATION_DT
+			    FROM 	CNTRC_LCK_TBL
+			    WHERE 	CONTRACT_ID = ?
+			</SelectSQLQuery>				
+			<SelectSQLQuery name="contractLockedBySameUser">
+				SELECT 	contract_id, lock_usr
+				FROM 	cntrc_lck_tbl
+				WHERE 	contract_id = UPPER({0})
+				AND 	lock_usr = {1}	
+			</SelectSQLQuery>				
+			<DataObject name="CNTRC_LCK_TBL">
+			    <DataObjectAttribute name="CONTRACT_ID"    		type="String"/>
+			    <DataObjectAttribute name="LOCK_USR"    		type="String"/>
+			    <DataObjectAttribute name="LOCK_TMS"    		type="Date"/>
+			    <DataObjectAttribute name="CREATE_DATE"    		type="Date"/>
+			    <DataObjectAttribute name="CREATION_USERID"    	type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_DT"    	type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATION_DT"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="START_DATE"    		type="Date"/>
+			    <DataObjectAttribute name="REV_DATE"    		type="Date"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO CNTRC_LCK_TBL ( CONTRACT_ID, LOCK_USR, LOCK_TMS, CREATE_DATE, 
+			            			CREATION_USERID, LAST_UPDATED_USERID, LAST_UPDATED_DT, CREATION_DT)
+			            VALUES		(?, ?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+			        <DataObjectAttributeInput index="1" name="LOCK_USR"/>
+			        <DataObjectAttributeInput index="2" name="LOCK_TMS"/>
+			        <DataObjectAttributeInput index="3" name="CREATE_DATE"/>
+			        <DataObjectAttributeInput index="4" name="CREATION_USERID"/>
+			        <DataObjectAttributeInput index="5" name="LAST_UPDATED_USERID"/>
+			        <DataObjectAttributeInput index="6" name="LAST_UPDATED_DT"/>
+			        <DataObjectAttributeInput index="7" name="CREATION_DT"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="update">
+			        <SQLQuery>
+			            UPDATE 	CNTRC_LCK_TBL
+			            SET 	LOCK_USR = ?, LOCK_TMS = ?, LAST_UPDATED_USERID = ?, LAST_UPDATED_DT = ?, 
+			            		CREATION_DT = ?
+			            WHERE 	CONTRACT_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="LOCK_USR"/>
+			        <DataObjectAttributeInput index="1" name="LOCK_TMS"/>
+			        <DataObjectAttributeInput index="2" name="LAST_UPDATED_USERID"/>
+			        <DataObjectAttributeInput index="3" name="LAST_UPDATED_DT"/>
+			        <DataObjectAttributeInput index="4" name="CREATION_DT"/>
+			        <DataObjectAttributeInput index="5" name="CONTRACT_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="LOCK_USR"/>
+			            <ResultIndex index="2" dataObjectAttribName ="LOCK_TMS"/>
+			            <ResultIndex index="3" dataObjectAttribName ="CREATE_DATE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="5" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="7" dataObjectAttribName ="CREATION_DT"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+			        <DataObjectAttributeInput index="1" name="LOCK_USR"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="LOCK_USR"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="contractLockedBySameUser"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM CNTRC_LCK_TBL
+			            WHERE 	CONTRACT_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+			    </SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="CONTRACT_ID"    		toBOAttb="contractId"/>
+			        <Pair DOAttb="LOCK_USR"    			toBOAttb="lockedUser"/>
+			        <Pair DOAttb="LOCK_TMS"    			toBOAttb="lockedTime"/>
+			        <Pair DOAttb="CREATE_DATE"    		toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="CREATION_USERID"  	toBOAttb="createdUser"/>
+			        <Pair DOAttb="LAST_UPDATED_USERID"  toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LAST_UPDATED_DT"    	toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATION_DT"    		toBOAttb="createdTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CONTRACT_ID"    		toSCAttb="contractId"/>
+			        <Pair DOAttb="LOCK_USR"    			toSCAttb="lockedUser"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000MajorHeading">
+		<BusinessAttribute name="structureId" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="majorHeading" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="majorHeadingText" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="displaySequence" 		type="Int"			keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="structureId" 		type="String"/>
+			<SearchCriteriaAttribute name="majorHeadingText" 		type="String"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			<SelectSQLQuery name="getStructureMajHeadings">
+			  SELECT benefit_structure, major_heading, major_text, display_sequence,
+			         creation_userid, creation_dt, last_updated_userid, last_updated_dt
+			    FROM major_heading
+			   WHERE benefit_structure = {0} 
+			   AND   major_text LIKE (UPPER ({1}) || '%')
+			   ORDER BY major_text
+			</SelectSQLQuery>
+			<DataObject name="MAJOR_HEADING">
+			    <DataObjectAttribute name="BENEFIT_STRUCTURE"   type="String"/>
+			    <DataObjectAttribute name="MAJOR_HEADING"    	type="String"/>
+			    <DataObjectAttribute name="MAJOR_TEXT"    		type="String"/>
+			    <DataObjectAttribute name="DISPLAY_SEQUENCE"    type="Int"/>
+			    <DataObjectAttribute name="CREATION_USERID"    	type="String"/>
+			    <DataObjectAttribute name="CREATION_DT"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_DT"    	type="TimeStamp"/>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BENEFIT_STRUCTURE"/>
+					<DataObjectAttributeInput index="1" name="MAJOR_TEXT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MAJOR_HEADING"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MAJOR_TEXT"/>
+			            <ResultIndex index="3" dataObjectAttribName ="DISPLAY_SEQUENCE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="6" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="7" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			        </RSIndexToDOAttributeMap>
+   			        <SearchQueryName name="getStructureMajHeadings"/>
+			    </SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BENEFIT_STRUCTURE"    toBOAttb="structureId"/>
+			        <Pair DOAttb="MAJOR_HEADING"    	toBOAttb="majorHeading"/>
+			        <Pair DOAttb="MAJOR_TEXT"    		toBOAttb="majorHeadingText"/>
+			        <Pair DOAttb="DISPLAY_SEQUENCE"    	toBOAttb="displaySequence"/>
+			        <Pair DOAttb="CREATION_USERID"  	toBOAttb="createdUser"/>
+			        <Pair DOAttb="LAST_UPDATED_USERID"  toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LAST_UPDATED_DT"    	toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATION_DT"    		toBOAttb="createdTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="BENEFIT_STRUCTURE"    toSCAttb="structureId"/>
+					<Pair DOAttb="MAJOR_TEXT"    toSCAttb="majorHeadingText"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>		
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000MinorHeading">
+		<BusinessAttribute name="structureId" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="majorHeadingId" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="minorHeading" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="minorHeadingText" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="displaySequence" 		type="Int"			keyAttrib="false"/>
+		<BusinessAttribute name="svcFlags" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="structureId" 		type="String"/>		
+			<SearchCriteriaAttribute name="majorHeadingId" 		type="String"/>
+			<SearchCriteriaAttribute name="minorHeadingText" 		type="String"/>	
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			<SelectSQLQuery name="getMajorAsssociatedMinHeadings">
+			  SELECT benefit_structure, major_heading, minor_heading, minor_text,
+			         display_sequence, creation_userid, creation_dt, last_updated_userid,
+			         last_updated_dt, svcdflgs
+			    FROM minor_heading
+			   WHERE major_heading = {0} 
+			   	 AND minor_text LIKE (UPPER ({1}) || '%')
+			   ORDER BY minor_text
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAllStructureMinHeadings">
+				SELECT benefit_structure, major_heading, minor_heading, minor_text,
+				       display_sequence, creation_userid, creation_dt, last_updated_userid,
+				       last_updated_dt, svcdflgs
+				  FROM minor_heading
+				 WHERE benefit_structure = {0} 
+				   AND minor_text LIKE (UPPER ({1}) || '%')
+				ORDER BY minor_text
+			</SelectSQLQuery>			
+						
+			<DataObject name="MINOR_HEADING">
+			    <DataObjectAttribute name="BENEFIT_STRUCTURE"   type="String"/>
+			    <DataObjectAttribute name="MAJOR_HEADING"    	type="String"/>
+			    <DataObjectAttribute name="MINOR_HEADING"    	type="String"/>
+			    <DataObjectAttribute name="MINOR_TEXT"    		type="String"/>
+			    <DataObjectAttribute name="DISPLAY_SEQUENCE"    type="Int"/>
+			    <DataObjectAttribute name="CREATION_USERID"    	type="String"/>
+			    <DataObjectAttribute name="CREATION_DT"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_DT"    	type="TimeStamp"/>
+			    <DataObjectAttribute name="SVCDFLGS"    		type="String"/>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MAJOR_HEADING"/>
+					<DataObjectAttributeInput index="1" name="MINOR_TEXT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MAJOR_HEADING"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MINOR_HEADING"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MINOR_TEXT"/>
+			            <ResultIndex index="4" dataObjectAttribName ="DISPLAY_SEQUENCE"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="7" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="9" dataObjectAttribName ="SVCDFLGS"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getMajorAsssociatedMinHeadings"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BENEFIT_STRUCTURE"/>
+					<DataObjectAttributeInput index="1" name="MINOR_TEXT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="BENEFIT_STRUCTURE"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MAJOR_HEADING"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MINOR_HEADING"/>
+			            <ResultIndex index="3" dataObjectAttribName ="MINOR_TEXT"/>
+			            <ResultIndex index="4" dataObjectAttribName ="DISPLAY_SEQUENCE"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="7" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			            <ResultIndex index="9" dataObjectAttribName ="SVCDFLGS"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getAllStructureMinHeadings"/>
+			    </SQLTemplate>							    	    
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BENEFIT_STRUCTURE"    toBOAttb="structureId"/>
+			        <Pair DOAttb="MAJOR_HEADING"    	toBOAttb="majorHeadingId"/>
+			        <Pair DOAttb="MINOR_HEADING"    	toBOAttb="minorHeading"/>
+			        <Pair DOAttb="MINOR_TEXT"    		toBOAttb="minorHeadingText"/>
+			        <Pair DOAttb="DISPLAY_SEQUENCE"    	toBOAttb="displaySequence"/>
+			        <Pair DOAttb="CREATION_USERID"  	toBOAttb="createdUser"/>
+			        <Pair DOAttb="LAST_UPDATED_USERID"  toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LAST_UPDATED_DT"    	toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATION_DT"    		toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="SVCDFLGS"    			toBOAttb="svcFlags"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="BENEFIT_STRUCTURE"    toSCAttb="structureId"/>
+			        <Pair DOAttb="MAJOR_HEADING"    	toSCAttb="majorHeadingId"/>
+					<Pair DOAttb="MINOR_TEXT"    	toSCAttb="minorHeadingText"/>					
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000Pricing">
+		<BusinessAttribute name="contractId" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="startDate" 			type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="coverage" 				type="String"	keyAttrib="true"/>
+		<BusinessAttribute name="pricing" 				type="String"	keyAttrib="true"/>
+		<BusinessAttribute name="network" 				type="String"	keyAttrib="true"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String"/>
+			<SearchCriteriaAttribute name="startDate" 		type="String"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			<SelectSQLQuery name="getAllpricing">
+			    SELECT CONTRACT, START_DT, COVERAGE, PRICING, NETWORK, CREATION_USERID, CREATION_DT, LAST_UPDATED_USERID, LAST_UPDATED_DT
+			    FROM PRICING
+			    WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+			</SelectSQLQuery>
+			<DataObject name="PRICING">
+			    <DataObjectAttribute name="CONTRACT"    	type="String"/>
+			    <DataObjectAttribute name="START_DT"    	type="Date"/>
+			    <DataObjectAttribute name="COVERAGE"    	type="String"/>
+			    <DataObjectAttribute name="PRICING"    		type="String"/>
+			    <DataObjectAttribute name="NETWORK"    		type="String"/>
+			    <DataObjectAttribute name="CREATION_USERID" type="String"/>
+			    <DataObjectAttribute name="CREATION_DT"    	type="TimeStamp"/>
+			    <DataObjectAttribute name="LAST_UPDATED_USERID"    type="String"/>
+			    <DataObjectAttribute name="LAST_UPDATED_DT" type="TimeStamp"/>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+			        <DataObjectAttributeInput index="1" name="START_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+			            <ResultIndex index="2" dataObjectAttribName ="COVERAGE"/>
+			            <ResultIndex index="3" dataObjectAttribName ="PRICING"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NETWORK"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATION_USERID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATION_DT"/>
+			            <ResultIndex index="7" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+			            <ResultIndex index="8" dataObjectAttribName ="LAST_UPDATED_DT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getAllpricing"/>
+			    </SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CONTRACT"    		toBOAttb="contractId"/>
+					<Pair DOAttb="START_DT"    		toBOAttb="startDate"/>
+					<Pair DOAttb="COVERAGE"    		toBOAttb="coverage"/>
+					<Pair DOAttb="PRICING"    		toBOAttb="pricing"/>
+					<Pair DOAttb="NETWORK"    		toBOAttb="network"/>
+					<Pair DOAttb="CREATION_USERID"  toBOAttb="createdUser"/>
+					<Pair DOAttb="CREATION_DT"    	toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="LAST_UPDATED_USERID"    toBOAttb="lastUpdatedUser"/>
+					<Pair DOAttb="LAST_UPDATED_DT"  toBOAttb="lastUpdatedTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+			        <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000Variable">
+		<BusinessAttribute name="variableId" 			type="String"	keyAttrib="true"/>
+		<BusinessAttribute name="variableText" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="variableLongText" 		type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="format" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="providerArrangement" 	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="contractId" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="startDate" 			type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="structureId" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="majorHeadingId" 		type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="minorHeadingId" 		type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="codedValue" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="notes" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="noteNumber" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="varNoteFlag" 			type="String"	keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String"/>
+			<SearchCriteriaAttribute name="startDate" 		type="String"/>
+			<SearchCriteriaAttribute name="majorHeadingId" 	type="String"/>
+			<SearchCriteriaAttribute name="minorHeadingId" 	type="String"/>
+			<SearchCriteriaAttribute name="structureId" 	type="String"/>
+			<SearchCriteriaAttribute name="variableId" 		type="String"/>
+			<SearchCriteriaAttribute name="format" 			type="String"/>
+			<SearchCriteriaAttribute name="providerArrangement" type="String"/>	
+			<SearchCriteriaAttribute name="variableLongText" type="String"/>		
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+		<SelectSQLQuery name="getContracMinorHeadingVariables" >
+		    SELECT 	D.CONTRACT_VAR, D.CONT_VAR_TX, D.LONG_TEXT, D.CONTRACT_VAR_FORMAT, D.PROV_ARNG , 
+		           (select 	VAR_VALUE from VARSEG  
+		            where 	CONTRACT_VAR = D.CONTRACT_VAR and CONTRACT = {0} 
+		            		and START_DT = to_date({1},'mm/dd/yyyy')
+							and VAR_VALUE != ' '
+		            ) VAR_VALUE,
+			       (SELECT 'Y' as contract_var
+			          FROM bennotes 
+			          WHERE contract_var = D.contract_var
+			           AND contract = {0}
+			           AND start_dt = to_date({1},'mm/dd/yyyy')
+			           AND ((note IS NOT NULL) OR (TO_CHAR(note) != ' '))) NOTE_VAR					
+		    FROM 	--MAJOR_HEADING A, 
+		    		--MINOR_HEADING B, 
+		    		CONTRACT_DETAIL C, 
+		    		CONTVAR D
+		    WHERE 	-- A.BENEFIT_STRUCTURE = 2
+		          	--  AND A.MAJOR_HEADING =  AND
+		           	-- AND A.MAJOR_HEADING = B.MAJOR_HEADING 
+		           	-- AND B.MINOR_HEADING = C.MINOR_HEADING 
+		           	C.MINOR_HEADING like {2}
+		           	AND C.CONTRACT_VAR = D.CONTRACT_VAR
+		           	AND D.CONTRACT_VAR like {3}
+		            AND D.CONTRACT_VAR_FORMAT like {4}
+		           	AND D.PROV_ARNG like {5}		           	
+		</SelectSQLQuery>
+		<SelectSQLQuery name="getCodedVariablesForDS" >
+		    SELECT 	D.CONTRACT_VAR, D.CONT_VAR_TX, D.LONG_TEXT, D.CONTRACT_VAR_FORMAT, D.PROV_ARNG , E.VAR_VALUE ,
+					(SELECT  'Y' as contract_var
+					          FROM bennotes
+					         WHERE contract_var = d.contract_var
+					           AND contract = {0}
+					           AND start_dt = TO_DATE ({1}, 'mm/dd/yyyy')
+					           AND ((note IS NOT NULL) OR (TO_CHAR(note) != ' '))) NOTE_VAR  
+		    FROM 	CONTVAR D, VARSEG E 
+		    WHERE  	E.CONTRACT = {0} 
+		      		AND  E.START_DT = to_date({1},'mm/dd/yyyy') 
+		      		AND E.CONTRACT_VAR = D.CONTRACT_VAR
+					and E.VAR_VALUE != ' '
+					
+		</SelectSQLQuery>	
+
+		<SelectSQLQuery name="getContracVariableNotes" >
+				SELECT NOTE, NOTE_NBR, CONTRACT_VAR
+				FROM BENNOTES  where CONTRACT ={0}
+				AND START_DT = to_date({1},'mm/dd/yyyy') 
+				AND CONTRACT_VAR = {2}
+		</SelectSQLQuery>
+	
+		<DataObject name="CONTVAR">
+		    <DataObjectAttribute name="CONTRACT_VAR"    type="String"/>
+		    <DataObjectAttribute name="CONT_VAR_TX"    	type="String"/>
+		    <DataObjectAttribute name="LONG_TEXT"    	type="String"/>
+		    <DataObjectAttribute name="CONTRACT_VAR_FORMAT"    type="String"/>
+		    <DataObjectAttribute name="PROV_ARNG"    	type="String"/>
+		    <DataObjectAttribute name="CONTRACT_ID"    	type="String"/>
+		    <DataObjectAttribute name="START_DT"    	type="Date"/>
+		    <DataObjectAttribute name="STRUCT_ID"    	type="String"/>
+		    <DataObjectAttribute name="MAJOR_HEADING"   type="String"/>
+		    <DataObjectAttribute name="MIN_HEADING"    	type="String"/>
+		    <DataObjectAttribute name="CONTRACT_VALUE"  type="String"/>
+			<DataObjectAttribute name="NOTE"    		type="Clob"/>
+			<DataObjectAttribute name="NOTE_NBR"    	type="String"/>
+			<DataObjectAttribute name="NOTE_VAR"    	type="String"/>
+
+		    <SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+		        <DataObjectAttributeInput index="1" name="START_DT"/>
+		        <DataObjectAttributeInput index="2" name="MIN_HEADING"/>
+		        <DataObjectAttributeInput index="3" name="CONTRACT_VAR"/>
+		        <DataObjectAttributeInput index="4" name="CONTRACT_VAR_FORMAT"/>
+   		        <DataObjectAttributeInput index="5" name="PROV_ARNG"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="CONTRACT_VAR"/>
+		            <ResultIndex index="1" dataObjectAttribName ="CONT_VAR_TX"/>
+		            <ResultIndex index="2" dataObjectAttribName ="LONG_TEXT"/>
+		            <ResultIndex index="3" dataObjectAttribName ="CONTRACT_VAR_FORMAT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="PROV_ARNG"/>
+		            <ResultIndex index="5" dataObjectAttribName ="CONTRACT_VALUE"/>
+					<ResultIndex index="6" dataObjectAttribName ="NOTE_VAR"/>
+		        </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getContracMinorHeadingVariables"/>
+		    </SQLTemplate>
+ 
+		    <SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+		        <DataObjectAttributeInput index="1" name="START_DT"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="CONTRACT_VAR"/>
+		            <ResultIndex index="1" dataObjectAttribName ="CONT_VAR_TX"/>
+		            <ResultIndex index="2" dataObjectAttribName ="LONG_TEXT"/>
+		            <ResultIndex index="3" dataObjectAttribName ="CONTRACT_VAR_FORMAT"/>
+		            <ResultIndex index="4" dataObjectAttribName ="PROV_ARNG"/>
+		            <ResultIndex index="5" dataObjectAttribName ="CONTRACT_VALUE"/>
+					<ResultIndex index="6" dataObjectAttribName ="NOTE_VAR"/>
+		        </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getCodedVariablesForDS"/>
+		    </SQLTemplate>
+
+			<SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="CONTRACT_ID"/>
+		        <DataObjectAttributeInput index="1" name="START_DT"/>		       
+		        <DataObjectAttributeInput index="2" name="CONTRACT_VAR"/>
+		        
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="NOTE"/>
+		            <ResultIndex index="1" dataObjectAttribName ="NOTE_NBR"/>
+					<ResultIndex index="2" dataObjectAttribName ="CONTRACT_VAR"/>		            		            
+		        </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getContracVariableNotes"/>
+		    </SQLTemplate>		    
+		    <DoAttributeToBOAttributeMap>
+				<Pair DOAttb="CONTRACT_VAR"    		toBOAttb="variableId"/>
+				<Pair DOAttb="CONT_VAR_TX"    		toBOAttb="variableText"/>
+				<Pair DOAttb="LONG_TEXT"    		toBOAttb="variableLongText"/>
+				<Pair DOAttb="CONTRACT_VAR_FORMAT"  toBOAttb="format"/>
+				<Pair DOAttb="PROV_ARNG"    		toBOAttb="providerArrangement"/>
+				<Pair DOAttb="CONTRACT_ID"    		toBOAttb="contractId"/>
+				<Pair DOAttb="START_DT"    			toBOAttb="startDate"/>
+				<Pair DOAttb="STRUCT_ID"    		toBOAttb="structureId"/>
+				<Pair DOAttb="MAJOR_HEADING"    	toBOAttb="majorHeadingId"/>
+				<Pair DOAttb="MIN_HEADING"    		toBOAttb="minorHeadingId"/>
+				<Pair DOAttb="CONTRACT_VALUE"    	toBOAttb="codedValue"/> 
+				<Pair DOAttb="NOTE"   		   		toBOAttb="notes"/>
+				<Pair DOAttb="NOTE_NBR" 	   		toBOAttb="noteNumber"/>
+				<Pair DOAttb="NOTE_VAR" 	   		toBOAttb="varNoteFlag"/>	   
+		    </DoAttributeToBOAttributeMap>
+		    <DoAttributeToSCAttributeMap>
+				<Pair DOAttb="CONTRACT_ID"    		toSCAttb="contractId"/>
+				<Pair DOAttb="START_DT"    			toSCAttb="startDate"/>
+				<Pair DOAttb="STRUCT_ID"    		toSCAttb="structureId"/>
+				<Pair DOAttb="MAJOR_HEADING"   		toSCAttb="majorHeadingId"/>
+				<Pair DOAttb="MIN_HEADING"    		toSCAttb="minorHeadingId"/>
+				<Pair DOAttb="CONTRACT_VAR"    		toSCAttb="variableId"/>
+				<Pair DOAttb="PROV_ARNG"    		toSCAttb="providerArrangement"/>
+				<Pair DOAttb="CONTRACT_VAR_FORMAT"  toSCAttb="format"/>	
+				<Pair DOAttb="LONG_TEXT"    		toSCAttb="variableLongText"/>			
+		    </DoAttributeToSCAttributeMap>
+	 </DataObject>
+	    	
+	 		</DataSource>		
+	</BusinessObjectMetadata>	
+	
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000LimitClassExclusion">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="startDate"  type="Date" keyAttrib="false"/>
+    <BusinessAttribute name="limitClass"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+		<SelectSQLQuery name="getLimitClasses">
+		    SELECT 	CONTRACT, START_DT, LIMIT_CLASS
+		    FROM 	LIMIT_CLASS_EXCLUSION
+		    WHERE 	CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+		</SelectSQLQuery>        
+        <DataObject name="LIMIT_CLASS_EXCLUSION">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="Date"/>
+            <DataObjectAttribute name="LIMIT_CLASS"    type="String"/>
+		    <SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+		        <DataObjectAttributeInput index="1" name="START_DT"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+		            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+		            <ResultIndex index="2" dataObjectAttribName ="LIMIT_CLASS"/>
+		        </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getLimitClasses"/>
+		    </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                <Pair DOAttb="LIMIT_CLASS"    toBOAttb="limitClass"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>    
+	</DataSource>
+</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000ServiceClassExclusion">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="startDate"  type="Date" keyAttrib="false"/>
+    <BusinessAttribute name="srvClassFrom"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="srClassThrough"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="Date"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+		<SelectSQLQuery name="getServiceClass">
+		    SELECT CONTRACT, START_DT, SERVICE_CLASS_FROM, SERVICE_CLASS_THRU
+		    FROM SERVICE_CLASS_EXCLUSION
+		    WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+		</SelectSQLQuery>        
+        <DataObject name="SERVICE_CLASS_EXCLUSION">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="Date"/>
+            <DataObjectAttribute name="SERVICE_CLASS_FROM"    type="String"/>
+            <DataObjectAttribute name="SERVICE_CLASS_THRU"    type="String"/>
+		    <SQLTemplate transType="select">
+		        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+		        <DataObjectAttributeInput index="1" name="START_DT"/>
+		        <RSIndexToDOAttributeMap>
+		            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+		            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+		            <ResultIndex index="2" dataObjectAttribName ="SERVICE_CLASS_FROM"/>
+		            <ResultIndex index="3" dataObjectAttribName ="SERVICE_CLASS_THRU"/>
+		        </RSIndexToDOAttributeMap>
+		        <SearchQueryName name="getServiceClass"/>
+		    </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                <Pair DOAttb="SERVICE_CLASS_FROM"    toBOAttb="srvClassFrom"/>
+                <Pair DOAttb="SERVICE_CLASS_THRU"    toBOAttb="srClassThrough"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000ServiceCodeExclusion">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="startDate"  type="Date" keyAttrib="false"/>
+    <BusinessAttribute name="serviceCode"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="Date"/>
+        <SearchCriteriaAttribute name="serviceCode"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+			<SelectSQLQuery name="getServiceCodes">
+			    SELECT CONTRACT, START_DT, SERVICE_CODE
+			    FROM SERVICE_CODE_EXCLUSION
+			    WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+			</SelectSQLQuery>          
+        <DataObject name="SERVICE_CODE_EXCLUSION">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="Date"/>
+            <DataObjectAttribute name="SERVICE_CODE"    type="String"/>
+    <SQLTemplate transType="select">
+        <DataObjectAttributeInput index="0" name="CONTRACT"/>
+        <DataObjectAttributeInput index="1" name="START_DT"/>
+        <RSIndexToDOAttributeMap>
+            <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+            <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+            <ResultIndex index="2" dataObjectAttribName ="SERVICE_CODE"/>
+        </RSIndexToDOAttributeMap>
+        <SearchQueryName name="getServiceCodes"/>
+    </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                        <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                        <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                        <Pair DOAttb="SERVICE_CODE"    toBOAttb="serviceCode"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                        <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                        <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+                        <Pair DOAttb="SERVICE_CODE"    toSCAttb="serviceCode"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.SpecialityCodeExclusion">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="startDate"  type="Date" keyAttrib="true"/>
+    <BusinessAttribute name="specialityCode"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="Date"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery name="getSpecialityCodeExlns">
+            SELECT CONTRACT, START_DT, SPECIALTY_CODE
+            FROM SPECIALTY_CODE_EXCLUSION
+            WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+        </SelectSQLQuery>
+        <DataObject name="SPECIALTY_CODE_EXCLUSION">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="Date"/>
+            <DataObjectAttribute name="SPECIALTY_CODE"    type="String"/>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+                    <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="SPECIALTY_CODE"/>
+                </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getSpecialityCodeExlns"/>	
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                <Pair DOAttb="SPECIALTY_CODE"    toBOAttb="specialityCode"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>	
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000ContractUpdate">
+    <BusinessAttribute name="contractId"  		type="String" keyAttrib="true"/>
+    <BusinessAttribute name="startDate"  		type="Date" keyAttrib="false"/>
+    <BusinessAttribute name="rowStatus"  		type="Int" keyAttrib="false"/>
+    <BusinessAttribute name="contractStat"  	type="String" keyAttrib="false"/>
+    <BusinessAttribute name="contractStatusForSC" type="String" keyAttrib="false"/>
+	<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+	<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+<!-- 
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   	type="String"/>
+        <SearchCriteriaAttribute name="startDate"   	type="Date"/>
+        <SearchCriteriaAttribute name="rowStatus"   		type="Int"/>
+        <SearchCriteriaAttribute name="contractStatForSC"   type="String"/>
+    </SearchCriteria>
+-->
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery>
+        </SelectSQLQuery>
+        <DataObject name="CONTRACT">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="Date"/>
+            <DataObjectAttribute name="ROW_STATUS"    type="Int"/>
+            <DataObjectAttribute name="CNTRC_STAT"    type="String"/>
+            <DataObjectAttribute name="CNTRC_STAT_IN"    type="String"/>
+		    <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+		    <DataObjectAttribute name="LAST_UPDATED_DT"    	type="Date"/>
+            <SQLTemplate transType="update">
+                <SQLQuery>
+                    UPDATE CONTRACT
+                      SET ROW_STATUS = ?, CNTRC_STAT = ?, LAST_UPDATED_USERID = ?, LAST_UPDATED_DT = ?
+                    WHERE CONTRACT = ? 
+					  AND CNTRC_STAT LIKE  ?
+					  AND ROW_STATUS != 0
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="ROW_STATUS"/>
+                <DataObjectAttributeInput index="1" name="CNTRC_STAT"/>
+                <DataObjectAttributeInput index="2" name="LAST_UPDATED_USERID"/>
+                <DataObjectAttributeInput index="3" name="LAST_UPDATED_DT"/>
+                <DataObjectAttributeInput index="4" name="CONTRACT"/>
+                <DataObjectAttributeInput index="5" name="CNTRC_STAT_IN"/>
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    			toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    			toBOAttb="startDate"/>
+                <Pair DOAttb="ROW_STATUS"    		toBOAttb="rowStatus"/>
+                <Pair DOAttb="CNTRC_STAT"    		toBOAttb="contractStat"/>
+                <Pair DOAttb="CNTRC_STAT_IN"    	toBOAttb="contractStatusForSC"/>
+		        <Pair DOAttb="LAST_UPDATED_USERID" 	toBOAttb="lastUpdatedUser" 	/>
+		        <Pair DOAttb="LAST_UPDATED_DT"		toBOAttb="lastUpdatedTimestamp" />
+            </DoAttributeToBOAttributeMap>
+<!-- 
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    		toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    		toSCAttb="startDate"/>
+                <Pair DOAttb="ROW_STATUS"   	toSCAttb="rowStatus"/>
+                <Pair DOAttb="CNTRC_STAT_IN"    toSCAttb="contractStatForSC"/>
+            </DoAttributeToSCAttributeMap>
+-->
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000MigratedDateSegment">
+    <BusinessAttribute name="contractId"  			type="String" 	keyAttrib="true"/>
+    <BusinessAttribute name="startDate"  			type="Date" 	keyAttrib="true"/>
+    <BusinessAttribute name="productionIndicator"  	type="String" 	keyAttrib="true"/>
+    <BusinessAttribute name="createdUser"  			type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="createdTimestamp"  	type="Date" 	keyAttrib="false"/>
+    <BusinessAttribute name="lastUpdatedUser"  		type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="lastUpdatedTimestamp"  type="Date" 	keyAttrib="false"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   	type="String"/>
+        <SearchCriteriaAttribute name="startDate"   	type="Date"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery>
+            SELECT CONTRACT, START_DT, TST_PROD_IND, CREATION_USERID, CREATION_DT, LAST_UPDATED_USERID, LAST_UPDATED_DT
+            FROM MGRTD_DT_SGMNT
+            WHERE CONTRACT = ? AND START_DT = ?
+        </SelectSQLQuery>
+        <SelectSQLQuery name="checkContractIdExists">
+            SELECT CONTRACT, START_DT, TST_PROD_IND, CREATION_USERID, CREATION_DT, LAST_UPDATED_USERID, LAST_UPDATED_DT
+            FROM MGRTD_DT_SGMNT
+            WHERE CONTRACT = {0}
+        </SelectSQLQuery>
+        <DataObject name="MGRTD_DT_SGMNT">
+            <DataObjectAttribute name="CONTRACT"    		type="String"/>
+            <DataObjectAttribute name="START_DT"    		type="Date"/>
+            <DataObjectAttribute name="TST_PROD_IND"    	type="String"/>
+            <DataObjectAttribute name="CREATION_USERID"    	type="String"/>
+            <DataObjectAttribute name="CREATION_DT"    		type="Date"/>
+            <DataObjectAttribute name="LAST_UPDATED_USERID" type="String"/>
+            <DataObjectAttribute name="LAST_UPDATED_DT"    	type="Date"/>
+            <SQLTemplate transType="insert">
+                <SQLQuery>
+                    INSERT INTO MGRTD_DT_SGMNT ( CONTRACT, START_DT, TST_PROD_IND, CREATION_USERID, CREATION_DT, LAST_UPDATED_USERID, LAST_UPDATED_DT)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <DataObjectAttributeInput index="2" name="TST_PROD_IND"/>
+                <DataObjectAttributeInput index="3" name="CREATION_USERID"/>
+                <DataObjectAttributeInput index="4" name="CREATION_DT"/>
+                <DataObjectAttributeInput index="5" name="LAST_UPDATED_USERID"/>
+                <DataObjectAttributeInput index="6" name="LAST_UPDATED_DT"/>
+            </SQLTemplate>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+                    <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="TST_PROD_IND"/>
+                    <ResultIndex index="3" dataObjectAttribName ="CREATION_USERID"/>
+                    <ResultIndex index="4" dataObjectAttribName ="CREATION_DT"/>
+                    <ResultIndex index="5" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+                    <ResultIndex index="6" dataObjectAttribName ="LAST_UPDATED_DT"/>
+                </RSIndexToDOAttributeMap>
+            </SQLTemplate>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+                    <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="TST_PROD_IND"/>
+                    <ResultIndex index="3" dataObjectAttribName ="CREATION_USERID"/>
+                    <ResultIndex index="4" dataObjectAttribName ="CREATION_DT"/>
+                    <ResultIndex index="5" dataObjectAttribName ="LAST_UPDATED_USERID"/>
+                    <ResultIndex index="6" dataObjectAttribName ="LAST_UPDATED_DT"/>
+                </RSIndexToDOAttributeMap>
+				<SearchQueryName name="checkContractIdExists"/>
+            </SQLTemplate>
+            <SQLTemplate transType="delete">
+                <SQLQuery>
+                    DELETE FROM MGRTD_DT_SGMNT
+                    WHERE CONTRACT = ? 
+                </SQLQuery>
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    			toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    			toBOAttb="startDate"/>
+                <Pair DOAttb="TST_PROD_IND"    		toBOAttb="productionIndicator"/>
+                <Pair DOAttb="CREATION_USERID"  	toBOAttb="createdUser"/>
+                <Pair DOAttb="CREATION_DT"    		toBOAttb="createdTimestamp"/>
+                <Pair DOAttb="LAST_UPDATED_USERID"  toBOAttb="lastUpdatedUser"/>
+                <Pair DOAttb="LAST_UPDATED_DT"    	toBOAttb="lastUpdatedTimestamp"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.LegacyContractNotes">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="startDate"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="notes"  type="String" keyAttrib="false"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery name="getContractNotes">
+            SELECT CONTRACT, START_DT, NOTE
+            FROM CONTRACT 
+            WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')
+        </SelectSQLQuery>
+	    <DataObject name="CONTRACT">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="String"/>
+            <DataObjectAttribute name="NOTE"    type="Clob"/>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+                    <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="NOTE"/>
+                </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getContractNotes"/>	
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                <Pair DOAttb="NOTE"    toBOAttb="notes"/>
+            </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>	
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.LegacyContractMajorHeading">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="startDate"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="majorHeadingId"  type="String" keyAttrib="true"/>
+	<BusinessAttribute name="majorHeadingDesc"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery name="getContractMajorHeadings">
+           SELECT CONTRACT.CONTRACT,to_char(CONTRACT.START_DT,'mm/dd/yyyy'),MAJOR_HEADING.MAJOR_HEADING,MAJOR_TEXT
+            FROM MAJOR_HEADING,CONTRACT,MAJOR_NOTES
+            WHERE CONTRACT.CONTRACT = {0} AND CONTRACT.START_DT = to_date({1},'mm/dd/yyyy') 
+			AND MAJOR_HEADING.BENEFIT_STRUCTURE	= CONTRACT.BENEFIT_STRUCTURE	
+            AND MAJOR_NOTES.MAJOR_HEADING = MAJOR_HEADING.MAJOR_HEADING
+            AND MAJOR_NOTES.CONTRACT = {0} AND MAJOR_NOTES.START_DT = to_date({1},'mm/dd/yyyy') 
+            AND MAJOR_NOTES.NOTE IS NOT NULL
+        </SelectSQLQuery>
+		<SelectSQLQuery name="getAllContractMajorHeadings">
+            SELECT CONTRACT,to_char(START_DT,'mm/dd/yyyy'),MAJOR_HEADING,MAJOR_TEXT
+            FROM MAJOR_HEADING,CONTRACT
+            WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy') 
+			AND MAJOR_HEADING.BENEFIT_STRUCTURE	= CONTRACT.BENEFIT_STRUCTURE	
+        </SelectSQLQuery>
+		<DataObject name="MAJOR_HEADING">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="String"/>
+            <DataObjectAttribute name="MAJOR_HEADING"    type="String"/>
+			 <DataObjectAttribute name="MAJOR_TEXT"    type="String"/>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <RSIndexToDOAttributeMap>
+					 <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+					 <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MAJOR_HEADING"/>
+                    <ResultIndex index="3" dataObjectAttribName ="MAJOR_TEXT"/>
+                 </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getContractMajorHeadings"/>	
+            </SQLTemplate>
+			  <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+                <RSIndexToDOAttributeMap>
+					 <ResultIndex index="0" dataObjectAttribName ="CONTRACT"/>
+					 <ResultIndex index="1" dataObjectAttribName ="START_DT"/>
+                    <ResultIndex index="2" dataObjectAttribName ="MAJOR_HEADING"/>
+                    <ResultIndex index="3" dataObjectAttribName ="MAJOR_TEXT"/>
+                 </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getAllContractMajorHeadings"/>	
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+				 <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+				 <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+                <Pair DOAttb="MAJOR_HEADING"    toBOAttb="majorHeadingId"/>
+                <Pair DOAttb="MAJOR_TEXT"    toBOAttb="majorHeadingDesc"/>
+             </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>	
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.LegacyContractMinorHeading">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="startDate"  type="String" keyAttrib="false"/>
+    <BusinessAttribute name="minorHeadingId"  type="String" keyAttrib="true"/>
+	<BusinessAttribute name="minorHeadingDesc"  type="String" keyAttrib="true"/>
+	 <BusinessAttribute name="majorHeadingId"  type="String" keyAttrib="true"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="String"/>
+		<SearchCriteriaAttribute name="majorHeadingId"   type="String"/>
+		<SearchCriteriaAttribute name="minorHeadingId"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery name="getContractMinorHeadings">
+        	SELECT MINOR_HEADING.MINOR_HEADING,MINOR_HEADING.MINOR_TEXT	
+            FROM MINOR_HEADING,CONTRACT,MINOR_NOTES
+         	WHERE CONTRACT.CONTRACT = {0} AND CONTRACT.START_DT = to_date({1},'mm/dd/yyyy') 
+			AND MINOR_HEADING.BENEFIT_STRUCTURE	= CONTRACT.BENEFIT_STRUCTURE	
+			AND MINOR_HEADING.MAJOR_HEADING	=  {2}
+            AND MINOR_NOTES.MINOR_HEADING = MINOR_HEADING.MINOR_HEADING
+			AND MINOR_NOTES.MAJOR_HEADING = MINOR_HEADING.MAJOR_HEADING
+            AND MINOR_NOTES.CONTRACT = {0} AND MINOR_NOTES.START_DT = to_date({1},'mm/dd/yyyy') 
+             AND MINOR_NOTES.NOTE IS NOT NULL
+        </SelectSQLQuery>
+		<SelectSQLQuery name="getOldMinorHeadingId">
+		SELECT a.minor_heading, a.minor_text
+  			FROM minor_heading a, minor_notes b, contract c
+ 			WHERE a.major_heading = (SELECT major_heading
+                            FROM minor_heading
+                           WHERE minor_heading = {0})
+   			and c.CONTRACT = {1} AND C.START_DT = to_date({2},'mm/dd/yyyy')
+   			and a.BENEFIT_STRUCTURE = c.BENEFIT_STRUCTURE
+   			And b.MAJOR_HEADING = a.MAJOR_HEADING	
+   			AND b.MINOR_HEADING = a.MINOR_HEADING					   
+   			AND b.CONTRACT = {1} AND b.START_DT = to_date({2},'mm/dd/yyyy') 
+             AND b.NOTE IS NOT NULL				
+			</SelectSQLQuery>
+		<DataObject name="MINOR_HEADING">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="String"/>
+            <DataObjectAttribute name="MINOR_HEADING"    type="String"/>
+			 <DataObjectAttribute name="MINOR_TEXT"    type="String"/>
+			 <DataObjectAttribute name="MAJOR_HEADING"    type="String"/>
+            <SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+				  <DataObjectAttributeInput index="2" name="MAJOR_HEADING"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MINOR_HEADING"/>
+                    <ResultIndex index="1" dataObjectAttribName ="MINOR_TEXT"/>
+                 </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getContractMinorHeadings"/>	
+            </SQLTemplate>
+			<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MINOR_HEADING"/>
+					<DataObjectAttributeInput index="1" name="CONTRACT"/>
+					<DataObjectAttributeInput index="2" name="START_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MINOR_HEADING"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MINOR_TEXT"/>
+			        </RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getOldMinorHeadingId"/>
+			    </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+                <Pair DOAttb="MINOR_HEADING"    toBOAttb="minorHeadingId"/>
+                <Pair DOAttb="MINOR_TEXT"    toBOAttb="minorHeadingDesc"/>
+             </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+				<Pair DOAttb="MAJOR_HEADING"    toSCAttb="majorHeadingId"/>
+				<Pair DOAttb="MINOR_HEADING"    toSCAttb="minorHeadingId"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>	
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.LegacyMajorNotes">
+    <BusinessAttribute name="contractId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="startDate"  type="String" keyAttrib="true"/>
+	<BusinessAttribute name="majorHeadingId"  type="String" keyAttrib="true"/>
+    <BusinessAttribute name="majorNotes"  type="String" keyAttrib="false"/>
+    <SearchCriteria>
+        <SearchCriteriaAttribute name="contractId"   type="String"/>
+        <SearchCriteriaAttribute name="startDate"   type="String"/>
+		<SearchCriteriaAttribute name="majorHeadingId"   type="String"/>
+    </SearchCriteria>
+    <DataSource name="prmd" domain="medical">
+        <Connection preferred="jndi">
+            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+            <jndi>jdbc/wsbLg</jndi>
+        </Connection>
+        <SelectSQLQuery name="getContractMajorNotes">
+          SELECT MAJOR_HEADING,NOTE FROM MAJOR_NOTES
+			WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy') 
+			AND  MAJOR_HEADING = {2}
+        </SelectSQLQuery>
+        <SelectSQLQuery>
+          SELECT MAJOR_HEADING,NOTE FROM MAJOR_NOTES
+			WHERE CONTRACT = ? AND START_DT = to_date(?,'mm/dd/yyyy') 
+			AND  MAJOR_HEADING = ?
+        </SelectSQLQuery>
+		<DataObject name="MAJOR_NOTES">
+            <DataObjectAttribute name="CONTRACT"    type="String"/>
+            <DataObjectAttribute name="START_DT"    type="String"/>
+			<DataObjectAttribute name="MAJOR_HEADING"    type="String"/>
+            <DataObjectAttribute name="NOTE"    type="Clob"/>
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+				<DataObjectAttributeInput index="2" name="MAJOR_HEADING"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MAJOR_HEADING"/>
+					<ResultIndex index="1" dataObjectAttribName ="NOTE"/>
+                </RSIndexToDOAttributeMap>
+                <SearchQueryName name="getContractMajorNotes"/>	
+            </SQLTemplate>
+			<SQLTemplate transType="select">
+                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+                <DataObjectAttributeInput index="1" name="START_DT"/>
+				<DataObjectAttributeInput index="2" name="MAJOR_HEADING"/>
+                <RSIndexToDOAttributeMap>
+                    <ResultIndex index="0" dataObjectAttribName ="MAJOR_HEADING"/>
+					<ResultIndex index="1" dataObjectAttribName ="NOTE"/>
+                </RSIndexToDOAttributeMap>
+            </SQLTemplate>
+            <DoAttributeToBOAttributeMap>
+				 <Pair DOAttb="MAJOR_HEADING"    toBOAttb="majorHeadingId"/>
+                <Pair DOAttb="NOTE"    toBOAttb="majorNotes"/>
+                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+             </DoAttributeToBOAttributeMap>
+            <DoAttributeToSCAttributeMap>
+                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+				 <Pair DOAttb="MAJOR_HEADING"    toSCAttb="majorHeadingId"/>
+            </DoAttributeToSCAttributeMap>
+        </DataObject>
+    </DataSource>
+</BusinessObjectMetadata>	
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.LegacyMinorNotes">
+	    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="startDate"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="minorNotes"  type="String" keyAttrib="false"/>
+		<BusinessAttribute name="minorHeadingId"  type="String" keyAttrib="true"/>
+	    <SearchCriteria>
+	        <SearchCriteriaAttribute name="contractId"   type="String"/>
+	        <SearchCriteriaAttribute name="startDate"   type="String"/>
+			 <SearchCriteriaAttribute name="minorHeadingId"   type="String"/>
+	    </SearchCriteria>
+	    <DataSource name="prmd" domain="medical">
+	        <Connection preferred="jndi">
+	            <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+	            <jndi>jdbc/wsbLg</jndi>
+	        </Connection>
+	        <SelectSQLQuery >
+	          SELECT MINOR_HEADING,NOTE FROM MINOR_NOTES
+				WHERE CONTRACT = ? AND START_DT = to_date(?,'mm/dd/yyyy') 
+				AND  MINOR_HEADING	 = ?
+	        </SelectSQLQuery>
+	        <SelectSQLQuery name="getContractMinorNotes">
+	          SELECT MINOR_HEADING,NOTE FROM MINOR_NOTES
+				WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy') 
+				AND  MINOR_HEADING	 = {2}
+	        </SelectSQLQuery>
+			<DataObject name="MINOR_NOTES">
+	            <DataObjectAttribute name="CONTRACT"    type="String"/>
+	            <DataObjectAttribute name="START_DT"    type="String"/>
+				 <DataObjectAttribute name="MINOR_HEADING"    type="String"/>
+	            <DataObjectAttribute name="NOTE"    type="Clob"/>
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+	                <DataObjectAttributeInput index="1" name="START_DT"/>
+					<DataObjectAttributeInput index="2" name="MINOR_HEADING"/>
+	                <RSIndexToDOAttributeMap>
+						 <ResultIndex index="0" dataObjectAttribName ="MINOR_HEADING"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="NOTE"/>
+	                </RSIndexToDOAttributeMap>
+	                <SearchQueryName name="getContractMinorNotes"/>	
+	            </SQLTemplate>
+				<SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="CONTRACT"/>
+	                <DataObjectAttributeInput index="1" name="START_DT"/>
+					<DataObjectAttributeInput index="2" name="MINOR_HEADING"/>
+	                <RSIndexToDOAttributeMap>
+						 <ResultIndex index="0" dataObjectAttribName ="MINOR_HEADING"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="NOTE"/>
+	                </RSIndexToDOAttributeMap>
+	            </SQLTemplate>
+	            <DoAttributeToBOAttributeMap>
+				    <Pair DOAttb="MINOR_HEADING"    toBOAttb="minorHeadingId"/>
+	                <Pair DOAttb="NOTE"    toBOAttb="minorNotes"/>
+	                <Pair DOAttb="CONTRACT"    toBOAttb="contractId"/>
+	                <Pair DOAttb="START_DT"    toBOAttb="startDate"/>
+	             </DoAttributeToBOAttributeMap>
+	            <DoAttributeToSCAttributeMap>
+	                <Pair DOAttb="CONTRACT"    toSCAttb="contractId"/>
+	                <Pair DOAttb="START_DT"    toSCAttb="startDate"/>
+					 <Pair DOAttb="MINOR_HEADING"    toSCAttb="minorHeadingId"/>
+	            </DoAttributeToSCAttributeMap>
+	        </DataObject>
+	    </DataSource>
+	</BusinessObjectMetadata>	
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.migration.bo.MigrationReportGeneration">
+		<BusinessAttribute name="legacyContractId"			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="majorHeading" 				type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="minorHeading" 				type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="contractVariable" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="contractVariableText" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="providerArrangement" 		type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="contractVariableFormat"	type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="contractVariableValue" 	type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="startDate" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="mappedVariableList" 		type="List"			keyAttrib="false"/>
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="legacyContractId" 	type="String"/>
+			<SearchCriteriaAttribute name="startDate" 			type="String"/>
+			<SearchCriteriaAttribute name="mappedVariableList" 	type="List"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+			<SelectSQLQuery name="locateUnmappedVariables">
+				select 
+					MAJOR_HEADING.MAJOR_TEXT,MINOR_HEADING.MINOR_TEXT,CONTRACT_DETAIL.CONTRACT_VAR,
+					CONTVAR.CONT_VAR_TX,CONTVAR.PROV_ARNG,CONTVAR.CONTRACT_VAR_FORMAT,VARSEG.VAR_VALUE
+				from 
+				CONTRACT_DETAIL,MAJOR_HEADING,MINOR_HEADING,CONTVAR,VARSEG
+				where 
+				CONTRACT_DETAIL.MAJOR_HEADING = MAJOR_HEADING.MAJOR_HEADING and
+				CONTRACT_DETAIL.MINOR_HEADING = MINOR_HEADING.MINOR_HEADING and
+				MAJOR_HEADING.BENEFIT_STRUCTURE =  (SELECT BENEFIT_STRUCTURE FROM CONTRACT WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy'))and
+				MINOR_HEADING.BENEFIT_STRUCTURE = (SELECT BENEFIT_STRUCTURE FROM CONTRACT WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')) and
+				CONTRACT_DETAIL.BENEFIT_STRUCTURE = (SELECT BENEFIT_STRUCTURE FROM CONTRACT WHERE CONTRACT = {0} AND START_DT = to_date({1},'mm/dd/yyyy')) and
+				CONTRACT_DETAIL.CONTRACT_VAR = CONTVAR.CONTRACT_VAR and
+				VARSEG.CONTRACT_VAR = CONTVAR.CONTRACT_VAR and
+				VARSEG.CONTRACT = {0} and
+				VARSEG.START_DT = to_date({1},'mm/dd/yyyy')and
+				VARSEG.CONTRACT_VAR NOT {2} order by MAJOR_HEADING.DISPLAY_SEQUENCE, MINOR_HEADING.DISPLAY_SEQUENCE,CONTRACT_DETAIL.CONTRACT_VAR
+			</SelectSQLQuery>
+			<DataObject name="CONTRACT_DETAIL">
+			    <DataObjectAttribute name="CONTRACT_VAR" type="String"/>
+			    <SQLTemplate transType="select">					
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName = "CONTRACT_VAR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateUnmappedVariables"/>
+			    </SQLTemplate>			    
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="CONTRACT_VAR"  toBOAttb="contractVariable"/>							       
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="MAJOR_HEADING">
+				<DataObjectAttribute name="MAJOR_TEXT" 	 type="String"/>
+			    <SQLTemplate transType="select">					
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName = "MAJOR_TEXT"/>			            
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateUnmappedVariables"/>
+			    </SQLTemplate>		
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="MAJOR_TEXT"  toBOAttb="majorHeading"/>							       
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="MINOR_HEADING">
+				<DataObjectAttribute name="MINOR_TEXT" 	 type="String"/>
+			    <SQLTemplate transType="select">					
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName = "MINOR_TEXT"/>			            
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateUnmappedVariables"/>
+			    </SQLTemplate>		
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="MINOR_TEXT"  toBOAttb="minorHeading"/>							       
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>			
+			<DataObject name="CONTVAR">
+				<DataObjectAttribute name="CONT_VAR_TX" 	 		type="String"/>
+				<DataObjectAttribute name="PROV_ARNG" 	 			type="String"/>
+				<DataObjectAttribute name="CONTRACT_VAR_FORMAT" 	type="String"/>
+			    <SQLTemplate transType="select">					
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="3" dataObjectAttribName = "CONT_VAR_TX"/>			            
+						<ResultIndex index="4" dataObjectAttribName = "PROV_ARNG"/>			            
+						<ResultIndex index="5" dataObjectAttribName = "CONTRACT_VAR_FORMAT"/>			            
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateUnmappedVariables"/>
+			    </SQLTemplate>		
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="CONT_VAR_TX"  		toBOAttb="contractVariableText"/>							       
+					<Pair DOAttb="PROV_ARNG"  			toBOAttb="providerArrangement"/>	
+					<Pair DOAttb="CONTRACT_VAR_FORMAT"  toBOAttb="contractVariableFormat"/>	
+			    </DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="VARSEG">
+				<DataObjectAttribute name="VAR_VALUE" 	 type="String"/>
+				<DataObjectAttribute name="CONTRACT" 	 type="String"/>
+				<DataObjectAttribute name="START_DT" 	 type="String"/>
+				<DataObjectAttribute name="CONTRACT_VAR" type="String"/>
+			    <SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="CONTRACT"/>
+					<DataObjectAttributeInput index="1" name="START_DT"/>
+					<DataObjectAttributeInput index="2" name="CONTRACT_VAR"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="6" dataObjectAttribName = "VAR_VALUE"/>			            
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateUnmappedVariables"/>
+			    </SQLTemplate>						
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="VAR_VALUE" 	toBOAttb="contractVariableValue"/>							       
+					<Pair DOAttb="CONTRACT"  	toBOAttb="legacyContractId"/>	
+					<Pair DOAttb="START_DT"  	toBOAttb="startDate"/>	
+					<Pair DOAttb="CONTRACT_VAR" toBOAttb="mappedVariableList"/>	
+			    </DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CONTRACT"  	toSCAttb="legacyContractId"/>
+			        <Pair DOAttb="START_DT"  	toSCAttb="startDate"/>
+			        <Pair DOAttb="CONTRACT_VAR" toSCAttb="mappedVariableList"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>	
+		</DataSource>
+</BusinessObjectMetadata>
+
+
+
+
+<!--
+	=====================================Template================================================
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.legacycontract.bo.CP2000ContractLock">
+		<BusinessAttribute name="" 			type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date"			keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date"			keyAttrib="false"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbLg</jndi>
+			</Connection>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+	=============================================================================================	
+			        <Pair DOAttb="CREATION_USERID"  	toBOAttb="createdUser"/>
+			        <Pair DOAttb="LAST_UPDATED_USERID"  toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LAST_UPDATED_DT"    	toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATION_DT"    		toBOAttb="createdTimestamp"/>
+	=============================================================================================
+			        <SearchQueryName name="getAllDateSegments"/>	
+	=============================================================================================
+-->	
+
+</Metadata>

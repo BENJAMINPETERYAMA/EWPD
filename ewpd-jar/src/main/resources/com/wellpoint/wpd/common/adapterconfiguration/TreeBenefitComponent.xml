@@ -1,0 +1,249 @@
+<Metadata> 
+		<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.tree.bo.TreeBenefitComponent">
+		<BusinessAttribute name="benefitComponentId" 	 			type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitId" 	 					type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="benefitName" 	 					type="String" 	keyAttrib="false"/>
+		
+		
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="benefitComponentId" 	type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			<SelectSQLQuery name="retrieveByBenefitComponent">
+			
+				select BNFT_ID_NM,b.BNFT_SYS_ID from BMST_BNFT_MSTR a,BNFT_CMPNT_HRCHY_ASSN b where a.BNFT_SYS_ID = b.BNFT_SYS_ID and 
+				BNFT_CMPNT_SYS_ID ={0} order by b.SQNC_NBR asc
+
+			</SelectSQLQuery>
+
+
+			<DataObject name="BNFT_CMPNT_HRCHY_ASSN ">
+					<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 	type="Int"/>
+					<DataObjectAttribute name="BNFT_SYS_ID" 	type="Int"/>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>	
+					
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByBenefitComponent"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BNFT_SYS_ID" 	toBOAttb="benefitId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="BNFT_CMPNT_SYS_ID" toSCAttb = "benefitComponentId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="BMST_BNFT_MSTR ">
+					<DataObjectAttribute name="BNFT_ID_NM" 	type="String"/>
+					<DataObjectAttribute name="BNFT_SYS_ID" 	type="Int"/>
+				<SQLTemplate transType="select">
+									
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_SYS_ID"/>
+						
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByBenefitComponent"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BNFT_ID_NM" 	toBOAttb="benefitName"/>
+					<Pair DOAttb="BNFT_SYS_ID" 	toBOAttb="benefitId"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.tree.bo.TreeBenefitAdministration">
+		<BusinessAttribute name="standardBenefitId" 	   type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitAdministrationId"      type="Int" 	    keyAttrib="true"/>
+		<BusinessAttribute name="effectiveDate" 		   type="String" 	    keyAttrib="false"/>
+		<BusinessAttribute name="expiryDate" 			   type="String" 	    keyAttrib="false"/>
+		
+		
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="standardBenefitId" 	type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 	type="Int"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			<SelectSQLQuery name="retrieveByStandardBenefit">
+				select b.BNFT_ADMIN_SYS_ID, to_char(b.BNFT_ADMIN_EFCTV_DT,'mm/dd/yyyy'), to_char(b.BNFT_ADMIN_EXPIRY_DT,'mm/dd/yyyy') 
+				from BDM_BNFT_DEFN_MSTR a, BNFT_ADMNSTRN_ASSN b 
+				where a.BNFT_DEFN_SYS_ID in (select D.BNFT_DEFN_SYS_ID 
+											  from BDM_BNFT_DEFN_MSTR D, BCM_BNFT_CMPNT_MSTR G 
+											  where D.BNFT_SYS_ID = {0}
+											  AND TRUNC(G.BNFT_CMPNT_EFCTV_DT) >= TRUNC(D.BNFT_DEFN_EFCTV_DT)
+											  AND TRUNC(D.BNFT_DEFN_EXPIRY_DT) >= TRUNC(G.BNFT_CMPNT_EXPIRY_DT)	
+											  AND G.BNFT_CMPNT_SYS_ID = {1}
+										   )
+				and a.BNFT_DEFN_SYS_ID = b.BNFT_DEFN_SYS_ID
+				and a.BNFT_SYS_ID = {0} order by b.BNFT_ADMIN_EFCTV_DT asc
+	
+			</SelectSQLQuery>
+			<DataObject name="BDM_BNFT_DEFN_MSTR">
+					<DataObjectAttribute name="BNFT_SYS_ID" 	type="Int"/>
+					<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 	type="Int"/>
+					<DataObjectAttribute name="BNFT_COMP_SYS_ID" 	type="Int"/>
+					
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_COMP_SYS_ID"/>					
+					<SearchQueryName name="retrieveByStandardBenefit"/>
+				</SQLTemplate>
+
+				<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="BNFT_SYS_ID" toSCAttb = "standardBenefitId"/>
+					<Pair DOAttb="BNFT_COMP_SYS_ID" toSCAttb = "benefitComponentId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject> 
+
+			<DataObject name="BNFT_ADMNSTRN_ASSN">
+					<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 			type="Int"/>
+					<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 			type="Int"/>
+					<DataObjectAttribute name="BNFT_ADMIN_EFCTV_DT" 		type="String"/>
+					<DataObjectAttribute name="BNFT_ADMIN_EXPIRY_DT" 		type="String"/>
+				<SQLTemplate transType="select">					
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_EFCTV_DT"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_ADMIN_EXPIRY_DT"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByStandardBenefit"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_ADMIN_SYS_ID"		toBOAttb="benefitAdministrationId"/>
+						<Pair DOAttb="BNFT_ADMIN_EFCTV_DT"		toBOAttb="effectiveDate"/>
+						<Pair DOAttb="BNFT_ADMIN_EXPIRY_DT"		toBOAttb="expiryDate"/>
+				</DoAttributeToBOAttributeMap>				
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitcomponent.tree.bo.TreeAdminLevels">
+		<BusinessAttribute name="benefitAdministrationId" 	   type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionId"      			type="Int" 	    keyAttrib="true"/>
+		<BusinessAttribute name="adminLevelType" 		 	  type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionDesc"            type="String"  keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionAssnId"            type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="entitySysId"            type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId"            type="Int"  keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber"            type="Int"  keyAttrib="false"/>
+		
+		<SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="administrationId"	type="Int"/>
+	  		<SearchCriteriaAttribute name="adminLevelType"	type="Int"/>
+			<SearchCriteriaAttribute name="entitySysId"	type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId"	type="Int"/>
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			<SelectSQLQuery name="retrieveByAdministrationIdForBenefit">
+				select distinct 
+				a.ADMIN_OPT_SYS_ID,b.admin_opt_desc_txt,a.admin_lvl_opt_assn_sys_id,a.SQNC_NBR
+				from bnft_admin_to_lvl_assn a , admin_opt_mstr b,
+				blvl_bnft_lvl c,BNFT_CMPNT_ADMN_OPT_CUSTM e
+				where a.bnft_admin_sys_id = {0} and e.ADMIN_LVL_OPT_ASSN_SYS_ID = a.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+				 b.admin_opt_sys_id = a.admin_opt_sys_id and
+				 a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and a.ADMIN_LVL_SYS_ID =2
+				and e.ADMIN_OPTION_HIDE_FLAG ='F' and e.BNFT_CMPNT_SYS_ID ={1}
+				order by a.SQNC_NBR
+			</SelectSQLQuery>
+			<SelectSQLQuery name="retrieveByAdministrationIdForBenefitLevel">
+				select distinct 
+				a.ADMIN_OPT_SYS_ID,b.admin_opt_desc_txt,a.admin_lvl_opt_assn_sys_id,a.SQNC_NBR
+				from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,BNFT_CMPNT_ADMN_OPT_CUSTM e
+				where a.bnft_admin_sys_id = {0} and e.ADMIN_LVL_OPT_ASSN_SYS_ID = a.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+				b.admin_opt_sys_id = a.admin_opt_sys_id and
+				d.admin_lvl_sys_id = a.admin_lvl_sys_id and a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and a.ADMIN_LVL_SYS_ID=1 
+				and e.BNFT_CMPNT_SYS_ID = {1}
+				and a.BLVL_BNFT_LVL_ID in (select BLVL_BNFT_LVL_ID from BNFT_CMPNT_BNFT_CSTMZD where 
+				BNFT_LVL_HIDE_FLAG = 'F' and BNFT_CMPNT_SYS_ID =  {2}) and e.ADMIN_OPTION_HIDE_FLAG ='F' 
+				order by a.SQNC_NBR
+			</SelectSQLQuery>
+			<DataObject name="BNFT_ADMIN_TO_LVL_ASSN">
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_LVL_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ENTY_SYS_ID" 			type="Int" />
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 		type="Int" />
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>	
+						<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>	
+						<RSIndexToDOAttributeMap>
+						<ResultIndex index="2"
+							dataObjectAttribName="ADMIN_LVL_OPT_ASSN_SYS_ID" />
+					     </RSIndexToDOAttributeMap>			
+					<SearchQueryName name="retrieveByAdministrationIdForBenefitLevel"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>	
+
+
+						<RSIndexToDOAttributeMap>
+						<ResultIndex index="2"
+							dataObjectAttribName="ADMIN_LVL_OPT_ASSN_SYS_ID" />
+					     </RSIndexToDOAttributeMap>			
+					<SearchQueryName name="retrieveByAdministrationIdForBenefit"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"
+						toBOAttb="adminOptionAssnId" />					
+				    </DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+	  				<Pair DOAttb="BNFT_ADMIN_SYS_ID" 	toSCAttb="administrationId"/>
+					<Pair DOAttb="ADMIN_LVL_SYS_ID" 	toSCAttb="adminLevelType"/>
+					<Pair DOAttb="ENTY_SYS_ID" 	toSCAttb="entitySysId"/>
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+	  			</DoAttributeToSCAttributeMap>
+			</DataObject> 
+
+			<DataObject name="ADMIN_OPT_MSTR">
+					<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 			type="Int"/>
+					<DataObjectAttribute name="ADMIN_OPT_DESC_TXT" 			type="String"/>
+					<DataObjectAttribute name="SQNC_NBR" 		type="Int" />					
+
+				<SQLTemplate transType="select">					
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="3" dataObjectAttribName ="SQNC_NBR"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByAdministrationIdForBenefitLevel"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">					
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+							<ResultIndex index="3" dataObjectAttribName ="SQNC_NBR"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByAdministrationIdForBenefit"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"		toBOAttb="adminOptionId"/>
+						<Pair DOAttb="ADMIN_OPT_DESC_TXT"		toBOAttb="adminOptionDesc"/>
+						<Pair DOAttb="SQNC_NBR" toBOAttb="sequenceNumber" />
+				</DoAttributeToBOAttributeMap>				
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+</Metadata>

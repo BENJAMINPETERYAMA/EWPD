@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\contract\builder
+2
+5
+22:ContractBusinessObjectBuilder.java|1|16adf95c2f8|44268|cecde10|5c3176272ae44f119e52facea858939a|0
+18:ContractTreeBuilder.java|1|16adf95c384|1118|31b1cd89|99fd9fb5d3694dc997e8d1f11a0f036d|0
+22:ContractBusinessServiceHelper.java|1|16adf95bb1b|2b0d|e364b14b|c12f32ba65df41b5beed0a12b33d7fbc|0
+21:ContractRuleValidationHelper.java|1|16adf95c1df|656|1a731f29|4a4b81788325443a8315ee270cf21b68|0
+19:ContractModelBuilder.java|1|16adf95c3b3|9f86|fbc2e873|b5a026e69f70410b9eb0932b6d9ea0a3|0

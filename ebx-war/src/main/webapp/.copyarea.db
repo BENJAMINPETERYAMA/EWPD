@@ -1,0 +1,20 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp
+2
+10
+7:WEB-INF|2|0|0|0|4e630378966c45dd9f4cdbc38afab3b6|0
+f:ewpdBXindex.jsp|1|16b935e77d3|171|a7197822|6504a7844c4d46bb993096afce44bf29|0
+9:index.jsp|1|16b935e77a4|70|94d526f6|1660adffad4d413b80a52d39354e9ec2|0
+17:page-internal-error.jsp|1|16b935e7b0e|299|fde6ca05|c978cda074dc4df2a1196941c65d5664|0
+13:simulationindex.jsp|1|16b935e7840|180|20a27e3d|ca4b1cf5b51d41e89213003cf93e2015|0
+2:js|2|0|0|0|1d7876c0764511e980380002c056e04b|0
+a:logout.jsp|1|16b935e77d3|2cb|14fedd27|394f949ec9af4f0dbbbadd5c5dbf445d|0
+12:page-not-found.jsp|1|16b935e7ac0|297|f224c8a9|423c47a3432941668e7a56355c95ad71|0
+19:RapidSpellModalHelper.jsp|1|16b935e7a81|1f9|b94f9428|6d4442b607a742c2aa3f11fe08187190|0
+6:config|2|0|0|0|993bd66b02834efaa901e1a8203abcc1|0
+6:images|2|0|0|0|841c7ad704b24c2eaa697dbef00be103|0
+e:wpdBXindex.jsp|1|16b935e7840|16f|a9e67735|273c9ab89fb4447cb0bb332add37080e|0
+1b:CustomSpellCheckerPopUp.jsp|1|16b935e77a4|124b|38d2cd09|61d03852afdf4dce960cd99e75ccb4ad|0
+12:sessionExpired.jsp|1|16b935e7821|299|d64acb3e|ef171e33ee1940609d628d211220fc42|0
+3:css|2|0|0|0|9ff7a4f602a043bda4a24843f53d127b|0
+8:META-INF|2|0|0|0|26a1d84881734ab0a72c2a04d313412d|0

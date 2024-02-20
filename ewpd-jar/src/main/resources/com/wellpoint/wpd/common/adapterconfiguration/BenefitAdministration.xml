@@ -1,0 +1,265 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.BenefitAdministrationBO">
+	
+		<BusinessAttribute name="benefitAdministrationKey"	type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="effectiveDate"				type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="expiryDate"				type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="description"				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitDefinitionKey"		type="Int"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"			type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"		type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="effectiveDateStandDef" 		   type="String" 	    keyAttrib="false"/>
+		<BusinessAttribute name="expiryDateStandDef" 			   type="String" 	    keyAttrib="false"/>
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="benefitDefinitionKey" 	type="Int"/>	
+			<SearchCriteriaAttribute name="effectiveDate" 	 		type="Date"/>	
+			<SearchCriteriaAttribute name="expiryDate" 	 			type="Date"/>	
+			<SearchCriteriaAttribute name="benefitAdministrationKey"	type="Int"/>
+			<SearchCriteriaAttribute name="standardBenefitKey"	type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId"	type="Int"/>
+			<SearchCriteriaAttribute name="benefitAdministrationKeysForDelete"	type="String"/>
+
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+					select BNFT_ADMIN_SYS_ID, BNFT_DEFN_SYS_ID, BNFT_ADMIN_EFCTV_DT, BNFT_ADMIN_EXPIRY_DT, BNFT_ADMIN_DESC_TXT, LST_CHG_TMS,
+							LST_CHG_USR, CREATD_USER_ID, CREATD_TM_STMP
+							 from BNFT_ADMNSTRN_ASSN where BNFT_ADMIN_SYS_ID = ?
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitAdministration">
+				select BNFT_ADMIN_SYS_ID, BNFT_DEFN_SYS_ID, BNFT_ADMIN_EFCTV_DT, BNFT_ADMIN_EXPIRY_DT, 
+					BNFT_ADMIN_DESC_TXT, LST_CHG_TMS, LST_CHG_USR, CREATD_USER_ID, CREATD_TM_STMP
+ 						from BNFT_ADMNSTRN_ASSN where BNFT_DEFN_SYS_ID = {0} order by BNFT_ADMIN_EFCTV_DT asc
+			</SelectSQLQuery>
+			<SelectSQLQuery name="validateDateRange">
+				select BNFT_ADMIN_SYS_ID, BNFT_ADMIN_EFCTV_DT, BNFT_ADMIN_EXPIRY_DT from BNFT_ADMNSTRN_ASSN where 
+							((to_date({1}, 'mm/dd/yyyy') &lt;= BNFT_ADMIN_EFCTV_DT and
+						   		to_date({2}, 'mm/dd/yyyy') &gt;= BNFT_ADMIN_EFCTV_DT) or	   
+						   			(to_date({1}, 'mm/dd/yyyy') &lt;= BNFT_ADMIN_EXPIRY_DT and
+								   		to_date({2}, 'mm/dd/yyyy') &gt;= BNFT_ADMIN_EXPIRY_DT ) or
+											(to_date({1}, 'mm/dd/yyyy') &gt;= BNFT_ADMIN_EFCTV_DT and
+												to_date({2}, 'mm/dd/yyyy') &lt;= BNFT_ADMIN_EXPIRY_DT)) and 
+													BNFT_DEFN_SYS_ID = {0} and BNFT_ADMIN_SYS_ID not in {3}	
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getBenefitAdministration">
+				select c.BNFT_ADMIN_SYS_ID,to_char(c.BNFT_ADMIN_EFCTV_DT,'mm/dd/yyyy'),to_char( c.BNFT_ADMIN_EXPIRY_DT,'mm/dd/yyyy'),b.BNFT_DEFN_SYS_ID from BMST_BNFT_MSTR a,BDM_BNFT_DEFN_MSTR b,BNFT_ADMNSTRN_ASSN c where
+				a.BNFT_SYS_ID = b.BNFT_SYS_ID and b.BNFT_DEFN_SYS_ID = c.BNFT_DEFN_SYS_ID and a.BNFT_SYS_ID = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getBenefitAdministrationFromBC">
+				select c.BNFT_ADMIN_SYS_ID,to_char(c.BNFT_ADMIN_EFCTV_DT,'mm/dd/yyyy'),to_char( c.BNFT_ADMIN_EXPIRY_DT,'mm/dd/yyyy'),b.BNFT_DEFN_SYS_ID 
+				from BMST_BNFT_MSTR a,BDM_BNFT_DEFN_MSTR b,BNFT_ADMNSTRN_ASSN c ,BCM_BNFT_CMPNT_MSTR z 
+				where a.BNFT_SYS_ID = {0} and z.BNFT_CMPNT_SYS_ID = {1} and a.BNFT_SYS_ID = b.BNFT_SYS_ID 
+				and b.BNFT_DEFN_SYS_ID = c.BNFT_DEFN_SYS_ID and TRUNC(z.BNFT_CMPNT_EFCTV_DT) >= TRUNC(b.BNFT_DEFN_EFCTV_DT)	AND TRUNC(b.BNFT_DEFN_EXPIRY_DT) >= TRUNC(z.BNFT_CMPNT_EXPIRY_DT)
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitAdministrationDelete">
+				CALL DELETE_BENEFIT_ADMINISTRATIONS({0}, {1}, {2})
+			</SelectSQLQuery>
+			<DataObject name="BNFT_ADMNSTRN_ASSN">
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_EFCTV_DT" 	type="Date"/>
+				<DataObjectAttribute name="BNFT_ADMIN_EXPIRY_DT" 	type="Date"/>
+				<DataObjectAttribute name="BNFT_ADMIN_DESC_TXT" 	type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_EFCTV_DT" 		type="String"/>
+				<DataObjectAttribute name="BNFT_DEFN_EXPIRY_DT" 	type="String"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_IDS_DELETE" 	type="String"/>
+
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into BNFT_ADMNSTRN_ASSN 
+							(BNFT_ADMIN_SYS_ID, BNFT_DEFN_SYS_ID, BNFT_ADMIN_EFCTV_DT, BNFT_ADMIN_EXPIRY_DT, BNFT_ADMIN_DESC_TXT, LST_CHG_TMS,LST_CHG_USR, CREATD_USER_ID, CREATD_TM_STMP)
+							values (?,?,?,?,?,?,?,?,?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_DEFN_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_ADMIN_EFCTV_DT"/>
+					<DataObjectAttributeInput index="3" name="BNFT_ADMIN_EXPIRY_DT"/>
+					<DataObjectAttributeInput index="4" name="BNFT_ADMIN_DESC_TXT"/>
+					<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+				</SQLTemplate>				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_ADMIN_EFCTV_DT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_ADMIN_EXPIRY_DT"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_ADMIN_DESC_TXT"/>
+						<ResultIndex index="5" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>
+						
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_ADMIN_EFCTV_DT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_ADMIN_EXPIRY_DT"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_ADMIN_DESC_TXT"/>
+						<ResultIndex index="5" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_TM_STMP"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_EFCTV_DT"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DEFN_EXPIRY_DT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitAdministration"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_CMPNT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_DEFN_EFCTV_DT"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DEFN_EXPIRY_DT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_DEFN_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getBenefitAdministrationFromBC"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+					<SQLQuery>
+							
+							update BNFT_ADMNSTRN_ASSN SET BNFT_ADMIN_EFCTV_DT =?, BNFT_ADMIN_EXPIRY_DT = ?, BNFT_ADMIN_DESC_TXT = ?, LST_CHG_TMS = ?, LST_CHG_USR = ?
+								where BNFT_ADMIN_SYS_ID =?
+								
+					</SQLQuery>
+					
+						<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_EFCTV_DT"/>
+						<DataObjectAttributeInput index="1" name ="BNFT_ADMIN_EXPIRY_DT"/>
+						<DataObjectAttributeInput index="2" name ="BNFT_ADMIN_DESC_TXT"/>
+						<DataObjectAttributeInput index="3" name ="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="4" name ="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name ="BNFT_ADMIN_SYS_ID"/>
+					
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from BNFT_ADMNSTRN_ASSN where BNFT_ADMIN_SYS_ID =?
+					</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>	
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_DEFN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="BNFT_ADMIN_EFCTV_DT"/>
+					<DataObjectAttributeInput index="2" name="BNFT_ADMIN_EXPIRY_DT"/>
+					<DataObjectAttributeInput index="3" name="BNFT_ADMIN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="1"  dataObjectAttribName ="BNFT_ADMIN_EFCTV_DT"/>
+						<ResultIndex index="2"  dataObjectAttribName ="BNFT_ADMIN_EXPIRY_DT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="validateDateRange"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_IDS_DELETE"/>
+					<DataObjectAttributeInput index="1" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitAdministrationDelete"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_ADMIN_SYS_ID"		toBOAttb="benefitAdministrationKey"/>
+						<Pair DOAttb="BNFT_DEFN_SYS_ID"			toBOAttb="benefitDefinitionKey"/>
+						<Pair DOAttb="BNFT_ADMIN_EFCTV_DT"		toBOAttb="effectiveDate"/>
+						<Pair DOAttb="BNFT_ADMIN_EXPIRY_DT"		toBOAttb="expiryDate"/>
+						<Pair DOAttb="BNFT_ADMIN_DESC_TXT"		toBOAttb="description"/>
+						<Pair DOAttb="LST_CHG_TMS"				toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"				toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="CREATD_USER_ID"			toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"			toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="BNFT_DEFN_EFCTV_DT"			toBOAttb="effectiveDateStandDef"/>
+						<Pair DOAttb="BNFT_DEFN_EXPIRY_DT"			toBOAttb="expiryDateStandDef"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_DEFN_SYS_ID" 	toSCAttb="benefitDefinitionKey"/>
+						<Pair DOAttb="BNFT_ADMIN_EFCTV_DT" 	toSCAttb="effectiveDate"/>
+						<Pair DOAttb="BNFT_ADMIN_EXPIRY_DT" 	toSCAttb="expiryDate"/>
+						<Pair DOAttb="BNFT_ADMIN_SYS_ID" 	toSCAttb="benefitAdministrationKey"/>
+						<Pair DOAttb="BNFT_SYS_ID" 	toSCAttb="standardBenefitKey"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID" 	toSCAttb="benefitComponentId"/>
+						<Pair DOAttb="BNFT_ADMIN_SYS_IDS_DELETE" 	toSCAttb="benefitAdministrationKeysForDelete"/>
+
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+		<DataObject name="BNFT_ADMIN_TO_LVL_ASSN">
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 		type="Int"/>
+							
+				<SQLTemplate transType="select">
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+				</SQLTemplate>
+			
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from BNFT_ADMIN_TO_LVL_ASSN where BNFT_ADMIN_SYS_ID=?
+					</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>	
+				</SQLTemplate>
+				
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_ADMIN_SYS_ID"			toBOAttb="benefitAdministrationKey"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+
+			<DataObject name="BNFT_ADMIN_OPT_QSTN_ASSN">
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 		type="Int"/>
+											
+				<SQLTemplate transType="select">
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+				</SQLTemplate>
+			
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from BNFT_ADMIN_OPT_QSTN_ASSN where ADMIN_LVL_OPT_ASSN_SYS_ID in( select ADMIN_LVL_OPT_ASSN_SYS_ID from BNFT_ADMIN_TO_LVL_ASSN where
+							BNFT_ADMIN_SYS_ID= ?)
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>	
+
+				</SQLTemplate>
+	
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_ADMIN_SYS_ID"	toBOAttb="benefitAdministrationKey"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>		
+
+	</BusinessObjectMetadata>
+</Metadata>
+

@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\pva
+2
+5
+18:PVAvalidationResult.java|1|16adf97c385|2b6|1e3ddf9c|dba3f1c409564b22ab648cd711babada|0
+1a:ProductLineUpdationBO.java|1|16adf97c318|2a7|9172d04a|263ec88ec1b7445fb39030c2e90429a7|0
+14:InvalidLineInfo.java|1|16adf97cb42|a6e|33ef40aa|64f0c4ce89484c279f0eb74eeabb6298|0
+f:PVAMapping.java|1|16adf97c318|518|b7269461|a64c311bcdef42b1be90c6cc58faac41|0
+23:ProductStructureLineUpdationBO.java|1|16adf97c327|446|83265bb7|4c7beb3eafca498a9727b1e3d40ba3e1|0

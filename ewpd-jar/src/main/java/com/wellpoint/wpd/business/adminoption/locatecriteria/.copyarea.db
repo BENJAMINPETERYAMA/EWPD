@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\adminoption\locatecriteria
+2
+4
+25:ChildQuestionnaireLocateCriteria.java|1|16adf95a4be|67f|25011f8f|9eba63ba6fbd4270b2bd5bc66e0d15f8|0
+1e:AdminOptionLocateCriteria.java|1|16adf95a48f|10bf|2bfb0c1d|ba9369cafa844758a0c8c9e855f74df9|0
+24:RootQuestionnaireLocateCriteria.java|1|16adf95a55a|48a|f00d8c08|7624bec9da0f469aae90fe811c79dbd0|0
+26:AdminOptionQuestionLocateCriteria.java|1|16adf95a470|72e|94dc37f6|e9335229c547465d96fb920926efd919|0

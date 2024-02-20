@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\notes
+2
+5
+1c:NotesCompareBackingBean.java|1|16adf9834f4|9184|7395f39|ed85602174c5452d8b77774f12ba7030|0
+1b:NotesSearchBackingBean.java|1|16adf983513|51d7|6ec2f56f|62bc13ac5cf34c288079cf07b1f14a4a|0
+1f:NotesAttachmentBackingBean.java|1|16adf9834c5|8c37|eef8321f|b5fbcc2e810f43278c30ef9fcfec1e35|0
+15:NotesBackingBean.java|1|16adf9834c5|1dd28|fa9de68f|cd6d1d48f0f64f6abba9e867873658c5|0
+21:ViewAttachedNotesBackingBean.java|1|16adf983504|1835|e878bfd7|dd4d8225633a459d9b80bdfeeebe59ed|0

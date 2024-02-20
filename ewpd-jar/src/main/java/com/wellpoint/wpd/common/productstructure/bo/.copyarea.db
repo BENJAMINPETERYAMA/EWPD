@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\productstructure\bo
+2
+d
+17:ProductStructureBO.java|1|16adf97aa0c|2e19|e8a596fa|204e9a86b2154e1dbbc16d0e873ca1f6|0
+26:ProductStructureAssociatedBenefit.java|1|16adf97a9ae|1748|70387746|5d9bb69ae3df47a49240fadc4e5f9420|0
+24:EntityBenefitAdministrationPSBO.java|1|16adf97a886|170a|eec891b6|af373422133a48978e944acc6fa6134a|0
+27:ProductStructureBenefitDefinitions.java|1|16adf97a9ed|7a2|6b105492|b6f419fe20464c9483be9ee341f9a469|0
+1e:ProductStructureComponent.java|1|16adf97ae12|7e2|e47a6317|554fbae43b074841b170c1f85385a5b6|0
+14:HideAdminOption.java|1|16adf97a912|2dc3|e6f2df81|c5588d5b59cd4bff9079adba9e2b9a1e|0
+2c:ProductStructureBenefitAdministrationBO.java|1|16adf97a98f|f2f|745804f9|0552a64c8752460687b1fb96a2e108c5|0
+2f:ProductStructureAssociatedBenefitComponent.java|1|16adf97b5fe|238b|e70e60e6|33e957dbde37481dae4f8c7b9a859ff4|0
+28:ProductStructureAssociatedComponent.java|1|16adf97ade3|abf|3654536a|1c678d6d3657494f838ba62abb32c335|0
+2a:ProductStructureBenefitAdministration.java|1|16adf97a980|19bc|a1718ded|4ef6d5283b6641f88fed99d8729635c6|0
+24:ProductStructureQuestionnaireBO.java|1|16adf97ae50|2073|30415672|20c633c7e4b04c4ea6b77730e60c2cb1|0
+f:MandatesBO.java|1|16adf97a912|100e|1dd29a10|fd2877ed07344d3cb4ac455ba47703bb|0
+26:ProductStructureBenefitDefinition.java|1|16adf97aa0c|1434|2a2be752|59b0d8bda95549adb52600d671263e2c|0

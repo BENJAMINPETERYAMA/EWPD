@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+       <bean  name="jsonView" class="com.wellpoint.ets.bx.mapping.web.JsonView"  />
+       
+       <bean id= "isgPdfReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportPdfView" >
+       		<property name = "url" value = "/WEB-INF/reports/wpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       		<property name="subReportUrls">
+				<map>
+					 <entry key="wpdSubReport" value="/WEB-INF/reports/wpdReport_subreport0.jasper"/>  
+					
+				</map>
+			</property>
+       		
+       	</bean>
+       
+       <bean id= "wpdPdfReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportPdfView" >
+       		<property name = "url" value = "/WEB-INF/reports/wpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       		<property name="subReportUrls">
+				<map>
+					 <entry key="wpdSubReport" value="/WEB-INF/reports/wpdReport_subreport0.jasper"/>  
+					
+				</map>
+			</property>
+       		
+       	</bean>
+       	
+       	<bean id= "ewpdPdfReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportPdfView" >
+       		<property name = "url" value = "/WEB-INF/reports/ewpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       		</bean>
+       
+       <bean id= "wpdTextReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportsTextView" >
+       		<property name = "url" value = "/WEB-INF/reports/wpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       		<property name="subReportUrls">
+				<map>
+					 <entry key="wpdSubReport" value="/WEB-INF/reports/wpdReport_subreport0.jasper"/>  
+					
+				</map>
+			</property>
+       		
+       	</bean>
+       	<bean id= "isgTextReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportsTextView" >
+       		<property name = "url" value = "/WEB-INF/reports/wpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       		<property name="subReportUrls">
+				<map>
+					 <entry key="wpdSubReport" value="/WEB-INF/reports/wpdReport_subreport0.jasper"/>  
+					
+				</map>
+			</property>
+       		
+       	</bean>
+       	<bean id= "ewpdTextReport" class="com.wellpoint.ets.ebx.mapping.web.view.JasperReportsTextView" >
+       		<property name = "url" value = "/WEB-INF/reports/ewpdReport.jasper"></property>
+       		<property name = "reportDataKey" value = "contractDataSource"></property>
+       		
+       	</bean>
+       	
+ </beans>

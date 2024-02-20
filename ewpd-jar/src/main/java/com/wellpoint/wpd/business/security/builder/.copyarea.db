@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\security\builder
+2
+5
+16:ModuleTreeBuilder.java|1|16adf96091b|64a|261a1dca|19b4dc6f3c824fd7a6f5f6ab0a27af4e|0
+1e:TaskBusinessObjectBuilder.java|1|16adf960979|b84c|c4a5cb24|df9a87a2dc0046ff896840f789252a5b|0
+20:ModuleBusinessObjectBuilder.java|1|16adf96092b|dafd|12dced40|8806f884f735495881ea54943fe911dd|0
+14:RoleTreeBuilder.java|1|16adf960979|87c|9b8fc936|88eac152d12a47798221b59c3bae6462|0
+1e:RoleBusinessObjectBuilder.java|1|16adf960989|15cdd|1e7b0840|f713650f7cab46bebc78a3744c7815d2|0

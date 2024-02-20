@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\catalog
+2
+2
+17:CatalogBackingBean.java|1|16adf9825b8|68ac|23aa3960|f58a560cc0444b11bbda0c448daa2553|0
+1d:CatalogSearchBackingBean.java|1|16adf9825a8|2c40|c99445b|8f6e21544ee34353aec299231c1c900f|0

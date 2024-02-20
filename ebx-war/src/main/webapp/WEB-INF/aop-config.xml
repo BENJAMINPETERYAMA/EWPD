@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="txManager"
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dfAdvisor"
+	class="com.wellpoint.ets.bx.mapping.aop.DataFeedRunningAdvice">
+	<property name="securityService" ref="securityService"></property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+	    <!-- the transactional semantics... -->
+		<tx:attributes>
+	      <!-- all methods starting with 'get' are read-only -->
+			<tx:method name="view*" read-only="true" />
+			<tx:method name="retreive*" read-only="true" />
+			<tx:method name="is*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+	      <!-- other methods use the default transaction settings (see below) -->
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut id="fecadePoitCut"
+			expression="execution(* com.wellpoint.ets.bx.mapping.application.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="fecadePoitCut" />	
+	
+	<aop:aspect ref="dfAdvisor">
+		<aop:pointcut id="dataFeedRunningStatusPointcut"	
+		expression= "execution(* com.wellpoint.ets.bx.mapping.domain.service.StateTransitionService.*(..))
+		and !execution(* com.wellpoint.ets.bx.mapping.domain.service.StateTransitionService.publishMapping*(..))
+		and !execution(* com.wellpoint.ets.bx.mapping.domain.service.StateTransitionService.transferMappingToTestRegion*(..))"/>
+		
+		<aop:before pointcut-ref="dataFeedRunningStatusPointcut"	
+		method="isDataFeedRunning" />
+	</aop:aspect>
+	
+	</aop:config>
+	<!-- SSCR 14181 April 2012 Release Starts -->
+	<tx:advice id="txreferenceDataServiceAdvice" transaction-manager="txManager">
+		  <tx:attributes>
+                <!-- all methods starting with 'get' are read-only -->
+                <tx:method name="get*" read-only="true"/>
+               <!--
+                 <tx:method name="saveHeaderRuleToEB03Mapping" rollback-for="Exception"/>
+                  --> 
+                <!-- other methods use the default transaction settings (see below) -->
+                <tx:method name="*"/>
+	            </tx:attributes>
+   </tx:advice>
+   <aop:config>
+       <aop:pointcut id="referenceDataServiceOperation" expression="execution(* com.wellpoint.ets.ebx.referencedata.domain.service.ReferenceDataServiceImpl.save*Mapping(..))
+       or execution(* com.wellpoint.ets.ebx.referencedata.domain.service.ReferenceDataServiceImpl.delete*To*Mapping(..))"/>
+       <aop:advisor advice-ref="txreferenceDataServiceAdvice" pointcut-ref="referenceDataServiceOperation"/>
+   </aop:config>	
+	<!-- SSCR 14181 April 2012 Release Starts -->
+</beans>

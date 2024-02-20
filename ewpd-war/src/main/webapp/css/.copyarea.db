@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\css
+2
+4
+8:menu.css|1|16adf915a7a|1284|4e8ba180|5483c3f203924b4c8f2a09470d5bf06d|0
+a:global.css|1|16adf915a7a|1958|ca3dcf19|01b29e1155404ce1a50e639dd97a7aca|0
+c:calendar.css|1|16adf915a7a|6cc|85502331|690c0cd1c0ea4d959d865e4df5615536|0
+7:wpd.css|1|16adf915ad7|66a8|d6a9bd25|ee482c550a884a689fc52109b1d58c90|0

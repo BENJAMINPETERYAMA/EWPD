@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\mandate\request
+2
+c
+1b:MandateTestPassRequest.java|1|16adf974c43|467|6a6269fa|2d80fff0c2de4b98a2f776389f9492c0|0
+19:LocateMandateRequest.java|1|16adf974a6f|59b|85b8c87c|0faf5014d7b3487081b722551ac0168d|0
+1b:MandateTestFailRequest.java|1|16adf974bd6|467|5fb36a29|238266a2d27d4b79931f22cf13819f8f|0
+19:CreateMandateRequest.java|1|16adf974a41|da0|83081553|ef9221b13d0148f688f2143d474bca85|0
+1b:CheckOutMandateRequest.java|1|16adf974a6f|46f|7b596a6a|be7696ab019c46f2937c08d94d2f475b|0
+19:DeleteMandateRequest.java|1|16adf974a60|45a|f14c6a1e|aff10e04bf1c4e35a0d868bc4487ea9a|0
+1a:MandatePublishRequest.java|1|16adf974bd6|463|702569a0|cf86190f4fcc46bb8c40616a0ccf932c|0
+1e:MandateSendForTestRequest.java|1|16adf974bd6|468|6fc86b21|4e0b607cb1e14d3cb29d06797b1f90cf|0
+1b:RetrieveMandateRequest.java|1|16adf974c34|5b6|e650c64d|d13e0b3b3d194631840080f7a02f1642|0
+1a:ViewAllMandateRequest.java|1|16adf974c43|628|1377db2a|d2ddc9b53093436fbb163113599bef3e|0
+17:CopyMandateRequest.java|1|16adf974bf5|41c|cd224ea3|46a4a2b6b6e54ad7929f24e44f9c2a63|0
+1a:MandateCheckInRequest.java|1|16adf974de9|467|609a6991|aede1d7425f44c7fa18a38273f4824b7|0

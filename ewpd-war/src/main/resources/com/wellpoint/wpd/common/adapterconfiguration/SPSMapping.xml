@@ -1,0 +1,428 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.blueexchange.bo.SPSMappingBO">
+		<BusinessAttribute name="spsParameter" 			type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="eb01Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb02Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb06Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb09Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd1Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd2Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd3Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd4Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd5Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd6Value" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 		type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 		type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 	type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="spsParameterDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb01ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb02ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb06ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="eb09ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd1ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd2ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd3ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd4ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd5ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hsd6ValueDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="accumulatorSPSID" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="accummulatorSPSDesc" 		type="String" 	keyAttrib="false"/>
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="spsParameterList" 		type="List" />
+			<SearchCriteriaAttribute name="eb01ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="eb02ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="eb06ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="eb09ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd1ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd2ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd3ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd4ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd5ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="hsd6ValueList" 			type="List" />
+			<SearchCriteriaAttribute name="SPS_Paramater" 			type="Int"/>
+			<SearchCriteriaAttribute name="accummulatorSPSIDList" 	type="List" />
+		</SearchCriteria>
+
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			select  ADQM_ADMN_QSTN_NBR, DTYP_DATA_TYPE_ID, 
+					ADQM_ADMN_QSTN_DESC,QSTN_STTS_CD, QSTN_VRSN_NBR,
+					LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP
+			from 	ADQM_ADMN_QSTN_MSTR 
+			where 	ADQM_ADMN_QSTN_NBR = ?				
+		    </SelectSQLQuery>
+			<SelectSQLQuery name="retrieveSPSMappingValues">
+				select SPS_PARAM_ID, EB01_VALUE, EB02_VALUE, EB06_VALUE, EB09_VALUE, HSD1_VALUE, HSD2_VALUE, 
+				HSD3_VALUE, HSD4_VALUE, HSD5_VALUE, HSD6_VALUE, ACCUMR_SPS_ID from BX_SPS_MAPNG order by SPS_PARAM_ID
+			</SelectSQLQuery>
+			<SelectSQLQuery name="searchSPSMapping" dynamic="true">
+			<STATIC>
+					<![CDATA[
+				select A.SPS_PARAM_ID,A.EB01_VALUE,A.EB02_VALUE,A.EB06_VALUE,A.EB09_VALUE,A.HSD1_VALUE,
+				A.HSD2_VALUE,A.HSD3_VALUE,A.HSD4_VALUE,A.HSD5_VALUE,A.HSD6_VALUE,C.CD_DESC_TXT, A.ACCUMR_SPS_ID
+				from BX_SPS_MAPNG A,CATALOG B,ITEM C  
+				where B.CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('reference') 
+								  ) and B.CTLG_ID = C.CTLG_ID 
+				and A.SPS_PARAM_ID =C.PRMRY_CD
+					]]>
+			</STATIC>
+			<DYNAMIC>
+					and SPS_PARAM_ID {0} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and EB01_VALUE {1} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and EB02_VALUE {2} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and EB06_VALUE {3} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and EB09_VALUE {4} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD1_VALUE {5} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD2_VALUE {6} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD3_VALUE {7} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD4_VALUE {8} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD5_VALUE {9} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and HSD6_VALUE {10} 
+			</DYNAMIC>
+			<DYNAMIC>
+					and ACCUMR_SPS_ID {11} 
+			</DYNAMIC>
+			<STATIC>
+					<![CDATA[
+				              order by A.SPS_PARAM_ID asc
+			         ]]>
+			</STATIC>
+			</SelectSQLQuery>
+
+
+			<SelectSQLQuery name="viewSpsMapping">
+					
+					SELECT  BX_SPS_MAPNG.SPS_PARAM_ID, 
+							BX_SPS_MAPNG.EB01_VALUE,BX_SPS_MAPNG.EB02_VALUE,BX_SPS_MAPNG.EB06_VALUE, BX_SPS_MAPNG.EB09_VALUE, 
+							BX_SPS_MAPNG.HSD1_VALUE,BX_SPS_MAPNG.HSD2_VALUE,BX_SPS_MAPNG.HSD3_VALUE,BX_SPS_MAPNG.HSD4_VALUE,
+							BX_SPS_MAPNG.HSD5_VALUE,BX_SPS_MAPNG.HSD6_VALUE,BX_SPS_MAPNG.CREATD_USER_ID,BX_SPS_MAPNG.CREATD_TM_STMP,
+							BX_SPS_MAPNG.LST_CHG_USR,BX_SPS_MAPNG.LST_CHG_TMS, BX_SPS_MAPNG.ACCUMR_SPS_ID,
+				          (SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = SPS_PARAM_ID   
+						   AND CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('reference') 
+								  )
+						  ) SPS_PARAM_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = EB01_VALUE 
+						  AND CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB01') 
+								  )
+						  ) EB01_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = EB02_VALUE 
+						  AND CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB02')
+								  )
+						   ) EB02_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = EB06_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB06')
+									  )
+						  ) EB06_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = EB09_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('EB09')
+									  )
+						  ) EB09_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD1_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD01')
+									  )
+						  ) HSD1_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD2_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD02')
+									  )
+						  ) HSD2_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD3_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD03')
+									  )
+						  ) HSD3_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD4_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD04')
+									  )
+						   ) HSD4_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD5_VALUE     
+						  AND CTLG_ID IN  (
+									  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD05')
+									  )
+						   ) HSD5_DESC,				
+				          (SELECT SCNDRY_CD FROM ITEM WHERE PRMRY_CD = HSD6_VALUE     
+						  AND CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('HSD06')
+								  )
+						   ) HSD6_DESC,				
+				          (SELECT CD_DESC_TXT FROM ITEM WHERE PRMRY_CD = ACCUMR_SPS_ID     
+						  AND CTLG_ID IN  (
+								  select CTLG_ID from CATALOG where upper(CTLG_NAME) =upper('ACCUMULATOR REFERENCE')
+								  )
+						  ) ACCUMR_SPS_DESC
+
+    	            	  FROM BX_SPS_MAPNG
+	    	              WHERE  SPS_PARAM_ID =  {0}
+		    </SelectSQLQuery>
+			<DataObject name="BX_SPS_MAPNG">
+				<DataObjectAttribute name="SPS_PARAM_ID" 		type="String"/>
+				<DataObjectAttribute name="EB01_VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB02_VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB06_VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB09_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD1_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD2_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD3_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD4_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD5_VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD6_VALUE" 			type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CD_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="SPSPARAMID" 			type="String"/>
+				<DataObjectAttribute name="EB01VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB02VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB06VALUE" 			type="String"/>
+				<DataObjectAttribute name="EB09VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD1VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD2VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD3VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD4VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD5VALUE" 			type="String"/>
+				<DataObjectAttribute name="HSD6VALUE" 			type="String"/>
+				<DataObjectAttribute name="SPS_PARAM_DESC" 		type="String"/>
+				<DataObjectAttribute name="EB01_DESC" 		    type="String"/>
+				<DataObjectAttribute name="EB02_DESC" 	        type="String"/>
+				<DataObjectAttribute name="EB06_DESC" 			type="String"/>
+				<DataObjectAttribute name="EB09_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD1_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD2_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD3_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD4_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD5_DESC" 			type="String"/>
+				<DataObjectAttribute name="HSD6_DESC" 			type="String"/>
+				<DataObjectAttribute name="ACCUMR_SPS_ID" 		type="String"/>
+				<DataObjectAttribute name="ACCUMR_SPS_DESC" 	type="String"/>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"			 name="SPSPARAMID" />
+					<DataObjectAttributeInput index="1" 		 name="EB01VALUE" />
+					<DataObjectAttributeInput index="2"			 name="EB02VALUE" />
+					<DataObjectAttributeInput index="3" 		 name="EB06VALUE" />
+					<DataObjectAttributeInput index="4" 		 name="EB09VALUE" />
+					<DataObjectAttributeInput index="5" 		 name="HSD1VALUE" />
+					<DataObjectAttributeInput index="6" 		 name="HSD2VALUE" />
+					<DataObjectAttributeInput index="7" 		 name="HSD3VALUE" />
+					<DataObjectAttributeInput index="8" 		 name="HSD4VALUE" />
+					<DataObjectAttributeInput index="9" 		 name="HSD5VALUE" />
+					<DataObjectAttributeInput index="10" 		 name="HSD6VALUE" />
+					<DataObjectAttributeInput index="11" 		 name="ACCUMR_SPS_ID" />
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="SPS_PARAM_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="EB01_VALUE" />
+						<ResultIndex index="2"   		dataObjectAttribName="EB02_VALUE" />
+						<ResultIndex index="3"			dataObjectAttribName="EB06_VALUE" />
+						<ResultIndex index="4"			dataObjectAttribName="EB09_VALUE" />
+						<ResultIndex index="5"			dataObjectAttribName="HSD1_VALUE" />
+						<ResultIndex index="6"			dataObjectAttribName="HSD2_VALUE" />
+						<ResultIndex index="7"			dataObjectAttribName="HSD3_VALUE" />
+						<ResultIndex index="8" 			dataObjectAttribName="HSD4_VALUE" />
+						<ResultIndex index="9"			dataObjectAttribName="HSD5_VALUE" />
+						<ResultIndex index="10"			dataObjectAttribName="HSD6_VALUE" />
+						<ResultIndex index="11"			dataObjectAttribName="CD_DESC_TXT" />
+						<ResultIndex index="12"			dataObjectAttribName="ACCUMR_SPS_ID" />	
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSPSMapping" />
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="SPS_PARAM_ID" />
+						<ResultIndex index="1"			dataObjectAttribName="EB01_VALUE" />
+						<ResultIndex index="2"   		dataObjectAttribName="EB02_VALUE" />
+						<ResultIndex index="3"			dataObjectAttribName="EB06_VALUE" />
+						<ResultIndex index="4"			dataObjectAttribName="EB09_VALUE" />
+						<ResultIndex index="5"			dataObjectAttribName="HSD1_VALUE" />
+						<ResultIndex index="6"			dataObjectAttribName="HSD2_VALUE" />
+						<ResultIndex index="7"			dataObjectAttribName="HSD3_VALUE" />
+						<ResultIndex index="8" 			dataObjectAttribName="HSD4_VALUE" />
+						<ResultIndex index="9"			dataObjectAttribName="HSD5_VALUE" />
+						<ResultIndex index="10"			dataObjectAttribName="HSD6_VALUE" />
+						<ResultIndex index="11"			dataObjectAttribName="ACCUMR_SPS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveSPSMappingValues" />
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+							INSERT INTO BX_SPS_MAPNG(SPS_PARAM_ID,EB01_VALUE,EB02_VALUE,EB06_VALUE,EB09_VALUE,HSD1_VALUE,HSD2_VALUE,HSD3_VALUE,HSD4_VALUE,HSD5_VALUE,HSD6_VALUE,CREATD_USER_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS,ACCUMR_SPS_ID) 
+							VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SPS_PARAM_ID"/>
+						<DataObjectAttributeInput index="1" name="EB01_VALUE"/>
+						<DataObjectAttributeInput index="2" name="EB02_VALUE"/>
+						<DataObjectAttributeInput index="3" name="EB06_VALUE"/>
+						<DataObjectAttributeInput index="4" name="EB09_VALUE"/>
+						<DataObjectAttributeInput index="5" name="HSD1_VALUE"/>
+						<DataObjectAttributeInput index="6" name="HSD2_VALUE"/>
+						<DataObjectAttributeInput index="7" name="HSD3_VALUE"/>
+						<DataObjectAttributeInput index="8" name="HSD4_VALUE"/>
+						<DataObjectAttributeInput index="9" name="HSD5_VALUE"/>
+						<DataObjectAttributeInput index="10" name="HSD6_VALUE"/>
+						<DataObjectAttributeInput index="11" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="12" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="13" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="14" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="15" name="ACCUMR_SPS_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE BX_SPS_MAPNG
+							SET EB01_VALUE=?,
+								EB02_VALUE=?,
+								EB06_VALUE=?,
+								EB09_VALUE=?,
+								HSD1_VALUE=?,
+								HSD2_VALUE=?,
+								HSD3_VALUE=?,
+								HSD4_VALUE=?,
+								HSD5_VALUE=?,
+								HSD6_VALUE=?,
+								LST_CHG_USR=?,
+								LST_CHG_TMS=?,
+								ACCUMR_SPS_ID = ?
+							WHERE SPS_PARAM_ID=?
+						</SQLQuery>
+						
+						<DataObjectAttributeInput index="0" name="EB01_VALUE"/>
+						<DataObjectAttributeInput index="1" name="EB02_VALUE"/>
+						<DataObjectAttributeInput index="2" name="EB06_VALUE"/>
+						<DataObjectAttributeInput index="3" name="EB09_VALUE"/>
+						<DataObjectAttributeInput index="4" name="HSD1_VALUE"/>
+						<DataObjectAttributeInput index="5" name="HSD2_VALUE"/>
+						<DataObjectAttributeInput index="6" name="HSD3_VALUE"/>
+						<DataObjectAttributeInput index="7" name="HSD4_VALUE"/>
+						<DataObjectAttributeInput index="8" name="HSD5_VALUE"/>
+						<DataObjectAttributeInput index="9" name="HSD6_VALUE"/>
+						<DataObjectAttributeInput index="11" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="12" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="13" name="ACCUMR_SPS_ID"/>
+						<DataObjectAttributeInput index="14" name="SPS_PARAM_ID"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="SPS_PARAM_ID"/>
+							<RSIndexToDOAttributeMap>
+								<ResultIndex index="0" dataObjectAttribName ="SPS_PARAM_ID"/>
+								<ResultIndex index="1" dataObjectAttribName ="EB01_VALUE"/>
+								<ResultIndex index="2" dataObjectAttribName ="EB02_VALUE"/>
+								<ResultIndex index="3" dataObjectAttribName ="EB06_VALUE"/>
+								<ResultIndex index="4" dataObjectAttribName ="EB09_VALUE"/>
+								<ResultIndex index="5" dataObjectAttribName ="HSD1_VALUE"/>
+								<ResultIndex index="6" dataObjectAttribName ="HSD2_VALUE"/>
+								<ResultIndex index="7" dataObjectAttribName ="HSD3_VALUE"/>
+								<ResultIndex index="8" dataObjectAttribName ="HSD4_VALUE"/>
+								<ResultIndex index="9" dataObjectAttribName ="HSD5_VALUE"/>
+								<ResultIndex index="10" dataObjectAttribName ="HSD6_VALUE"/>
+								<ResultIndex index="11" dataObjectAttribName ="CREATD_USER_ID"/>
+								<ResultIndex index="12" dataObjectAttribName ="CREATD_TM_STMP"/>
+								<ResultIndex index="13" dataObjectAttribName ="LST_CHG_USR"/>
+								<ResultIndex index="14" dataObjectAttribName ="LST_CHG_TMS"/>
+								<ResultIndex index="15" dataObjectAttribName ="ACCUMR_SPS_ID"/>
+								<ResultIndex index="16" dataObjectAttribName ="SPS_PARAM_DESC"/>
+								<ResultIndex index="17" dataObjectAttribName ="EB01_DESC"/>
+								<ResultIndex index="18" dataObjectAttribName ="EB02_DESC"/>
+								<ResultIndex index="19" dataObjectAttribName ="EB06_DESC"/>
+								<ResultIndex index="20" dataObjectAttribName ="EB09_DESC"/>
+								<ResultIndex index="21" dataObjectAttribName ="HSD1_DESC"/>
+								<ResultIndex index="22" dataObjectAttribName ="HSD2_DESC"/>
+								<ResultIndex index="23" dataObjectAttribName ="HSD3_DESC"/>
+								<ResultIndex index="24" dataObjectAttribName ="HSD4_DESC"/>
+								<ResultIndex index="25" dataObjectAttribName ="HSD5_DESC"/>
+								<ResultIndex index="26" dataObjectAttribName ="HSD6_DESC"/>
+								<ResultIndex index="27" dataObjectAttribName ="ACCUMR_SPS_DESC"/>
+							</RSIndexToDOAttributeMap>
+						<SearchQueryName name="viewSpsMapping"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+						<SQLQuery>
+							delete from BX_SPS_MAPNG where SPS_PARAM_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SPS_PARAM_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="SPS_PARAM_ID"		toBOAttb="spsParameter"/>
+						<Pair DOAttb="EB01_VALUE"		toBOAttb="eb01Value"/>
+						<Pair DOAttb="EB02_VALUE"		toBOAttb="eb02Value"/>
+						<Pair DOAttb="EB06_VALUE"		toBOAttb="eb06Value"/>
+						<Pair DOAttb="EB09_VALUE"		toBOAttb="eb09Value"/>
+						<Pair DOAttb="HSD1_VALUE"		toBOAttb="hsd1Value"/>
+						<Pair DOAttb="HSD2_VALUE"		toBOAttb="hsd2Value"/>
+						<Pair DOAttb="HSD3_VALUE"		toBOAttb="hsd3Value"/>
+						<Pair DOAttb="HSD4_VALUE"		toBOAttb="hsd4Value"/>
+						<Pair DOAttb="HSD5_VALUE"		toBOAttb="hsd5Value"/>
+						<Pair DOAttb="HSD6_VALUE"		toBOAttb="hsd6Value"/>
+						<Pair DOAttb="CREATD_USER_ID"	toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"	toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="LST_CHG_USR"		toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"		toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CD_DESC_TXT"		toBOAttb="spsParameterDesc"/>
+						<Pair DOAttb="SPS_PARAM_DESC"	toBOAttb="spsParameterDesc"/>
+						<Pair DOAttb="EB01_DESC"		toBOAttb="eb01ValueDesc"/>
+						<Pair DOAttb="EB02_DESC"		toBOAttb="eb02ValueDesc"/>
+						<Pair DOAttb="EB06_DESC"		toBOAttb="eb06ValueDesc"/>
+						<Pair DOAttb="EB09_DESC"		toBOAttb="eb09ValueDesc"/>
+						<Pair DOAttb="HSD1_DESC"		toBOAttb="hsd1ValueDesc"/>
+						<Pair DOAttb="HSD2_DESC"		toBOAttb="hsd2ValueDesc"/>
+						<Pair DOAttb="HSD3_DESC"		toBOAttb="hsd3ValueDesc"/>
+						<Pair DOAttb="HSD4_DESC"		toBOAttb="hsd4ValueDesc"/>
+						<Pair DOAttb="HSD5_DESC"		toBOAttb="hsd5ValueDesc"/>
+						<Pair DOAttb="HSD6_DESC"		toBOAttb="hsd6ValueDesc"/>
+						<Pair DOAttb="ACCUMR_SPS_ID"	toBOAttb="accumulatorSPSID"/>
+						<Pair DOAttb="ACCUMR_SPS_DESC"		toBOAttb="accummulatorSPSDesc"/>
+
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="SPSPARAMID" 		toSCAttb="spsParameterList" />
+						<Pair DOAttb="EB01VALUE"		toSCAttb="eb01ValueList"/>
+						<Pair DOAttb="EB02VALUE"		toSCAttb="eb02ValueList"/>
+						<Pair DOAttb="EB06VALUE"		toSCAttb="eb06ValueList"/>
+						<Pair DOAttb="EB09VALUE"		toSCAttb="eb09ValueList"/>
+						<Pair DOAttb="HSD1VALUE"		toSCAttb="hsd1ValueList"/>
+						<Pair DOAttb="HSD2VALUE"		toSCAttb="hsd2ValueList"/>
+						<Pair DOAttb="HSD3VALUE"		toSCAttb="hsd3ValueList"/>
+						<Pair DOAttb="HSD4VALUE"		toSCAttb="hsd4ValueList"/>
+						<Pair DOAttb="HSD5VALUE"		toSCAttb="hsd5ValueList"/>
+						<Pair DOAttb="HSD6VALUE"		toSCAttb="hsd6ValueList"/>
+						<Pair DOAttb="ACCUMR_SPS_ID"		toSCAttb="accummulatorSPSIDList"/>
+						<Pair DOAttb="SPS_PARAM_ID" 	toSCAttb="SPS_Paramater"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata> 

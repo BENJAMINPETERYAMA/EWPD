@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\domain\bo
+2
+7
+1c:QuestionnaireDomainInfo.java|1|16adf9706ac|14eb|def2346d|fb0d975f0e6e47449c6719ff7f8a9d53|0
+14:MigrationDomain.java|1|16adf970822|9ce|a658fab6|dc4d0c1787d047868f1559bfff8e5f3d|0
+11:DomainDetail.java|1|16adf9706fa|189d|27b48054|9cf2dbb69caa4cdfba61e5b4897133a7|0
+15:EntityDomainInfo.java|1|16adf9706ac|e85|a88348a2|1979bef1994f423691563da2e7d37d52|0
+f:DomainItem.java|1|16adf9706bc|8f1|646bc293|c0eaae0813954c66950e0059db4863a2|0
+f:DomainInfo.java|1|16adf97069c|9b0|84fcf1be|6ae21110aea6474db0989c0ab37b1243|0
+b:Domain.java|1|16adf9705e1|14e3|d4f28b1c|af43c380538c4ea384e82b47c19aa7b6|0

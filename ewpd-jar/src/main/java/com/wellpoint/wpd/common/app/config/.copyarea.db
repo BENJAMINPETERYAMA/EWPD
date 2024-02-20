@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\app\config
+2
+3
+1f:AppPropertiesFromDataStore.java|1|16adf965b02|616|93f10b5c|efda15971b394c139ece80229c7b31a7|0
+1a:ApplicationProperties.java|1|16adf965b02|52a|5074bc2c|1b4a95cd5c3743f7a2240d6a6521c439|0
+1d:ApplicationConfigManager.java|1|16adf965ef8|97e|e0cc26f1|58c6fd21edf448b2a32a3c36837fc900|0

@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\product\builder
+2
+2
+21:ProductBusinessObjectBuilder.java|1|16adf95fe14|3b40c|7036e4f3|00a4c79446f211e380360002cbcd824c|0
+17:ProductTreeBuilder.java|1|16adf95fc21|dd2|55bcbed0|2c8fa8c3bcf04c27b51e33bad66707c5|0

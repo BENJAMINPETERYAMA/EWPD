@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\common\adapter
+2
+6
+1b:SequenceAdapterManager.java|1|16adf95b81f|26a2|25f1e794|a33372eab37b476babc869c3cbdf5ecb|0
+1a:BenefitAdapterManager.java|1|16adf95b61c|d222|fae96701|b8eaf6d0cc714f3eb4afaa95184edb2b|0
+10:AdapterUtil.java|1|16adf95b5de|48ab|a7462c6|ce8bd0feae5b4c1c8e3ac4c352d13110|0
+25:RuleTypeValidationAdapterManager.java|1|16adf95b81f|6ae|5c3648d2|90951bf82e4649be8bc1675f9a0aa8a0|0
+1a:AdapterSearchCriteria.java|1|16adf95c1cf|15f9|b41acefe|482779b373784575805be38db8033216|0
+19:DomainAdapterManager.java|1|16adf95b61c|2879|d4a0cba1|69f0bca70b174bb282bc56c3be0c52c5|0

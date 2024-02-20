@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\ooamessage\dao
+2
+2
+12:OOAMessageDAO.java|1|16b935e7035|8a7|c62a04da|54a2b7f4cc8a4117a5f0f239ffe13cb6|0
+16:OOAMessageDAOImpl.java|1|16b935e7045|ddae|d1d9a847|709452c4c1b04b1193851080a485dcdd|0

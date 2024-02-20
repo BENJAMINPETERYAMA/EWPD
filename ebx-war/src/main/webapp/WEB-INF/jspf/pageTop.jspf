@@ -1,0 +1,23 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div id="wrapper">					<!-- wrapper Starts-->
+		
+		<div class="header_right">		<!-- header_right Starts-->
+		<c:if test="${! empty userName}">
+			<ul>
+			  <li class="welcome">Welcome ${userName}</li>
+			  
+				<li>|</li>
+				<c:if test="${userUIPermissions.authorizedToMaintainSystemConfiguration}">
+				<li>
+					<a href="${pageContext.request.contextPath}/systemconfiguration/getAllSystemConfigurations.html" >Administration
+					</a>
+					</li>
+					<li>|</li>
+				</c:if>
+					<li><a href="${pageContext.request.contextPath}/viewlandingpage.html?logout=true">Logout</a></li>
+			</ul>
+		</c:if>
+		</div><!-- header_right Ends-->
+		<div class="header">			<!-- header Starts-->
+		</div><!-- hedaer Ends-->
+		<div id="container">			<!-- container Starts-->

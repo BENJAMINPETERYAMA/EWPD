@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping
+2
+c
+3:aop|2|0|0|0|d38098f451a449be93662c9868448c09|0
+9:Thumbs.db|1|16b935dbb32|2000|707ea67|74fe89bd2970450c91fbabe6ebe624cf|0
+b:application|2|0|0|0|985af8a6cd3843e5909a346cd0e7e051|0
+13:sequencediagram.dnx|1|16b935dbae4|12a1a|25b1e205|6f923be56d31463183ea28d910a4315a|0
+a:repository|2|0|0|0|e5dd278f8a534467b122c0de7aa32ba2|0
+6:domain|2|0|0|0|a1a0b852a1474521acbfe7c13b5ef4f7|0
+7:factory|2|0|0|0|4c4a1a97823746de952741e0d5b41426|0
+3:web|2|0|0|0|50fcb158bea843fdbd64427d6b0f7f2f|0
+13:sequencediagram.gif|1|16b935dbbfd|bdc0|86e6d98a|6fda39f0c4b44e0f802df57e639e2fb8|0
+29:validate-eb01-ajax-request-sequence_1.gif|1|16b935dbbed|4657|12b8031a|79d92c3248464607b46f1c2d870d9ec5|0
+4:util|2|0|0|0|af29abd876044f1eade9ee89b1bcb182|0
+27:validate-eb01-ajax-request-sequence.gif|1|16b935dbc2c|3f66|7bfd393e|0bb7b87d97d2434d860a90d80c422d44|0

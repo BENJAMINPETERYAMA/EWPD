@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	 <bean id="securityService" class="com.wellpoint.ets.bx.mapping.application.security.SecurityServiceImpl">
+		<property name="securityRepository" ref="securityRepository"></property>
+	</bean>
+
+	<bean id="locateFacade" class="com.wellpoint.ets.bx.mapping.application.LocateFacadeImpl">
+		<property name="variableService" ref="variableService"></property>
+		<property name="hippaSegmentService" ref="hippaSegmentService" />
+		<property name="noOfRecords" value="50"/>
+		<property name="noOfRecordsForAutoComplete" value="20"/>
+
+	</bean>
+	
+	<bean id="variableMappingFacade" class="com.wellpoint.ets.bx.mapping.application.VariableMappingFacadeImpl">
+		<property name="variableMappingService" ref="variableMappingService"></property>
+		<property name="lockService" ref="lockService"></property>
+		<property name="auditLockService" ref="auditLockService"></property>
+		<property name="auditTrailService" ref="auditTrailService"></property>
+	</bean>
+
+	<bean id="contractBxReportFacade" class="com.wellpoint.ets.ebx.mapping.application.ContractBxReportFacadeImpl">
+		<property name="contractService" ref="contractService"></property>		
+	</bean>
+	
+	<bean id="variableMappingService" class="com.wellpoint.ets.bx.mapping.domain.service.VariableMappingServiceImpl">
+		<property name="mappingRepository" ref="mappingRepository"></property>		
+		<property name="stateTransitionService" ref="stateTransitionService"></property>
+		<property name="auditTrailService" ref="auditTrailService"></property>
+		<property name="hippaSegmentService" ref="hippaSegmentService"></property>
+		<property name="lockService" ref="lockService"></property>
+		<property name="wpdValidationService" ref="wpdValidationService"></property>
+		<property name="bxoutboundDataFeedHelperService" ref="bxoutboundDataFeedHelperService"></property>
+		<property name="auditLockService" ref="auditLockService"></property>
+	</bean>	
+
+	<bean id="variableService" class="com.wellpoint.ets.bx.mapping.domain.service.VariableServiceImpl">
+		<property name="variableLocateRepository" ref="variableLocateRepository"></property>
+	</bean>
+
+	<bean id="hippaSegmentService" class="com.wellpoint.ets.bx.mapping.domain.service.HippaSegmentServiceImpl">
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository" />
+	</bean>
+
+	<bean id="stateTransitionService" class="com.wellpoint.ets.bx.mapping.domain.service.StateTransitionServiceImpl">
+		<property name="stateTransitionRepository" ref="stateTransitionRepository"></property>
+		<property name="mappingRepository" ref="mappingRepository"></property>	
+	</bean>
+	
+	<bean id="auditTrailService" class="com.wellpoint.ets.bx.mapping.domain.service.AuditTrailServiceImpl">
+		<property name="auditTrailRepository" ref="auditTrailRepository"></property>
+	</bean>
+
+	<bean id="lockService" class="com.wellpoint.ets.bx.mapping.domain.service.LockServiceImpl">
+		<property name="lockRepository" ref="lockRepository"></property>
+	</bean> 
+	<bean id="auditLockService" class="com.wellpoint.ets.bx.mapping.domain.service.AuditLockServiceImpl">
+		<property name="auditLockRepository" ref="auditLockRepository"></property>
+		<property name="mappingRepository" ref="mappingRepository"></property>
+		<property name="lockRepository" ref="lockRepository"></property>
+	</bean>
+	<!-- Adding for MTM -->	
+	
+	<bean id="locateRuleIdFacade" class="com.wellpoint.ets.ebx.mapping.application.LocateRuleIdFacadeImpl">
+		<property name="locateRuleIdService" ref="locateRuleIdService"></property>
+	</bean>
+	
+	<bean id="locateRuleIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.LocateRuleIdServiceImpl">
+		<property name="locateRuleIdRepository" ref="locateRuleIdRepository"></property>	
+		<property name="mappingRuleIdRepository" ref="mappingRuleIdRepository"></property>
+		<property name="itemRepository" ref="itemRepository"></property>
+		<property name="lockRuleIdService" ref="lockRuleIdService"></property>	
+		<!-- For Reference Data Values -->
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository"></property>
+	</bean>	
+	<bean id="locateSpsIdFacade" class="com.wellpoint.ets.ebx.mapping.application.LocateSpsIdFacadeImpl">
+		<property name="locateSpsIdService" ref="locateSpsIdService"></property>
+	</bean>	
+	<bean id="mappingSpsIdFacade" class="com.wellpoint.ets.ebx.mapping.application.MappingSpsIdFacadeImpl">
+		<property name="mappingSpsIdService" ref="mappingSpsIdService"></property>
+		<property name="lockSpsIdService" ref="lockSpsIdService"></property>
+	</bean>
+	<bean id="mappingSpsIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.MappingSpsIdServiceImpl">
+		<property name="mappingSpsIdRepository" ref="mappingSpsIdRepository"></property>	
+		<property name="locateSpsIdService" ref="locateSpsIdService"></property>
+		<!-- <property name="validator" ref="validator"></property> -->
+		<property name="lockSpsIdService" ref="lockSpsIdService"></property>
+		<property name="locateRuleIdService" ref="locateRuleIdService"></property>
+		<property name="bxoutboundDataFeedHelperService" ref="bxoutboundDataFeedHelperService"></property>
+	</bean>	
+	<bean id="bxoutboundDataFeedHelperService" class="com.wellpoint.ets.bx.mapping.domain.service.BXOutboundDataFeedHelperServiceImpl">
+		<property name="bxoutboundDataFeedHelperRepository" ref="bxoutboundDataFeedHelperRepository"></property>
+	</bean> 
+	<bean id="lockSpsIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.LockSpsIdServiceImpl">
+		<property name="lockSpsIdRepository" ref="lockSpsIdRepository"></property>
+	</bean> 
+	
+	<bean id="locateSpsIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.LocateSpsIdServiceImpl">
+		<property name="locateSpsIdRepository" ref="locateSpsIdRepository"></property>
+		<property name="mappingSpsIdRepository" ref="mappingSpsIdRepository"></property>
+		<property name="itemRepository" ref="itemRepository"></property>	
+		<property name="lockSpsIdService" ref="lockSpsIdService"></property>
+		<!-- For Reference Data Values -->
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository"></property>
+	</bean>	
+
+	<bean id="mappingRuleIdFacade" class="com.wellpoint.ets.ebx.mapping.application.MappingRuleIdFacadeImpl">
+		<property name="mappingRuleIdService" ref="mappingRuleIdService"></property>
+		<property name="lockRuleIdService" ref="lockRuleIdService"></property>
+	</bean>
+	
+	<bean id="mappingRuleIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.MappingRuleIdServiceImpl">
+		<property name="mappingRuleIdRepository" ref="mappingRuleIdRepository"></property>
+		<property name="auditTrailService" ref="auditTrailService"></property>
+		<property name="lockRuleIdService" ref="lockRuleIdService"></property>
+		<property name="locateRuleIdService" ref="locateRuleIdService"></property>
+		<!-- <property name="validator" ref="validator"></property> -->
+		<property name="hippaSegmentService" ref="hippaSegmentService"></property>
+		<property name="ewpdValidationService" ref="ewpdValidationService"></property>
+		<property name="bxoutboundDataFeedHelperService" ref="bxoutboundDataFeedHelperService"></property>
+	</bean>
+	
+	<bean id="lockRuleIdService" class="com.wellpoint.ets.ebx.mapping.domain.service.LockRuleIdServiceImpl">
+		<property name="lockRuleIdRepository" ref="lockRuleIdRepository"></property>
+	</bean> 
+	
+	<!-- Custom message  -->
+	
+	<bean id="locateCustomMessageFacade" class="com.wellpoint.ets.ebx.mapping.application.LocateCustomMessageFacadeImpl">
+		<property name="locateCustomMessageService" ref="locateCustomMessageService"></property>
+	</bean>
+	<bean id="mappingCustomMessageFacade" class="com.wellpoint.ets.ebx.mapping.application.MappingCustomMessageFacadeImpl">
+		<property name="mappingCustomMessageService" ref="mappingCustomMessageService"></property>
+		<property name="lockCustomMessageService" ref="lockCustomMessageService"></property>
+		</bean>
+	<bean id="mappingCustomMessageService" class="com.wellpoint.ets.ebx.mapping.domain.service.MappingCustomMessageServiceImpl">
+		<property name="mappingCustomMessageRepository" ref="mappingCustomMessageRepository"></property>
+		<property name="lockCustomMessageService" ref="lockCustomMessageService"></property>
+		<property name="locateCustomMessageService" ref="locateCustomMessageService"></property>
+		<property name="auditTrailService" ref="auditTrailService"></property>
+		<property name="locateRuleIdService" ref="locateRuleIdService"></property>
+		<!-- <property name="validator" ref="validator"></property> -->
+	</bean>
+	<bean id="locateCustomMessageService" class="com.wellpoint.ets.ebx.mapping.domain.service.LocateCustomMessageServiceImpl">
+		<property name="locateCustomMessageRepository" ref="locateCustomMessageRepository"></property>
+		<property name="mappingCustomMessageRepository" ref="mappingCustomMessageRepository"></property>
+		<property name="itemRepository" ref="itemRepository"></property>
+		<property name="lockCustomMessageService" ref="lockCustomMessageService"></property>
+		<!-- For Reference Data Values -->
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository"></property>			
+	</bean>
+	<bean id="lockCustomMessageService" class="com.wellpoint.ets.ebx.mapping.domain.service.LockCustomMessageServiceImpl">
+		<property name="lockCustomMessageRepository" ref="lockCustomMessageRepository"></property>
+	</bean> 
+	<!-- END of Custom message  -->
+	<!--  section 3 validation service -->
+	<bean id="ewpdValidationService" class="com.wellpoint.ets.ebx.mapping.domain.service.EWPDValidationServiceImpl">
+		<property name="ewpdValidationRepository" ref="ewpdValidationRepository"></property>					
+	</bean>
+	
+	<bean id="wpdValidationService" class="com.wellpoint.ets.ebx.mapping.domain.service.WPDValidationServiceImpl">
+		<property name="wpdValidationRepository" ref="wpdValidationRepository"></property>					
+	</bean>
+	
+	<bean id="simulationFacade" class="com.wellpoint.ets.ebx.simulation.application.SimulationFacadeImpl">
+		<property name="contractService" ref="contractService"></property>	
+		<property name="simulationService" ref="simulationService"></property>	
+	</bean>
+	
+	<!-- Added for Simulation Web Service -->
+	<bean id="simulationWebService" class="com.wellpoint.ets.ebx.simulation.webservices.impl.SimulationWebServiceImpl">
+		<property name="simulationFacade" ref="simulationFacade"></property>	
+	</bean>
+	<!-- End of Simulation Web Service -->
+	
+		<bean id="contractService" class="com.wellpoint.ets.ebx.simulation.domain.service.ContractServiceImpl">
+		<property name="lgContractInfoRepository" ref="lgContractInfoRepository"></property>
+		<property name="isgContractInfoRepository" ref="isgContractInfoRepository"></property>
+		<property name="ewpdContractInfoRepository" ref="ewpdContractInfoRepository"></property>
+		<property name="mqAdapter" ref="mqAdapter"></property>
+		<property name="hippaSegmentRepository" ref="hippaSegmentRepository" />
+	</bean>
+	
+	<bean id="ruleMessageSearchService" class="com.wellpoint.ets.ebx.mapping.domain.service.AdvanceSearchServiceImpl">
+		<property name="advanceSearchRepository" ref="ruleMessageSearchRepository"></property>
+	</bean>
+	
+	<bean id="ruleMessageSearchFacade" class="com.wellpoint.ets.ebx.mapping.application.AdvanceSearchFacadeImpl">
+		<property name="advanceSearchService" ref="ruleMessageSearchService"></property>
+	</bean>
+	
+	<bean id="variableMessageSearchService" class="com.wellpoint.ets.ebx.mapping.domain.service.AdvanceSearchServiceImpl">
+		<property name="advanceSearchRepository" ref="variableMessageSearchRepository"></property>
+	</bean>
+	
+	<bean id="variableMessageSearchFacade" class="com.wellpoint.ets.ebx.mapping.application.AdvanceSearchFacadeImpl">
+		<property name="advanceSearchService" ref="variableMessageSearchService"></property>
+	</bean>
+	
+	<bean id="simulationService" class="com.wellpoint.ets.ebx.simulation.domain.service.SimulationServiceImpl">
+		<property name="ewpdContractInfoRepository" ref="ewpdContractInfoRepository"></property>
+	 	<property name="mqAdapter" ref="mqAdapter"></property>
+	 	<property name="configurationInfoRepository" ref="systemConfigurationRepository" />		
+	</bean>
+	
+	<!--  MQ config start here -->
+	<bean id="mqAdapter" class="com.wellpoint.ets.ebx.simulation.domain.service.MQAdapter">
+		<property name="xmlMQSender">
+			<ref bean="xmlMQSenderTemplate" />
+		</property>
+		<property name="xmlMQReceiver">
+			<ref bean="xmlMQReceiverTemplate" />
+		</property>
+		<property name="x12MQSender">
+			<ref bean="x12MQSenderTemplate" />
+		</property>
+		<property name="x12MQReceiver">
+			<ref bean="x12MQReceiverTemplate" />
+		</property>
+		<property name="xmlMQSenderTest">
+			<ref bean="xmlMQSenderTemplateTest" />
+		</property>
+		<property name="xmlMQReceiverTest">
+			<ref bean="xmlMQReceiverTemplateTest" />
+		</property>
+		<property name="x12MQSenderTest">
+			<ref bean="x12MQSenderTemplateTest" />
+		</property>
+		<property name="x12MQReceiverTest">
+			<ref bean="x12MQReceiverTemplateTest" />
+		</property>
+        <property name="EBSName"  value="Get_27XBenefitAccums"/><!--
+        <property name="EBSVersion"  value="1"/>
+	--> 
+	</bean>
+ 
+	 <bean id="xmlMQSenderTemplate" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMXMLQCF" />
+		<property name="defaultDestination" ref="xmlRequestQueue" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+	
+	<bean id="xmlMQReceiverTemplate" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMXMLQCF" />
+		<property name="defaultDestination" ref="xmlResponseQueue" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+
+	 <bean id="x12MQSenderTemplate" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMX12QCF" />
+		<property name="defaultDestination" ref="x12RequestQueue" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+	
+	<bean id="x12MQReceiverTemplate" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMX12QCF" />
+		<property name="defaultDestination" ref="x12ResponseQueue" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+	
+	<bean id="xmlRequestQueue" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/xmlRequestQueue" />
+	</bean>
+	
+	<bean id="xmlResponseQueue" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/xmlResponseQueue" />
+	</bean>
+	
+	<bean id="x12RequestQueue" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/x12RequestQueue" />
+	</bean>
+	
+	<bean id="x12ResponseQueue" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/x12ResponseQueue" />
+	</bean>
+	
+	<bean id="MTMXMLQCF" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value="jms/MTMXMLQCF"/>
+	</bean>
+
+    <!-- TEST env -->
+	<bean id="xmlMQReceiverTemplateTest" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMXMLQCFTest" />
+		<property name="defaultDestination" ref="xmlResponseQueueTest" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+
+	 <bean id="x12MQSenderTemplateTest" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMX12QCFTest" />
+		<property name="defaultDestination" ref="x12RequestQueueTest" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+	
+	<bean id="x12MQReceiverTemplateTest" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+		<property name="connectionFactory" ref="MTMX12QCFTest" />
+		<property name="defaultDestination" ref="x12ResponseQueueTest" />
+		<property name="pubSubDomain" value="false"/>
+		 <property name="receiveTimeout" value="20000"/>  
+	</bean>
+
+    <bean id="xmlMQSenderTemplateTest" class="org.springframework.jms.core.JmsTemplate102" lazy-init="default" autowire="default" >
+            <property name="connectionFactory" ref="MTMXMLQCFTest" />
+            <property name="defaultDestination" ref="xmlRequestQueueTest" />
+            <property name="pubSubDomain" value="false"/>
+            <property name="receiveTimeout" value="20000"/>  
+     </bean>
+	
+	<bean id="xmlRequestQueueTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/xmlRequestQueueTest" />
+	</bean>
+	
+	<bean id="xmlResponseQueueTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/xmlResponseQueueTest" />
+	</bean>
+	
+	<bean id="x12RequestQueueTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/x12RequestQueueTest" />
+	</bean>
+	
+	<bean id="x12ResponseQueueTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value ="jms/x12ResponseQueueTest" />
+	</bean>
+	
+	<bean id="MTMXMLQCFTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value="jms/MTMXMLQCFTest"/>
+	</bean>
+	
+		<bean id="MTMX12QCF" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value="jms/MTMX12QCF"/>
+	</bean>
+	
+		<bean id="MTMX12QCFTest" class="org.springframework.jndi.JndiObjectFactoryBean" lazy-init="default" autowire="default" >
+		<property name="jndiName" value="jms/MTMX12QCFTest"/>
+	</bean> 
+	<!-- MQ config ends here -->
+	
+	<!--Advance Search    -->
+	<bean id="advancedSearchFacade" class="com.wellpoint.ets.ebx.mapping.application.AdvanceSearchFacadeImpl">
+		<property name="advanceSearchService" ref="advanceSearchService"></property>		
+	</bean>
+	<bean id="advanceSearchService" class="com.wellpoint.ets.ebx.mapping.domain.service.AdvanceSearchServiceImpl">
+		<property name="advanceSearchRepositoryWPD" ref="advanceSearchRepositoryWPD"></property>
+		<property name="advanceSearchRepository" ref="advanceSearchRepository"></property>	
+	</bean>
+	
+		<!-- Updated for Reference data Start -->
+	<bean id="referenceDataFacade" class="com.wellpoint.ets.ebx.referencedata.application.ReferenceDataFacadeImpl">
+		<property name="referenceDataService" ref="referenceDataService"></property>		
+	</bean>
+	<bean id="referenceDataService" class="com.wellpoint.ets.ebx.referencedata.domain.service.ReferenceDataServiceImpl">
+		<property name="referenceDataRepository" ref="referenceDataRepository"></property>		
+	</bean>
+	
+	<!-- Updated for Reference data End -->
+		
+	<bean id="lockedVariableAuditReportFacade" class="com.wellpoint.ets.ebx.mapping.application.LockedVariableAuditReportFacadeImpl"> 
+		<property name="lockedVariableAuditReportService" ref="lockedVariableAuditReportService"></property> 	
+			
+	</bean>
+	
+	
+	
+	<bean id="lockedVariableAuditReportService" class="com.wellpoint.ets.ebx.simulation.domain.service.LockedVariableAuditReportServiceImpl">
+		<property name="lockAuditRepository" ref="lockAuditRepository"></property>		
+	</bean>
+	
+	<!-- Updated for System Configuration - MAY 2012 Release - Start -->
+	<bean id="systemConfigurationFacade" class="com.wellpoint.ets.ebx.systemconfiguration.application.SystemConfigurationFacadeImpl">
+		<property name="systemConfigurationService" ref="systemConfigurationService" />		
+	</bean>
+	<bean id="systemConfigurationService" class="com.wellpoint.ets.ebx.systemconfiguration.domain.service.SystemConfigurationServiceImpl">
+		<property name="configurationInfoRepository" ref="systemConfigurationRepository" />		
+	</bean>	
+	
+	<!-- Updated for System Configuration - MAY 2012 Release - End -->
+	
+	
+	<bean id="ooamessageFacade" class="com.wellpoint.ets.ebx.ooamessage.application.OOAMessageFacadeImpl"> 
+			<!-- 30296 -->	<property name="oOAMessageService" ref="oOAMessageService"></property>	
+	</bean>
+	<bean id="oOAMessageService" class="com.wellpoint.ets.ebx.ooamessage.domain.service.OOAMessageServiceImpl">
+			<!-- 30296 -->	<property name="oOAMessageDAO" ref="oOAMessageDAO"></property>	   
+	</bean>
+	
+	<!-- Start:Added for EBX Spider Mapping -->
+	
+	<bean id="umRuleMappingService" class="com.wellpoint.ets.bx.mapping.domain.service.UmRuleMappingServiceImpl">
+		<property name="umRuleMappingRepository" ref="umRuleMappingRepository"></property>		
+		<property name="ebxStateTransitionsService" ref="ebxStateTransitionsService"></property>
+	</bean>
+		
+	<bean id="umRuleMappingFacade" class="com.wellpoint.ets.bx.mapping.application.UMRuleMappingFacadeImpl">
+		<property name="umRuleMappingService" ref="umRuleMappingService" />	
+		<property name="noOfRecordsForAutoComplete" value="700"/>	
+	</bean>
+	
+	<bean id="ebxStateTransitionsService" class="com.wellpoint.ets.bx.mapping.domain.service.EbxStateTransitionsServiceImpl">
+		<property name="ebxStateTransitionRepository" ref="ebxStateTransitionRepository"></property>
+		<property name="umRuleMappingRepository" ref="umRuleMappingRepository"></property>	
+	</bean>
+	
+	<!-- Start:Added for EBX Spider Mapping -->
+</beans>

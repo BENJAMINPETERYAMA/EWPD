@@ -1,0 +1,24 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\notes\response
+2
+14
+2e:BnftCompNotesToQuestionAttachmentResponse.java|1|16adf9773df|34f|d875122f|48f569e0ba2141f1928b62fe25dac87b|0
+18:DeleteNotesResponse.java|1|16adf977508|343|16510d6b|9cdecff634dc4dac83e388aa7882e773|0
+16:NotesCopyResponse.java|1|16adf977575|4ae|d4e5786b|e0fd74b0b9de4c8c9ad3369948b761a3|0
+30:ProdStructNotesToQuestionAttachmentResponse.java|1|16adf9775d3|4df|33e58b1a|607da1697e2f49e0913c46e4368b8aad|0
+21:ViewAllVersionsNotesResponse.java|1|16adf977fd1|361|74621616|4ed59516bacb41ee969d3f9e37eb3c48|0
+19:NotesCheckInResponse.java|1|16adf977546|bc5|c86a8c5f|b9a281a43654432da7a5b636a2502a06|0
+1c:NotesAttachmentResponse.java|1|16adf977517|457|a7df5b8c|603da086c26b4a2d8516a9c8554dab20|0
+28:LocateTargetSystemsForNotesResponse.java|1|16adf977594|442|9e1d6360|0d87d828923949768e4044d4ad482ceb|0
+2e:ContractNotesToQuestionAttachmentResponse.java|1|16adf9774aa|214|49a6acb4|eac5494eb4834b4eb75cefc5561e8979|0
+18:NotesSearchResponse.java|1|16adf9776ad|1064|1fda2241|03465d970827413495f73d20ca619273|0
+1a:RetrieveNotesResponse.java|1|16adf97767e|4dd|4c4b9275|d443a010b76c48e799c508a4c8ed5dfb|0
+34:ContractTeiredNotesToQuestionAttachmentResponse.java|1|16adf97749b|21d|3d53af05|67b27bc79072462ca3abc875c21550b3|0
+1d:BenefitLineNotesResponse.java|1|16adf97740e|998|73321624|4b74d60a86fb406d85a5a6e0a7c343bc|0
+17:NoteDomainResponse.java|1|16adf977517|4c7|a04f8dd5|c12b4c8f57a94f058a98338b620f1bdd|0
+22:CreateNotesDataDomainResponse.java|1|16adf9774ba|2f2|738aebf8|16de391dfd0345af860060d586777048|0
+18:CreateNotesResponse.java|1|16adf977527|152c|5e529e47|ae1bc5f8e9b248f0b1fe2712e1c97246|0
+1f:QuestionNotesPopUpResponse.java|1|16adf9776dc|4f2|be6d90e4|3ec39781e07a49519cc77daa3eacff53|0
+2f:ProductAONotesToQuestionAttachmentResponse.java|1|16adf97771a|215|e4d6ace3|fa3351a2c6944e5aa99f5fd5e3ebdd9c|0
+1a:NotesCheckOutResponse.java|1|16adf9775f2|39a|46ed26c2|070a83c2d833436990ece769446ef5bc|0
+30:ContractAONotesToQuestionAttachmentResponse.java|1|16adf97743d|216|9c31ad45|af0873c1b2ef468a80fb294ccbb3727e|0

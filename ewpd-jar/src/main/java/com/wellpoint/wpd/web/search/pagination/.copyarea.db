@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\search\pagination
+2
+5
+e:Paginator.java|1|16adf9844bd|854|b4d06216|696e6e21a0174c95ba558b2b85787177|0
+15:MultipageSupport.java|1|16adf9844bd|308|851ef5e9|17ccded3499b43389eae2acb61e4eedf|0
+21:MultipageSearchResultSummary.java|1|16adf9844bd|27c|312cd0db|ccc22000c64d45ce82c4a259eb938935|0
+9:Page.java|1|16adf9844dc|4d1|8ccd66cb|5412c8eeb28e42989f684ebbb96f56db|0
+1a:MultipageSearchResult.java|1|16adf9842ba|108b|6273efa3|027d46cf2755410188dea9bee151d9b2|0

@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\js
+2
+11
+10:ajax-defaults.js|1|16b935e849f|18ae|d6b0a249|4f8c70ddd8544dab9e649e4b6389b5dc|0
+10:referenceData.js|1|16b935e8589|122e2|6fa43e18|6af6072747d940709124d26dab0ae5c4|0
+16:simulationInputPage.js|1|16b935e8644|124a|e13a5f7a|694befb5cf3148debbdf12f819cddd95|0
+c:hsd02Util.js|1|16b935e8644|53b8|610749c2|33dd866a968e11e9802a0002c056e04b|0
+d:umRuleUtil.js|1|16b935e8644|55fd|e4a46cb2|cf8cd2bc423948aba5fc589a1d21370b|0
+6:jquery|2|0|0|0|b01c958f61c440f6817a1840d050ffba|0
+12:massUpdateUtils.js|1|16b935e855a|63d4|70cb90ee|84956b2b1048403b8e646770c8dc3ee6|0
+7:json.js|1|16b935e856a|466c|e6355f66|b586dd1d8c9b4852a838f181c997788f|0
+18:jquery.dataTables.min.js|1|16b935e86c1|aa11|2193b68f|521742c0708349d8989ce0ded4f961a4|0
+15:jquery.tablesorter.js|1|16b935e855a|9fd2|ecfac6a4|26c205c249b14d5aa697be74159b3a9f|0
+1c:jquery.dataTables.nightly.js|1|16b935e8cf8|3394f|9a1f1b80|aad2815054b348398dcc4cbe9e71e0a5|0
+11:createeditpage.js|1|16b935e84ed|12538|82b9176a|4229fbde764511e9800a0002c056e04b|0
+14:hippaSegmentPopUp.js|1|16b935e86ff|d382|19b92ff4|0a6d7bc04edb43d48e3f763d97e81f1e|0
+16:SOTC-AccordionMenus.js|1|16b935e8599|134d|fc58d631|c022857b1503418ab2ad887fdc4ebb19|0
+9:common.js|1|16b935e84ce|6361|c6bfe132|13abc4b7fc4b4cb3854b17d5a3453321|0
+12:globalVariables.js|1|16b935e853b|300|3b100492|4379fbee764511e9800a0002c056e04b|0
+d:ebxmapping.js|1|16b935e84ed|1ca6e|59f7835a|6432e7466fcf4377a1bcd9bf31960e11|0

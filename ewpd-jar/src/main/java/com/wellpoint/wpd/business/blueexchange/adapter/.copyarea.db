@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\blueexchange\adapter
+2
+4
+2a:ContractVariableMappingAdapterManager.java|1|16adf95b14c|1240|6c63e52b|873d82f2006f47d1b391f0fd8126a0fe|0
+25:ServiceTypeMappingAdapterManager.java|1|16adf95b15b|253c|88403924|532dbc36fddf40468d789a8533571585|0
+1d:SPSMappingAdapterManager.java|1|16adf95b3bc|22bb|85bd2f1b|032221588b384fff8c9f5f84bccad570|0
+20:CustomMessageAdapterManager.java|1|16adf95b264|1f9d|31509e4f|f7f363580e914270b81f357f88a36f30|0

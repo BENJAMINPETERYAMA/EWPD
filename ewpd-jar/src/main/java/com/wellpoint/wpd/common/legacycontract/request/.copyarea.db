@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\legacycontract\request
+2
+4
+20:RetrieveLegacyLookUpRequest.java|1|16adf9741b9|57f|5b4fc909|42f7c265909f41238ad2e51bebad3a3d|0
+22:RetrieveLegacyContractRequest.java|1|16adf973fb6|698|38152fd9|8dde2980b40049ed87a38d53eafad7f0|0
+1c:RetrieveHeadingsRequest.java|1|16adf973f68|1244|9f7a34c|9180e7a542df4c068cd7ab70816706da|0
+27:RetrieveLegacyContarctNotesRequest.java|1|16adf973f29|6d4|e4192bda|c682504a17534c2cb1a6f18ba0306244|0

@@ -1,0 +1,668 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.adminmethodmapping.bo.QuestionAnswerBO">
+		<BusinessAttribute name="questionId" 		type="Int" 		 keyAttrib="false" />
+        <BusinessAttribute name="possibleAnswerId" 	type="Int"  	 keyAttrib="true" />
+		<BusinessAttribute name="questionDesc" 		type="String"    keyAttrib="false" />
+		<BusinessAttribute name="possibleAnswer" 	type="String"    keyAttrib="false" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="possibleAnswer" type="List" />
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="getQuestionAnswers" >
+			select a.adqm_admn_qstn_nbr, a.adqm_admn_qstn_desc, b.psbl_answr, b.psbl_answr_id
+			from adqm_admn_qstn_mstr a, psbl_answr b 
+			where b.psbl_answr_id {0}  and a.adqm_admn_qstn_nbr= b.adqm_admn_qstn_nbr and b.psbl_answr != 'Not Answered'
+			</SelectSQLQuery>
+		
+			<DataObject name="PSBL_ANS">
+				<DataObjectAttribute name="adqm_admn_qstn_nbr" type="Int" />
+                <DataObjectAttribute name="adqm_admn_qstn_desc" type="String" />
+				<DataObjectAttribute name="psbl_answr" type="String" />				
+                <DataObjectAttribute name="psbl_answr_id" type="Int" />
+                <DataObjectAttribute name="PSBL_ANS" type="String" />
+
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="PSBL_ANS" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="adqm_admn_qstn_nbr" />
+						<ResultIndex index="1"
+							dataObjectAttribName="adqm_admn_qstn_desc" />	
+						<ResultIndex index="2"
+							dataObjectAttribName="psbl_answr" />					
+						<ResultIndex index="3"
+							dataObjectAttribName="psbl_answr_id" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQuestionAnswers" />
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="adqm_admn_qstn_nbr" toBOAttb="questionId" />
+					<Pair DOAttb="adqm_admn_qstn_desc" toBOAttb="questionDesc" />
+					<Pair DOAttb="psbl_answr" toBOAttb="possibleAnswer" />					
+                    <Pair DOAttb="psbl_answr_id" toBOAttb="possibleAnswerId" />
+				</DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="PSBL_ANS" toSCAttb="possibleAnswer" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminmethodmapping.bo.QuestionAnswerGroupBO">
+
+            <BusinessAttribute name="questionId"          type="String"       keyAttrib="false" />
+            <BusinessAttribute name="questionDesc"        type="String"       keyAttrib="false" />
+            <BusinessAttribute name="possibleAnswerId"    type="String"       keyAttrib="false" />
+            <BusinessAttribute name="possibleAnswerDesc"  type="String"       keyAttrib="false" />
+            <BusinessAttribute name="rownum"              type="Int"       keyAttrib="true" />
+
+
+
+            <SearchCriteria>        
+                  <SearchCriteriaAttribute name="searchString"    type="String" />
+            </SearchCriteria>
+            
+            <DataSource name="prmd" domain="medical">
+                  <Connection preferred="jndi">
+                        <url>
+                              jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+                        </url>
+                        <jndi>java:comp/env/wsbEwpdDS</jndi>
+                  </Connection>
+                  <SelectSQLQuery>
+                        SELECT * FROM adqm_admn_qstn_nbr                
+                </SelectSQLQuery>               
+
+                  <SelectSQLQuery name="getQuestionAnswers" >
+                  
+                  
+                  select a.adqm_admn_qstn_nbr, a.adqm_admn_qstn_desc, 
+					       b.psbl_answr_id, b.psbl_answr ,rownum
+				 from  (  select q.adqm_admn_qstn_nbr, q.adqm_admn_qstn_desc, rownum num from 
+							( select adqm_admn_qstn_nbr, adqm_admn_qstn_desc
+					    	 from adqm_admn_qstn_mstr  
+					    	 where  (adqm_qstn_mstr_parnt_sys_id, qstn_vrsn_nbr) in
+							    	 	(select adqm_qstn_mstr_parnt_sys_id, max(qstn_vrsn_nbr) from adqm_admn_qstn_mstr where qstn_stts_cd='PUBLISHED' 
+										And ADQM_ADMN_QSTN_DESC like {0} escape '\' group by adqm_qstn_mstr_parnt_sys_id
+							    	 	) order by adqm_admn_qstn_desc  
+          							) q where 50 >= rownum 
+    				  )  a, psbl_answr b 
+					where a.adqm_admn_qstn_nbr= b.adqm_admn_qstn_nbr 
+					and b.psbl_answr != 'Not Answered' order by a.adqm_admn_qstn_desc
+					
+                  </SelectSQLQuery>       
+
+                  <DataObject name="ADQM_ADMN_QSTN">
+                        
+                        <DataObjectAttribute name="SEARCH_CRITERIA" type="String" />
+                        <DataObjectAttribute name="QSTN_NBR" type="String" />
+                        <DataObjectAttribute name="QSTN_DESC" type="String" />
+                        <DataObjectAttribute name="PSBLE_ANS_ID" type="String" />
+                        <DataObjectAttribute name="PSBLE_ANS_DESC" type="String" /> 
+                        <DataObjectAttribute name="ROWNUM" type="Int" />      
+
+                        <SQLTemplate transType="select">
+                              <DataObjectAttributeInput index="0"             name="SEARCH_CRITERIA" />           
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"            dataObjectAttribName="QSTN_NBR" />
+                                    <ResultIndex index="1"            dataObjectAttribName="QSTN_DESC" />
+                                    <ResultIndex index="2"              dataObjectAttribName="PSBLE_ANS_ID" />    
+                                    <ResultIndex index="3"            dataObjectAttribName="PSBLE_ANS_DESC" />              
+                                    <ResultIndex index="4"            dataObjectAttribName="ROWNUM" />          
+                                                            
+                              </RSIndexToDOAttributeMap>
+                              <SearchQueryName name="getQuestionAnswers" />
+                        </SQLTemplate>
+                        
+                        <DoAttributeToBOAttributeMap>
+                              
+                              <Pair DOAttb="QSTN_NBR" toBOAttb="questionId" />
+                              <Pair DOAttb="QSTN_DESC" toBOAttb="questionDesc" />
+                              <Pair DOAttb="PSBLE_ANS_ID" toBOAttb="possibleAnswerId" />
+                              <Pair DOAttb="PSBLE_ANS_DESC" toBOAttb="possibleAnswerDesc" />      
+                              <Pair DOAttb="ROWNUM"               toBOAttb="rownum" />    
+                        </DoAttributeToBOAttributeMap>
+
+                              <DoAttributeToSCAttributeMap>
+                                    <Pair DOAttb="SEARCH_CRITERIA" toSCAttb="searchString" />                                                            
+                        </DoAttributeToSCAttributeMap>
+
+                  </DataObject>
+            </DataSource>
+      </BusinessObjectMetadata>
+
+
+
+<BusinessObjectMetadata
+            name="com.wellpoint.wpd.common.adminmethodmapping.bo.AdminMethodMappingEntriesBO">
+            
+      
+            <BusinessAttribute name="adminMethodSysId"            type="Int"              keyAttrib="false" />
+            <BusinessAttribute name="term"                        type="String"         keyAttrib="false" />
+             <BusinessAttribute name="processingMethod"            type="String"          keyAttrib="false" />         
+            <BusinessAttribute name="qualifier"                   type="String"         keyAttrib="false" />
+            <BusinessAttribute name="pva"                         type="String"         keyAttrib="false" />
+            <BusinessAttribute name="datatype"                    type="String"         keyAttrib="false" />
+            <BusinessAttribute name="comments"                    type="String"         keyAttrib="false" />
+            <BusinessAttribute name="filterCriteriaSysId"   	  type="Int"              keyAttrib="true" />    
+            <BusinessAttribute name="processMethod"         	  type="String"              keyAttrib="false" />        
+
+            <BusinessAttribute name="createdUser"                 type="String"           keyAttrib="false" />
+            <BusinessAttribute name="createdDate"                 type="Date"             keyAttrib="false" />
+            <BusinessAttribute name="lastUpdatedUser"      		 type="String"           keyAttrib="false" />
+            <BusinessAttribute name="lastUpdatedDate"       	 type="Date"             keyAttrib="false" />  
+            <BusinessAttribute name="possibleAnswer"       	    type="String"             keyAttrib="false" />  
+             <BusinessAttribute name="questionNbrList"       	    type="List"             keyAttrib="false" />     
+             <BusinessAttribute name="questionNumber"       	    type="Int"             keyAttrib="false" />   
+             
+            
+
+
+
+            <SearchCriteria>
+                  <SearchCriteriaAttribute name="adminMethodSysId" type="Int" />
+                   <SearchCriteriaAttribute name="processMethod" type="Int" />
+
+            </SearchCriteria>
+            <DataSource name="prmd" domain="medical">
+                  <Connection preferred="jndi">
+                        <url>
+                              jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+                        </url>
+                        <jndi>java:comp/env/wsbEwpdDS</jndi>
+                  </Connection>
+
+                  <SelectSQLQuery>
+                        SELECT * FROM admn_mthd_fltr_critr              
+                </SelectSQLQuery>   
+            
+             
+
+            
+
+
+                  <DataObject name="ADMN_MTHD_FLTR_CRITR">
+
+                        <DataObjectAttribute    name="ADMN_MTHD_FLTR_CRITR_SYS_ID"       type="Int" />
+                        <DataObjectAttribute    name="SPR_PRCSS_STP_SYS_ID"               type="Int" />
+                        <DataObjectAttribute    name="TRM_PRMRY_CDS"                            type="String" />
+                        <DataObjectAttribute    name="QUAL_PRMRY_CD"                            type="String" />
+                        <DataObjectAttribute    name="DTYP_DATA_TYPE_ID"                        type="String" />
+                        <DataObjectAttribute    name="PRVDR_AGMNT_CD"                           type="String" />
+                        <DataObjectAttribute    name="PSBL_ANSWR_ID"                        type="String" />
+                        <DataObjectAttribute    name="ADMN_MTHD_SYS_ID"                         type="Int" />
+                        <DataObjectAttribute    name="COMMENTS"                                 type="String" />  
+                        <DataObjectAttribute    name="CREATD_USER_ID"                           type="String" />
+                        <DataObjectAttribute    name="CREATD_TM_STMP"                           type="Date" />
+                        <DataObjectAttribute    name="LST_CHG_USR"                               type="String" />
+                        <DataObjectAttribute    name="LST_CHG_TMS"                                 type="Date" />
+                        <DataObjectAttribute    name="ADQM_NUM_ID_LIST"                        type="String" />
+                        <DataObjectAttribute    name="ADQM_NUM_ID"                        type="Int" />
+                    
+
+
+                    
+            
+
+
+                              <SQLTemplate transType="insert">
+                        <SQLQuery>
+                             
+                                          Insert into ADMN_MTHD_FLTR_CRITR (ADMN_MTHD_FLTR_CRITR_SYS_ID , SPR_PRCSS_STP_SYS_ID,
+                                                                        TRM_PRMRY_CDS , QUAL_PRMRY_CD , DTYP_DATA_TYPE_ID , PRVDR_AGMNT_CD,PSBL_ANSWR_ID_LST,
+                                                                         ADMN_MTHD_SYS_ID , LST_CHG_USR , LST_CHG_TMS,
+                                                                        CREATD_USER_ID , CREATD_TM_STMP , CMNTS) 
+                                                values  (?,?,?,?,?,?,?,?,?,?,?,?,?)
+
+
+
+                        </SQLQuery>
+
+                               <DataObjectAttributeInput index="0" name="ADMN_MTHD_FLTR_CRITR_SYS_ID" />
+                       		  <DataObjectAttributeInput index="1" name="SPR_PRCSS_STP_SYS_ID" />                              
+                              <DataObjectAttributeInput index="2" name="TRM_PRMRY_CDS" />
+                       		 <DataObjectAttributeInput index="3" name="QUAL_PRMRY_CD" />   
+                             <DataObjectAttributeInput index="4" name="DTYP_DATA_TYPE_ID" />
+                             <DataObjectAttributeInput index="5" name="PRVDR_AGMNT_CD" />           
+                             <DataObjectAttributeInput index="6" name="PSBL_ANSWR_ID" />
+                             <DataObjectAttributeInput index="7" name="ADMN_MTHD_SYS_ID" />
+                            <DataObjectAttributeInput index="8" name="LST_CHG_USR" />
+                             <DataObjectAttributeInput index="9" name="LST_CHG_TMS" />
+                             <DataObjectAttributeInput index="10" name="CREATD_USER_ID" />
+                              <DataObjectAttributeInput index="11" name="CREATD_TM_STMP" />
+                              <DataObjectAttributeInput index="12" name="COMMENTS" />     
+                     
+
+
+
+                  </SQLTemplate>
+                          <SQLTemplate transType="update">
+					<SQLQuery>
+						update adqm_admn_qstn_mstr set is_admn_mthd_mapped='Y',lst_chg_tms=sysdate , 
+                        lst_chg_usr=? where adqm_admn_qstn_nbr =?
+					</SQLQuery>
+                    <DataObjectAttributeInput index="0" name="CREATD_USER_ID" />
+					<DataObjectAttributeInput index="1" name="ADQM_NUM_ID" />
+				</SQLTemplate>
+				
+
+
+                        <DoAttributeToBOAttributeMap>
+                              
+                              <Pair DOAttb="ADMN_MTHD_FLTR_CRITR_SYS_ID"            toBOAttb="filterCriteriaSysId" />
+                              <Pair DOAttb="SPR_PRCSS_STP_SYS_ID"                   toBOAttb="processMethod" />
+                              <Pair DOAttb="TRM_PRMRY_CDS"                          toBOAttb="term" />
+                              <Pair DOAttb="QUAL_PRMRY_CD"                          toBOAttb="qualifier" />
+                              <Pair DOAttb="DTYP_DATA_TYPE_ID"                      toBOAttb="datatype" />
+                               <Pair DOAttb="ADQM_NUM_ID_LIST"                      toBOAttb="questionNbrList" />
+                               <Pair DOAttb="PRVDR_AGMNT_CD"                               toBOAttb="pva" />
+                              <Pair DOAttb="ADMN_MTHD_SYS_ID"                       toBOAttb="adminMethodSysId" />
+                              <Pair DOAttb="COMMENTS"                                     toBOAttb="comments" />
+                              <Pair DOAttb="CREATD_USER_ID"                               toBOAttb="createdUser" />
+                              <Pair DOAttb="CREATD_TM_STMP"                         toBOAttb="createdDate" />
+                              <Pair DOAttb="LST_CHG_USR"                                  toBOAttb="lastUpdatedUser" />
+                              <Pair DOAttb="LST_CHG_TMS"                                  toBOAttb="lastUpdatedDate" />
+                              <Pair DOAttb="PSBL_ANSWR_ID"                                  toBOAttb="possibleAnswer" />   
+                              <Pair DOAttb="ADQM_NUM_ID"                                  toBOAttb="questionNumber" />    
+                                        
+      
+
+
+                        </DoAttributeToBOAttributeMap>
+                  
+
+
+                  </DataObject>
+                
+            </DataSource>
+      </BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.adminmethodmapping.bo.AdminMethodMappingBO">
+            
+             <BusinessAttribute name="description"            type="String"               keyAttrib="false" />
+             <BusinessAttribute name="adminMethodNo"          type="String"               keyAttrib="false" />
+            <BusinessAttribute name="adminMethodSysId"        type="String"               keyAttrib="false" />
+            <BusinessAttribute name="processMethod"           type="String"               keyAttrib="false" />
+            <BusinessAttribute name="processMethodDesc"       type="String"               keyAttrib="false" />
+            <BusinessAttribute name="term"                    type="String"       	 	  keyAttrib="false" />
+
+            <BusinessAttribute name="qualifier"               type="String"       		  keyAttrib="false" />
+            <BusinessAttribute name="pva"                     type="String"       		  keyAttrib="false" />
+            <BusinessAttribute name="datatype"                type="String"      	 	  keyAttrib="false" />
+            <BusinessAttribute name="comments"                type="String"      	   	  keyAttrib="false" />
+            <BusinessAttribute name="filterCriteriaSysId"     type="Int"            	  keyAttrib="true" />    
+
+ 			<BusinessAttribute name="termid"                  type="String"       		  keyAttrib="false" />
+            <BusinessAttribute name="qualifierid"             type="String"      	 	  keyAttrib="false" />
+            <BusinessAttribute name="pvaid"                	  type="String"      	   	  keyAttrib="false" />
+            <BusinessAttribute name="datatypeid"     		  type="String"            	  keyAttrib="false" />    
+
+
+
+           
+            <BusinessAttribute name="answers" 				  type="String"  			  keyAttrib="false" />	
+            <BusinessAttribute name="qualifierList" 		  type="List"   			  keyAttrib="false" />	
+            <BusinessAttribute name="processMethodList" 	  type="List"   			  keyAttrib="false" />	
+            <BusinessAttribute name="termList" 				  type="List"   			  keyAttrib="false" />	
+            <BusinessAttribute name="pvaList" 				  type="List"   			  keyAttrib="false" />			
+            <BusinessAttribute name="createdUser" 			  type="String" 			  keyAttrib="false" />
+            <BusinessAttribute name="createdDate" 			  type="Date" 			  keyAttrib="false" />
+		    <BusinessAttribute name="lastUpdatedUser" 		  type="String" 			  keyAttrib="false" />
+		    <BusinessAttribute name="lastUpdatedDate"  		 type="Date" 			      keyAttrib="false" />
+		   	<BusinessAttribute name="rownum"  				 type="Int" 			      keyAttrib="true" />
+            <BusinessAttribute name="possibleAnswer"  		 type="String" 			      keyAttrib="false" />
+
+
+
+            <SearchCriteria>
+                  <SearchCriteriaAttribute name="adminMethodSysId" type="Int" />
+                  <SearchCriteriaAttribute name="processMethodList" type="List" />
+                  <SearchCriteriaAttribute name="qualifierList" type="List" />
+                  <SearchCriteriaAttribute name="termList" type="List" />
+                  <SearchCriteriaAttribute name="pvaList" type="List" />
+                  <SearchCriteriaAttribute name="adminMethodNo" type="Int" />
+                  <SearchCriteriaAttribute name="adminMethodDesc" type="String" />
+
+            </SearchCriteria>
+            <DataSource name="prmd" domain="medical">
+                  <Connection preferred="jndi">
+                        <url>
+                              jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+                        </url>
+                        <jndi>java:comp/env/wsbEwpdDS</jndi>
+                  </Connection>
+
+                <SelectSQLQuery name="ViewAdminMethodMapping" >
+                SELECT  b.admn_mthd_no, b.admn_mthd_desc, b.admn_mthd_sys_id, c.spr_prcss_stp_nm,a.trm_prmry_cds,
+			    d.cd_desc_txt qualifier,  d1.prmry_cd pva, f.dtyp_data_type_lgnd,a.ADMN_MTHD_FLTR_CRITR_SYS_ID ,
+                a.creatd_user_id, a.creatd_tm_stmp,
+				a.lst_chg_usr, a.lst_chg_tms,a.cmnts
+	         	FROM admn_mthd_fltr_critr a LEFT OUTER JOIN item  d 
+		    	ON d.prmry_cd = a.qual_prmry_cd
+			    AND d.ctlg_id = 1935  LEFT OUTER JOIN item  d1 
+		        ON d1.prmry_cd = a.prvdr_agmnt_cd
+		        AND d1.ctlg_id = 1936
+		        LEFT OUTER JOIN dtyp_data_type f
+		        ON f.dtyp_data_type_id = a.dtyp_data_type_id
+		        JOIN admn_mthd_mstr b 
+		        ON a.admn_mthd_sys_id = b.admn_mthd_sys_id
+		        JOIN spr_prcss_stp_mstr c 
+		        ON c.spr_prcss_stp_sys_id = a.spr_prcss_stp_sys_id
+                and  b.admn_mthd_sys_id ={0}            
+                </SelectSQLQuery>   
+             
+             <SelectSQLQuery name="locatePossibleAnswers" >
+			  select psbl_answr_id_lst, admn_mthd_fltr_critr_sys_id 
+			  from admn_mthd_fltr_critr where admn_mthd_sys_id={0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="deleteAdminMethodMapping" >
+			CALL  ADMN_MTHD_MAPPING_DEL_PROC({0},{1})
+			</SelectSQLQuery>
+
+              <SelectSQLQuery name="getItemCodes" >
+			 select PRMRY_CD,CD_DESC_TXT,rownum  from item where CTLG_ID = 1934
+			</SelectSQLQuery>	
+            <SelectSQLQuery name="locateAdminMethodSysId" >
+			select m.admn_mthd_sys_id,m.spr_prcss_stp_sys_id,rownum 
+            from admn_mthd_mstr m, spr_prcss_stp_mstr p, (select adm.admn_mthd_no, adm.admn_mthd_desc, pr.spr_prcss_stp_nm
+                                                from admn_mthd_mstr adm, spr_prcss_stp_mstr pr
+                                                where adm.spr_prcss_stp_sys_id = pr.spr_prcss_stp_sys_id
+                                                and adm.admn_mthd_sys_id={0}) adminMethod
+            where m.spr_prcss_stp_sys_id = p.spr_prcss_stp_sys_id
+            and m.admn_mthd_no = adminMethod.admn_mthd_no
+            and m.admn_mthd_desc = adminMethod.admn_mthd_desc
+            and p.spr_prcss_stp_nm = adminMethod.spr_prcss_stp_nm order by  m.spr_prcss_stp_sys_id 
+			</SelectSQLQuery>			
+             
+            
+              <SelectSQLQuery name="locateAdminMethodMapping" dynamic="true">
+				 	<STATIC>		
+         		SELECT  b.admn_mthd_no, b.admn_mthd_desc, b.admn_mthd_sys_id, c.spr_prcss_stp_nm,d0.prmry_cd termID,a.trm_prmry_cds termDesc, d.prmry_cd qualifierId,
+                      d.cd_desc_txt qualifierDesc, d1.cd_desc_txt pvaDesc, d1.prmry_cd pvaId ,f.dtyp_data_type_id,f.dtyp_data_type_lgnd,a.ADMN_MTHD_FLTR_CRITR_SYS_ID ,a.creatd_tm_stmp,
+                  a.creatd_user_id,a.lst_chg_tms,a.lst_chg_usr,a.CMNTS
+                  FROM admn_mthd_fltr_critr a LEFT OUTER JOIN item  d 
+                  ON d.prmry_cd = a.qual_prmry_cd
+                  AND d.ctlg_id = 1935  LEFT OUTER JOIN item  d0
+                  ON d0.cd_desc_txt = a.trm_prmry_cds
+                   AND d0.ctlg_id = 1934
+                LEFT OUTER JOIN item  d1 
+                    ON d1.prmry_cd = a.prvdr_agmnt_cd
+                    AND d1.ctlg_id = 1936
+                    LEFT OUTER JOIN dtyp_data_type f
+                    ON f.dtyp_data_type_id = a.dtyp_data_type_id
+                    JOIN admn_mthd_mstr b 
+                    ON a.admn_mthd_sys_id = b.admn_mthd_sys_id
+                    JOIN spr_prcss_stp_mstr c 
+                    ON c.spr_prcss_stp_sys_id = a.spr_prcss_stp_sys_id  and   c.prod_family like ('PPO')    
+         			</STATIC>
+
+
+				<DYNAMIC>
+					and  b.admn_mthd_no ={0}
+
+				</DYNAMIC>
+                <DYNAMIC>
+					and  b.admn_mthd_desc like {1} ESCAPE '\'
+
+				</DYNAMIC>
+                <DYNAMIC>
+					and  b.admn_mthd_sys_id = {2}
+
+				</DYNAMIC>
+				
+				<DYNAMIC>
+					and b.spr_prcss_stp_sys_id {3}
+              </DYNAMIC>
+               	<DYNAMIC>
+					 and a.qual_prmry_cd {4}
+              </DYNAMIC>
+               <DYNAMIC>
+					 and a.trm_prmry_cds {5}
+              </DYNAMIC>
+               <DYNAMIC>
+					 and a.prvdr_agmnt_cd {6}
+              </DYNAMIC>
+
+
+			</SelectSQLQuery>
+                 <DataObject name="ADMN_MTHD_MSTR">			
+              
+				<DataObjectAttribute name="ADMN_MTHD_NO" 				type="String" />
+                <DataObjectAttribute name="ADMN_MTHD_SYS_ID" 			type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_DESC"		   		type="String" />				
+                <DataObjectAttribute name="SPR_PRCSS_STP_NM" 			type="String" />
+                <DataObjectAttribute name="TRM_PRMRY_CDS" 				type="String" />
+				 <DataObjectAttribute name="TRM_PRMRY_ID" 				type="String" />
+                <DataObjectAttribute name="CD_DESC_TXT" 				type="String" />
+                <DataObjectAttribute name="PRVDR_AGMNT_CD" 				type="String" />
+                <DataObjectAttribute name="DTYP_DATA_TYPE_NAME" 		type="String" />
+                <DataObjectAttribute name="ADMN_MTHD_FLTR_CRITR_SYS_ID" type="Int" />
+
+                <DataObjectAttribute name="PSBL_ANSW" 					type="String" />
+                <DataObjectAttribute name="SPR_PRCSS_STP_SYS_ID" 		type="String" />
+                <DataObjectAttribute name="QUALIFIER_LIST" 				type="String" />
+                <DataObjectAttribute name="TERM_LIST" 					type="String" />
+                <DataObjectAttribute name="PVA_LIST" 					type="String" />
+                <DataObjectAttribute name="SPS_ID_LIST" 				type="String" />
+                <DataObjectAttribute name="CREATD_USER_ID" 				type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 				type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 				type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 				type="TimeStamp" />	
+      
+				 <DataObjectAttribute name="PRVDR_AGMNT_DESC" 			type="String" />            
+				 <DataObjectAttribute name="DTYP_DATA_TYPE_ID" 			type="String" />			
+				<DataObjectAttribute name="QUALIFIER_ID" 				type="String" />
+				<DataObjectAttribute name="QUALIFIER_DESC" 				type="String" />
+				<DataObjectAttribute name="rownum" 						type="Int" />
+				<DataObjectAttribute name="COMMENTS" 					type="String" />
+               
+
+              	
+            
+
+
+                <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 		name="ADMN_MTHD_NO" />
+                    <DataObjectAttributeInput index="1" 		name="ADMN_MTHD_DESC" />
+                    <DataObjectAttributeInput index="2" 		name="ADMN_MTHD_SYS_ID" />
+					<DataObjectAttributeInput index="3"			name="SPS_ID_LIST" />
+                    <DataObjectAttributeInput index="4"			name="QUALIFIER_LIST" />
+					<DataObjectAttributeInput index="5"			name="TERM_LIST" />
+                    <DataObjectAttributeInput index="6"			name="PVA_LIST" />
+				
+					  		
+                              <RSIndexToDOAttributeMap>
+                                    <ResultIndex index="0"                    dataObjectAttribName="ADMN_MTHD_NO" />
+                                    <ResultIndex index="1"                    dataObjectAttribName="ADMN_MTHD_DESC" />  
+                                    <ResultIndex index="2"                    dataObjectAttribName="ADMN_MTHD_SYS_ID" />                              
+                                    <ResultIndex index="3"                    dataObjectAttribName="SPR_PRCSS_STP_NM" />
+                        			<ResultIndex index="4"                    dataObjectAttribName="TRM_PRMRY_ID" />
+                        			<ResultIndex index="5"                    dataObjectAttribName="TRM_PRMRY_CDS" />
+                                    <ResultIndex index="6"                    dataObjectAttribName="QUALIFIER_ID" />
+                                    <ResultIndex index="7"                    dataObjectAttribName="CD_DESC_TXT" />
+                                     <ResultIndex index="8"                    dataObjectAttribName="PRVDR_AGMNT_DESC" />
+                                    <ResultIndex index="9"                    dataObjectAttribName="PRVDR_AGMNT_CD" />  
+                        			
+                                    <ResultIndex index="10"                   dataObjectAttribName="DTYP_DATA_TYPE_ID" />
+                                    <ResultIndex index="11"                   dataObjectAttribName="DTYP_DATA_TYPE_NAME" />
+                                    <ResultIndex index="12"                   dataObjectAttribName="ADMN_MTHD_FLTR_CRITR_SYS_ID" />                   
+                                    <ResultIndex index="13"                   dataObjectAttribName="CREATD_TM_STMP" />
+                                    <ResultIndex index="14"                   dataObjectAttribName="CREATD_USER_ID" />
+                                    <ResultIndex index="15"                   dataObjectAttribName="LST_CHG_TMS" />
+                                    <ResultIndex index="16"                   dataObjectAttribName="LST_CHG_USR" />
+                                    <ResultIndex index="17"                   dataObjectAttribName="COMMENTS" />
+							
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateAdminMethodMapping" />
+				</SQLTemplate>
+
+               <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_NO" />
+						<ResultIndex index="1"
+							dataObjectAttribName="ADMN_MTHD_DESC" />	
+						<ResultIndex index="2"
+							dataObjectAttribName="ADMN_MTHD_SYS_ID" />					
+						<ResultIndex index="3"
+							dataObjectAttribName="SPR_PRCSS_STP_NM" />
+                        <ResultIndex index="4"
+							dataObjectAttribName="TRM_PRMRY_CDS" />
+                        <ResultIndex index="5"
+							dataObjectAttribName="CD_DESC_TXT" />
+						 <ResultIndex index="6"
+							dataObjectAttribName="PRVDR_AGMNT_CD" />
+						 <ResultIndex index="7"
+							dataObjectAttribName="DTYP_DATA_TYPE_NAME" />
+						 <ResultIndex index="8"
+							dataObjectAttribName="ADMN_MTHD_FLTR_CRITR_SYS_ID" />	
+                        	<ResultIndex index="9"
+							dataObjectAttribName="CREATD_USER_ID" />
+						<ResultIndex index="10"
+							dataObjectAttribName="CREATD_TM_STMP" />
+						<ResultIndex index="11"
+							dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="12"
+							dataObjectAttribName="LST_CHG_TMS" />
+                        <ResultIndex index="13"
+							dataObjectAttribName="COMMENTS" />
+
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="ViewAdminMethodMapping" />
+				</SQLTemplate>
+
+			<SQLTemplate transType="select">
+							
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"      	dataObjectAttribName="TRM_PRMRY_ID" />
+						<ResultIndex index="1"      	dataObjectAttribName="TRM_PRMRY_CDS" />	
+						<ResultIndex index="2"      	dataObjectAttribName="rownum" />		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getItemCodes" />
+				</SQLTemplate>
+
+
+
+                    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 	name="ADMN_MTHD_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  			dataObjectAttribName="PSBL_ANSW" />
+						<ResultIndex index="1"				dataObjectAttribName="ADMN_MTHD_FLTR_CRITR_SYS_ID" />	
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locatePossibleAnswers" />
+				</SQLTemplate>
+  				 <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 	name="ADMN_MTHD_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  			dataObjectAttribName="rownum" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="deleteAdminMethodMapping" />
+				</SQLTemplate>
+                 <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" 	name="ADMN_MTHD_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  			dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+						<ResultIndex index="1"				dataObjectAttribName="SPR_PRCSS_STP_SYS_ID" />	
+                        <ResultIndex index="2"      	dataObjectAttribName="rownum" />		
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateAdminMethodSysId" />
+				</SQLTemplate>
+               <SQLTemplate transType="delete">
+						<SQLQuery>
+							DELETE FROM admn_mthd_fltr_critr where admn_mthd_sys_id =?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMN_MTHD_SYS_ID"/>
+					
+				</SQLTemplate>
+			
+                  <SQLTemplate transType="insert">
+                        <SQLQuery>
+                             
+                              insert into admn_mthd_qstn_answr_fltr (spr_prcss_stp_sys_id, psbl_answr_id, lst_chg_usr, lst_chg_tms, 
+                              creatd_tm_stmp, creatd_user_id) values (?,?,?,sysdate,sysdate,?)
+
+
+
+                        </SQLQuery>
+
+                             <DataObjectAttributeInput index="0" name="SPR_PRCSS_STP_SYS_ID" />
+                       		 <DataObjectAttributeInput index="1" name="PSBL_ANSW" />                              
+                             <DataObjectAttributeInput index="2" name="LST_CHG_USR" />
+                       		 <DataObjectAttributeInput index="3" name="CREATD_USER_ID" />   
+                             
+
+                     </SQLTemplate>
+                        <DoAttributeToBOAttributeMap>
+
+                              <Pair DOAttb="ADMN_MTHD_NO"           		 toBOAttb="adminMethodNo" />
+                              <Pair DOAttb="ADMN_MTHD_DESC"            		 toBOAttb="description" />
+                              <Pair DOAttb="ADMN_MTHD_FLTR_CRITR_SYS_ID"     toBOAttb="filterCriteriaSysId" />
+                              <Pair DOAttb="SPR_PRCSS_STP_SYS_ID"            toBOAttb="processMethod" />
+                              <Pair DOAttb="SPR_PRCSS_STP_NM"                toBOAttb="processMethodDesc" />
+                              <Pair DOAttb="TRM_PRMRY_CDS"                   toBOAttb="term" />
+                              <Pair DOAttb="CD_DESC_TXT"                     toBOAttb="qualifier" />
+                              <Pair DOAttb="DTYP_DATA_TYPE_NAME"             toBOAttb="datatype" />
+                              <Pair DOAttb="PRVDR_AGMNT_CD"                  toBOAttb="pvaid" />
+							  <Pair DOAttb="ADMN_MTHD_SYS_ID"                toBOAttb="adminMethodSysId" />
+                              <Pair DOAttb="PSBL_ANSW"                		 toBOAttb="answers" />      
+                              <Pair DOAttb="CREATD_USER_ID"      			 toBOAttb="createdUser" />
+					          <Pair DOAttb="CREATD_TM_STMP"     			 toBOAttb="createdDate" />
+					          <Pair DOAttb="LST_CHG_USR"              	     	toBOAttb="lastUpdatedUser" />
+					          <Pair DOAttb="LST_CHG_TMS"                  	 	toBOAttb="lastUpdatedDate" /> 
+							 <Pair DOAttb="TRM_PRMRY_ID"      			 	 	toBOAttb="termid" />
+					          <Pair DOAttb="QUALIFIER_ID"     				 	toBOAttb="qualifierid" />					       
+					         <Pair DOAttb="DTYP_DATA_TYPE_ID"               	toBOAttb="datatypeid" /> 
+							   <Pair DOAttb="PRVDR_AGMNT_DESC"                  toBOAttb="pva" /> 
+					          <Pair DOAttb="QUALIFIER_ID"               	    toBOAttb="qualifierid" /> 
+                             <Pair DOAttb="rownum"               				toBOAttb="rownum" /> 							
+                             
+                              <Pair DOAttb="COMMENTS"                   toBOAttb="comments" /> 
+                            
+                          </DoAttributeToBOAttributeMap>
+                  
+                          <DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toSCAttb="adminMethodSysId" />
+                    <Pair DOAttb="SPS_ID_LIST"
+						toSCAttb="processMethodList" />
+                   <Pair DOAttb="QUALIFIER_LIST"
+						toSCAttb="qualifierList" />
+                    <Pair DOAttb="TERM_LIST"
+						toSCAttb="termList" />
+                     <Pair DOAttb="PVA_LIST"
+						toSCAttb="pvaList" />
+                    <Pair DOAttb="ADMN_MTHD_NO"
+						toSCAttb="adminMethodNo" />
+                    <Pair DOAttb="ADMN_MTHD_DESC"
+						toSCAttb="adminMethodDesc" />
+                   
+				</DoAttributeToSCAttributeMap>
+
+               </DataObject>
+            </DataSource>
+      </BusinessObjectMetadata>
+
+
+
+
+
+</Metadata>

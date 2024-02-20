@@ -1,0 +1,615 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.contractidpool.vo.ContractIDPoolRecord">
+
+		<BusinessAttribute name="contractId" 				type="String" 	keyAttrib="true" />
+		<BusinessAttribute name="contractSysId" 			type="Int" 		keyAttrib="true" />
+		<BusinessAttribute name="systemPoolStatus" 			type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="reservePoolStatus" 		type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="createdUser" 				type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser" 			type="String" 	keyAttrib="false" />
+		<BusinessAttribute name="reserveContractPoolSysId" 	type="Int" 		keyAttrib="false" />
+		<BusinessAttribute name="masterTableRefId" 			type="Int" 		keyAttrib="false" />
+		<BusinessAttribute name="expiryDate" 				type="Date" 	keyAttrib="false" />
+		<BusinessAttribute name="SystemDomain" 				type="Date" 	keyAttrib="false" />
+
+		<DataSource name="prmd" domain="medical">
+
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				SELECT CNTRCT_ID, CNTRCT_STTS_CD, SYS_DOMAIN, CNTRCT_SYS_ID  FROM CNTRCT_ID_SYS_PL
+				WHERE CNTRCT_ID = ?
+			</SelectSQLQuery>
+		
+			<DataObject name="CNTRCT_ID_SYS_PL">
+
+				<DataObjectAttribute name="CNTRCT_ID" 				type="String" />
+				<DataObjectAttribute name="CNTRCT_STTS_CD" 			type="String" />
+				<DataObjectAttribute name="SYS_DOMAIN" 				type="String" />
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 			type="Int" />
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="SYS_DOMAIN" />
+						<ResultIndex index="3" 	dataObjectAttribName="CNTRCT_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+							
+				<SQLTemplate transType="update">
+	                <SQLQuery>
+	                    UPDATE CNTRCT_ID_SYS_PL SET CNTRCT_STTS_CD = ?,SYS_DOMAIN = ? WHERE CNTRCT_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="CNTRCT_STTS_CD"/>
+					<DataObjectAttributeInput index="1" name="SYS_DOMAIN"/>
+	                <DataObjectAttributeInput index="2" name="CNTRCT_ID"/>
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_ID" 						toBOAttb="contractId" />				
+					<Pair DOAttb="CNTRCT_STTS_CD" 					toBOAttb="systemPoolStatus" />
+					<Pair DOAttb="SYS_DOMAIN" 						toBOAttb="SystemDomain" />
+					<Pair DOAttb="CNTRCT_SYS_ID" 					toBOAttb="contractSysId" />
+				</DoAttributeToBOAttributeMap>
+
+			</DataObject>
+
+			<DataObject name="RSRV_CNTRCT_ID_PL">
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 		 	type="Int"/>
+				<DataObjectAttribute name="RSRV_CNTRCT_MSTR_REF" 	type="Int"/>
+				<DataObjectAttribute name="CNTRCT_ID" 			 	type="String"/>
+				<DataObjectAttribute name="CNTRCT_STTS_CD" 		 	type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String" /> 
+ 		 		<DataObjectAttribute name="CREATD_USR_ID" 			type="String" /> 
+ 		 		<DataObjectAttribute name="EXP_DATE" 				type="Date" />   				
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into RSRV_CNTRCT_ID_PL 
+								(CNTRCT_SYS_ID, RSRV_CNTRCT_MSTR_REF, CNTRCT_ID, CNTRCT_STTS_CD, SYS_DOMAIN,
+								CREATD_USR_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS,EXP_DATE)
+								values (?,?,?,?,null,?,sysdate,?,sysdate,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="RSRV_CNTRCT_MSTR_REF"/>
+						<DataObjectAttributeInput index="2" name="CNTRCT_ID"/>
+						<DataObjectAttributeInput index="3" name="CNTRCT_STTS_CD"/>
+						<DataObjectAttributeInput index="4" name="CREATD_USR_ID"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="6" name="EXP_DATE"/>
+				</SQLTemplate> 
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CNTRCT_SYS_ID"			toBOAttb="reserveContractPoolSysId"/>
+						<Pair DOAttb="RSRV_CNTRCT_MSTR_REF"		toBOAttb="masterTableRefId"/>
+						<Pair DOAttb="CNTRCT_ID"		        toBOAttb="contractId"/>
+						<Pair DOAttb="CNTRCT_STTS_CD"		    toBOAttb="reservePoolStatus"/>
+						<Pair DOAttb="LST_CHG_USR" 				toBOAttb="lastUpdatedUser" /> 
+						<Pair DOAttb="CREATD_USR_ID" 			toBOAttb="createdUser" /> 
+						<Pair DOAttb="EXP_DATE" 				toBOAttb="expiryDate" /> 
+				</DoAttributeToBOAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.contractidpool.vo.ContractIDReservePoolRecord">
+		<BusinessAttribute name="contractId" 					type="String" 		keyAttrib="true" />
+		<BusinessAttribute name="contractSysId" 				type="Int" 			keyAttrib="true" />
+		<BusinessAttribute name="systemPoolStatus" 				type="String" 		keyAttrib="false" />		
+		<BusinessAttribute name="reservePoolStatus" 			type="String" 		keyAttrib="false" />		
+		<BusinessAttribute name="department" 					type="String" 		keyAttrib="false" />
+		<BusinessAttribute name="BusinessDomain" 				type="List" 		keyAttrib="false" />
+		<BusinessAttribute name="SystemDomain" 					type="String" 		keyAttrib="false" />
+		<BusinessAttribute name="effectiveDate" 				type="Date" 		keyAttrib="false" />
+		<BusinessAttribute name="expiryDate" 					type="Date" 		keyAttrib="false" />
+		<BusinessAttribute name="comment" 			   			type="String" 		keyAttrib="false" />
+		<BusinessAttribute name="masterTableRefId" 			   	type="Int" 			keyAttrib="false" />	
+		<BusinessAttribute name="reserveContractPoolSysId" 		type="Int" 			keyAttrib="false" />	
+		<BusinessAttribute name="lastUpdatedUser" 				type="String" 		keyAttrib="false" />	
+		<BusinessAttribute name="createdUser" 					type="String" 		keyAttrib="false" />	
+		<BusinessAttribute name="marketSegment" 				type="String" 		keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedTimeStamp" 			type="Date" 		keyAttrib="false" />
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="contractId" 		type="String" />
+			<SearchCriteriaAttribute name="startContractId" type="String" />
+			<SearchCriteriaAttribute name="endContractId" 	type="String" />
+			<SearchCriteriaAttribute name="department" 		type="String" />
+			<SearchCriteriaAttribute name="BusinessDomain" 	type="List" />
+			<SearchCriteriaAttribute name="SystemDomain" 	type="String" />
+			<SearchCriteriaAttribute name="count" 			type="Int" />
+			<SearchCriteriaAttribute name="ExpiryDate" 		type="Date" />
+			<SearchCriteriaAttribute name="lob" 			type="List"/>
+			<SearchCriteriaAttribute name="entity" 			type="List"/>
+			<SearchCriteriaAttribute name="group" 			type="List"/>
+			<SearchCriteriaAttribute name="unit" 			type="List"/>
+			<SearchCriteriaAttribute name="domainList" 		type="List"/>
+			<SearchCriteriaAttribute name="domainCount" 	type="Int"/>
+			<SearchCriteriaAttribute name="searchString" 	type="String" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			
+			<SelectSQLQuery name="getContractIdsWithStartAndEndDate" >
+				<![CDATA[Select CNTRCT_ID, CNTRCT_STTS_CD, SYS_DOMAIN, CNTRCT_SYS_ID From CNTRCT_ID_SYS_PL
+				Where UPPER(CNTRCT_ID) >= UPPER({0}) And UPPER(CNTRCT_ID) <= UPPER({1}) AND CNTRCT_STTS_CD != 'X' 
+				Order By CNTRCT_SYS_ID]]>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractDetailsFromReserved">
+				Select A.CNTRCT_SYS_ID,A.RSRV_CNTRCT_MSTR_REF,A.CNTRCT_ID,A.CNTRCT_STTS_CD,A.SYS_DOMAIN,
+				B.CMNT,B.EFFT_DATE,A.EXP_DATE,B.MRK_SEG,A.LST_CHG_USR,A.CREATD_USR_ID from RSRV_CNTRCT_ID_MSTR B,RSRV_CNTRCT_ID_PL A
+				where A.RSRV_CNTRCT_MSTR_REF = B.CNTRCT_SYS_ID And A.CNTRCT_ID = {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractDetailsWithCount">
+				<![CDATA[SELECT CNTRCT_ID,CNTRCT_STTS_CD, SYS_DOMAIN,CNTRCT_SYS_ID FROM 
+				(SELECT CNTRCT_ID,CNTRCT_STTS_CD,SYS_DOMAIN,CNTRCT_SYS_ID FROM CNTRCT_ID_SYS_PL WHERE UPPER(CNTRCT_ID) >= UPPER({0})
+				ORDER BY CNTRCT_SYS_ID) WHERE ROWNUM <= {1} AND CNTRCT_STTS_CD != 'X']]>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractDetailsWithCountForUnChecked">
+				<![CDATA[SELECT B.CNTRCT_ID, B.CNTRCT_STTS_CD, B.SYS_DOMAIN FROM  CNTRCT_ID_SYS_PL B, 
+				(SELECT MIN(CNTRCT_ID) CNTRCT_ID_MIN,MAX(CNTRCT_ID) CNTRCT_ID_MAX  FROM                                
+ 				(SELECT CNTRCT_ID,CNTRCT_STTS_CD FROM CNTRCT_ID_SYS_PL WHERE UPPER(CNTRCT_ID) >= UPPER({0}) and CNTRCT_STTS_CD != 'X' 
+					 ORDER BY CNTRCT_ID) 
+				WHERE  ROWNUM <= {1} and CNTRCT_STTS_CD != 'X' and CNTRCT_STTS_CD != 'U' and CNTRCT_STTS_CD != 'R') a   
+				WHERE UPPER(B.CNTRCT_ID) >= UPPER({0}) and UPPER(B.CNTRCT_ID) <= a.CNTRCT_ID_MAX  and B.CNTRCT_STTS_CD != 'X' 					
+				ORDER BY CNTRCT_ID]]>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery>
+				SELECT CNTRCT_ID, CNTRCT_STTS_CD, SYS_DOMAIN, CNTRCT_SYS_ID  FROM CNTRCT_ID_SYS_PL
+				WHERE CNTRCT_ID = ?
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getInitialContracts">
+			SELECT CNTRCT_ID, cntrct_stts_cd FROM CNTRCT_ID_SYS_PL WHERE CNTRCT_ID
+				IN (SELECT MIN(CNTRCT_ID) FROM CNTRCT_ID_SYS_PL WHERE CNTRCT_STTS_CD != 'U' AND CNTRCT_STTS_CD != 'R' AND CNTRCT_STTS_CD != 'X')
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getInitialContractsSystemPool">
+			SELECT CNTRCT_ID, cntrct_stts_cd FROM CNTRCT_ID_SYS_PL WHERE CNTRCT_ID
+				IN (SELECT MIN(CNTRCT_ID) FROM CNTRCT_ID_SYS_PL WHERE CNTRCT_STTS_CD != 'U' AND CNTRCT_STTS_CD != 'R' AND CNTRCT_STTS_CD != 'X'
+				AND CNTRCT_STTS_CD != 'M' AND CNTRCT_STTS_CD != 'T')
+			</SelectSQLQuery>			
+
+			<SelectSQLQuery name="getExpiredContractIds" dynamic="true">
+				<STATIC><![CDATA[SELECT * From
+					(SELECT CNTRCT_ID, CNTRCT_STTS_CD, CREATD_USR_ID 
+					From (SELECT B.CNTRCT_ID, B.CNTRCT_STTS_CD, B.CREATD_USR_ID  From RSRV_CNTRCT_ID_MSTR A, RSRV_CNTRCT_ID_PL B
+					Where A.CNTRCT_SYS_ID = B.RSRV_CNTRCT_MSTR_REF
+					AND to_date(to_char(B.EXP_DATE,'YYYY/MM/DD'),'YYYY/MM/DD')  <= to_date(to_char(sysdate,'YYYY/MM/DD'),'YYYY/MM/DD') ]]></STATIC>
+					<DYNAMIC><![CDATA[AND B.CNTRCT_ID LIKE upper({0}) escape '\']]></DYNAMIC>
+					<STATIC><![CDATA[order by CNTRCT_ID)
+					) Where ROWNUM <= 501
+				]]></STATIC>
+			</SelectSQLQuery>			
+			
+			<SelectSQLQuery name="getBusinessGroupList">
+				select BG_GRP from SDS_BG_MPNG where SDS_DMN = {0}
+			</SelectSQLQuery>			
+
+
+			<SelectSQLQuery name="getReservedContracts" dynamic="true">
+				<STATIC><![CDATA[select A.cntrct_id,A.CNTRCT_STTS_CD from rsrv_cntrct_id_pl A, RSRV_CNTRCT_ID_MSTR B  where A.rsrv_cntrct_mstr_ref in 
+					(select C.enty_sys_id from 
+					(select B.enty_sys_id,count(B.enty_sys_id) AS COUNT from enty_domn_info B 
+					where B.enty_type='reservecontract'
+					group by B.enty_sys_id) B ,
+					(select B.enty_sys_id,count(B.enty_sys_id) AS COUNT from enty_domn_info B 
+					where B.enty_type='reservecontract'
+					and b.domn_sys_id {0}
+					group by B.enty_sys_id) C
+					where c.enty_sys_id =b.enty_sys_id and c.COUNT =b.count and c.count = {1} 
+					) and A.cntrct_stts_cd ='N' 
+					and B.cntrct_sys_id =A.rsrv_cntrct_mstr_ref 
+					and B.EFFT_DATE <= sysdate 
+					and A.EXP_DATE  >= sysdate ]]></STATIC>      
+				<DYNAMIC><![CDATA[ and upper(A.cntrct_id)  LIKE upper({2}) escape '\']]></DYNAMIC>                       
+				<STATIC><![CDATA[and rownum <= 501
+					ORDER BY a.CNTRCT_ID ASC]]></STATIC>
+			</SelectSQLQuery>		
+
+			<SelectSQLQuery   name="getReservedContractId" dynamic="true">
+					 <STATIC>
+					<![CDATA[
+						select a.RSRV_CNTRCT_MSTR_REF,a.CNTRCT_ID,a.CNTRCT_STTS_CD,b.EFFT_DATE,a.EXP_DATE,b.cmnt,a.LST_CHG_USR,a.LST_CHG_TMS,
+						b.MRK_SEG
+						from RSRV_CNTRCT_ID_MSTR b,RSRV_CNTRCT_ID_PL a where a.CNTRCT_STTS_CD = 'N'
+						AND a.RSRV_CNTRCT_MSTR_REF = b.CNTRCT_SYS_ID AND
+					]]>
+					</STATIC>
+					
+					<DYNAMIC>
+						 <![CDATA[
+						  UPPER(a.CNTRCT_ID) like upper({0}) escape '`' AND
+            			  ]]>
+           			</DYNAMIC> 
+					<STATIC>
+						a.RSRV_CNTRCT_MSTR_REF IN 
+						(SELECT ED.ENTY_SYS_ID FROM ENTY_DOMN_INFO ED WHERE ED.ENTY_TYPE = 'reservecontract' AND ED.DOMN_SYS_ID IN 
+        					((SELECT D.DOMN_SYS_ID FROM AVLBL_DOMN D WHERE D.LOB_NM {1}
+                			AND  D.BUS_GRP_NM  {2}
+                			AND D.BUS_ENTY_NM  {3}
+							AND D.MRKT_BUS_UNT {4}
+            			))) ORDER BY a.CNTRCT_ID ASC
+					</STATIC>	
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getReservedContractIdForISG">
+				select distinct(a.CNTRCT_ID)
+                    from  RSRV_CNTRCT_ID_PL  a, ENTY_DOMN_INFO b, AVLBL_DOMN c,RSRV_CNTRCT_ID_MSTR d
+                    where d.cntrct_sys_id = b.ENTY_SYS_ID
+                    and d.cntrct_sys_id = a.RSRV_CNTRCT_MSTR_REF
+                    and b.DOMN_SYS_ID = c.DOMN_SYS_ID
+                    and b.ENTY_TYPE = 'reservecontract' and c.BUS_GRP_NM {0}
+			</SelectSQLQuery>			
+
+			<DataObject name="CNTRCT_ID_SYS_PL">
+
+				<DataObjectAttribute name="CNTRCT_ID" 						type="String" />
+				<DataObjectAttribute name="CNTRCT_ID_START" 				type="String" />
+				<DataObjectAttribute name="CNTRCT_ID_END" 					type="String" />
+				<DataObjectAttribute name="CNTRCT_STTS_CD" 					type="String" />
+				<DataObjectAttribute name="SYS_DOMAIN" 						type="String" />
+				<DataObjectAttribute name="ROWNUM" 							type="Int" />	
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 					type="Int" />	
+			
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="SYS_DOMAIN" />
+						<ResultIndex index="3" 	dataObjectAttribName="CNTRCT_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID_START" />
+					<DataObjectAttributeInput index="1" name="CNTRCT_ID_END" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="SYS_DOMAIN" />
+						<ResultIndex index="3" 	dataObjectAttribName="CNTRCT_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractIdsWithStartAndEndDate" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<DataObjectAttributeInput index="1"  name="ROWNUM" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="SYS_DOMAIN" />
+						<ResultIndex index="3" 	dataObjectAttribName="CNTRCT_SYS_ID" />
+						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractDetailsWithCount" />
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<DataObjectAttributeInput index="1"  name="ROWNUM" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="SYS_DOMAIN" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractDetailsWithCountForUnChecked" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 			dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 			dataObjectAttribName="CNTRCT_STTS_CD" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getInitialContracts" />
+
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 			dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 			dataObjectAttribName="CNTRCT_STTS_CD" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getInitialContractsSystemPool" />
+
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_ID" 				toBOAttb="contractId" />
+					<Pair DOAttb="CNTRCT_ID_START" 			toBOAttb="contractId" />
+					<Pair DOAttb="CNTRCT_ID_END" 			toBOAttb="contractId" />
+					<Pair DOAttb="CNTRCT_STTS_CD" 			toBOAttb="systemPoolStatus" />
+					<Pair DOAttb="SYS_DOMAIN" 				toBOAttb="SystemDomain" />
+					<Pair DOAttb="CNTRCT_SYS_ID" 			toBOAttb="contractSysId" />
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNTRCT_ID" 				toSCAttb="contractId" />
+					<Pair DOAttb="CNTRCT_ID_START" 			toSCAttb="startContractId" />
+					<Pair DOAttb="CNTRCT_ID_END" 			toSCAttb="endContractId" />
+					<Pair DOAttb="ROWNUM" 					toSCAttb="count" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="RSRV_CNTRCT_ID_MSTR">
+
+				<DataObjectAttribute name="CNTRCT_ID" 	 	type="Int"/>
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 	 type="Int"/>
+				<DataObjectAttribute name="CMNT" 			 type="String"/>
+				<DataObjectAttribute name="EFFT_DATE" 		 type="Date"/>
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" /> 
+  				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" /> 
+  				<DataObjectAttribute name="MRK_SEG" 		type="String" /> 
+  				<DataObjectAttribute name="EXP_DATE" 	type="Date" />
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="5" 	dataObjectAttribName="CMNT" />
+						<ResultIndex index="6" 	dataObjectAttribName="EFFT_DATE" />
+						<ResultIndex index="8" 	dataObjectAttribName="MRK_SEG" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractDetailsFromReserved" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+				    <RSIndexToDOAttributeMap>
+						<ResultIndex index="3" 	dataObjectAttribName="EFFT_DATE" />
+						<ResultIndex index="5" 	dataObjectAttribName="CMNT" />
+						<ResultIndex index="8" 	dataObjectAttribName="MRK_SEG" />
+ 
+
+				     </RSIndexToDOAttributeMap>
+					 <SearchQueryName name="getReservedContractId"/>
+			 	</SQLTemplate>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+						insert into RSRV_CNTRCT_ID_MSTR (CNTRCT_SYS_ID, CMNT, EFFT_DATE, EXP_DATE,CREATD_USER_ID,
+							CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS,MRK_SEG) values (?,?,?,?,?,sysdate,?,sysdate,?)
+						</SQLQuery>
+						
+						<DataObjectAttributeInput index="0" name="CNTRCT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="CMNT"/>
+						<DataObjectAttributeInput index="2" name="EFFT_DATE"/>
+						<DataObjectAttributeInput index="3" name="EXP_DATE"/>
+						<DataObjectAttributeInput index="4" name="CREATD_USER_ID" /> 
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR" /> 
+						<DataObjectAttributeInput index="6" name="MRK_SEG" /> 
+						
+
+				</SQLTemplate> 
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CNTRCT_SYS_ID"			toBOAttb="masterTableRefId"/>
+						<Pair DOAttb="CMNT"		       			toBOAttb="comment"/>
+						<Pair DOAttb="EFFT_DATE"		    	toBOAttb="effectiveDate"/>
+						<Pair DOAttb="LST_CHG_USR" 				toBOAttb="lastUpdatedUser" /> 
+						<Pair DOAttb="CREATD_USER_ID" 			toBOAttb="createdUser" /> 
+						<Pair DOAttb="CNTRCT_ID" 				toBOAttb="contractId" /> 
+						<Pair DOAttb="MRK_SEG" 					toBOAttb="marketSegment" /> 
+						<Pair DOAttb="EXP_DATE"			    	toBOAttb="expiryDate"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			<DataObject name="RSRV_CNTRCT_ID_PL">
+
+				<DataObjectAttribute name="CNTRCT_SYS_ID" 	 type="Int"/>
+				<DataObjectAttribute name="CNTRCT_ID" 			 type="String"/>
+				<DataObjectAttribute name="CNTRCT_STTS_CD" 		 type="String"/>
+				<DataObjectAttribute name="SYS_DOMAIN" 		 type="String"/>
+				<DataObjectAttribute name="DOMAINLIST"    		type="Int"/>
+				<DataObjectAttribute name="DOMAINCOUNT"    		type="Int"/>
+				<DataObjectAttribute name="RSRV_CNTRCT_MSTR_REF" 	 type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" /> 
+  				<DataObjectAttribute name="CREATD_USR_ID" 	type="String" /> 
+			    <DataObjectAttribute name="EXP_DATE" 	type="Date" />
+			    <DataObjectAttribute name="LST_CHG_TMS" 	type="Date" />
+				<DataObjectAttribute name="SEARCH_STRING" 	type="String" />
+				<DataObjectAttribute name="ROWNUM" 	type="Int" />
+				<SQLTemplate transType="select">
+				    <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="CNTRCT_ID"/>
+					</RSIndexToDOAttributeMap>
+			        <SearchQueryName name="getReservedContractIdForISG"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="DOMAINLIST"/>
+					<DataObjectAttributeInput index="1" name="DOMAINCOUNT"/>
+					<DataObjectAttributeInput index="2"	name="SEARCH_STRING" />
+					
+			        <RSIndexToDOAttributeMap>						
+			            <ResultIndex index="0" dataObjectAttribName ="CNTRCT_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="CNTRCT_STTS_CD"/>		      
+			         </RSIndexToDOAttributeMap>
+			            
+					<SearchQueryName name="getReservedContracts"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0"	name="SEARCH_STRING" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="2" 	dataObjectAttribName="CREATD_USR_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getExpiredContractIds" />
+				</SQLTemplate>
+			   	<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+				    <RSIndexToDOAttributeMap>
+				         <ResultIndex index="0" dataObjectAttribName ="RSRV_CNTRCT_MSTR_REF"/>
+				         <ResultIndex index="1" dataObjectAttribName ="CNTRCT_ID"/>
+				         <ResultIndex index="2" dataObjectAttribName ="CNTRCT_STTS_CD"/>
+						 <ResultIndex index="4" dataObjectAttribName ="EXP_DATE"/>
+						 <ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						 <ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+				     </RSIndexToDOAttributeMap>
+					 <SearchQueryName name="getReservedContractId"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_SYS_ID" />
+						<ResultIndex index="1" 	dataObjectAttribName="RSRV_CNTRCT_MSTR_REF" />
+						<ResultIndex index="2" 	dataObjectAttribName="CNTRCT_ID" />
+						<ResultIndex index="3" 	dataObjectAttribName="CNTRCT_STTS_CD" />
+						<ResultIndex index="4" 	dataObjectAttribName="SYS_DOMAIN" />
+						<ResultIndex index="7" 	dataObjectAttribName="EXP_DATE" />
+						<ResultIndex index="9" 	dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="10" dataObjectAttribName="CREATD_USR_ID" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractDetailsFromReserved" />
+				</SQLTemplate>
+
+		
+				<SQLTemplate transType="update">
+	                <SQLQuery>
+	                    update RSRV_CNTRCT_ID_PL set CNTRCT_STTS_CD = ?,SYS_DOMAIN = ?,EXP_DATE = ?,LST_CHG_USR = ?,LST_CHG_TMS = sysdate
+							where CNTRCT_ID =?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="CNTRCT_STTS_CD"/>
+					<DataObjectAttributeInput index="1" name="SYS_DOMAIN"/>
+					<DataObjectAttributeInput index="2" name="EXP_DATE"/>
+					<DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="4" name="CNTRCT_ID"/>
+	             </SQLTemplate>
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM RSRV_CNTRCT_ID_PL WHERE CNTRCT_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+	             </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CNTRCT_SYS_ID"			toBOAttb="reserveContractPoolSysId"/>
+						<Pair DOAttb="RSRV_CNTRCT_MSTR_REF"		toBOAttb="masterTableRefId"/>
+						<Pair DOAttb="CNTRCT_ID"		        toBOAttb="contractId"/>
+						<Pair DOAttb="CNTRCT_STTS_CD"		    toBOAttb="reservePoolStatus"/>
+						<Pair DOAttb="SYS_DOMAIN"			    toBOAttb="SystemDomain"/>
+						<Pair DOAttb="EXP_DATE"			    	toBOAttb="expiryDate"/>
+						<Pair DOAttb="LST_CHG_USR"			    toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"			    toBOAttb="lastUpdatedTimeStamp"/>
+						<Pair DOAttb="CREATD_USR_ID"			toBOAttb="createdUser"/>
+				</DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CNTRCT_ID"    		toSCAttb="contractId"/>
+					<Pair DOAttb="DOMAINLIST"    		toSCAttb="domainList"/>
+					<Pair DOAttb="DOMAINCOUNT"    		toSCAttb="domainCount"/>
+					<Pair DOAttb="SEARCH_STRING"   		toSCAttb="searchString" />
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>	
+			<DataObject name="AVLBL_DOMN">
+			    <DataObjectAttribute name="BUS_GRP_NM"   	type="String"/>
+			    <DataObjectAttribute name="BUS_ENTY_NM"    	type="String"/>
+			    <DataObjectAttribute name="LOB_NM"    		type="String"/>
+			    <DataObjectAttribute name="MRKT_BUS_UNT"    type="String"/>
+			    <DataObjectAttribute name="BUS_GRP_LIST"    type="String"/>
+			   	<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="LOB_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="3" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					 <SearchQueryName name="getReservedContractId"/>
+			 	</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="BUS_GRP_NM"    toBOAttb="SystemDomain"/>
+			        <Pair DOAttb="BUS_ENTY_NM"   toBOAttb="SystemDomain"/>
+			        <Pair DOAttb="LOB_NM"    	 toBOAttb="SystemDomain"/>
+			        <Pair DOAttb="MRKT_BUS_UNT"  toBOAttb="SystemDomain"/>
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+					<Pair DOAttb="LOB_NM"    	  		toSCAttb="lob"/>
+					<Pair DOAttb="BUS_ENTY_NM"    		toSCAttb="entity"/>
+					<Pair DOAttb="BUS_GRP_NM"    		toSCAttb="group"/>
+					<Pair DOAttb="MRKT_BUS_UNT"    		toSCAttb="unit"/>
+			        <Pair DOAttb="BUS_GRP_LIST"    	 	toSCAttb="BusinessDomain"/>
+			    </DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		
+			<DataObject name="SDS_BG_MPNG">
+			    <DataObjectAttribute name="SDS_DMN"   	type="String"/>
+			    <DataObjectAttribute name="BG_GRP"    	type="String"/>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="SDS_DMN" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 			dataObjectAttribName="BG_GRP" />
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="getBusinessGroupList" />
+
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="BG_GRP"    toBOAttb="contractId"/>
+					<Pair DOAttb="SDS_DMN"    toBOAttb="lastUpdatedUser"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="SDS_DMN"    	  		toSCAttb="SystemDomain"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>			
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.contractidpool.vo.LockBO">
+		<BusinessAttribute name="contractId" 	type="String" 	keyAttrib="true" />
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+				SELECT CNTRCT_ID FROM RSRV_CNTRCT_ID_LCK WHERE CNTRCT_ID = ?
+			</SelectSQLQuery>
+		
+			<DataObject name="RSRV_CNTRCT_ID_LCK">
+				<DataObjectAttribute name="CNTRCT_ID" 				type="String" />
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" 	dataObjectAttribName="CNTRCT_ID" />
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+							
+				<SQLTemplate transType="insert">
+	                <SQLQuery>
+	                    insert into RSRV_CNTRCT_ID_LCK values (?)
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="delete">
+	                <SQLQuery>
+	                    DELETE FROM RSRV_CNTRCT_ID_LCK WHERE CNTRCT_ID = ?
+	                </SQLQuery>
+	                <DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+	             </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CNTRCT_ID" 	toBOAttb="contractId" />				
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>

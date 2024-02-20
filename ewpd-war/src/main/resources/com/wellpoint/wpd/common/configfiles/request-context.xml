@@ -1,0 +1,1852 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="contractWebServiceRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractWebServiceRequest">
+	</bean>
+	<bean id="contractReportRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.report.request.ContractReportRequest">
+	</bean>
+	<bean id="retreiveContractRuleTypeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetreiveContractRuleTypeRequest">
+	</bean>
+    <bean id="viewAdminMethodMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.AdminMethodMappingViewRequest">
+	</bean>
+	<bean id="retreiveProductRuleTypeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetreiveProductRuleTypeRequest">
+	</bean>
+
+    <bean id="searchAdminMethodMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.AdminMethodMappingSearchRequest">
+	</bean>
+	
+	<bean id="deleteAdminMethodMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.AdminMethodMappingDeleteRequest">
+	</bean>
+
+
+   <bean id="editAdminMethodRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmaintain.request.AdminMethodEditRequest">
+	</bean>
+	 <bean id="createAdminMethodMappingCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.AdminMethodMappingCreateRequest">
+	</bean>
+
+		 <bean id="adminMethodMappingEditRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.AdminMethodMappingEditRequest">
+	</bean>
+
+
+	<bean id="adminMethodDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmaintain.request.AdminMethodDeleteRequest">
+	</bean>
+    <bean id="viewAllAdminMethodRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.AdminmethodViewAllRequest">
+	</bean>
+	<bean id="createAdminMethodCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmaintain.request.AdminMethodCreateRequest">
+	</bean>
+	
+	<bean id="QuestionAnswerLookupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmapping.request.QuestionAnswerLookupRequest">
+	</bean>
+
+	<bean id="adminMethodSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmaintain.request.AdminMethodSearchRequest">
+	</bean>
+    <bean id="viewAdminMethodRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethodmaintain.request.AdminMethodViewRequest">
+	</bean>
+
+    <bean id="contractUncodedNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractUncodedNotesRequest">
+	</bean>
+
+	<bean id="contractRulesetRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractRulesetRequest">
+	</bean>
+	<bean id="contractRuleValidationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractRuleValidationRequest">
+	</bean>
+	<bean id="createIndicativeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.CreateIndicativeMappingRequest">
+	</bean>
+
+	<bean id="createReferenceMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.referencemapping.request.CreateReferenceMappingRequest">
+	</bean>
+	
+	<bean id="deleteReferenceMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.referencemapping.request.DeleteReferenceMappingRequest">
+	</bean>
+	<bean id="contractTeiredNotesToQuestionAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.ContractTeiredNotesToQuestionAttachmentRequest">
+	</bean>
+
+	<bean id="searchReferenceMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.referencemapping.request.SearchReferenceMappingRequest">
+	</bean>
+
+	<bean id="editReferenceMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.referencemapping.request.EditReferenceMappingRequest">
+	</bean>
+
+	<bean id="retrieveReferenceMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.referencemapping.request.RetrieveReferenceMappingRequest">
+	</bean>
+
+
+
+	<bean id="editIndicativeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.EditIndicativeMappingRequest">
+	</bean>
+	
+	<bean id="productAONotesToQuestionAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.ProductAONotesToQuestionAttachmentRequest">
+	</bean>
+
+	<bean id="searchIndicativeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.SearchIndicativeMappingRequest">
+	</bean>
+
+	<bean id="deleteIndicativeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.DeleteIndicativeMappingRequest">
+	</bean>
+
+	<bean id="retrieveIndicativeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.RetrieveIndicativeMappingRequest">
+	</bean>
+	<!-- Indicative long term solution start -->	
+	<bean id="indicativeDetailRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.IndicativeDetailRequest">
+	</bean>
+	
+	<bean id="confirmImportIndicativeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.indicativemapping.request.ConfirmImportIndicativeMappingRequest">
+	</bean>			
+	
+	<!-- Indicative long term solution end -->
+
+	<bean id="retrieveExpiredContractIdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveExpiredContractIdRequest">
+	</bean>
+
+	<bean id="contractTransferLogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractTransferLogRequest">
+	</bean>
+	<bean id="contractNotesToQuestionAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.ContractNotesToQuestionAttachmentRequest">
+	</bean>
+	<bean id="contractAONotesToQuestionAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.ContractAONotesToQuestionAttachmentRequest">
+	</bean>
+	<!-- Admin method SPS validation request -->
+	<bean id="adminMethodSPSRetreiveValidationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.AdminMethodSPSRetrieveRequest">
+	</bean>
+	
+	<bean id="bnftCompNotesToQuestionAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.BnftCompNotesToQuestionAttachmentRequest">
+	</bean>
+
+	<bean id="retrieveProductQuestionareRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductQuestionareRequest">
+	</bean>
+	<bean id="updateProductQuestionareRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.UpdateProductQuestionareRequest">
+	</bean>
+	<bean id="updateQuestionnaireRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.UpdateQuestionnaireRequest">
+	</bean>
+	<bean id="retrieveQuestionaireRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveQuestionaireRequest">
+	</bean>
+	<bean id="retrieveServiceTypeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.RetrieveServiceTypeMappingRequest">
+	</bean>
+	<bean id="viewServiceTypeCodeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.ViewServiceTypeCodeMappingRequest">
+	</bean>
+	<bean id="searchCustomMessageRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SearchCustomMessageRequest">
+	</bean>
+   <bean id="customMessageRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.CustomMessageRetrieveRequest">
+	</bean>
+
+	<bean id="saveServiceTypeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SaveServiceTypeMappingRequest">
+	</bean>
+   <bean id="spsMappingRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SPSMappingRetrieveRequest">
+	</bean>
+	<bean id="searchDuplicateReferenceRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.SearchDuplicateReferenceRequest"></bean>
+	<bean id="retrieveProductComponentHierarchyRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductComponentHierarchyRequest">
+	</bean>
+
+<bean id="saveAdminOptionRequestForPS" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SaveAdminOptionRequestForPS">
+	</bean>
+	<bean id="deleteServiceTypeMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.ServiceTypeMappingDeleteRequest">
+	</bean>
+	<bean id="benefitComponentUnlock" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentUnlockRequest">
+	</bean>
+	<bean id="saveAdminOptionHideRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.SaveAdminOptionRequest">
+	</bean>
+	<bean id="adminMethodValidationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.AdminMethodValidationStatusRequest">
+	</bean>
+	<bean id="unlockAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.AdminOptionUnlockRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="questionDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.QuestionDeleteRequest">
+	</bean>
+	<bean id="retrieveUser" scope="prototype"
+		class="com.wellpoint.wpd.common.framework.request.RetrieveUserRequest">
+	</bean>
+	<bean id="locateChkOutObjRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.workInventory.request.LocateCheckOutObjectRequest">
+	</bean>
+	<!-- Security Role request -->
+	<!-- Migration Wizard Request -->
+	<bean id="retrieveLegacyContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.legacycontract.request.RetrieveLegacyContractRequest">
+	</bean>
+	<bean id="retrieveHeadingsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.legacycontract.request.RetrieveHeadingsRequest">
+	</bean>
+	<bean id="saveLegacyContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.SaveLegacyContractRequest">
+	</bean>
+	<bean id="saveLastAccessPageInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.SaveLastAccessPageInfoRequest" />
+
+	<bean id="saveMigrationNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.SaveMigrationNotesRequest" />
+
+	<bean id="retrieveBenefitDetailsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.RetrieveBenefitDetailsRequest" />
+
+	<!-- End -->
+	<bean id="saveRoleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveRoleRequest">
+	</bean>
+	<bean id="searchRoleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SearchRoleRequest">
+	</bean>
+	<bean id="retrieveRoleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveRoleRequest">
+	</bean>
+	<bean id="roleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveRoleAssociationRequest">
+	</bean>
+	<bean id="saveTaskAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveTaskAssociationRequest">
+	</bean>
+	<bean id="roleTaskLookupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RoleTaskLookUpRequest">
+	</bean>
+	<bean id="roleDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RoleDeleteRequest">
+	</bean>
+	<bean id="deleteRoleModuleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.DeleteRoleModuleAssociationRequest" />
+	<bean id="retrieveRoleModuleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveRoleModuleAsssociationRequest" />
+	<bean id="roleModuleLookUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RoleModuleLookUpRequest" />
+	<bean id="saveRoleModuleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveRoleModuleAssociationRequest" />
+	<bean id="refDataDomainValidationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.refdata.request.RefDataDomainValidationRequest" />
+
+	<!-- Admin Attachment Requests -->
+	<bean id="adminAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.AdminAttachmentRequest">
+	</bean>
+	<bean id="benefitLineNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.BenefitLineNotesRequest">
+	</bean>
+	<bean id="productBenefitMandateRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductBenefitMandateRetrieveRequest">
+	</bean>
+
+	<!-- Notes Attachment Requests -->
+
+	<bean id="productBenefitLineOverrideNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductBenefitLineOverrideNoteRequest">
+	</bean>
+	<bean id="notesAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesAttachmentRequest">
+	</bean>
+	<!-- Contract Request -->
+	<bean id="saveReservedContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveReservedContractRequest">
+		<property name="reservedContractVO">
+			<ref bean="reservedContractVO" />
+		</property>
+	</bean>
+
+		
+	<bean id="dateSegmentCheckoutRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.DateSegmentCheckoutRequest">
+	</bean>
+	<bean id="releaseReservedContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ReleaseReservedContractRequest">
+	</bean>
+	<bean id="saveContractBasicInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractBasicInfoRequest">
+		<property name="contractVO">
+			<ref bean="contractVO" />
+		</property>
+	</bean>
+	<bean id="saveContractSpecificInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractSpecificInfoRequest">
+		<property name="contractVO">
+			<ref bean="contractVO" />
+		</property>
+	</bean>
+	<bean id="retrieveContractProductRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractProductRequest">
+	</bean>
+	<bean id="contractSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractSearchRequest">
+		<property name="contractLocateCriteriaVO">
+			<ref bean="contractLocateCriteriaVO" />
+		</property>
+	</bean>
+	<bean id="contractLocateCriteriaVO" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.vo.ContractLocateCriteriaVO">
+	</bean>
+
+	<bean id="saveContractAdaptedInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractAdaptedInfoRequest">
+		<property name="adaptedInfoBO">
+			<ref bean="adaptedInfoBO" />
+		</property>
+	</bean>
+	<bean id="adaptedInfoBO" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.bo.AdaptedInfoBO">
+	</bean>
+
+	
+	<bean id="benefitCustomizationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.BenefitCustomizationRequest">
+	</bean>
+	<bean id="retieveRuleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveRulesRequest">
+	</bean>
+    <bean id="groupRuleRequest" scope="prototype"
+        class="com.wellpoint.wpd.common.standardbenefit.request.GroupRuleRequest">
+    </bean>
+	<bean id="retieveDateSegmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveDateSegmentsRequest">
+	</bean>
+	<bean id="checkCopyLegacyNote" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.CheckCopyLegacyNoteRequest">
+	</bean>
+	<bean id="createDateSegmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.CreateDateSegmentRequest">
+		<property name="contractVO">
+			<ref bean="contractVO" />
+		</property>
+	</bean>
+	<bean id="productBenefitAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductAdminOptionRequest">
+	</bean>
+	<bean id="saveProductAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductAdministrationRequest">
+	</bean>
+
+	<bean id="productRuleRefDataRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductRuleRefDataRequest" />
+	<bean id="saveProductRulesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductRulesRequest" />
+	<bean id="deleteProductRuleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductRuleRequest" />
+
+	<bean id="deleteProductNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductNoteRequest">
+	</bean>
+
+	<bean id="ruleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RuleRequest">
+	</bean>
+	<bean id="retrieveProductNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductNoteRequest">
+	</bean>
+	<bean id="saveProductNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductNoteRequest">
+	</bean>
+	<bean id="deleteProductComponentNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductComponentNoteRequest">
+	</bean>
+	<bean id="loadProductComponentNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.LoadProductComponentNoteRequest">
+	</bean>
+	<bean id="saveProductComponentNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductComponentNoteRequest">
+	</bean>
+	<bean id="deleteProductBenefitNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductBenefitNoteRequest">
+	</bean>
+	<bean id="saveProductBenefitNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductBenefitNoteRequest">
+	</bean>
+	<bean id="loadProductBenefitNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.LoadProductBenefitNoteRequest">
+	</bean>
+	<bean id="retrieveContractSpecificInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractSpecificInfoRequest">
+	</bean>
+
+	<bean id="retrieveContractStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractStandardBenefitRequest">
+	</bean>
+	<bean id="retreiveBenefitsContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetreiveBenefitsContractRequest">
+	</bean>
+	<bean id="retrieveContractBenefitMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractBenefitMandateRequest">
+	</bean>
+	<bean id="contractVO" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.vo.ContractVO">
+	</bean>
+	<bean id="reservedContractVO" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.vo.ReserveContractVO">
+	</bean>
+	<bean id="deleteContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.DeleteContractRequest" />
+
+	<bean id="savePricingInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SavePricingInfoRequest">
+	</bean>
+
+	<bean id="locateProductRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.LocateProductRequest">
+	</bean>
+	<bean id="locatePricingInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.LocatePricingInformationRequest">
+	</bean>
+	<bean id="deletePricingInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.DeletePricingInfoRequest">
+	</bean>
+
+	<bean id="retrieveContractBenefitDefinitionRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractBenefitDefinitionRequest">
+	</bean>
+
+	<bean id="saveContractBenefitDefinitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractBenefitDefinitionRequest">
+	</bean>
+	<bean id="retrieveContractBenefitComponentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractBenefitComponentRequest">
+	</bean>
+	<bean id="retrievePricingInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractPricingInfoRequest">
+	</bean>
+	<bean id="saveDateSegmentCommentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveDateSegmentCommentRequest">
+	</bean>
+	<bean id="retieveDateSegmentCommentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveDateSegmentCommentRequest">
+	</bean>
+	<bean id="retrieveBasicInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBasicInfoRequest">
+	</bean>
+	<bean id="retrieveExistingContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveExistingContractIdRequest">
+	</bean>
+
+	<bean id="retieveSelectedCommentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveSelectedCommentRequest">
+	</bean>
+
+	<bean id="contractNoteAttachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractNoteAttachmentRequest">
+	</bean>
+	<bean id="contractNotesDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractNotesDeleteRequest">
+	</bean>
+	<bean id="retrieveBaseContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBaseContractRequest">
+	</bean>
+	<bean id="retrieveBaseContractDateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBaseContractDateRequest">
+	</bean>
+	<bean id="retrieveContractBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractBenefitAdministrationRequest">
+	</bean>
+	<bean id="retrieveAllPossibleAnswerRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveAllPossibleAnswerRequest">
+	</bean>
+	<bean id="saveContractBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveBenefitAdministrationRequest">
+	</bean>
+	<bean id="retrieveBenefitGeneralInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBenefitGeneralInfoRequest"/>
+	<bean id="attachContractBenefitComponentNotesRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractBenefitComponentAttachNotesRequest">
+	</bean>
+	<bean id="loadContractComponentNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.LoadContractComponentNoteRequest">
+	</bean>
+	<bean id="deleteContractComponentNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.DeleteContractComponentNoteRequest">
+	</bean>
+	<bean id="retrieveReservedContractIdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveReservedContractIdRequest">
+	</bean>
+	<bean id="retrieveContractNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractNoteRequest">
+	</bean>
+	<bean id="reservedContractSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ReservedContractSearchRequest">
+	</bean>
+	<bean id="retrieveReservedContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveReservedContractRequest">
+	</bean>
+	<bean id="retrieveSystemPoolIdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveSystemPoolIdRequest">
+	</bean>
+
+	<bean id="benefitLevelNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.BenefitLevelNotesOverrideRequest">
+	</bean>
+
+
+	<bean id="loadContractBenefitNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.LoadContractBenefitNoteRequest">
+	</bean>
+	<bean id="saveContractBenefitNoteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractBenefitNoteRequest">
+	</bean>
+	<bean id="SaveTestDataRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveTestDataRequest">
+	</bean>
+	<bean id="retrieveContractProductAdminRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractProductAdminRequest" />
+	<bean id="saveContractProductAdminRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractProductAdminRequest" />
+	<bean id="deleteContractProductAdminRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.DeleteContractProductAdminRequest" />
+	<bean id="retrieveContractProductAdminOptionOverrideRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractProductAdminOptionOverrideRequest" />
+	<bean id="saveContractAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractAdministrationRequest" />
+	<bean id="membershipInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.MembershipInfoRequest" />
+	<!-- End of Contract Request -->
+	<!-- Security Requests -->
+	<bean id="saveTaskRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveTaskRequest" />
+	<bean id="taskDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.task.request.TaskDeleteRequest" />
+	<bean id="retrieveTaskRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveTaskRequest" />
+	<bean id="subTaskLookUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SubTaskLookUpRequest" />
+	<bean id="locateSubTaskRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.LocateSubTaskRequest" />
+	<bean id="saveSubTaskAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveSubTaskAssociationRequest" />
+	<bean id="saveSubTaskRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveSubTaskRequest" />
+	<bean id="deleteSubTAskAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.DeleteTaskAssociationRequest" />
+	<bean id="moduleDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.ModuleDeleteRequest" />
+	<bean id="saveModuleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveModuleRequest" />
+	<bean id="moduleTaskLookupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.TaskLookUpRequest" />
+	<bean id="moduleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveModuleAssociationRequest" />
+	<bean id="saveModuleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.SaveModuleAssociationRequest" />
+	<bean id="DeleteModuleAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.DeleteModuleTaskAssociationRequest" />
+	<!-- item requests -->
+	<bean id="createItemRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.item.request.SaveItemRequest">
+	</bean>
+	<bean id="maintainItemRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.item.request.SearchItemRequest">
+	</bean>
+	<bean id="searchItemRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.item.request.CatalogLookUpRequest" />
+	<bean id="locateItemRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.item.request.RetrieveItemRequest" />
+	<bean id="itemSoftDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.item.request.ItemSoftDeleteRequest" />
+
+	<!-- START : CATALOG REQUESTS -->
+	<bean id="saveCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.SaveCatalogRequest">
+	</bean>
+	<bean id="editCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.EditCatalogRequest">
+	</bean>
+	<bean id="deleteCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.CatalogDeleteRequest">
+	</bean>
+	<bean id="retrieveCatalogIdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.CatalogRetrieveRequest">
+	</bean>
+	<bean id="searchCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.SearchCatalogRequest">
+	</bean>
+	<bean id="retrieveSrdaCatalogIdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.catalog.request.SrdaCatalogRetrieveRequest">
+	</bean> 
+	<!-- END : CATALOG REQUESTS -->
+
+	<!-- START : SUB-CATALOG REQUESTS -->
+	<bean id="saveSubCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.SubCatalogSaveRequest">
+	</bean>
+	<bean id="deleteSubCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.SubCatalogDeleteRequest">
+	</bean>
+	<bean id="retrieveSubCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.RetrieveSubCatalogRequest">
+	</bean>
+	<bean id="searchSubCatalogRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.SubCatalogSearchRequest">
+	</bean>
+	<bean id="searchAssociatedItemRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.ItemLookUpRequest" />
+
+	<bean id="saveItemAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.SaveItemAssociationRequest" />
+
+	<bean id="deleteItemAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.subcatalog.request.ItemAssociationDeleteRequest">
+	</bean>
+	<!-- END : SUB-CATALOG REQUESTS -->
+
+	<!-- START : ADMINISTRATION SECURITY REQUESTS -->
+
+	<bean id="taskSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.task.request.TaskSearchRequest" />
+	<bean id="searchModuleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.ModuleSearchRequest" />
+	<bean id="moduleRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.security.request.RetrieveModuleRequest" />
+
+	<!-- END : ADMINISTRATION SECURITY REQUESTS -->
+
+	<!-- Benefit Requests -->
+	<bean id="createBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefit.request.CreateBenefitRequest">
+	</bean>
+
+
+	<!--Start : ProductStructure Requests  -->
+	<bean id="saveProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SaveProductStructureRequest">
+	</bean>
+	<bean id="saveProductStructureComponentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SaveProductStructureBenefitComponentRequest">
+	</bean>
+	<bean id="searchProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SearchProductStructureRequest">
+	</bean>
+	<bean id="deleteProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.DeleteProductStructureRequest">
+	</bean>
+	<bean id="retrieveComponentFromTreeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveComponentFromTreeRequest">
+	</bean>
+	<bean id="retrieveBenefitDefenitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveBenefitDefenitionRequest">
+	</bean>
+	<bean id="retrieveBenefitComponentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveBenefitComponentRequest">
+	</bean>
+	<bean id="questionViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.QuestionViewRequest">
+	</bean>
+	<bean id="retrieveProductStructureBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveProductStructureBenefitAdministrationRequest">
+	</bean>
+	<bean id="saveProductStructureBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SaveBenefitAdministrationRequest">
+	</bean>
+	<bean id="retrieveBenefitMandatesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveBenefitMandatesRequest">
+	</bean>
+	<bean id="viewAllProductStructureVersionsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveProductStructureVersionsRequest">
+	</bean>
+	<bean id="checkoutProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.CheckoutProductStructureRequest">
+	</bean>
+	<bean id="saveProductStructureBenefitDefinitionRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.SaveProductStructureBenefitDefinitionRequest">
+	</bean>
+	<bean id="lifeCycleProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.ProductStructureLifeCycleRequest">
+	</bean>
+	<bean id="retrieveComponentHierarchyRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveProdStructureComponentHierarchyRequest">
+	</bean>
+
+	<!--End : ProductStructure Requests  -->
+
+	<!-- Start : Question component Request-->
+	<bean id="saveQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.SaveQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="unlockQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.UnlockQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="retrieveQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.RetrieveQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="checkOutQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.CheckOutQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="searchDataTypeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.datatype.request.DataTypeRequest">
+	</bean>
+	<bean id="retrieveProductStructureRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveProductStructureRequest">
+	</bean>
+
+	<bean id="retrieveBenefitComponentForPSRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveBenefitComponentPopUpRequest">
+	</bean>
+
+	<bean id="searchQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.SearchQuestionRequest">
+		<property name="questionSearchCriteriaVO">
+			<ref bean="questionSearchCriteriaVO" />
+		</property>
+	</bean>
+	<bean id="deleteQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.DeleteQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="scheduleForTestQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.ScheduleForTestQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="publishQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.PublishQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="testPassQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.TestPassQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="standardAccumulatorRequest" scope="prototype"
+	class="com.wellpoint.wpd.business.accumulator.service.StandardAccumulatorBusinessService">
+	</bean>
+	<bean id="questionSearchCriteriaVO" scope="prototype"
+		class="com.wellpoint.wpd.common.question.vo.QuestionSearchCriteriaVO">
+	</bean>
+	<bean id="questionVO" scope="prototype"
+		class="com.wellpoint.wpd.common.question.vo.QuestionVO">
+	</bean>
+	<!-- End : Question component Request-->
+
+	<!-- start Question Entry-->
+	<bean id="createQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.accumulator.request.QuestionRequest">
+	</bean>
+	
+	<bean id="fetchpopupforaccum" scope="prototype"
+	
+		class="com.wellpoint.wpd.common.accumulator.request.AccumulatorFilterRequest">
+	</bean> 
+	
+	<bean id="searchStdaccumRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.accumulator.request.StandardAccumulatorRequest">
+	</bean> 
+	
+	<bean id="saveStdaccumRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.accumulator.request.StandardAccumulatorRequest">
+	</bean> 
+	<bean id="editStdaccumRequest" scope="prototype"
+	class="com.wellpoint.wpd.common.accumulator.request.StandardAccumulatorRequest">
+	</bean> 
+	<bean id="retrieveOpenQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveOpenQuestionRequest">
+	</bean>
+	<bean id="addQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.SaveQuestionRequest">
+	</bean>
+	<bean id="testFailQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.question.request.TestFailQuestionRequest">
+		<property name="questionVO">
+			<ref bean="questionVO" />
+		</property>
+	</bean>
+	<bean id="productStructureViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.ProductStructureViewRequest">
+	</bean>
+	<!-- end Question Entry -->
+
+
+	<bean id="saveProductBenefitAdmin" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductBenefitAdminRequest">
+	</bean>
+	<bean id="retrieveProductBenefitAdmin" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductBenefitAdminRequest">
+	</bean>
+	<bean id="searchProductRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SearchProductRequest">
+		<property name="productSearchCriteriaVO">
+			<ref bean="productSearchCriteriaVO" />
+		</property>
+	</bean>
+	<bean id="productSearchCriteriaVO" scope="prototype"
+		class="com.wellpoint.wpd.common.product.vo.ProductSearchCriteriaVO">
+	</bean>
+	<bean id="saveProductRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductRequest">
+		<property name="product">
+			<ref bean="productVO" />
+		</property>
+	</bean>
+	<bean id="productVO" scope="prototype"
+		class="com.wellpoint.wpd.common.product.vo.ProductVO">
+	</bean>
+	<bean id="retrieveValidProdStrRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveValidProductStructuresRequest">
+	</bean>
+	<bean id="retrieveProduct" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductRequest">
+	</bean>
+	<bean id="retrieveProductBenefitComponents" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductBenefitComponentRequest">
+	</bean>
+	<bean id="retrieveContractBenefitComponents" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveContractBenefitComponentRequest">
+	</bean>
+	<bean id="deleteProductBenefitComponents" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductBenefitComponentRequest">
+	</bean>
+	<bean id="saveProductComponents" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductComponentRequest">
+	</bean>
+	<bean id="retrieveProductBenefit" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductBenefitRequest">
+	</bean>
+	<bean id="deleteProductRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductRequest">
+	</bean>
+	<bean id="retrieveProductBenefitDefinitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductBenefitDefinitionRequest">
+	</bean>
+	<bean id="saveProductBenefitDefinitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductBenefitDefinitionRequest">
+	</bean>
+
+	<!-- admin options -->
+
+	<bean id="retrieveProductAdmin" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductAdminRequest">
+	</bean>
+	<bean id="saveProductAdmin" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductAdminRequest">
+	</bean>
+	<bean id="deleteProductAdmin" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.DeleteProductAdminRequest">
+	</bean>
+
+
+	<!-- End : Product Requests -->
+
+	<!-- Benefit Requests -->
+	<bean id="createStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitCreateRequest">
+	</bean>
+	<bean id="updateStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitUpdateRequest">
+	</bean>
+	<bean id="retrieveStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitRetrieveRequest">
+	</bean>
+	<bean id="deleteStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitDeleteRequest">
+	</bean>
+	<bean id="deleteStandardBenefitVersionsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitDeleteVersionsRequest">
+	</bean>
+	<bean id="benefitVersionsLifeCycle" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitVersionsLifeCycleRequest">
+	</bean>
+	<bean id="createBenefitAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.CreateBenefitAdministrationRequest">
+	</bean>
+	<bean id="updateBenefitAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.UpdateBenefitAdministrationRequest">
+	</bean>
+	<bean id="retrieveBenefitAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveBenefitAdministrationRequest">
+	</bean>
+	<bean id="deleteBenefitAdministrationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.DeleteBenefitAdministrationRequest">
+	</bean>
+	<bean id="copyStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitCopyRequest">
+	</bean>
+	<bean id="checkOutStandardBenefit" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitCheckOutRequest">
+	</bean>
+	<bean id="unLockBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitUnLockRequest">
+	</bean>
+	<bean id="saveBenefitDefintionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.BenefitDefinitionRequest">
+	</bean>
+	<bean id="retrieveBenefitDefinition" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveBenefitDefinitionRequest">
+	</bean>
+	<bean id="locateBenefitDefinition" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateBenefitDefinitionRequest">
+	</bean>
+	<bean id="locateBenefitAdministration" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateBenefitAdministrationRequest">
+	</bean>
+	<bean id="locateBenefitMandate" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateBenefitMandateRequest">
+	</bean>
+	<bean id="deleteBenefitDefinition" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.DeleteBenefitDefinitionRequest">
+	</bean>
+	<bean id="saveNonAdjBenefitMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.NonAdjBenefitMandateRequest">
+	</bean>
+	<bean id="RefDataRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.refdata.request.RefDataRequest">
+	</bean>
+	<bean id="adminOptionList" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LookupAdminOptionRequest">
+	</bean>
+	<bean id="refDataLookUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.refdata.request.ReferenceDataLookupRequest">
+	</bean>
+	<!-- request for the benefit mandate list -->
+	<bean id="locateMandateList" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateMandateListRequest">
+	</bean>
+	<bean id="StandardBenefitSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitSearchRequest">
+	</bean>
+	<bean id="deleteBenefitMandate" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.DeleteBenefitMandateRequest">
+	</bean>
+	<bean id="locateBenefitLevelList" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateBenefitLevelListRequest">
+	</bean>
+	<bean id="locateNonAdjBenefitMandate" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.LocateNonAdjBenefitMandateRequest">
+	</bean>
+	<bean id="publishStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.PublishStandardBenefitRequest">
+	</bean>
+	<bean id="stdBenefitTestPassRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.TestPassStandardBenefitRequest">
+	</bean>
+	<bean id="stdBenScheduleForTestRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.ScheduleForTestSBRequest">
+	</bean>
+	<bean id="stdBenefitTestFailRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.TestFailStandardBenefitRequest">
+	</bean>
+	<bean id="stdBenefitApproveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.ApproveStandardBenefitRequest">
+	</bean>
+
+	<!--Start: notes attachment to benefit -->
+	<bean id="attachStandardBenefitNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitNoteAttachmentRequest">
+	</bean>
+	<bean id="locateStandardBenefitNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateStandardBenefitNotesRequest">
+	</bean>
+	<bean id="deleteStandardBenefitNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.DeleteStandardBenefitNotesRequest">
+	</bean>
+	<!--End: notes attachment to benefit -->
+
+	<!-- End : Benefit Requests -->
+
+	<!-- start: nonAdjMandateRetrieveRequest -->
+	<bean id="retrieveNonAdjMandateForEdit" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveNonAdjMandateRequest">
+	</bean>
+	<bean id="saveAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.AdministrationOptionRequest">
+	</bean>
+	<!-- End : nonAdjMandateRetrieveRequest -->
+
+
+	<!-- ********************************* Start: Admin Option Requests ********************************** -->
+	<bean id="createAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.CreateAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="retrieveAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.RetrieveAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="retrieveAdminOptionQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.RetrieveAdminOptionQuestionRequest">
+		
+	</bean>
+	<bean id="addAdminOptionQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.SaveAdminOptionQuestionRequest">
+		<property name="associatedQuestionVO">
+			<ref bean="associatedQuestionVO" />
+		</property>
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="deleteAdminOptionQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.DeleteAdminOptionQuestionRequest">
+		<property name="associatedQuestionVO">
+			<ref bean="associatedQuestionVO" />
+		</property>
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="searchAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.SearchAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="deleteAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.DeleteAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="deleteAllAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.DeleteAllAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="checkInAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.CheckInAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="checkOutAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.CheckOutAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="scheduleForTestAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.ScheduleForTestAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="publishAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.PublishAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="testPassAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.TestPassAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="adminQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.lookup.request.LookupAdminQuestionRequest">
+	</bean>
+
+	<bean id="adminOptionVO" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.vo.AdminOptionVO">
+	</bean>
+	<bean id="associatedQuestionVO" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.vo.AssociatedQuestionVO">
+	</bean>
+
+	<bean id="adminOptionViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.AdminOptionViewRequest">
+	</bean>
+	<bean id="testFailAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.TestFailAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+
+	<bean id="viewadminoptionrequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.ViewAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+
+	<!-- ********************************* End: Admin Option Requests ********************************** -->
+
+
+	<!-- *************************************** Start: Mandate Requests ********************************* -->
+	<bean id="createMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.CreateMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="retrieveMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.RetrieveMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="locateMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.LocateMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="deleteMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.DeleteMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="mandateVO" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.vo.MandateVO">
+	</bean>
+
+	<!-- Mandate Check in -->
+	<bean id="mandateCheckinRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.MandateCheckInRequest">
+	</bean>
+	<!-- Mandate Checkout -->
+	<bean id="checkOutMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.CheckOutMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="copyMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.CopyMandateRequest">
+	</bean>
+
+	<bean id="viewAllMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.ViewAllMandateRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="mandateSendForTestRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.MandateSendForTestRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="mandatePublishRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.MandatePublishRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+
+	<bean id="testPassMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.MandateTestPassRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+	<bean id="testFailMandateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.mandate.request.MandateTestFailRequest">
+		<property name="mandateVO">
+			<ref bean="mandateVO" />
+		</property>
+	</bean>
+
+
+
+
+	<!-- **************************************** End: Mandate Requests ********************************** -->
+
+	<!-- *************************************** Start: Benefit Component Requests ********************************* -->
+	<bean id="saveBenefitComponentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentSaveRequest">
+	</bean>
+	<bean id="benefitComponentDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentDeleteRequest">
+	</bean>
+	<bean id="benefitComponentCheckInRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentCheckInRequest">
+	</bean>
+
+	<bean id="benefitComponentCheckOutRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentCheckOutRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<bean id="benefitComponentPublishRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentPublishRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<bean id="benefitComponentScheduleForTestRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentScheduleForTestRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<bean id="benefitComponentTestPassRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentTestPassRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<bean id="benefitComponentTestFailRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentTestFailRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<bean id="benefitComponentVO" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.vo.BenefitComponentVO">
+	</bean>
+	<bean id="benefitComponentViewAllRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentViewAllRequest">
+	</bean>
+	<bean id="benefitComponentAttachNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentAttachNotesRequest">
+	</bean>
+	<bean id="locateBenefitComponentNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.LocateBenefitComponentNotesRequest">
+	</bean>
+
+	<bean id="deleteBenefitComponentNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.DeleteBenefitComponentNotesRequest">
+	</bean>
+
+	<!-- **************************************** End: Benefit Component Requests ********************************** -->
+
+
+	<!-- ************* Start: BenefitLevel Requests ************* -->
+	<bean id="benefitLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.BenefitLevelRequest">
+	</bean>
+	<bean id="saveBenefitLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.SaveBenefitLevelRequest">
+		<property name="benefitWrapperVO">
+			<ref bean="benefitWrapperVO" />
+		</property>
+	</bean>
+	<bean id="deleteBenefitLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.DeleteBenefitLevelRequest">
+		<property name="benefitWrapperVO">
+			<ref bean="benefitWrapperVO" />
+		</property>
+	</bean>
+	<bean id="deleteBenefitLineRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.DeleteBenefitLineRequest">
+		<property name="benefitWrapperVO">
+			<ref bean="benefitWrapperVO" />
+		</property>
+	</bean>
+	<bean id="dataTypeRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.DataTypeRetrieveRequest">
+	</bean>
+	<bean id="searchBenefitLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.SearchBenefitLevelRequest">
+		<property name="benefitWrapperVO">
+			<ref bean="benefitWrapperVO" />
+		</property>
+	</bean>
+	<bean id="benefitWrapperVO" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.vo.BenefitWrapperVO">
+	</bean>
+	<bean id="benefitLevelPopUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.BenefitLevelPopUpRequest">
+	</bean>
+	<bean id="searchBenefitLevelTermRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.SearchBenefitLevelTermRequest">
+	</bean>
+
+	<!-- ************* End: BenefitLevel Requests ************* -->
+	<!-- Start: LocateSelectedQuestionListRequest -->
+	<bean id="locateSelectedQuestionList" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateSelectedQuestionListRequest">
+	</bean>
+	<!-- End: LocateSelectedQuestionListRequest -->
+	<bean id="locateAdministrationOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.LocateAdministrationOptionRequest">
+	</bean>
+	<bean id="retrieveAdministrationOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RetrieveAdministrationOptionRequest">
+	</bean>
+	<bean id="deleteAdministrationOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.DeleteAdministrationOptionRequest">
+	</bean>
+
+	<!-- Start: Hide Question Request -->
+	<bean id="hideQuestionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.HideQuestionRequest">
+	</bean>
+	<!-- End: Possible Answers Request -->
+	<!-- Start: Hide Question Request -->
+	<bean id="possibleAnswersRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.PossibleAnswersRequest">
+	</bean>
+	<!-- End: Possible Answers Request -->
+	<!-- Start: Std benefit CheckIn Request-->
+	<bean id="checkInStandardBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.StandardBenefitCheckInRequest">
+	</bean>
+
+	<!-- START : BENEFIT COMPONENT REQUESTS -->
+	<bean id="benefitComponentSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentSearchRequest">
+	</bean>
+	<bean id="benefitComponentRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentRetrieveRequest">
+	</bean>
+	<bean id="benefitComponentRetrieveRequestForEdit" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentRetrieveRequestForEdit">
+	</bean>
+	<bean id="benefitRetrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitRetrieveRequest">
+	</bean>
+	<bean id="benefitHierarchyCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitHierarchyCreateRequest">
+	</bean>
+	<bean id="retrieveBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentViewRequest">
+	</bean>
+	<bean id="componentsBenefitDefinitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.LocateComponentsBenefitDefinitionRequest">
+	</bean>
+	<bean id="hideBenefitLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.HideBenefitLevelRequest">
+	</bean>
+	<bean id="updateBenefitLinesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.UpdateBenefitLinesRequest">
+	</bean>
+	<bean id="benefitHierarchyUpdateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitHierarchyUpdateRequest">
+	</bean>
+	<bean id="benefitHierarchyDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitHierarchyDeleteRequest">
+		<property name="benefitHierarchyVO">
+			<ref bean="benefitHierarchyVO" />
+		</property>
+	</bean>
+	<bean id="benefitHierarchySearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitHierarchySearchRequest">
+		<property name="benefitHierarchyVO">
+			<ref bean="benefitHierarchyVO" />
+		</property>
+	</bean>
+	<bean id="benefitHierarchyVO" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.vo.BenefitHierarchyVO">
+	</bean>
+	<bean id="locateBenefitComponentBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.LocateComponentsBenefitAdministrationRequest">
+	</bean>
+	<bean id="updateBenefitComponentBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.UpdateComponentsBenefitAdministrationRequest">
+	</bean>
+	<bean id="benefitComponentCopyRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentCopyRequest">
+	</bean>
+	<!-- END : BENEFIT COMPONENT REQUESTS -->
+
+	<bean id="adminLevelRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.AdminLevelRequest">
+	</bean>
+
+	<!--  Notes Requests -->
+	<bean id="createNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.CreateNotesRequest">
+	</bean>
+	<bean id="noteDomainRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NoteDomainRequest">
+	</bean>
+	<bean id="retrieveNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.RetrieveNotesRequest">
+	</bean>
+	<bean id="notesSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesSearchRequest">
+		<property name="notesVO">
+			<ref bean="notesVO" />
+		</property>
+	</bean>
+	<bean id="basicSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.BasicSearchRequest"
+		>
+	</bean>
+	<bean id="retrieveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.RetrieveRequest">
+	</bean>
+	<bean id="retrieveAssociationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.RetrieveAssociationRequest">
+	</bean>
+	<bean id="domainFetchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.DomainFetchRequest">
+	</bean>
+
+	<bean id="notesLifeCycleRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesLifeCycleRequest">
+		<property name="notesVO">
+			<ref bean="notesVO" />
+		</property>
+	</bean>
+	<bean id="notesVO" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.vo.NotesVO">
+	</bean>
+	<bean id="createNotesDataDomainRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.CreateNotesDataDomainRequest">
+	</bean>
+	<bean id="notesCheckInRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesCheckInRequest">
+	</bean>
+	<bean id="notesCopyRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesCopyRequest">
+	</bean>
+	<bean id="locateTargetSystemForNotes" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.LocateTargetSystemsForNotesRequest">
+	</bean>
+
+	<bean id="notesCheckoutRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.NotesCheckOutRequest">
+	</bean>
+	<bean id="deleteNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.DeleteNotesRequest">
+	</bean>
+	<bean id="notesAllVersionsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.ViewAllVersionsNotesRequest">
+	</bean>
+	<bean id="advancedSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.AdvancedSearchRequest"
+		>
+	</bean>
+	<bean id="sortRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.SortRequest">
+	</bean>
+
+	<bean id="retrieveBenefitHeadingsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBenefitHeadingsRequest">
+	</bean>
+
+	<bean id="retrieveCodedNonCodedBenefitHeadingsRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveCodedNonCodedBenefitHeadingsRequest">
+	</bean>
+
+	<bean id="attachmentRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.RetrieveAttachmentRequest">
+	</bean>
+
+
+	<bean id="notesAttachmentRequestForBnftLine" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.NotesAttachmentRequestForBnftLine">
+	</bean>
+
+	<bean id="attachBenefitLineNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitlevel.request.BenefitLineNotesAttachmentRequest">
+	</bean>
+	<bean id="saveRuleIdContractBenefitRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveRuleInformationRequest">
+	</bean>
+	<bean id="benefitViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.BenefitViewRequest">
+	</bean>
+
+	<bean id="benefitComponentSearchViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.BenefitComponentSearchViewRequest">
+	</bean>
+
+	<bean id="contractViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.ContractViewRequest">
+	</bean>
+	<bean id="productViewRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.search.request.ProductViewRequest">
+	</bean>
+	<bean id="approveAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.ApproveAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="rejectAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.RejectAdminOptionRequest">
+		<property name="adminOptionVO">
+			<ref bean="adminOptionVO" />
+		</property>
+	</bean>
+	<bean id="stdBenefitRejectRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.RejectStandardBenefitRequest">
+	</bean>
+	<bean id="benefitComponentApproveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentApproveRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+	<bean id="benefitComponentRejectRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.BenefitComponentRejectRequest">
+		<property name="benefitComponentVO">
+			<ref bean="benefitComponentVO" />
+		</property>
+	</bean>
+
+	<!-- ***********Migration Wizard starts here******************* -->
+	<bean id="retrieveBenefitLinesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.RetrieveBenefitLinesRequest">
+	</bean>
+
+	<bean id="saveContractHeadingsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.SaveContractHeadingsRequest">
+	</bean>
+
+
+	<bean id="migrationPricingInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.MigrationPricingInfoRequest">
+	</bean>
+	<bean id="migrationContractRulesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.MigrationContractRulesRequest" />
+	<bean id="retrieveMigGenInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.RetrieveMigGeneralInfoRequest">
+	</bean>
+	<bean id="saveMigGenInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.SaveMigGeneralInfoRequest">
+	</bean>
+	<bean id="migrationProductInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.MigrationProductInfoRequest">
+	</bean>
+	<bean id="retrieveMigVariableMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.RetrieveMigVariableMappingRequest">
+	</bean>
+	<bean id="retrieveLegacyLookUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.legacycontract.request.RetrieveLegacyLookUpRequest">
+	</bean>
+	<bean id="saveMigVariableMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.SaveMigVariableMappingRequest">
+	</bean>
+	<bean id="confirmMigrationContractRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.ConfirmMigrationContractRequest">
+	</bean>
+	<bean id="cancelMigRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.CancelMigrationRequest">
+	</bean>
+	<bean id="migrationGenerateReportRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.migration.request.MigrationGenerateReportRequest">
+	</bean>
+
+	<!-- ************************ END : MIGRATION WIZARD *************************** -->
+
+	<!-- ************************ ADMIN METHOD *************************** -->
+
+	<bean id="retrieveAdminMethodsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.RetrieveAdminMethodsRequest">
+	</bean>
+	<bean id="adminMethodsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.GeneralBenefitAdminMethodValidationRequest">
+	</bean>
+	<bean id="saveAdminMethodsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.SaveAdminMethodRequest">
+	</bean>
+	<bean id="adminMethodsOverrideRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.AdminMethodOverrideRequest">
+	</bean>
+	<bean id="overrideAdminMethodsRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminmethod.request.OverrideAdminMethodRequest">
+	</bean>
+	<!-- ************************ ADMIN METHOD ENDS*************************** -->
+	<bean id="productStructureNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.ProductStructureNotesRequest">
+	</bean>
+	<bean id="hideProductAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.HideProductAdminOptionRequest">
+	</bean>
+	<bean id="hideAdminOptionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.HideAdminOptionRequest">
+	</bean>
+	<bean id="retrieveLegacyContractNotesRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.legacycontract.request.RetrieveLegacyContarctNotesRequest">
+	</bean>
+	<bean id="serviceTypeMappingSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.ServiceTypeMappingSearchRequest">
+	</bean>
+	<bean id="spsMappingCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SPSMappingCreateRequest">
+		<property name="spsMappingVO">
+			<ref bean="spsMappingVO" />
+		</property>
+	</bean>
+	<bean id="spsMappingUpdateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SPSMappingUpdateRequest">
+		<property name="spsMappingVO">
+			<ref bean="spsMappingVO" />
+		</property>
+	</bean>
+	<bean id="spsMappingVO" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.vo.SPSMappingVO">
+	</bean>
+	<bean id="searchSPSMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.SearchSPSMappingRequest">
+	</bean>
+	<bean id="deleteSpsMappingRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.DeleteSpsMappingRequest">
+	</bean>
+	<bean id="deleteCustomMessageRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.DeleteCustomMessageRequest">
+	</bean>
+	<bean id="customMessageTextCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.CustomMessageTextCreateRequest">
+		<property name="customMessageTextVO">
+			<ref bean="customMessageTextVO" />
+		</property>
+	</bean>
+	<bean id="customMessageTextUpdateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.CustomMessageTextUpdateRequest">
+		<property name="customMessageTextVO">
+			<ref bean="customMessageTextVO" />
+		</property>
+	</bean>
+	<bean id="customMessageTextVO" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.vo.CustomMessageTextVO">
+	</bean>
+<bean id="retrieveBenefitComponentQuestionnairRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.benefitcomponent.request.RetrieveBenefitComponentQuestionnairRequest">
+	</bean>
+	<bean id="addRootQuestionRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.AddRootQuestionRequest">
+	</bean>
+	<bean id="editRootQuestionRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.EditRootQuestionsRequest">
+	</bean>
+	<bean id="locateRootQuestionRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.LocateRootQuestionRequest">
+	</bean>
+<bean id="retrieveProductStructureQuestionnaireRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.RetrieveProductStructureQuestionnaireRequest">
+	</bean>
+	<bean id="updateProductStructureBenefitAdministrationRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.UpdateProductStructureBenefitAdministrationRequest">
+	</bean>
+	<bean id="deleteQuestionnaireRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.DeleteQuestionnaireRequest">
+	</bean>
+	<bean id="retrieveRootQuestionnaireRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.RetrieveRootQuestionnaireRequest">
+	</bean>
+	<bean id="retrieveChildQuestionnaireRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.RetrieveChildQuestionnaireRequest">
+	</bean>
+	<bean id="persistChildQuestionnaireRequest"
+		scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.PersistChildQuestionnaireRequest">
+	</bean>
+	<bean id="deleteServiceTypeMappingCodeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.blueexchange.request.DeleteServiceTypeMappingRequest">
+	</bean>
+	<bean id="popupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.popup.request.PopupRequest">
+	</bean>
+	<bean id="saveProductComponentRuleInformationRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.SaveProductComponentRuleInformationRequest">
+	</bean>
+
+
+<bean id="updateQuestionnaireParentReqdRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.adminoption.request.SaveAdminOptionQuestionnaireRequest">
+		
+		
+	</bean>
+	<bean id="questionNotesPopUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.notes.request.QuestionNotesPopUpRequest">
+	</bean>
+	<bean id="benefitQuestionNoteProcessRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.BenefitQuestionNoteProcessRequest">
+	</bean>
+ <bean id="productQuestionNotesPopUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductQuestionNotesPopUpRequest">
+	</bean>
+	<bean id="productQuestionTierNoteProcessRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductQuestionTierNoteProcessRequest">
+	</bean> 
+	<bean id="productQuestionNoteProcessRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductQuestionNoteProcessRequest">
+	</bean> 
+	<bean id="questionNotesAttachRequestPS" scope="prototype"
+		class="com.wellpoint.wpd.common.productstructure.request.AttachNotesToQuestionRequestForPS">
+	</bean>
+	<bean id="tierLookUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.TierLookUpRequest">
+	</bean>
+	<bean id="createBenefitTierDefnAssnRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.CreateBenefitTierDefinitionRequest">
+	</bean>
+	<bean id="getBenefitTierDefnAssnRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.GetBenefitTierDefinitionRequest">
+	</bean>
+
+	<bean id="productTierDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.ProductTierDeleteRequest">
+	</bean>
+	<bean id="contractTierDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.ContractTierDeleteRequest">
+	</bean>
+	<bean id="tierDefinitionRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.TierDefinitionRetrieveRequest">
+	</bean>
+
+	<bean id="productTierDefSaveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.ProductTierDefSaveRequest">
+	</bean>
+	
+	<bean id="ContractTierDefSaveRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.ContractTierDefSaveRequest">
+	</bean>
+
+	<bean id="retrieveProductTierDefnAssnRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveProductTierDefnRequest">
+	</bean>
+	<bean id="retrieveBenefitTierDefnRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.RetrieveBenefitTierDefnRequest">
+	</bean>
+	<bean id="updateProductBenGenInfoRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.UpdateProductBenefitGeneralInformationRequest">
+	</bean>
+	<bean id="deleteLevelFromTierRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.tierdefinition.request.DeleteLevelFromTierRequest">
+	</bean>
+	<bean id="checkProductTierDefnRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.CheckProductTierDefnRequest">
+	</bean>
+
+	<!-- WTT Requests Start -->
+	<bean id="testSuiteCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestSuiteCreateRequest">
+	</bean>
+	<bean id="testSuiteSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestSuiteSearchRequest">
+	</bean>
+	<bean id="testSuiteDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestSuiteDeleteRequest">
+	</bean>
+	<bean id="testSuiteChangeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestSuiteChangeRequest">
+	</bean>
+	<bean id="testSuiteExecuteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestSuiteExecuteRequest">
+	</bean>
+	<bean id="testCaseRefCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseRefCreateRequest">
+	</bean>
+	<bean id="testCaseRefDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseRefDeleteRequest">
+	</bean>
+	<bean id="testCaseSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseSearchRequest">
+	</bean>
+	<bean id="testCaseDeleteRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseDeleteRequest">
+	</bean>
+	<bean id="benefitcomponentPopupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.BenefitComponentPopupRequest">
+	</bean>
+	<bean id="benefitPopupRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.BenefitPopupRequest">
+	</bean>
+	<bean id="testCaseCreateRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseCreateRequest">
+	</bean>
+	<bean id="testCaseChangeRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseChangeRequest">
+	</bean>
+	<bean id="testCaseEditRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.TestCaseEditRequest">
+	</bean>
+	<bean id="benefitComponentPopupSearchRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.webtesttool.request.BenefitComponentSearchRequest">
+	</bean>
+	<!-- WTT Requests End -->
+	<bean id="productQuestionTierNotesPopUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.product.request.ProductQuestionTierNotesPopUpRequest">
+	</bean>
+	<bean id="contractQuestionTierNotesPopUpRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractQuestionTierNotesPopUpRequest">
+	</bean>
+	<bean id="contractQuestionTierNoteProcessRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.contract.request.ContractQuestionTierNoteProcessRequest">
+	</bean>
+	<bean id="getBenefitTierDefinitionForDetailPrintRequest" scope="prototype"
+		class="com.wellpoint.wpd.common.standardbenefit.request.GetBenefitTierDefinitionForDetailPrintRequest">
+	</bean>
+
+</beans>

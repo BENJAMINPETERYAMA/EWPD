@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\refdata\request
+2
+4
+23:RefDataDomainValidationRequest.java|1|16adf97c98d|876|a6ba66a|3225b6ce73464c80b3dd7929ad65aa86|0
+13:RefDataRequest.java|1|16adf97c855|5bf|6f29d0ae|2ae203dd6d564dc7843f28d3020b0a4e|0
+29:ReferenceDataSPSMappingLookupRequest.java|1|16adf97cae5|467|24c26f2c|5479adeb289d412294eba709b24b9f83|0
+1f:ReferenceDataLookupRequest.java|1|16adf97c98d|c4e|d148c35a|a6ccb940d04a4c19a84ff2d3cad1ad01|0

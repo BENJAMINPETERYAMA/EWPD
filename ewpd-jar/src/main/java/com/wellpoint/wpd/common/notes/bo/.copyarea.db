@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\notes\bo
+2
+11
+13:NotesBOForView.java|1|16adf976a00|1345|758ab58a|ce66db48ffe8420ab50ad37ffcab1a69|0
+22:TierNotesAttachmentOverrideBO.java|1|16adf976aea|3f8|c8d53d02|9d6a9cf3438240958f9c3b4c762b1fb8|0
+17:NoteDomainDeleteBO.java|1|16adf9769c2|96c|d37ee51c|5dbcf647b2f54f86a80fb4c5e8b6daeb|0
+11:NoteDomainBO.java|1|16adf976723|180b|d7f37946|091340c9c8034c08a51d7d75a6d85aae|0
+14:AttachedNotesBO.java|1|16adf976723|1513|e947760e|82e6f9f2bea94407a0bd0893c5328791|0
+18:NoteDomainOvrdValBO.java|1|16adf9769e1|497|fd79692b|290af40e2c664fffa5532fcf2a21635a|0
+14:NotesBOForDefId.java|1|16adf976a10|fd6|c7abfba9|136a70a6473548c7aac5e9813f2ec9cd|0
+b:NoteBO.java|1|16adf976733|114c|6c3e6314|3b321240693942859488d8e9e985b472|0
+11:ProductNotes.java|1|16adf976a5e|4a4|b8dd6288|935d7ac09df84103b748f04106de9907|0
+27:NotesToQuestionAttachmentBenefitBO.java|1|16adf976a1f|d5a|78897b3d|892d3ec0118e45a785b9d65c5c13abfa|0
+27:ContractProductAONotesAttachmentBO.java|1|16adf976723|d44|9eca7713|f804da9470714c30adccaa5d665cf2d7|0
+15:NoteDomainResult.java|1|16adf9769c2|449|7b944003|6dcbe0d820334e61982ce44344e66d99|0
+1e:NotesAttachmentOverrideBO.java|1|16adf976a1f|3334|e58cedfe|82cbc45bd98f4c26875d217459f4332a|0
+15:NoteDomainAssnBO.java|1|16adf976733|492|722e66e2|cef9ba04b4654bdfa2f8f7005c42404d|0
+24:NotesAttachmentDomainOverrideBO.java|1|16adf9769f1|2124|f470174e|567ea615da8b481280b5c76c26a6e7d1|0
+20:NotesToQuestionAttachmentBO.java|1|16adf976a4e|e9a|1542c8ae|1eb63c9c95a74302a5d75fa802331c02|0
+f:NoteDomain.java|1|16adf976723|ba3|39fec317|84872af0f3b1469e9852a4a0be6ae7be|0

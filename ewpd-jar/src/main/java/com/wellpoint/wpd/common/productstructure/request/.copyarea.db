@@ -1,0 +1,27 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\productstructure\request
+2
+17
+25:ProductStructureLifeCycleRequest.java|1|16adf97b60d|d5a|5b4351d|706fe615bacb4ff59f266b7d7b160775|0
+23:RetrieveBenefitMandatesRequest.java|1|16adf97b63c|7dc|e3877eb9|3358b97196984b74a4e3fa7c0137bbfd|0
+22:DeleteProductStructureRequest.java|1|16adf97b62d|1038|fdec1bea|b7ec4289fe7c4483bd7c2f237b5ed2b0|0
+21:ProductStructureNotesRequest.java|1|16adf97b63c|cd4|9d24d408|f5504e6eb8344b2f9f6d1d1e389cbe82|0
+20:SaveAdminOptionRequestForPS.java|1|16adf97b958|1182|baf08dbc|6db2db8d2b9046f18f884e4d94fcafba|0
+26:AttachNotesToQuestionRequestForPS.java|1|16adf97ae12|6b3|a48623a6|ac7d8abf9a4d4c1cbc65ef7eeaa4b7ff|0
+37:UpdateProductStructureBenefitAdministrationRequest.java|1|16adf97bb6a|1d24|b502557f|2d07df6409794e31bc7cf01a3f0c2d87|0
+25:RetrieveBenefitDefenitionRequest.java|1|16adf97b64c|e84|92da83b6|272bbc74ff9d4d138518bda5c3e41058|0
+22:SearchProductStructureRequest.java|1|16adf97bb6a|6d8|119a49cb|cd7a6191f39b41bebe26a344364396ac|0
+24:CheckoutProductStructureRequest.java|1|16adf97b62d|604|bc51f6ca|986a32cc340c46dd8f698abe0dd24913|0
+31:RetrieveProductStructureQuestionnaireRequest.java|1|16adf97b6b9|1949|9dbc356d|5f57761e16714788a73a0b5cb2486d07|0
+33:RetrieveProdStructureComponentHierarchyRequest.java|1|16adf97b9f4|5bc|f9b7f006|909fe966aff24663ab2280dc547e32b5|0
+31:SaveProductStructureBenefitDefinitionRequest.java|1|16adf97b9d5|1174|e2b86616|972a9b31b0ef41f6b97a6d64fe392ba8|0
+2c:RetrieveProductStructureVersionsRequest.java|1|16adf97b9f4|8b3|314bd528|01e7a1b1882646bea0fb46f10f4e5aba|0
+1c:ProductStructureRequest.java|1|16adf97b60d|6b4|c6123e86|0bcc8e4a5586433abc5afc60c51f9a24|0
+30:SaveProductStructureBenefitComponentRequest.java|1|16adf97b958|7e1|c4a07ce7|0e1c0453771a47478117a44cd7787c31|0
+20:SaveProductStructureRequest.java|1|16adf97bb2c|1577|a7a67ff|84e5622a2603400db290253f4b887929|0
+24:RetrieveProductStructureRequest.java|1|16adf97b9e4|933|22c1d375|a9c23e40a5d44c39b4d723bfaffe04e7|0
+24:RetrieveBenefitComponentRequest.java|1|16adf97b64c|60b|2dd4fb45|9d6967edf1f841d897b5968b2d66ecd0|0
+39:RetrieveProductStructureBenefitAdministrationRequest.java|1|16adf97b9f4|ab1|6e9f5223|bc9c752f6e5c46848054e2e4a96ed317|0
+29:RetrieveBenefitComponentPopUpRequest.java|1|16adf97b60d|7c5|61c7fbc|67a632d4030b4b2f87edcf9d63c5801f|0
+25:RetrieveComponentFromTreeRequest.java|1|16adf97b64c|11b6|4114a41b|fad6739b6e8344c19ad22babdf17d031|0
+25:SaveBenefitAdministrationRequest.java|1|16adf97ba51|17a2|abf34d33|1caa3e3082df4729b15765428c6a13df|0

@@ -1,0 +1,21 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\benefitcomponent
+2
+11
+1d:ReferenceDataBackingBean.java|1|16adf98230c|9d1|69a20ce|5a8f4778ced345efb1cbde6ec7d8383a|0
+c:Benefit.java|1|16adf981fb6|3f7|cb43413|52d6ff04da7f48688c7d06f9b6255380|0
+24:BenefitComponentTreeBackingBean.java|1|16adf98210a|2c1e|50cf21d|3b6d7a661aba4f05a1b02c7cab696306|0
+2e:BenefitComponentAdministrationBackingBean.java|1|16adf982084|11d11|5b259097|6bfac644704745f09ef3f0d5de2a0431|0
+2b:BenefitComponentHierarchiesBackingBean.java|1|16adf9821f5|b66e|f43c25af|81b19fecd2594130a9dd33c09e796ba7|0
+4:tree|2|0|0|0|e0cae24334664aa88c958a9c5de6658d|0
+1f:BenefitMandatesBackingBean.java|1|16adf9821ea|125e|e2d70a78|2e7d83ec41334c7eb371b7fb430ec719|0
+22:BenefitComponentSessionObject.java|1|16adf9820dc|3aa5|8a8050f7|046310d9cd51489eb749e9b2fbaba87f|0
+2b:ComponentBenefitDefinitionsBackingBean.java|1|16adf982289|1f895|533df72f|35354761ac14462c9dea880d316f7a1e|0
+20:BenefitComponentBackingBean.java|1|16adf982a5a|33a2|77d54ebb|6f93e27a92e646659fb408d82b07a99f|0
+1d:BenefitHierarchyListener.java|1|16adf9821eb|4d5|847d9d8d|32d4064bd0ef4cf985fad95f9e5a497f|0
+25:BenefitComponentNotesBackingBean.java|1|16adf9820ed|57d1|74a060e|bbbcafd65a5d4f2e878aef43d118b27e|0
+17:BenefitBackingBean.java|1|16adf981f3b|69e|7921d5f|a5bd300affd24ea9a3ca1d92bce12a7d|0
+26:BenefitComponentSearchBackingBean.java|1|16adf9820fe|fb72|5781eb38|bedec41d24aa46049c6a0624b7c3d579|0
+15:BenefitComponent.java|1|16adf982090|5ded|f806addc|908f2ca54f744eed83d4f830d06cb620|0
+29:BenefitGeneralInformationBackingBean.java|1|16adf9821f8|243|b2beb8b1|4e141da1e67640b5aedcbe502706e574|0
+26:BenefitComponentCreateBackingBean.java|1|16adf982a2b|21ad5|7fdb1ce2|546e09e5ec04466685f65e29752e3f9f|0

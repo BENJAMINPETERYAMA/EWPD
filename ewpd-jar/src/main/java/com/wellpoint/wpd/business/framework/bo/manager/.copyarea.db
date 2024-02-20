@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\framework\bo\manager
+2
+6
+11:StateManager.java|1|16adf95e8cf|13e0|13f50f57|90b11a032a31429ab7b8ae1693ee7f4b|0
+1e:BusinessObjectManagerImpl.java|1|16adf95e9f8|1c205|6711bd89|337dfdde27e7423bb18f6907a6455738|0
+10:LockManager.java|1|16adf95e8ef|4366|113d763b|07e55296ca924064be325f0df975f1e0|0
+1a:BusinessObjectBuilder.java|1|16adf95e805|17da|ba9fe5b1|94436b32f15447c9bf7fd489ea6d9ec9|0
+1a:BusinessObjectManager.java|1|16adf95e824|d7c|8cb4c8bb|8863391dee3a43309e27147aa8dedd4f|0
+16:HistoryLogManager.java|1|16adf95e99a|3ea|3b854a1a|5982ca5a420d4d6fbc8c10d20e26d6aa|0

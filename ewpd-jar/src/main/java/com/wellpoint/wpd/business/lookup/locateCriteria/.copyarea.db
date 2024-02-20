@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\lookup\locateCriteria
+2
+3
+1e:NotesLookUpLocateCriteria.java|1|16adf95ee2c|124f|cb49ca98|0d13392a002d418cb978c7a221a56ed0|0
+20:NotesOverrideLocateCriteria.java|1|16adf95ee4b|8d0|2af0e751|b3b875e464794bd19fd76d6a72ca78c0|0
+26:LookupAdminQuestionLocateCriteria.java|1|16adf95ed71|526|7939b51|46ef3284edde470aa146854e4163ab66|0

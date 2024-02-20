@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\simulation\repository
+2
+6
+21:LGContractInfoRepositoryImpl.java|1|16b935e6195|10d48|b85f0547|e819644482eb11e9801c0002c056e04b|0
+1b:ContractInfoRepository.java|1|16b935e6128|546|58aeb787|b12462d448e845ae8f3ca2e9dcfd9d60|0
+23:EWPDContractInfoRepositoryImpl.java|1|16b935e6157|156af|331d37ab|e6e9642482eb11e9801c0002c056e04b|0
+22:ISGContractInfoRepositoryImpl.java|1|16b935e6176|147da|1500b594|e779643482eb11e9801c0002c056e04b|0
+1c:LockAuditRepositoryImpl.java|1|16b935e6195|2ab0|64bfebe6|88e1667759fc45818e5e9d44ba5aa433|0
+18:LockAuditRepository.java|1|16b935e6166|3d9|39c65051|9fc501774bd04999931b4c784986444e|0

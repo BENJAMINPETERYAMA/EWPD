@@ -1,0 +1,22 @@
+/*
+ * AdminOptionTempBO.java
+ * 
+ * ©2006 WellPoint, Inc. All Rights Reserved.
+ * 
+ * This software is the confidential and proprietary information of Wellpoint
+ * Inc. ("Confidential Information"). You shall not disclose or use Confidential
+ * Information without the express written agreement of Wellpoint Inc.
+ */
+package com.wellpoint.wpd.common.adminoption.bo;
+
+
+/**
+ * Business Object of Admin Option
+ * 
+ * @author US Technology Resources - www.ustri.com <br />
+ * @version $Id: $
+ */
+public class AdminOptionTempBO extends AdminOptionBO {
+
+
+}

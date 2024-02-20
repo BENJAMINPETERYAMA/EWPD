@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\web
+2
+c
+c:WebUtil.java|1|16b935e3b6f|143e|5b0de501|d27943aff1ac4f05977069f275a725ad|0
+15:BxResourceBundle.java|1|16b935de7cd|b9e|283b73a3|6b7da936877041ed98b9b24e1c8c1515|0
+11:WebConstants.java|1|16b935e1bdf|3baa|cfb132b9|5723316bb3594f8a83ef99aee7267e3e|0
+13:AutoPopulateVO.java|1|16b935e0a71|2f3|344ce49a|c543cb56beb04474babe95bacbfa49e3|0
+12:exceptionresolvers|2|0|0|0|bbaab891efd54b2bb85294c3883ab601|0
+c:AppInfo.java|1|16b935e01f9|4e6|1bb0994f|bc545a5176fc4899b6ebb45aaf82f68a|0
+4:ajax|2|0|0|0|7afa0d8d886f4b6cb04d1442ffb0cd92|0
+13:TokenGenerator.java|1|16b935e1bee|bd2|12359e22|fa84e490b791463ea3ee1f0d86574ccf|0
+4:view|2|0|0|0|90e850e2876b4cd2a089400792357c67|0
+a:controller|2|0|0|0|ed0b9a6ccbd54c4295cb0ede12df945b|0
+d:JsonView.java|1|16b935e1b71|1303|35b908dc|e16b80fc18164872ac9c94a83312efde|0
+17:SessionMessageTray.java|1|16b935e1bdf|568|d4f6c8fa|623ea63b82934faaad5e7f5b97f62ab2|0

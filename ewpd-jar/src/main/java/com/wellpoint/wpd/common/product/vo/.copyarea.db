@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\product\vo
+2
+7
+22:ProductBenefitAdminOverrideVO.java|1|16adf97a76d|879|2552aef3|68852cd85e464a6e988664e2d1b32f1f|0
+15:ProductKeyObject.java|1|16adf97a886|f65|982f79e8|537cdbbcd3bd44e9ad1e3c1fa1074a9a|0
+13:ProductAdminVO.java|1|16adf97a76d|9c4|b35a0d68|ea4def448c5c4fa0a464dc99d36d14a3|0
+17:ProductComponentVO.java|1|16adf97a819|a62|bbf5682|2de84cae1e634987ba14f4ed17cb9f2f|0
+e:ProductVO.java|1|16adf97a886|1d61|86f61183|f604875856a7453982c815cb523ca8f9|0
+27:ProductBenefitGeneralInformationVO.java|1|16adf97a76d|1680|7d15c069|4eb714b19e9543a9b643ac54232421a2|0
+1c:ProductSearchCriteriaVO.java|1|16adf97a819|1490|42194b40|889779fc899a45c7ad95d0f575e69f9e|0

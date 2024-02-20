@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\domain\vo
+2
+f
+1a:HippaSegmentMappingVO.java|1|16b935ddeb9|f46|5c22b02c|8c735c4233e54aa2892f7704d0f917f6|0
+13:SearchCriteria.java|1|16b935de119|24b1|9b6066bc|c17588610a10466b8c94f001932ceb0c|0
+18:ReferenceDataResult.java|1|16b935ddf07|732|384344ee|263a02db244f427b9ffe9472e87539ff|0
+13:VariableHdngVO.java|1|16b935de261|284|5f59d610|28ddcd8b54144884a7c52ea8eeee490b|0
+17:MassUpdateCriteria.java|1|16b935de119|24fb|c457a9c|df0be72ad13b4806b7ad8d05f3742bad|0
+11:SearchResult.java|1|16b935de2de|406f|4d536b6e|5e4bc5e56c1248c8912a290a7ddb44bf|0
+21:HippaSegmentValidationResult.java|1|16b935de1a6|16d9|22c34542|28f1e68b54374243aa28d263e9f17752|0
+12:MappingResult.java|1|16b935ddf07|c58|7f73ec8f|c7f7fe6eb8c744b58549d72b0a0d8d17|0
+1e:CreateOrEditMappingResult.java|1|16b935dddbf|1cbf|2a336485|c5bc775d1ef3423f8eb33502a88c75d6|0
+17:LocateResultHelper.java|1|16b935ddf26|48e|ce4b5e2a|e66f7665dc3741d7b7887ead29e1c5f1|0
+9:User.java|1|16b935de167|4a0|5f2a6c1f|968039dfce654efd8bce8b1b93737ab9|0
+16:ExcelReportResult.java|1|16b935ddeb9|3888|e5b06d0a|a6b91dbd640b4627bce9b79340ce251a|0
+12:ReportWrapper.java|1|16b935de119|2df|c4aaef16|f1ac0beb4312464e913a04ee38ffc0d4|0
+18:OOAMessageMappingVO.java|1|16b935de1f4|910|ba29fca8|47c099c83ac4418d8d8b2a73d20ab187|0
+10:DataTypePva.java|1|16b935dddb0|37b|77490b4f|74f1cfafcea14ad985fe1fe3956c1c39|0

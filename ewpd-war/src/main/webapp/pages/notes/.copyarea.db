@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\notes
+2
+f
+27:benefitLineAssociatedNotesViewPopUp.jsp|1|16adf922344|15f0|fef875ea|96a435a726a341eea27676e3f043bfc8|0
+17:notesViewAllVersion.jsp|1|16adf92221c|5706|da6a5e34|7775aa0889ae40d9aa7cbec60fbec2eb|0
+16:notesCompareResult.jsp|1|16adf9220e4|4cd7|4a8eb7f9|262b974a23be446d91b1c78bf61e0fb2|0
+12:notesEditPrint.jsp|1|16adf9221af|40bb|fd8eeff8|d0757c0338ff4e68a6f3eab193b58247|0
+19:noteSearchResultPrint.jsp|1|16adf922142|17d6|94dac602|e43d9c913a0849e0b70c7101a7870286|0
+1d:notesViewAllVersionsPrint.jsp|1|16adf9221ed|14e5|987c3b31|4e1602fd8d3a432796bb9deddd46e78b|0
+12:notesPrintView.jsp|1|16adf922180|4125|d503576|8a26c7ae6b53480fbdc3ca3e624849a2|0
+e:noteDomain.jsp|1|16adf9220f4|b67a|a5e35f15|7d9702113d2d481d9e13b7e40cc88665|0
+10:notesCompare.jsp|1|16adf9220f4|143b|6fbc0e41|d804287668c14cd98dae3a3155400cce|0
+f:notesCreate.jsp|1|16adf922122|2981|d809ed9c|37f7c90d15344defad4dcba9aa20fb0b|0
+f:notesSearch.jsp|1|16adf92219f|6f31|22afde7f|aa5a0960c9a0441aa78e23123a6836e0|0
+22:notesCreateWithRapidSpellCheck.jsp|1|16adf922122|2127|f06141a7|70a08e30e13249218dd12f2d937be4f6|0
+d:editNotes.jsp|1|16adf9224ca|5d9e|b87db36c|baef691d1bc8413d9e0de98807305973|0
+d:notesView.jsp|1|16adf9221fd|2080|a4e0c125|68ea148fd58f4cf298e14d54ebd5ab25|0
+e:dataDomain.jsp|1|16adf92244e|3d61|46cd43b0|bdbec9cd6f534d1b8665218645dffe17|0

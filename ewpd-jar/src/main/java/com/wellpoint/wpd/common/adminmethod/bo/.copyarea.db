@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\adminmethod\bo
+2
+b
+1c:AdminMethodValidationBO.java|1|16adf963682|279c|d34f6f92|414a0ee00d8f42e29e4bc831ff2b1b67|0
+18:AdminMethodsPopupBO.java|1|16adf963624|3077|79680a95|c98e4328dd7b4d3cb10c0d348b814349|0
+1e:AdminMethodTierOverrideBO.java|1|16adf963653|829|295d878c|372689efa3544efbbd9904f4b7143527|0
+12:AdminMethodBO.java|1|16adf9630a8|28d6|216e1fe|66a97af82dbe419284f38e3e98fc7db5|0
+24:AdminMethodContractValidationBO.java|1|16adf963634|b90|646886b|14f7924994104fbabe70c0e471e6e47a|0
+1f:AdminMethodSPSValidationBO.java|1|16adf963653|192a|4a22c1f5|cc409c0668f74763a7b86579b254d0d2|0
+20:AdminMethodAnswerOverrideBO.java|1|16adf9630b8|ed5|75ff6fc6|fe32fc24a5c347ccb186660c9958dc4d|0
+1a:AdminMethodOverrideBO.java|1|16adf96349e|23e3|7f32e1f4|5c9486a244af49b085726238daa1440c|0
+13:SPSParameterBO.java|1|16adf96370e|944|f19fd949|b1713a112b3e488598f4ae5d9469f84d|0
+26:AdminMethodValidationBOComparator.java|1|16adf96379a|391|49fb2203|c7e53d8348e14e9cb20130b122a51c89|0
+23:AdminMethodProductValidationBO.java|1|16adf963624|b62|1cf382ae|ef376b17a7264747b7ef180e1f87ef47|0

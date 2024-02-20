@@ -1,0 +1,45 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.NoteDomainDeleteBO">
+		<BusinessAttribute name="noteId" 		    	type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="entityId" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="entityType" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    type="Int" 	keyAttrib="true"/>
+		
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			</SelectSQLQuery>
+			<DataObject name="NOTE_DOMN_ASSN">
+				<DataObjectAttribute name="NOTE_ID" 		type="Int"	/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="String"	/>
+				<DataObjectAttribute name="ENTY_TYPE" 		type="String" />
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						DELETE FROM NOTE_DOMN_ASSN WHERE NOTE_ID = ? AND ENTY_TYPE = ? AND ENTY_SYS_ID = ? and NOTE_VRSN_NBR = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+						<Pair DOAttb="ENTY_SYS_ID"	toBOAttb="entityId"/>
+						<Pair DOAttb="ENTY_TYPE"	toBOAttb="entityType"/>
+						<Pair DOAttb="NOTE_VRSN_NBR"	toBOAttb="version"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject> 
+
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

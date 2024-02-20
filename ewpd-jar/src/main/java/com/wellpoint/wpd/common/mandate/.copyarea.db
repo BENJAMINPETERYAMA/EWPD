@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\mandate
+2
+5
+7:request|2|0|0|0|28960e1830a04d26929f914cdb8a3dfc|0
+17:MandateBackingBean.java|1|16adf974a02|3a10|b5aae8bf|c9c93db6a8d44dcc9f5cfc2535ad71e7|0
+8:response|2|0|0|0|d1d699fb13914a038adfa9ed1730259b|0
+2:vo|2|0|0|0|cb12b3bff2584a2faf463f6b7d4b0462|0
+2:bo|2|0|0|0|849326dd2e8b48c5acc69d22b800b660|0

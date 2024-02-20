@@ -1,0 +1,610 @@
+<Metadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.adminmethodmaintain.bo.AdminMethodMaintainBO">
+		<BusinessAttribute name="adminMethodNo" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="adminMethodSysId" type="Int"
+			keyAttrib="true" />
+		<BusinessAttribute name="description" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="processMethod" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="processMethodDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="configuration" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="requiredParm" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="comments" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="createdUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="createdDate" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser" type="String"
+			keyAttrib="false" />		
+		<BusinessAttribute name="lastUpdatedDate" type="Date"
+			keyAttrib="false" />
+		
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="adminMethodNo" type="String" />
+			<SearchCriteriaAttribute name="description" type="String" />
+			<SearchCriteriaAttribute name="processMethod" type="String" />
+			<SearchCriteriaAttribute name="processMethodList" type="List" />
+			<SearchCriteriaAttribute name="adminMethodSysId" type="String" />
+			</SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="locateAdminMethod" dynamic="true">
+				<STATIC>
+					select distinct a.admn_mthd_sys_id,a.admn_mthd_no,
+					a.admn_mthd_desc, a.spr_prcss_stp_sys_id,
+					e.spr_prcss_stp_nm,
+					DECODE((select count(*) from admn_mthd_cnfgrn where
+					admn_mthd_sys_id=a.admn_mthd_sys_id), 0, 'NO','YES')
+					admn_mthd_req_sps, DECODE((select count(*) from
+					admn_mthd_sps_grp_map a, admn_mthd_sps_grp b where
+					a.admn_mthd_sps_grp_id=b.admn_mthd_sps_grp_id and
+					b.admn_mthd_sys_id=a.admn_mthd_sys_id ), 0, 'NO','YES')
+					rfrnc_id
+					from admn_mthd_mstr a, spr_prcss_stp_mstr e
+					where 1=1
+					and a.spr_prcss_stp_sys_id= e.spr_prcss_stp_sys_id
+				</STATIC>	
+				<DYNAMIC>
+					and a.admn_mthd_no={0}
+				</DYNAMIC>
+				<DYNAMIC>
+					and a.admn_mthd_desc like {1} ESCAPE '\'
+				</DYNAMIC>
+				<DYNAMIC>
+					and a.spr_prcss_stp_sys_id {2}							
+				</DYNAMIC>
+				<STATIC>
+					order by a.admn_mthd_no,a.admn_mthd_desc,e.spr_prcss_stp_nm
+				</STATIC>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="viewAdminMethod">
+				select a.admn_mthd_no, a.admn_mthd_sys_id,a.admn_mthd_desc, a.CMNTS,b.spr_prcss_stp_nm,a.creatd_user_id, a.creatd_tm_stmp,
+				a.lst_chg_usr, a.lst_chg_tms from 
+				admn_mthd_mstr a, spr_prcss_stp_mstr b 	where a.admn_mthd_sys_id={0} and
+				b.spr_prcss_stp_sys_id = a.spr_prcss_stp_sys_id
+			</SelectSQLQuery>				
+
+ 			<SelectSQLQuery name="isAdminMethodMapped">
+				select ADMN_MTHD_DEL_VALIDATION({0},{1},{2}) from DUAL
+			</SelectSQLQuery>	
+		
+			<DataObject name="ADMN_MTHD_MSTR">
+			<DataObjectAttribute name="ADMN_MTHD_NO" type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ADMN_MTHD_DESC" type="String" />
+				<DataObjectAttribute name="SPR_PRCSS_STP_SYS_ID" type="String" />
+				<DataObjectAttribute name="SPR_PRCSS_STP_SYS_ID_LIST" type="String" />
+				<DataObjectAttribute name="SPR_PRCSS_STP_NM" type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_REQ_SPS" type="String" />
+				<DataObjectAttribute name="RFRNC_ID" type="String" />
+				<DataObjectAttribute name="COMMENTS" type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" type="TimeStamp" />	
+				<DataObjectAttribute name="ADMN_MTHD_SPS_ID" type="String" />	
+
+		
+                <SQLTemplate transType="insert">
+                
+				<SQLQuery>
+					INSERT INTO ADMN_MTHD_MSTR
+					(ADMN_MTHD_SYS_ID,ADMN_MTHD_NO,ADMN_MTHD_DESC,
+					LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP,SPR_PRCSS_STP_SYS_ID,CMNTS
+					) VALUES (?,?,?,?,?,?,?,?,?)
+				</SQLQuery>
+								
+				<DataObjectAttributeInput index="0" 	name="ADMN_MTHD_SYS_ID" />
+				<DataObjectAttributeInput index="1" 	name="ADMN_MTHD_NO" />
+				<DataObjectAttributeInput index="2"		name="ADMN_MTHD_DESC" />
+				<DataObjectAttributeInput index="3"	    name="LST_CHG_USR" />
+				<DataObjectAttributeInput index="4"	    name="LST_CHG_TMS" />
+				<DataObjectAttributeInput index="5"		name="CREATD_USER_ID" />
+				<DataObjectAttributeInput index="6"		name="CREATD_TM_STMP" />
+				<DataObjectAttributeInput index="7"		name="SPR_PRCSS_STP_SYS_ID" />
+				<DataObjectAttributeInput index="8"		name="COMMENTS" />
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_NO" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_DESC" />
+					<DataObjectAttributeInput index="2"
+						name="SPR_PRCSS_STP_SYS_ID_LIST" />
+					<RSIndexToDOAttributeMap>
+										
+						<ResultIndex index="0"	dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+						<ResultIndex index="1"	dataObjectAttribName="ADMN_MTHD_NO" />
+						<ResultIndex index="2"	dataObjectAttribName="ADMN_MTHD_DESC" />
+						<ResultIndex index="3"	dataObjectAttribName="SPR_PRCSS_STP_SYS_ID" />
+						<ResultIndex index="4"	dataObjectAttribName="SPR_PRCSS_STP_NM" />
+						<ResultIndex index="5"	dataObjectAttribName="ADMN_MTHD_REQ_SPS" />
+						<ResultIndex index="6"	dataObjectAttribName="RFRNC_ID" />
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateAdminMethod" />
+				</SQLTemplate>
+
+                <SQLTemplate transType="update">
+					<SQLQuery>
+						update admn_mthd_mstr set admn_mthd_desc=?,
+						CMNTS=?,lst_chg_usr=?,lst_chg_tms=? where admn_mthd_sys_id=?	
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="ADMN_MTHD_DESC" />
+					<DataObjectAttributeInput index="1" name="COMMENTS" />
+					<DataObjectAttributeInput index="2" name="LST_CHG_USR" />
+					<DataObjectAttributeInput index="3" name="LST_CHG_TMS" />
+                 	<DataObjectAttributeInput index="4" name="ADMN_MTHD_SYS_ID" />                
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_NO" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_DESC" />	
+					<DataObjectAttributeInput index="2"
+						name="SPR_PRCSS_STP_SYS_ID" />		
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="isAdminMethodMapped" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from admn_mthd_mstr where admn_mthd_no=? and admn_mthd_desc = ? and spr_prcss_stp_sys_id=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="ADMN_MTHD_NO"/>	
+					<DataObjectAttributeInput index="1" name="ADMN_MTHD_DESC"/>
+					<DataObjectAttributeInput index="2" name="SPR_PRCSS_STP_SYS_ID"/>
+				</SQLTemplate>
+								
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />
+					<RSIndexToDOAttributeMap>						
+                        <ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_NO" />
+						<ResultIndex index="1"
+							dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+						<ResultIndex index="2"
+							dataObjectAttribName="ADMN_MTHD_DESC" />
+						<ResultIndex index="3"
+							dataObjectAttribName="COMMENTS" />
+						<ResultIndex index="4"
+							dataObjectAttribName="SPR_PRCSS_STP_NM" />
+						<ResultIndex index="5"
+							dataObjectAttribName="CREATD_USER_ID" />
+						<ResultIndex index="6"
+							dataObjectAttribName="CREATD_TM_STMP" />
+						<ResultIndex index="7"
+							dataObjectAttribName="LST_CHG_USR" />
+						<ResultIndex index="8"
+							dataObjectAttribName="LST_CHG_TMS" />
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="viewAdminMethod" />
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toBOAttb="adminMethodNo" />
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toBOAttb="adminMethodSysId" />
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toBOAttb="description" />
+					<Pair DOAttb="SPR_PRCSS_STP_SYS_ID"
+						toBOAttb="processMethod" /> 				
+					<Pair DOAttb="SPR_PRCSS_STP_NM"
+						toBOAttb="processMethodDesc" />
+					<Pair DOAttb="ADMN_MTHD_REQ_SPS"
+						toBOAttb="configuration" />
+					<Pair DOAttb="RFRNC_ID" toBOAttb="requiredParm" />
+					<Pair DOAttb="COMMENTS" toBOAttb="comments" />
+					<Pair DOAttb="CREATD_USER_ID"
+						toBOAttb="createdUser" />
+					<Pair DOAttb="CREATD_TM_STMP"
+						toBOAttb="createdDate" />
+					<Pair DOAttb="LST_CHG_USR"
+						toBOAttb="lastUpdatedUser" />
+					<Pair DOAttb="LST_CHG_TMS"
+						toBOAttb="lastUpdatedDate" />
+					<Pair DOAttb="ADMN_MTHD_SPS_ID"
+						toBOAttb="processMethod" />
+
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toSCAttb="adminMethodNo" />
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toSCAttb="description" />
+					<Pair DOAttb="SPR_PRCSS_STP_SYS_ID"
+						toSCAttb="processMethod" />
+					<Pair DOAttb="SPR_PRCSS_STP_SYS_ID_LIST"
+						toSCAttb="processMethodList" />
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toSCAttb="adminMethodSysId" />
+
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.adminmethodmaintain.bo.ConfigurationBO">
+		<BusinessAttribute name="adminMethodSysId" type="Int"
+			keyAttrib="false" />
+		<BusinessAttribute name="configDesc" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="configID" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="createdUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="createdDate" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedUser" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="lastUpdatedDate" type="Date"
+			keyAttrib="false" />
+		<BusinessAttribute name="adminMethodNo" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="adminMethodDescription" type="String"
+			keyAttrib="false" />
+
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="adminMethodSystemId"
+				type="Int" />
+			<SearchCriteriaAttribute name="adminMethodNo"
+				type="String" />
+			<SearchCriteriaAttribute name="adminMethodDescription"
+				type="String" />
+
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="viewConfigListAdminMethod">
+				select a.admn_mthd_sys_id,b.rfrnc_id,c.cd_desc_txt from
+				admn_mthd_mstr a,admn_mthd_cnfgrn b, item c where
+				a.admn_mthd_sys_id={0} and
+				b.admn_mthd_sys_id=a.admn_mthd_sys_id(+) and
+				c.ctlg_id=1938 and c.prmry_cd=b.rfrnc_id(+)
+			</SelectSQLQuery>
+
+			<DataObject name="ADMN_MTHD_CNFGRN">
+				<DataObjectAttribute name="ADMN_MTHD_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ADMN_MTHD_NO" type="Int" />
+				<DataObjectAttribute name="ADMN_MTHD_DESC" type="Int" />
+				<DataObjectAttribute name="CD_DESC_TXT" type="String" />
+				<DataObjectAttribute name="RFRNC_ID" type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID"
+					type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" type="Date" />
+				<DataObjectAttribute name="LST_CHG_USR" type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" type="Date" />
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"
+							dataObjectAttribName="RFRNC_ID" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+						<ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="viewConfigListAdminMethod" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from admn_mthd_cnfgrn where
+						admn_mthd_sys_id in (select admn_mthd_sys_id from admn_mthd_mstr where admn_mthd_no=? and admn_mthd_desc=?)
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_NO" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_DESC" />
+
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO ADMN_MTHD_CNFGRN
+						(ADMN_MTHD_SYS_ID,RFRNC_ID ,
+						LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP
+						) VALUES (?,?,?, SYSDATE,?,SYSDATE)
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />
+					<DataObjectAttributeInput index="1" name="RFRNC_ID" />
+					<DataObjectAttributeInput index="2"
+						name="LST_CHG_USR" />
+					<DataObjectAttributeInput index="3"
+						name="CREATD_USER_ID" />
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toBOAttb="adminMethodNo" />
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toBOAttb="adminMethodDescription" />
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toBOAttb="adminMethodSysId" />
+					<Pair DOAttb="CD_DESC_TXT" toBOAttb="configDesc" />
+					<Pair DOAttb="RFRNC_ID" toBOAttb="configID" />
+					<Pair DOAttb="CREATD_USER_ID"
+						toBOAttb="createdUser" />
+					<Pair DOAttb="CREATD_TM_STMP"
+						toBOAttb="createdDate" />
+					<Pair DOAttb="LST_CHG_USR"
+						toBOAttb="lastUpdatedUser" />
+					<Pair DOAttb="LST_CHG_TMS"
+						toBOAttb="lastUpdatedDate" />
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toSCAttb="adminMethodSystemId" />
+
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toSCAttb="adminMethodNo" />
+
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toSCAttb="adminMethodDescription" />
+
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.adminmethodmaintain.bo.RequiredParamBO">
+		
+		<BusinessAttribute name="adminMethodSysId" type="Int" keyAttrib="false" />
+		<BusinessAttribute name="groupID" type="Int" keyAttrib="true" />
+		<BusinessAttribute name="referenceGroupBo" type="List" keyAttrib="false" />
+		<BusinessAttribute name="referenceID" type="String" keyAttrib="false" />
+		<BusinessAttribute name="adminMethodNo" type="String" keyAttrib="false" />
+		<BusinessAttribute name="adminMethodDesc" type="String" keyAttrib="false" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="adminMethodSysId" type="Int" />
+			<SearchCriteriaAttribute name="adminMethodNo" type="String" />
+			<SearchCriteriaAttribute name="adminMethodDesc" type="String" />
+		</SearchCriteria>
+		
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="reqParamListAdminMethod">
+				select a.admn_mthd_sys_id, b.admn_mthd_sps_grp_id from
+				admn_mthd_mstr a, admn_mthd_sps_grp b where
+				a.admn_mthd_sys_id ={0}
+				and b.admn_mthd_sys_id=a.admn_mthd_sys_id(+)
+
+			</SelectSQLQuery>
+
+			<DataObject name="ADMN_MTHD_SPS_GRP">
+				<DataObjectAttribute name="ADMN_MTHD_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ADMN_MTHD_SPS_GRP_ID"
+					type="Int" /> 
+				<DataObjectAttribute name="ADMN_MTHD_REQ_SPS"
+					type="String" />
+					
+				<DataObjectAttribute name="ADMN_MTHD_NO"
+					type="String" />
+					
+				<DataObjectAttribute name="ADMN_MTHD_DESC"
+					type="String" />
+					
+
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO ADMN_MTHD_SPS_GRP_MAP (
+						ADMN_MTHD_SPS_GRP_ID ,ADMN_MTHD_REQ_SPS ) VALUES
+						(?,?)	
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SPS_GRP_ID" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_REQ_SPS" />
+				</SQLTemplate>
+
+                <SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from admn_mthd_sps_grp where admn_mthd_sys_id in (select admn_mthd_sys_id from admn_mthd_mstr where admn_mthd_no=? and admn_mthd_desc=?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_NO" />
+					
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_DESC" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />			
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_SYS_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="ADMN_MTHD_SPS_GRP_ID" />
+					</RSIndexToDOAttributeMap>					
+					<SearchQueryName name="reqParamListAdminMethod" />					
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toBOAttb="adminMethodSysId" />
+					<Pair DOAttb="ADMN_MTHD_SPS_GRP_ID"
+						toBOAttb="groupID" />
+					<Pair DOAttb="ADMN_MTHD_REQ_SPS"
+						toBOAttb="referenceID" />
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toBOAttb="adminMethodNo" />					
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toBOAttb="adminMethodDesc" />
+												
+				</DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toSCAttb="adminMethodSysId" />
+						
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toSCAttb="adminMethodNo" />
+						
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toSCAttb="adminMethodDesc" />
+						
+				</DoAttributeToSCAttributeMap>		
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+	
+	<BusinessObjectMetadata
+		name="com.wellpoint.wpd.common.adminmethodmaintain.bo.ReferenceGroupBO">
+
+		<BusinessAttribute name="referenceId" type="String"
+			keyAttrib="false" />
+		<BusinessAttribute name="groupID" type="Int" keyAttrib="false" />
+		<BusinessAttribute name="description" type="String"
+			keyAttrib="true" />
+		<BusinessAttribute name="adminMethodSysId" type="Int"
+			keyAttrib="true" />
+		<BusinessAttribute name="adminMethodNo" type="String"
+			keyAttrib="true" />
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="groupId" type="Int" />
+		</SearchCriteria>
+		
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG
+				</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="refGroupListAdminMethod">
+
+				select a.admn_mthd_sps_grp_id, b.admn_mthd_req_sps,
+				c.cd_desc_txt from admn_mthd_sps_grp a,
+				admn_mthd_sps_grp_map b, item c where
+				b.admn_mthd_sps_grp_id={0} and b.admn_mthd_sps_grp_id=
+				a.admn_mthd_sps_grp_id and c.ctlg_id=1938 and
+				c.prmry_cd= b.admn_mthd_req_sps
+
+			</SelectSQLQuery>
+
+			<DataObject name="ADMN_MTHD_SPS_GRP">
+
+				<DataObjectAttribute name="ADMN_MTHD_REQ_SPS"
+					type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_SPS_GRP_ID"
+					type="Int" />
+				<DataObjectAttribute name="CD_DESC_TXT" type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_SYS_ID" type="Int" />
+				<DataObjectAttribute name="ADMN_MTHD_NO" type="String" />
+				<DataObjectAttribute name="ADMN_MTHD_DESC" type="String" />
+
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						INSERT INTO ADMN_MTHD_SPS_GRP ( ADMN_MTHD_SYS_ID
+						,ADMN_MTHD_SPS_GRP_ID ) VALUES (?,?)
+
+					</SQLQuery>
+
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SYS_ID" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_SPS_GRP_ID" />
+              </SQLTemplate>
+               <SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from admn_mthd_sps_grp_map where admn_mthd_sps_grp_id in 
+                      (select admn_mthd_sps_grp_id from admn_mthd_sps_grp  where admn_mthd_sys_id in 
+						(select admn_mthd_sys_id from admn_mthd_mstr where admn_mthd_no=? and admn_mthd_desc=?))
+					</SQLQuery>
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_NO" />
+					<DataObjectAttributeInput index="1"
+						name="ADMN_MTHD_DESC" />
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0"
+						name="ADMN_MTHD_SPS_GRP_ID" />
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"
+							dataObjectAttribName="ADMN_MTHD_SPS_GRP_ID" />
+						<ResultIndex index="1"
+							dataObjectAttribName="ADMN_MTHD_REQ_SPS" />
+						<ResultIndex index="2"
+							dataObjectAttribName="CD_DESC_TXT" />
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="refGroupListAdminMethod" />
+				</SQLTemplate>
+
+
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SPS_GRP_ID"
+						toBOAttb="groupID" />
+					<Pair DOAttb="ADMN_MTHD_REQ_SPS"
+						toBOAttb="referenceId" />
+					<Pair DOAttb="CD_DESC_TXT" toBOAttb="description" />
+					<Pair DOAttb="ADMN_MTHD_SYS_ID"
+						toBOAttb="adminMethodSysId" />
+					<Pair DOAttb="ADMN_MTHD_SPS_GRP_ID"
+						toBOAttb="groupID" />
+					<Pair DOAttb="ADMN_MTHD_NO"
+						toBOAttb="adminMethodNo" />
+					<Pair DOAttb="ADMN_MTHD_DESC"
+						toBOAttb="description" />
+
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMN_MTHD_SPS_GRP_ID"
+						toSCAttb="groupId" />
+					
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata>

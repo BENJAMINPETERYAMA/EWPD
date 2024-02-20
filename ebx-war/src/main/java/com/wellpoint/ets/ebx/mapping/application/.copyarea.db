@@ -1,0 +1,18 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\ebx\mapping\application
+2
+e
+28:LockedVariableAuditReportFacadeImpl.java|1|16b935e3eaa|712|a2ca72ef|c40760674f954d9c9f62d47b76f3ce91|0
+18:AdvanceSearchFacade.java|1|16b935e3db1|6f7|c7cb4322|91297bd906d547d7be3a22f7512d2780|0
+12:MappingFacade.java|1|16b935e3eaa|f14|3a25dd8a|4ea3a64786554cccabe9606c7218787c|0
+1c:MappingRuleIdFacadeImpl.java|1|16b935e3eba|1ccb|1b347ee0|7e8129e60e6f44009bc39de951fe8410|0
+1a:LocateSpsIdFacadeImpl.java|1|16b935e3e5c|e0d|f904c796|f28ca8ac201e404cba17937923e3ad16|0
+11:LocateFacade.java|1|16b935e3e4d|aa0|d78b86a6|8d5729b562bc441891e1c1d6edd5216c|0
+1f:ContractBxReportFacadeImpl.java|1|16b935e3e2d|581|3c4aed93|e57bdf5670cf444a8ca7bc92cb347978|0
+1b:MappingSpsIdFacadeImpl.java|1|16b935e3e8b|1ba3|7ebb2704|8c38c8869fd34d228188053c2775eda9|0
+24:LockedVariableAuditReportFacade.java|1|16b935e3e5c|2ff|3e1d0385|7ef7acfd85774d89a85d1711f5a3f52f|0
+22:LocateCustomMessageFacadeImpl.java|1|16b935e3e2d|ed5|ece14a1|596761c681b64877a59feb8d6f894227|0
+1b:ContractBxReportFacade.java|1|16b935e3e0e|285|2761ea89|15bebca989e74d378b8643be10f3cae9|0
+23:MappingCustomMessageFacadeImpl.java|1|16b935e3e9b|1b27|2f231a3e|3ae71026818e463d829f4aa64bbd3cbe|0
+1b:LocateRuleIdFacadeImpl.java|1|16b935e3e2d|e40|9a83d979|d374d733c4814993af936acc94aa91be|0
+1c:AdvanceSearchFacadeImpl.java|1|16b935e3e2d|c2d|a691710|9f2b124c73fb4cf096c308577e695fb0|0

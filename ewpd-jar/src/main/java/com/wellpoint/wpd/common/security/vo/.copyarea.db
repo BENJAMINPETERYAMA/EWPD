@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\security\vo
+2
+4
+b:TaskVO.java|1|16adf97ec59|140b|5fd30fa4|011af730abda418982cc56693e4438b7|0
+13:ModuleConfigVO.java|1|16adf97eb31|b39|fd2b5dd8|67e77912d4bb4f239417222af16fc731|0
+d:ModuleVO.java|1|16adf97ecf5|fe8|bfbfc14c|f33e3b1e61fb48eea99d5e259e72a862|0
+b:RoleVO.java|1|16adf97ecf5|1495|1cfbed17|b1ce8f634330444f83a00f04846ed774|0

@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\pages\item
+2
+5
+c:itemView.jsp|1|16adf91f005|1bbe|42e18a21|6ac9a16548dc486fbb34bea7bc38dcd1|0
+e:itemSearch.jsp|1|16adf91f0df|3b37|e17bc30c|0825dd15164a480f8447b8f9a8bd6bf3|0
+e:createItem.jsp|1|16adf91efa7|3505|6b611428|8a063f832e84478c93f5b6737d04f172|0
+c:editItem.jsp|1|16adf91efc6|2cc9|22ffd40b|19ab23dd37df472dbbbaed7776b2411f|0
+d:itemPrint.jsp|1|16adf91f091|179e|5855a87d|01e816f9406c447fb5a0d11068729b50|0

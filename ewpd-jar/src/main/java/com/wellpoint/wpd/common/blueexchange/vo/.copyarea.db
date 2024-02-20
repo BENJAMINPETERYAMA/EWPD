@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\blueexchange\vo
+2
+5
+20:ServiceTypeLocateCriteriaVO.java|1|16adf96a7ab|172e|ee2e6420|173443d3ded84c2aa4e796ab983a9b87|0
+19:ServiceTypeMappingVO.java|1|16adf96a7f9|8ae|5a62bed3|527fde22a15b4d9285ff55f450637d61|0
+11:SPSMappingVO.java|1|16adf96a838|2372|d6ea005b|fc6cf78d53144797847921ac099f2964|0
+17:SPSMappingSearchVO.java|1|16adf96a818|10e6|49b64797|9342f529dcb142c89f50816e2525fe59|0
+18:CustomMessageTextVO.java|1|16adf96a7ab|1423|f6417a69|630238822cf64fb5bcf94b69a0dfa424|0

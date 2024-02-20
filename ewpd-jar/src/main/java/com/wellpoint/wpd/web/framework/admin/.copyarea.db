@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\framework\admin
+2
+2
+19:LogViewerBackingBean.java|1|16adf982e8e|1da0|4f03c589|e0591f6902c941d9bd603a42fbb7bcd8|0
+21:ApplicationStatusBackingBean.java|1|16adf982e5f|1c45|d078366a|9c72c6235c96492aa6cd9d5cf12b343d|0

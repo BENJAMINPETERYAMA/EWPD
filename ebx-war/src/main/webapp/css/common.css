@@ -1,0 +1,1699 @@
+/* Common CSS -- email seenugj@ust-global.com if you have questions or need to change the style sheet - PLEASE do NOT change this style sheet */
+
+@charset "utf-8";
+
+/*-----------------------------------------------------------------------------------------------------GENERAL CSS---------------------------------------------------------------------------*/
+* {
+	padding: 0;
+	margin-top: 0;
+	margin-right: 0px;
+	margin-bottom: 0;
+	margin-left: 0;
+}
+html {
+	overflow:hidden;
+	/* min-height:100%; */
+	height:100%;
+}
+body {
+	color: #000;
+	background: url(../images/body_bg.gif) repeat-x;
+	/* min-height:100%; */
+	height:100%;;
+	font-family: Arial, sans-serif;
+	font-size: 11px
+}
+body.normal{
+	color: #000;
+	background: #fff;
+	height:100%;;
+	font-family: Arial, sans-serif;
+	font-size: 11px
+	}
+.fR{
+	float:right;
+	}
+.fL{
+	float:left;
+	}	
+
+table.pad3{
+	padding:3px;
+	}	
+table.Pd3 tbody tr td{
+	padding-top:4px;
+	padding-bottom:3px;
+	padding-left:4px;;
+	font-size: 11px
+	}
+table.Pd2 tr td{
+	padding-top:2px;
+	padding-left:4px;
+	font-size: 11px
+	}	
+.bT{
+	border-top:1px solid black; /*#d9e5eb*/
+	}
+.br{
+	border:1px solid #808080; /*#d9e5eb*/
+	}		
+.clear {
+	clear:both;
+}
+.pT5{
+	padding-top:5px;
+	}
+.pT10{
+	padding-top:10px;
+	}
+.pT15{
+	padding-top:15px;
+	}
+.mT5{
+	margin-top:5px;
+	}			
+.mt10{
+	margin-top:10px;
+	}
+.mL10{
+	margin-left:10px;
+	}
+.mR10{
+	margin-right:10px;
+	}	
+
+#wrapper {
+	/*height:590px !important; *//*To avoid scrollbars in browsers*/  
+	/* position: relative; */
+	width: 989px;
+	margin: 0 auto;
+	overflow:hidden;
+	overflow-y:hidden;
+	height: 100%;
+	
+	}
+.header_right {
+	width: 989px;
+	margin: 0 auto;
+	height: 20px;
+	float: right;
+	text-align:right;
+	color:#fff;
+}
+.header_right ul{
+	list-style:none;
+	padding-top: 5px;
+	padding-bottom:5px;
+}
+.header_right li{
+	display: inline;
+	margin-right:5px;
+}
+.header{
+	margin: 0px auto;
+	background:url(../images/header.gif);
+	/*width:989px;*/
+	height:63px;
+	margin-top:20px;
+	_margin-top:0px;;
+	font-size: 11px
+}
+#container {
+	width:977px;
+	margin:0 auto;
+	background:#fff;
+	_border:0px 1px 1px 1px solid #c5d4d6;
+	border-right:1px solid #c5d4d6;
+	border-left:1px solid #c5d4d6;
+	border-top:2px solid #23698a;
+	height: 73%;
+	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+	position:relative;
+	padding-top:10px;
+	padding-right:5px;
+	padding-left:5px;
+	padding-bottom:10px;
+	}
+.innerContainer{
+	width:960px;
+	margin:0 auto;
+	height:auto;
+	
+	}
+input {
+      font:12px Arial, sans-serif;
+      color: #2f2f32;
+      }
+/*-------------------------------------------------------------------- Level1 Left Div---------------------------------------------*/		
+.Level1{
+	width:auto;
+	height:auto;
+	}
+.unmapped{
+	width:470px;
+	/*height:250px;
+	_height:200px;*/
+	float:left;
+	border:1px solid #898989;;
+	font-size: 10px
+	}
+.unmappedooamessage{
+	width:900px;
+	/*height:250px;
+	_height:200px;*/
+	float:left;
+	border:1px solid #898989;;
+	font-size: 10px
+	}
+.titleBar{
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 28px;
+	border-bottom: 1px solid #a6b0b0;
+	}
+.headerTitle{
+	float:left;
+	font:14px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:6px;
+	padding-left:5px;
+	color:#000;
+	}
+.UnmappedVariables {
+	height:auto;
+	font-size: 11px
+	}
+.unmappedTable{
+	width: 470px;
+	border: 1px solid #949494;
+	background:url(../images/title_bg.gif)repeat-x;
+	font-size: 11px
+	}
+.tableHeader{
+	height: 20px;
+	_height:20px;
+	background-image: url(../images/title_bg.gif);
+	color: #FFF;
+	font-size:11px;
+	font-weight:bold;
+	text-align:left;
+	padding-top:5px;
+	padding-left:3px;
+	
+	}
+.ListTable{
+	height:220px;
+	width: 470px;
+	overflow:auto;
+	overflow-x:hidden;
+	word-wrap:break-word;
+	}
+
+table.mappedTable tbody{
+	width: 470px;
+	font-size: 11px;
+	overflow-y: scroll;
+	}	
+table.mappedTable tbody tr{
+	border-right:1px solid #d9e5eb;
+	word-wrap:break-word;
+	}
+table.mappedTable tbody td{
+	border-right:1px solid #d9e5eb;
+	font-size: 11px
+	}
+	table.mappedTable thead th{
+	/*border-right:1px solid #d9e5eb; */
+	font-size: 11px
+	}
+table.mappedTable tbody tr:hover{
+	background-color:#eef;
+	}
+table.mappedTable tbody tr.alternate{
+	background-color:#e9f3f9;
+	}
+.topVerticalAlign{
+	vertical-align:top;
+	}
+/*-------------------------------------------------------------------- Level1 Right Div---------------------------------------------*/	
+table.locateT tbody tr td{
+	padding-top:4px;
+	padding-bottom:3px;
+	padding-left:4px;
+	font-size: 11px
+}	
+table.locateTable{
+	border-bottom:1px solid #d9e5eb;	
+	}
+table.locateTable tbody{
+	width: 960px;
+	font-size: 11px;		
+	}	
+table.locateTable tbody tr{	
+	word-wrap:break-word;
+	}
+table.locateTable tbody td{
+	border-left:1px solid #d9e5eb;
+	border-right:1px solid #d9e5eb;
+	font-size: 11px;
+	}
+.locateResultsTable{	
+	border: 1px solid #d9e5eb;
+	background:url(../images/title_bg.gif) repeat-x;
+	font-size: 11px
+	}
+/*-------------------------------------------------------------------- Level1 Right Div---------------------------------------------*/	
+.inprogress{
+	width:470px;
+	/*height:250px;
+	_height:230px;*/
+	float:right;
+	border:1px solid #898989;
+	font-size: 11px
+	}
+/*-------------------------------------------------------------------- Level2 Left Div---------------------------------------------*/		
+.Level2{
+	width:auto;
+	height:auto;
+	border:1px solid white;
+	}
+.mapping{
+	width:470px;
+	height:159px;
+	float:left;
+	border:1px solid #898989;
+	font-size: 11px
+	}
+span.star{
+	color:#bd1516;
+	}
+
+input.input{
+                border: 1px solid #868686;
+                height:20px;
+                padding-top:3px;
+                }
+/*-------------------------------------------------------------------- Level2 Right Div---------------------------------------------*/		
+.Locate{
+	width:470px;
+	height:159px;
+	float:right;
+	border:1px solid #898989;
+	}	
+/*-------------------------------------------------------------------- Create Edit Page---------------------------------------------*/			
+table tr.createEditTable1{
+	width: 960px;
+	height:25px;
+	_height:20px;
+	background:url(../images/title_bg.gif) repeat-x ;
+	color:#fff;
+	}
+table tr.createEditTable1 th{
+	padding-left:3px;
+	padding-top:5px;
+	}
+table tr.createEditTable1-Listdata td{
+	padding-left:4px;
+	font-size: 11px;
+	padding-top:3px;
+	vertical-align: middle;
+	}
+table tr.createEditTable1-Viewdata td{
+	padding-left:4px;
+	font-size: 11px;
+	}	
+table tr.alternate{
+	background-color:#e9f3f9;
+	}	
+#createEditContainer{
+	width:960px;
+	height:345px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	}	
+#createEditContainerAdvanceSearch{
+	width:960px;
+	height:345px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:0px;
+	}	
+input.inputbox60{
+                width:87px;
+                border: 1px solid #868686;
+                height:20px;
+                padding-left:3px;
+                }
+input.inputbox65{
+                width:130px;
+                border: 1px solid #868686;
+                height:20px;
+                padding-left:3px;
+                }                
+input.inputbox470{
+                width:467px;
+                border: 1px solid #868686;
+                height:20px;
+                padding-left:3px;
+                }              
+input.textarea{
+                width:930px;
+                margin:0 auto;
+                height:100px;
+                }
+	
+/*-------------------------------------------------------------------- View Popup Page---------------------------------------------*/		
+.link a{
+	color:#064ceb;
+	text-decoration:underline;
+	}
+#viewEditContainer{
+	width:900px;
+	height:320px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	}
+#viewEditContainerPopup{
+	width:880px;
+	height:320px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:1px;
+	}		
+/*----------------------------Footer----------------------*/
+.footer {
+	height: 36px;
+	background: url(../images/footer.gif) no-repeat;
+	width: 989px;
+	margin: 0 auto;
+	text-align: center;
+	bottom: 0px;
+	color:	#000;
+	padding-top: 8px;
+	}
+.footerTable {
+	margin:0 auto;
+	text-align:center;
+	background-color:#86c6db;
+	}
+.footerTable td{
+	vertical-align:top;
+	}	
+.footer a{
+	line-height: 20px;
+	color: #000;
+	}
+.footer a:hover{
+	color: #fff;
+	}
+.aboutIcon{
+	width:24px;
+	height:24px;
+	float:right;
+	margin-right:10px;
+	background: url(../images/aboutIcon.gif) no-repeat;
+	}
+.ajaxActive{
+	width:36px;
+	height:29px;
+	float:left;
+	margin-left:-38px;
+	background: url(../images/connect_active.gif) no-repeat;
+	visibility: hidden;
+	}
+.ajaxIdle{
+	width:36px;
+	height:29px;
+	float:left;
+	margin-left:10px;
+	visibility:visible;
+	background: url(../images/connect_idle.gif) no-repeat;
+	}
+/*----------------------------Add On CSS-------------------*/ 
+.mL20{
+    margin-left:20px;
+    }   
+.error_alert{
+    background: url(../images/error_alert.gif) no-repeat;
+    height:20px;
+    padding-left:20px;
+    font-weight:bold;
+    margin-left:10px;
+    }
+.warning_alert{
+    background: url(../images/warning_alert.gif) no-repeat;
+    height:20px;
+    padding-left:20px;
+    font-weight:bold;
+    margin-left:10px;
+    }
+.info_alert{
+    background: url(../images/info_alert.gif) no-repeat;
+    height:20px;
+    padding-left:20px;
+    font-weight:bold;
+    margin-left:10px;
+    }
+.invalid_hippacode_value{
+	font-size: 11px;
+	color: #FF0000;
+	}
+
+/*----------------------------Create Mapping Popup---------------*/
+.overflowContainer{
+	height:260px;
+	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+.overflowContainerAccum{
+	height:260px;
+	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+.overflowContainerVariableView{	
+	width:880px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	position: relative;
+}
+.overflowContainerVariableView table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+.overflowContainerVariableView thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+	
+.overflowContainerVariable{	
+	width:960px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	position: relative;
+	}	
+
+.overflowContainerVariable table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+.overflowContainerVariable thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+	
+table tr.createEditTableShade{
+	background-color: #ADD8E6;
+	height:20px;
+	}
+table.popupTable{
+	font-size: 11px;
+	}	
+table.popupTable tr{	
+	border-right:1px solid #d9e5eb;		
+	}
+table.popupTable td{
+	border-right:1px solid #d9e5eb;
+	}
+/*----------------------------HippaSegment Popup---------------*/
+table.hippaSegmentPopupTable{
+	font-size: 11px;
+	border:1px solid #d9e5eb;
+	}
+.accumPopupTableStyle{
+	border-right:1px solid #d9e5eb;
+	border-bottom :0px;
+	border-top: 0px;
+	font-size: 11px;
+}
+table.table.hippaSegmentPopupTable tr{
+	border-right:1px solid #d9e5eb;
+	}
+table.hippaSegmentPopupTable td{
+	vertical-align: middle;
+	height:20px;
+	border-right:1px solid #d9e5eb;
+	}
+
+.footerPopup {
+	margin:0 auto;
+	text-align:center;
+	background-color:#86c6db;
+	}
+.footerPopup td{
+	vertical-align:top;
+	}
+.footerPopup a{
+	line-height: 20px;
+	color: #000;
+	}
+.footerPopup a:hover{
+	color: #fff;
+	}		
+table.auditTrailTable{
+	font-size: 11px;
+	border:1px solid #d9e5eb;
+	
+	}
+table.auditTrailTable td{
+	border-right:1px solid #d9e5eb;		
+	}	
+.overflowContainerHistory{
+height:350px;
+overflow:auto;
+overflow-y:auto;
+overflow-x:auto;
+}
+/* dont delete this. This can be used for hippa segment pop up.
+div.scrollTableContainer {
+height: 285px;
+overflow: auto;
+position: relative;
+}
+
+div.scrollTableContainer table>tbody {
+overflow: auto;
+height: 250px;
+overflow-x: hidden;
+}
+
+div.scrollTableContainer thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF *
+left: 0px;
+}
+*/
+div.ListTableDiv {
+height: 220px;
+width: 470px;
+overflow: auto;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+
+div.ListTableDiv table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+div.ListTableDiv thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+div.ListTableDivOOAMessage {
+height: 220px;
+width: 900px;
+overflow: auto;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+
+div.ListTableDivOOAMessage table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+div.ListTableDivOOAMessage thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+
+div.LocateResultTableDiv {
+height: 450px;
+width: 725px;
+overflow: auto;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+div.LocateResultTableDiv table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+div.LocateResultTableDiv thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+div.OOAMessageTableDiv {
+height: 220px;
+width: 900px;
+overflow: auto;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+div.OOAMessageTableDiv table>tbody {
+overflow: auto;
+overflow-x: hidden;
+}
+
+div.OOAMessageTableDiv thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+/*----------------Entries for the Simulation Module----------------*/
+
+.contractmapping{
+	width:470px;
+	float:right;
+	border:1px solid #898989;
+	font-size: 11px;
+	left: auto;
+	padding-bottom:2px; 
+	height: 330px;
+}
+	
+.contractinfo{
+	width:470px;
+	float:right;
+	border:1px solid #898989;
+	font-size: 11px
+	left: auto;
+	}
+	
+.space{
+	width:470px;
+	height:5px;
+	float:right;
+	font-size: 11px;
+	border-left-color: #f8f8f8;
+	border-top-color: #f8f8f8;
+	border-width: 0px;
+	border-bottom-color: #f8f8f8;
+	border-right-color: #f8f8f8;
+	border-style: solid
+	}
+	
+.fontcolor{
+	color:black;
+	}
+div.ListTableDiv1 {
+	height: 150px;
+	width: 450px;
+	overflow: auto;
+	overflow-x: hidden;
+	position: relative;
+	wrap-word:break-word;
+	border: 1px solid red;
+}
+.container{
+	width:960px;
+	margin:0 auto;
+	}
+.contractin{
+	width:480px;
+	/*height:420px;	
+	*height:430px;*/
+	_height : 432px;
+	float:left;
+	border:1px solid #898989;
+	font-size: 10px;
+	height: 330px;
+	}
+.x12Table{
+	width: 470px;
+	border: 1px solid #949494;
+	background:url(../images/title_bg.gif) repeat-x;
+	font-size: 11px;
+	}
+table tr.createTable1 td{
+	padding-left:4px;
+	font-size: 11px;
+	padding-top:3px;
+	}
+.x12{
+	width: 975px;;
+	float:right;
+	border:1px solid #898989;
+	font-size: 10px;
+	padding-bottom: 2px;
+	/*height:286px;*/ 
+	}
+	
+.footerClass {
+	height: 36px;
+	background: url(../images/footer.gif) no-repeat;
+	width: 989px;
+	margin: 0 auto;
+	text-align: right;
+	bottom: 0px;
+	color:	#000;
+	padding-top: 8px;
+	}
+
+.generate271Div{
+	width: 625px;
+	*width: 620px;
+	height: 470px;
+	*height: 450px;
+	margin-left: -4px;
+	_margin-left: 0px;
+}
+.rowHeight{
+	height: 10px;
+	*height: 0px; 
+}
+/****** Simulation module - End ******/
+/***Update for Accordion Start****/
+
+div.ListTableDivSub {
+width: 470px;
+overflow: auto;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+div.ListTableDivSub thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+.AccordionContainer
+{
+ 	width:470px;
+}
+ 
+.AccordionTitle
+{
+  _/*height:25px;
+  overflow:hidden;*/
+  cursor:pointer;
+  -moz-user-select:none;
+  }
+  
+.AccordionContent
+{
+	height:0px;
+	overflow:auto;
+	overflow-y:hidden;
+	overflow-x:hidden;
+	display:block;
+}
+
+.spheader1 {
+	width:25%;
+	border:1px solid red;
+}  
+  
+.descheader1 {
+	width:32%;
+}
+.updatedonheader1 {
+	width:20%;
+}
+.actionheader1 {
+	width:23%;
+}
+/***Update for Accordion End****/
+.finalized{
+	background-color:#ff9900;
+} 
+.isStandardMessage{
+	background-color:#BBEAAF;
+} 
+.aboutFooter{
+	width:691px; /*--width:560px;--*/
+	height:24px;
+	float:right;
+	margin-right:10px;	
+}
+.aboutWpdFooter{
+	width:691px; /*--width:560px;--*/
+	height:24px;
+	float:right;
+	margin-right:10px;	
+}
+input.inputboxDisabled{
+	width:130px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+} 
+
+	
+/*----------------------------Rule View Popup Starts here---------------*/	
+div#sequenceViewDiv{
+	width:98%;
+	height:480px;
+	overflow:auto;
+	overflow-x:hidden;
+	}
+table.ruleIndicatorTable{
+	font-size: 11px;
+	border:1px solid #d9e5eb;
+	width:100%;
+	}
+table.ruleIndicatorTable tr{
+	height:10px;
+	border-right:1px solid #d9e5eb;
+	}
+table.ruleIndicatorTable td{
+	height:10px;
+	border-right:1px solid #d9e5eb;
+	text-align:left;
+	white-space:nowrap;
+	}
+	.styleForTd105{
+		width:105px;
+	}
+.styleForTd135{
+		width:162px;
+	}
+/*----------------------------Rule View Popup Ends here---------------*/	
+div.MsgSearchResultDiv {
+	height: 220px;
+	width: auto;
+	overflow: auto;
+	overflow-x: hidden;
+	position: relative;
+	wrap-word:break-word;
+}
+
+div.MsgSearchResultDiv table>tbody {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+div.MsgSearchResultDiv thead th {
+	position:relative;
+	top: expression(offsetParent.scrollTop); /*IE5+ only*/
+	/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+	left: 0px;
+	height: 20px;
+}
+
+.tableHeaderMsgSearchResult{
+	height: 20px;
+	background-image: url(../images/title_bg.gif);
+	color: #FFF;
+	font-size:12px;
+	font-weight:bold;
+	text-align:left;
+	padding-top:5px;
+	padding-left:3px;
+	}	
+	
+.messageResultsTableTHEAD {
+	height:20px;
+	font-size: 11px;	
+	border: 1px solid #949494;
+	background-image::url(../images/title_bg.gif);
+	font-size: 11px
+	}
+.toggleUserIcon{
+	position:right;
+	padding-left:300px;
+}
+div.AdavanceSearchOuterResult {
+	height: 69%;
+	width: 600;
+	overflow: auto;
+	overflow-x: auto;
+	position: relative;
+	wrap-word:break-word;
+}
+
+div.AdavanceSearchInnerResult  {
+	height: 100%;
+	width: 600;
+	overflow: hidden;
+	overflow-x: hidden;
+	position: relative;
+	wrap-word:break-word;
+}
+
+div.AdavanceSearchInnerResult table>tbody {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+div.AdavanceSearchInnerResult thead th {
+	position:relative;
+	top: expression(offsetParent.scrollTop); /*IE5+ only*/
+	/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+	left: 0px;
+	height: 15px;
+}	
+.toggleUserIcon{
+	position:right;
+	padding-left:300px;
+}
+	
+div.SearchAccordianTableSub {
+width: auto;
+overflow: hidden;
+overflow-x: hidden;
+position: relative;
+wrap-word:break-word;
+}
+
+div.SearchAccordianTableDivSub thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+div.SearchAccordianTableDiv {
+height: 100%;
+width: auto;
+overflow:scroll;
+overflow-y:auto;
+overflow-x:auto;
+position: relative;
+wrap-word:break-word;
+}
+
+div.SearchAccordianTableDiv table>tbody {
+overflow: auto;
+overflow-x: auto;
+}
+
+div.SearchAccordianTableDiv thead tr {
+position:relative;
+top: expression(offsetParent.scrollTop); /*IE5+ only*/
+/* fixes the header being over too far in IE, doesn’t seem to affect FF */
+left: 0px;
+}
+
+.AccordionContentSearch
+{
+	height:0px;
+	overflow:hidden;
+	overflow-y:hidden;
+	overflow-x:hidden;
+	display:block;
+}
+
+input.inputbox60Disabled{
+	width:87px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+}
+
+input.inputbox30{
+    width:40px;
+    border: 1px solid #868686;
+    height:20px;
+    padding-left:3px;
+}
+
+input.inputbox30Disabled{
+	width:40px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+}
+
+input.inputbox50Disabled{
+	width:75px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+}
+
+input.inputbox50{
+    width:75px;
+    border: 1px solid #868686;
+    height:20px;
+    padding-left:3px;
+}
+select.dropdown60{
+	width:87px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+}
+
+select.dropdown60Disabled{
+	width:87px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+}
+/**Introduced for Advanced Search options**/
+input.inputboxDisabled1{
+     width:87px;
+     border: 1px solid #868686;
+     height:20px;
+     padding-left:3px;
+     background:#e9f3f9;
+} 
+	
+	
+/**Incorporated for Exclusion page**/
+
+#exclusionEditContainer {
+	width:97%;
+ 	height:570px;
+	margin-top:15px;
+	margin-top:5px;
+	padding-left:14px;
+	padding-right:4px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+#exclusionSectionOne {
+	width:912px;
+	border:1px solid #898989;
+	height:65px;
+}
+#exclusionTitleBarSectionOne {
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 23px;
+	border-bottom: 1px solid #a6b0b0;
+	width:912px;
+}
+.headerTitleExclusion{
+	float:left;
+	font:12px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#000;
+	}
+#exclusionContentSectionOne {
+	height:39px;
+}
+#exclusionSectionTwo {
+	margin-top:3px;
+	height:275px;
+	border:1px solid #898989;
+	width:912px;
+}
+.exclusionTitleBarSectionTwo {
+	background: url(../images/title_bg.gif) repeat-x;
+	height: 19px;
+}
+
+.headerTitleSub {
+	float:left;
+	font:11px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#FFFFFF;
+}
+#exclusionContentSectionTwo {
+	padding-top:4px;
+	height:182px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	_width:99.8%;
+}
+
+.exclusionIcons {
+	vertical-align: middle;
+	padding-right:10px;
+}
+
+.minimumHeight {
+	 min-height:20px;
+	 vertical-align: top;
+	 
+}
+
+#exclusionSectionThree {
+	margin-top:3px;
+	height:219px;
+	border:1px solid #898989;
+	width:912px;
+}
+
+#primaryCriteriaDiv {
+	float: left;
+	border:1px solid #898989;
+	width: 420px;
+	padding-left:10px;
+	height:170px;
+	margin-left:5px;
+	padding-top:3px;
+	padding-top:10px;
+}
+
+#secondaryCriteriaDiv {
+	float: right;
+	border:1px solid #898989;
+	width: 420px;
+	padding-left:10px;
+	margin-right:5px;
+	height:170px;
+	padding-top:3px;
+	padding-top:10px;
+}
+
+.criteriatable td {
+	vertical-align: middle;
+}
+
+.exclusionSectionThreeSub {
+	padding-left:6px;
+	padding-top:6px;
+	padding-right:6px;
+	
+}
+
+select.dropdown135 {
+                width:135px;
+                border: 1px solid #868686;
+                height:22px;
+                font-family: Arial, sans-serif;
+				font-size: 12px;
+} 
+
+select.dropdown136 {
+                width:87px;
+                border: 1px solid #868686;
+                height:20px;
+                font-family: Arial, sans-serif;
+				font-size: 12px;
+} 
+select.dropdown200 {
+	width:200px;	
+	border: 1px solid #868686;	
+	height:20px;	
+}
+
+select.dropdown200Disabled{
+	width:200px;	
+	border: 1px solid #868686;	
+	height:20px;	
+	background:#e9f3f9;
+}
+
+input.inputbox200Exclude{
+           width:230px;
+           border: 1px solid #868686;
+           height:18px;
+}
+
+input.inputbox200ExcludeDisabled {
+           width:230px;
+           border: 1px solid #868686;
+           height:18px;
+           background:#e9f3f9;
+}
+
+.exclusionSearchTable td {
+	padding-left:7px;
+}
+
+textarea.exclusionsText {
+	font-family: Arial, sans-serif;
+	width:388px;
+	height:85px;
+}
+textarea.standardMsg {
+	font-family: Arial, sans-serif;
+	font-size: 11px;
+	width:360px;
+	height:30px;
+}
+
+textarea.exclusionsTextDisabled {
+	font-family: Arial, sans-serif;
+	font-size: 11px;
+	background:#e9f3f9;
+	width:388px;
+	height:82px;
+}
+
+.shadedTextExclude{
+	color:#545353;;
+	font-size: 12px
+	}
+.nonshadedTextExclude {
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+}
+
+.headTextExclusions {
+	color:#003366;
+	font-weight:bold;
+	font-size:10px;
+	_font-size:11px;
+	font-family: sans-serif, Arial, Verdana;
+}
+
+/**Incoroporated for Exclusion page end **/
+
+/** For advance search table **/
+table.advanceSearchLocateTable{
+	border-bottom:1px solid #d9e5eb;	
+	}
+table.advanceSearchLocateTable tbody{
+	font-size: 11px;		
+	}	
+table.advanceSearchLocateTable tbody tr{	
+	word-wrap:break-word;
+	}
+table.advanceSearchLocateTable tbody td{
+	border-left:1px solid #d9e5eb;
+	border-right:1px solid #d9e5eb;
+	font-size: 11px;
+	}
+/** For advance search table ends **/
+
+
+
+/**Incorporated for categorymapping page**/
+
+#exclusionEditContainer1 {
+	width:97%;
+ 	height:570px;
+	margin-top:15px;
+	margin-top:5px;
+	padding-left:14px;
+	padding-right:4px;
+}
+
+#exclusionSectionOne1 {
+	width:926px;
+	border:1px solid #898989;
+	height:118px;
+}
+#exclusionTitleBarSectionOne1 {
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 23px;
+	border-bottom: 1px solid #a6b0b0;
+	width:926px;
+}
+.headerTitleExclusion1{
+	float:left;
+	font:12px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#000;
+	}
+#exclusionContentSectionOne1 {
+	height:66px;
+}
+#exclusionSectionTwo1 {
+	margin-top:3px;
+	height:195px;
+	border:1px solid #898989;
+	width:926px;
+}
+.exclusionTitleBarSectionTwo1 {
+	background: url(../images/title_bg.gif) repeat-x;
+	height: 24px;
+}
+
+.headerTitleSub1 {
+	float:left;
+	font:10px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#FFFFFF;
+}
+#exclusionContentSectionTwo1 {
+	padding-top:4px;
+	height:170px;
+	overflow-y:auto;
+	overflow-x: hidden;
+}
+.exclusionIcons1 {
+	vertical-align: middle;
+	padding-right:10px;
+}
+
+.minimumHeight1 {
+	 min-height:35px;
+	 vertical-align: top;
+}
+
+#exclusionSectionThree1 {
+	margin-top:3px;
+	height:180px;
+	border:1px solid #898989;
+	width:926px;
+}
+
+#primaryCriteriaDiv1 {
+	float: left;
+	border:1px solid #898989;
+	width: 420px;
+	padding-left:10px;
+	height:172px;
+	margin-left:5px;
+	padding-top:3px;
+}
+
+#secondaryCriteriaDiv1 {
+	float: right;
+	border:1px solid #898989;
+	width: 420px;
+	padding-left:10px;
+	margin-right:5px;
+	height:172px;
+	padding-top:3px;
+}
+
+
+
+.exclusionSectionThreeSub1 {
+height:130px;
+	padding-left:6px;
+	padding-top:1px;
+	padding-right:6px;
+	
+}
+
+
+
+#createEditContainer1{
+	width:926px;
+	_width:916px;
+	height:135px;
+	overflow:auto;
+	overflow-x:hidden;
+	margin-top:15px;
+	overflow-y:auto;
+	}
+
+#serviceTypeCreateEditContainer{
+	width:926px;
+	_width:916px;
+	height:135px;
+	overflow:auto;
+	overflow-x:hidden;
+	overflow-y:auto;
+	}
+	
+#deleteCategoryPopupContent{
+	height:280px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	overflow-y:auto;
+	}
+
+#deleteCategoryPopupContent{
+	height:280px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	overflow-y:auto;
+}
+
+.commentsLogClass {
+	width:540px;
+	height:350px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	
+}
+
+.updatedeletetextclass {
+	width:380px;
+	height:116px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	
+}
+
+table.mappedTable1 tbody{
+	width: 926px;
+	font-size: 11px;
+	overflow-y: scroll;
+	}	
+table.mappedTable1 tbody tr{
+	border-right:1px solid #d9e5eb;
+	 border-bottom: 1px solid #d9e5eb;
+	word-wrap:break-word;
+	}
+table.mappedTable1 tbody td{
+	border-right:1px solid #d9e5eb;
+	font-size: 11px
+	}
+	table.mappedTable1 thead th{
+	/*border-right:1px solid #d9e5eb; */
+	font-size: 11px
+	}
+table.mappedTable1 tbody tr:hover{
+	background-color:#eef;
+	}
+table.mappedTable1 tbody tr.alternate{
+	background-color:#e9f3f9;
+	}
+
+/**Incoroporated for categorymapping page end **/
+
+/**----Css for advance search **/
+.tableHeaderAdvanceSearch{
+	height: 15px;
+	_height:15px;
+	background-image: url(../images/title_bg.gif);
+	color: #FFF;
+	
+	font-size:11px;
+	font-weight:bold;
+	text-align:left;
+	padding-top:5px;
+	padding-left:3px;
+	
+	}
+/* advanced search page */
+table.advancedSearchWidth {
+	width:100%;
+}
+
+/** For Manage Reference Data Values - START **/
+	
+.dvshadedText{
+	color:#545353;;
+	font-size: 12px
+}
+	
+textarea.dataValuesText {
+	width:388px;
+	height:82px;
+}
+#referenceDataValueContainer {
+	width:97%;
+ 	height:570px;
+	margin-top:15px;
+	margin-top:5px;
+	padding-left:14px;
+	padding-right:4px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+#referenceDataValueSectionOne {
+	width:912px;
+	border:1px solid #898989;
+	height:65px;
+}
+#referenceDataValueTitleBarOne {
+	background: url(../images/view-sum-title-br-bg.gif) repeat-x;
+	height: 23px;
+	border-bottom: 1px solid #a6b0b0;
+	width:912px;
+}
+.headerTitleDataValue{
+	float:left;
+	font:12px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#000;
+}
+#referenceDataValueContentOne {
+	height:39px;
+}
+#referenceDataValueSectionTwo {
+	margin-top:3px;
+	height:280px;
+	border:1px solid #898989;
+	width:912px;
+}
+.dataValueTitleBarSectionTwo {
+	background: url(../images/title_bg.gif) repeat-x;
+	height: 24px;
+}
+#referenceDataValueContentTwo {
+	padding-top:4px;
+	height:250px;
+	overflow: auto;
+	overflow-x: hidden;
+	position: relative;
+	_width:99.8%;
+}
+#referenceDataValueSectionThree {
+	margin-top:3px;
+	height:200px;
+	border:1px solid #898989;
+	width:912px;
+}
+.dvheaderTitleSub {
+	float:left;
+	font:11px Arial, sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-left:5px;
+	color:#FFFFFF;
+}
+.dvcriteriatable td {
+	vertical-align: middle;
+}
+
+.dataValueSectionThreeSub {
+	padding-left:6px;
+	padding-top:6px;
+	padding-right:6px;
+	
+}
+
+table.dvmappedTable tbody{
+	width: 470px;
+	font-size: 11px;
+	overflow-y: scroll;
+	}	
+table.dvmappedTable tbody tr{
+	border-right:1px solid #d9e5eb;
+	border-bottom: 1px solid #d9e5eb;
+	word-wrap:break-word;
+	}
+table.dvmappedTable tbody td{
+	border-right:1px solid #d9e5eb;
+	font-size: 11px
+	}
+	table.dvmappedTable thead th{
+	font-size: 11px
+	}
+table.dvmappedTable tbody tr:hover{
+	background-color:#eef;
+	}
+table.dvmappedTable tbody tr.alternate{
+	background-color:#e9f3f9;
+	}
+.topVerticalAlign{
+	vertical-align:top;
+	}
+	
+input.inputbox90{
+                width:110px;
+                border: 1px solid #868686;
+                height:20px;
+                padding-left:3px;
+                }
+/** For Manage Reference Data Values - END **/
+
+/**For Edit page, BXNI changes**/
+#checkBoxContainer{
+margin-top:5px;
+border-top:#d9e5eb 2px solid;
+height: 25px;
+}
+
+input.inputboxMsgDisabled{
+	border: 1px solid #868686;	
+	height:20px;	
+	padding-left:3px;	
+	background:#e9f3f9;
+}
+
+input.inputboxMsg{
+    border: 1px solid #868686;
+    height:20px;
+    padding-left:3px;
+}
+
+/**  For system configurations - START **/
+
+.systemConfiguration{
+	/*width:480px;*/
+	/*height:420px;	
+	*height:430px;
+	_height : 435px;*/
+	float:left;
+	border:1px solid #898989;
+	font-size: 10px;
+	}
+	#tblSystemConfiguration TD
+	{
+	border-bottom:#d9e5eb 1px solid;
+	border-right:#d9e5eb 1px solid;
+	PADDING-RIGHT: 5px;
+	padding-left: 4px;
+	height:25px; 
+	}
+	#tableRowNoData TD
+	{
+	font-weight: bold ; 
+	padding-top: 5px;
+	width: 100%;
+	text-align: center;
+	color:black !important;
+	font-size: 16px;
+	border-bottom-width: 0px ;
+	border-right-width: 1px ;
+	}
+	
+	.backEndDecription{
+		font-size: 12px;
+		font-weight: bold;
+		color: green; 
+	}
+
+	#tblSystemConfiguration .tableHeader
+	{
+	padding-top: 1px !important;
+	}
+
+	.tblSystemConfigurationButton
+	{
+	padding: 0px !important;
+	margin: 0px !important;
+	}
+	
+/**  For system configurations - END **/

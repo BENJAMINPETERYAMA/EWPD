@@ -1,0 +1,618 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.TestCaseBO">
+		
+		<BusinessAttribute name="testCaseId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="testCaseName" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="testCaseDesc" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="testCaseCount" type="Int" keyAttrib="false"/>
+				
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="testCaseName" type="String"/>
+			<SearchCriteriaAttribute name="benefitComponent" type="String"/>
+			<SearchCriteriaAttribute name="benefit" type="String"/>
+			<SearchCriteriaAttribute name="testCaseId" type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			 <SelectSQLQuery name="searchTestCase" dynamic="true">
+			    <STATIC>
+				    <![CDATA[
+							SELECT 
+								tc.TEST_CASE_ID,
+								tc.TEST_CASE_NAME,
+								tc.TEST_CASE_DESC
+							FROM
+								TEST_CASE_DTL tc,TESTCASE_CLAIM_LINE_DATA cl
+					       WHERE tc.TEST_CASE_ID = cl.TEST_CASE_ID(+)
+					]]>
+			    </STATIC>
+				<DYNAMIC>
+							AND upper(cl.BENEFIT_COMPNT) like upper(('%'||{0}||'%'))
+			    </DYNAMIC> 
+				<DYNAMIC>
+					AND
+				   ( upper(cl.BASIC_BENEFIT) like upper(('%'||{1}||'%')) 
+				     OR
+					 upper(cl.EXPECTED_BENEFIT) like upper(('%'||{1}||'%'))
+					 OR
+					 upper(cl.RIDER_BENEFIT) like upper(('%'||{1}||'%'))
+					)					 
+			    </DYNAMIC> 
+				<DYNAMIC>
+			       AND upper(tc.TEST_CASE_NAME) like upper(('%'||{2}||'%')) order by tc.TEST_CASE_NAME
+			    </DYNAMIC> 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchTestCaseById">
+				SELECT 
+					TEST_CASE_ID,
+					TEST_CASE_NAME,
+					TEST_CASE_DESC
+				FROM
+					TEST_CASE_DTL
+		       WHERE 
+					TEST_CASE_ID = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="searchTestCaseByName" dynamic="true">
+				 <STATIC>
+						SELECT
+							count(TEST_CASE_NAME) AS TEST_CASE_COUNT,
+							'dummy'
+						FROM
+							TEST_CASE_DTL 
+				        WHERE
+							upper(TEST_CASE_NAME) LIKE upper({0})
+				</STATIC>
+				<DYNAMIC>
+					<![CDATA[ AND test_case_id <> {1} ]]>
+				</DYNAMIC>
+			</SelectSQLQuery>
+			<DataObject name="TEST_CASE_DTL">				
+				<DataObjectAttribute name="TEST_CASE_ID" type="String"/>
+			    <DataObjectAttribute name="TEST_CASE_NAME" type="String"/>
+			    <DataObjectAttribute name="TEST_CASE_DESC" type="String"/>
+				<DataObjectAttribute name="BENEFIT_COMPNT" type="String"/>
+				<DataObjectAttribute name="BASIC_BENEFIT"  type="String"/> 
+				<DataObjectAttribute name="TEST_CASE_COUNT"  type="Int"/> 
+
+			    <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BENEFIT_COMPNT"/>
+					<DataObjectAttributeInput index="1" name="BASIC_BENEFIT"/> 
+			        <DataObjectAttributeInput index="2" name="TEST_CASE_NAME"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_CASE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_CASE_NAME"/>
+			            <ResultIndex index="2" dataObjectAttribName ="TEST_CASE_DESC"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTestCase"/>
+			    </SQLTemplate>
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TEST_CASE_ID"/> 
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_CASE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_CASE_NAME"/>
+			            <ResultIndex index="2" dataObjectAttribName ="TEST_CASE_DESC"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTestCaseById"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TEST_CASE_NAME"/> 
+			        <DataObjectAttributeInput index="1" name="TEST_CASE_ID"/> 
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TEST_CASE_COUNT"/>
+			            <ResultIndex index="1" dataObjectAttribName ="TEST_CASE_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchTestCaseByName"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="insert">
+                          <SQLQuery>
+								INSERT INTO TEST_CASE_DTL 
+									(TEST_CASE_ID, TEST_CASE_NAME,TEST_CASE_DESC)
+			            		 VALUES (?, ?,?)
+                          </SQLQuery>
+                          <DataObjectAttributeInput index="0" name="TEST_CASE_ID"/>
+                          <DataObjectAttributeInput index="1" name="TEST_CASE_NAME"/>
+						  <DataObjectAttributeInput index="2" name="TEST_CASE_DESC"/>	
+                </SQLTemplate>
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						 UPDATE TEST_CASE_DTL
+						SET 
+							TEST_CASE_NAME =?, TEST_CASE_DESC =?
+						WHERE
+							TEST_CASE_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TEST_CASE_NAME"/>
+			        <DataObjectAttributeInput index="1" name="TEST_CASE_DESC"/>
+			        <DataObjectAttributeInput index="2" name="TEST_CASE_ID"/>
+			   </SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TEST_CASE_DTL WHERE TEST_CASE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TEST_CASE_ID"/>
+	  			</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="TEST_CASE_ID"   toBOAttb="testCaseId"/>
+			        <Pair DOAttb="TEST_CASE_NAME" toBOAttb="testCaseName"/>
+			        <Pair DOAttb="TEST_CASE_DESC" toBOAttb="testCaseDesc"/>
+			        <Pair DOAttb="TEST_CASE_COUNT" toBOAttb="testCaseCount"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TEST_CASE_NAME" toSCAttb="testCaseName"/>
+			        <Pair DOAttb="TEST_CASE_ID" toSCAttb="testCaseId"/>
+			        <Pair DOAttb="BENEFIT_COMPNT" toSCAttb="benefitComponent"/>
+			        <Pair DOAttb="BASIC_BENEFIT" toSCAttb="benefit"/> 
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>		
+	</BusinessObjectMetadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.ClaimLineBO">            
+			<BusinessAttribute name="benefitCmptName" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="benefitCmptSysId" type="Int" keyAttrib="true"/>
+ 			<BusinessAttribute name="benefitName" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="benefitSysId" type="Int" keyAttrib="true"/>	
+			<BusinessAttribute name="benefitCategory" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="benefitType" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="testCaseId" type="String" keyAttrib="true"/>
+			<BusinessAttribute name="claimLineId" type="String" keyAttrib="true"/>
+			<BusinessAttribute name="diagnosisCode" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="hcpcCode" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="modifierCode" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="ttCode" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="revenueCode" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="typeOfBill" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="placeOfService" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="expectedBenefitComponent" type="String" keyAttrib="false"/>		
+			<BusinessAttribute name="expectedBenefit" type="String" keyAttrib="false"/>
+			<BusinessAttribute name="expectedBasicBenefit" type="String" keyAttrib="false"/>	
+			<BusinessAttribute name="expectedRiderBenefit" type="String" keyAttrib="false"/>
+
+			<SearchCriteria name="searchCriteria">
+				<SearchCriteriaAttribute name="benefitSysId" 	type="Int"/>
+				<SearchCriteriaAttribute name="benefitCmptSysId" 	type="Int"/>
+				<SearchCriteriaAttribute name="testCaseId" type="String"/>
+				<SearchCriteriaAttribute name="claimLineId" type="String"/>
+				<SearchCriteriaAttribute name="benefitCmptName" type="String"/>
+		    </SearchCriteria>
+		
+		    <DataSource name="prmd" domain="medical" >
+                  <Connection preferred="jndi">
+                        <url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+                        <jndi>java:comp/env/wsbEwpdDS</jndi>
+                  </Connection>
+				  	
+				  <SelectSQLQuery name="getAllBenefitComponents">
+						SELECT 
+						     BNFT_CMPNT_NM,
+						     BNFT_CMPNT_SYS_ID
+						FROM 
+						     BCM_BNFT_CMPNT_MSTR 
+						WHERE 
+						      BNFT_CMPNT_SYS_ID IN (SELECT MAX(BNFT_CMPNT_SYS_ID) FROM BCM_BNFT_CMPNT_MSTR WHERE BNFT_CMPNT_STTS_cd ='PUBLISHED' group by BNFT_CMPNT_PARNT_SYS_ID)
+						ORDER BY 
+						      BNFT_CMPNT_NM,BNFT_CMPNT_VRSN_NBR	
+				   </SelectSQLQuery>
+
+					<SelectSQLQuery name="getExpectedBenefits">
+					SELECT 
+						BNFT_SYS_ID,
+						BNFT_ID_NM,
+				 		BNFT_CTGRY,
+						BNFT_TYPE 
+					FROM
+						 BMST_BNFT_MSTR
+					WHERE  
+						BNFT_CTGRY='MAJMEDICAL'
+					AND 
+						BNFT_SYS_ID IN (SELECT BNFT_SYS_ID FROM BNFT_CMPNT_HRCHY_ASSN WHERE BNFT_CMPNT_SYS_ID = {0})
+					ORDER BY
+						BNFT_ID_NM
+				   </SelectSQLQuery>
+					<SelectSQLQuery name="getBasicBenefits">
+						SELECT 
+							BNFT_SYS_ID,
+							BNFT_ID_NM,
+				 			BNFT_CTGRY,
+							BNFT_TYPE 
+						FROM
+							 BMST_BNFT_MSTR
+						WHERE  
+							BNFT_CTGRY='BASIC'
+						AND 
+							BNFT_SYS_ID IN (SELECT BNFT_SYS_ID FROM BNFT_CMPNT_HRCHY_ASSN WHERE BNFT_CMPNT_SYS_ID = {0})
+						ORDER BY
+							BNFT_ID_NM
+				   </SelectSQLQuery>
+					<SelectSQLQuery name="getRiderBenefits">
+						SELECT 
+							BNFT_SYS_ID,
+							BNFT_ID_NM,
+					 		BNFT_CTGRY,
+							BNFT_TYPE 
+						FROM
+							 BMST_BNFT_MSTR
+						WHERE  
+							BNFT_CTGRY='RIDER'
+						AND 
+							BNFT_SYS_ID IN (SELECT BNFT_SYS_ID FROM BNFT_CMPNT_HRCHY_ASSN WHERE BNFT_CMPNT_SYS_ID = {0})
+						ORDER BY
+							BNFT_ID_NM
+				   </SelectSQLQuery>
+
+					<SelectSQLQuery name="searchByTestCaseId">
+						SELECT
+							CLAIM_LINE_ID,
+							TEST_CASE_ID,
+							DIAGNOSIS_CODE,
+							TT_CODE,
+							PLACE_OF_SERVICE,
+							HCPC_CODE,
+							REVENUE_CODE,
+							TYPE_OF_BILL,
+							MODIFIER_CODE,
+							EXPECTED_BENEFIT,
+							BASIC_BENEFIT,
+							RIDER_BENEFIT,
+							BENEFIT_COMPNT
+						FROM
+							TESTCASE_CLAIM_LINE_DATA
+				       WHERE 
+							TEST_CASE_ID = {0}
+					</SelectSQLQuery>
+					 <SelectSQLQuery name="searchBenefitComponentByName">
+						SELECT 
+						     BNFT_CMPNT_NM,
+						     BNFT_CMPNT_SYS_ID
+						FROM 
+						     BCM_BNFT_CMPNT_MSTR 
+						WHERE 
+							  UPPER(BNFT_CMPNT_NM)  LIKE upper(('%'||{0}||'%'))	
+						AND
+						      BNFT_CMPNT_SYS_ID IN (SELECT MAX(BNFT_CMPNT_SYS_ID) FROM BCM_BNFT_CMPNT_MSTR WHERE BNFT_CMPNT_STTS_cd ='PUBLISHED' group by BNFT_CMPNT_PARNT_SYS_ID)						
+						ORDER BY 
+						      BNFT_CMPNT_NM,BNFT_CMPNT_VRSN_NBR	
+				   </SelectSQLQuery>
+				 <DataObject name="BCM_BNFT_CMPNT_MSTR">
+					  <DataObjectAttribute name="BNFT_CMPNT_NM" type="String" /> 
+					  <DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int" /> 
+	
+					  <SQLTemplate transType="select">
+						   <RSIndexToDOAttributeMap>
+							  <ResultIndex index="0" dataObjectAttribName="BNFT_CMPNT_NM" /> 
+						  	  <ResultIndex index="1" dataObjectAttribName="BNFT_CMPNT_SYS_ID" /> 
+					  		</RSIndexToDOAttributeMap>
+						  <SearchQueryName name="getAllBenefitComponents" /> 
+					  </SQLTemplate>
+					  <SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_CMPNT_NM"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="searchBenefitComponentByName"/>
+					</SQLTemplate>	
+					 <DoAttributeToBOAttributeMap>
+			        	<Pair DOAttb="BNFT_CMPNT_NM"   toBOAttb="benefitCmptName"/>
+				        <Pair DOAttb="BNFT_CMPNT_SYS_ID" toBOAttb="benefitCmptSysId"/>
+				    </DoAttributeToBOAttributeMap>	
+					 <DoAttributeToSCAttributeMap>
+			        	<Pair DOAttb="BNFT_CMPNT_NM" toSCAttb="benefitCmptName"/>
+				    </DoAttributeToSCAttributeMap>
+				</DataObject>
+				 <DataObject name="BMST_BNFT_MSTR">
+					  <DataObjectAttribute name="BNFT_SYS_ID" type="Int" /> 
+					  <DataObjectAttribute name="BNFT_ID_NM" type="String" />
+					  <DataObjectAttribute name="BNFT_CTGRY" type="String" />
+					  <DataObjectAttribute name="BNFT_TYPE" type="String" />
+					  <DataObjectAttribute name="BNFT_CMPNT_SYS_ID" type="Int" />
+			
+					  <SQLTemplate transType="select">
+							<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID" />
+						   <RSIndexToDOAttributeMap>
+							  <ResultIndex index="0" dataObjectAttribName="BNFT_SYS_ID" /> 
+						  	  <ResultIndex index="1" dataObjectAttribName="BNFT_ID_NM" /> 
+							  <ResultIndex index="2" dataObjectAttribName="BNFT_CTGRY" /> 
+							  <ResultIndex index="3" dataObjectAttribName="BNFT_TYPE" /> 	
+					  		</RSIndexToDOAttributeMap>
+						  <SearchQueryName name="getExpectedBenefits" /> 
+					  </SQLTemplate>
+					  <SQLTemplate transType="select">
+							<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID" />
+						   <RSIndexToDOAttributeMap>
+							  <ResultIndex index="0" dataObjectAttribName="BNFT_SYS_ID" /> 
+						  	  <ResultIndex index="1" dataObjectAttribName="BNFT_ID_NM" /> 
+							  <ResultIndex index="2" dataObjectAttribName="BNFT_CTGRY" /> 
+							  <ResultIndex index="3" dataObjectAttribName="BNFT_TYPE" /> 	
+					  		</RSIndexToDOAttributeMap>
+						  <SearchQueryName name="getBasicBenefits" /> 
+					  </SQLTemplate>
+					  <SQLTemplate transType="select">
+							<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID" />
+						   <RSIndexToDOAttributeMap>
+							  <ResultIndex index="0" dataObjectAttribName="BNFT_SYS_ID" /> 
+						  	  <ResultIndex index="1" dataObjectAttribName="BNFT_ID_NM" /> 
+							  <ResultIndex index="2" dataObjectAttribName="BNFT_CTGRY" /> 
+							  <ResultIndex index="3" dataObjectAttribName="BNFT_TYPE" /> 	
+					  		</RSIndexToDOAttributeMap>
+						  <SearchQueryName name="getRiderBenefits" /> 
+					  </SQLTemplate>		
+					 <DoAttributeToBOAttributeMap>
+			        	<Pair DOAttb="BNFT_SYS_ID"   toBOAttb="benefitSysId"/>
+				        <Pair DOAttb="BNFT_ID_NM" toBOAttb="benefitName"/>
+						<Pair DOAttb="BNFT_CTGRY" toBOAttb="benefitCategory"/>
+						<Pair DOAttb="BNFT_TYPE" toBOAttb="benefitType"/>
+				    </DoAttributeToBOAttributeMap>
+	
+				    <DoAttributeToSCAttributeMap>
+				        <Pair DOAttb="BNFT_CMPNT_SYS_ID" toSCAttb="benefitCmptSysId"/>
+				    </DoAttributeToSCAttributeMap>
+				</DataObject>
+			<DataObject name="TESTCASE_CLAIM_LINE_DATA">
+				<DataObjectAttribute name="CLAIM_LINE_ID" type="String" />				
+				<DataObjectAttribute name="TEST_CASE_ID" type="String" />
+			    <DataObjectAttribute name="DIAGNOSIS_CODE" type="String" />
+				<DataObjectAttribute name="TT_CODE" type="String" />
+				<DataObjectAttribute name="PLACE_OF_SERVICE" type="String" />
+				<DataObjectAttribute name="HCPC_CODE" type="String" />
+				<DataObjectAttribute name="REVENUE_CODE" type="String" />
+				<DataObjectAttribute name="TYPE_OF_BILL" type="String" />
+				<DataObjectAttribute name="MODIFIER_CODE" type="String" />
+				<DataObjectAttribute name="EXPECTED_BENEFIT" type="String" />
+				<DataObjectAttribute name="BASIC_BENEFIT" type="String" />
+				<DataObjectAttribute name="RIDER_BENEFIT" type="String" />
+				<DataObjectAttribute name="BENEFIT_COMPNT" type="String" />
+
+				<SQLTemplate transType="insert">
+                          <SQLQuery>
+								INSERT INTO TESTCASE_CLAIM_LINE_DATA 
+									(CLAIM_LINE_ID,TEST_CASE_ID,DIAGNOSIS_CODE,TT_CODE,PLACE_OF_SERVICE,HCPC_CODE,REVENUE_CODE,TYPE_OF_BILL,MODIFIER_CODE,EXPECTED_BENEFIT,BASIC_BENEFIT,RIDER_BENEFIT,BENEFIT_COMPNT)
+			            		 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+                          </SQLQuery>
+						  <DataObjectAttributeInput index="0" name="CLAIM_LINE_ID" />	
+                          <DataObjectAttributeInput index="1" name="TEST_CASE_ID" />
+                          <DataObjectAttributeInput index="2" name="DIAGNOSIS_CODE" />
+						  <DataObjectAttributeInput index="3" name="TT_CODE" />	
+						  <DataObjectAttributeInput index="4" name="PLACE_OF_SERVICE" />
+						  <DataObjectAttributeInput index="5" name="HCPC_CODE" />
+						  <DataObjectAttributeInput index="6" name="REVENUE_CODE" />		
+						  <DataObjectAttributeInput index="7" name="TYPE_OF_BILL" />
+						  <DataObjectAttributeInput index="8" name="MODIFIER_CODE" />			
+						  <DataObjectAttributeInput index="9" name="EXPECTED_BENEFIT" />
+						  <DataObjectAttributeInput index="10" name="BASIC_BENEFIT" />
+						  <DataObjectAttributeInput index="11" name="RIDER_BENEFIT" />
+						  <DataObjectAttributeInput index="12" name="BENEFIT_COMPNT" />			
+                </SQLTemplate>
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						 UPDATE TESTCASE_CLAIM_LINE_DATA 
+						SET 
+							DIAGNOSIS_CODE =?, TT_CODE =?, PLACE_OF_SERVICE=?, HCPC_CODE=?, REVENUE_CODE=?,
+							TYPE_OF_BILL=?, MODIFIER_CODE=?, EXPECTED_BENEFIT=?, BASIC_BENEFIT=?, RIDER_BENEFIT=?, BENEFIT_COMPNT=?      
+						WHERE
+							TEST_CASE_ID = ? AND CLAIM_LINE_ID= ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="DIAGNOSIS_CODE"/>
+			        <DataObjectAttributeInput index="1" name="TT_CODE"/>
+			        <DataObjectAttributeInput index="2" name="PLACE_OF_SERVICE"/>
+					<DataObjectAttributeInput index="3" name="HCPC_CODE"/>
+					<DataObjectAttributeInput index="4" name="REVENUE_CODE"/>
+					<DataObjectAttributeInput index="5" name="TYPE_OF_BILL"/>
+					<DataObjectAttributeInput index="6" name="MODIFIER_CODE"/>
+					<DataObjectAttributeInput index="7" name="EXPECTED_BENEFIT"/>
+					<DataObjectAttributeInput index="8" name="BASIC_BENEFIT"/>
+					<DataObjectAttributeInput index="9" name="RIDER_BENEFIT"/>
+					<DataObjectAttributeInput index="10" name="BENEFIT_COMPNT"/>
+					<DataObjectAttributeInput index="11" name="TEST_CASE_ID"/>		
+					<DataObjectAttributeInput index="12" name="CLAIM_LINE_ID"/>		
+			   </SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TESTCASE_CLAIM_LINE_DATA WHERE TEST_CASE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TEST_CASE_ID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="TEST_CASE_ID" />
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName="CLAIM_LINE_ID" />
+							<ResultIndex index="1" dataObjectAttribName="TEST_CASE_ID" />
+							<ResultIndex index="2" dataObjectAttribName="DIAGNOSIS_CODE" />
+							<ResultIndex index="3" dataObjectAttribName="TT_CODE" />
+							<ResultIndex index="4" dataObjectAttribName="PLACE_OF_SERVICE" />
+							<ResultIndex index="5" dataObjectAttribName="HCPC_CODE" />
+							<ResultIndex index="6" dataObjectAttribName="REVENUE_CODE" />
+							<ResultIndex index="7" dataObjectAttribName="TYPE_OF_BILL" />
+							<ResultIndex index="8" dataObjectAttribName="MODIFIER_CODE" />
+							<ResultIndex index="9" dataObjectAttribName="EXPECTED_BENEFIT" />
+							<ResultIndex index="10" dataObjectAttribName="BASIC_BENEFIT" />
+							<ResultIndex index="11" dataObjectAttribName="RIDER_BENEFIT" />
+							<ResultIndex index="12" dataObjectAttribName="BENEFIT_COMPNT" />
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="searchByTestCaseId" /> 
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="CLAIM_LINE_ID"   	toBOAttb="claimLineId" />
+			        <Pair DOAttb="TEST_CASE_ID"   	toBOAttb="testCaseId" />
+					<Pair DOAttb="DIAGNOSIS_CODE"   	toBOAttb="diagnosisCode" />
+					<Pair DOAttb="TT_CODE"   	toBOAttb="ttCode" />
+					<Pair DOAttb="PLACE_OF_SERVICE"   	toBOAttb="placeOfService" />
+					<Pair DOAttb="HCPC_CODE"   	toBOAttb="hcpcCode" />
+					<Pair DOAttb="REVENUE_CODE"   	toBOAttb="revenueCode" />
+					<Pair DOAttb="TYPE_OF_BILL"   	toBOAttb="typeOfBill" />
+					<Pair DOAttb="MODIFIER_CODE"   	toBOAttb="modifierCode" />
+					<Pair DOAttb="EXPECTED_BENEFIT"   	toBOAttb="expectedBenefit" />
+					<Pair DOAttb="BASIC_BENEFIT"   	toBOAttb="expectedBasicBenefit" />
+					<Pair DOAttb="RIDER_BENEFIT"   	toBOAttb="expectedRiderBenefit" />
+					<Pair DOAttb="BENEFIT_COMPNT"   	toBOAttb="expectedBenefitComponent" />
+			    </DoAttributeToBOAttributeMap>
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TEST_CASE_ID" toSCAttb="testCaseId"/>
+					<Pair DOAttb="CLAIM_LINE_ID" toSCAttb="claimLineId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.webtesttool.bo.ClaimHeaderBO">		
+		<BusinessAttribute name="testCaseId" type="String" keyAttrib="true"/>
+		<BusinessAttribute name="claimType" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="providerId" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="medAssignIndicator" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="age" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="itsProvSpec" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="hospitalFacilityCode" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="gender" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="groupState" type="String" keyAttrib="false"/>		
+		<BusinessAttribute name="edit" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="daysFromInjury" type="String" keyAttrib="false"/>	
+		<BusinessAttribute name="memberRelationshipCode" type="String" keyAttrib="false"/>
+		<BusinessAttribute name="itsClaim" type="String" keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="testCaseId" type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="searchByTestCaseId">
+				SELECT
+					TEST_CASE_ID,
+					CLAIM_TYPE,
+					ITS_PROV_SPEC,
+					EDIT,
+					PROVIDER_ID,
+					HOSP_FAC_CODE,
+					DAYS_FROM_INJ,
+					MED_ASSIGN_IND,
+					GENDER,
+					MBR_RELATIONSHIP_CODE,
+					AGE,
+					GROUP_STATE,
+					ITS_CLAIM
+				FROM
+					TESTCASE_CLAIM_LEVEL_DATA
+				WHERE 
+					TEST_CASE_ID = {0}
+			</SelectSQLQuery>
+
+			<DataObject name="TESTCASE_CLAIM_LEVEL_DATA">				
+				<DataObjectAttribute name="TEST_CASE_ID" type="String"/>
+			    <DataObjectAttribute name="CLAIM_TYPE" type="String"/>
+			    <DataObjectAttribute name="ITS_PROV_SPEC" type="String"/>
+				<DataObjectAttribute name="EDIT" type="String"/>
+				<DataObjectAttribute name="PROVIDER_ID" type="String"/>
+				<DataObjectAttribute name="HOSP_FAC_CODE" type="String"/>
+				<DataObjectAttribute name="DAYS_FROM_INJ" type="String"/>
+				<DataObjectAttribute name="MED_ASSIGN_IND" type="String"/>
+				<DataObjectAttribute name="GENDER" type="String"/>
+				<DataObjectAttribute name="MBR_RELATIONSHIP_CODE" type="String"/>
+				<DataObjectAttribute name="AGE" type="String"/>
+				<DataObjectAttribute name="GROUP_STATE" type="String"/>
+				<DataObjectAttribute name="ITS_CLAIM" type="String"/>
+				<SQLTemplate transType="insert">
+                          <SQLQuery>
+								INSERT INTO TESTCASE_CLAIM_LEVEL_DATA 
+									(TEST_CASE_ID,CLAIM_TYPE,ITS_PROV_SPEC,EDIT,PROVIDER_ID,HOSP_FAC_CODE,
+									 DAYS_FROM_INJ,MED_ASSIGN_IND,GENDER,MBR_RELATIONSHIP_CODE,AGE,GROUP_STATE,ITS_CLAIM)
+			            		 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+                          </SQLQuery>
+                          <DataObjectAttributeInput index="0" name="TEST_CASE_ID"/>
+                          <DataObjectAttributeInput index="1" name="CLAIM_TYPE"/>
+						  <DataObjectAttributeInput index="2" name="ITS_PROV_SPEC"/>
+						  <DataObjectAttributeInput index="3" name="EDIT"/>
+						  <DataObjectAttributeInput index="4" name="PROVIDER_ID"/>	
+						  <DataObjectAttributeInput index="5" name="HOSP_FAC_CODE"/>
+						  <DataObjectAttributeInput index="6" name="DAYS_FROM_INJ"/>
+						  <DataObjectAttributeInput index="7" name="MED_ASSIGN_IND"/>
+						  <DataObjectAttributeInput index="8" name="GENDER"/>
+						  <DataObjectAttributeInput index="9" name="MBR_RELATIONSHIP_CODE"/>
+						  <DataObjectAttributeInput index="10" name="AGE"/>							
+						  <DataObjectAttributeInput index="11" name="GROUP_STATE"/> 
+						  <DataObjectAttributeInput index="12" name="ITS_CLAIM"/>	
+                </SQLTemplate>  
+				<SQLTemplate transType="update">
+					<SQLQuery>
+						 UPDATE TESTCASE_CLAIM_LEVEL_DATA 
+						SET 
+							CLAIM_TYPE =?, ITS_PROV_SPEC =?, EDIT=?, PROVIDER_ID=?, HOSP_FAC_CODE=?,
+							DAYS_FROM_INJ=?, MED_ASSIGN_IND=?, GENDER=?, MBR_RELATIONSHIP_CODE=?, AGE=?, GROUP_STATE=?, ITS_CLAIM=?      
+						WHERE
+							TEST_CASE_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="CLAIM_TYPE"/>
+			        <DataObjectAttributeInput index="1" name="ITS_PROV_SPEC"/>
+			        <DataObjectAttributeInput index="2" name="EDIT"/>
+					<DataObjectAttributeInput index="3" name="PROVIDER_ID"/>
+					<DataObjectAttributeInput index="4" name="HOSP_FAC_CODE"/>
+					<DataObjectAttributeInput index="5" name="DAYS_FROM_INJ"/>
+					<DataObjectAttributeInput index="6" name="MED_ASSIGN_IND"/>
+					<DataObjectAttributeInput index="7" name="GENDER"/>
+					<DataObjectAttributeInput index="8" name="MBR_RELATIONSHIP_CODE"/>
+					<DataObjectAttributeInput index="9" name="AGE"/>
+					<DataObjectAttributeInput index="10" name="GROUP_STATE"/>
+					<DataObjectAttributeInput index="11" name="ITS_CLAIM"/>
+					<DataObjectAttributeInput index="12" name="TEST_CASE_ID"/>		
+			   </SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TESTCASE_CLAIM_LEVEL_DATA WHERE TEST_CASE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TEST_CASE_ID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="TEST_CASE_ID" />
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName="TEST_CASE_ID" />
+							<ResultIndex index="1" dataObjectAttribName="CLAIM_TYPE" />
+							<ResultIndex index="2" dataObjectAttribName="ITS_PROV_SPEC" />
+							<ResultIndex index="3" dataObjectAttribName="EDIT" />
+							<ResultIndex index="4" dataObjectAttribName="PROVIDER_ID" />
+							<ResultIndex index="5" dataObjectAttribName="HOSP_FAC_CODE" />
+							<ResultIndex index="6" dataObjectAttribName="DAYS_FROM_INJ" />
+							<ResultIndex index="7" dataObjectAttribName="MED_ASSIGN_IND" />
+							<ResultIndex index="8" dataObjectAttribName="GENDER" />
+							<ResultIndex index="9" dataObjectAttribName="MBR_RELATIONSHIP_CODE" />
+							<ResultIndex index="10" dataObjectAttribName="AGE" />
+							<ResultIndex index="11" dataObjectAttribName="GROUP_STATE" />
+							<ResultIndex index="12" dataObjectAttribName="ITS_CLAIM" />
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="searchByTestCaseId" /> 
+				</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="TEST_CASE_ID"   toBOAttb="testCaseId"/>
+			        <Pair DOAttb="CLAIM_TYPE" toBOAttb="claimType"/>
+			        <Pair DOAttb="ITS_PROV_SPEC" toBOAttb="itsProvSpec"/>
+					<Pair DOAttb="EDIT" toBOAttb="edit"/>
+					<Pair DOAttb="PROVIDER_ID" toBOAttb="providerId"/>
+					<Pair DOAttb="HOSP_FAC_CODE" toBOAttb="hospitalFacilityCode"/>
+					<Pair DOAttb="DAYS_FROM_INJ" toBOAttb="daysFromInjury"/>
+					<Pair DOAttb="MED_ASSIGN_IND" toBOAttb="medAssignIndicator"/>
+					<Pair DOAttb="GENDER" toBOAttb="gender"/>
+					<Pair DOAttb="MBR_RELATIONSHIP_CODE" toBOAttb="memberRelationshipCode"/>
+					<Pair DOAttb="AGE" toBOAttb="age"/>
+					<Pair DOAttb="GROUP_STATE" toBOAttb="groupState"/>
+					<Pair DOAttb="ITS_CLAIM" toBOAttb="itsClaim"/>
+			    </DoAttributeToBOAttributeMap>
+
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TEST_CASE_ID" toSCAttb="testCaseId"/>
+			    </DoAttributeToSCAttributeMap>	
+			
+			</DataObject>
+		</DataSource>		
+	</BusinessObjectMetadata>
+</Metadata>

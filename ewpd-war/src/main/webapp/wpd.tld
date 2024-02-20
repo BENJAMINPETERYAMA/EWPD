@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+   <tlib-version>0.03</tlib-version>
+   <jsp-version>1.2</jsp-version>
+   <short-name>wpd</short-name>
+   <uri>/WEB-INF/wpdMessage.tld</uri>
+   <description>Tag to display user messages according to WPD UI Standards</description>
+	<tag>
+		<name>message</name>
+		<tag-class>com.wellpoint.wpd.web.framework.custom.WPDMessageTag</tag-class>		
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>messageForPopup</name>
+		<tag-class>com.wellpoint.wpd.web.framework.custom.WPDMessageForPopupTag</tag-class>		
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+</taglib>
+

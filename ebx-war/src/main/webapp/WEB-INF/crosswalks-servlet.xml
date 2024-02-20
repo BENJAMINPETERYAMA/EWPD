@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--
+		**************** Context XML Imports ****************************
+	-->
+	<import resource="aop-config.xml" />
+	<import resource="business-services.xml" />
+	<import resource="dao-config.xml" />
+	<import resource="datasource-config.xml" />
+	
+	<!-- *************** Property configurations ********************-->
+	
+	<bean
+	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>/WEB-INF/version.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="appInfo" class="com.wellpoint.ets.bx.mapping.web.AppInfo" >
+		<property name="appVersion" value="${revision.prefix}" />
+		<property name="buildNumber" value="${build.number}" />
+		<property name="svnRevision" value="${svn.revison}"/>
+		<property name="buildDate" value="${build.date}"/>
+	</bean>
+	<!--
+		**************** MVC Configurations ****************************
+	-->
+
+	<bean id="loginInterceptor"
+          class="com.wellpoint.ets.bx.mapping.application.security.LoginInterceptor">        
+		 <property name="securityService" ref="securityService"></property>
+		 <property name="appInfo" ref="appInfo"></property>
+    </bean>
+	
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+	<property name="interceptors">
+         <list>
+             <ref bean="loginInterceptor"/>
+
+         </list>
+    </property>
+	</bean>
+	
+	<bean id ="exceptionResolver" class="com.wellpoint.ets.bx.mapping.web.exceptionresolvers.MappingExceptionResolver">	
+	<property name="exceptionMappings">
+	<map>
+	<entry key="com.wellpoint.ets.bx.mapping.domain.exception.DomainException" value="page-internal-error"/>
+	</map>
+	</property>
+	<property name="defaultErrorView" value="page-internal-error" />
+	<property name="defaultStatusCode" value="500" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="xmlFileViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="order" value="2" />
+		<property name="location" value="/WEB-INF/views.xml" />
+	</bean>
+	<bean id="viewNameTranslator"
+		class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator" />
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/ftl/" />
+	</bean>	
+	<!--<bean id="jasperViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="order" value="3" />
+		<property name="basename" value="views"/>
+	</bean>
+	--><!-- ****************	Controllers		****************************-->
+	
+	<bean id="sessionMessageTray" class="com.wellpoint.ets.bx.mapping.web.SessionMessageTray" scope="session">
+		
+	</bean>
+	<bean id="copyTo"
+		class="com.wellpoint.ets.bx.mapping.web.controller.CopyToController">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>	
+
+	</bean>
+	<bean id="viewLandingPage"
+		class="com.wellpoint.ets.bx.mapping.web.controller.ViewLandingPageController" scope="request">
+		<property name="locateFacade" ref="locateFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="noOfRecords" value="51" />
+	</bean>
+	<bean id="viewMappingPage"
+		class="com.wellpoint.ets.bx.mapping.web.controller.ViewMappingPageController">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>
+		<property name="auditInfoLimit" value="21"></property>
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+	
+		<bean id="viewCreateMappingPage"
+		class="com.wellpoint.ets.bx.mapping.web.controller.ViewCreateMappingPageController">
+		<property name="variableMappingFacade"
+		ref="variableMappingFacade"></property> 
+		<property name="locateFacade" ref="locateFacade"></property>
+		</bean>
+	
+	<bean id="viewOrCreateMapping"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.ViewOrCreateMappingController" scope="request">	
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>	
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+		</bean>
+		
+	<bean id="createMapping"
+		class="com.wellpoint.ets.bx.mapping.web.controller.CreatePageController" scope="request">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>
+		<property name="locateFacade" ref="locateFacade"></property>	
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="messageTxtSearchFacade" ref="variableMessageSearchFacade"/>
+	</bean>
+	<bean id="mappingresult"
+		class="com.wellpoint.ets.bx.mapping.web.controller.LocateResultsController">
+		<property name="locateFacade" ref="locateFacade"></property>	
+	</bean>
+	
+	<bean id="editMapping"
+		class="com.wellpoint.ets.bx.mapping.web.controller.EditMappingController" scope="request">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>	
+		<property name="locateFacade" ref="locateFacade"></property>
+		<property name="noOfRecords" value="50" />
+	<property name="auditInfoLimit" value="21"></property>
+	<property name="sessionMessageTray" ref="sessionMessageTray"/>
+	</bean>
+
+	<bean id="stateFlowController"
+		class="com.wellpoint.ets.bx.mapping.web.controller.StateFlowController" scope="request">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>	
+		<property name="locateFacade" ref="locateFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="auditInfoLimit" value="21"></property>
+	</bean>
+
+	<bean id="landingPageStateFlow"
+		class="com.wellpoint.ets.bx.mapping.web.controller.LandingPageStateFlowController" scope="request">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>	
+		<property name="locateFacade" ref="locateFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+	</bean>
+
+	<bean id="locatePageStateFlow"
+		class="com.wellpoint.ets.bx.mapping.web.controller.LocatePageStateFlowController">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>	
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+
+	<bean id="hippaSegmentDescription"
+		class="com.wellpoint.ets.bx.mapping.web.controller.HippaSegmentDescriptionController">		
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+	<!-- MTM -->
+	
+	<bean id="createOrEditRuleMapping"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.CreateOrEditRuleMappingController" scope="request">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="mappingRuleIdFacade" ref="mappingRuleIdFacade"></property>	
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+	</bean>
+	<bean id="createOrEditSPSMapping"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.CreateOrEditSpsMappingController" scope="request">
+		<property name="mappingSpsIdFacade" ref="mappingSpsIdFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+	</bean>
+	
+	<bean id="viewLandingEwpdBx"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.ViewLandingEwpdBxController" scope="request">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		
+	</bean>
+	
+	<bean id="stateFlowEwpdBxController"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.StateFlowEwpdBxController" scope="request">
+		<property name="mappingRuleIdFacade" ref="mappingRuleIdFacade"></property>	
+		<property name="mappingSpsIdFacade" ref="mappingSpsIdFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+		 <property name="mappingCustomMessageFacade" ref="mappingCustomMessageFacade"></property>
+	</bean>
+	
+     <bean id="createOrEditCustomMessageMapping"
+       class="com.wellpoint.ets.ebx.mapping.web.controller.CreateOrEditCustomMessageMappingController" scope="request">
+          <property name="mappingCustomMessageFacade" ref="mappingCustomMessageFacade"></property>
+          <property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+          <property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+         <property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+          <property name="sessionMessageTray" ref="sessionMessageTray"/>
+          <property name="messageTxtSearchFacade" ref="ruleMessageSearchFacade"/>
+    </bean>
+	
+	<bean id="ebxMappingResult"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.LocateEbxResultsController">
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+	</bean>
+	<bean id="spiderMappingResult"
+		class="com.wellpoint.ets.bx.mapping.web.controller.LocateSpiderResultsController">	
+			<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+	</bean>
+<!-- ****************	Ajax Controllers		****************************-->
+	<bean id="getVariableIds"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxVariableListController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+	<bean id="getHippaSegs"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxAutocompleteListCreatePageController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+
+	<bean id="getHippaCodes"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxPopUpController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+
+	<bean id="getAccumulators"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxAccumPopupController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+	
+	<bean id="getAgeTierVariables"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxAgeTierPopupController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+
+	<bean id="getAllAuditTrail"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxViewAllAuditTrailController">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>		
+	</bean>
+
+	<bean id="getAllAuditTrailInDetail"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxViewAuditTrailInDetailController">
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>		
+	</bean>
+
+	<bean id="getHippaSegmentTootTip"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxHippaSegmentToolTipController">
+		<property name="locateFacade" ref="locateFacade"></property>		
+	</bean>
+	
+	<bean id="simulation"
+		class="com.wellpoint.ets.ebx.simulation.web.controller.SimulationController"
+		scope="request">
+		<property name="simulationFacade" ref="simulationFacade"></property>	
+	</bean>
+	
+	<bean id="getHippaSegments"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxPopUpHippaSegmentController">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+	</bean>
+	
+	<bean id="autocomplete"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxAutocompleteController">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+	</bean>
+	<!-- added -->
+	<bean id="copyToeWPD" 
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.CopyController">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+	</bean>
+	
+	<bean id="getAllAuditTrailForRule"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxViewAllRuleIdController">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>		
+	</bean>
+
+	<bean id="getAllAuditTrailInDetailForRule"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxViewAllRuleIdDetailController">
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>		
+	</bean>
+	<bean id="getAllAuditTrailForCustomMessage"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxViewAllCustomMessageController">
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>		
+	</bean>
+
+	<bean id="getAllAuditTrailInDetailCustomMessage"
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxViewAllCustomMessageDetailController">
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>		
+	</bean>
+	<bean id="getAllSPSAuditTrail" 
+		class="com.wellpoint.ets.ebx.mapping.web.ajax.controller.AjaxViewAllSPSAuditTrailController">
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"></property>		
+	</bean>
+	<bean id="getRuleView"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxRuleViewController">
+		<property name="locateFacade" ref="locateFacade"></property>
+	</bean>
+	<bean id="vieworExportReport" 
+		class = "com.wellpoint.ets.ebx.mapping.web.controller.VieworExportReportController">
+		<property name="contractBxReportFacade" ref="contractBxReportFacade"></property>
+	</bean>
+	<bean id="lockedvariableauditreport"  
+		class = "com.wellpoint.ets.ebx.mapping.web.controller.LockedVariableAuditReportController">
+		<property name="lockedVariableAuditReportFacade" ref="lockedVariableAuditReportFacade"></property> 
+		<property name="ooaMessageFacade" ref="ooamessageFacade"></property>  
+	</bean>
+	
+	
+	<bean id="advancesearchBx"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.AdvanceSearchController" scope="request">
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>	
+		<property name="advancedSearchFacade" ref="advancedSearchFacade"/>
+		<property name="massUpdateTracker" ref="massUpdateTracker"/> 	
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>
+		<property name="auditInfoLimit" value="21"></property>
+	</bean>
+	
+	<bean id="advanceSearchEbx"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.AdvanceSearchEbxController" scope="request">
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>	
+		<property name="advancedSearchFacade" ref="advancedSearchFacade"/>
+		<property name="locateSpsIdFacade" ref="locateSpsIdFacade"/>
+		<property name="locateRuleIdFacade" ref="locateRuleIdFacade"/>	
+		<property name="locateCustomMessageFacade" ref="locateCustomMessageFacade"></property>
+		<property name="massUpdateTracker" ref="massUpdateTracker"/>		
+	</bean>
+	
+	<bean id="massUpdateEbx"
+		class="com.wellpoint.ets.ebx.mapping.web.controller.MassUpdateEbxController" scope="request">
+		<property name="massUpdateTracker" ref="massUpdateTracker"/>
+		<property name="mappingSpsIdFacade" ref="mappingSpsIdFacade"></property>
+		<property name="mappingCustomMessageFacade" ref="mappingCustomMessageFacade"></property>
+		<property name="mappingRuleIdFacade" ref="mappingRuleIdFacade"></property>
+		<property name="variableMappingFacade" ref="variableMappingFacade"></property>
+	</bean>
+	
+	<bean id="massUpdateTracker"
+		class="com.wellpoint.ets.bx.mapping.util.MassUpdateTracker" scope="session">
+	</bean>
+	
+		<!-- Modified for Reference data start -->
+	<bean id="referenceData" 
+		class="com.wellpoint.ets.ebx.referencedata.web.controller.ReferenceDataController" scope="request">
+			<property name="sessionMessageTray" ref="sessionMessageTray"/>
+			<property name="referenceDataFacade" ref="referenceDataFacade"/>
+			<property name="locateRuleIdFacade" ref="locateRuleIdFacade"></property>
+	</bean>
+	<!--  Modified dor Reference data end  --> 
+	
+		<!-- Updated for System Configuration - MAY 2012 Release - Start -->
+	<bean id="systemConfiguration" 
+		class="com.wellpoint.ets.ebx.systemconfiguration.web.controller.SystemConfigurationController" scope="request">
+			<property name="systemConfigurationFacade" ref="systemConfigurationFacade"/>
+	</bean>
+	<!-- Updated for System Configuration - MAY 2012 Release - End -->
+	
+	<!-- ooa message maintanance starts here -->
+	
+	<bean id="ooamessage"  
+		class = "com.wellpoint.ets.ebx.mapping.web.controller.OOAMessageController"> 
+		<property name="ooaMessageFacade" ref="ooamessageFacade"></property>  
+	</bean>
+	<!-- ooa message maintanance ends here -->
+	
+	<!-- Start : Added for Spider Mapping in EBX -->
+
+	<bean id="createmappingspider"
+	   class="com.wellpoint.ets.bx.mapping.web.controller.ViewCreateMappingPageSpiderController">
+	   <property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+	  
+	</bean>
+    
+    <bean id="getRuleIds"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxRuleIdController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    <bean id="getUmRuleIds"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxUmRuleIdController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    
+    <bean id="viewspiderLandingPage"
+		class="com.wellpoint.ets.bx.mapping.web.controller.ViewLandingPageSpiderController" scope="request">
+		 <property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<property name="noOfRecords" value="700" />
+	</bean>
+	<bean id="getUmRuleIdDescriptions"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxRuleIdDescriptionController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+	
+	
+	<bean id="getEB03Exclusions"
+	        class="com.wellpoint.ets.bx.mapping.web.controller.ManageSpiderEB03ExclusionController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+	
+    <bean id="spiderMappingDto"
+		class="com.wellpoint.ets.ebx.referencedata.dto.SpiderUMRuleMappingDTO">
+		 
+	</bean>
+
+	<bean id="getUmRuleIdsFromLocate"
+		class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxUmRuleIdFromLocateController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    
+	<!-- for EBX spider mapping work flow -->
+	<bean id="ebxSpiderWorkFlowController"
+		class="com.wellpoint.ets.bx.mapping.web.controller.EbxSpiderWorkFlowController" scope="request">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+		<property name="sessionMessageTray" ref="sessionMessageTray"/>
+		<!-- <property name="auditInfoLimit" value="21"></property> -->
+	</bean>
+	
+	<bean id="getEB03DefaultMapping"
+	        class="com.wellpoint.ets.bx.mapping.web.controller.ManageSpiderEB03DefaultMappingController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    
+    <bean id="getEB03AutoComplete"
+	        class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxEB03AutocompleteListForEBXController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    
+    <bean id="getEB03DefaultAutoComplete"
+	        class="com.wellpoint.ets.bx.mapping.web.ajax.controller.AjaxEB03DefaultAutocompleteListForEBXController">
+		<property name="umRuleMappingFacade" ref="umRuleMappingFacade"></property>
+    </bean>
+    
+	<!-- End : Added for Spider Mapping in EBX -->
+</beans>

@@ -1,0 +1,347 @@
+ {
+   "definitions": {},
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "$id": "http://example.com/root.json",
+   "type": "object",
+   "title": "The Root Schema",
+   "required": [
+     "contractReserveBDFPayLoad"
+   ],
+   "properties": {
+     "contractReserveBDFPayLoad": {
+       "$id": "#/properties/contractReserveBDFPayLoad",
+       "type": "object",
+       "title": "The contractReserveBDFPayLoad Schema",
+       "required": [
+         "keys",
+         "reserveContractRequest",
+         "reserveContractResponse"
+       ],
+       "properties": {
+         "keys": {
+           "$id": "#/properties/contractReserveBDFPayLoad/properties/keys",
+           "type": "object",
+           "title": "The Keys Schema",
+           "required": [
+             "recordID",
+             "recordTimestamp"
+           ],
+           "properties": {
+             "recordID": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/keys/properties/recordID",
+               "type": "string",
+               "title": "The Recordid Schema",
+               "default": "",
+               "examples": [
+                 "ewpdbdf0000000001"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "recordTimestamp": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/keys/properties/recordTimestamp",
+               "type": "string",
+               "title": "The Recordtimestamp Schema",
+               "default": "",
+               "examples": [
+                 "2019-07-17T15:53:39.000Z"
+               ],
+               "pattern": "^(.*)$"
+             }
+           }
+         },
+         "reserveContractRequest": {
+           "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest",
+           "type": "object",
+           "title": "The Reservecontractrequest Schema",
+           "required": [
+             "baseContract",
+             "planModifiedInd",
+             "actwiseIndicator",
+             "engageIndicators",
+             "hpcc",
+             "fundingTypeCode",
+             "stateCode",
+             "quoteLineItem",
+             "effectiveDate",
+             "groupSize",
+             "baseContractType",
+             "cepIndicator",
+             "performanceGuarantee",
+             "wgsCaseId",
+             "wgsGroupId",
+             "poolingStatus",
+             "callingSystem",
+             "transactionId",
+             "transactionTimestamp"
+           ],
+           "properties": {
+             "baseContract": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/baseContract",
+               "type": "string",
+               "title": "The Basecontract Schema",
+               "default": "",
+               "examples": [
+                 "47AC"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "planModifiedInd": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/planModifiedInd",
+               "type": "string",
+               "title": "The Planmodifiedind Schema",
+               "default": "",
+               "examples": [
+                 "Y"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "actwiseIndicator": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/actwiseIndicator",
+               "type": "string",
+               "title": "The Actwiseindicator Schema",
+               "default": "",
+               "examples": [
+                 "Member"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "engageIndicators": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/engageIndicators",
+               "type": "string",
+               "title": "The Engageindicators Schema",
+               "default": "",
+               "examples": [
+                 "K2,9"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "hpcc": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/hpcc",
+               "type": "string",
+               "title": "The Hpcc Schema",
+               "default": "",
+               "examples": [
+                 "HP01"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "fundingTypeCode": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/fundingTypeCode",
+               "type": "string",
+               "title": "The Fundingtypecode Schema",
+               "default": "",
+               "examples": [
+                 "FI"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "stateCode": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/stateCode",
+               "type": "string",
+               "title": "The Statecode Schema",
+               "default": "",
+               "examples": [
+                 "CA"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "quoteLineItem": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/quoteLineItem",
+               "type": "string",
+               "title": "The quoteLineItem Schema",
+               "default": "",
+               "examples": [
+                 "0QL2F000000WcNrWAK"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "effectiveDate": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/effectiveDate",
+               "type": "string",
+               "title": "The Effectivedate Schema",
+               "default": "",
+               "examples": [
+                 "2019-01-01"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "groupSize": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/groupSize",
+               "type": "string",
+               "title": "The Groupsize Schema",
+               "default": "",
+               "examples": [
+                 "100 - 249"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "baseContractType": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/baseContractType",
+               "type": "string",
+               "title": "The Basecontracttype Schema",
+               "default": "",
+               "examples": [
+                 "Custom"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "cepIndicator": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/cepIndicator",
+               "type": "string",
+               "title": "The Cepindicator Schema",
+               "default": "",
+               "examples": [
+                 "N"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "performanceGuarantee": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/performanceGuarantee",
+               "type": "string",
+               "title": "The Performanceguarantee Schema",
+               "default": "",
+               "examples": [
+                 "Medical"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "wgsCaseId": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/wgsCaseId",
+               "type": "string",
+               "title": "The Wgscaseid Schema",
+               "default": "",
+               "examples": [
+                 "VERZN4701"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "wgsGroupId": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/wgsGroupId",
+               "type": "string",
+               "title": "The Wgsgroupid Schema",
+               "default": "",
+               "examples": [
+                 "CNTRCT03"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "poolingStatus": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/poolingStatus",
+               "type": "string",
+               "title": "The Poolingstatus Schema",
+               "default": "",
+               "examples": [
+                 "pooled"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "callingSystem": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/callingSystem",
+               "type": "string",
+               "title": "The Callingsystem Schema",
+               "default": "",
+               "examples": [
+                 "COM2"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "transactionId": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/transactionId",
+               "type": "string",
+               "title": "The Transactionid Schema",
+               "default": "",
+               "examples": [
+                 "7aa6821b-aadd-41e8-8b34-83a3d8b5961e201906200513"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "transactionTimestamp": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractRequest/properties/transactionTimestamp",
+               "type": "string",
+               "title": "The transactionTimestamp Schema",
+               "default": "",
+               "examples": [
+                 "2019-07-17T15:53:21.721Z"
+               ],
+               "pattern": "^(.*)$"
+             }
+           }
+         },
+         "reserveContractResponse": {
+           "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse",
+           "type": "object",
+           "title": "The Reservecontractresponse Schema",
+           "required": [
+             "transactionId",
+             "transactionTimestamp",
+             "status",
+             "contractCode"
+           ],
+           "properties": {
+             "transactionId": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/transactionId",
+               "type": "string",
+               "title": "The transactionId Schema",
+               "default": "",
+               "examples": [
+                 "7aa6821b-aadd-41e8-8b34-83a3d8b5961e201906200513"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "transactionTimestamp": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/transactionTimestamp",
+               "type": "string",
+               "title": "The transactionTimestamp Schema",
+               "default": "",
+               "examples": [
+                 "2019-07-17T15:53:23.216Z"
+               ],
+               "pattern": "^(.*)$"
+             },
+             "status": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/status",
+               "type": "object",
+               "title": "The Status Schema",
+               "required": [
+                 "code",
+                 "message"
+               ],
+               "properties": {
+                 "code": {
+                   "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/status/properties/code",
+                   "type": "string",
+                   "title": "The Code Schema",
+                   "default": "",
+                   "examples": [
+                     "200"
+                   ],
+                   "pattern": "^(.*)$"
+                 },
+                 "message": {
+                   "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/status/properties/message",
+                   "type": "string",
+                   "title": "The Message Schema",
+                   "default": "",
+                   "examples": [
+                     "Contract code reserved successfully"
+                   ],
+                   "pattern": "^(.*)$"
+                 }
+               }
+             },
+             "contractCode": {
+               "$id": "#/properties/contractReserveBDFPayLoad/properties/reserveContractResponse/properties/contractCode",
+               "type": "string",
+               "title": "The Contractcode Schema",
+               "default": "",
+               "examples": [
+                 "5AWY"
+               ],
+               "pattern": "^(.*)$"
+             }
+           }
+         }
+       }
+     }
+   }
+ }

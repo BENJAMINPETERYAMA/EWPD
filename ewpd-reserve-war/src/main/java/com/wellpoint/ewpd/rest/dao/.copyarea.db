@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-reserve-war\src\main\java\com\wellpoint\ewpd\rest\dao
+2
+4
+f:EnquireDAO.java|1|16b8ecb8b41|1580|7081ea74|e0ac1c909c2f11e980050002c884f74c|0
+16:ReleaseRequestDao.java|1|16a4ee8ce79|b80|45cea4ac|ffab15a8eaa54b70a33f7518399b2b4b|0
+13:DatasourceBean.java|1|16a4ee8ce5b|199|1dcd7e0f|db9efe6113e84016b2275d752c91f690|0
+16:ReserveRequestDao.java|1|16a4ee8ce8e|cdc|c9c31cc0|294770efe1d44196abde848c0192c80d|0

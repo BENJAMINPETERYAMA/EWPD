@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd
+2
+7
+7:adapter|2|0|0|0|1333755cd1e311e480030002c89cc74c|0
+8:business|2|0|0|0|fdf1440410fc4556b4505cbbae9f1c92|0
+6:common|2|0|0|0|56c1d6e0bba64b6abd6ea56fc74abd35|0
+4:util|2|0|0|0|1b04a013553e4b62b462c0c43f6b6ec7|0
+a:spellcheck|2|0|0|0|8e75ee20336a40cf925f402e07a86236|0
+3:web|2|0|0|0|c158437f11c942e89cc4814fb9c9e96a|0
+2:db|2|0|0|0|5365d03178aa4f4ab668042648b1af78|0

@@ -1,0 +1,27 @@
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/css/typography.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+	<link rel="stylesheet" media="screen" type="text/css" title="Style" href="${pageContext.request.contextPath}/css/ie6.css" />
+<![endif]-->
+<!--[if IE 7]>
+	<link rel="stylesheet" media="screen" type="text/css" title="Style" href="${pageContext.request.contextPath}/css/ie7.css" />
+<![endif]-->
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/globalVariables.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/ajax-defaults.js"></script>
+<script type="text/javascript" language="script" src="${pageContext.request.contextPath}/js/SOTC-AccordionMenus.js"></script>
+
+
+<link href="${pageContext.request.contextPath}/css/jquery-ui-1.8.1.custom.css" rel="stylesheet" type="text/css" />
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+<title>Enterprise Blue Exchange</title>

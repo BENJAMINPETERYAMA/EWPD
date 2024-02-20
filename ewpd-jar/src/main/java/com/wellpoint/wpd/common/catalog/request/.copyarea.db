@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\catalog\request
+2
+7
+17:EditCatalogRequest.java|1|16adf96b0ee|565|6cc0aea3|7e1b809080904b049398abb496deeb4c|0
+19:SearchCatalogRequest.java|1|16adf96b36e|4eb|c2b29582|8abfa77679d64e2586ef5a605fd9067c|0
+1b:ContractRulesetRequest.java|1|16adf96b12d|310|17a500a7|3174c93a2e264cf985a2481ad32659dc|0
+1b:CatalogRetrieveRequest.java|1|16adf96b0b0|2e1|4da4eccb|5490818e1db742d186b40a5196ace70f|0
+1f:SrdaCatalogRetrieveRequest.java|1|16adf96b36e|284|a5aed3b3|fb1fad771cf244cdb31e180251047509|0
+19:CatalogDeleteRequest.java|1|16adf96adc3|515|ff88ab6c|fdf2a5aa77c0473a9fe6710635cd31d8|0
+17:SaveCatalogRequest.java|1|16adf96b16b|61d|9dd1ebe2|c3bde65469b9463a8147593a383ab202|0

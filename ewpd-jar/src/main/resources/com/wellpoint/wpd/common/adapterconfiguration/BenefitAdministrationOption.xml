@@ -1,0 +1,1011 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.AdministrationOptionBO">
+
+		<BusinessAttribute name="adminLevelOptionAssnSystemId"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="benefitAdminSystemId"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="adminLevelSystemId"				type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionSystemId"				type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionReferenceId"			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitLevelSysId"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"					type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"				type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminQuestionNumber"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="sequenceNumber"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="possibleAnswerId"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="answerDescription"				    type="String"   keyAttrib="false"/>			
+		<BusinessAttribute name="adminLevelSystemIdForBenefitLevel"	type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminLevelDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionIdFromMaster"			type="Int"	    keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelSysIdFromMaster"		type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelDesc"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="entityId"							type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="entityType"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCompSysId"					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="questionHideFlag"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitDefinitionKey"					type="Int"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitId"					type="Int"	keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="adminLevelOptionAssnSystemId" type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionSystemId"          type="Int"/>	
+			<SearchCriteriaAttribute name="benefitAdminSystemId" 		 type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionQuestionNumber" 	 type="Int"/>
+			<SearchCriteriaAttribute name="entityId" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="entityType" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 	 		 type="Int"/>
+			<SearchCriteriaAttribute name="benefitDefinitionKey" 	 	 type="Int"/>			
+			<SearchCriteriaAttribute name="adminLvlSysId" 				 type="Int"/>
+			<SearchCriteriaAttribute name="adminOptSysId"          		 type="String"/>	
+			<SearchCriteriaAttribute name="blvlBnftLvlId" 	 			 type="Int"/>
+			<SearchCriteriaAttribute name="benefitId" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="userId" 	 				 	 type="String"/>
+			<SearchCriteriaAttribute name="referenceId" 	 			 type="String"/>
+			<SearchCriteriaAttribute name="questionDesc" 	 			 type="String"/>
+		</SearchCriteria>		
+		
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+			<SelectSQLQuery>
+		    	select a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, c.admin_lvl_nm,c.ADMIN_LVL_SYS_ID, b.admin_opt_desc_txt,
+					b.admin_opt_sys_id, d.blvl_bnft_lvl_desc, d.blvl_bnft_lvl_id, a.admin_lvl_sys_id
+ 						from bnft_admin_to_lvl_assn a, admin_opt_mstr b, badl_admn_lvl c, blvl_bnft_lvl d
+ 							where a.admin_lvl_opt_assn_sys_id = ? and
+ 								c.admin_lvl_sys_id = a.admin_lvl_sys_id 
+ 									and b.admin_opt_sys_id = a.admin_opt_sys_id
+ 										and a.BLVL_BNFT_LVL_ID = d.blvl_bnft_lvl_id (+) and a.DEL_FLAG = 'N'
+ 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitAdministration">				
+				select a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+					b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc, c.blvl_bnft_lvl_id,a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,a.ADMIN_LVL_SYS_ID
+						from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d
+							where a.bnft_admin_sys_id = {0} and 
+                  				a.BNFT_DEFN_SYS_ID = {1} and
+								b.admin_opt_sys_id = a.admin_opt_sys_id and
+									d.admin_lvl_sys_id = a.admin_lvl_sys_id and
+										a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and a.DEL_FLAG = 'N'	
+											order by a.SQNC_NBR			
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitAdministrations">				
+				select distinct a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+					b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc, c.blvl_bnft_lvl_id,
+					a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,a.ADMIN_LVL_SYS_ID,e.ADMIN_OPTION_HIDE_FLAG
+					from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,
+					ANSWR_OVRD_INFO e
+					where a.bnft_admin_sys_id = {0} and 
+					b.admin_opt_sys_id = a.admin_opt_sys_id and
+					d.admin_lvl_sys_id = a.admin_lvl_sys_id and
+					a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and
+					a.ADMIN_LVL_OPT_ASSN_SYS_ID = e.ADMIN_LVL_OPT_ASSN_SYS_ID
+					and e.ENTY_TYPE = {1}
+					and e.ENTY_SYS_ID = {2}
+					and e.BNFT_CMPNT_SYS_ID = {3} and a.DEL_FLAG = 'N'
+					order by a.SQNC_NBR		
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getAssociatedDataForQuestion">
+					select  A.ADQM_ADMN_QSTN_NBR,A.ADMIN_OPT_SYS_ID,A.SQNC_NBR,C.PSBL_ANSWR_ID,C.PSBL_ANSWR,A.PRMRY_CD from 
+							ADMIN_OPT_TO_QSTN_ASSN A , PSBL_ANSWR C where A.ADMIN_OPT_SYS_ID ={0} and A.ADQM_ADMN_QSTN_NBR = C.ADQM_ADMN_QSTN_NBR order by A.SQNC_NBR,
+							 C.PSBL_ANSWR_ID
+			</SelectSQLQuery>
+			<SelectSQLQuery name="isAdminOptionPresent">
+					select ADMIN_LVL_OPT_ASSN_SYS_ID, ADMIN_OPT_SYS_ID from BNFT_ADMIN_TO_LVL_ASSN 
+				    	where BNFT_ADMIN_SYS_ID = {0} and ADMIN_OPT_SYS_ID = {1} and ADMIN_LVL_OPT_ASSN_SYS_ID not in {2} and DEL_FLAG = 'N'
+			</SelectSQLQuery>
+			<SelectSQLQuery name="isAdminOptionInUse">
+						select 	ADMIN_LVL_OPT_ASSN_SYS_ID, ADMIN_OPT_SYS_ID 
+						from 	BNFT_ADMIN_TO_LVL_ASSN 
+				    	where 	ADMIN_OPT_SYS_ID = {0} 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="isAdminOptionQuestionInUse">
+						select 	A.ADQM_ADMN_QSTN_NBR,B.ADMIN_OPT_SYS_ID 
+						from 	BNFT_ADMIN_OPT_QSTN_ASSN A, BNFT_ADMIN_TO_LVL_ASSN B 
+						where 	A.ADQM_ADMN_QSTN_NBR = {0} and 
+								A.ADMIN_LVL_OPT_ASSN_SYS_ID(+) = B.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+								B.ADMIN_OPT_SYS_ID = {1}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getPreviousQuestion">
+				select b.adqm_admn_qstn_nbr from bnft_admin_to_lvl_assn a, admin_opt_to_qstn_assn b
+					where b.admin_opt_sys_id = {0}
+		  				and a.admin_lvl_opt_assn_sys_id = {1}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getNextSequence">
+				   SELECT BNFT_ADMIN_SYS_ID,MAX(SQNC_NBR)+1
+			    FROM 	BNFT_ADMIN_TO_LVL_ASSN
+			    WHERE 	BNFT_ADMIN_SYS_ID = {0} and DEL_FLAG = 'N'
+				GROUP 	BY BNFT_ADMIN_SYS_ID	
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="callAssnAdminOptToBnft">
+				   CALL ADMINOPT_ASSN_TO_BNFT({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})	
+			</SelectSQLQuery>
+
+
+			<DataObject name="BNFT_ADMIN_TO_LVL_ASSN">
+			    <DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"    type="Int"/>			  
+			    <DataObjectAttribute name="ADMIN_LVL_SYS_ID"    		 type="Int"/>
+			    <DataObjectAttribute name="ADMIN_OPT_SYS_ID"             type="Int"/>
+			    <DataObjectAttribute name="BNFT_ADMIN_SYS_ID"   		 type="Int"/>
+				<DataObjectAttribute name="BNFT_ID"   		 			 type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID"     		 type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    				 type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    				 type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    			 type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    			 type="TimeStamp"/>
+			    <DataObjectAttribute name="SQNC_NBR"    				 type="Int"/>
+			    <DataObjectAttribute name="BNFT_DEFN_SYS_ID"    		 type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYSTM_ID"    		 type="String"/>
+
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO BNFT_ADMIN_TO_LVL_ASSN ( ADMIN_LVL_OPT_ASSN_SYS_ID, ADMIN_LVL_SYS_ID, ADMIN_OPT_SYS_ID, BNFT_ADMIN_SYS_ID, BLVL_BNFT_LVL_ID , LST_CHG_USR, LST_CHG_TMS, 
+									CREATD_USER_ID, CREATD_TM_STMP,SQNC_NBR,BNFT_DEFN_SYS_ID, DEL_FLAG)
+			            VALUES(?, ?, ?, ?, decode (?, 0,NULL,?), ?, ?, ?, ?, ?,?, 'N')
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ADMIN_LVL_SYS_ID"/>
+			        <DataObjectAttributeInput index="2" name="ADMIN_OPT_SYS_ID"/>
+			        <DataObjectAttributeInput index="3" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="BLVL_BNFT_LVL_ID"/>
+					<DataObjectAttributeInput index="5" name="BLVL_BNFT_LVL_ID"/>
+			        <DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="7" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="8" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="9" name="CREATD_TM_STMP"/>
+			        <DataObjectAttributeInput index="10" name="SQNC_NBR"/>
+			        <DataObjectAttributeInput index="11" name="BNFT_DEFN_SYS_ID"/>
+			    </SQLTemplate>
+				
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="BNFT_DEFN_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="isAdminOptionPresent"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="isAdminOptionInUse"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="isAdminOptionQuestionInUse"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<SearchQueryName name="getPreviousQuestion"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>	
+			            <ResultIndex index="0" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+					    <ResultIndex index="1" dataObjectAttribName ="SQNC_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getNextSequence"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="ADMIN_LVL_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name ="ADMIN_OPT_SYSTM_ID"/>
+				    <DataObjectAttributeInput index="2" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name ="BLVL_BNFT_LVL_ID"/>
+				    <DataObjectAttributeInput index="4" name ="BNFT_DEFN_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name ="BNFT_ID"/>
+				    <DataObjectAttributeInput index="6" name ="CREATD_USER_ID"/>
+					<RSIndexToDOAttributeMap>	
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>				    
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="callAssnAdminOptToBnft"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			        	UPDATE BNFT_ADMIN_TO_LVL_ASSN SET DEL_FLAG = 'Y', LST_CHG_TMS = SYSDATE
+			            WHERE ADMIN_LVL_OPT_ASSN_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								update BNFT_ADMIN_TO_LVL_ASSN  set ADMIN_LVL_SYS_ID = ?,ADMIN_OPT_SYS_ID = ?,BNFT_ADMIN_SYS_ID = ?,
+									BLVL_BNFT_LVL_ID = decode (?, 0,NULL,?),LST_CHG_USR = ?,LST_CHG_TMS = ?,SQNC_NBR =?
+  									where ADMIN_LVL_OPT_ASSN_SYS_ID =?
+						</SQLQuery>
+						<DataObjectAttributeInput index="8" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<DataObjectAttributeInput index="0" name="ADMIN_LVL_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						<DataObjectAttributeInput index="2" name="BNFT_ADMIN_SYS_ID"/>	
+						<DataObjectAttributeInput index="3" name="BLVL_BNFT_LVL_ID"/>		
+						<DataObjectAttributeInput index="4" name="BLVL_BNFT_LVL_ID"/>				
+						<DataObjectAttributeInput index="5" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="7" name="SQNC_NBR"/>
+				</SQLTemplate>
+    
+			
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toBOAttb="adminLevelSystemId"/>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    			toBOAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="BNFT_ADMIN_SYS_ID"   			toBOAttb="benefitAdminSystemId"/>
+					<Pair DOAttb="BNFT_ID"   					toBOAttb="benefitId"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    			toBOAttb="benefitLevelSysId"/>
+					<Pair DOAttb="SQNC_NBR"    					toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    			toBOAttb="benefitDefinitionKey"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toSCAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toSCAttb="benefitAdminSystemId"/>
+					<Pair DOAttb="BNFT_ID"    					toSCAttb="benefitId"/>								
+					<Pair DOAttb="ADMIN_OPT_SYS_ID"    		    toSCAttb="adminOptionSystemId"/>					
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    		    toSCAttb="benefitDefinitionKey"/>
+					<Pair DOAttb="ADMIN_OPT_SYSTM_ID"    		toSCAttb="adminOptSysId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toSCAttb="adminLvlSysId"/>				
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    		    toSCAttb="blvlBnftLvlId"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toSCAttb="userId"/>					
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+			
+			<DataObject name="ANSWR_OVRD_INFO">
+		       <DataObjectAttribute name="ENTY_TYPE"    	       		type="String"/>
+		       <DataObjectAttribute name="ENTY_SYS_ID"    	       		type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+		       <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"           	type="Int"/>
+		       <DataObjectAttribute name="LST_CHG_USR"    	       		type="String"/>
+		       <DataObjectAttribute name="LST_CHG_TMS"    	       		type="Date"/>
+		       <DataObjectAttribute name="CREATD_USER_ID"    	       	type="String"/>
+		       <DataObjectAttribute name="CREATD_TM_STMP"    	       	type="Date"/>
+		       <DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	    type="Int"/>
+		       <DataObjectAttribute name="SQNC_NBR"    	    			type="Int"/>
+		       <DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="BLVL_BNFT_LVL_ID"    	    	type="Int"/>
+			   <DataObjectAttribute name="ADMIN_OPT_RFRNC_ID"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPT_DESC_TXT"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_LVL_NM"    	    		type="String"/>
+			   <DataObjectAttribute name="BLVL_BNFT_LVL_DESC"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPTION_HIDE_FLAG"    	type="String"/>
+			   <DataObjectAttribute name="QSTN_HIDE_FLAG"    			type="Int"/>
+		       <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>
+			   <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>						
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="ADMIN_OPTION_HIDE_FLAG"/>
+      		    </RSIndexToDOAttributeMap>
+				<SearchQueryName name="getAssociatedBenefitAdministrations"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					    <DataObjectAttributeInput index="7" name ="ADMIN_OPT_RFRNC_ID"/>
+					    <DataObjectAttributeInput index="8" name ="ADMIN_OPT_DESC_TXT"/>
+					<SearchQueryName name="callAssnAdminOptToBnft"/>
+			    </SQLTemplate>
+
+	       		<DoAttributeToBOAttributeMap>
+    	        	<Pair DOAttb="ENTY_TYPE"    				toBOAttb="entityType"/>
+	           		<Pair DOAttb="ENTY_SYS_ID"    				toBOAttb="entityId"/>
+		  			<Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toBOAttb="benefitCompSysId"/>		   
+		  			<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toBOAttb="benefitAdminSystemId"/>	
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toBOAttb="adminLevelSystemId"/>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    			toBOAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="BNFT_ADMIN_SYS_ID"   			toBOAttb="benefitAdminSystemId"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    			toBOAttb="benefitLevelSysId"/>
+					<Pair DOAttb="SQNC_NBR"    					toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID"    		toBOAttb="adminOptionReferenceId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    		toBOAttb="adminOptionDesc"/>
+					<Pair DOAttb="ADMIN_LVL_NM"    				toBOAttb="adminLevelDesc"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC"    		toBOAttb="benefitLevelDesc"/>
+					<Pair DOAttb="ADMIN_OPTION_HIDE_FLAG"    	toBOAttb="questionHideFlag"/>
+					<Pair DOAttb="QSTN_HIDE_FLAG"    			toBOAttb="questionHideFlag"/>
+    	   		</DoAttributeToBOAttributeMap>     
+       	   		<DoAttributeToSCAttributeMap>
+	        		<Pair DOAttb="ENTY_TYPE"    				toSCAttb="entityType"/>
+	        		<Pair DOAttb="ENTY_SYS_ID"    				toSCAttb="entityId"/>					
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   			toSCAttb="benefitComponentId"/>					
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toSCAttb="benefitAdminSystemId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    		toSCAttb="questionDesc"/>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID"    		toSCAttb="referenceId"/>
+	   	   		</DoAttributeToSCAttributeMap>  
+			</DataObject>
+
+			<DataObject name="ADMIN_OPT_MSTR">
+				<DataObjectAttribute name="ADMIN_OPT_RFRNC_ID"    type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_DESC_TXT"    type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID"      type="Int"/>
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="4" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="5" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+					
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ADMIN_OPT_RFRNC_ID"    toBOAttb="adminOptionReferenceId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    toBOAttb="adminOptionDesc"/>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID"      toBOAttb="adminOptionIdFromMaster"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+			
+			<DataObject name="ADMIN_OPT_TO_QSTN_ASSN">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID"       type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR"               type="Int"/>
+				<DataObjectAttribute name="PRMRY_CD"               type="String"/>
+				<SQLTemplate transType="select">
+					 <DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+					 <RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>	
+						<ResultIndex index="2" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="5" dataObjectAttribName ="PRMRY_CD"/>		
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedDataForQuestion"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					 <DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+					 <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="isAdminOptionQuestionInUse"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>	
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getPreviousQuestion"/>
+			    </SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ADQM_ADMN_QSTN_NBR"    toBOAttb="adminQuestionNumber"/>
+					<Pair DOAttb="ADMIN_OPT_SYS_ID"    toBOAttb="adminOptionSystemId"/>
+					<Pair DOAttb="SQNC_NBR"    toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="PRMRY_CD"    toBOAttb="adminOptionReferenceId"/>
+				</DoAttributeToBOAttributeMap>
+				
+				 <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    toSCAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="ADQM_ADMN_QSTN_NBR"  toSCAttb="adminOptionQuestionNumber"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+			<DataObject name="PSBL_ANSWR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR_ID"    type="Int"/>
+				<DataObjectAttribute name="PSBL_ANSWR"    type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="3" dataObjectAttribName ="PSBL_ANSWR_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="PSBL_ANSWR"/>							
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedDataForQuestion"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="ADQM_ADMN_QSTN_NBR"    toBOAttb="adminQuestionNumber"/>
+					<Pair DOAttb="PSBL_ANSWR_ID"    toBOAttb="possibleAnswerId"/>
+					<Pair DOAttb="PSBL_ANSWR"    toBOAttb="answerDescription"/>
+				</DoAttributeToBOAttributeMap>
+				
+			</DataObject>
+			
+
+			<DataObject name="BADL_ADMN_LVL">
+				<DataObjectAttribute name="ADMIN_LVL_SYS_ID"    	type="String"/>
+				<DataObjectAttribute name="ADMIN_LVL_NM"     type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+			        </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+		        	<Pair DOAttb="ADMIN_LVL_SYS_ID"    		toBOAttb="adminLevelSystemIdForBenefitLevel"/>
+		        	<Pair DOAttb="ADMIN_LVL_NM"      toBOAttb="adminLevelDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="BLVL_BNFT_LVL">
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID"       type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_DESC"     type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="7" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			        </RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdministration"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+		        	<Pair DOAttb="BLVL_BNFT_LVL_ID"    	   toBOAttb="benefitLevelSysIdFromMaster"/>
+		        	<Pair DOAttb="BLVL_BNFT_LVL_DESC"      toBOAttb="benefitLevelDesc"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+			
+			<DataObject name="note_domain_ovrd_val">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"       type="Int"/>
+				<DataObjectAttribute name="BNFT_ID"     type="Int"/>
+				<SQLTemplate transType="delete">
+			        <SQLQuery>
+			            delete from note_domain_ovrd_val where prmry_enty_id=? and prmry_enty_type='ATTACHBENEFIT' 
+						and scndry_enty_type='ATTACHQUESTION' and scndry_enty_id=?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="BNFT_ID"/>
+			        <DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+		       		<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+		        	<Pair DOAttb="BNFT_ID"   					toBOAttb="benefitId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.AdministrationOptionAssociationBO">
+		<BusinessAttribute name="adminLvlOptionAsscnId"		type="Int"		keyAttrib="true"/>	
+	
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+
+			</SelectSQLQuery>
+			<DataObject name="BNFT_QSTNR_ANSWRD">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID" 	type="Int"/>
+				<SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM BNFT_QSTNR_ANSWRD
+			            WHERE ADMIN_LVL_OPT_ASSN_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			    </SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID" 	toBOAttb="adminLvlOptionAsscnId"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.AdminOptionHideBO">
+
+		<BusinessAttribute name="adminLevelOptionAssnSystemId"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="benefitAdminSystemId"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="adminLevelSystemId"				type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionSystemId"				type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionReferenceId"			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitLevelSysId"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"					type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"				type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminQuestionNumber"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="sequenceNumber"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="possibleAnswerId"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="answerDescription"				    type="String"   keyAttrib="false"/>			
+		<BusinessAttribute name="adminLevelSystemIdForBenefitLevel"	type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminLevelDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionIdFromMaster"			type="Int"	    keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelSysIdFromMaster"		type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelDesc"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="entityId"							type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="entityType"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCompSysId"				type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="hideFlag"							type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="questionHideflag"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="ansOvrdCstmzdSysId"				type="Int"	keyAttrib="false"/>
+	
+
+
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="adminLevelOptionAssnSystemId" type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionSystemId"          type="Int"/>	
+			<SearchCriteriaAttribute name="benefitAdminSystemId" 		 type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionQuestionNumber" 	 type="Int"/>
+			<SearchCriteriaAttribute name="entityId" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="entityType" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 	 		 type="Int"/>
+			<SearchCriteriaAttribute name="productSysId" 	 		 type="Int"/>
+			<SearchCriteriaAttribute name="dateSegmentId" 	 		 type="Int"/>
+
+		</SearchCriteria>		
+		
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+		<SelectSQLQuery name="getVisibleAssociatedBenefitAdministrations">				
+				select distinct  a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+				b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc,c.blvl_bnft_lvl_id,a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,
+				a.ADMIN_LVL_SYS_ID, e.ADMIN_OPTION_HIDE_FLAG
+				from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,BNFT_CMPNT_ADMN_OPT_CUSTM e
+				where a.bnft_admin_sys_id = {0} and e.ADMIN_LVL_OPT_ASSN_SYS_ID = a.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+				b.admin_opt_sys_id = a.admin_opt_sys_id and
+				d.admin_lvl_sys_id = a.admin_lvl_sys_id and a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and a.ADMIN_LVL_SYS_ID =2
+				 and e.BNFT_CMPNT_SYS_ID ={1}
+				union
+				select distinct   a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+				b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc,c.blvl_bnft_lvl_id,a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,
+				a.ADMIN_LVL_SYS_ID, e.ADMIN_OPTION_HIDE_FLAG
+				from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,BNFT_CMPNT_ADMN_OPT_CUSTM e
+				where a.bnft_admin_sys_id = {0} and e.ADMIN_LVL_OPT_ASSN_SYS_ID = a.ADMIN_LVL_OPT_ASSN_SYS_ID and 
+				b.admin_opt_sys_id = a.admin_opt_sys_id and
+				d.admin_lvl_sys_id = a.admin_lvl_sys_id and a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and a.ADMIN_LVL_SYS_ID=1 
+				 and e.BNFT_CMPNT_SYS_ID = {1}
+				and a.BLVL_BNFT_LVL_ID in (select BLVL_BNFT_LVL_ID from BNFT_CMPNT_BNFT_CSTMZD where 
+				BNFT_LVL_HIDE_FLAG = 'F' and BNFT_CMPNT_SYS_ID =  {2}) order by SQNC_NBR
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getAssociatedBenefitAdministrationsForContract">				
+				select distinct a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+					b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc, c.blvl_bnft_lvl_id,
+					a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,a.ADMIN_LVL_SYS_ID,e.ADMIN_OPTION_HIDE_FLAG
+					from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,
+					PROD_ADMN_OPT_CUSTM e
+					where a.bnft_admin_sys_id = {0} and 
+					b.admin_opt_sys_id = a.admin_opt_sys_id and
+					d.admin_lvl_sys_id = a.admin_lvl_sys_id and
+					a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and
+					a.ADMIN_LVL_OPT_ASSN_SYS_ID = e.ADMIN_LVL_OPT_ASSN_SYS_ID
+					and e.PROD_SYS_ID = {1}
+					and e.BNFT_CMPNT_SYS_ID = {2}
+					and e.ADMIN_OPTION_HIDE_FLAG = 'F'
+                  	order by a.SQNC_NBR		
+			</SelectSQLQuery>
+
+			<DataObject name="ANSWR_OVRD_INFO">
+		       <DataObjectAttribute name="ENTY_TYPE"    	       		type="String"/>
+		       <DataObjectAttribute name="ENTY_SYS_ID"    	       		type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+		       <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"           	type="Int"/>
+		       <DataObjectAttribute name="LST_CHG_USR"    	       		type="String"/>
+		       <DataObjectAttribute name="LST_CHG_TMS"    	       		type="Date"/>
+		       <DataObjectAttribute name="CREATD_USER_ID"    	       	type="String"/>
+		       <DataObjectAttribute name="CREATD_TM_STMP"    	       	type="Date"/>
+		       <DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	    type="Int"/>
+		       <DataObjectAttribute name="SQNC_NBR"    	    			type="Int"/>
+		       <DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="BLVL_BNFT_LVL_ID"    	    	type="Int"/>
+			   <DataObjectAttribute name="ADMIN_OPT_RFRNC_ID"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPT_DESC_TXT"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_LVL_NM"    	    		type="String"/>
+			   <DataObjectAttribute name="BLVL_BNFT_LVL_DESC"    	    type="String"/>
+ 			   <DataObjectAttribute name="ADMIN_OPTION_HIDE_FLAG"    	type="String"/>
+			   <DataObjectAttribute name="QSTN_HIDE_FLAG"    	    	type="String"/>
+				<DataObjectAttribute name="ANSWR_OVRD_CSTMZD_SYS_ID"    type="Int"/>
+				<DataObjectAttribute name="PROD_SYS_ID"    type="Int"/>
+				<DataObjectAttribute name="DT_SEG_ID"    type="Int"/>
+
+
+		       <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+			   <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="ADMIN_OPTION_HIDE_FLAG"/>
+			    </RSIndexToDOAttributeMap>
+				<SearchQueryName name="getVisibleAssociatedBenefitAdministrations"/>
+				</SQLTemplate>
+ 				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="3" name="DT_SEG_ID"/>
+
+			   		<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="ADMIN_OPTION_HIDE_FLAG"/>
+			    	</RSIndexToDOAttributeMap>
+				<SearchQueryName name="getAssociatedBenefitAdministrationsForContract"/>
+				</SQLTemplate>
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								update BNFT_CMPNT_ADMN_OPT_CUSTM  set ADMIN_OPTION_HIDE_FLAG = ? , LST_CHG_USR = ?
+									, LST_CHG_TMS = ? where 
+									BNFT_CMPNT_SYS_ID = ? and ADMIN_LVL_OPT_ASSN_SYS_ID = ? 
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPTION_HIDE_FLAG"/>	
+						<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>	
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>	
+						<DataObjectAttributeInput index="3" name="BNFT_CMPNT_SYS_ID"/>				
+						<DataObjectAttributeInput index="4" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+				</SQLTemplate>   
+	       		<DoAttributeToBOAttributeMap>
+    	        	<Pair DOAttb="ENTY_TYPE"    				toBOAttb="entityType"/>
+	           		<Pair DOAttb="ENTY_SYS_ID"    				toBOAttb="entityId"/>
+		  			<Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toBOAttb="benefitCompSysId"/>		   
+		  			<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toBOAttb="benefitAdminSystemId"/>	
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toBOAttb="adminLevelSystemId"/>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    			toBOAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="BNFT_ADMIN_SYS_ID"   			toBOAttb="benefitAdminSystemId"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    			toBOAttb="benefitLevelSysId"/>
+					<Pair DOAttb="SQNC_NBR"    					toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID"    		toBOAttb="adminOptionReferenceId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    		toBOAttb="adminOptionDesc"/>
+					<Pair DOAttb="ADMIN_LVL_NM"    				toBOAttb="adminLevelDesc"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC"    		toBOAttb="benefitLevelDesc"/>
+					<Pair DOAttb="ADMIN_OPTION_HIDE_FLAG"    	toBOAttb="hideFlag"/>
+					<Pair DOAttb="QSTN_HIDE_FLAG"    			toBOAttb="questionHideflag"/>
+					<Pair DOAttb="ANSWR_OVRD_CSTMZD_SYS_ID"    			toBOAttb="ansOvrdCstmzdSysId"/>
+    	   		</DoAttributeToBOAttributeMap>  
+				
+       	   		<DoAttributeToSCAttributeMap>
+	        		<Pair DOAttb="ENTY_TYPE"    		toSCAttb="entityType"/>
+	        		<Pair DOAttb="ENTY_SYS_ID"    	toSCAttb="entityId"/>					
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"    toSCAttb="benefitComponentId"/>					
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    toSCAttb="benefitAdminSystemId"/>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toSCAttb="adminLevelOptionAssnSystemId"/>
+					<Pair DOAttb="PROD_SYS_ID"    toSCAttb="productSysId"/>
+					<Pair DOAttb="DT_SEG_ID"    toSCAttb="dateSegmentId"/>
+
+
+	   	   		</DoAttributeToSCAttributeMap>        
+   		  	</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.product.bo.HideAdminOptionBO">
+
+		<BusinessAttribute name="adminLevelOptionAssnSystemId"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="benefitAdminSystemId"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="adminLevelSystemId"				type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionSystemId"				type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionReferenceId"			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="benefitLevelSysId"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"					type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"				type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="adminQuestionNumber"				type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="sequenceNumber"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="possibleAnswerId"				    type="Int"		keyAttrib="false"/>		
+		<BusinessAttribute name="answerDescription"				    type="String"   keyAttrib="false"/>			
+		<BusinessAttribute name="adminLevelSystemIdForBenefitLevel"	type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminLevelDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionIdFromMaster"			type="Int"	    keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelSysIdFromMaster"		type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="benefitLevelDesc"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="entityId"							type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="entityType"						type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCompSysId"					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="adminQuestionHideFlag"				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="questionHideFlag"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="productSysId"					type="Int"		keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="adminLevelOptionAssnSystemId" type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionSystemId"          type="Int"/>	
+			<SearchCriteriaAttribute name="benefitAdminSystemId" 		 type="Int"/>
+			<SearchCriteriaAttribute name="adminOptionQuestionNumber" 	 type="Int"/>
+			<SearchCriteriaAttribute name="entityId" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="entityType" 	 				 type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 	 		 type="Int"/>
+			<SearchCriteriaAttribute name="productSysId" 	 		 type="Int"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+		
+
+		<SelectSQLQuery>
+		    	select a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, c.admin_lvl_nm,c.ADMIN_LVL_SYS_ID, b.admin_opt_desc_txt,
+					b.admin_opt_sys_id, d.blvl_bnft_lvl_desc, d.blvl_bnft_lvl_id, a.admin_lvl_sys_id
+ 						from bnft_admin_to_lvl_assn a, admin_opt_mstr b, badl_admn_lvl c, blvl_bnft_lvl d
+ 							where a.admin_lvl_opt_assn_sys_id = ? and
+ 								c.admin_lvl_sys_id = a.admin_lvl_sys_id 
+ 									and b.admin_opt_sys_id = a.admin_opt_sys_id
+ 										and a.BLVL_BNFT_LVL_ID = d.blvl_bnft_lvl_id (+)
+ 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitAdministrations">				
+				select distinct a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+					b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc, c.blvl_bnft_lvl_id,
+					a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,a.ADMIN_LVL_SYS_ID,e.ADMIN_OPTION_HIDE_FLAG
+					from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,
+					PROD_ADMN_OPT_CUSTM e
+					where a.bnft_admin_sys_id = {0} and 
+					b.admin_opt_sys_id = a.admin_opt_sys_id and
+					d.admin_lvl_sys_id = a.admin_lvl_sys_id and
+					a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and
+					a.ADMIN_LVL_OPT_ASSN_SYS_ID = e.ADMIN_LVL_OPT_ASSN_SYS_ID
+					and e.PROD_SYS_ID = {1}
+					and e.BNFT_CMPNT_SYS_ID = {2}
+					order by a.SQNC_NBR		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitAdministrationsForPS">
+                              select distinct a.admin_lvl_opt_assn_sys_id, a.bnft_admin_sys_id, b.admin_opt_rfrnc_id,
+                              b.admin_opt_desc_txt, d.admin_lvl_nm, c.blvl_bnft_lvl_desc, c.blvl_bnft_lvl_id,
+                              a.SQNC_NBR,a.ADMIN_OPT_SYS_ID,a.ADMIN_LVL_SYS_ID,e.ADMIN_OPTION_HIDE_FLAG
+                              from bnft_admin_to_lvl_assn a , admin_opt_mstr b, blvl_bnft_lvl c, badl_admn_lvl d,
+                              PROD_STRCTR_ADMN_OPT_CUSTM e  
+                              where a.bnft_admin_sys_id = {0} and 
+                              b.admin_opt_sys_id = a.admin_opt_sys_id and
+                              d.admin_lvl_sys_id = a.admin_lvl_sys_id and
+                              a.BLVL_BNFT_LVL_ID = c.blvl_bnft_lvl_id(+) and
+                              a.ADMIN_LVL_OPT_ASSN_SYS_ID = e.ADMIN_LVL_OPT_ASSN_SYS_ID
+                              and e.PROD_STRCTR_SYS_ID = {1}
+                              and e.BNFT_CMPNT_SYS_ID = {2}
+                              order by a.SQNC_NBR
+                </SelectSQLQuery>
+
+			<DataObject name="PROD_STRCTR_ADMN_OPT_CUSTM">
+		       <DataObjectAttribute name="PROD_STRCTR_SYS_ID"    	    type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+		       <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"           	type="Int"/>
+		       <DataObjectAttribute name="LST_CHG_USR"    	       		type="String"/>
+		       <DataObjectAttribute name="LST_CHG_TMS"    	       		type="Date"/>
+		       <DataObjectAttribute name="CREATD_USER_ID"    	       	type="String"/>
+		       <DataObjectAttribute name="CREATD_TM_STMP"    	       	type="Date"/>
+		       <DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	    type="Int"/>
+		       <DataObjectAttribute name="SQNC_NBR"    	    			type="Int"/>
+		       <DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="BLVL_BNFT_LVL_ID"    	    	type="Int"/>
+			   <DataObjectAttribute name="ADMIN_OPT_RFRNC_ID"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPT_DESC_TXT"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_LVL_NM"    	    		type="String"/>
+			   <DataObjectAttribute name="BLVL_BNFT_LVL_DESC"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPTION_HIDE_FLAG"    	type="String"/>
+		       <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="PROD_STRCTR_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+			   <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>						
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="ADMIN_OPTION_HIDE_FLAG"/>
+      		    </RSIndexToDOAttributeMap>
+				<SearchQueryName name="getAssociatedBenefitAdministrationsForPS"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="update">
+						<SQLQuery>
+							UPDATE PROD_ADMN_OPT_CUSTM SET ADMIN_OPTION_HIDE_FLAG = ?,LST_CHG_USR=?,LST_CHG_TMS=?
+                                                WHERE  PROD_SYS_ID = ? AND BNFT_CMPNT_SYS_ID = ? and 
+                                                ADMIN_LVL_OPT_ASSN_SYS_ID = ?
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="ADMIN_OPTION_HIDE_FLAG"/>
+						<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="3" name="PROD_STRCTR_SYS_ID"/>
+						<DataObjectAttributeInput index="4" name="BNFT_CMPNT_SYS_ID"/>
+						<DataObjectAttributeInput index="5" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>	
+				</SQLTemplate>
+
+	       		<DoAttributeToBOAttributeMap>
+    	        	<Pair DOAttb="PROD_STRCTR_SYS_ID"    		toBOAttb="entityId"/>
+		  			<Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toBOAttb="benefitCompSysId"/>		   
+		  			<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toBOAttb="benefitAdminSystemId"/>	
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toBOAttb="adminLevelSystemId"/>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    			toBOAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    			toBOAttb="benefitLevelSysId"/>
+					<Pair DOAttb="SQNC_NBR"    					toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID"    		toBOAttb="adminOptionReferenceId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    		toBOAttb="adminOptionDesc"/>
+					<Pair DOAttb="ADMIN_LVL_NM"    				toBOAttb="adminLevelDesc"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC"    		toBOAttb="benefitLevelDesc"/>
+					<Pair DOAttb="ADMIN_OPTION_HIDE_FLAG"    	toBOAttb="adminQuestionHideFlag"/>
+    	   		</DoAttributeToBOAttributeMap>     
+       	   		<DoAttributeToSCAttributeMap>
+	        		<Pair DOAttb="PROD_STRCTR_SYS_ID"    				toSCAttb="entityId"/>					
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   			toSCAttb="benefitComponentId"/>					
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toSCAttb="benefitAdminSystemId"/>
+	   	   		</DoAttributeToSCAttributeMap>  
+			</DataObject>
+
+			<DataObject name="ANSWR_OVRD_INFO">
+		       <DataObjectAttribute name="ENTY_TYPE"    	       		type="String"/>
+		       <DataObjectAttribute name="ENTY_SYS_ID"    	       		type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID"  	type="Int"/>
+		       <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"           	type="Int"/>
+		       <DataObjectAttribute name="LST_CHG_USR"    	       		type="String"/>
+		       <DataObjectAttribute name="LST_CHG_TMS"    	       		type="Date"/>
+		       <DataObjectAttribute name="CREATD_USER_ID"    	       	type="String"/>
+		       <DataObjectAttribute name="CREATD_TM_STMP"    	       	type="Date"/>
+		       <DataObjectAttribute name="BNFT_ADMIN_SYS_ID"    	    type="Int"/>
+		       <DataObjectAttribute name="SQNC_NBR"    	    			type="Int"/>
+		       <DataObjectAttribute name="ADMIN_OPT_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="ADMIN_LVL_SYS_ID"    	    	type="Int"/>
+		       <DataObjectAttribute name="BLVL_BNFT_LVL_ID"    	    	type="Int"/>
+			   <DataObjectAttribute name="ADMIN_OPT_RFRNC_ID"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPT_DESC_TXT"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_LVL_NM"    	    		type="String"/>
+			   <DataObjectAttribute name="BLVL_BNFT_LVL_DESC"    	    type="String"/>
+			   <DataObjectAttribute name="ADMIN_OPTION_HIDE_FLAG"    	type="String"/>
+			   <DataObjectAttribute name="QSTN_HIDE_FLAG"    			type="Int"/>
+			   <DataObjectAttribute name="PROD_SYS_ID"    			type="Int"/>
+		       
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name ="BNFT_ADMIN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="PROD_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+			   <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="BNFT_ADMIN_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>						
+						<ResultIndex index="3" dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="ADMIN_LVL_NM"/>
+						<ResultIndex index="5" dataObjectAttribName ="BLVL_BNFT_LVL_DESC"/>
+			            <ResultIndex index="6" dataObjectAttribName ="BLVL_BNFT_LVL_ID"/>
+						<ResultIndex index="7" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="8" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="ADMIN_OPTION_HIDE_FLAG"/>
+      		    </RSIndexToDOAttributeMap>
+				<SearchQueryName name="getAssociatedBenefitAdministrations"/>
+				</SQLTemplate>
+
+				
+
+	       		<DoAttributeToBOAttributeMap>
+    	        	<Pair DOAttb="ENTY_TYPE"    				toBOAttb="entityType"/>
+	           		<Pair DOAttb="ENTY_SYS_ID"    				toBOAttb="entityId"/>
+		  			<Pair DOAttb="BNFT_CMPNT_SYS_ID"    		toBOAttb="benefitCompSysId"/>		   
+		  			<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toBOAttb="benefitAdminSystemId"/>	
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"    toBOAttb="adminLevelOptionAssnSystemId"/>
+			        <Pair DOAttb="ADMIN_LVL_SYS_ID"    			toBOAttb="adminLevelSystemId"/>
+			        <Pair DOAttb="ADMIN_OPT_SYS_ID"    			toBOAttb="adminOptionSystemId"/>
+			        <Pair DOAttb="BNFT_ADMIN_SYS_ID"   			toBOAttb="benefitAdminSystemId"/>
+			        <Pair DOAttb="LST_CHG_USR"    				toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    			toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    			toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID"    			toBOAttb="benefitLevelSysId"/>
+					<Pair DOAttb="SQNC_NBR"    					toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID"    		toBOAttb="adminOptionReferenceId"/>
+					<Pair DOAttb="ADMIN_OPT_DESC_TXT"    		toBOAttb="adminOptionDesc"/>
+					<Pair DOAttb="ADMIN_LVL_NM"    				toBOAttb="adminLevelDesc"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_DESC"    		toBOAttb="benefitLevelDesc"/>
+					<Pair DOAttb="ADMIN_OPTION_HIDE_FLAG"    	toBOAttb="adminQuestionHideFlag"/>
+					<Pair DOAttb="QSTN_HIDE_FLAG"    			toBOAttb="questionHideFlag"/>
+					<Pair DOAttb="PROD_SYS_ID"    			    toBOAttb="productSysId"/>
+    	   		</DoAttributeToBOAttributeMap>     
+				<DoAttributeToSCAttributeMap>
+	        		<Pair DOAttb="ENTY_TYPE"    				toSCAttb="entityType"/>
+	        		<Pair DOAttb="ENTY_SYS_ID"    				toSCAttb="entityId"/>					
+					<Pair DOAttb="BNFT_CMPNT_SYS_ID"   			toSCAttb="benefitComponentId"/>					
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID"    		toSCAttb="benefitAdminSystemId"/>
+					<Pair DOAttb="PROD_SYS_ID"    				toSCAttb="productSysId"/>
+	   	   		</DoAttributeToSCAttributeMap>  
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>	
+</Metadata>

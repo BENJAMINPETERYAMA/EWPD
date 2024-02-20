@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\question\request
+2
+b
+1c:TestPassQuestionRequest.java|1|16adf97c549|55d|d17fb4c2|dd433cb57e70420193a8482caf0a3ae7|0
+1c:TestFailQuestionRequest.java|1|16adf97c549|55b|473bb45a|4bd0ede1e1074b85a3918dd623636fa6|0
+23:ScheduleForTestQuestionRequest.java|1|16adf97c48e|571|375cbd02|94f28df0e4dc4e79a67fbb674fd69902|0
+18:QuestionViewRequest.java|1|16adf97c440|6a5|dded07e3|5efa7641236640b59c26e31abcb28d40|0
+1a:SearchQuestionRequest.java|1|16adf97c4dc|608|cda2f2f3|f6b779dbe00144dc8865a9c4b16012a9|0
+1b:PublishQuestionRequest.java|1|16adf97c421|545|a7eeb189|84fd5b0821fb4eccb74a7eb67234daf2|0
+1c:CheckOutQuestionRequest.java|1|16adf97c3e3|55b|6313b468|ea5a53c44e47457ba1b9202acb4a708a|0
+1a:DeleteQuestionRequest.java|1|16adf97c3e3|554|143b1df|db179b9e074b4108bc9e37ae06ae4f9e|0
+1c:RetrieveQuestionRequest.java|1|16adf97c4dc|895|a13c98e3|db15c6c834974f88a133ae08ce141d4d|0
+18:SaveQuestionRequest.java|1|16adf97c52a|e7c|4c9133a0|e1680e5c29d2425faacf5cba57aba391|0
+1a:UnlockQuestionRequest.java|1|16adf97c549|47a|bb1071bf|fb322121568e4d40b2162b0bf7bc03ad|0

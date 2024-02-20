@@ -1,0 +1,75 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
+<!-- Error,warning and info messages start-->	
+
+
+  <div id="messageDialog" title="" >
+   <div id="messageAaccordion" class="ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
+    <c:if test="${not empty error_messages}"> 
+	 <h6 id="errorHeader" class="ui-accordion-header ui-helper-reset ui-state-active ui-corner-all" role="tab" aria-expanded="true" tabindex="0"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#" tabindex="0"><font color='red'>Error(s)</font></a></h6>
+	 <div id="errorPanel" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style=" display: block; padding-top: 11px; padding-bottom: 11px;height:51px;" role="tabpanel">
+		<c:forEach items="${error_messages}" var="error_message">
+          <p ><b><font color='red'> # </font><font color='red'><c:out value="${error_message}" /></font></b></p>
+         </c:forEach> 
+	 </div>
+    </c:if> 
+    <c:if test="${not empty warning_messages}"> 
+	 <h6 id="warningHeader" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#" tabindex="0"><font color='orange'>Warning(s)</font></a></h6>
+	 <div id="warningPanel" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" style=" display: block; padding-top: 11px; padding-bottom: 11px;height:51px;" role="tabpanel">	  
+     <c:forEach items="${warning_messages}" var="warning_message">
+       <p ><b><font color='orange'> # <c:out value="${warning_message}" /></font></b></p>
+      </c:forEach>  
+	</div>
+    </c:if>
+    <c:if test="${not empty info_messages}">
+	 <h6 id="infoHeader" class="ui-accordion-header ui-helper-reset ui-state-active ui-corner-all" role="tab" aria-expanded="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="#" tabindex="0"><font color='blue'>Information</font></a></h6>
+	 <div id="infoPanel" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" style="display: block;height:51px;" role="tabpanel">
+		<c:forEach items="${info_messages}" var="info_message">
+          <p ><b><font color='blue'> # <c:out value="${info_message}" /></font></b></p>
+        </c:forEach> 
+	 </div>	
+    </c:if>
+   </div>
+  </div> <!-- id="messageDialog" -->
+  <div id="messageDialogMinimised" title="" ></div>
+  <script>
+  
+   $(document).ready(function()
+   {	
+	registerTrayNotification();
+      
+   });
+<c:if test='${not empty error_messages || not empty warning_messages  || not empty info_messages }'>
+	$("#messageDialog").dialog();
+		<c:if test='${not empty error_messages }'>
+			var eb01Arr = ${mapping.eb01.extendedMsgsForSelectedValues};
+			if(eb01Arr.length > 0){
+				if(eb01Arr[0].extndMsg1 == "null"){eb01Arr[0].extndMsg1 = ""}			
+				if(eb01Arr[0].extndMsg2 == "null"){eb01Arr[0].extndMsg2 = ""}			
+				if(eb01Arr[0].extndMsg3 == "null"){eb01Arr[0].extndMsg3 = ""}
+				if(eb01Arr[0].networkInd =="null"){eb01Arr[0].networkInd = ""}
+				var eb01ExtndMsgJSON = [];
+				eb01ExtndMsgJSON.push({"eb01NetworkInd": eb01Arr[0].networkInd, "changeInd": eb01Arr[0].changeInd, "eb01ExtndMessage1": eb01Arr[0].extndMsg1,
+										"eb01ExtndMessage2":eb01Arr[0].extndMsg2, "eb01ExtndMessage3":eb01Arr[0].extndMsg3});
+				eb01ExtndMsgJSON = JSON.stringify(eb01ExtndMsgJSON);
+				$("#eb01ExtndMsgJsonObj").val(eb01ExtndMsgJSON);
+			}
+			
+			var eb03ExtndMsgJSON = [];
+			var arr = ${mapping.eb03.extendedMsgsForSelectedValues};
+			for (i = 0; i < arr.length; i++) {
+				if(eb03Arr[i].extndMsg1 == "null"){eb03Arr[i].extndMsg1 = ""}			
+				if(eb03Arr[i].extndMsg2 == "null"){eb03Arr[i].extndMsg2 = ""}			
+				if(eb03Arr[i].extndMsg3 == "null"){eb03Arr[i].extndMsg3 = ""}
+				if(eb03Arr[i].networkInd =="null"){eb03Arr[i].networkInd = ""}				
+				eb03ExtndMsgJSON.push({"eb03Val": arr[i].value, "eb03ExtndMsgSysId": arr[i].extendedMsgValueSysId, "eb03NetworkInd": arr[i].networkInd, "changeInd": arr[i].changeInd,
+										 "eb03ExtndMessage1": arr[i].extndMsg1,"eb03ExtndMessage2":arr[i].extndMsg2, "eb03ExtndMessage3":arr[i].extndMsg3});
+			}
+			eb03ExtndMsgJSON = JSON.stringify(eb03ExtndMsgJSON);
+			$("#eb03ExtndMsgJsonObj").val(eb03ExtndMsgJSON);
+		</c:if>
+	</c:if> 
+ </script>
+
+
+<!-- Error,warning and info messages end-->	

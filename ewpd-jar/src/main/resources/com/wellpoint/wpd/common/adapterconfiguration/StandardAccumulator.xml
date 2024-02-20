@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metadata> 
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.accumulator.bo.StandardAccumulator">
+
+	<BusinessAttribute name="contvar" 	 			  type="String" 	keyAttrib="false"/>	
+	<BusinessAttribute name="standardAccumulator" 	  type="List" 		keyAttrib="false"/>	
+	<BusinessAttribute name="standardAccumulatorStr"  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="system" 	 			  type="String" 	keyAttrib="false"/>	
+    <BusinessAttribute name="businessentity" 	 	  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="id" 	 	  	  		  type="String" 	keyAttrib="true"/>
+    <BusinessAttribute name="businessdomain" 	 	  type="Int" 		keyAttrib="true"/>
+    <BusinessAttribute name="lineOfBusiness" 	 	  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="group" 	 	  		  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="mbu" 	 	  			  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="byOrCy" 	 	          type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="question" 	 	  		  type="Int" 		keyAttrib="false"/>
+    <BusinessAttribute name="be" 					  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="accumNameList" 		  type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="beList" 				  type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="lobList" 				  type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="groupList" 		      type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="mbuList" 		   		  type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="quesList" 				  type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="benList" 		          type="List" 		keyAttrib="false"/>
+    <BusinessAttribute name="benefit" 				  type="Int" 		keyAttrib="false"/>
+    <BusinessAttribute name="questionDescription" 	  type="String" 	keyAttrib="false"/>
+    <BusinessAttribute name="benefitDescription" 	  type="String" 	keyAttrib="false"/>
+
+      
+      <SearchCriteria name="searchCriteria2">
+			<SearchCriteriaAttribute name="contvar" 					type="String"/>	
+			<SearchCriteriaAttribute name="businessentity" 				type="String"/>	
+			<SearchCriteriaAttribute name="beList" 						type="List"/>
+			<SearchCriteriaAttribute name="businessdomain" 				type="Int"/>	
+			<SearchCriteriaAttribute name="be" 							type="String"/>	
+			<SearchCriteriaAttribute name="lineOfBusiness" 				type="String"/>	
+			<SearchCriteriaAttribute name="group" 						type="String"/>	
+			<SearchCriteriaAttribute name="mbu" 						type="String"/>	
+			<SearchCriteriaAttribute name="accumNameList" 				type="List"/>	
+			<SearchCriteriaAttribute name="question" 					type="Int"/>	
+			<SearchCriteriaAttribute name="byOrCy" 						type="String"/>	
+			<SearchCriteriaAttribute name="standardAccumulatorStr" 		type="String"/>	
+			<SearchCriteriaAttribute name="benefit" 					type="Int"/>
+			<SearchCriteriaAttribute name="lobList" 					type="List"/>	
+			<SearchCriteriaAttribute name="mbuList" 					type="List"/>	
+			<SearchCriteriaAttribute name="quesList" 					type="List"/>	
+			<SearchCriteriaAttribute name="groupList" 					type="List"/>	
+			<SearchCriteriaAttribute name="benList" 					type="List"/>	
+			<SearchCriteriaAttribute name="system" 						type="String"/>	
+			<SearchCriteriaAttribute name="adminOptionSysId" 			type="String"/>	
+
+			
+	   </SearchCriteria>
+		<DataSource name="prmd" domain="medical">
+
+			<Connection preferred="jndi">
+				<url>
+					jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90
+				</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			
+			<SelectSQLQuery name="standardaccumulatorlist">
+			 <![CDATA[
+			 				select trim(ACCUM_CDE),trim(SYSTEM),trim(CONTRACT_VAR) from STD_ACCUMULATOR where trim(BUSS_ENTY) = {0} and trim(CONTRACT_VAR)= {1}
+			
+			]]>
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getbusinessdomain">
+			 <![CDATA[
+			 		select trim( DOMN_SYS_ID) from avlbl_domn where trim(BUS_ENTY_NM) = {0} and trim(BUS_GRP_NM)= {1}
+					and trim(LOB_NM) = {2} and trim(MRKT_BUS_UNT)= {3}
+			
+			]]>
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="accumMappedlist">
+			  <![CDATA[
+				select dbms_random.random,trim(BUSS_ENTY),trim(accum_cde),trim(CONTRACT_VAR) from STD_ACCUMULATOR where trim(BUSS_ENTY) {0} and trim(CONTRACT_VAR)= {1}
+				]]>
+			</SelectSQLQuery>
+			
+			
+			<SelectSQLQuery name="deleteStdAccumulator">
+				CALL DELETE_STD_ACCUMULATOR({0},{1},{2},{3},{4},{5})
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="searchStdAccumlist" dynamic="true" >
+			<STATIC>
+			<![CDATA[
+			select dbms_random.random,trim(A.ADQM_ADMN_QSTN_NBR),trim(C.ADQM_ADMN_QSTN_DESC ),trim(A.BY_OR_CY),trim(A.ACCUM_CDE),
+			trim( B.BUS_GRP_NM),trim(B.BUS_ENTY_NM),trim(B.LOB_NM),trim(B.MRKT_BUS_UNT),trim(A.BNFT_SYS_ID),trim(D.BNFT_ID_NM) FROM
+			STD_ACCUMULATOR A, AVLBL_DOMN B,ADQM_ADMN_QSTN_MSTR C,BMST_BNFT_MSTR D WHERE trim(A.SYSTEM) ='ewpd' and A.DOMN_SYS_ID = B.DOMN_SYS_ID
+			and A.ADQM_ADMN_QSTN_NBR=C.ADQM_QSTN_MSTR_PARNT_SYS_ID and A.BNFT_SYS_ID=D.BNFT_PARNT_SYS_ID
+			]]>
+			</STATIC>
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.LOB_NM)={0}  
+			]]>
+			</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.BUS_ENTY_NM){1}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.BUS_GRP_NM)={2}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.MRKT_BUS_UNT)={3}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and C.ADQM_ADMN_QSTN_NBR={4}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and (trim(A.BY_OR_CY)={5} or trim(A.BY_OR_CY) is null)
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(A.ACCUM_CDE){6}
+			]]>
+     		</DYNAMIC> 
+     		<DYNAMIC>
+			<![CDATA[
+			and D.BNFT_SYS_ID={7}
+			]]>
+     		</DYNAMIC> 
+     		<STATIC>
+			<![CDATA[
+     		group by  A.ADQM_ADMN_QSTN_NBR,trim(C.ADQM_ADMN_QSTN_DESC ),trim(A.BY_OR_CY),trim(A.ACCUM_CDE),trim( B.BUS_GRP_NM),
+             trim(B.BUS_ENTY_NM),trim(B.LOB_NM),trim(B.MRKT_BUS_UNT),A.BNFT_SYS_ID,trim(D.BNFT_ID_NM)
+             ]]>
+			</STATIC>
+	  		</SelectSQLQuery> 
+        
+        <SelectSQLQuery name="searchMappedStdAccumlist" dynamic="true" >
+			<STATIC>
+			<![CDATA[
+			select dbms_random.random,A.ADQM_ADMN_QSTN_NBR,trim(C.ADQM_ADMN_QSTN_DESC ),trim(A.BY_OR_CY),trim(A.ACCUM_CDE),
+			trim( B.BUS_GRP_NM),trim(B.BUS_ENTY_NM),trim(B.LOB_NM),trim(B.MRKT_BUS_UNT),A.BNFT_SYS_ID,trim(D.BNFT_ID_NM) FROM
+			STD_ACCUMULATOR A, AVLBL_DOMN B,ADQM_ADMN_QSTN_MSTR C,BMST_BNFT_MSTR D WHERE trim(A.SYSTEM) ='ewpd' and A.DOMN_SYS_ID = B.DOMN_SYS_ID
+			and A.ADQM_ADMN_QSTN_NBR=C.ADQM_QSTN_MSTR_PARNT_SYS_ID and A.BNFT_SYS_ID=D.BNFT_PARNT_SYS_ID
+			]]>
+			</STATIC>
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.LOB_NM){0}  
+			]]>
+			</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.BUS_ENTY_NM){1}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.BUS_GRP_NM){2}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(B.MRKT_BUS_UNT){3}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and C.ADQM_ADMN_QSTN_NBR{4}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(A.BY_OR_CY)={5}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			and trim(A.ACCUM_CDE){6}
+			]]>
+     		</DYNAMIC> 
+     		<DYNAMIC>
+			<![CDATA[
+			and D.BNFT_SYS_ID{7}
+			]]>
+     		</DYNAMIC> 
+     		<STATIC>
+			<![CDATA[
+     		group by  A.ADQM_ADMN_QSTN_NBR,trim(C.ADQM_ADMN_QSTN_DESC ),trim(A.BY_OR_CY),trim(A.ACCUM_CDE),trim( B.BUS_GRP_NM),
+             trim(B.BUS_ENTY_NM),trim(B.LOB_NM),trim(B.MRKT_BUS_UNT),A.BNFT_SYS_ID,trim(D.BNFT_ID_NM)
+             ]]>
+			</STATIC>
+	  		</SelectSQLQuery> 
+	  		
+	  		<SelectSQLQuery name="getStandardAccumMappedForaQuestion">
+		  		SELECT dbms_random.random,ACCUM_CDE FROM STD_ACCUMULATOR A INNER JOIN AVLBL_DOMN  B
+				ON A.DOMN_SYS_ID = B.DOMN_SYS_ID
+				INNER JOIN BMST_BNFT_MSTR C ON A.BNFT_SYS_ID = C.BNFT_PARNT_SYS_ID
+				WHERE A.ADQM_ADMN_QSTN_NBR = {0} AND 
+				B.BUS_ENTY_NM = {1} AND B.BUS_GRP_NM = {2} AND B.LOB_NM = {3} AND B.MRKT_BUS_UNT = {4} AND (A.BY_OR_CY = {5} OR A.BY_OR_CY IS NULL)
+				AND C.BNFT_SYS_ID = (SELECT BNFT_PARNT_SYS_ID FROM BMST_BNFT_MSTR WHERE BNFT_SYS_ID = {6})
+	  		</SelectSQLQuery>
+	  		
+	  		<SelectSQLQuery name="standardAccumMappedForAdminOption">
+		  		SELECT dbms_random.random,A.ADQM_ADMN_QSTN_NBR,
+				E.ACCUM_CDE
+				FROM QSTNR_MSTR A
+				INNER JOIN QSTN_DOMN_ASSN B
+				ON(A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR
+				AND B.DOMN_CD = 'C-ACCUM')
+				INNER JOIN ITEM C
+				ON(B.DOMN_CD = C.PRMRY_CD)
+				INNER JOIN CATALOG D
+				ON(D.CTLG_ID = C.CTLG_ID AND UPPER(D.CTLG_NAME)= UPPER('FUNCTIONAL DOMAIN'))
+				INNER JOIN STD_ACCUMULATOR E
+				ON (A.ADQM_ADMN_QSTN_NBR = E.ADQM_ADMN_QSTN_NBR)
+				INNER JOIN BMST_BNFT_MSTR F
+				ON (E.BNFT_SYS_ID = F.BNFT_PARNT_SYS_ID)
+				WHERE A.ADMIN_OPT_SYS_ID ={0} AND F.BNFT_SYS_ID = {1} AND E.BY_OR_CY = {2} AND E.DOMN_SYS_ID = {3}
+	  		</SelectSQLQuery>
+	  		
+			<DataObject name="STD_ACCUMULATOR">
+			
+				<DataObjectAttribute name="CONTRACT_VAR" 				type="String"/>
+				<DataObjectAttribute name="ACCUM_CDE" 					type="String"/>
+				<DataObjectAttribute name="BUSS_ENTY" 					type="String"/>
+				<DataObjectAttribute name="SYSTEM" 						type="String"/>
+				<DataObjectAttribute name="ACCUM_CDELST" 				type="String"/>
+				<DataObjectAttribute name="id" 							type="String"/>
+				<DataObjectAttribute name="DOMN_SYS_ID"     			type="Int"/>
+				<DataObjectAttribute name="BUS_GRP_NM" 					type="String"/>
+				<DataObjectAttribute name="BUSS_ENTY_NM" 				type="String"/>
+				<DataObjectAttribute name="LOB_NM" 						type="String"/>
+				<DataObjectAttribute name="MRKT_BUS_UNT"     			type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"  		type="Int"/>
+				<DataObjectAttribute name="BY_OR_CY" 					type="String"/>
+				<DataObjectAttribute name="BUS_ENTY_NM" 				type="String"/>
+				<DataObjectAttribute name="BENFT_SYS_ID" 				type="Int" />
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC " 		type="String"/>
+				<DataObjectAttribute name="BNFT_ID_NM" 					type="String" />
+				<DataObjectAttribute name="LOB_NMLIST" 					type="String"/>
+				<DataObjectAttribute name="MRKT_BUS_UNTLIST"     		type="String"/>
+				<DataObjectAttribute name="BUS_GRP_NMLIST" 				type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBRLIST" 		type="String"/>
+				<DataObjectAttribute name="BENFT_SYS_IDLIST" 			type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESCLIST "	type="String"/>
+				<DataObjectAttribute name="BNFT_ID_NMLIST" 				type="String"/>
+				<DataObjectAttribute name="ADMN_OPT_SYSID" 				type="String"/>
+	
+				
+		        <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BUSS_ENTY"/>
+					<DataObjectAttributeInput index="1" name="CONTRACT_VAR"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ACCUM_CDELST"/>
+						<ResultIndex index="1" dataObjectAttribName ="SYSTEM"/>
+						<ResultIndex index="2" dataObjectAttribName ="CONTRACT_VAR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="standardaccumulatorlist"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="BUSS_ENTY_NM"/>
+				<DataObjectAttributeInput index="1" name="BUS_GRP_NM"/>
+				<DataObjectAttributeInput index="2" name="LOB_NM"/>
+				<DataObjectAttributeInput index="3" name="MRKT_BUS_UNT"/>
+				
+					<RSIndexToDOAttributeMap>
+					
+						<ResultIndex index="0" dataObjectAttribName ="DOMN_SYS_ID"/>
+						
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getbusinessdomain"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BUSS_ENTY"/>
+					<DataObjectAttributeInput index="1" name="CONTRACT_VAR"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="id"/>
+						<ResultIndex index="1" dataObjectAttribName ="BUSS_ENTY"/>
+						<ResultIndex index="2" dataObjectAttribName ="ACCUM_CDE"/>
+						<ResultIndex index="3" dataObjectAttribName ="CONTRACT_VAR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="accumMappedlist"/>
+				</SQLTemplate>
+				
+				
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="DOMN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="2" name="SYSTEM"/>
+					<DataObjectAttributeInput index="3" name="BENFT_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="BY_OR_CY"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="id"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="deleteStdAccumulator"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="LOB_NM"/>
+					<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="3" name="MRKT_BUS_UNT"/>
+					<DataObjectAttributeInput index="4" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="5" name="BY_OR_CY"/>
+					<DataObjectAttributeInput index="6" name="ACCUM_CDELST"/>
+					<DataObjectAttributeInput index="7" name="BENFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="id"/>
+					<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR "/>	
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC "/>	
+						<ResultIndex index="3" dataObjectAttribName ="BY_OR_CY"/>
+						<ResultIndex index="4" dataObjectAttribName ="ACCUM_CDE"/>
+						<ResultIndex index="5" dataObjectAttribName ="BUS_GRP_NM"/>
+						<ResultIndex index="6" dataObjectAttribName ="BUSS_ENTY_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="8" dataObjectAttribName ="MRKT_BUS_UNT"/>
+						<ResultIndex index="9" dataObjectAttribName ="BENFT_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_ID_NM"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchStdAccumlist"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="LOB_NMLIST"/>
+					<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_GRP_NMLIST"/>
+					<DataObjectAttributeInput index="3" name="MRKT_BUS_UNTLIST"/>
+					<DataObjectAttributeInput index="4" name="ADQM_ADMN_QSTN_NBRLIST"/>
+					<DataObjectAttributeInput index="5" name="BY_OR_CY"/>
+					<DataObjectAttributeInput index="6" name="ACCUM_CDELST"/>
+					<DataObjectAttributeInput index="7" name="BENFT_SYS_IDLIST"/>
+					<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="id"/>
+					<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR "/>	
+						<ResultIndex index="2" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC "/>	
+						<ResultIndex index="3" dataObjectAttribName ="BY_OR_CY"/>
+						<ResultIndex index="4" dataObjectAttribName ="ACCUM_CDE"/>
+						<ResultIndex index="5" dataObjectAttribName ="BUS_GRP_NM"/>
+						<ResultIndex index="6" dataObjectAttribName ="BUSS_ENTY_NM"/>
+						<ResultIndex index="7" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="8" dataObjectAttribName ="MRKT_BUS_UNT"/>
+						<ResultIndex index="9" dataObjectAttribName ="BENFT_SYS_ID"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_ID_NM"/>
+						</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchMappedStdAccumlist"/>
+				</SQLTemplate>
+				
+				
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="1" name="BUSS_ENTY_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="3" name="LOB_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<DataObjectAttributeInput index="5" name="BY_OR_CY"/>
+					<DataObjectAttributeInput index="6" name="BENFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="id"/>
+						<ResultIndex index="1" dataObjectAttribName ="ACCUM_CDE"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getStandardAccumMappedForaQuestion"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMN_OPT_SYSID"/>
+					<DataObjectAttributeInput index="1" name="BENFT_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="BY_OR_CY"/>
+					<DataObjectAttributeInput index="3" name="DOMN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="id"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="ACCUM_CDE"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="standardAccumMappedForAdminOption"/>
+				</SQLTemplate>
+				
+				
+				
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into std_accumulator A (DOMN_SYS_ID,ADQM_ADMN_QSTN_NBR,BY_OR_CY,ACCUM_CDE,SYSTEM,BNFT_SYS_ID) values (trim(?),(select C.ADQM_QSTN_MSTR_PARNT_SYS_ID from ADQM_ADMN_QSTN_MSTR C where C.ADQM_ADMN_QSTN_NBR =?),trim(?),trim(?),trim(?),
+						(select B.BNFT_PARNT_SYS_ID from BMST_BNFT_MSTR B where B.BNFT_SYS_ID =? ))
+					</SQLQuery>
+	  				<DataObjectAttributeInput index="0" name="DOMN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="2" name="BY_OR_CY"/>
+					<DataObjectAttributeInput index="3" name="ACCUM_CDE"/>
+					<DataObjectAttributeInput index="4" name="SYSTEM"/>
+					<DataObjectAttributeInput index="5" name="BENFT_SYS_ID"/>
+	  			</SQLTemplate>
+	  			
+	  			<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from std_accumulator A where DOMN_SYS_ID =? and ADQM_ADMN_QSTN_NBR = (select C.ADQM_QSTN_MSTR_PARNT_SYS_ID from ADQM_ADMN_QSTN_MSTR C where C.ADQM_ADMN_QSTN_NBR =?)  and SYSTEM=? and BNFT_SYS_ID=(select B.BNFT_PARNT_SYS_ID from BMST_BNFT_MSTR B where B.BNFT_SYS_ID =? )
+						and BY_OR_CY = (?)
+					</SQLQuery>
+	  				<DataObjectAttributeInput index="0" name="DOMN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="2" name="SYSTEM"/>
+					<DataObjectAttributeInput index="3" name="BENFT_SYS_ID"/>
+					<DataObjectAttributeInput index="4" name="BY_OR_CY"/>
+	  			</SQLTemplate>
+	  			
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CONTRACT_VAR" 			toBOAttb="contvar"/>				
+						<Pair DOAttb="SYSTEM" 					toBOAttb="system"/>
+						<Pair DOAttb="ACCUM_CDELST" 			toBOAttb="standardAccumulator"/>	
+						<Pair DOAttb="BUSS_ENTY" 				toBOAttb="businessentity"/>	
+						<Pair DOAttb="ACCUM_CDE" 				toBOAttb="standardAccumulatorStr"/>	
+						<Pair DOAttb="id" 						toBOAttb="id"/>	
+						<Pair DOAttb="DOMN_SYS_ID" 				toBOAttb="businessdomain"/>	
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 		toBOAttb="question"/>
+						<Pair DOAttb="BY_OR_CY" 				toBOAttb="byOrCy"/>
+						<Pair DOAttb="BUSS_ENTY_NM" 			toBOAttb="be"/>	
+						<Pair DOAttb="BUS_GRP_NM" 				toBOAttb="group"/>	
+						<Pair DOAttb="LOB_NM" 					toBOAttb="lineOfBusiness"/>
+						<Pair DOAttb="MRKT_BUS_UNT" 			toBOAttb="mbu"/>
+						<Pair DOAttb="BUS_ENTY_NM" 				toBOAttb="beList"/>
+						<Pair DOAttb="BENFT_SYS_ID" 			toBOAttb="benefit"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC " 	toBOAttb="questionDescription"/>
+						<Pair DOAttb="BNFT_ID_NM" 				toBOAttb="benefitDescription"/>
+						<Pair DOAttb="LOB_NMLIST" 				toBOAttb="lobList"/>
+						<Pair DOAttb="MRKT_BUS_UNTLIST" 		toBOAttb="mbuList"/>
+						<Pair DOAttb="BUS_GRP_NMLIST" 			toBOAttb="groupList"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="CONTRACT_VAR" 				toSCAttb="contvar"/>
+						<Pair DOAttb="BUSS_ENTY" 					toSCAttb="businessentity"/>
+						<Pair DOAttb="ACCUM_CDELST" 				toSCAttb="accumNameList"/>
+						<Pair DOAttb="ACCUM_CDE" 					toSCAttb="standardAccumulatorStr"/>
+						<Pair DOAttb="BUSS_ENTY_NM" 				toSCAttb="be"/>
+						<Pair DOAttb="BUS_GRP_NM" 					toSCAttb="group"/>
+						<Pair DOAttb="LOB_NM" 						toSCAttb="lineOfBusiness"/>
+						<Pair DOAttb="MRKT_BUS_UNT" 				toSCAttb="mbu"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 			toSCAttb="question"/>
+						<Pair DOAttb="BY_OR_CY" 					toSCAttb="byOrCy"/>
+						<Pair DOAttb="DOMN_SYS_ID" 					toSCAttb="businessdomain"/>
+						<Pair DOAttb="BUS_ENTY_NM" 					toSCAttb="beList"/>
+						<Pair DOAttb="BENFT_SYS_ID" 				toSCAttb="benefit"/>
+						<Pair DOAttb="LOB_NMLIST" 					toSCAttb="lobList"/>
+						<Pair DOAttb="MRKT_BUS_UNTLIST" 			toSCAttb="mbuList"/>
+						<Pair DOAttb="BUS_GRP_NMLIST" 				toSCAttb="groupList"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBRLIST" 		toSCAttb="quesList"/>
+						<Pair DOAttb="BENFT_SYS_IDLIST" 			toSCAttb="benList"/>
+						<Pair DOAttb="SYSTEM" 						toSCAttb="system"/>
+						<Pair DOAttb="ADMN_OPT_SYSID" 				toSCAttb="adminOptionSysId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+	</DataSource>
+</BusinessObjectMetadata>
+</Metadata>

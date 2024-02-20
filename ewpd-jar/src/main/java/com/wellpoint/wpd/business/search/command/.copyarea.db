@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\search\command
+2
+4
+15:CommandProcessor.java|1|16adf960767|644|541ca6d|e0a7af891f984db7a7fe8640a998fe85|0
+13:SummaryCommand.java|1|16adf9612ad|786|1f6f68b8|5cd5a65c874e4f53ad7304031a44d756|0
+c:Command.java|1|16adf960728|ab3|fac047ec|a8cf009de9d841cb9e3eeef485a3d4cf|0
+12:DetailCommand.java|1|16adf9607d4|bac|6faabfa8|7a51bffc716a4e2e8393aaa634844132|0

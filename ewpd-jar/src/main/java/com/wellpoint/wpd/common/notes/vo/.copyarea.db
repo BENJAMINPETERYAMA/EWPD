@@ -1,0 +1,10 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\notes\vo
+2
+6
+16:AdminAttachmentVO.java|1|16adf9776ad|ac7|862b5783|f94836ee1e3543309c2f546f273669e0|0
+20:NotesToQuestionAttachmentVO.java|1|16adf97792d|12b9|b4b54c2b|927b24ef202a4f228fca1856aa157b54|0
+11:NoteDomainVO.java|1|16adf9776bd|94b|2bd8de35|167c630376ef43bb827e6bb71ce7a85b|0
+c:NotesVO.java|1|16adf978b75|1137|201961c6|17ceb832b0e04cddbd2823822ce1f81b|0
+1e:NotesAttachmentOverrideVO.java|1|16adf97790e|19a6|a4c4932a|d84ec02181ee40f2a7a4ffc2163a6761|0
+16:NotesAttachmentVO.java|1|16adf9776fb|1345|3bb60f9b|53cf2550e42c4a52afc65ad72d35562f|0

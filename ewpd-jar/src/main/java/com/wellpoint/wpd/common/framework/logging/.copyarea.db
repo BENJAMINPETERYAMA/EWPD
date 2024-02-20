@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\framework\logging
+2
+a
+16:ViewLoggerDaoImpl.java|1|16adf970c57|1eda|41693db7|d55b2d0fe69b44c0b0735b45c6eac734|0
+d:LogEntry.java|1|16adf970bca|c10|42a98110|1a4a6d90e536455d9449180c25f16134|0
+12:LoggerDaoImpl.java|1|16adf970c09|1556|372aca7|701edd8072c44b04a4af4678326c8996|0
+18:LoggerConfiguration.java|1|16adf970c18|6bb|82fa0fc2|1bc1dd2b584f46b9aa6d4128ead3012b|0
+f:FileLogger.java|1|16adf970bca|580|4a62aee0|84c7c6df0fa84fd9a93ed0ee069b3880|0
+e:LoggerDao.java|1|16adf970c09|25a|7834c1ad|5019bf958807493db1dbb2085c07cf59|0
+14:ExceptionLogger.java|1|16adf970b9c|103a|3127b448|b3b2feb0fbc74e6fb8f70daa72e43a1a|0
+b:Logger.java|1|16adf970bca|1644|ca43e855|c28f6b92b55845febf90868a65f9b5bf|0
+d:DBLogger.java|1|16adf970bab|48c|17f8591a|e672a49cdde849ffad8531eec04f16d3|0
+12:ViewLoggerDao.java|1|16adf970c57|4e0|aade8136|11583acb024c43ca8cdc7639e52ae870|0

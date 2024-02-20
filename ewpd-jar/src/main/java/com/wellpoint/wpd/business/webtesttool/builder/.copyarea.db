@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\webtesttool\builder
+2
+2
+23:TestSuiteBusinessObjectBuilder.java|1|16adf961dc4|e29|79d4d3c4|286efacb8c91425bafb8231932d7ef69|0
+22:TestCaseBusinessObjectBuilder.java|1|16adf961df3|21b9|5222f781|7e4b0f1dd6f741fab12f39b3157bb324|0

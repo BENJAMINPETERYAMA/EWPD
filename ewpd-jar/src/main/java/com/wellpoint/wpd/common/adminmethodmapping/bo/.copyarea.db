@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\adminmethodmapping\bo
+2
+4
+15:QuestionAnswerBO.java|1|16adf963cd8|874|64fec6f5|4f5a1cafdaa44c6b9ee641c831b4eb18|0
+1a:QuestionAnswerGroupBO.java|1|16adf963ce8|19f0|f1016357|d8eef4e7fe70491ab5346f71c14aff6d|0
+19:AdminMethodMappingBO.java|1|16adf963ca9|2fca|cdc4d6af|32185ec2740141aca70f881e8136242b|0
+20:AdminMethodMappingEntriesBO.java|1|16adf963cb9|18b4|c84ad30a|ea28df3d2d734ed3958b5f1825c265c2|0

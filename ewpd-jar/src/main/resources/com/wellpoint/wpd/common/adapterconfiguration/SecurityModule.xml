@@ -1,0 +1,235 @@
+<Metadata>
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.security.bo.ModuleBO">
+		<BusinessAttribute name="moduleId" type="Int"	keyAttrib="true"/>	 
+		<BusinessAttribute name="moduleName" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="description" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="createdTimestamp" type="Date"	keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>	 
+		<BusinessAttribute name="lastUpdatedTimestamp" type="Date"	keyAttrib="false"/>	 
+
+		<SearchCriteria name="criteria">
+	       <SearchCriteriaAttribute name="moduleName" 	type="String"/>
+		   <SearchCriteriaAttribute name="moduleId" type="Int" />
+		   <SearchCriteriaAttribute name="taskList" type="List" />	
+		   <SearchCriteriaAttribute name="roleId" 	type="Int"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+			    SELECT MOD_SYS_ID, MOD_NM, MOD_DESC, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP
+			    FROM SCRTY_MOD_INFO
+			    WHERE MOD_SYS_ID = ?
+			</SelectSQLQuery>
+			<SelectSQLQuery name="findDuplicateModule">
+				SELECT MOD_SYS_ID,MOD_NM, MOD_DESC, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP
+				FROM SCRTY_MOD_INFO
+			    WHERE MOD_NM = {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="locateModule" dynamic="true">
+				<STATIC><![CDATA[select m.MOD_SYS_ID, m.MOD_NM, m.MOD_DESC from SCRTY_MOD_INFO m where 1=1]]></STATIC>
+				<DYNAMIC><![CDATA[and UPPER(m.MOD_NM) like upper({0}) escape '`']]></DYNAMIC>
+				<DYNAMIC><![CDATA[and m.MOD_SYS_ID in (select a.MOD_SYS_ID from SCRTY_MOD_TASK_ASSN a where a.TASK_SYS_ID {1}) ]]></DYNAMIC><STATIC><![CDATA[
+				 order by m.MOD_NM asc]]></STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="moduleLookUpQuery">
+			    SELECT MOD_NM, MOD_SYS_ID FROM SCRTY_MOD_INFO order by MOD_NM asc
+			</SelectSQLQuery>
+
+	        <SelectSQLQuery name="locateRoleConfiguration">
+				select MOD_SYS_ID from SCRTY_ROLE_MOD_ASSN where MOD_SYS_ID= {0} 
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="locateTaskModuleConfiguration">
+				select MOD_SYS_ID from SCRTY_MOD_TASK_ASSN where MOD_SYS_ID= {0} 
+			</SelectSQLQuery>
+			
+		    <SelectSQLQuery name="retrieveModuleDetails">
+				select b.MOD_SYS_ID,b.MOD_NM from SCRTY_MOD_INFO b where MOD_SYS_ID in(
+				      select a.MOD_SYS_ID from SCRTY_ROLE_MOD_ASSN a where ROLE_SYS_ID = {0})
+						order by b.MOD_NM asc
+			</SelectSQLQuery>
+			
+						
+			<SelectSQLQuery name="locateModulePopUpQuery">
+				SELECT b.MOD_SYS_ID,b.MOD_NM FROM SCRTY_MOD_INFO b 
+				WHERE b.MOD_SYS_ID not in
+				(SELECT a.MOD_SYS_ID FROM SCRTY_ROLE_MOD_ASSN a WHERE a.ROLE_SYS_ID={0})
+				order by b.MOD_NM asc
+			</SelectSQLQuery>
+
+
+			<DataObject name="SCRTY_MOD_INFO">
+			    <DataObjectAttribute name="MOD_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="MOD_NM"    type="String"/>
+			    <DataObjectAttribute name="MOD_DESC"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+			    <DataObjectAttribute name="TASK_SYS_ID"    type="Int"/>
+				<DataObjectAttribute name="ROLE_SYS_ID"    		type="Int"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO SCRTY_MOD_INFO ( MOD_SYS_ID, MOD_NM, MOD_DESC, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP)
+			            VALUES(?, ?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="MOD_NM"/>
+			        <DataObjectAttributeInput index="2" name="MOD_DESC"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ROLE_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MOD_NM"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveModuleDetails"/>
+			   </SQLTemplate>
+			    <SQLTemplate transType="update">
+			        <SQLQuery>
+			            UPDATE SCRTY_MOD_INFO
+			             SET MOD_DESC=?, LST_CHG_USR = ?, LST_CHG_TMS = ?
+			            WHERE MOD_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MOD_DESC"/>
+			        <DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="3" name="MOD_SYS_ID"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MOD_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MOD_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="MOD_NM"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MOD_NM"/>
+			            <ResultIndex index="2" dataObjectAttribName ="MOD_DESC"/>
+			            <ResultIndex index="3" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_TMS"/>
+			            <ResultIndex index="5" dataObjectAttribName ="CREATD_USER_ID"/>
+			            <ResultIndex index="6" dataObjectAttribName ="CREATD_TM_STMP"/>
+			        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findDuplicateModule"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"  dataObjectAttribName ="MOD_SYS_ID"/>
+						<ResultIndex index="0"  dataObjectAttribName ="MOD_NM"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="moduleLookUpQuery"/>
+				</SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM SCRTY_MOD_INFO
+			            WHERE MOD_SYS_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="MOD_NM"/>
+				        <DataObjectAttributeInput index="1" name="TASK_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+							<ResultIndex index="0"  dataObjectAttribName ="MOD_SYS_ID"/>
+							<ResultIndex index="1"  dataObjectAttribName ="MOD_NM"/>
+							<ResultIndex index="2"  dataObjectAttribName ="MOD_DESC"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateModule"/>
+				 </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ROLE_SYS_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="MOD_NM"/>
+			        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateModulePopUpQuery"/>
+			    </SQLTemplate>
+		
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="MOD_SYS_ID"    toBOAttb="moduleId"/>
+			        <Pair DOAttb="MOD_NM"    toBOAttb="moduleName"/>
+			        <Pair DOAttb="MOD_DESC"    toBOAttb="description"/>
+			        <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+			        <Pair DOAttb="CREATD_USER_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="MOD_SYS_ID"    toSCAttb="moduleId"/>
+			        <Pair DOAttb="MOD_NM"    toSCAttb="moduleName"/>
+			        <Pair DOAttb="TASK_SYS_ID"    toSCAttb="taskList"/>
+					<Pair DOAttb="ROLE_SYS_ID"    	toSCAttb="roleId"/>	
+			    </DoAttributeToSCAttributeMap>
+			
+				</DataObject>
+				
+			   <DataObject name="SCRTY_ROLE_MOD_ASSN"> 
+               <DataObjectAttribute name="MOD_SYS_ID" type="Int" /> 
+
+	           <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateRoleConfiguration"/>
+			  </SQLTemplate>
+
+	           <DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MOD_SYS_ID" toBOAttb="moduleId" />  
+				
+	           </DoAttributeToBOAttributeMap>
+	           
+	           <DoAttributeToSCAttributeMap>
+							<Pair DOAttb="MOD_SYS_ID"		toSCAttb="moduleId"/>
+							
+	           </DoAttributeToSCAttributeMap>
+           </DataObject>  	
+	
+			
+			  <DataObject name="SCRTY_MOD_TASK_ASSN"> 
+               <DataObjectAttribute name="MOD_SYS_ID" type="Int" /> 
+
+	           <SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="MOD_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="MOD_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateTaskModuleConfiguration"/>
+			  </SQLTemplate>
+
+	           <DoAttributeToBOAttributeMap>
+					  <Pair DOAttb="MOD_SYS_ID" toBOAttb="moduleId" />  
+   			         
+	           </DoAttributeToBOAttributeMap>
+	           
+	           <DoAttributeToSCAttributeMap>
+							<Pair DOAttb="MOD_SYS_ID"		toSCAttb="moduleId"/>
+							
+	           </DoAttributeToSCAttributeMap>
+           </DataObject>  	
+	
+			</DataSource>
+		</BusinessObjectMetadata>
+	</Metadata>

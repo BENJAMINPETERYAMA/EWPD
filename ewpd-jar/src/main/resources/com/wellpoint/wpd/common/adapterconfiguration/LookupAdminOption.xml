@@ -1,0 +1,203 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.LookupAdminOptionBO">
+		<BusinessAttribute name="adminOptionSystemId"					type="Int"			keyAttrib="true"/>	
+		<BusinessAttribute name="adminOptDescText"						type="String"		keyAttrib="false"/>		
+		<BusinessAttribute name="adminOptRefId"							type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="benefitTerms"							type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="benefitQualifiers"						type="String"		keyAttrib="true"/>
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="benefitLevelSyatemId" 			type="Int"/>
+			<SearchCriteriaAttribute name="benefitAdminSystemId" 			type="Int"/>
+			<SearchCriteriaAttribute name="adminOptRefId" 			type="Int"/>
+			<SearchCriteriaAttribute name="benfitTerms" 			type="List"/>
+			<SearchCriteriaAttribute name="benefitQualifiers" 			type="List"/>
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="getAdminOptionList">
+					select a.ADMIN_OPT_SYS_ID , a.ADMIN_OPT_DESC_TXT
+				              from ADMIN_OPT_MSTR a
+				              where a.ADMIN_OPT_STTS_CD = 'PUBLISHED'
+				              and  a.ADMIN_OPT_DESC_TXT not in
+				                        (
+				                          select a.ADMIN_OPT_DESC_TXT
+				                          from ADMIN_OPT_MSTR a, BNFT_ADMIN_TO_LVL_ASSN c 
+				                          where c.BNFT_ADMIN_SYS_ID = {0}
+				                          and a.ADMIN_OPT_SYS_ID = c.ADMIN_OPT_SYS_ID 
+				                        )
+				
+				              and a.ADMIN_OPT_VRSN_NBR IN 
+				                        (
+				                          select max(x.ADMIN_OPT_VRSN_NBR) 
+				                          from ADMIN_OPT_MSTR x where
+				                          x.ADMIN_OPT_DESC_TXT = a.ADMIN_OPT_DESC_TXT
+										  and  x.ADMIN_OPT_STTS_CD = 'PUBLISHED'
+				                          group by x.ADMIN_OPT_DESC_TXT
+				                        )
+				            order by a.ADMIN_OPT_DESC_TXT
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAdminOptionListForBenefitLevel">
+					select a.ADMIN_OPT_SYS_ID,a.ADMIN_OPT_DESC_TXT,a.ADMIN_OPT_RFRNC_ID
+					  from ADMIN_OPT_MSTR a,
+					      (select a.ADMIN_OPT_DESC_TXT desctext, max(a.ADMIN_OPT_VRSN_NBR) max_ver
+					        from ADMIN_OPT_MSTR a, BLVL_BNFT_LVL b
+					        where a.TERM_CD {1} 
+					        and (a.QLFR_CD {3} or  (a.QLFR_CD is null or a.QLFR_CD = ''))         
+					        and b.BLVL_BNFT_LVL_ID = {0}
+					        and a.ADMIN_OPT_STTS_CD = 'PUBLISHED'
+							and a.ADMIN_OPT_DESC_TXT not in
+				                	(select a.ADMIN_OPT_DESC_TXT
+				                    from ADMIN_OPT_MSTR a, BNFT_ADMIN_TO_LVL_ASSN c 
+				                    where c.BNFT_ADMIN_SYS_ID = {2}
+				                    and a.ADMIN_OPT_SYS_ID = c.ADMIN_OPT_SYS_ID )
+
+					        group by a.ADMIN_OPT_DESC_TXT
+					      )alias
+					  where
+					  a.ADMIN_OPT_DESC_TXT = alias.desctext
+					  and a.ADMIN_OPT_VRSN_NBR = alias.max_ver
+					  order by upper(a.ADMIN_OPT_DESC_TXT) 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getTermsList">
+					select BLVL_BNFT_LVL_TERM
+					  from BLVL_BNFT_LVL
+					  where BLVL_BNFT_LVL_ID = {0}
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getQualifiersList">
+					select nvl(BLVL_BNFT_LVL_QLFR,'NULL')
+					  from BLVL_BNFT_LVL
+					  where BLVL_BNFT_LVL_ID = {0}
+			</SelectSQLQuery>
+			<DataObject name="ADMIN_OPT_MSTR">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_DESC_TXT" 			type="String"/>
+				<DataObjectAttribute name="ADMIN_OPT_RFRNC_ID" 			type="String"/>
+				<DataObjectAttribute name="QLFR_CD" 			type="String"/>
+				<DataObjectAttribute name="TERM_CD" 			type="String"/>
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="1"  dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAdminOptionList"/>
+	  			</SQLTemplate>	
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="TERM_CD"/>
+					<DataObjectAttributeInput index="3" name="QLFR_CD"/>
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="1"  dataObjectAttribName ="ADMIN_OPT_DESC_TXT"/>
+						<ResultIndex index="2"  dataObjectAttribName ="ADMIN_OPT_RFRNC_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAdminOptionListForBenefitLevel"/>
+	  			</SQLTemplate>			
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"				toBOAttb="adminOptionSystemId"/>
+						<Pair DOAttb="ADMIN_OPT_DESC_TXT"			toBOAttb="adminOptDescText"/>
+						<Pair DOAttb="ADMIN_OPT_RFRNC_ID"			toBOAttb="adminOptRefId"/>
+						<Pair DOAttb="QLFR_CD"						toBOAttb="benefitQualifiers"/>
+						<Pair DOAttb="TERM_CD"						toBOAttb="benefitTerms"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ADMIN_OPT_RFRNC_ID" 		toSCAttb="adminOptRefId"/>
+					<Pair DOAttb="QLFR_CD" 		toSCAttb="benefitQualifiers"/>
+					<Pair DOAttb="TERM_CD" 		toSCAttb="benfitTerms"/>
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+
+			<DataObject name="BLVL_BNFT_LVL">
+				<DataObjectAttribute name="BLVL_BNFT_LVL_ID" 			type="Int"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_TERM" 			type="String"/>
+				<DataObjectAttribute name="BLVL_BNFT_LVL_QLFR" 			type="String"/>
+
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BLVL_BNFT_LVL_ID"/>
+					<SearchQueryName name="getAdminOptionListForBenefitLevel"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BLVL_BNFT_LVL_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="BLVL_BNFT_LVL_TERM"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getTermsList"/>
+	  			</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BLVL_BNFT_LVL_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="BLVL_BNFT_LVL_QLFR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getQualifiersList"/>
+	  			</SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BLVL_BNFT_LVL_TERM"				toBOAttb="benefitTerms"/>
+						<Pair DOAttb="BLVL_BNFT_LVL_QLFR"				toBOAttb="benefitQualifiers"/>
+				</DoAttributeToBOAttributeMap>	
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BLVL_BNFT_LVL_ID" 		toSCAttb="benefitLevelSyatemId"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_TERM" 		toSCAttb="benfitTerms"/>
+					<Pair DOAttb="BLVL_BNFT_LVL_QLFR" 		toSCAttb="benefitQualifiers"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="BNFT_ADMIN_TO_LVL_ASSN">
+				<DataObjectAttribute name="BNFT_ADMIN_SYS_ID" 			type="Int"/>
+
+	  			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ADMIN_SYS_ID"/>
+					<SearchQueryName name="getAdminOptionList"/>
+	  			</SQLTemplate>	
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="2" name="BNFT_ADMIN_SYS_ID"/>
+					<SearchQueryName name="getAdminOptionListForBenefitLevel"/>
+	  			</SQLTemplate>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="BNFT_ADMIN_SYS_ID" 		toSCAttb="benefitAdminSystemId"/>
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.business.standardbenefit.locatecriteria.AdminLevelLocateCriteria">
+		<BusinessAttribute name="adminLevelId"   type="Int"    keyAttrib="true"/>
+		<BusinessAttribute name="adminLevelDesc" type="String" keyAttrib="false"/>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="getAssociatedAdminLevels">
+				select admin_lvl_sys_id, admin_lvl_nm 
+					from badl_admn_lvl 
+						order by admin_lvl_sys_id desc
+			</SelectSQLQuery>
+			<DataObject name="BADL_ADMN_LVL">
+				<DataObjectAttribute name="ADMIN_LVL_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ADMIN_LVL_NM" 			type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="ADMIN_LVL_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName="ADMIN_LVL_NM"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedAdminLevels"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_LVL_SYS_ID"		toBOAttb="adminLevelId"/>
+						<Pair DOAttb="ADMIN_LVL_NM"			toBOAttb="adminLevelDesc"/>
+				</DoAttributeToBOAttributeMap>				
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>
+

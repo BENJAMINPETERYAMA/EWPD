@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\mandate\response
+2
+7
+1b:MandateCheckInResponse.java|1|16adf97500b|44b|2c9156a7|3add9897a35848a58be5ce0d518d82cd|0
+1a:CreateMandateResponse.java|1|16adf974cb1|777|fe0832fe|401ea57887c24beb89c90d9f69bb073f|0
+1a:DeleteMandateResponse.java|1|16adf974cb1|502|208b8db4|d2572733347545c8aeeb4274c89f2f59|0
+18:CopyMandateResponse.java|1|16adf974c82|3e0|2c44426e|6c6c9bccf20b45c6a0b1989d37474ffd|0
+1a:LocateMandateResponse.java|1|16adf97520d|43f|a10a68f9|9c951a62281843d1b52b7851b5ce9a85|0
+1c:CheckOutMandateResponse.java|1|16adf974d1e|44c|9def5709|852aba89d7974e728c4539d200a2647c|0
+1c:RetrieveMandateResponse.java|1|16adf974cff|746|5cdd3298|3ca887c8b0ac45ae913081301f8acbc6|0

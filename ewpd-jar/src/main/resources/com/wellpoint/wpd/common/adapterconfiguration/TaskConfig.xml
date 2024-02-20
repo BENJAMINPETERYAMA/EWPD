@@ -1,0 +1,84 @@
+<Metadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.security.bo.TaskConfigBO">
+		 <BusinessAttribute name="taskId" type="Int"	keyAttrib="true"/>	 
+		 <BusinessAttribute name="subTaskId" type="Int"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="createdUser" type="String"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="createdTimestamp" type="Date"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="lastUpdatedUser" type="String"	keyAttrib="false"/>	 
+		 <BusinessAttribute name="lastUpdatedTimestamp" type="Date"	keyAttrib="false"/>	 
+
+		<SearchCriteria name="criteria">
+	       <SearchCriteriaAttribute name="taskId" 	type="Int"/>
+		   <SearchCriteriaAttribute name="subTaskId" type="Int" />
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:dev/dev@10.10.43.217:1522:XE</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+			    SELECT TASK_ID, SUB_TASK_ID FROM TASK_SUBTASK_MAPG WHERE TASK_ID = ?
+			</SelectSQLQuery>
+
+			<DataObject name="TASK_SUBTASK_MAPG">
+			    <DataObjectAttribute name="TASK_ID"    type="Int"/>
+			    <DataObjectAttribute name="SUB_TASK_ID"    type="Int"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USR_ID"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO TASK_SUBTASK_MAPG ( TASK_ID, SUB_TASK_ID, CREATD_TM_STMP, CREATD_USR_ID, LST_CHG_USR, LST_CHG_TMS)
+			            VALUES(?, ?, ?, ?, ?, ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TASK_ID"/>
+			        <DataObjectAttributeInput index="1" name="SUB_TASK_ID"/>
+			        <DataObjectAttributeInput index="2" name="CREATD_TM_STMP"/>
+			        <DataObjectAttributeInput index="3" name="CREATD_USR_ID"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+			    </SQLTemplate>
+			    <SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="TASK_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="TASK_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="SUB_TASK_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="CREATD_TM_STMP"/>
+			            <ResultIndex index="3" dataObjectAttribName ="CREATD_USR_ID"/>
+			            <ResultIndex index="4" dataObjectAttribName ="LST_CHG_USR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="LST_CHG_TMS"/>
+			        </RSIndexToDOAttributeMap>
+			    </SQLTemplate>
+			    <SQLTemplate transType="delete">
+			        <SQLQuery>
+			            DELETE FROM TASK_SUBTASK_MAPG
+			            WHERE TASK_ID = ? AND SUB_TASK_ID = ?
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="TASK_ID"/>
+			        <DataObjectAttributeInput index="1" name="SUB_TASK_ID"/>
+			    </SQLTemplate>
+		
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="TASK_ID"    toBOAttb="taskId"/>
+			        <Pair DOAttb="SUB_TASK_ID"    toBOAttb="subTaskId"/>
+			        <Pair DOAttb="CREATD_TM_STMP"    toBOAttb="createdTimestamp"/>
+			        <Pair DOAttb="CREATD_USR_ID"    toBOAttb="createdUser"/>
+			        <Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+			        <Pair DOAttb="LST_CHG_TMS"    toBOAttb="lastUpdatedTimestamp"/>
+			    </DoAttributeToBOAttributeMap>
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="TASK_ID"    toSCAttb="taskId"/>
+			        <Pair DOAttb="SUB_TASK_ID"    toSCAttb="subTaskId"/>
+			    </DoAttributeToSCAttributeMap>
+			
+			</DataObject>
+
+		</DataSource>
+
+	</BusinessObjectMetadata>
+</Metadata>

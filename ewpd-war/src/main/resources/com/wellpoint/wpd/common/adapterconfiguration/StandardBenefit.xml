@@ -1,0 +1,1009 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.StandardBenefitBO">
+		<BusinessAttribute name="standardBenefitKey"		type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="benefitIdentifier"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="description"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="version"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="status"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="parentSystemId"			type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="createdTimestamp"			type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedUser"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="lastUpdatedTimestamp"		type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="mandateType"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitType"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="stateCode"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="stateDesc"					type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="mandateDesc"				type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="action"					type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lineOfBusiness"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="businessEntity"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="businessGroup"				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="marketBusinessUnit"		type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCategory"			type="String"	keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCategoryDesc"			type="String"	keyAttrib="false"/>	
+				
+		<SearchCriteria name="benefitID">
+			<SearchCriteriaAttribute name="destinationKey" 					type="Int"/>
+			<SearchCriteriaAttribute name="sourceKey" 						type="Int"/>
+			<SearchCriteriaAttribute name="user" 							type="String"/>
+			<SearchCriteriaAttribute name="copyAction" 						type="String"/>
+			<SearchCriteriaAttribute name="standardBenefitKey" 				type="Int"/>
+			<SearchCriteriaAttribute name="benefitIdentifier" 				type="String"/>
+			<SearchCriteriaAttribute name="lobCodeList" 					type="List"/>
+			<SearchCriteriaAttribute name="businessEntityCodeList" 			type="List"/>
+			<SearchCriteriaAttribute name="businessGroupCodeList" 			type="List"/>
+			<SearchCriteriaAttribute name="marketBusinessUnitList" 			type="List"/>
+			<SearchCriteriaAttribute name="termCodeList" 					type="List"/>
+			<SearchCriteriaAttribute name="qualifierCodeList" 				type="List"/>
+			<SearchCriteriaAttribute name="providerArrangementCodeList" 	type="List"/>
+			<SearchCriteriaAttribute name="dataTypeCodeList" 				type="List"/>
+			<SearchCriteriaAttribute name="entityParentId" 					type="Int"/>
+			<SearchCriteriaAttribute name="benefitTypeCodeList" 			type="String"/>
+			<SearchCriteriaAttribute name="action" 							type="String"/>
+			<SearchCriteriaAttribute name="benefitCategory"					type="String"/>
+			<SearchCriteriaAttribute name="noteId"    type="String"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+			 select a.BNFT_SYS_ID, a.BNFT_ID_NM, a.BNFT_DESC_TXT, a.BNFT_VRSN_NBR, a.BNFT_STTS_CD, a.BNFT_PARNT_SYS_ID,a.LST_CHG_USR, a.LST_CHG_TMS,
+                 a.CREATD_USER_ID, a.CREATD_TM_STMP,a.MNDT_TYPE, a.BNFT_ST_CD,b.CD_DESC_TXT, c.CD_DESC_TXT ,a.BNFT_TYPE,d.CD_DESC_TXT,a.BNFT_CTGRY from BMST_BNFT_MSTR a, ITEM b, ITEM c, ITEM d where BNFT_SYS_ID = ?
+			     AND (a.BNFT_ST_CD = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 1626)
+                 AND (a.MNDT_TYPE = c.PRMRY_CD(+) AND c.CTLG_ID(+) = 1939)
+				AND (a.BNFT_CTGRY = d.PRMRY_CD(+) AND d.CTLG_ID(+) = 2222)
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchForDuplicateValues">
+					select BNFT_SYS_ID, BNFT_ID_NM, BNFT_DESC_TXT, BNFT_VRSN_NBR, BNFT_STTS_CD, BNFT_PARNT_SYS_ID, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP
+							 from BMST_BNFT_MSTR where BNFT_ID_NM = {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findDuplicate">
+				select b.ENTY_SYS_ID, c.LOB_NM, c.BUS_ENTY_NM ,c.BUS_GRP_NM, c.MRKT_BUS_UNT from AVLBL_DOMN c,ENTY_DOMN_INFO b
+						      where B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+						      AND B.ENTY_NM = {0} 
+						      AND B.ENTY_TYPE = 'stdbenefit'
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findDuplicateAll">
+				SELECT 	A.BNFT_SYS_ID FROM 	BMST_BNFT_MSTR A 
+						WHERE	A.BNFT_PARNT_SYS_ID != {0} and
+						A.BNFT_ID_NM = {1}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findDuplicateNotContainingAll">
+				SELECT A.BNFT_SYS_ID
+	                  FROM 	BMST_BNFT_MSTR A 
+	                  WHERE	A.BNFT_PARNT_SYS_ID != {4} 
+	                  AND 
+	                  A.BNFT_PARNT_SYS_ID in 
+	                  (
+	                  select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+	                  where 
+	                  C.BUS_GRP_NM {3}
+	                  AND C.BUS_ENTY_NM {2}
+	                  AND C.LOB_NM {1}
+	                  AND C.MRKT_BUS_UNT {5}
+	                  AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+	                  AND B.ENTY_TYPE = 'stdbenefit'    
+	                  AND B.ENTY_NM = {0}
+	                  )
+			</SelectSQLQuery>
+			<SelectSQLQuery name="findBenefitsWithAllDomains">
+				
+ 					select A.BNFT_SYS_ID,c.LOB_NM, c.BUS_ENTY_NM ,c.BUS_GRP_NM, c.MRKT_BUS_UNT from AVLBL_DOMN c,ENTY_DOMN_INFO b,BMST_BNFT_MSTR A 
+						      where b.DOMN_SYS_ID = c.DOMN_SYS_ID 
+						      and A.BNFT_PARNT_SYS_ID != {1} 
+							  and A.BNFT_PARNT_SYS_ID in 
+	                  (
+		                  select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+		                  where 
+		                  (
+						  	C.BUS_GRP_NM in 'ALL'
+		                  	or C.BUS_ENTY_NM in 'ALL'
+		                  	or C.LOB_NM in 'ALL'
+						  )	
+		                  AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+		                  AND B.ENTY_TYPE = 'stdbenefit'    
+		                  AND B.ENTY_NM = {0}
+						) 
+			</SelectSQLQuery>
+	
+			<SelectSQLQuery name="retrieveLatestVersion">
+				SELECT	A.BNFT_SYS_ID, A.BNFT_ID_NM, A.BNFT_DESC_TXT, A.BNFT_VRSN_NBR, A.BNFT_STTS_CD, A.BNFT_PARNT_SYS_ID, 
+						A.LST_CHG_USR, A.LST_CHG_TMS, A.CREATD_USER_ID, A.CREATD_TM_STMP, A.BNFT_TYPE, A.MNDT_TYPE, A.BNFT_ST_CD, B.CD_DESC_TXT
+						,a.BNFT_CTGRY
+				from 
+				BMST_BNFT_MSTR A, ITEM B where A.BNFT_PARNT_SYS_ID in 
+				(
+				    select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+				    where 
+				    C.BUS_GRP_NM  {0}
+				    AND C.BUS_ENTY_NM  {1}
+				    AND C.LOB_NM  {2} 
+					AND C.MRKT_BUS_UNT {4}
+				    AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+				    AND B.ENTY_TYPE='stdbenefit'    
+				    AND B.ENTY_NM= {3}   
+				  )
+				  and A.BNFT_VRSN_NBR = (select max(D.BNFT_VRSN_NBR) 
+				  from BMST_BNFT_MSTR D 
+				  where A.BNFT_PARNT_SYS_ID = D.BNFT_PARNT_SYS_ID and D.BNFT_STTS_CD != 'MARKED_FOR_DELETION')
+					AND (a.BNFT_CTGRY = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 2222)
+			</SelectSQLQuery>
+
+
+			<SelectSQLQuery name="retrieveLatestVersionNumber">
+				SELECT	A.BNFT_SYS_ID, A.BNFT_ID_NM, A.BNFT_DESC_TXT, A.BNFT_VRSN_NBR, A.BNFT_STTS_CD, A.BNFT_PARNT_SYS_ID,
+						A.LST_CHG_USR, A.LST_CHG_TMS, A.CREATD_USER_ID, A.CREATD_TM_STMP, A.BNFT_TYPE, A.MNDT_TYPE, A.BNFT_ST_CD, B.CD_DESC_TXT,a.BNFT_CTGRY
+				from 
+				BMST_BNFT_MSTR A,ITEM B where A.BNFT_PARNT_SYS_ID in 
+				(
+				    select B.ENTY_SYS_ID from ENTY_DOMN_INFO B, AVLBL_DOMN C
+				    where 
+				    C.BUS_GRP_NM  {0}
+				    AND C.BUS_ENTY_NM  {1}
+				    AND C.LOB_NM  {2} 
+					AND C.MRKT_BUS_UNT {4}
+				    AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+				    AND B.ENTY_TYPE='stdbenefit'    
+				    AND B.ENTY_NM= {3}   
+				  )
+				  and A.BNFT_VRSN_NBR = (select max(D.BNFT_VRSN_NBR) 
+				  from BMST_BNFT_MSTR D 
+				  where A.BNFT_PARNT_SYS_ID = D.BNFT_PARNT_SYS_ID)
+					AND (a.BNFT_CTGRY = b.PRMRY_CD(+) AND b.CTLG_ID(+) = 2222)
+
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="abc">
+			</SelectSQLQuery>
+			<SelectSQLQuery name="locateStandardBenefit" dynamic="true">
+		      <STATIC>
+		      SELECT * FROM (SELECT BNFT_SYS_ID, BNFT_ID_NM, BNFT_DESC_TXT, BNFT_VRSN_NBR, BNFT_PARNT_SYS_ID, BNFT_STTS_CD FROM  BMST_BNFT_MSTR 
+			    WHERE BMST_BNFT_MSTR.BNFT_SYS_ID IN ( 
+				  SELECT MAX(BNFT_SYS_ID) FROM  BMST_BNFT_MSTR MSTR WHERE MSTR.BNFT_PARNT_SYS_ID IN (
+					      SELECT ED.ENTY_SYS_ID FROM ENTY_DOMN_INFO ED WHERE ED.ENTY_TYPE = 'stdbenefit' AND ED.DOMN_SYS_ID IN (
+							  SELECT D.DOMN_SYS_ID FROM AVLBL_DOMN D WHERE  D.LOB_NM  {0}  
+										  AND D.BUS_GRP_NM  {1}  
+										  AND D.BUS_ENTY_NM {2}
+										  AND D.MRKT_BUS_UNT {10}
+						    )
+					)
+		      </STATIC>
+		      <DYNAMIC>
+				  AND
+					      MSTR.BNFT_SYS_ID IN (
+					      SELECT U.ENTY_SYS_ID FROM  BNFT_BSIC_SLCTD_INFO U where U.SLCTD_ITEM_TYPE = 'qualifier' 
+					      AND U.SLCTD_ITEM_CD  {3} 
+					      )
+		      </DYNAMIC>
+		      <DYNAMIC>
+				  AND
+					      MSTR.BNFT_SYS_ID IN (
+					      SELECT U.ENTY_SYS_ID FROM  BNFT_BSIC_SLCTD_INFO U where U.SLCTD_ITEM_TYPE = 'term' 
+					      AND U.SLCTD_ITEM_CD  {4}
+					      )
+		      </DYNAMIC>
+		      <DYNAMIC>
+				  AND
+					      MSTR.BNFT_SYS_ID IN (
+					      SELECT U.ENTY_SYS_ID FROM  BNFT_BSIC_SLCTD_INFO U where U.SLCTD_ITEM_TYPE = 'provider arrangement' 
+					      AND U.SLCTD_ITEM_CD  {5}
+					      )
+		      </DYNAMIC>
+		      <DYNAMIC>
+				  AND
+					      MSTR.BNFT_SYS_ID IN (
+					      SELECT U.ENTY_SYS_ID FROM  BNFT_BSIC_SLCTD_INFO U where U.SLCTD_ITEM_TYPE = 'data type' 
+					      AND U.SLCTD_ITEM_CD {6} )
+		      </DYNAMIC>
+			  <DYNAMIC>
+					AND		
+									MSTR.BNFT_TYPE like {8}
+			  </DYNAMIC>
+			  <DYNAMIC>
+					AND		
+									MSTR.BNFT_CTGRY like {9}
+			  </DYNAMIC>
+		      <STATIC>
+				<![CDATA[
+				  AND
+					      UPPER(MSTR.BNFT_ID_NM) like {7} escape '`'
+				  group by BNFT_PARNT_SYS_ID, BNFT_ID_NM
+			    )) WHERE ROWNUM <= 51 order by BNFT_ID_NM asc    
+				]]>
+			</STATIC>
+		</SelectSQLQuery>
+			<SelectSQLQuery name="locateStandardBenefitForDelete">
+					select BNFT_SYS_ID from BNFT_CMPNT_HRCHY_ASSN where BNFT_SYS_ID = {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="locateAllVersion">
+				SELECT BNFT_SYS_ID, BNFT_ID_NM, BNFT_DESC_TXT, BNFT_VRSN_NBR, BNFT_STTS_CD, BNFT_PARNT_SYS_ID
+					FROM  BMST_BNFT_MSTR 
+						WHERE BNFT_PARNT_SYS_ID = (SELECT BNFT_PARNT_SYS_ID FROM  BMST_BNFT_MSTR where BMST_BNFT_MSTR.BNFT_SYS_ID= {0})  
+							 order by BNFT_VRSN_NBR desc
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="locateBenefits" dynamic="true">
+
+				 <STATIC>
+				  <![CDATA[
+				        SELECT distinct B.ENTY_SYS_ID, B.ENTY_SYS_ID, B.ENTY_NM from BMST_BNFT_MSTR A,ENTY_DOMN_INFO B, AVLBL_DOMN C
+				       			 WHERE   1 = 1
+			                        and B.ENTY_TYPE = 'stdbenefit'
+			                        AND B.DOMN_SYS_ID = C.DOMN_SYS_ID 
+		                            and  A.BNFT_ID_NM = B.ENTY_NM
+									and  A.BNFT_TYPE != 'MANDATE'
+									and A.BNFT_STTS_CD !='MARKED_FOR_DELETION'
+									and to_char(B. ENTY_SYS_ID) not in
+											(select ENTY_SYS_ID from NOTE_DOMN_ASSN  where ENTY_TYPE ='AVAILBENEFIT' and NOTE_ID= {4}
+ 							AND NOTE_VRSN_NBR IN ( SELECT NOTE_VRSN_NBR FROM NMST_NOTE_MSTR WHERE NOTE_ID = {4} AND 
+			    			NOTE_STTS_CD != 'MARKED_FOR_DELETION'))
+
+				     ]]>
+			    </STATIC>	            
+			    <DYNAMIC>
+			       AND      C.BUS_GRP_NM {1}
+				 </DYNAMIC> 
+			    <DYNAMIC>
+
+			       AND      C.BUS_ENTY_NM {2}
+			    </DYNAMIC> 
+			    <DYNAMIC>
+	             AND        C.LOB_NM {3}
+			    </DYNAMIC> 
+			    <DYNAMIC>
+	             AND        C.MRKT_BUS_UNT {5}
+			    </DYNAMIC> 
+			    <DYNAMIC>
+			       AND  A.BNFT_ID_NM in     
+			            (select BNFT_ID_NM from BMST_BNFT_MSTR where 
+                            BNFT_ID_NM LIKE {0} escape '`' 
+                            or BNFT_ID_NM LIKE UPPER ({0}) escape '`' 
+                            or BNFT_ID_NM LIKE LOWER ({0}) escape '`')
+			    </DYNAMIC> 
+		    	<STATIC>
+		            <![CDATA[
+							
+		              order by B.ENTY_NM asc
+		            ]]>
+			 	</STATIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="copyOneBenefitToAnother">
+				CALL COPYSTANDARDBENEFITPROC( {0},{1},{2},{3},{4})
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="copyOneBenefitToAnotherForCheckOut">
+				CALL CHECKOUTSTANDARDBENEFITPROC( {0},{1},{2},{3} )
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="deleteStandardBenefit">
+				CALL DELETESTANDARDBENEFITPROC({0}, {1},{2} )
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="findDuplicateBenefits" dynamic="true">
+			  <STATIC>select A.BNFT_SYS_ID from BMST_BNFT_MSTR A, ENTY_DOMN_INFO B, AVLBL_DOMN C where A.BNFT_PARNT_SYS_ID != {0} and A.BNFT_PARNT_SYS_ID = B.ENTY_SYS_ID and B.ENTY_TYPE='stdbenefit' and B.DOMN_SYS_ID = C.DOMN_SYS_ID</STATIC> 
+			  <DYNAMIC>and A.BNFT_ID_NM like {1} escape '~'</DYNAMIC> 
+			  <DYNAMIC>AND (C.LOB_NM {2} or C.LOB_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.BUS_ENTY_NM {3} or C.BUS_ENTY_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.BUS_GRP_NM {4} or C.BUS_GRP_NM in ('ALL'))</DYNAMIC> 
+			  <DYNAMIC>AND (C.MRKT_BUS_UNT {5} or C.MRKT_BUS_UNT in ('ALL'))</DYNAMIC> 
+    	    </SelectSQLQuery>
+
+			<DataObject name="BMST_BNFT_MSTR">
+				<DataObjectAttribute name="BNFT_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_ID_NM" 			type="String"/>
+				<DataObjectAttribute name="BNFT_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="BNFT_VRSN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_STTS_CD" 		type="String"/>
+				<DataObjectAttribute name="BNFT_PARNT_SYS_ID" 	type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="SOURCE_ID" 			type="Int"/>
+				<DataObjectAttribute name="DESTINATION_ID" 		type="Int"/>
+				<DataObjectAttribute name="BNFT_TYPE" 			type="String"/>
+				<DataObjectAttribute name="MNDT_TYPE" 			type="String"/>
+				<DataObjectAttribute name="BNFT_ST_CD" 			type="String"/>
+				<DataObjectAttribute name="ITEM_ST_DESC" 		type="String"/>
+				<DataObjectAttribute name="ITEM_MNDT_DESC" 		type="String"/>
+				<DataObjectAttribute name="COPY_ACTION" 		type="String"/>
+				<DataObjectAttribute name="ACTION" 				type="String"/>
+				<DataObjectAttribute name="BNFT_CTGRY"			type="String"/>
+				<DataObjectAttribute name="BNFT_CTGRY_DESC"			type="String"/>
+
+				<SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into BMST_BNFT_MSTR 
+								(BNFT_SYS_ID, BNFT_ID_NM, BNFT_DESC_TXT, BNFT_VRSN_NBR, 
+									BNFT_STTS_CD, BNFT_PARNT_SYS_ID, LST_CHG_USR, LST_CHG_TMS, 
+								CREATD_USER_ID, CREATD_TM_STMP,BNFT_TYPE,MNDT_TYPE,BNFT_ST_CD,BNFT_CTGRY)
+								values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+						<DataObjectAttributeInput index="1" name="BNFT_ID_NM"/>
+						<DataObjectAttributeInput index="2" name="BNFT_DESC_TXT"/>
+						<DataObjectAttributeInput index="3" name="BNFT_VRSN_NBR"/>
+						<DataObjectAttributeInput index="4" name="BNFT_STTS_CD"/>
+						<DataObjectAttributeInput index="5" name="BNFT_PARNT_SYS_ID"/>
+						<DataObjectAttributeInput index="6" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="7" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="8" name="CREATD_USER_ID"/>
+						<DataObjectAttributeInput index="9" name="CREATD_TM_STMP"/>
+						<DataObjectAttributeInput index="10" name="BNFT_TYPE"/>
+						<DataObjectAttributeInput index="11" name="MNDT_TYPE"/>
+						<DataObjectAttributeInput index="12" name="BNFT_ST_CD"/>
+						<DataObjectAttributeInput index="13" name="BNFT_CTGRY"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="update">
+						<SQLQuery>
+								update BMST_BNFT_MSTR SET BNFT_ID_NM = ?, BNFT_DESC_TXT = ?, BNFT_VRSN_NBR = ?, 
+						BNFT_STTS_CD = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?,BNFT_TYPE = ?,MNDT_TYPE = ?,BNFT_ST_CD = ?,BNFT_CTGRY = ?
+						where BNFT_SYS_ID =?
+								
+						</SQLQuery>
+						
+						<DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+						<DataObjectAttributeInput index="1" name="BNFT_DESC_TXT"/>
+						<DataObjectAttributeInput index="2" name="BNFT_VRSN_NBR"/>
+						<DataObjectAttributeInput index="3" name="BNFT_STTS_CD"/>
+						<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+						<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+						<DataObjectAttributeInput index="6" name="BNFT_TYPE"/>
+						<DataObjectAttributeInput index="7" name="MNDT_TYPE"/>
+						<DataObjectAttributeInput index="8" name="BNFT_ST_CD"/>
+						<DataObjectAttributeInput index="9" name="BNFT_CTGRY"/>
+						<DataObjectAttributeInput index="10" name="BNFT_SYS_ID"/>
+						
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+						
+						<SearchQueryName name="findDuplicate"/>
+				 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="1" name="BNFT_ID_NM"/>
+						<DataObjectAttributeInput index="0" name="BNFT_PARNT_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findDuplicateAll"/>
+				 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+						<DataObjectAttributeInput index="4" name="BNFT_PARNT_SYS_ID"/>
+				        <RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findDuplicateNotContainingAll"/>
+				 </SQLTemplate>
+				<SQLTemplate transType="select">
+				        <DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+						<DataObjectAttributeInput index="1" name="BNFT_PARNT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+						<SearchQueryName name="findBenefitsWithAllDomains"/>
+				 </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_STTS_CD"/>
+						<ResultIndex index="5" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+						<ResultIndex index="10" dataObjectAttribName ="MNDT_TYPE"/>
+						<ResultIndex index="11" dataObjectAttribName ="BNFT_ST_CD"/>
+						<ResultIndex index="12" dataObjectAttribName ="ITEM_ST_DESC"/>
+						<ResultIndex index="13" dataObjectAttribName ="ITEM_MNDT_DESC"/>
+						<ResultIndex index="14" dataObjectAttribName ="BNFT_TYPE"/>
+						<ResultIndex index="15" dataObjectAttribName ="BNFT_CTGRY_DESC"/>
+						<ResultIndex index="16" dataObjectAttribName ="BNFT_CTGRY"/>
+						
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+					<SearchQueryName name="locateBenefits"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_ID_NM"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_STTS_CD"/>
+						<ResultIndex index="5" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchForDuplicateValues"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="BNFT_ID_NM"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_STTS_CD"/>
+						<ResultIndex index="5" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_TYPE"/>
+						<ResultIndex index="11" dataObjectAttribName ="MNDT_TYPE"/>
+						<ResultIndex index="12" dataObjectAttribName ="BNFT_ST_CD"/>
+						<ResultIndex index="13" dataObjectAttribName ="BNFT_CTGRY_DESC"/>
+						<ResultIndex index="14" dataObjectAttribName ="BNFT_CTGRY"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersion"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="3" name="BNFT_ID_NM"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+						<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_STTS_CD"/>
+						<ResultIndex index="5" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="LST_CHG_USR"/>
+						<ResultIndex index="7" dataObjectAttribName ="LST_CHG_TMS"/>
+						<ResultIndex index="8" dataObjectAttribName ="CREATD_USER_ID"/>
+						<ResultIndex index="9" dataObjectAttribName ="CREATD_TM_STMP"/>
+						<ResultIndex index="10" dataObjectAttribName ="BNFT_TYPE"/>
+						<ResultIndex index="11" dataObjectAttribName ="MNDT_TYPE"/>
+						<ResultIndex index="12" dataObjectAttribName ="BNFT_ST_CD"/>
+						<ResultIndex index="13" dataObjectAttribName ="BNFT_CTGRY_DESC"/>
+						<ResultIndex index="14" dataObjectAttribName ="BNFT_CTGRY"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveLatestVersionNumber"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="7" name="BNFT_ID_NM"/>
+					<DataObjectAttributeInput index="8" name="BNFT_TYPE"/>
+					<DataObjectAttributeInput index="9" name="BNFT_CTGRY"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+							<ResultIndex index="5" dataObjectAttribName ="BNFT_STTS_CD"/>
+						</RSIndexToDOAttributeMap>
+							<SearchQueryName name="locateStandardBenefit"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+							<ResultIndex index="2" dataObjectAttribName ="BNFT_DESC_TXT"/>
+							<ResultIndex index="3" dataObjectAttribName ="BNFT_VRSN_NBR"/>
+							<ResultIndex index="4" dataObjectAttribName ="BNFT_STTS_CD"/>
+							<ResultIndex index="5" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						</RSIndexToDOAttributeMap>
+							<SearchQueryName name="locateAllVersion"/>
+				</SQLTemplate>
+				
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ACTION"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						</RSIndexToDOAttributeMap>
+							<SearchQueryName name="deleteStandardBenefit"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="SOURCE_ID"/>
+					<DataObjectAttributeInput index="1" name="DESTINATION_ID"/>
+					<DataObjectAttributeInput index="2" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="4" name="COPY_ACTION"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							
+						</RSIndexToDOAttributeMap>
+							<SearchQueryName name="copyOneBenefitToAnother"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="SOURCE_ID"/>
+					<DataObjectAttributeInput index="1" name="DESTINATION_ID"/>
+					<DataObjectAttributeInput index="2" name="CREATD_USER_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+							
+						</RSIndexToDOAttributeMap>
+							<SearchQueryName name="copyOneBenefitToAnotherForCheckOut"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+				  <DataObjectAttributeInput index="1" name="BNFT_ID_NM" /> 
+				  <DataObjectAttributeInput index="0" name="BNFT_PARNT_SYS_ID" /> 
+				      <RSIndexToDOAttributeMap>
+					  <ResultIndex index="0" dataObjectAttribName="BNFT_SYS_ID" /> 
+					  </RSIndexToDOAttributeMap>
+				  <SearchQueryName name="findDuplicateBenefits" /> 
+				  </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_SYS_ID"			toBOAttb="standardBenefitKey"/>
+						<Pair DOAttb="BNFT_ID_NM"			toBOAttb="benefitIdentifier"/>
+						<Pair DOAttb="BNFT_DESC_TXT"		toBOAttb="description"/>
+						<Pair DOAttb="BNFT_VRSN_NBR"		toBOAttb="version"/>
+						<Pair DOAttb="BNFT_STTS_CD"			toBOAttb="status"/>
+						<Pair DOAttb="BNFT_PARNT_SYS_ID"	toBOAttb="parentSystemId"/>
+						<Pair DOAttb="LST_CHG_USR"			toBOAttb="lastUpdatedUser"/>
+						<Pair DOAttb="LST_CHG_TMS"			toBOAttb="lastUpdatedTimestamp"/>
+						<Pair DOAttb="CREATD_USER_ID"		toBOAttb="createdUser"/>
+						<Pair DOAttb="CREATD_TM_STMP"		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="MNDT_TYPE"			toBOAttb="mandateType"/>
+						<Pair DOAttb="BNFT_TYPE"			toBOAttb="benefitType"/>
+						<Pair DOAttb="BNFT_ST_CD"				toBOAttb="stateCode"/>
+						<Pair DOAttb="ITEM_MNDT_DESC"			toBOAttb="mandateDesc"/>
+						<Pair DOAttb="ITEM_ST_DESC"				toBOAttb="stateDesc"/>
+						<Pair DOAttb="BNFT_CTGRY"				toBOAttb="benefitCategory"/>
+						<Pair DOAttb="BNFT_CTGRY_DESC"				toBOAttb="benefitCategoryDesc"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_ID_NM" 			toSCAttb="benefitIdentifier"/>
+						<Pair DOAttb="BNFT_SYS_ID" 			toSCAttb="standardBenefitKey"/>
+						<Pair DOAttb="DESTINATION_ID" 		toSCAttb="destinationKey"/>
+						<Pair DOAttb="SOURCE_ID" 			toSCAttb="sourceKey"/>
+						<Pair DOAttb="CREATD_USER_ID" 		toSCAttb="user"/>
+						<Pair DOAttb="COPY_ACTION" 			toSCAttb="copyAction"/>
+						<Pair DOAttb="BNFT_PARNT_SYS_ID" 	toSCAttb="entityParentId"/>
+						<Pair DOAttb="BNFT_TYPE" 			toSCAttb="benefitTypeCodeList"/>
+						<Pair DOAttb="ACTION" 		    	toSCAttb="action"/>
+						<Pair DOAttb="BNFT_CTGRY" 		    toSCAttb="benefitCategory"/>
+				</DoAttributeToSCAttributeMap>
+				
+			</DataObject>
+			<DataObject name="ENTY_DOMN_INFO">
+				<DataObjectAttribute name="DOMN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="ENTY_NM" 			type="String"/>
+				<DataObjectAttribute name="ENTY_TYPE" 		type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<SQLTemplate transType="select">
+					<SearchQueryName name="abc"></SearchQueryName>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ENTY_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="ENTY_NM"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="locateBenefits"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+
+					<RSIndexToDOAttributeMap>
+				            <ResultIndex index="0" dataObjectAttribName ="ENTY_SYS_ID"/>
+				        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="findDuplicate"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ENTY_NM"			toBOAttb="benefitIdentifier"/>
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="parentSystemId"/>
+						<Pair DOAttb="ENTY_SYS_ID"		toBOAttb="standardBenefitKey"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>			
+			<DataObject name="AVLBL_DOMN">
+				<DataObjectAttribute name="NOTE_ID" 			type="String"/>
+				<DataObjectAttribute name="DOMN_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="BUS_GRP_NM" 			type="String"/>
+				<DataObjectAttribute name="BUS_ENTY_NM" 		type="String"/>
+				<DataObjectAttribute name="LOB_NM" 		type="String"/>
+				<DataObjectAttribute name="MRKT_BUS_UNT" 		type="String"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="LOB_NM"/>
+					<DataObjectAttributeInput index="1" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="10" name="MRKT_BUS_UNT"/>
+							<SearchQueryName name="locateStandardBenefit"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="2" name="LOB_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<SearchQueryName name="retrieveLatestVersion"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="1" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="2" name="LOB_NM"/>
+					<DataObjectAttributeInput index="4" name="MRKT_BUS_UNT"/>
+					<SearchQueryName name="retrieveLatestVersionNumber"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BUS_ENTY_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="BUS_GRP_NM"/>
+						<ResultIndex index="4" dataObjectAttribName ="MRKT_BUS_UNT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="findDuplicate"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="LOB_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="3" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="5" name="MRKT_BUS_UNT"/>
+					<SearchQueryName name="findDuplicateNotContainingAll"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1" dataObjectAttribName ="LOB_NM"/>
+						<ResultIndex index="2" dataObjectAttribName ="BUS_ENTY_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="BUS_GRP_NM"/>
+						<ResultIndex index="4" dataObjectAttribName ="MRKT_BUS_UNT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="findBenefitsWithAllDomains"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="BUS_GRP_NM"/>
+					<DataObjectAttributeInput index="2" name="BUS_ENTY_NM"/>
+					<DataObjectAttributeInput index="3" name="LOB_NM"/>
+					<DataObjectAttributeInput index="4" name="NOTE_ID" />
+					<DataObjectAttributeInput index="5" name="MRKT_BUS_UNT" />
+					<SearchQueryName name="locateBenefits"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					  <DataObjectAttributeInput index="2" name="LOB_NM" /> 
+					  <DataObjectAttributeInput index="3" name="BUS_ENTY_NM" /> 
+					  <DataObjectAttributeInput index="4" name="BUS_GRP_NM" /> 
+					  <DataObjectAttributeInput index="5" name="MRKT_BUS_UNT" /> 
+				  	<SearchQueryName name="findDuplicateBenefits" /> 
+				  </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BUS_GRP_NM"			toBOAttb="businessGroup"/>
+						<Pair DOAttb="BUS_ENTY_NM"		toBOAttb="businessEntity"/>
+						<Pair DOAttb="LOB_NM"		toBOAttb="lineOfBusiness"/>
+						<Pair DOAttb="MRKT_BUS_UNT"		toBOAttb="marketBusinessUnit"/>
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="LOB_NM" 			toSCAttb="lobCodeList"/>
+						<Pair DOAttb="BUS_ENTY_NM" 		toSCAttb="businessEntityCodeList"/>
+						<Pair DOAttb="BUS_GRP_NM" 		toSCAttb="businessGroupCodeList"/>
+						<Pair DOAttb="MRKT_BUS_UNT" 	toSCAttb="marketBusinessUnitList" />
+						<Pair DOAttb="NOTE_ID" 			toSCAttb="noteId" />
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="BNFT_BSIC_SLCTD_INFO">
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="SLCTD_ITEM_TYPE" 			type="String"/>
+				<DataObjectAttribute name="SLCTD_ITEM_CD" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+					<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="3" name="SLCTD_ITEM_CD"/>
+						<DataObjectAttributeInput index="4" name="SLCTD_ITEM_CD"/>
+						<DataObjectAttributeInput index="5" name="SLCTD_ITEM_CD"/>
+						<DataObjectAttributeInput index="6" name="SLCTD_ITEM_CD"/>
+								<SearchQueryName name="locateStandardBenefit"/>
+						</SQLTemplate>
+						<DoAttributeToBOAttributeMap>
+								<Pair DOAttb="SLCTD_ITEM_CD"			toBOAttb="benefitIdentifier"/>
+						</DoAttributeToBOAttributeMap>
+		
+						<DoAttributeToSCAttributeMap>
+								<Pair DOAttb="SLCTD_ITEM_CD" 		toSCAttb="qualifierCodeList"/>
+								<Pair DOAttb="SLCTD_ITEM_CD" 		toSCAttb="termCodeList"/>
+								<Pair DOAttb="SLCTD_ITEM_CD" 		toSCAttb="providerArrangementCodeList"/>
+								<Pair DOAttb="SLCTD_ITEM_CD" 		toSCAttb="dataTypeCodeList"/>
+						</DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="BNFT_CMPNT_HRCHY_ASSN">
+				<DataObjectAttribute name="BNFT_CMPNT_HRCHY_ASSN_SYS_ID" 	type="Int"/>
+				<DataObjectAttribute name="BNFT_CMPNT_SYS_ID" 				type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_SYS_ID" 				type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" 					type="Int"/>
+				<DataObjectAttribute name="BNFT_HRCHY_ASSN_DESC_TXT" 		type="String"/>
+				<DataObjectAttribute name="SQNC_NBR" 						type="Int"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 					type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 					type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 					type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 					type="TimeStamp"/>
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+						<RSIndexToDOAttributeMap>
+							<ResultIndex index="0" dataObjectAttribName ="BNFT_SYS_ID"/>
+						</RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateStandardBenefitForDelete"></SearchQueryName>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						
+						<Pair DOAttb="BNFT_SYS_ID"		toBOAttb="standardBenefitKey"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="BNFT_SYS_ID" 		toSCAttb="standardBenefitKey"/>
+						
+				</DoAttributeToSCAttributeMap>
+
+			</DataObject>
+
+
+		</DataSource>		
+	</BusinessObjectMetadata>
+
+        <BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.RuleBO">
+            <BusinessAttribute name="ruleId"                        type="String"       keyAttrib="true" />
+            <BusinessAttribute name="ruleDesc"                      type="String"       keyAttrib="false" />
+            <BusinessAttribute name="flag"                          type="String"       keyAttrib="false" />
+            <BusinessAttribute name="benefitKey"                    type="Int"          keyAttrib="false" />
+            <BusinessAttribute name="entityType"                    type="String"       keyAttrib="false" />
+            <BusinessAttribute name="groupIndicator"                type="String"       keyAttrib="false" />
+            <BusinessAttribute name="searchWord1"                   type="String"       keyAttrib="false" />
+            <BusinessAttribute name="searchWord2"                   type="String"       keyAttrib="false" />
+ 			<BusinessAttribute name="searchWord3"                   type="String"       keyAttrib="false" />
+ 			<BusinessAttribute name="ruleVersion"                   type="String"       keyAttrib="false" />
+ 			<BusinessAttribute name="tag"                           type="String"       keyAttrib="false" />
+    
+            <SearchCriteria name="searchCriteria">
+                <SearchCriteriaAttribute    name="benefitKey"           type="Int" />
+                <SearchCriteriaAttribute    name="entityType"           type="String" />
+                <SearchCriteriaAttribute    name="ruleId"               type="String" />
+				<SearchCriteriaAttribute name="searchString" type="String" />
+            </SearchCriteria>
+    
+            <DataSource name="prmd" domain="medical">
+                <Connection preferred="jndi">
+                    <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+                    <jndi>java:comp/env/wsbEwpdDS</jndi>
+                </Connection>
+                <SelectSQLQuery>
+                    SELECT  rule_id, rule_shrt_desc,rule_grp_ind,'' rule_srch_word_1,'' rule_srch_word_2,
+                    '' rule_srch_word_3,tag,rule_vrsn_nbr 
+                    FROM rule 
+                    WHERE rule_id = ?
+                </SelectSQLQuery>
+                <SelectSQLQuery name="locateRuleId">
+                   	SELECT  rule_id, rule_shrt_desc 
+                    FROM    rule 
+                    WHERE   rule_typ_cd = 'WPDAUTOBG'               
+                    AND     wpd_del_flag = 'N' 
+					AND rule_shrt_desc LIKE ({0})
+                    ORDER BY rule_id,rule_shrt_desc asc
+                </SelectSQLQuery>
+				<SelectSQLQuery name="locateFilteredRuleId">
+					SELECT  A.rule_id, A.rule_shrt_desc 
+					FROM    rule A 
+					WHERE   A.rule_typ_cd = 'WPDAUTOBG'               
+						AND     A.wpd_del_flag = 'N' 
+						AND 	A.rule_id not in (select rule_id from BX_RULE_MAPPING )
+						AND 	A.rule_id like upper({0})
+					ORDER BY A.rule_id,A.rule_shrt_desc asc
+				</SelectSQLQuery>
+				<SelectSQLQuery name="locateUnFilteredRuleId">
+					SELECT  A.rule_id, A.rule_shrt_desc 
+					FROM    rule A
+					WHERE   A.rule_typ_cd = 'WPDAUTOBG'               
+						AND     A.wpd_del_flag = 'N' 
+						AND 	A.rule_id not in (select rule_id from BX_RULE_MAPPING )
+					ORDER BY A.rule_id,A.rule_shrt_desc asc
+				</SelectSQLQuery>
+                <SelectSQLQuery name="locateRules">
+                    select p.RULE_ID,r.WPD_DEL_FLAG from RULE r,ENTY_RULE_INFO_ASSN p 
+                    where r.RULE_ID=p.RULE_ID and r.WPD_DEL_FLAG='Y' and p.ENTY_SYS_ID = {0} and p.ENTY_TYPE={1} and p.RULE_ID = {2}
+                </SelectSQLQuery>
+                <SelectSQLQuery name="locateGroupRuleInfo">
+                    SELECT  a.rule_id,  a.rule_shrt_desc
+                    FROM    rule a, grp_rule b
+                    WHERE	a.rule_id = b.rule_id
+                    AND     b.wpd_del_flag = 'N' 
+                    AND     b.grp_rule_id = {0}
+                    ORDER BY rule_id,rule_shrt_desc asc
+                </SelectSQLQuery>
+                <DataObject name="RULE">
+                    <DataObjectAttribute name="RULE_ID"             type="String" />
+                    <DataObjectAttribute name="RULE_SHRT_DESC"      type="String" />
+                    <DataObjectAttribute name="WPD_DEL_FLAG"        type="String" />
+                    <DataObjectAttribute name="ENTY_SYS_ID"         type="Int" />
+                    <DataObjectAttribute name="ENTY_TYPE"           type="String" />
+                    <DataObjectAttribute name="GROUP_INDICATOR"     type="String" />
+                    <DataObjectAttribute name="SRCH_WORD_1"         type="String" />
+                    <DataObjectAttribute name="SRCH_WORD_2"         type="String" />
+    				<DataObjectAttribute name="SRCH_WORD_3"         type="String" />
+					<DataObjectAttribute name="SEARCH_STRING" 		type="String" />
+					<DataObjectAttribute name="RULE_VRSN_NBR"       type="String" />
+					<DataObjectAttribute name="TAG"                 type="String" />
+                    <SQLTemplate transType="select"> 
+						<DataObjectAttributeInput index="0"		name="SEARCH_STRING" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="RULE_SHRT_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="locateRuleId" />
+                    </SQLTemplate>
+ 					<SQLTemplate transType="select"> 
+ 					<DataObjectAttributeInput   index="0"       name="RULE_ID" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="RULE_SHRT_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="locateFilteredRuleId" />
+                    </SQLTemplate>
+					<SQLTemplate transType="select"> 
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="RULE_SHRT_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="locateUnFilteredRuleId" />
+                    </SQLTemplate>
+
+                    <SQLTemplate transType="select"> 
+                        <DataObjectAttributeInput   index="0"       name="ENTY_SYS_ID" />
+                        <DataObjectAttributeInput   index="1"       name="ENTY_TYPE" />
+                        <DataObjectAttributeInput   index="2"       name="RULE_ID" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="WPD_DEL_FLAG"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="locateRules" />
+                    </SQLTemplate>
+                    <SQLTemplate transType="select"> 
+                        <DataObjectAttributeInput   index="0"       name="RULE_ID" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="RULE_SHRT_DESC"></ResultIndex>
+                            <ResultIndex index="2" dataObjectAttribName="GROUP_INDICATOR"></ResultIndex>
+                            <ResultIndex index="3" dataObjectAttribName="SRCH_WORD_1"></ResultIndex>
+                            <ResultIndex index="4" dataObjectAttribName="SRCH_WORD_2"></ResultIndex>
+							<ResultIndex index="5" dataObjectAttribName="SRCH_WORD_3"></ResultIndex>
+							<ResultIndex index="6" dataObjectAttribName="TAG"></ResultIndex>
+							<ResultIndex index="7" dataObjectAttribName="RULE_VRSN_NBR"></ResultIndex>
+							
+                        </RSIndexToDOAttributeMap>              
+                    </SQLTemplate>
+                    <SQLTemplate transType="select"> 
+                        <DataObjectAttributeInput   index="0"       name="RULE_ID" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="RULE_ID"></ResultIndex>
+                            <ResultIndex index="1" dataObjectAttribName="RULE_SHRT_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="locateGroupRuleInfo" />
+                    </SQLTemplate>
+                    <DoAttributeToBOAttributeMap>
+                        <Pair DOAttb="RULE_ID"          toBOAttb="ruleId" />
+                        <Pair DOAttb="RULE_SHRT_DESC"   toBOAttb="ruleDesc" />
+                        <Pair DOAttb="WPD_DEL_FLAG"     toBOAttb="flag" />
+                        <Pair DOAttb="GROUP_INDICATOR"  toBOAttb="groupIndicator" />
+                        <Pair DOAttb="SRCH_WORD_1"      toBOAttb="searchWord1" />
+                        <Pair DOAttb="SRCH_WORD_2"      toBOAttb="searchWord2" />
+						<Pair DOAttb="SRCH_WORD_3"      toBOAttb="searchWord3" />
+						<Pair DOAttb="RULE_VRSN_NBR"    toBOAttb="ruleVersion"/>
+						<Pair DOAttb="TAG"              toBOAttb="tag"/>
+                    </DoAttributeToBOAttributeMap>
+                    <DoAttributeToSCAttributeMap>                   
+                        <Pair DOAttb="ENTY_SYS_ID"      toSCAttb="benefitKey" />
+                        <Pair DOAttb="ENTY_TYPE"        toSCAttb="entityType" />
+                        <Pair DOAttb="RULE_ID"          toSCAttb="ruleId" />
+						<Pair DOAttb="SEARCH_STRING"	toSCAttb="searchString" />
+                    </DoAttributeToSCAttributeMap>          
+                </DataObject> 
+                
+            </DataSource>
+</BusinessObjectMetadata>
+
+        <BusinessObjectMetadata name="com.wellpoint.wpd.common.benefit.bo.TermSpsBO">
+            <BusinessAttribute name="spsName"                        type="String"       keyAttrib="false" />
+            <BusinessAttribute name="termDesc"                      type="String"       keyAttrib="true" />
+    
+            <SearchCriteria name="searchCriteria">
+                <SearchCriteriaAttribute    name="benefitSysId"           type="Int" />
+            </SearchCriteria>
+    
+            <DataSource name="prmd" domain="medical">
+                <Connection preferred="jndi">
+                    <url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+                    <jndi>java:comp/env/wsbEwpdDS</jndi>
+                </Connection>
+                <SelectSQLQuery>
+                    SELECT  am_sps_term_cd from bnft_ln_term_mapg where am_sps_term_cd= {0}
+                </SelectSQLQuery>
+                <SelectSQLQuery name="getTermListTobeInserted">
+                 select blvl_bnft_lvl_term from blvl_bnft_lvl a, bdm_bnft_defn_mstr b 
+				where b.bnft_defn_sys_id=a.bnft_defn_sys_id
+				and b.bnft_sys_id= {0}
+				and a.blvl_bnft_lvl_term not in (
+					select blvl_bnft_lvl_term from bnft_ln_term_mapg 
+					)
+                </SelectSQLQuery>
+				
+				  <DataObject name="BMST_BNFT_DEF">
+                    <DataObjectAttribute name="BNFT_SYS_ID"             type="Int" />
+                    <DataObjectAttribute name="TERM_DESC"      type="String" />
+                    <DataObjectAttribute name="SPS_DESC"        type="String" />
+
+                   <SQLTemplate transType="insert">
+						<SQLQuery>
+								insert into bnft_ln_term_mapg 
+								(am_sps_term_cd, blvl_bnft_lvl_term)
+								values (?,?)
+						</SQLQuery>
+						<DataObjectAttributeInput index="0" name="SPS_DESC"/>
+						<DataObjectAttributeInput index="1" name="TERM_DESC"/>
+				</SQLTemplate>
+                   
+                    <SQLTemplate transType="select"> 
+						<DataObjectAttributeInput index="0"		name="BNFT_SYS_ID" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="TERM_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                        <SearchQueryName name="getTermListTobeInserted" />
+                    </SQLTemplate>
+ 	
+                    <SQLTemplate transType="select"> 
+                        <DataObjectAttributeInput   index="0"       name="SPS_DESC" />
+                        <RSIndexToDOAttributeMap>
+                            <ResultIndex index="0" dataObjectAttribName="TERM_DESC"></ResultIndex>
+                        </RSIndexToDOAttributeMap>              
+                    </SQLTemplate>
+                    <DoAttributeToBOAttributeMap>
+                        <Pair DOAttb="TERM_DESC"          toBOAttb="termDesc" />
+                        <Pair DOAttb="SPS_DESC"   toBOAttb="spsName" />
+                    </DoAttributeToBOAttributeMap>
+                    <DoAttributeToSCAttributeMap>                   
+                        <Pair DOAttb="BNFT_SYS_ID"      toSCAttb="benefitSysId" />
+                    </DoAttributeToSCAttributeMap>          
+                </DataObject> 
+                
+            </DataSource>
+</BusinessObjectMetadata>
+
+
+
+</Metadata>
+

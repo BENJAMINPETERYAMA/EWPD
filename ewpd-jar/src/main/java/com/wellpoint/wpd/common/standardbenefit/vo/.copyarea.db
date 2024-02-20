@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\standardbenefit\vo
+2
+7
+1b:AdministrationOptionVO.java|1|16adf9802d6|28d8|bf0b3d73|324b4c148ebe4df6821d91629c80aae7|0
+1c:BenefitAdministrationVO.java|1|16adf980297|17c3|bac088c1|17c299c6efe24b8284e18c2e426ceb40|0
+18:BenefitDefinitionVO.java|1|16adf9802b6|16db|6d3e6058|ba5a2fa4e0704b26a81024f0202ec1ad|0
+1c:StandardBenefitSearchVO.java|1|16adf9802c6|13f0|fb6a6345|6132a6a261a3414e83bf6b7c2f604f67|0
+16:StandardBenefitVO.java|1|16adf980391|2d23|e1f9b8a7|9c047a279fef47daa0c811f93c2f06fb|0
+1b:NonAdjBenefitMandateVO.java|1|16adf9802d6|1e15|1b419818|2ee5a04de0534a7084ba5d09e233e1c9|0
+1c:BenefitTierDefinitionVO.java|1|16adf980304|edd|58b7dd4|3b73a70ff51c44749554b2c43238343c|0

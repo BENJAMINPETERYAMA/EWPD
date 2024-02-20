@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\util
+2
+5
+1c:SearchSortSessionObject.java|1|16adf984b32|84b|3391ae26|5cd5c5798f46471c82dc2424e10bb96e|0
+19:SpellcheckProperties.java|1|16adf984b61|673|6b311538|3f94f8c337be49a7a897f3fcbaa984d6|0
+12:WPDStringUtil.java|1|16adf984bfd|7ce6|9111f1bb|cb7655d740aa41a7b3196cd6be777607|0
+f:SortDetail.java|1|16adf984bde|416|d4c14942|8ce583d92bfc40d8a6017677e89636e3|0
+11:WebConstants.java|1|16adf984bed|1299c|49061e77|3b55ba489cec481db83bc532ff9097eb|0

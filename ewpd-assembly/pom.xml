@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>slam-common-properties-pom</artifactId>
+        <groupId>com.wellpoint.enterprise.build</groupId>
+        <version>3.0.0</version>
+    </parent>
+    <groupId>com.wellpoint.ewpd</groupId>
+    <artifactId>ewpd-assembly</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>ewpd Assembly Project</name>
+    <description>ewpd Assembly Project</description>
+    <build>
+        <plugins>
+            <!-- The AntRun plug-in is used to create the various environment-specific builds. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>bodm-build-all-environments</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="Building ewpd for LOCAL environment" />
+                                <exec executable="${env.M2_HOME}/bin/mvn.bat" dir="../ewpd-aggregator" failonerror="true">
+                                    <arg value="-DslamSCMVOB=${slamSCMVOB}" />
+                                    <arg value="-DslamSCMStream=${slamSCMStream}" />
+                                    <arg value="-DslamSCMBaseline=${slamSCMBaseline}" />
+                                    <arg value="-DslamSCMView=${slamSCMView}" />
+                                    <arg value="-DslamBuildHost=${slamBuildHost}" />
+                                    <arg value="-DslamBuildTag=${slamBuildTag}" />
+                                    <arg value="-Dmaven.test.skip=true" />
+                                    <arg value="--activate-profiles" />
+                                    <arg value="LOCAL" />
+                                    <arg value="clean" />
+                                    <arg value="install" />
+                                </exec>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>bodm-assemble</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assemble/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\task\request
+2
+2
+16:TaskSearchRequest.java|1|16adf9806cc|58c|7a0fc763|c28bb8c3b3614d4587059531a9e7fc43|0
+16:TaskDeleteRequest.java|1|16adf9807b6|6b5|e7a53372|7d2f54f79fe34f62bde390254c6fa3ad|0

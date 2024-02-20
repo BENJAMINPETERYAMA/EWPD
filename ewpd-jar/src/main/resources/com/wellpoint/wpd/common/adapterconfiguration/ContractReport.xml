@@ -1,0 +1,192 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.report.bo.ContractReportBean">
+	    <BusinessAttribute name="rowId"  type="Int" keyAttrib="true"/>
+	    <BusinessAttribute name="contractId"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="version"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="startDate"  type="String" keyAttrib="false"/>
+	    <!-- Pravinth Change here added endDate -->
+	    <BusinessAttribute name="endDate"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="benefitComponent"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="benefit"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="type"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="tier"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="headerRule"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="Line"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="qualFreeq"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="value"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="refId"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="refDesc"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="noteId"  type="String" keyAttrib="false"/>
+	    <BusinessAttribute name="noteText"  type="String" keyAttrib="false"/>
+	    
+	    <SearchCriteria>
+	        <SearchCriteriaAttribute name="contractId"   type="String"/>
+	        <SearchCriteriaAttribute name="startDate"   type="String"/>
+	        <SearchCriteriaAttribute name="benefitComponent"   type="String"/>
+	        <SearchCriteriaAttribute name="benefit"   type="String"/>
+			<SearchCriteriaAttribute name="retrieveHeaderRule"   type="String"/>
+			<SearchCriteriaAttribute name="retrieveLine"   type="String"/>
+			<SearchCriteriaAttribute name="retrieveQuestion"   type="String"/>
+			<SearchCriteriaAttribute name="retrieveMethod"   type="String"/>
+			<SearchCriteriaAttribute name="retrieveNoteFlag"   type="String"/>
+	    </SearchCriteria>
+	    
+	    <DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			
+	        <SelectSQLQuery name="getContracts">
+				Select rownum, cntrct_id from
+				(Select distinct cntrct_id from cmst_cntrct_mstr 
+				where ( {0} is null or 
+				cntrct_id in (SELECT COLUMN_VALUE FROM TABLE(CAST(STRING2TABLE({0},'~')  AS NT_VARCHAR2)))
+				) 
+				and cntrct_stts_cd != 'MARKED_FOR_DELETION'
+				order by cntrct_id)
+			</SelectSQLQuery>
+	        <SelectSQLQuery name="getComponents">
+	        	Select rownum, bnft_cmpnt_nm from
+				(Select distinct bnft_cmpnt_nm from bcm_bnft_cmpnt_mstr 
+				where ( {0} is null or  
+				bnft_cmpnt_nm in (SELECT COLUMN_VALUE FROM TABLE(CAST(STRING2TABLE({0},'~')  AS NT_VARCHAR2)))
+				)  
+				order by bnft_cmpnt_nm)
+			</SelectSQLQuery>
+	        <SelectSQLQuery name="getBenefits">
+	        	Select rownum, bnft_id_nm from 
+				(Select distinct bnft_id_nm from bmst_bnft_mstr 
+				where ( {0} is null or 
+				bnft_id_nm in (SELECT COLUMN_VALUE FROM TABLE(CAST(STRING2TABLE({0},'~')  AS NT_VARCHAR2)))
+				)   
+				order by bnft_id_nm)
+			</SelectSQLQuery>
+	        <SelectSQLQuery name="reportProcedure">
+				CALL Contract_Report_Proc({0},{1},{2},{3},{4},{5},{6},{7},{8},{9})
+			</SelectSQLQuery>
+							
+
+	        <DataObject name="CNTRCT_REPORT">
+	            <DataObjectAttribute name="ROWID"    type="Int"/>
+	            <DataObjectAttribute name="CNTRCT_ID"    type="String"/>
+	            <DataObjectAttribute name="VERSION"    type="String"/>
+	            <DataObjectAttribute name="START_DATE"    type="String"/>
+	           <!-- Pravinth Change Here Added END_DATE -->
+	            <DataObjectAttribute name="END_DATE"    type="String"/>
+	            <DataObjectAttribute name="COMPONENT"    type="String"/>
+	            <DataObjectAttribute name="BENEFIT"    type="String"/>
+	            <DataObjectAttribute name="TYPE"    type="String"/>
+	            <DataObjectAttribute name="TIER_DETAIL "    type="String"/>
+	            <DataObjectAttribute name="HEADER_RULE"    type="String"/>
+	            <DataObjectAttribute name="LINE "    type="String"/>
+	            <DataObjectAttribute name="FRE_QLFR "    type="String"/>
+	            <DataObjectAttribute name="VALUE"    type="String"/>
+	            <DataObjectAttribute name="REFERECE"    type="String"/>
+	            <DataObjectAttribute name="REFERENCE_DESC"    type="String"/>
+	            <DataObjectAttribute name="NOTE_ID  "    type="String"/>
+	            <DataObjectAttribute name="NOTE_TXT"    type="String"/>
+				<DataObjectAttribute name="RTRV_HDR_RULE"    type="String"/>
+				<DataObjectAttribute name="RTRV_LINE"    type="String"/>
+				<DataObjectAttribute name="RTRV_QUESTION"    type="String"/>
+				<DataObjectAttribute name="RTRV_METHOD"    type="String"/>
+				<DataObjectAttribute name="RTRV_NOTES"    type="String"/>
+				
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="CNTRCT_ID "/>
+					<DataObjectAttributeInput index="1" name="START_DATE "/>
+					<DataObjectAttributeInput index="2" name="COMPONENT "/>
+					<DataObjectAttributeInput index="3" name="BENEFIT"/>
+					<DataObjectAttributeInput index="4" name="RTRV_HDR_RULE"/>
+					<DataObjectAttributeInput index="5" name="RTRV_LINE"/>
+					<DataObjectAttributeInput index="6" name="RTRV_QUESTION"/>
+					<DataObjectAttributeInput index="7" name="RTRV_METHOD"/>
+					<DataObjectAttributeInput index="8" name="RTRV_NOTES"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="ROWID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="CNTRCT_ID "/>
+	                    <ResultIndex index="2" dataObjectAttribName ="VERSION  "/>
+	                    <ResultIndex index="3" dataObjectAttribName ="START_DATE"/>
+	                    <!-- Pravinth Change here added END_DATE -->
+	                    <ResultIndex index="4" dataObjectAttribName ="END_DATE"/>
+	                    <ResultIndex index="5" dataObjectAttribName ="COMPONENT "/>
+	                    <ResultIndex index="6" dataObjectAttribName ="BENEFIT"/>
+	                    <ResultIndex index="7" dataObjectAttribName ="TYPE "/>
+	                    <ResultIndex index="8" dataObjectAttribName ="TIER_DETAIL "/>
+	                    <ResultIndex index="9" dataObjectAttribName ="HEADER_RULE"/>
+	                    <ResultIndex index="10" dataObjectAttribName ="LINE "/>
+	                    <ResultIndex index="11" dataObjectAttribName ="FRE_QLFR "/>
+	                    <ResultIndex index="12" dataObjectAttribName ="VALUE "/>
+	                    <ResultIndex index="13" dataObjectAttribName ="REFERECE"/>
+	                    <ResultIndex index="14" dataObjectAttribName ="REFERENCE_DESC"/>
+	                    <ResultIndex index="15" dataObjectAttribName ="NOTE_ID  "/>
+	                    <ResultIndex index="16" dataObjectAttribName ="NOTE_TXT"/>
+	                </RSIndexToDOAttributeMap>
+	                
+	                <SearchQueryName name="reportProcedure"/>
+	            </SQLTemplate>	            
+
+	            <SQLTemplate transType="select">
+	                <DataObjectAttributeInput index="0" name="CNTRCT_ID "/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="ROWID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="CNTRCT_ID "/>
+	                </RSIndexToDOAttributeMap>
+	                <SearchQueryName name="getContracts"/>
+	            </SQLTemplate>
+
+	            <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="COMPONENT "/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="ROWID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="COMPONENT "/>
+	                </RSIndexToDOAttributeMap>
+	                <SearchQueryName name="getComponents"/>
+	            </SQLTemplate>	
+
+	            <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BENEFIT"/>
+	                <RSIndexToDOAttributeMap>
+	                    <ResultIndex index="0" dataObjectAttribName ="ROWID"/>
+	                    <ResultIndex index="1" dataObjectAttribName ="BENEFIT"/>
+	                </RSIndexToDOAttributeMap>
+	                <SearchQueryName name="getBenefits"/>
+	            </SQLTemplate>						
+	            
+	            <DoAttributeToBOAttributeMap>
+	                <Pair DOAttb="ROWID"    toBOAttb="rowId"/>
+	                <Pair DOAttb="CNTRCT_ID "    toBOAttb="contractId"/>
+	                <Pair DOAttb="VERSION  "    toBOAttb="version"/>
+	                <Pair DOAttb="START_DATE"    toBOAttb="startDate"/>
+	                <!-- Pravinth Change here added for End Date -->
+	                <Pair DOAttb="END_DATE"    toBOAttb="endDate"/>
+	                <!--change end -->
+	                <Pair DOAttb="COMPONENT "    toBOAttb="benefitComponent"/>
+	                <Pair DOAttb="BENEFIT"    toBOAttb="benefit"/>
+	                <Pair DOAttb="TYPE "    toBOAttb="type"/>
+	                <Pair DOAttb="TIER_DETAIL "    toBOAttb="tier"/>
+	                <Pair DOAttb="HEADER_RULE"    toBOAttb="headerRule"/>
+	                <Pair DOAttb="LINE "    toBOAttb="Line"/>
+	                <Pair DOAttb="FRE_QLFR "    toBOAttb="qualFreeq"/>
+	                <Pair DOAttb="VALUE "    toBOAttb="value"/>
+	                <Pair DOAttb="REFERECE"    toBOAttb="refId"/>
+	                <Pair DOAttb="REFERENCE_DESC"    toBOAttb="refDesc"/>
+	                <Pair DOAttb="NOTE_ID  "    toBOAttb="noteId"/>
+	                <Pair DOAttb="NOTE_TXT"    toBOAttb="noteText"/>
+	            </DoAttributeToBOAttributeMap>
+	            
+	            <DoAttributeToSCAttributeMap>
+	                <Pair DOAttb="CNTRCT_ID "    toSCAttb="contractId"/>
+	                <Pair DOAttb="START_DATE"    toSCAttb="startDate"/>
+	                <Pair DOAttb="COMPONENT "    toSCAttb="benefitComponent"/>
+					<Pair DOAttb="BENEFIT"    toSCAttb="benefit"/>					
+	                <Pair DOAttb="RTRV_HDR_RULE"    toSCAttb="retrieveHeaderRule"/>
+					<Pair DOAttb="RTRV_LINE"    toSCAttb="retrieveLine"/>
+					<Pair DOAttb="RTRV_QUESTION"    toSCAttb="retrieveQuestion"/>
+					<Pair DOAttb="RTRV_METHOD"    toSCAttb="retrieveMethod"/>
+					<Pair DOAttb="RTRV_NOTES"    toSCAttb="retrieveNoteFlag"/>
+	            </DoAttributeToSCAttributeMap>
+	        </DataObject>
+	    </DataSource>
+	</BusinessObjectMetadata>
+ </Metadata>

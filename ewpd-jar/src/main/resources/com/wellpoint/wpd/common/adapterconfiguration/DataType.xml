@@ -1,0 +1,42 @@
+<Metadata> 	
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.datatype.bo.DataTypeBO">
+		<BusinessAttribute name="dataTypeId" 			type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="dataTypeName" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="dataTypeDesc" 			type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="dataTypeLgnd" 			type="String" 	keyAttrib="false"/>
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="dataTypeId" 	 type="Int"/>	
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="dataTypeSearch">
+					select DTYP_DATA_TYPE_ID,DTYP_DATA_TYPE_NAME,DTYP_DATA_TYPE_SYS_DATA_TYPE,DTYP_DATA_TYPE_LGND from DTYP_DATA_TYPE order by upper(DTYP_DATA_TYPE_LGND)				
+			</SelectSQLQuery>
+			
+			<DataObject name="DTYP_DATA_TYPE">
+				<DataObjectAttribute name="DTYP_DATA_TYPE_ID" type="Int"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_NAME" 	type="String"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_SYS_DATA_TYPE" 	type="String"/>
+				<DataObjectAttribute name="DTYP_DATA_TYPE_LGND" 	type="String"/>
+			<SQLTemplate transType="select">
+				<RSIndexToDOAttributeMap>
+					<ResultIndex index="0" dataObjectAttribName ="DTYP_DATA_TYPE_ID"/>
+					<ResultIndex index="1" dataObjectAttribName ="DTYP_DATA_TYPE_NAME"/>
+					<ResultIndex index="2" dataObjectAttribName ="DTYP_DATA_TYPE_SYS_DATA_TYPE"/>
+					<ResultIndex index="3" dataObjectAttribName ="DTYP_DATA_TYPE_LGND"/>								
+				</RSIndexToDOAttributeMap>
+				<SearchQueryName name="dataTypeSearch"/>
+			</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="DTYP_DATA_TYPE_ID"	toBOAttb="dataTypeId"/>
+						<Pair DOAttb="DTYP_DATA_TYPE_NAME"	toBOAttb="dataTypeName"/>
+						<Pair DOAttb="DTYP_DATA_TYPE_SYS_DATA_TYPE"	toBOAttb="dataTypeDesc"/>
+						<Pair DOAttb="DTYP_DATA_TYPE_LGND"	toBOAttb="dataTypeLgnd"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+</Metadata> 

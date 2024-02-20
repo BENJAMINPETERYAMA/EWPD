@@ -1,0 +1,359 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.SelectedQuestionListBO">
+		<BusinessAttribute name="questionNumber"					type="Int"		keyAttrib="true"/>	
+		<BusinessAttribute name="sequenceNumber"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="questionDesc"					    type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="adminOptionsSysId"					type="Int"		keyAttrib="true"/>
+		<BusinessAttribute name="answerId"					type="Int"		keyAttrib="false"/>
+		<BusinessAttribute name="answer"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="systemId"					type="Int"		keyAttrib="false"/>	
+		<BusinessAttribute name="createdUser"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser"					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdDate"					type="Date"		keyAttrib="false"/>
+		<BusinessAttribute name="lastChangedDate"					type="Date"		keyAttrib="false"/>	
+		<BusinessAttribute name="referenceId"					type="String"		keyAttrib="false"/>	
+		<BusinessAttribute name="referenceDesc"					type="String"		keyAttrib="false"/>		
+		<BusinessAttribute name="isOpen"						type="String"		keyAttrib="false"/>		
+
+		
+		<SearchCriteria >
+			<SearchCriteriaAttribute name="adminOptionsSysId" 	 	type="Int"/>	
+			<SearchCriteriaAttribute name="systemId" 	 			type="Int"/>			
+			<SearchCriteriaAttribute name="questionNo"	 			type="Int"/>			
+			<SearchCriteriaAttribute name="standardBenefitKey"	 	type="Int"/>			
+
+
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery>
+				select ADQM_ADMN_QSTN_NBR from BNFT_ADMIN_OPT_QSTN_ASSN
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedQns">
+				select 		B.SQNC_NBR, B.ADQM_ADMN_QSTN_NBR, B.ADMIN_LVL_OPT_ASSN_SYS_ID, B.SLCTD_ANSWR_ID, B.RFRNC_ID
+				from 		BNFT_ADMIN_OPT_QSTN_ASSN B
+				where 		B.ADMIN_LVL_OPT_ASSN_SYS_ID = {0}
+				order by 	B.SQNC_NBR
+			</SelectSQLQuery>
+			<SelectSQLQuery name="searchSelectedQuestionList">
+				select A.ADQM_ADMN_QSTN_DESC,B.SQNC_NBR, B.ADQM_ADMN_QSTN_NBR, B.SLCTD_ANSWR_ID,
+				      B.ADMIN_LVL_OPT_ASSN_SYS_ID,B.RFRNC_ID ,D.CD_DESC_TXT , B.IS_OPEN_QSTN 
+				                  from ADQM_ADMN_QSTN_MSTR A,BNFT_ADMIN_OPT_QSTN_ASSN B, ITEM D
+				                  where B.ADMIN_LVL_OPT_ASSN_SYS_ID = {0}
+				                  and A.ADQM_ADMN_QSTN_NBR = B.ADQM_ADMN_QSTN_NBR
+				                  and (B.RFRNC_ID = D.PRMRY_CD(+) and D.CTLG_ID(+)= 1938) 
+				              order by B.SQNC_NBR
+			</SelectSQLQuery>
+		 	<SelectSQLQuery name="locateOpenQuestions">
+				select a.ADQM_ADMN_QSTN_NBR, a.ADQM_ADMN_QSTN_DESC,
+              (select min(PSBL_ANSWR.PSBL_ANSWR_ID) from PSBL_ANSWR where
+                PSBL_ANSWR.ADQM_ADMN_QSTN_NBR = a.ADQM_ADMN_QSTN_NBR) ANSWER
+              from ADQM_ADMN_QSTN_MSTR a 
+              where a.ADQM_ADMN_QSTN_DESC not in (
+                    select unique f.ADQM_ADMN_QSTN_DESC from ADMIN_OPT_TO_QSTN_ASSN b, ADQM_ADMN_QSTN_MSTR f 
+                            where b.ADQM_ADMN_QSTN_NBR = f.ADQM_ADMN_QSTN_NBR)
+              and a.ADQM_ADMN_QSTN_DESC not in 
+                (select d.ADQM_ADMN_QSTN_DESC from BNFT_ADMIN_OPT_QSTN_ASSN c, ADQM_ADMN_QSTN_MSTR d 
+                      where c.ADQM_ADMN_QSTN_NBR  = d.ADQM_ADMN_QSTN_NBR and  c.ADMIN_LVL_OPT_ASSN_SYS_ID in
+                  (select BAL.ADMIN_LVL_OPT_ASSN_SYS_ID from BNFT_ADMIN_TO_LVL_ASSN BAL where BAL.BNFT_ADMIN_SYS_ID in 
+                    (SELECT BNFT_ADMNSTRN_ASSN.BNFT_ADMIN_SYS_ID FROM BNFT_ADMNSTRN_ASSN WHERE BNFT_ADMNSTRN_ASSN.BNFT_DEFN_SYS_ID IN
+                      (select BDM_BNFT_DEFN_MSTR.BNFT_DEFN_SYS_ID from BDM_BNFT_DEFN_MSTR where BDM_BNFT_DEFN_MSTR.BNFT_SYS_ID = {0}
+                        ))))
+              and a.QSTN_VRSN_NBR in (select max(d.QSTN_VRSN_NBR) from ADQM_ADMN_QSTN_MSTR d
+                  where d.ADQM_ADMN_QSTN_DESC=a.ADQM_ADMN_QSTN_DESC 
+                  and d.QSTN_STTS_CD = 'PUBLISHED'
+                      group by d.ADQM_ADMN_QSTN_DESC)
+                order by UPPER(a.ADQM_ADMN_QSTN_DESC)
+
+			</SelectSQLQuery>
+		 	<SelectSQLQuery name="locateHiddenQuestions">
+				select b.ADQM_ADMN_QSTN_NBR,d.ADQM_ADMN_QSTN_DESC,b.SQNC_NBR, (select min(PSBL_ANSWR.PSBL_ANSWR_ID) from PSBL_ANSWR where
+  					PSBL_ANSWR.ADQM_ADMN_QSTN_NBR = d.ADQM_ADMN_QSTN_NBR) ANSWER
+		  			from ADMIN_OPT_TO_QSTN_ASSN b,ADQM_ADMN_QSTN_MSTR d 
+		  			where b.ADMIN_OPT_SYS_ID = {0}
+			   			and b.ADQM_ADMN_QSTN_NBR not in 
+							(select c.ADQM_ADMN_QSTN_NBR 
+								from BNFT_ADMIN_TO_LVL_ASSN a, BNFT_ADMIN_OPT_QSTN_ASSN c 
+					   			where c.ADMIN_LVL_OPT_ASSN_SYS_ID = {1}
+									and a.ADMIN_OPT_SYS_ID = {2}
+									and c.IS_OPEN_QSTN = 'F')
+						and b.ADQM_ADMN_QSTN_NBR = d.ADQM_ADMN_QSTN_NBR
+						order by UPPER(d.ADQM_ADMN_QSTN_DESC) ASC
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getNextSequenceForOpenQuestion">
+				select a.ADMIN_LVL_OPT_ASSN_SYS_ID,max(a.SQNC_NBR)+1
+					from BNFT_ADMIN_OPT_QSTN_ASSN a, BNFT_ADMIN_TO_LVL_ASSN b 
+					where a.ADMIN_LVL_OPT_ASSN_SYS_ID = {0} and b.ADMIN_OPT_SYS_ID = {1}
+					group by a.ADMIN_LVL_OPT_ASSN_SYS_ID
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getReferenceId">
+				select ADQM_ADMN_QSTN_NBR,ADMIN_OPT_SYS_ID,PRMRY_CD from ADMIN_OPT_TO_QSTN_ASSN where 
+					ADQM_ADMN_QSTN_NBR = {0} and ADMIN_OPT_SYS_ID={1}
+			</SelectSQLQuery>
+			<DataObject name="ADQM_ADMN_QSTN_MSTR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 			type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 			type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="BNFT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ANSWER" 					type="Int"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSelectedQuestionList"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="2" dataObjectAttribName ="ANSWER"/>
+					 </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateOpenQuestions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"  dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+						<ResultIndex index="3" dataObjectAttribName ="ANSWER"/>
+					 </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateHiddenQuestions"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC"				toBOAttb="questionDesc"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"				toBOAttb="questionNumber"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"				toBOAttb="systemId"/>
+						<Pair DOAttb="ANSWER"						toBOAttb="answerId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID" 			toSCAttb="systemId"/>
+						<Pair DOAttb="BNFT_SYS_ID" 			toSCAttb="standardBenefitKey"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>	
+			<DataObject name="BNFT_ADMIN_OPT_QSTN_ASSN">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 			type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" 			type="Int"/>
+				<DataObjectAttribute name="SLCTD_ANSWR_ID" 			type="Int"/>
+				<DataObjectAttribute name="LST_CHG_USR" 			type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 			type="TimeStamp"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 			type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 			type="TimeStamp"/>
+				<DataObjectAttribute name="RFRNC_ID" 				type="String"/>
+				<DataObjectAttribute name="IS_OPEN_QSTN" 			type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>				
+				<SQLTemplate transType="update">
+					<SQLQuery>
+							update BNFT_ADMIN_OPT_QSTN_ASSN set SQNC_NBR = ?, SLCTD_ANSWR_ID = ?, LST_CHG_USR = ?, LST_CHG_TMS = ?,RFRNC_ID = ?														
+							where ADMIN_LVL_OPT_ASSN_SYS_ID = ? and ADQM_ADMN_QSTN_NBR = ? 
+							
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="SQNC_NBR"/>
+					<DataObjectAttributeInput index="1" name="SLCTD_ANSWR_ID"/>
+					<DataObjectAttributeInput index="2" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="3" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="4" name="RFRNC_ID"/>
+					<DataObjectAttributeInput index="5" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="6" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						delete from BNFT_ADMIN_OPT_QSTN_ASSN where ADMIN_LVL_OPT_ASSN_SYS_ID = ? and ADQM_ADMN_QSTN_NBR = ? 
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into BNFT_ADMIN_OPT_QSTN_ASSN(ADMIN_LVL_OPT_ASSN_SYS_ID,
+						ADQM_ADMN_QSTN_NBR,SQNC_NBR,SLCTD_ANSWR_ID,LST_CHG_USR,LST_CHG_TMS,CREATD_USER_ID,CREATD_TM_STMP,RFRNC_ID,IS_OPEN_QSTN)
+							values(?,?,?,?,?,?,?,?,?,?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="2" name="SQNC_NBR"/>
+					<DataObjectAttributeInput index="3" name="SLCTD_ANSWR_ID"/>
+					<DataObjectAttributeInput index="4" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="5" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="6" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="7" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="8" name="RFRNC_ID"/>
+					<DataObjectAttributeInput index="9" name="IS_OPEN_QSTN"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="1"  dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="2"  dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="3"  dataObjectAttribName ="SLCTD_ANSWR_ID"/>
+						<ResultIndex index="4"  dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="5"  dataObjectAttribName ="RFRNC_ID"/>
+						<ResultIndex index="7"  dataObjectAttribName ="IS_OPEN_QSTN"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSelectedQuestionList"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="1"  dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2"  dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="3"  dataObjectAttribName ="SLCTD_ANSWR_ID"/>
+						<ResultIndex index="4"  dataObjectAttribName ="RFRNC_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedQns"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+						<ResultIndex index="1"  dataObjectAttribName ="SQNC_NBR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getNextSequenceForOpenQuestion"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="SQNC_NBR"				toBOAttb="sequenceNumber"/>
+					<Pair DOAttb="SLCTD_ANSWR_ID"				toBOAttb="answerId"/>
+					<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"	toBOAttb="adminOptionsSysId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"				toBOAttb="questionNumber"/>
+					<Pair DOAttb="LST_CHG_USR"				toBOAttb="lastUpdatedUser"/>
+					<Pair DOAttb="LST_CHG_TMS"				toBOAttb="lastChangedDate"/>
+					<Pair DOAttb="CREATD_USER_ID"				toBOAttb="createdUser"/>
+					<Pair DOAttb="CREATD_TM_STMP"				toBOAttb="createdDate"/>
+					<Pair DOAttb="RFRNC_ID"				toBOAttb="referenceId"/>
+					<Pair DOAttb="IS_OPEN_QSTN"				toBOAttb="isOpen"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID" 			toSCAttb="adminOptionsSysId"/>
+				</DoAttributeToSCAttributeMap>
+				
+			</DataObject>
+			<DataObject name="ADMIN_OPT_TO_QSTN_ASSN">
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="SQNC_NBR" 				type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 				type="Int"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 				type="String"/>
+				<DataObjectAttribute name="PRMRY_CD" 				type="String"/>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADMIN_OPT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="SQNC_NBR"/>
+					 </RSIndexToDOAttributeMap>
+						<SearchQueryName name="locateHiddenQuestions"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_NBR"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADMIN_OPT_SYS_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="PRMRY_CD"/>
+					 </RSIndexToDOAttributeMap>
+						<SearchQueryName name="getReferenceId"/>
+				</SQLTemplate>
+				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="SQNC_NBR"				toBOAttb="sequenceNumber"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR"				toBOAttb="questionNumber"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"				toBOAttb="adminOptionsSysId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC"				toBOAttb="questionDesc"/>
+						<Pair DOAttb="PRMRY_CD"				toBOAttb="referenceId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID" 			toSCAttb="systemId"/>						
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 			toSCAttb="questionNo"/>						
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="BNFT_ADMIN_TO_LVL_ASSN">
+				<DataObjectAttribute name="ADMIN_LVL_OPT_ASSN_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ADMIN_OPT_SYS_ID" 				type="Int"/>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="ADMIN_LVL_OPT_ASSN_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ADMIN_OPT_SYS_ID"/>
+						<SearchQueryName name="locateHiddenQuestions"/>
+				</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="1" name="ADMIN_OPT_SYS_ID"/>
+						<SearchQueryName name="getNextSequenceForOpenQuestion"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID"				toBOAttb="adminOptionsSysId"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID"				toBOAttb="systemId"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ADMIN_LVL_OPT_ASSN_SYS_ID" 			toSCAttb="adminOptionsSysId"/>
+						<Pair DOAttb="ADMIN_OPT_SYS_ID" 			toSCAttb="systemId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CD_DESC_TXT" type="String"/>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="6" dataObjectAttribName ="CD_DESC_TXT "/>						
+				 	</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchSelectedQuestionList"/>
+				</SQLTemplate>	
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="CD_DESC_TXT"				toBOAttb="referenceDesc"/>						
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+		</DataSource>	
+	
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.standardbenefit.bo.AnswerBO">
+		<BusinessAttribute name="answerId" 	type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="answerDesc" 	type="String" 	keyAttrib="false"/>
+		<SearchCriteria name="searchCriteria">
+			<SearchCriteriaAttribute name="QuestionNumber" 	 	type="Int"/>	
+		</SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+		 	<SelectSQLQuery name="searchPossibleAnswersList">
+				select  PSBL_ANSWR_ID, PSBL_ANSWR
+				from 	PSBL_ANSWR
+				where   ADQM_ADMN_QSTN_NBR = {0} 			
+			</SelectSQLQuery>
+			<DataObject name="PSBL_ANSWR">
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR" 			type="Int"	/>
+				<DataObjectAttribute name="PSBL_ANSWR_ID" 			type="Int"	/>
+				<DataObjectAttribute name="PSBL_ANSWR" 			type="String" />
+	  			<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="PSBL_ANSWR_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="PSBL_ANSWR"/>
+	  				</RSIndexToDOAttributeMap>
+	  				<SearchQueryName name="searchPossibleAnswersList"/>
+	  			</SQLTemplate>				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="PSBL_ANSWR_ID"	toBOAttb="answerId"/>
+						<Pair DOAttb="PSBL_ANSWR"	toBOAttb="answerDesc"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="ADQM_ADMN_QSTN_NBR" 			toSCAttb="QuestionNumber"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>
+

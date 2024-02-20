@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- Application context definition -->
+<beans>
+	
+
+	
+	<bean id="contractReportService"
+		class="com.wellpoint.wpd.business.contract.service.ContractReportService">
+	</bean>
+
+<bean id="standardAccumulatorRequest" class="com.wellpoint.wpd.business.accumulator.service.StandardAccumulatorBusinessService">
+	</bean>
+	<bean id="adminMethodMappingService"
+		class="com.wellpoint.wpd.business.adminmethodmapping.service.AdminMethodMappingBusinessService">
+	</bean>
+   <bean id="accumulatorRequest" class="com.wellpoint.wpd.business.accumulator.service.AccumulatorBusinessService">
+	</bean>
+	<bean id="accumulatorSearchRequest" class="com.wellpoint.wpd.business.accumulator.service.AccumulatorBusinessService">
+	</bean>
+	   <bean id="accumulatorFilterRequest" class="com.wellpoint.wpd.business.accumulator.service.AccumulatorBusinessService">
+	</bean>
+
+   <bean id="adminmethodViewAllBusinessService"
+		class="com.wellpoint.wpd.business.adminmethod.viewall.service.AdminmethodViewAllBusinessService">
+	</bean>
+
+    <bean id="adminMethodMaintainBusinessService"
+		class="com.wellpoint.wpd.business.adminmethodmaintain.service.AdminMethodMaintainBusinessService">
+	</bean>
+
+	<bean id="referencemappingService"
+		class="com.wellpoint.wpd.business.referencemapping.service.ReferenceMappingBusinessService">
+	</bean>
+	
+
+	<bean id="contractRuleValidationService"
+		class="com.wellpoint.wpd.business.contract.service.ContractRuleValidationService">
+	</bean>
+	<bean id="indicativeBusinessService"
+		class="com.wellpoint.wpd.business.indicativemapping.service.IndicativeMappingBusinessService">
+	</bean>
+
+	<bean id="serviceTypeMappingService"
+		class="com.wellpoint.wpd.business.blueexchange.ServiceTypeMappingBusinessService">
+	</bean>
+	<bean id="customMessageBusinessService"
+		class="com.wellpoint.wpd.business.blueexchange.CustomMessageBusinessService">
+	</bean>
+
+	
+	<!-- Save Role service -->
+	<bean id="roleBusinessService"
+		class="com.wellpoint.wpd.business.security.service.RoleBusinessService">
+	</bean>
+	
+
+
+	<!-- End of Save Role Service -->
+
+	<bean id="contractService"
+		class="com.wellpoint.wpd.business.contract.service.ContractBusinessService">
+	</bean>
+	<bean id="itemBusinessService"
+		class="com.wellpoint.wpd.business.item.service.ItemBusinessService">
+	</bean>
+	<bean id="securityService"
+		class="com.wellpoint.wpd.business.framework.service.SecurityService">
+	</bean>
+	<bean id="createBenefitService"
+		class="com.wellpoint.wpd.business.benefit.service.BenefitService">
+	</bean>
+	<bean id="createQuestionService"
+		class="com.wellpoint.wpd.business.benefit.service.QuestionService">
+	</bean>
+	<bean id="productStructureBusinessService"
+		class="com.wellpoint.wpd.business.productstructure.service.ProductStructureBusinessService">
+	</bean>
+	<!-- Start : Question component Service Mapping-->
+	<bean id="questionBusinessService"
+		class="com.wellpoint.wpd.business.question.service.QuestionBusinessService">
+	</bean>
+	<bean id="searchDataTypeService"
+		class="com.wellpoint.wpd.business.datatype.service.DataTypeBusinessService">
+	</bean>
+
+<bean id="accumulatorBusinessService" class="com.wellpoint.wpd.business.accumulator.service.AccumulatorBusinessService">
+	</bean>
+	<!-- ************** Starts Catalog Business Service Mappings **************** -->
+	<bean id="catalogBusinessService"
+		class="com.wellpoint.wpd.business.catalog.service.CatalogBusinessService">
+	</bean>
+	<!-- ************** Ends Catalog Business Service Mappings **************** -->
+
+	<!-- Security Mappings -->
+	<bean id="moduleBusinessService" class="com.wellpoint.wpd.business.security.service.ModuleBusinessService"/>
+	<!-- ************** Starts SubCatalog Business Service Mappings **************** -->
+	<bean id="subCatalogBusinessService"
+		class="com.wellpoint.wpd.business.subcatalog.service.SubCatalogBusinessService">
+	</bean>
+	<!-- ************** Ends SubCatalog Business Service Mappings **************** -->
+	<bean id="standardBenefitBusinessService"
+		class="com.wellpoint.wpd.business.standardbenefit.service.StandardBenefitBusinessService">
+	</bean>
+	<bean id="productService"
+		class="com.wellpoint.wpd.business.product.service.ProductBusinessService">
+	</bean>
+
+	<bean id="RefDataBusinessService"
+		class="com.wellpoint.wpd.business.refdata.service.RefDataBusinessService">
+	</bean>
+	<bean id="SearchService"
+		class="com.wellpoint.wpd.business.search.service.SearchService">
+	</bean>
+	<bean id="securityBusinessService"
+		class="com.wellpoint.wpd.business.security.service.TaskBusinessService" />
+
+	<!-- ************** Migration Contract Business Service Mappings **************** -->
+	<bean id="migrationContractBusinessService"	class="com.wellpoint.wpd.business.migration.service.MigrationContractService"/>
+
+	<!-- ************** Starts Contract Business Service Mappings **************** -->
+	<bean id="contractBusinessService"
+		class="com.wellpoint.wpd.business.contract.service.ContractBusinessService">
+	</bean>
+	<!-- ************** Ends Contract Business Service Mappings **************** -->
+
+	<!-- ************** Starts Admin Option Business Service Mappings **************** -->
+	<bean id="createAdminOptionBusinessService"
+		class="com.wellpoint.wpd.business.adminoption.service.AdminOptionBusinessService">
+	</bean>
+	<!-- ************** Ends Admin Option Business Service Mappings ****************** -->
+
+	<!-- ************** Starts Mandate Business Service Mappings **************** -->
+	<bean id="mandateBusinessService"
+		class="com.wellpoint.wpd.business.mandate.service.MandateBusinessService">
+	</bean>
+	<!-- ************** Ends Mandate Business Service Mappings ****************** -->
+
+	<!-- ************** Starts Benefit Component Business Service Mappings **************** -->
+	<bean id="benefitComponentBusinessService"
+		class="com.wellpoint.wpd.business.benefitcomponent.service.BenefitComponentBusinessService">
+	</bean>
+	<!-- ************** Ends Benefit Component Business Service Mappings ****************** -->
+
+	<bean id="lookupBusinessService"
+		class="com.wellpoint.wpd.business.lookup.service.LookupBusinessService">
+	</bean>
+
+	<!-- ************** Starts BenefitLevel Business Service Mappings **************** -->
+	<bean id="benefitLevelBusinessService"
+		class="com.wellpoint.wpd.business.benefitlevel.service.BenefitLevelBusinessService">
+	</bean>
+	<!-- ************** Ends BenefitLevel Business Service Mappings ****************** -->
+	<bean id="notesBusinessService"
+		class="com.wellpoint.wpd.business.notes.service.NotesBusinessService">
+	</bean>
+	<!-- ********************* Notes Attachment Service Mappings ****************** -->
+	<bean id="notesAttachmentBusinessService"
+		class="com.wellpoint.wpd.business.notes.service.NotesAttachmentBusinessService">
+	</bean>
+
+    <!-- Migration Wizard starts here -->
+	<bean id="migrationContractService" class="com.wellpoint.wpd.business.migration.service.MigrationContractService">
+	</bean>
+	<bean id="legacyContractService" class="com.wellpoint.wpd.business.legacy.service.LegacyContractService">
+	</bean>
+
+	<!-- Admin Method starts here -->
+	<bean id="adminMethodService" class="com.wellpoint.wpd.business.adminmethod.service.AdminMethodService">
+	</bean>
+ <!-- Admin Method ends here -->
+	<!-- SPSMapping starts here -->
+	<bean id="spsMappingBusinessService" class="com.wellpoint.wpd.business.blueexchange.SPSMappingBusinessService">
+	</bean>
+ 	<!-- SPSMapping ends here -->
+	<bean id="popupBusinessService" class="com.wellpoint.wpd.business.popup.service.PopupBusinessService">
+	</bean>
+	<bean id="parentReqdSaveBusinessService" class="com.wellpoint.wpd.business.adminoption.service.AdminOptionBusinessService">
+	</bean>
+	<bean id="testSuiteBusinessService" class="com.wellpoint.wpd.business.webtesttool.service.TestSuiteBusinessService">
+	</bean>
+	<bean id="testCaseBusinessService" class="com.wellpoint.wpd.business.webtesttool.service.TestCaseBusinessService">
+	</bean>
+	<bean id="productValidationBusinessService" class="com.wellpoint.wpd.business.product.service.ProductBusinessValidationService">
+	</bean>
+<!-- ContractvariableMapping starts -->
+	<bean id="contractVariableMappingService" class="com.wellpoint.wpd.business.blueexchange.ContractVariableMappingService">
+	</bean>
+		
+<!-- ContractvariableMapping ends -->
+
+</beans>
+
+

@@ -1,0 +1,14 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-war\src\main\webapp\WEB-INF
+2
+a
+4:wsdl|2|0|0|0|4e4c8abf09f449a7b534b70df33ebdc1|0
+15:references.properties|1|16adf91558a|13|44ed05ec|3e657a8d02db4b2da1d46ab1ba15c2fd|0
+12:version.properties|1|16adf9155e8|43|17d8162d|ca001691a80c4b95ae65def8098ce3e8|0
+d:singleRow.tld|1|16adf9155e8|4ce|5e058cab|d3d751d6cb86433ea3ccd3ae42f1d8de|0
+f:ibm-web-ext.xml|1|16adf91559a|1d4|af89d73|1f02c8926cb14257be51e38050f89793|0
+10:faces-config.xml|1|16adf9155e8|36078|32000c7b|d10351ea938a4084adcc67d219ab5e5a|0
+f:ibm-web-bnd.xml|1|16adf91554c|23d|1f07c246|7aea0ab9dad1458a9976587ae141d2d6|0
+7:web.xml|1|16adf91556b|19a9|36ef8039|d47c5afe6912471899199825bdba1bff|0
+11:RapidSpellWeb.tld|1|16adf9155e8|53b1|edf8c2b7|b256d5e14bc1415180079505991ab30c|0
+c:ajaxTree.tld|1|16adf915617|12d1|6ceb0c51|6928c1e55e584f98ac68be784d25371c|0

@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\css
+2
+7
+a:common.css|1|16b935e791b|7f64|f18da5ec|bad5c8f9e41d4daca982802c9b04d7d3|0
+7:ie7.css|1|16b935e7949|8e7|2d1140d0|7143497657f549dd9f9224397cfef8bb|0
+7:ie6.css|1|16b935e791b|25d4|6bce1eed|7b2f8e5f09f3404ba2a3c47f17d22598|0
+6:images|2|0|0|0|63fb6ebbf36a48209906d9da21aa5a2f|0
+1a:jquery-ui-1.8.1.custom.css|1|16b935e7997|7ca7|504e9708|35e38e791ace41488be3cc39bcf4a450|0
+e:typography.css|1|16b935e7997|718|4d622d9c|62be45813cff4357a4f266c120e89b38|0
+9:reset.css|1|16b935e7978|35e|76a9099f|61654ccf66da4da38c83a2d111319aab|0

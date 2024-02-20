@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\js\jquery
+2
+5
+14:jquery.dataTables.js|1|16b935e86e0|26610|a0e6dea9|bf48873ad09f45bfb239ceb929d0178f|0
+12:jquery.bgiframe.js|1|16b935e86b1|130f|71e9320f|9771d27490e44de182c995d4c576d1df|0
+1d:jquery-ui-1.8.1.custom.min.js|1|16b935e86c1|30c79|641405fb|a57235de3fdf4da880ea0a31ccc43077|0
+13:jquery-1.4.2.min.js|1|16b935e85d7|119ee|5c724192|0ca5f679f0c84886a78456e123cf3c90|0
+9:jquery.js|1|16b935e86c1|119ed|1ae04188|a1e851c27f44469186b4897e533b43eb|0

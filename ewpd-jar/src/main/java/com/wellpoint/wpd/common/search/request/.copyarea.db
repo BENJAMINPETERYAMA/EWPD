@@ -1,0 +1,16 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\search\request
+2
+c
+1e:RetrieveAttachmentRequest.java|1|16adf97d10c|48b|f86d7d94|881384a71df94c3aac797eef09867372|0
+17:BenefitViewRequest.java|1|16adf97d041|481|25b973be|cd9b5801470d419dafb18c38d5f2d66e|0
+17:ProductViewRequest.java|1|16adf97d12b|42e|9c625502|296dfb2597d74b539e84311a399cf1c5|0
+26:BenefitComponentSearchViewRequest.java|1|16adf97d032|486|c0987dce|3f2669c390924b209e79e5e376a121c7|0
+17:BasicSearchRequest.java|1|16adf97d061|5ac|6531e19f|507ead2bf29647e98d3590597b15b2da|0
+1a:AdvancedSearchRequest.java|1|16adf97cfb5|5ea|5f94f6c5|57e0c25039a849769b33d367ac21893e|0
+18:ContractViewRequest.java|1|16adf97d08f|591|6d3ac902|5e75f0fdb6254a06b6149ef026e2c55d|0
+17:DomainFetchRequest.java|1|16adf97d08f|487|35247b60|e2f6b19775b7436b82458979b0a338fb|0
+20:ProductStructureViewRequest.java|1|16adf97d0be|47a|e7aa7955|d5f4f37f3f9e4de9990900ab281ade37|0
+1f:RetrieveAssociationRequest.java|1|16adf97d12b|827|59c398c4|c9a57c60ea624d0ead5b0a790f3ea037|0
+14:RetrieveRequest.java|1|16adf97d14b|577|d69fc063|96c267fb891d453c98561546bcc03968|0
+10:SortRequest.java|1|16adf97d1e7|7c6|cc39843a|f969c20bc2d74f7fb06684c1203edda6|0

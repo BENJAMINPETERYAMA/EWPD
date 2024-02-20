@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-reserve-war\src\main\webapp\WEB-INF
+2
+5
+5:views|2|0|0|0|2e85596652ae11e880690002c89cc74c|0
+7:web.xml|1|16a4ee8cecd|4fd|b4e0a5d7|255b5bfcc9414f72803df22e19f22c82|0
+6:config|2|0|0|0|1b45590e52ae11e880690002c89cc74c|0
+a:properties|2|0|0|0|2445593a52ae11e880690002c89cc74c|0
+1a:mvc-dispatcher-servlet.xml|1|16a505dc744|d4c|c4597442|108004ce9c3011e9800a0002c884f74c|0

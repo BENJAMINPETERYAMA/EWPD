@@ -1,0 +1,1744 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.AttachedNotesBO">		
+		<BusinessAttribute name="noteId" 			    	type="String"  	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteText" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="entityId" 			    	type="Int"	 	keyAttrib="true"/>
+		<BusinessAttribute name="entityType" 			    type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitDefinitionKey" 		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="legacyIndicator" 			type="String"	 	keyAttrib="false"/>
+
+
+
+		 <SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="noteId" 	type="Int"/>
+			<SearchCriteriaAttribute name="entityType" type="String"/>
+			<SearchCriteriaAttribute name="entityId" type="Int"/>
+			<SearchCriteriaAttribute name="version" type="Int"/>
+			<SearchCriteriaAttribute name="benefitDefinitionKey" type="String"/>
+
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="getAssociatedEntityList">
+				SELECT d.NOTE_ID ,n.NOTE_NM,n.NOTE_TXT,d.NOTE_VRSN_NBR,n.LGCY_IND FROM NOTE_DOMN_ASSN d, NMST_NOTE_MSTR n WHERE
+				d.NOTE_ID = n.NOTE_ID AND
+				d.NOTE_VRSN_NBR = n.NOTE_VRSN_NBR AND
+				d.ENTY_SYS_ID = to_char({0}) AND
+				d.ENTY_TYPE = {1} AND d.BNFT_DEFN_SYS_ID = {2} ORDER BY n.NOTE_NM		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedEntityListNull">
+				SELECT d.NOTE_ID ,n.NOTE_NM,n.NOTE_TXT,d.NOTE_VRSN_NBR,n.LGCY_IND FROM NOTE_DOMN_ASSN d, NMST_NOTE_MSTR n WHERE
+				d.NOTE_ID = n.NOTE_ID AND
+				d.NOTE_VRSN_NBR = n.NOTE_VRSN_NBR AND
+				d.ENTY_SYS_ID = to_char({0}) AND
+				d.ENTY_TYPE = {1} AND d.BNFT_DEFN_SYS_ID is NULL ORDER BY n.NOTE_NM		
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getUndomainedNotes">
+				SELECT  enty_type ,NOTE_ID
+					FROM NOTE_DOMN_ASSN where ENTY_TYPE != 'SYSTEM DOMAIN' and ENTY_TYPE not like 'ATTACH%' and ENTY_TYPE != 'LEGACYCONTRACT'
+					and NOTE_ID = {0} and NOTE_VRSN_NBR = {1}  	
+			</SelectSQLQuery>
+
+ 
+			
+			 <DataObject name="NOTE_DOMN_ASSN">
+				<DataObjectAttribute name="NOTE_ID" 				type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ENTY_TYPE" 				type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				 <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+				 <DataObjectAttribute name="BNFT_DEFN_SYS_ID"    		type="String"/>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>			          	
+					</RSIndexToDOAttributeMap>		
+					<SearchQueryName name="getAssociatedEntityList"/>
+			 	</SQLTemplate>			
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>			          	
+					</RSIndexToDOAttributeMap>		
+					<SearchQueryName name="getAssociatedEntityListNull"/>
+			 	</SQLTemplate>			
+
+				<SQLTemplate transType="select">
+						<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        	<DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>					
+					<RSIndexToDOAttributeMap>
+						 
+						  <ResultIndex index="0" dataObjectAttribName ="ENTY_TYPE"/>
+						  <ResultIndex index="1" dataObjectAttribName ="NOTE_ID"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getUndomainedNotes"/>
+			 	</SQLTemplate>	
+
+			  			 <SQLTemplate transType="insert">
+					<SQLQuery>
+	  				   INSERT INTO NOTE_DOMN_ASSN (NOTE_ID, ENTY_SYS_ID, ENTY_TYPE, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP,NOTE_VRSN_NBR,BNFT_DEFN_SYS_ID)
+			            VALUES(?, ?, ?, ?, ?, ?, ?,?,?)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="7" name="NOTE_VRSN_NBR"/>
+					<DataObjectAttributeInput index="8" name="BNFT_DEFN_SYS_ID"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM NOTE_DOMN_ASSN WHERE NOTE_ID = ? and ENTY_SYS_ID = to_char(?) and ENTY_TYPE =? and BNFT_DEFN_SYS_ID=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+					<DataObjectAttributeInput index="3" name="BNFT_DEFN_SYS_ID"/>
+	  			</SQLTemplate>			
+	  			
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+						<Pair DOAttb="ENTY_SYS_ID"	toBOAttb="entityId"/>
+						<Pair DOAttb="ENTY_TYPE"	toBOAttb="entityType"/>
+						<Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+				        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+				        <Pair DOAttb="CREATD_USER_ID"    				toBOAttb="createdUser"/>
+				        <Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="NOTE_VRSN_NBR"    		toBOAttb="version"/>
+						<Pair DOAttb="BNFT_DEFN_SYS_ID"    		toBOAttb="benefitDefinitionKey"/>
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID"    			toSCAttb="entityId"/>	   
+					<Pair DOAttb="ENTY_TYPE"    			toSCAttb="entityType"/>
+					<Pair DOAttb="NOTE_ID"    			toSCAttb="noteId"/>	 
+					<Pair DOAttb="NOTE_VRSN_NBR"    			toSCAttb="version"/>	 	   
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    			toSCAttb="benefitDefinitionKey"/>	 	   
+				</DoAttributeToSCAttributeMap> 
+
+			</DataObject> 
+			<DataObject name="NMST_NOTE_MSTR">
+			    <DataObjectAttribute name="NOTE_ID"    			type="String"/>
+			    <DataObjectAttribute name="NOTE_NM"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_TXT"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_TYPE"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_STTS_CD"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+			    <DataObjectAttribute name="NOTE_PARNT_SYS_ID"    	type="Int"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				<DataObjectAttribute name="SOURCE_NOTE_ID"    		type="Int"/>
+				<DataObjectAttribute name="LGCY_IND"    		type="String"/>
+				
+				<SQLTemplate transType="select">					
+					<RSIndexToDOAttributeMap>
+						  <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>
+						  <ResultIndex index="2" dataObjectAttribName ="NOTE_TXT"/>
+						  <ResultIndex index="4" dataObjectAttribName ="LGCY_IND"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityList"/>
+			 	</SQLTemplate>	
+				<SQLTemplate transType="select">					
+					<RSIndexToDOAttributeMap>
+						  <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>
+						  <ResultIndex index="2" dataObjectAttribName ="NOTE_TXT"/>
+						  <ResultIndex index="4" dataObjectAttribName ="LGCY_IND"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityListNull"/>
+			 	</SQLTemplate>	
+				
+				
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_NM"    		toBOAttb="noteName"/>		       
+			        <Pair DOAttb="NOTE_TXT"    		toBOAttb="noteText"/>
+					<Pair DOAttb="LGCY_IND"    		toBOAttb="legacyIndicator"/>
+			    </DoAttributeToBOAttributeMap>		    
+			
+			</DataObject>  
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.NotesAttachmentOverrideBO">		
+		<BusinessAttribute name="noteId" 			    		type="String"	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityId" 				type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="primaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="secondaryEntityId" 			type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="secondaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId" 			type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="term" 			    			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifier" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteDesc" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 				type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 			type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="overrideStatus" 				type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="referenceCode" 				type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="legacyIndicator" 		   		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="bnftDefnIdString" 		   		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="questionNumber" 		   		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="benefitId" 		   			type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="entityId" 		   				type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="questionnaireSequenceNumber" 	type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber" 		   	  	type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="tierSysId" 		   	  	type="Int"	 		keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="noteId" 							type="Int"/>
+			<SearchCriteriaAttribute name="primaryEntityId" 				type="Int"/>
+			<SearchCriteriaAttribute name="secondaryEntityId" 				type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 				type="Int"/>
+			<SearchCriteriaAttribute name="primaryEntityType" 				type="String"/>
+			<SearchCriteriaAttribute name="secondaryEntityType" 			type="String"/>
+			<SearchCriteriaAttribute name="EntityIdsList" 					type="List"/>
+			<SearchCriteriaAttribute name="questionNumber" 					type="Int"/>
+			<SearchCriteriaAttribute name="bnftDefnIdString" 				type="String"/>
+			<SearchCriteriaAttribute name="benefitId" 						type="Int"/>
+			<SearchCriteriaAttribute name="entityId" 						type="String"/>
+			<SearchCriteriaAttribute name="searchString" 					type="String"/>
+			<SearchCriteriaAttribute name="entityType" 						type="String"/>
+			<SearchCriteriaAttribute name="secondaryEntityList" 			type="List"/>
+			<SearchCriteriaAttribute name="tierSysId" 			type="List"/>
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery name="checkLegacyNotesExist">
+				select A.note_id from  (SELECT d.note_id
+   				FROM note_domn_assn d, nmst_note_mstr n
+	     		WHERE d.note_id = n.note_id
+			    AND d.note_vrsn_nbr = n.note_vrsn_nbr
+			    AND d.enty_sys_id = TO_CHAR ({0})
+			    AND d.enty_type = 'ATTACHCONTRACT' and n.LGCY_IND = 'Y'
+			    UNION
+				SELECT n.note_id
+			    FROM nmst_note_mstr n, note_domain_ovrd_val d
+			    WHERE n.note_id = d.note_id
+			    AND d.prmry_enty_id = {0}
+			    AND d.prmry_enty_type = 'ATTACHCONTRACT'
+			    AND d.note_ovrd_stts = 'F' and n.LGCY_IND = 'Y') A
+			</SelectSQLQuery>
+			<SelectSQLQuery name="overrideLookUpQuery">
+					SELECT d.NOTE_ID ,n.NOTE_NM,d.NOTE_VRSN_NBR,n.LGCY_IND  FROM NOTE_DOMAIN_OVRD_VAL d, NMST_NOTE_MSTR n WHERE
+					d.NOTE_ID = n.NOTE_ID AND
+              	    d.NOTE_VRSN_NBR=n.NOTE_VRSN_NBR AND
+					d.BNFT_CMPNT_SYS_ID={0} AND
+					d.PRMRY_ENTY_ID = {1} AND
+					d.PRMRY_ENTY_TYPE = {2}  AND
+             		d.SCNDRY_ENTY_ID = {3} AND
+					d.SCNDRY_ENTY_TYPE = {4}  AND
+              		d.NOTE_OVRD_STTS ='T'
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedEntityListForOverride">
+					SELECT a.NOTE_ID,b.NOTE_NM,b.NOTE_VRSN_NBR, b.NOTE_TXT,b.LGCY_IND  FROM NOTE_DOMAIN_OVRD_VAL a ,NMST_NOTE_MSTR b WHERE
+					 b.NOTE_ID = a.NOTE_ID AND 
+					 b.NOTE_VRSN_NBR = a.NOTE_VRSN_NBR AND
+					 a.BNFT_CMPNT_SYS_ID = {0} AND
+					a.PRMRY_ENTY_ID = {1} AND a.PRMRY_ENTY_TYPE ={2} AND 
+					a.SCNDRY_ENTY_ID = {3} AND a.SCNDRY_ENTY_TYPE = {4} AND
+                    a.NOTE_OVRD_STTS ='F' ORDER BY b.NOTE_NM		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBenefitNotesDatafeed">
+					SELECT a.NOTE_ID,b.NOTE_NM,b.NOTE_VRSN_NBR, b.NOTE_TXT ,a.BNFT_CMPNT_SYS_ID,a.SCNDRY_ENTY_ID
+ 					FROM NOTE_DOMAIN_OVRD_VAL a ,NMST_NOTE_MSTR b WHERE
+					 b.NOTE_ID = a.NOTE_ID AND 
+					 b.NOTE_VRSN_NBR = a.NOTE_VRSN_NBR AND
+					 a.BNFT_CMPNT_SYS_ID = {0} AND
+					a.PRMRY_ENTY_ID = {1} AND a.PRMRY_ENTY_TYPE ={2}AND 
+					a.SCNDRY_ENTY_ID  {3}  AND a.SCNDRY_ENTY_TYPE = {4} AND
+                    a.NOTE_OVRD_STTS ='F' ORDER BY b.NOTE_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedNotesDatafeed">
+					SELECT a.NOTE_ID,b.NOTE_NM,b.NOTE_VRSN_NBR, b.NOTE_TXT ,a.BNFT_CMPNT_SYS_ID,a.SCNDRY_ENTY_ID,h.PRMRY_CD 
+ 					FROM NOTE_DOMAIN_OVRD_VAL a ,NMST_NOTE_MSTR b,BLN_BNFT_LINE d,ITEM h WHERE
+					 b.NOTE_ID = a.NOTE_ID AND 
+					 b.NOTE_VRSN_NBR = a.NOTE_VRSN_NBR AND
+					 a.BNFT_CMPNT_SYS_ID = {0} AND
+					a.PRMRY_ENTY_ID = {1} AND a.PRMRY_ENTY_TYPE ={2} AND 
+					a.SCNDRY_ENTY_ID {3} AND a.SCNDRY_ENTY_TYPE = {4} AND
+					d.BLN_BNFT_LINE_ID = a.SCNDRY_ENTY_ID AND
+					d.BNFT_DEFN_SYS_ID in (select defnMstr.BNFT_DEFN_SYS_ID from BDM_BNFT_DEFN_MSTR defnMstr,BCM_BNFT_CMPNT_MSTR cmptMstr
+					where defnMstr.BNFT_SYS_ID = to_char({5}) AND cmptMstr.BNFT_CMPNT_SYS_ID = {0}					
+                   AND TRUNC (cmptMstr.bnft_cmpnt_efctv_dt) >= TRUNC (defnMstr.bnft_defn_efctv_dt)
+                   AND TRUNC (defnMstr.bnft_defn_expiry_dt) >= TRUNC (cmptMstr.bnft_cmpnt_expiry_dt)) AND
+					d.BNFT_LVL_EXTRNL_RFRNC_ID  =  h.PRMRY_CD (+)  and h.CTLG_ID (+) = 1938 AND -- Reference
+                    a.NOTE_OVRD_STTS ='F' ORDER BY d.BLN_BNFT_LINE_ID		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedBCNotesDatafeed">
+					SELECT a.NOTE_ID,b.NOTE_NM,b.NOTE_VRSN_NBR, b.NOTE_TXT ,a.SCNDRY_ENTY_ID FROM NOTE_DOMAIN_OVRD_VAL a ,NMST_NOTE_MSTR b WHERE
+					 b.NOTE_ID = a.NOTE_ID AND 
+					 b.NOTE_VRSN_NBR = a.NOTE_VRSN_NBR AND
+					a.PRMRY_ENTY_ID = {0} AND a.PRMRY_ENTY_TYPE ={1} AND 
+					a.SCNDRY_ENTY_ID {2} AND a.SCNDRY_ENTY_TYPE = {3} AND
+                    a.NOTE_OVRD_STTS ='F' ORDER BY b.NOTE_NM		
+			</SelectSQLQuery>
+			<SelectSQLQuery name="overrideBenefitLevelLookUpQuery">
+				SELECT n.NOTE_ID, n.NOTE_NM, d.NOTE_VRSN_NBR, d.NOTE_OVRD_STTS ,n.NOTE_TXT,n.LGCY_IND  FROM NMST_NOTE_MSTR n, NOTE_DOMAIN_OVRD_VAL d
+				WHERE n.NOTE_ID = d.NOTE_ID AND
+ 				n.NOTE_VRSN_NBR = d.NOTE_VRSN_NBR AND
+				d.BNFT_CMPNT_SYS_ID = {0} AND
+				d.PRMRY_ENTY_ID = {1} AND
+				d.PRMRY_ENTY_TYPE = {2} AND
+				d.SCNDRY_ENTY_ID = {3} AND
+				d.SCNDRY_ENTY_TYPE = {4} ORDER BY n.NOTE_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="overrideBenefitLookUpQuery">
+				SELECT n.NOTE_ID, n.NOTE_NM,d.SCNDRY_ENTY_ID,d.SCNDRY_ENTY_TYPE,d.NOTE_VRSN_NBR FROM NMST_NOTE_MSTR n, NOTE_DOMAIN_OVRD_VAL d
+				WHERE n.NOTE_ID = d.NOTE_ID AND
+				d.BNFT_CMPNT_SYS_ID = {0} AND
+				d.PRMRY_ENTY_ID = {1} AND
+				d.PRMRY_ENTY_TYPE = {2}AND
+				d.SCNDRY_ENTY_ID = {3} AND
+				d.SCNDRY_ENTY_TYPE = {4} AND d.NOTE_OVRD_STTS='F'
+				ORDER BY n.NOTE_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="questionNotePopUpQuery" dynamic="true">
+				<STATIC><![CDATA[select unique a.note_id, 
+					b.NOTE_VRSN_NBR,b.NOTE_NM
+					from NOTE_DOMN_ASSN a,NMST_NOTE_MSTR b  
+					where a.ENTY_SYS_ID IN (select ADQM_QSTN_MSTR_PARNT_SYS_ID from ADQM_ADMN_QSTN_MSTR where ADQM_ADMN_QSTN_NBR = {0}) 
+					and a.ENTY_TYPE='AVAILQUESTION' and a.NOTE_ID = b.NOTE_ID and a.NOTE_VRSN_NBR=b.NOTE_VRSN_NBR
+					and b.NOTE_VRSN_NBR IN(select max(NOTE_VRSN_NBR) 
+					from NMST_NOTE_MSTR where note_id=a.note_id and NOTE_STTS_CD='PUBLISHED') ]]></STATIC>
+				<DYNAMIC><![CDATA[and b.NOTE_NM LIKE upper({1}) escape '\' ]]></DYNAMIC>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getOverridedNote" dynamic="true">
+				<STATIC><![CDATA[select distinct A.note_id,A.NOTE_VRSN_NBR,B.NOTE_NM from NOTE_DOMAIN_OVRD_VAL A,NMST_NOTE_MSTR B 
+				where A.PRMRY_ENTY_ID = {0} and A.PRMRY_ENTY_TYPE ={1} and A.SCNDRY_ENTY_ID ={2} 
+				and A.SCNDRY_ENTY_TYPE = {3} and A.ADQM_ADMN_QSTN_NBR = {4} ]]></STATIC>
+				<DYNAMIC><![CDATA[ and A.BNFT_DEFN_SYS_ID ={5}
+				and A.BNFT_CMPNT_SYS_ID ={6}]]></DYNAMIC>
+				<STATIC><![CDATA[ and A.note_id =B.note_id ]]></STATIC>
+				<DYNAMIC><![CDATA[and b.NOTE_NM LIKE upper({7}) escape '\' ]]></DYNAMIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getAssociatedContractAdminOptionNotesDatafeed">
+				SELECT DISTINCT A.NOTE_ID, A.NOTE_VRSN_NBR, B.NOTE_NM, B.NOTE_TXT, C.RFRNC_ID, P.SQNC_NBR,
+				                C.QSTNR_DSPLY_SQNC_NBR
+				           FROM NOTE_DOMAIN_OVRD_VAL A,
+				                NMST_NOTE_MSTR B,
+				                ENTY_ADMN_OPT_ASSN P,
+				                (SELECT ADQM_ADMN_QSTN_NBR, RFRNC_ID, ADMIN_OPT_SYS_ID,
+				                        QSTNR_DSPLY_SQNC_NBR
+				                   FROM QSTNR_MSTR
+				                  WHERE QSTNR_HRCHY_SYS_ID {1}) C
+				          WHERE A.PRMRY_ENTY_ID = {0}
+				            AND A.PRMRY_ENTY_ID = P.ENTY_SYS_ID
+				            AND P.ADMN_OPT_SYS_ID = C.ADMIN_OPT_SYS_ID
+				            AND P.ENTY_TYPE = {2}
+				            AND A.PRMRY_ENTY_TYPE = {3}
+				            AND A.SCNDRY_ENTY_TYPE = {4}
+				            AND (A.ADQM_ADMN_QSTN_NBR) IN (C.ADQM_ADMN_QSTN_NBR)
+				            AND A.NOTE_ID = B.NOTE_ID
+				       ORDER BY P.SQNC_NBR, C.QSTNR_DSPLY_SQNC_NBR ASC
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getAssociatedBenefitAdminOptionNotesDatafeed">
+				SELECT A.NOTE_ID, A.NOTE_VRSN_NBR, B.NOTE_NM, B.NOTE_TXT, D.RFRNC_ID,
+				                E.SQNC_NBR, D.QSTNR_DSPLY_SQNC_NBR
+				           FROM NOTE_DOMAIN_OVRD_VAL A,
+				                NMST_NOTE_MSTR B,
+				                (SELECT BNFT_DEFN_SYS_ID
+				                   FROM BDM_BNFT_DEFN_MSTR
+				                  WHERE BNFT_SYS_ID = {6}) C,
+				                (SELECT ADQM_ADMN_QSTN_NBR, RFRNC_ID, ADMIN_OPT_SYS_ID,
+				                        QSTNR_DSPLY_SQNC_NBR
+				                   FROM QSTNR_MSTR
+				                  WHERE QSTNR_HRCHY_SYS_ID {5}) D,
+				                BNFT_ADMIN_TO_LVL_ASSN E
+				          WHERE A.PRMRY_ENTY_ID = {0}
+				            AND A.PRMRY_ENTY_TYPE = {1}
+				            AND A.SCNDRY_ENTY_ID {2}
+				            AND A.SCNDRY_ENTY_TYPE = {3}
+				            AND A.NOTE_ID = B.NOTE_ID
+				            AND A.NOTE_VRSN_NBR = B.NOTE_VRSN_NBR
+				            AND A.NOTE_OVRD_STTS = 'F'
+				            AND A.BNFT_DEFN_SYS_ID = C.BNFT_DEFN_SYS_ID
+				            AND A.BNFT_CMPNT_SYS_ID = {4}
+				            AND A.SCNDRY_ENTY_ID = E.ADMIN_LVL_OPT_ASSN_SYS_ID
+				            AND D.ADMIN_OPT_SYS_ID = E.ADMIN_OPT_SYS_ID
+				            AND A.ADQM_ADMN_QSTN_NBR = D.ADQM_ADMN_QSTN_NBR
+							ORDER BY E.SQNC_NBR, D.QSTNR_DSPLY_SQNC_NBR	 
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitLevelTierNotes">
+				SELECT n.NOTE_ID, n.NOTE_NM, d.NOTE_VRSN_NBR, d.NOTE_OVRD_STTS ,n.NOTE_TXT,n.LGCY_IND 
+					FROM NMST_NOTE_MSTR n, TIER_NOTE_OVRD_VAL d
+					WHERE n.NOTE_ID = d.NOTE_ID AND
+					n.NOTE_VRSN_NBR = d.NOTE_VRSN_NBR AND
+					d.BNFT_CMPNT_SYS_ID = {0} AND
+					d.PRMRY_ENTY_ID = to_char({1}) AND
+					d.PRMRY_ENTY_TYPE = {2} AND
+					d.SCNDRY_ENTY_ID = to_char({3}) AND
+					d.SCNDRY_ENTY_TYPE = {4} AND
+					d.TIER_SYS_ID = {5} ORDER BY n.NOTE_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="benefitLevelTierNotesForView">
+				SELECT n.NOTE_ID, n.NOTE_NM, d.NOTE_VRSN_NBR, d.NOTE_OVRD_STTS ,n.NOTE_TXT,n.LGCY_IND 
+					FROM NMST_NOTE_MSTR n, TIER_NOTE_OVRD_VAL d
+					WHERE n.NOTE_ID = d.NOTE_ID AND
+					n.NOTE_VRSN_NBR = d.NOTE_VRSN_NBR AND
+					d.BNFT_CMPNT_SYS_ID = {0} AND
+					d.PRMRY_ENTY_ID = to_char({1}) AND
+					d.PRMRY_ENTY_TYPE = {2} AND
+					d.SCNDRY_ENTY_ID = to_char({3}) AND
+					d.SCNDRY_ENTY_TYPE = {4} AND
+					d.TIER_SYS_ID = {5} AND
+					d.NOTE_OVRD_STTS = 'F' ORDER BY n.NOTE_NM
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getAssociatedEntityListForTier">
+					SELECT n.NOTE_ID,n.NOTE_NM,d.NOTE_VRSN_NBR,d.NOTE_OVRD_STTS,n.NOTE_TXT,n.LGCY_IND  
+						FROM NMST_NOTE_MSTR n,TIER_NOTE_OVRD_VAL d  WHERE
+						n.NOTE_ID = d.NOTE_ID AND 
+						n.NOTE_VRSN_NBR = d.NOTE_VRSN_NBR AND
+						d.BNFT_CMPNT_SYS_ID = {0} AND
+						d.PRMRY_ENTY_ID = to_char({1}) AND d.PRMRY_ENTY_TYPE ={2} AND 
+						d.SCNDRY_ENTY_ID = to_char({3}) AND d.SCNDRY_ENTY_TYPE = {4} AND d.TIER_SYS_ID = {5} AND
+						d.NOTE_OVRD_STTS ='F' ORDER BY n.NOTE_NM	
+			</SelectSQLQuery>
+			<DataObject name="TIER_NOTE_OVRD_VAL">
+			    <DataObjectAttribute name="NOTE_ID"    				type="String"/>
+			    <DataObjectAttribute name="NOTE_NM"    				type="String"/>
+			    <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+			    <DataObjectAttribute name="NOTE_STTS_CD"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_TXT"    			type="String"/>
+     			<DataObjectAttribute name="LGCY_IND"    			type="String"/>
+     			<DataObjectAttribute name="PRMRY_ENTY_ID"    		type="Int"/>
+     			<DataObjectAttribute name="SCNDRY_ENTY_ID"    		type="Int"/>
+     			<DataObjectAttribute name="PRMRY_ENTY_TYPE"    		type="String"/>
+     			<DataObjectAttribute name="SCNDRY_ENTY_TYPE"    	type="String"/>
+     			<DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	type="Int"/>
+     			<DataObjectAttribute name="TIER_SYS_ID"    			type="Int"/>
+     			<DataObjectAttribute name="NOTE_OVRD_STTS"    		type="String"/>
+     			<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+     			<DataObjectAttribute name="LST_CHG_TMS"    			type="String"/>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="TIER_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_OVRD_STTS"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitLevelTierNotes"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="TIER_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_OVRD_STTS"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitLevelTierNotesForView"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="TIER_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_OVRD_STTS"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityListForTier"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="update">
+			     	<SQLQuery>
+						UPDATE TIER_NOTE_OVRD_VAL SET NOTE_OVRD_STTS = ?,
+						LST_CHG_USR = ?,
+						LST_CHG_TMS = ?
+						WHERE PRMRY_ENTY_ID = ? and 
+						PRMRY_ENTY_TYPE =? and 
+						SCNDRY_ENTY_ID =? and 
+						SCNDRY_ENTY_TYPE =? and 
+						NOTE_ID =? and
+						BNFT_CMPNT_SYS_ID = ? and 
+						NOTE_VRSN_NBR=? and
+                        TIER_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_OVRD_STTS"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="3" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="6" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="7" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="8" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="9" name="NOTE_VRSN_NBR"/>
+					<DataObjectAttributeInput index="10" name="TIER_SYS_ID"/>
+					
+			    </SQLTemplate>
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_ID"    			toBOAttb="noteId"/>	
+			        <Pair DOAttb="NOTE_NM"    			toBOAttb="noteName"/>		       
+					<Pair DOAttb="NOTE_STTS_CD"    		toBOAttb="status"/>
+					<Pair DOAttb="NOTE_TXT"    			toBOAttb="noteDesc"/>			       
+					<Pair DOAttb="NOTE_VRSN_NBR"    	toBOAttb="version"/>		       
+					<Pair DOAttb="LGCY_IND"    			toBOAttb="legacyIndicator"/>		       
+					<Pair DOAttb="NOTE_OVRD_STTS"    	toBOAttb="overrideStatus"/>	
+					<Pair DOAttb="LST_CHG_USR"    		toBOAttb="lastUpdatedUser"/>		       
+					<Pair DOAttb="LST_CHG_TMS"    		toBOAttb="lastUpdatedTimestamp"/>	
+					<Pair DOAttb="PRMRY_ENTY_ID"    	toBOAttb="primaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    	toBOAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    	toBOAttb="secondaryEntityType"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    toBOAttb="benefitComponentId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"   	toBOAttb="primaryEntityType"/>
+			        <Pair DOAttb="TIER_SYS_ID"   		toBOAttb="tierSysId"/>
+			    </DoAttributeToBOAttributeMap>	
+
+				 <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="PRMRY_ENTY_ID"    		toSCAttb="primaryEntityId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"   		toSCAttb="primaryEntityType"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    		toSCAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    		toSCAttb="secondaryEntityType"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    	toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="TIER_SYS_ID"    			toSCAttb="tierSysId"/>
+			    </DoAttributeToSCAttributeMap>			    
+			
+			</DataObject>  
+			<DataObject name="NMST_NOTE_MSTR">
+			    <DataObjectAttribute name="NOTE_ID"    				type="String"/>
+			    <DataObjectAttribute name="NOTE_NM"    				type="String"/>
+			    <DataObjectAttribute name="NOTE_TXT"    			type="String"/>
+			    <DataObjectAttribute name="NOTE_TYPE"    			type="String"/>
+			    <DataObjectAttribute name="NOTE_STTS_CD"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+			    <DataObjectAttribute name="NOTE_PARNT_SYS_ID"    	type="Int"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				 <DataObjectAttribute name="LGCY_IND"    			type="String"/>
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>		
+						<ResultIndex index="4" dataObjectAttribName ="NOTE_TXT"/>		
+						<ResultIndex index="5" dataObjectAttribName ="LGCY_IND"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitLevelTierNotes"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>		
+						<ResultIndex index="4" dataObjectAttribName ="NOTE_TXT"/>		
+						<ResultIndex index="5" dataObjectAttribName ="LGCY_IND"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="benefitLevelTierNotesForView"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>		
+						<ResultIndex index="4" dataObjectAttribName ="NOTE_TXT"/>		
+						<ResultIndex index="5" dataObjectAttribName ="LGCY_IND"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityListForTier"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="LGCY_IND"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideLookUpQuery"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+						<ResultIndex index="4" dataObjectAttribName ="LGCY_IND"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityListForOverride"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedNotesDatafeed"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitNotesDatafeed"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>	
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBCNotesDatafeed"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>
+						<ResultIndex index="4" dataObjectAttribName ="NOTE_TXT"/>
+						<ResultIndex index="5" dataObjectAttribName ="LGCY_IND"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideBenefitLevelLookUpQuery"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_NM"/>	
+				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideBenefitLookUpQuery"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>	
+				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="questionNotePopUpQuery"/>
+			 	</SQLTemplate>
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>	
+				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getOverridedNote"/>
+			 	</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedContractAdminOptionNotesDatafeed"/>
+			 	</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>	
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_TXT"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdminOptionNotesDatafeed"/>
+			 	</SQLTemplate>
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_ID"    			toBOAttb="noteId"/>	
+			        <Pair DOAttb="NOTE_NM"    			toBOAttb="noteName"/>		       
+					<Pair DOAttb="NOTE_STTS_CD"    		toBOAttb="status"/>
+					<Pair DOAttb="NOTE_TXT"    			toBOAttb="noteDesc"/>			       
+					<Pair DOAttb="NOTE_VRSN_NBR"    	toBOAttb="version"/>		       
+					<Pair DOAttb="LST_CHG_USR"    		toBOAttb="lastUpdatedUser"/>		       
+					<Pair DOAttb="LST_CHG_TMS"    		toBOAttb="lastUpdatedTimestamp"/>
+					<Pair DOAttb="LGCY_IND"    			toBOAttb="legacyIndicator"/>		       
+			    </DoAttributeToBOAttributeMap>		    
+			
+			</DataObject>  
+				<DataObject name="NOTE_DOMAIN_OVRD_VAL">
+			    <DataObjectAttribute name="PRMRY_ENTY_ID"    		type="Int"/>
+			    <DataObjectAttribute name="PRMRY_ENTY_TYPE"    		type="String"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_ID"    		type="Int"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_TYPE"    	type="String"/>
+			    <DataObjectAttribute name="NOTE_ID"    				type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	type="Int"/>
+				<DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+				<DataObjectAttribute name="NOTE_OVRD_STTS"    		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>	
+				<DataObjectAttribute name="ENTITY_ID_LIST"    		type="Int"/>
+				<DataObjectAttribute name="REFERENCE_CODE"    		type="String"/>
+				<DataObjectAttribute name="BENEFIT_ID"    			type="Int"/>
+				<DataObjectAttribute name="BENEFIT_DEFN_ID"    		type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    	type="Int"/>
+				<DataObjectAttribute name="ENTY_SYS_ID"    			type="String"/>
+				<DataObjectAttribute name="SEARCH_STRING" 			type="String" />
+				<DataObjectAttribute name="SQNC_NBR"    			type="Int"/>
+				<DataObjectAttribute name="QSTNR_DSPLY_SQNC_NBR"    type="Int"/>
+				<DataObjectAttribute name="ENTY_TYPE"    			type="String"/>
+				<DataObjectAttribute name="SCNDRY_ENTY_ID_LIST"    	type="Int"/>
+
+
+			    <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO NOTE_DOMAIN_OVRD_VAL ( PRMRY_ENTY_ID, PRMRY_ENTY_TYPE, SCNDRY_ENTY_ID, 
+							SCNDRY_ENTY_TYPE, NOTE_ID, BNFT_CMPNT_SYS_ID,NOTE_VRSN_NBR,NOTE_OVRD_STTS,CREATD_USR_ID,CREATD_TM_STMP,LST_CHG_USR,LST_CHG_TMS, BNFT_DEFN_SYS_ID)
+			            VALUES(?, ?, ?, ?, ?, ?,?,'F',?,?,?,?, to_number(?))
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="4" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="5" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="6" name="NOTE_VRSN_NBR"/>
+					<DataObjectAttributeInput index="7" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="8" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="9" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="10" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="11" name="BENEFIT_DEFN_ID"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="update">
+			     	<SQLQuery>
+						UPDATE NOTE_DOMAIN_OVRD_VAL SET NOTE_OVRD_STTS = ?,
+						LST_CHG_USR = ?,
+						LST_CHG_TMS = ?
+						WHERE PRMRY_ENTY_ID = ? and 
+						PRMRY_ENTY_TYPE =? and 
+						SCNDRY_ENTY_ID =? and 
+						SCNDRY_ENTY_TYPE =? and 
+						NOTE_ID =? and
+						BNFT_CMPNT_SYS_ID = ? and 
+						NOTE_VRSN_NBR=?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_OVRD_STTS"/>
+			        <DataObjectAttributeInput index="3" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="6" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="7" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="8" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="9" name="NOTE_VRSN_NBR"/>
+					<DataObjectAttributeInput index="1" name="LST_CHG_USR"/>
+					<DataObjectAttributeInput index="2" name="LST_CHG_TMS"/>
+					
+			    </SQLTemplate>
+				 <SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM NOTE_DOMAIN_OVRD_VAL WHERE PRMRY_ENTY_ID = ? and PRMRY_ENTY_TYPE =? and SCNDRY_ENTY_ID =?
+						and SCNDRY_ENTY_TYPE =? and BNFT_CMPNT_SYS_ID = ? and NOTE_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="3" name="SCNDRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="4" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="NOTE_ID"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkLegacyNotesExist"/>
+			    </SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideLookUpQuery"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="3" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="6" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedEntityListForOverride"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="ENTITY_ID_LIST"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="5" name="BENEFIT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="SCNDRY_ENTY_ID"/>
+						<ResultIndex index="6" dataObjectAttribName ="REFERENCE_CODE"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedNotesDatafeed"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="ENTITY_ID_LIST"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="BNFT_CMPNT_SYS_ID"/>
+						<ResultIndex index="5" dataObjectAttribName ="SCNDRY_ENTY_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitNotesDatafeed"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="ENTITY_ID_LIST"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="4" dataObjectAttribName ="SCNDRY_ENTY_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBCNotesDatafeed"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_OVRD_STTS"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideBenefitLevelLookUpQuery"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="2" dataObjectAttribName ="SCNDRY_ENTY_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="SCNDRY_ENTY_TYPE"/>
+						<ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="overrideBenefitLookUpQuery"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					
+					<DataObjectAttributeInput index="1" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="2"	name="SEARCH_STRING" />
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="questionNotePopUpQuery"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="3"	name="SCNDRY_ENTY_TYPE" />
+					<DataObjectAttributeInput index="4" name="ADQM_ADMN_QSTN_NBR"/>
+			        <DataObjectAttributeInput index="5" name="BENEFIT_DEFN_ID"/>
+					<DataObjectAttributeInput index="6"	name="BNFT_CMPNT_SYS_ID" />
+					<DataObjectAttributeInput index="7"	name="SEARCH_STRING" />
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getOverridedNote"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTITY_ID_LIST"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="4" dataObjectAttribName ="REFERENCE_CODE"/>	
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="6" dataObjectAttribName ="QSTNR_DSPLY_SQNC_NBR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedContractAdminOptionNotesDatafeed"/>
+			 	</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID_LIST"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="4" name="BNFT_CMPNT_SYS_ID"/>
+			        <DataObjectAttributeInput index="5" name="ENTITY_ID_LIST"/>
+			        <DataObjectAttributeInput index="6" name="BENEFIT_ID"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="4" dataObjectAttribName ="REFERENCE_CODE"/>	
+						<ResultIndex index="5" dataObjectAttribName ="SQNC_NBR"/>
+						<ResultIndex index="6" dataObjectAttribName ="QSTNR_DSPLY_SQNC_NBR"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAssociatedBenefitAdminOptionNotesDatafeed"/>
+			 	</SQLTemplate>
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_ID"    				toBOAttb="noteId"/>
+			        <Pair DOAttb="PRMRY_ENTY_ID"    		toBOAttb="primaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    		toBOAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    		toBOAttb="secondaryEntityType"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    	toBOAttb="benefitComponentId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"   		toBOAttb="primaryEntityType"/>
+					 <Pair DOAttb="NOTE_VRSN_NBR"    		toBOAttb="version"/>
+					<Pair DOAttb="NOTE_OVRD_STTS"    		toBOAttb="overrideStatus"/>	
+					<Pair DOAttb="LST_CHG_USR"    			toBOAttb="lastUpdatedUser"/>		       
+					<Pair DOAttb="LST_CHG_TMS"    			toBOAttb="lastUpdatedTimestamp"/>	
+					<Pair DOAttb="CREATD_USER_ID"    		toBOAttb="createdUser"/>		       
+					<Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="REFERENCE_CODE"    		toBOAttb="referenceCode"/>	
+					<Pair DOAttb="BENEFIT_DEFN_ID"    		toBOAttb="bnftDefnIdString"/>	
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"    	toBOAttb="questionNumber"/>
+					<Pair DOAttb="ENTY_SYS_ID"    			toBOAttb="entityId"/>
+					<Pair DOAttb="SQNC_NBR"    				toBOAttb="sequenceNumber"/>	
+					<Pair DOAttb="QSTNR_DSPLY_SQNC_NBR"    	toBOAttb="questionnaireSequenceNumber"/>	
+			    </DoAttributeToBOAttributeMap>
+			
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="PRMRY_ENTY_ID"    		toSCAttb="primaryEntityId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"    		toSCAttb="primaryEntityType"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    		toSCAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    		toSCAttb="secondaryEntityType"/>
+			        <Pair DOAttb="NOTE_ID"    				toSCAttb="noteId"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    	toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="ENTITY_ID_LIST"    		toSCAttb="EntityIdsList"/>
+					<Pair DOAttb="BENEFIT_ID"    			toSCAttb="benefitId"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"    	toSCAttb="questionNumber"/>
+					<Pair DOAttb="BENEFIT_DEFN_ID"    		toSCAttb="bnftDefnIdString"/>
+					<Pair DOAttb="ENTY_SYS_ID"    			toSCAttb="entityId"/>
+					<Pair DOAttb="SEARCH_STRING"   			toSCAttb="searchString" />
+					<Pair DOAttb="ENTY_TYPE"    			toSCAttb="entityType"/>
+					<Pair DOAttb="SCNDRY_ENTY_ID_LIST"    	toSCAttb="secondaryEntityList"/>
+			    </DoAttributeToSCAttributeMap>			
+			</DataObject>
+		</DataSource>
+</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.NotesAttachmentDomainOverrideBO">		
+		<BusinessAttribute name="noteId" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteName" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityId" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityType" 			    	type="String"	 	keyAttrib="true"/>
+		<BusinessAttribute name="secondaryEntityId" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="secondaryEntityType" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="term" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="qualifier" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteDesc" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentHirAssnId" 			    	type="Int"	 	keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="noteId" 	type="Int"/>
+			<SearchCriteriaAttribute name="entityType" type="String"/>
+			<SearchCriteriaAttribute name="entityId" type="Int"/>
+			<SearchCriteriaAttribute name="primaryEntityId" type="Int"/>
+			<SearchCriteriaAttribute name="secondaryEntityId" type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" type="Int"/>
+			<SearchCriteriaAttribute name="primaryEntityType" type="String"/>
+			<SearchCriteriaAttribute name="secondaryEntityType" type="String"/>
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+				<SelectSQLQuery>
+					SELECT NOTE_ID FROM NOTE_DOMAIN_OVRD_VAL 
+				</SelectSQLQuery>
+			<DataObject name="NOTE_DOMAIN_OVRD_VAL">
+			    <DataObjectAttribute name="PRMRY_ENTY_ID"    type="Int"/>
+			    <DataObjectAttribute name="PRMRY_ENTY_TYPE"    type="String"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_ID"    type="Int"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_TYPE"    type="String"/>
+			    <DataObjectAttribute name="NOTE_ID"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    type="Int"/>
+				
+				<SQLTemplate transType="select">
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>			          	
+					</RSIndexToDOAttributeMap>		
+			 	</SQLTemplate>			
+
+				
+				 <SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM NOTE_DOMAIN_OVRD_VAL  WHERE PRMRY_ENTY_ID = ? and PRMRY_ENTY_TYPE =? and BNFT_CMPNT_SYS_ID = ? 
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="BNFT_CMPNT_SYS_ID"/>
+				</SQLTemplate>
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+						<Pair DOAttb="PRMRY_ENTY_ID"	toBOAttb="primaryEntityId"/>
+						<Pair DOAttb="PRMRY_ENTY_TYPE"	toBOAttb="primaryEntityType"/>
+						<Pair DOAttb="BNFT_CMPNT_SYS_ID"	toBOAttb="benefitComponentId"/>	
+				</DoAttributeToBOAttributeMap>
+
+				
+			
+			
+			</DataObject>
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.benefitlevel.bo.NotesBOForBnftLine">		
+		<BusinessAttribute name="noteId" 			    	type="String"	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status" 			    	type="String"	 	keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="bnftLineId" 	type="Int"/>			
+			<SearchCriteriaAttribute name="bnftQualifierCode" type="List"/>
+			<SearchCriteriaAttribute name="bnftTermCode" type="List"/>
+			<SearchCriteriaAttribute name="noOfTerms" type="Int"/>
+			<SearchCriteriaAttribute name="noteFilterString" type="String"/>
+			<SearchCriteriaAttribute name="bnftDefnId" type="Int"/>
+
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="searchNotesListForBnftLine">
+				
+				SELECT NOTES_TERM.NOTE_ID,NOTES_TERM.maxver, mstr.NOTE_NM, mstr.NOTE_STTS_CD
+					FROM 
+					(SELECT asn.NOTE_ID NOTE_ID,max(asn.NOTE_VRSN_NBR) maxver
+						FROM 
+						NOTE_DOMN_ASSN asn,
+						NMST_NOTE_MSTR mstr
+						WHERE 
+						asn.ENTY_TYPE = 'AVAILTERM' AND 
+						asn.ENTY_SYS_ID {0} AND
+						asn.NOTE_ID = mstr.NOTE_ID AND
+						asn.NOTE_VRSN_NBR = (SELECT MAX(NOTE_VRSN_NBR) FROM NMST_NOTE_MSTR WHERE NOTE_ID = asn.NOTE_ID AND NOTE_STTS_CD = 'PUBLISHED') AND
+						mstr.NOTE_STTS_CD = 'PUBLISHED'AND 
+						asn.note_id NOT IN
+									    (SELECT note_id
+									     FROM note_domn_assn
+									     WHERE enty_type = 'AVAILQUALIFIER')
+						GROUP BY asn.NOTE_ID
+						--HAVING COUNT(DISTINCT(asn.ENTY_SYS_ID)) >={1}
+					) NOTES_TERM,
+					NMST_NOTE_MSTR MSTR
+					WHERE
+					MSTR.NOTE_ID = NOTES_TERM.NOTE_ID and
+					MSTR.NOTE_NM LIKE UPPER({3}) AND
+					MSTR.NOTE_VRSN_NBR = NOTES_TERM.maxver AND
+					NOTES_TERM.NOTE_ID NOT IN (SELECT DISTINCT NOTE_ID FROM NOTE_DOMN_ASSN WHERE ENTY_SYS_ID = to_char({2}) AND BNFT_DEFN_SYS_ID = {4} AND ENTY_TYPE = 'ATTACHBNFTLINE')
+					AND MSTR.NOTE_STTS_CD = 'PUBLISHED'
+					UNION 
+					SELECT DISTINCT N.NOTE_ID, MAX (N.NOTE_VRSN_NBR), N.NOTE_NM, N.NOTE_STTS_CD
+					FROM NMST_NOTE_MSTR N,
+					            (SELECT DISTINCT D.NOTE_ID FROM NOTE_DOMN_ASSN D, 
+					            (SELECT N.NOTE_ID, N.NOTE_NM, MAX (N.NOTE_VRSN_NBR) NOTE_VRSN_NBR
+					             FROM NOTE_DOMN_ASSN D, 
+					                  NMST_NOTE_MSTR N
+					             WHERE D.NOTE_ID = N.NOTE_ID 
+					               AND D.NOTE_VRSN_NBR=N.NOTE_VRSN_NBR 
+								   AND N.NOTE_NM LIKE UPPER({3})
+					               AND N.NOTE_STTS_CD='PUBLISHED'
+								   AND N.LGCY_IND ='N'
+					             GROUP BY N.NOTE_ID, N.NOTE_NM 
+					            ) N
+					            WHERE D.NOTE_ID = N.NOTE_ID 
+					              AND D.NOTE_VRSN_NBR=N.NOTE_VRSN_NBR 
+					              AND D.ENTY_TYPE ='SYSTEM DOMAIN'
+					            MINUS
+					SELECT DISTINCT a.NOTE_ID FROM NOTE_DOMN_ASSN a, nmst_note_mstr b WHERE a.ENTY_TYPE 
+					IN ('AVAILBENEFIT', 'AVAILCOMP', 'AVAILPRODUCT','AVAILQUALIFIER','AVAILTERM','AVAILQUESTION') and b.note_stts_cd='PUBLISHED'
+          			and a.note_id=b.note_id and a.note_vrsn_nbr=b.note_vrsn_nbr group by a.NOTE_ID
+					) D 
+					WHERE D.NOTE_ID = N.NOTE_ID 
+					AND N.NOTE_STTS_CD='PUBLISHED'
+					AND N.NOTE_ID NOT IN (SELECT DISTINCT NOTE_ID FROM NOTE_DOMN_ASSN WHERE ENTY_SYS_ID = to_char({2}) AND BNFT_DEFN_SYS_ID = {4} AND ENTY_TYPE = 'ATTACHBNFTLINE')
+					GROUP BY N.NOTE_ID, N.NOTE_NM, N.NOTE_STTS_CD
+				
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="searchNotesListForBnftLineWithQualifier">
+				
+				SELECT 
+					NOTES_TERM.noteId,NOTES_TERM.maxver, mstr.NOTE_NM, mstr.NOTE_STTS_CD
+					FROM 
+					(
+                      select A.NOTE_ID noteId, max(A.NOTE_VRSN_NBR) maxver from NOTE_DOMN_ASSN A,
+                          NMST_NOTE_MSTR B, 
+							(SELECT asn.NOTE_ID NOTE_ID
+                          FROM 
+                          NOTE_DOMN_ASSN asn,
+                          NMST_NOTE_MSTR mstr
+                          WHERE 
+                            (asn.enty_type IN ('AVAILQUALIFIER')) and
+                          asn.NOTE_ID = mstr.NOTE_ID AND
+                          asn.NOTE_VRSN_NBR = (SELECT MAX(NOTE_VRSN_NBR) FROM NMST_NOTE_MSTR WHERE NOTE_ID = asn.NOTE_ID AND NOTE_STTS_CD = 'PUBLISHED') AND
+                          mstr.NOTE_STTS_CD = 'PUBLISHED'
+                          GROUP BY asn.NOTE_ID)e where 
+                        A.NOTE_ID= e.NOTE_ID(+) and e.NOTE_ID is null and enty_type in ('AVAILTERM') and enty_sys_id {0}
+						and B.NOTE_ID = A.NOTE_ID and B.NOTE_VRSN_NBR = A.NOTE_VRSN_NBR and B.NOTE_STTS_CD = 'PUBLISHED'
+                            GROUP BY A.NOTE_ID
+
+                            UNION 
+                            
+                        select A.NOTE_ID noteId, max(A.NOTE_VRSN_NBR) maxver from NOTE_DOMN_ASSN A,
+                          NMST_NOTE_MSTR B, (SELECT asn.NOTE_ID NOTE_ID
+                          FROM 
+                          NOTE_DOMN_ASSN asn,
+                          NMST_NOTE_MSTR mstr
+                          WHERE 
+                            (asn.enty_type IN ('AVAILTERM')) and
+                            (asn.enty_sys_id  {0}) and
+                          asn.NOTE_ID = mstr.NOTE_ID AND
+                          asn.NOTE_VRSN_NBR = (SELECT MAX(NOTE_VRSN_NBR) FROM NMST_NOTE_MSTR WHERE NOTE_ID = asn.NOTE_ID AND NOTE_STTS_CD = 'PUBLISHED') AND
+                          mstr.NOTE_STTS_CD = 'PUBLISHED'
+                          GROUP BY asn.NOTE_ID) l  where 
+                        A.NOTE_ID = l.NOTE_ID and enty_type in ('AVAILQUALIFIER') and enty_sys_id {2}
+							and B.NOTE_ID = A.NOTE_ID and B.NOTE_VRSN_NBR = A.NOTE_VRSN_NBR and B.NOTE_STTS_CD = 'PUBLISHED'
+                            GROUP BY A.NOTE_ID
+					) NOTES_TERM,                                       
+					NMST_NOTE_MSTR MSTR,
+					(SELECT DISTINCT NOTE_ID FROM NOTE_DOMN_ASSN WHERE ENTY_SYS_ID = {3} AND BNFT_DEFN_SYS_ID = {5} AND ENTY_TYPE = 'ATTACHBNFTLINE') k
+					WHERE 
+					MSTR.NOTE_ID = NOTES_TERM.noteId and
+					MSTR.NOTE_NM LIKE {4} AND
+					MSTR.NOTE_VRSN_NBR = NOTES_TERM.maxver AND
+					NOTES_TERM.noteId = k.NOTE_ID(+) and k.NOTE_ID is null
+					AND MSTR.NOTE_STTS_CD = 'PUBLISHED'
+
+					UNION 
+
+					SELECT N.NOTE_ID, MAX (N.NOTE_VRSN_NBR), N.NOTE_NM, N.NOTE_STTS_CD
+					FROM NMST_NOTE_MSTR N,
+					            (SELECT DISTINCT D.NOTE_ID FROM NOTE_DOMN_ASSN D, 
+					            (SELECT N.NOTE_ID, N.NOTE_NM, MAX (N.NOTE_VRSN_NBR) NOTE_VRSN_NBR
+					             FROM NOTE_DOMN_ASSN D, 
+					                  NMST_NOTE_MSTR N
+					             WHERE D.NOTE_ID = N.NOTE_ID 
+					               AND D.NOTE_VRSN_NBR=N.NOTE_VRSN_NBR 
+								   AND N.NOTE_NM LIKE {4}
+					               AND N.NOTE_STTS_CD='PUBLISHED'
+								   AND N.LGCY_IND ='N'
+					             GROUP BY N.NOTE_ID, N.NOTE_NM 
+					            ) N
+					            WHERE D.NOTE_ID = N.NOTE_ID 
+					              AND D.NOTE_VRSN_NBR=N.NOTE_VRSN_NBR 
+					              AND D.ENTY_TYPE ='SYSTEM DOMAIN'
+					            MINUS
+					            
+					SELECT DISTINCT a.NOTE_ID FROM NOTE_DOMN_ASSN a, nmst_note_mstr b WHERE a.ENTY_TYPE 
+					IN ('AVAILBENEFIT', 'AVAILCOMP', 'AVAILPRODUCT','AVAILQUALIFIER','AVAILTERM','AVAILQUESTION') and b.note_stts_cd='PUBLISHED'
+          			and a.note_id=b.note_id and a.note_vrsn_nbr=b.note_vrsn_nbr group by a.NOTE_ID
+					) D,
+					(SELECT DISTINCT NOTE_ID FROM NOTE_DOMN_ASSN WHERE ENTY_SYS_ID = {3}
+                                        AND BNFT_DEFN_SYS_ID = {5} AND ENTY_TYPE = 'ATTACHBNFTLINE') f 
+					WHERE D.NOTE_ID = N.NOTE_ID 
+					AND N.NOTE_STTS_CD='PUBLISHED'
+					AND N.NOTE_ID = f.NOTE_ID(+) and  f.NOTE_ID is null
+					GROUP BY N.NOTE_ID, N.NOTE_NM, N.NOTE_STTS_CD
+			
+			</SelectSQLQuery>
+			
+			 <DataObject name="NOTE_DOMN_ASSN">
+				<DataObjectAttribute name="NOTE_ID" 		type="String"	/>
+				<DataObjectAttribute name="ENTY_SYS_ID_TERM" 		type="Int"	/>
+				<DataObjectAttribute name="ENTY_SYS_ID_QUALIFIER" 		type="Int"	/>
+				<DataObjectAttribute name="NO_OF_TERMS" 		type="Int"	/>
+				<DataObjectAttribute name="BNFT_LINE_ID" 		type="Int"	/>
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				<DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+				<DataObjectAttribute name="NOTE_NM"    				type="String"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"    				type="Int"/>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID_TERM"/>
+					<DataObjectAttributeInput index="1" name="NO_OF_TERMS"/>
+			        <DataObjectAttributeInput index="2" name="BNFT_LINE_ID"/>
+					<DataObjectAttributeInput index="3" name="NOTE_NM"/>
+					<DataObjectAttributeInput index="4" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+					</RSIndexToDOAttributeMap>		
+					<SearchQueryName name="searchNotesListForBnftLine"/>
+			 	</SQLTemplate>	
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID_TERM"/>
+					<DataObjectAttributeInput index="1" name="NO_OF_TERMS"/>
+					<DataObjectAttributeInput index="2" name="ENTY_SYS_ID_QUALIFIER"/>
+			        <DataObjectAttributeInput index="3" name="BNFT_LINE_ID"/>
+					<DataObjectAttributeInput index="4" name="NOTE_NM"/>
+					<DataObjectAttributeInput index="5" name="BNFT_DEFN_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+					</RSIndexToDOAttributeMap>		
+					<SearchQueryName name="searchNotesListForBnftLineWithQualifier"/>
+			 	</SQLTemplate>			
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+				</DoAttributeToBOAttributeMap>
+
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID_TERM"    			toSCAttb="bnftTermCode"/>
+					<Pair DOAttb="ENTY_SYS_ID_QUALIFIER"    			toSCAttb="bnftQualifierCode"/> 
+					<Pair DOAttb="BNFT_LINE_ID"    			toSCAttb="bnftLineId"/>  
+					<Pair DOAttb="NO_OF_TERMS"    			toSCAttb="noOfTerms"/>
+					<Pair DOAttb="NOTE_NM"    			toSCAttb="noteFilterString"/>  
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    			toSCAttb="bnftDefnId"/>  
+				</DoAttributeToSCAttributeMap> 
+
+			</DataObject> 
+			<DataObject name="NMST_NOTE_MSTR">
+			    <DataObjectAttribute name="NOTE_ID"    			type="String"/>
+			    <DataObjectAttribute name="NOTE_NM"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_TXT"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_TYPE"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_STTS_CD"    		type="String"/>
+			    <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+			    <DataObjectAttribute name="NOTE_PARNT_SYS_ID"    	type="Int"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				<DataObjectAttribute name="SOURCE_NOTE_ID"    		type="Int"/>
+				
+				<SQLTemplate transType="select">					
+					<RSIndexToDOAttributeMap>
+						  <ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+						  <ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						  <ResultIndex index="3" dataObjectAttribName ="NOTE_STTS_CD"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchNotesListForBnftLine"/>
+			 	</SQLTemplate>	  
+
+				<SQLTemplate transType="select">					
+					<RSIndexToDOAttributeMap>
+						  <ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						  <ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+						  <ResultIndex index="3" dataObjectAttribName ="NOTE_STTS_CD"/>		
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="searchNotesListForBnftLineWithQualifier"/>
+			 	</SQLTemplate>
+				
+			
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_NM"    		toBOAttb="noteName"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"    		toBOAttb="version"/>
+					<Pair DOAttb="NOTE_STTS_CD"    		toBOAttb="status"/>			       
+			    </DoAttributeToBOAttributeMap>		    
+			
+			</DataObject>  
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.NotesBOForDefId">		
+		<BusinessAttribute name="noteId" 			    	type="String"  	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteText" 			    	type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="entityId" 			    	type="Int"	 	keyAttrib="true"/>
+		<BusinessAttribute name="entityType" 			    type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    	type="Int"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitDefinitionKey" 		type="String"	 	keyAttrib="false"/>
+
+		<SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="noteId" 	type="Int"/>
+			<SearchCriteriaAttribute name="entityType" type="String"/>
+			<SearchCriteriaAttribute name="entityId" type="Int"/>
+			<SearchCriteriaAttribute name="version" type="Int"/>
+			
+
+	    </SearchCriteria>
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="getAssociatedEntityListNull">
+				SELECT d.NOTE_ID ,n.NOTE_NM,n.NOTE_TXT,d.NOTE_VRSN_NBR FROM NOTE_DOMN_ASSN d, NMST_NOTE_MSTR n WHERE
+				d.NOTE_ID = n.NOTE_ID AND
+				d.NOTE_VRSN_NBR = n.NOTE_VRSN_NBR AND
+				d.ENTY_SYS_ID = to_char({0}) AND
+				d.ENTY_TYPE = {1} AND d.BNFT_DEFN_SYS_ID is NULL ORDER BY n.NOTE_NM		
+			</SelectSQLQuery>
+		 
+			 <DataObject name="NOTE_DOMN_ASSN">
+				<DataObjectAttribute name="NOTE_ID" 				type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 			type="Int"/>
+				<DataObjectAttribute name="ENTY_TYPE" 				type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+				 <DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+				 <DataObjectAttribute name="BNFT_DEFN_SYS_ID"    		type="String"/>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>			          	
+					</RSIndexToDOAttributeMap>		
+					<SearchQueryName name="getAssociatedEntityListNull"/>
+			 	</SQLTemplate>
+	
+			<SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM NOTE_DOMN_ASSN WHERE NOTE_ID = ? and ENTY_SYS_ID = to_char(?) and ENTY_TYPE =? and BNFT_DEFN_SYS_ID is NULL
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+					
+	  			</SQLTemplate>			
+	  			
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+						<Pair DOAttb="ENTY_SYS_ID"	toBOAttb="entityId"/>
+						<Pair DOAttb="ENTY_TYPE"	toBOAttb="entityType"/>
+						<Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+				        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+				        <Pair DOAttb="CREATD_USER_ID"    				toBOAttb="createdUser"/>
+				        <Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+						<Pair DOAttb="NOTE_VRSN_NBR"    		toBOAttb="version"/>
+						<Pair DOAttb="BNFT_DEFN_SYS_ID"    		toBOAttb="benefitDefinitionKey"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="ENTY_SYS_ID"    			toSCAttb="entityId"/>	   
+					<Pair DOAttb="ENTY_TYPE"    			toSCAttb="entityType"/>
+					<Pair DOAttb="NOTE_ID"    			toSCAttb="noteId"/>	 
+					<Pair DOAttb="NOTE_VRSN_NBR"    			toSCAttb="version"/>	 	   					 	   
+				</DoAttributeToSCAttributeMap> 
+				
+			</DataObject> 
+			
+
+		</DataSource>
+	</BusinessObjectMetadata>
+
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.TierNotesAttachmentOverrideBO">		
+		<BusinessAttribute name="noteId" 			    		type="String"	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityId" 				type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="primaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="secondaryEntityId" 			type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="secondaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId" 			type="Int"	 		keyAttrib="true"/>
+		<BusinessAttribute name="noteDesc" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    		type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 					type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 				type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 				type="String"		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 			type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="overrideStatus" 				type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="bnftDefnIdString" 		   		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="questionNumber" 		   		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="benefitId" 		   			type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="entityId" 		   				type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="questionnaireSequenceNumber" 	type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="sequenceNumber" 		   	  	type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="tierSysId" 		   	  	type="Int"	 		keyAttrib="false"/>
+
+		 <SearchCriteria name="searchCriteria">	
+	  		<SearchCriteriaAttribute name="primaryEntityId" 				type="Int"/>
+			<SearchCriteriaAttribute name="primaryEntityType" 				type="String"/>
+			<SearchCriteriaAttribute name="secondaryEntityId" 				type="Int"/>
+			<SearchCriteriaAttribute name="secondaryEntityType" 			type="String"/>
+			<SearchCriteriaAttribute name="questionNumber" 					type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 				type="Int"/>
+			<SearchCriteriaAttribute name="bnftDefnIdString" 				type="String"/>
+			<SearchCriteriaAttribute name="searchString" 					type="String"/>
+			<SearchCriteriaAttribute name="tierSysId" 						type="Int"/>
+	    </SearchCriteria>
+                
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+		<SelectSQLQuery name="questionNotePopUpQuery" dynamic="true">
+				<STATIC><![CDATA[select unique a.note_id, 
+					b.NOTE_VRSN_NBR,b.NOTE_NM
+					from NOTE_DOMN_ASSN a,NMST_NOTE_MSTR b  
+					where a.ENTY_SYS_ID IN (select ADQM_QSTN_MSTR_PARNT_SYS_ID from ADQM_ADMN_QSTN_MSTR where ADQM_ADMN_QSTN_NBR = {0}) 
+					and a.ENTY_TYPE='AVAILQUESTION' and a.NOTE_ID = b.NOTE_ID and a.NOTE_VRSN_NBR=b.NOTE_VRSN_NBR
+					and b.NOTE_VRSN_NBR IN(select max(NOTE_VRSN_NBR) 
+					from NMST_NOTE_MSTR where note_id=a.note_id and NOTE_STTS_CD='PUBLISHED') ]]></STATIC>
+				<DYNAMIC><![CDATA[and b.NOTE_NM LIKE upper({1}) escape '\' ]]></DYNAMIC>
+			</SelectSQLQuery>
+			<SelectSQLQuery name="getOverridedNote" dynamic="true">
+				<STATIC><![CDATA[select distinct A.note_id,A.NOTE_VRSN_NBR,B.NOTE_NM from TIER_NOTE_OVRD_VAL A,NMST_NOTE_MSTR B 
+				where A.TIER_SYS_ID={8} and A.PRMRY_ENTY_ID = {0} and A.PRMRY_ENTY_TYPE ={1} and A.SCNDRY_ENTY_ID ={2} 
+				and A.SCNDRY_ENTY_TYPE = {3} and A.ADQM_ADMN_QSTN_NBR = {4} ]]></STATIC>
+				<DYNAMIC><![CDATA[ and A.BNFT_DEFN_SYS_ID ={5}
+				and A.BNFT_CMPNT_SYS_ID ={6}]]></DYNAMIC>
+				<STATIC><![CDATA[ and A.note_id =B.note_id ]]></STATIC>
+				<DYNAMIC><![CDATA[and b.NOTE_NM LIKE upper({7}) escape '\' ]]></DYNAMIC>
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getNoteInfo">
+				select distinct NOTE_ID,NOTE_VRSN_NBR
+				from TIER_NOTE_OVRD_VAL
+				where PRMRY_ENTY_ID = {0} 
+				and PRMRY_ENTY_TYPE={3}
+				and SCNDRY_ENTY_ID = {1}
+				and SCNDRY_ENTY_TYPE = {4}
+				and ADQM_ADMN_QSTN_NBR = {2}
+				and TIER_SYS_ID = {5}
+			</SelectSQLQuery>
+			
+			<DataObject name="TIER_NOTE_OVRD_VAL">
+				<DataObjectAttribute name="PRMRY_ENTY_ID"    		type="Int"/>
+			    <DataObjectAttribute name="PRMRY_ENTY_TYPE"    		type="String"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_ID"    		type="Int"/>
+			    <DataObjectAttribute name="SCNDRY_ENTY_TYPE"    	type="String"/>
+			    <DataObjectAttribute name="NOTE_ID"    				type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    	type="Int"/>
+				<DataObjectAttribute name="NOTE_VRSN_NBR"    		type="Int"/>
+				<DataObjectAttribute name="NOTE_OVRD_STTS"    		type="String"/>
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>	
+				<DataObjectAttribute name="BENEFIT_ID"    			type="Int"/>
+				<DataObjectAttribute name="BNFT_DEFN_SYS_ID"    	type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_NBR"    	type="Int"/>
+				<DataObjectAttribute name="ENTY_SYS_ID"    			type="String"/>
+				<DataObjectAttribute name="SEARCH_STRING" 			type="String" />
+				<DataObjectAttribute name="SQNC_NBR"    			type="Int"/>
+				<DataObjectAttribute name="ENTY_TYPE"    			type="String"/>
+				<DataObjectAttribute name="TIER_SYS_ID"    			type="Int"/>
+				 <DataObjectAttribute name="NOTE_NM"    			type="String"/>
+				
+				
+
+				  <SQLTemplate transType="insert">
+			        <SQLQuery>
+			            INSERT INTO TIER_NOTE_OVRD_VAL (PRMRY_ENTY_ID, PRMRY_ENTY_TYPE, SCNDRY_ENTY_ID, SCNDRY_ENTY_TYPE, BNFT_CMPNT_SYS_ID, 
+														BNFT_DEFN_SYS_ID, ADQM_ADMN_QSTN_NBR, TIER_SYS_ID, NOTE_ID, NOTE_VRSN_NBR, NOTE_OVRD_STTS, 
+														LST_CHG_USR, LST_CHG_TMS, CREATD_TM_STMP, CREATD_USR_ID)
+			            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'F' , ?, ? , ? , ?)
+			        </SQLQuery>
+			        <DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="3" name="SCNDRY_ENTY_TYPE"/>
+ 					<DataObjectAttributeInput index="4" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="5" name="BNFT_DEFN_SYS_ID"/>
+					<DataObjectAttributeInput index="6" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="7" name="TIER_SYS_ID"/>
+			        <DataObjectAttributeInput index="8" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="9" name="NOTE_VRSN_NBR"/>
+					<DataObjectAttributeInput index="10" name="CREATD_USER_ID"/>
+					<DataObjectAttributeInput index="11" name="CREATD_TM_STMP"/>
+					<DataObjectAttributeInput index="12" name="LST_CHG_TMS"/>
+					<DataObjectAttributeInput index="13" name="LST_CHG_USR"/>
+				
+			    </SQLTemplate>
+				<SQLTemplate transType="update">
+					<SQLQuery>
+					update TIER_NOTE_OVRD_VAL set note_id=?, NOTE_VRSN_NBR=?
+					where PRMRY_ENTY_ID=? and PRMRY_ENTY_TYPE=? 
+						and	SCNDRY_ENTY_ID=? and SCNDRY_ENTY_TYPE=? and BNFT_CMPNT_SYS_ID=?
+						and NOTE_OVRD_STTS=? and BNFT_DEFN_SYS_ID=? 
+						and ADQM_ADMN_QSTN_NBR=? and TIER_SYS_ID = ?
+					</SQLQuery>
+						<DataObjectAttributeInput index="1"
+							name="NOTE_ID" />
+						<DataObjectAttributeInput index="2"
+							name="NOTE_VRSN_NBR" />
+						<DataObjectAttributeInput index="3"
+							name="PRMRY_ENTY_ID" />
+						<DataObjectAttributeInput index="4"
+							name="PRMRY_ENTY_TYPE" />
+						<DataObjectAttributeInput index="5"
+							name="SCNDRY_ENTY_ID" />
+						<DataObjectAttributeInput index="6"
+							name="SCNDRY_ENTY_TYPE" />
+						<DataObjectAttributeInput index="7"
+							name="BNFT_CMPNT_SYS_ID" />
+						<DataObjectAttributeInput index="8"
+							name="NOTE_OVRD_STTS" />
+						<DataObjectAttributeInput index="9"
+							name="BNFT_DEFN_SYS_ID" />
+						<DataObjectAttributeInput index="10"
+							name="ADQM_ADMN_QSTN_NBR" />
+						<DataObjectAttributeInput index="11"
+							name="TIER_SYS_ID" />
+				</SQLTemplate>
+				 <SQLTemplate transType="delete">
+					<SQLQuery>
+	  				   DELETE FROM TIER_NOTE_OVRD_VAL 
+					   WHERE TIER_SYS_ID =? and PRMRY_ENTY_ID = ? and PRMRY_ENTY_TYPE =? and SCNDRY_ENTY_ID =?
+							and SCNDRY_ENTY_TYPE =? and BNFT_CMPNT_SYS_ID = ? and NOTE_ID = ? and ADQM_ADMN_QSTN_NBR =?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="TIER_SYS_ID"/>
+					<DataObjectAttributeInput index="1" name="PRMRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="2" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="3" name="SCNDRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="5" name="BNFT_CMPNT_SYS_ID"/>
+					<DataObjectAttributeInput index="6" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="7" name="ADQM_ADMN_QSTN_NBR"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					
+					<DataObjectAttributeInput index="0" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="1"	name="SEARCH_STRING" />
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="questionNotePopUpQuery"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+			        <DataObjectAttributeInput index="1" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="SCNDRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="3"	name="SCNDRY_ENTY_TYPE" />
+					<DataObjectAttributeInput index="4" name="ADQM_ADMN_QSTN_NBR"/>
+			        <DataObjectAttributeInput index="5" name="BNFT_DEFN_SYS_ID"/>
+					<DataObjectAttributeInput index="6"	name="BNFT_CMPNT_SYS_ID" />
+					<DataObjectAttributeInput index="7"	name="SEARCH_STRING" />
+					<DataObjectAttributeInput index="8"	name="TIER_SYS_ID" />
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+						 <ResultIndex index="2" dataObjectAttribName ="NOTE_NM"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getOverridedNote"/>
+			    </SQLTemplate>
+				 <SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="PRMRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="1" name="SCNDRY_ENTY_ID"/>
+					<DataObjectAttributeInput index="2" name="ADQM_ADMN_QSTN_NBR"/>
+					<DataObjectAttributeInput index="3" name="PRMRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="4" name="SCNDRY_ENTY_TYPE"/>
+					<DataObjectAttributeInput index="5"	name="TIER_SYS_ID" />
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+				<SearchQueryName name="getNoteInfo"/>
+				</SQLTemplate>
+				  
+				<DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="NOTE_ID"    				toBOAttb="noteId"/>
+			        <Pair DOAttb="PRMRY_ENTY_ID"    		toBOAttb="primaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    		toBOAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    		toBOAttb="secondaryEntityType"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    	toBOAttb="benefitComponentId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"   		toBOAttb="primaryEntityType"/>
+					<Pair DOAttb="NOTE_VRSN_NBR"    		toBOAttb="version"/>
+					<Pair DOAttb="NOTE_OVRD_STTS"    		toBOAttb="overrideStatus"/>	
+					<Pair DOAttb="LST_CHG_USR"    			toBOAttb="lastUpdatedUser"/>		       
+					<Pair DOAttb="LST_CHG_TMS"    			toBOAttb="lastUpdatedTimestamp"/>	
+					<Pair DOAttb="CREATD_USER_ID"    		toBOAttb="createdUser"/>		       
+					<Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    		toBOAttb="bnftDefnIdString"/>	
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"    	toBOAttb="questionNumber"/>
+					<Pair DOAttb="ENTY_SYS_ID"    			toBOAttb="entityId"/>
+					<Pair DOAttb="SQNC_NBR"    				toBOAttb="sequenceNumber"/>	
+					<Pair DOAttb="TIER_SYS_ID"    			toBOAttb="tierSysId"/>
+					<Pair DOAttb="NOTE_NM"    				toBOAttb="noteName"/>	
+			    </DoAttributeToBOAttributeMap>
+			
+ 
+			
+			    <DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="PRMRY_ENTY_ID"    		toSCAttb="primaryEntityId"/>
+			        <Pair DOAttb="PRMRY_ENTY_TYPE"    		toSCAttb="primaryEntityType"/>
+			        <Pair DOAttb="SCNDRY_ENTY_ID"    		toSCAttb="secondaryEntityId"/>
+			        <Pair DOAttb="SCNDRY_ENTY_TYPE"    		toSCAttb="secondaryEntityType"/>
+					<Pair DOAttb="ADQM_ADMN_QSTN_NBR"    	toSCAttb="questionNumber"/>
+			        <Pair DOAttb="BNFT_CMPNT_SYS_ID"    	toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BNFT_DEFN_SYS_ID"    		toSCAttb="bnftDefnIdString"/>
+					<Pair DOAttb="SEARCH_STRING"   			toSCAttb="searchString" />
+					<Pair DOAttb="TIER_SYS_ID"    			toSCAttb="tierSysId"/>
+
+			    </DoAttributeToSCAttributeMap>			
+			</DataObject>
+			
+</DataSource>
+</BusinessObjectMetadata>
+
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.override.benefit.bo.TierNoteOverRide">
+		<BusinessAttribute name="noteId" 			    		type="String"	 	keyAttrib="true"/>
+		<BusinessAttribute name="noteName" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="noteDesc" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityId" 			    type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="primaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="secondaryEntityId" 			type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="secondaryEntityType" 			type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="benefitComponentId" 	 		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="createdUser" 		    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 	    		type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 	    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp"    		type="Date"	 		keyAttrib="false"/>
+		<BusinessAttribute name="status" 			    		type="String"	 	keyAttrib="false"/>
+		<BusinessAttribute name="dateSegmentId" 		   		type="Int"	 		keyAttrib="false"/>
+		<BusinessAttribute name="tierSysId" 			   		type="Int"	 		keyAttrib="true"/>
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="tierSysId" 				type="Int"/>
+		</SearchCriteria>
+
+	    <DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd1/ewpd_1@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+				Select NOTE_ID from TIER_NOTE_OVRD_VAL where TIER_SYS_ID = {0}
+			</SelectSQLQuery>
+	
+			<DataObject name="TIER_NOTE_OVRD_VAL">
+				<DataObjectAttribute name="NOTE_ID"    	   				type="String"/>
+				<DataObjectAttribute name="NOTE_NAME"    	   			type="String"/>
+				<DataObjectAttribute name="NOTE_DESC"    	   			type="String"/>
+				<DataObjectAttribute name="PRIMARY_ID"    	   			type="Int"/>
+				<DataObjectAttribute name="PRIMARY_TYPE"    			type="String"/>
+				<DataObjectAttribute name="SECONDARY_ID"    			type="Int"/>
+				<DataObjectAttribute name="SECONDARY_TYPE"    			type="String"/>
+				<DataObjectAttribute name="BEN_COMP_ID"    	   			type="Int"/>
+				<DataObjectAttribute name="VERSION"    	   				type="Int"/>
+				<DataObjectAttribute name="CRTD_USER"    	   			type="String"/>
+				<DataObjectAttribute name="CRTD_TM_STMP"    	   		type="Date"/>
+				<DataObjectAttribute name="LST_UPDT_USER"    	   		type="String"/>
+				<DataObjectAttribute name="LST_UPDT_TM_STMP"    	   	type="Date"/>
+				<DataObjectAttribute name="OVRD_STATUS"    	   			type="String"/>
+				<DataObjectAttribute name="DT_SGMNT_ID"    	   			type="Int"/>
+				<DataObjectAttribute name="TIER_SYS_ID"    	   			type="Int"/>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="TIER_SYS_ID"/>
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="NOTE_ID"/>
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="update">
+			     	<SQLQuery>
+						UPDATE TIER_NOTE_OVRD_VAL SET NOTE_OVRD_STTS = ?,
+						LST_CHG_USR = ?,
+						LST_CHG_TMS = ?
+						WHERE PRMRY_ENTY_ID = ? and 
+						PRMRY_ENTY_TYPE =? and 
+						SCNDRY_ENTY_ID =? and 
+						SCNDRY_ENTY_TYPE =? and 
+						NOTE_ID =? and
+						BNFT_CMPNT_SYS_ID = ? and 
+						NOTE_VRSN_NBR=? and
+                        TIER_SYS_ID = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="OVRD_STATUS"/>
+					<DataObjectAttributeInput index="1" name="LST_UPDT_USER"/>
+					<DataObjectAttributeInput index="2" name="LST_UPDT_TM_STMP"/>
+			        <DataObjectAttributeInput index="3" name="PRIMARY_ID"/>
+			        <DataObjectAttributeInput index="4" name="PRIMARY_TYPE"/>
+			        <DataObjectAttributeInput index="5" name="SECONDARY_ID"/>
+			        <DataObjectAttributeInput index="6" name="SECONDARY_TYPE"/>
+			        <DataObjectAttributeInput index="7" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="8" name="BEN_COMP_ID"/>
+					<DataObjectAttributeInput index="9" name="VERSION"/>
+					<DataObjectAttributeInput index="10" name="TIER_SYS_ID"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+
+					<Pair DOAttb="NOTE_ID" 		   			toBOAttb="noteId"/>				
+					<Pair DOAttb="NOTE_NAME"    			toBOAttb="noteName"/>				
+					<Pair DOAttb="NOTE_DESC"    			toBOAttb="noteDesc"/>				
+					<Pair DOAttb="PRIMARY_ID"    			toBOAttb="primaryEntityId"/>				
+					<Pair DOAttb="PRIMARY_TYPE"    			toBOAttb="primaryEntityType"/>				
+					<Pair DOAttb="SECONDARY_ID"    			toBOAttb="secondaryEntityId"/>				
+					<Pair DOAttb="SECONDARY_TYPE"  			toBOAttb="secondaryEntityType"/>				
+					<Pair DOAttb="BEN_COMP_ID"    			toBOAttb="benefitComponentId"/>				
+					<Pair DOAttb="VERSION"    				toBOAttb="version"/>				
+					<Pair DOAttb="CRTD_USER"    			toBOAttb="createdUser"/>				
+					<Pair DOAttb="CRTD_TM_STMP"    			toBOAttb="createdTimestamp"/>				
+					<Pair DOAttb="LST_UPDT_USER"    		toBOAttb="lastUpdatedUser"/>				
+					<Pair DOAttb="LST_UPDT_TM_STMP" 		toBOAttb="lastUpdatedTimestamp"/>				
+					<Pair DOAttb="OVRD_STATUS"    			toBOAttb="status"/>				
+					<Pair DOAttb="DT_SGMNT_ID"    			toBOAttb="dateSegmentId"/>				
+					<Pair DOAttb="TIER_SYS_ID"    			toBOAttb="tierSysId"/>				
+				</DoAttributeToBOAttributeMap>
+				
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="TIER_SYS_ID"     		toSCAttb="tierSysId"/>
+				</DoAttributeToSCAttributeMap>
+			</DataObject>			
+		</DataSource>		
+	</BusinessObjectMetadata>
+</Metadata>

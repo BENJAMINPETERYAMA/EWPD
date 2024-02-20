@@ -1,0 +1,13 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\blueexchange
+2
+9
+28:ServiceTypeMappingSearchBackingBean.java|1|16adf982480|279a|211fe50e|e2fea9637d8a494c91b9accd08f4a2c6|0
+23:CustomMessageSearchBackingBean.java|1|16adf982480|4641|40c44cfb|fa223fd798be40df971a5251f1e6e79b|0
+24:ServiceTypeMappingSessionObject.java|1|16adf9824af|7d3|ca8f6e75|450bb08b4f7343869e93d00c8e9d7f10|0
+22:ServiceTypeMappingBackingBean.java|1|16adf982a3a|5c17|effd9a20|7ff98f23f7514d7cbb0f66dee47dde2b|0
+1f:CustomMessageSessionObject.java|1|16adf982451|486|962e72a2|657a12d38d6048dfbc0baf65ca5312d9|0
+1d:CustomMessageBackingBean.java|1|16adf9823c5|3ada|4bd2f47e|9cdd0616adbd47eea723623621735d52|0
+1a:SPSMappingBackingBean.java|1|16adf9824ed|6365|59382da5|04e8f1b5fb314e57b379ac59aaf68ab9|0
+1c:SPSMappingSessionObject.java|1|16adf9824de|380|fef51919|9f7dd1f5d7794a60b721630a7888b7c3|0
+20:SPSMappingSearchBackingBean.java|1|16adf9824fd|71f0|57b363f8|773a71d84b8c4292afa32a4d7a0cd778|0

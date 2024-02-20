@@ -1,0 +1,1513 @@
+<Metadata> 
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.contract.model.ContractModel">
+		<BusinessAttribute name="keyValue" 							type="Int"				keyAttrib="true"/>
+		<BusinessAttribute name="term" 								type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="qualifier" 						type="String"			keyAttrib="false"/>		
+		<BusinessAttribute name="pva" 								type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="format" 							type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="reference" 						type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="benefitValue" 						type="String"			keyAttrib="false"/>		
+		<BusinessAttribute name="benefitLevelDescription" 			type="String"			keyAttrib="false"/>
+		<BusinessAttribute name="benefitLevelId" 					type="Int"				keyAttrib="false"/>
+		<BusinessAttribute name="noteId" 							type="String"			keyAttrib="false"/>		
+		<BusinessAttribute name="noteName" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionId" 					type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionName" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="adminOptionLevel" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="question" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="answer" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="spsName" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="adminMethodName" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitName" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitSysId" 						type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="benefitMeaning" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitType" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitCategory" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="description" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="version" 							type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="catalogType" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="catalogDesc" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="lobNm" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="BusinessEntityNm" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="BusinessGroupNm" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="ruleId" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="ruleDesc" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitComponentId" 				type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="benefitComponentName" 				type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitComponentStatus" 			type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="effectiveDate" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="expiryDate" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitComponentType" 				type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitComponentDescription" 		type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="prodId" 							type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="productName" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="productFamily" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="productType" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="productStructureName" 				type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="productStructureVersion" 			type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="contractSysId" 					type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="dateSegmentId" 					type="Int"				keyAttrib="false"/>	
+
+		<BusinessAttribute name="itsAdjudicationIndicator" 			type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="medicareAdjudicationIndicator" 	type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="cobAdjudicationIndcator" 			type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="brandName" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="corporatePlanCode" 				type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitPlan" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="standardPlanCode" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="productCode" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="groupSize" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="baseContractId" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="baseContractEffectiveDate" 		type="Date"				keyAttrib="false"/>	
+		<BusinessAttribute name="contractId" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="contractType" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="benefitAdminSysid" 				type="Int"				keyAttrib="false"/>	
+	    <BusinessAttribute name="benefitParentSysId" 				type="Int"				keyAttrib="false"/>	
+
+		<BusinessAttribute name="pricing" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="coverage" 							type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="network" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="ruleType" 							type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="ewpdRuleId" 						type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="groupIndicator" 					type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="value" 							type="String"			keyAttrib="false"/>	
+
+		<BusinessAttribute name="caseNumber" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="caseName" 							type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="caseeffectiveCancelDate" 			type="Date"				keyAttrib="false"/>	
+		<BusinessAttribute name="caseHQState" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="groupNumber" 						type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="groupName" 						type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="groupeffectiveCancelDate" 			type="Date"				keyAttrib="false"/>	
+
+		<BusinessAttribute name="fundingArrangement" 				type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="mbuCodeValue" 						type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="rerateCodeValue" 					type="String"			keyAttrib="false"/>	
+
+		<BusinessAttribute name="regulatoryAgency" 					type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="complianceStatus" 					type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="productNameCode" 					type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="contractTermDate" 					type="Date"				keyAttrib="false"/>	
+
+		<BusinessAttribute name="multiPlanIndicator" 				type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="performanceGuarentee" 				type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="salesMarketDate" 					type="Date"				keyAttrib="false"/>	
+		<BusinessAttribute name="contractParentSysId" 				type="Int"				keyAttrib="false"/>	
+	    <BusinessAttribute name="benefitComponentParentSysId" 		type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="productParentSysId" 				type="Int"				keyAttrib="false"/>
+	
+		<BusinessAttribute name="tierSysId" 						type="Int"				keyAttrib="false"/>	
+		<BusinessAttribute name="tierCode" 							type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="tierDataType" 						type="String"			keyAttrib="false"/>	
+	    <BusinessAttribute name="criteriaName" 						type="String"			keyAttrib="false"/>	
+		<BusinessAttribute name="displaySequenceNumber" 			type="Int"				keyAttrib="false"/>	
+	    <BusinessAttribute name="criteriaValue" 					type="String"			keyAttrib="false"/>	
+
+		<SearchCriteria>
+			<SearchCriteriaAttribute name="dateSegmentId" 				type="Int"/>
+			<SearchCriteriaAttribute name="benefitComponentId" 			type="Int"/>
+			<SearchCriteriaAttribute name="benefitId" 					type="Int"/>
+			<SearchCriteriaAttribute name="benefitDefId" 				type="Int"/>
+			<SearchCriteriaAttribute name="prodId" 						type="Int"/>
+			<SearchCriteriaAttribute name="contractId" 					type="Int"/>
+			<SearchCriteriaAttribute name="effectiveDate" 				type="Date"/>
+			<SearchCriteriaAttribute name="contractParentSysId" 		type="Int"/>
+			<SearchCriteriaAttribute name="tierId" 						type="Int"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:wpdbcontract/wpdb_contract1@10.10.1.58:1521:DEV90</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			   SELECT a.CNTRCT_SYS_ID, a.CNTRCT_ID, a.CNTRCT_TYPE, a.CNTRCT_PARNT_SYS_ID, a.CNTRCT_VRSN_NBR, a.CNTRCT_STTS_CD, a.LST_CHG_USR, a.LST_CHG_TMS,
+					a.CREATD_USR_ID, a.CREATD_TM_STMP, a.CNTRCT_TEST_PROD_MFDF_IND, a.CNTRCT_HDQTR_ST_CD
+					FROM CMST_CNTRCT_MSTR a 
+					WHERE a.CNTRCT_SYS_ID = ? 
+			</SelectSQLQuery>
+  
+
+			<SelectSQLQuery name="getContractBenefitComponentNotes">
+ 					SELECT  dbms_random.random as keyval,d.NOTE_ID ,n.NOTE_NM  FROM NOTE_DOMAIN_OVRD_VAL d, NMST_NOTE_MSTR n WHERE
+					d.NOTE_ID = n.NOTE_ID AND
+              	    d.NOTE_VRSN_NBR=n.NOTE_VRSN_NBR AND
+					d.BNFT_CMPNT_SYS_ID={1} AND
+					d.PRMRY_ENTY_ID = {0} AND
+					d.PRMRY_ENTY_TYPE = 'ATTACHCONTRACT'  AND
+             		d.SCNDRY_ENTY_ID = {1} AND
+					d.SCNDRY_ENTY_TYPE = 'ATTACHCOMP'  AND
+              		d.NOTE_OVRD_STTS ='F'
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefitNotes">
+                  SELECT  dbms_random.random as keyval,a.NOTE_ID,b.NOTE_NM  FROM NOTE_DOMAIN_OVRD_VAL a ,NMST_NOTE_MSTR b WHERE
+					 b.NOTE_ID = a.NOTE_ID AND 
+					 b.NOTE_VRSN_NBR = a.NOTE_VRSN_NBR AND
+					 a.BNFT_CMPNT_SYS_ID = {1} AND
+					a.PRMRY_ENTY_ID = {0} AND a.PRMRY_ENTY_TYPE ='ATTACHCONTRACT' AND 
+					a.SCNDRY_ENTY_ID = {2} AND a.SCNDRY_ENTY_TYPE = 'ATTACHBENEFIT' AND
+                    a.NOTE_OVRD_STTS ='F' ORDER BY b.NOTE_NM
+
+			</SelectSQLQuery>	
+
+
+
+			<SelectSQLQuery name="getContractProductDomain">
+        		SELECT dbms_random.random as keyval,LOB.CD_DESC_TXT,BE.CD_DESC_TXT,
+				BG.CD_DESC_TXT FROM ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+				(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB , (SELECT
+				* FROM ITEM WHERE CTLG_ID = 1932) BE , (SELECT * FROM
+				ITEM WHERE CTLG_ID = 1933) BG WHERE a.DOMN_SYS_ID =
+				b.DOMN_SYS_ID and a.ENTY_TYPE = 'product' and a.ENTY_SYS_ID =
+				{0} and b.LOB_NM=LOB.PRMRY_CD and b.BUS_ENTY_NM
+				=BE.PRMRY_CD and b.BUS_GRP_NM=BG.PRMRY_CD
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractbenefitComponentDomain">
+ 				SELECT 	dbms_random.random as keyval,LOB.CD_DESC_TXT,BE.CD_DESC_TXT,
+				BG.CD_DESC_TXT FROM ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+				(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB , (SELECT
+				* FROM ITEM WHERE CTLG_ID = 1932) BE , (SELECT * FROM
+				ITEM WHERE CTLG_ID = 1933) BG WHERE a.DOMN_SYS_ID =
+				b.DOMN_SYS_ID and a.ENTY_TYPE = 'BENEFITCOMP' and a.ENTY_SYS_ID =
+				{0} and b.LOB_NM=LOB.PRMRY_CD and b.BUS_ENTY_NM
+				=BE.PRMRY_CD and b.BUS_GRP_NM=BG.PRMRY_CD
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractDomain">
+                  SELECT dbms_random.random as keyval,LOB.CD_DESC_TXT,BE.CD_DESC_TXT,
+				BG.CD_DESC_TXT FROM ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+				(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB , (SELECT
+				* FROM ITEM WHERE CTLG_ID = 1932) BE , (SELECT * FROM
+				ITEM WHERE CTLG_ID = 1933) BG WHERE a.DOMN_SYS_ID =
+				b.DOMN_SYS_ID and a.ENTY_TYPE = 'contract' and a.ENTY_SYS_ID =
+				{0} and b.LOB_NM=LOB.PRMRY_CD and b.BUS_ENTY_NM
+				=BE.PRMRY_CD and b.BUS_GRP_NM=BG.PRMRY_CD
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractMembership">
+             select dbms_random.random as keyval,a.CASE_NBR,a.CASE_NAME,a.GROUP_NBR,a.GROUP_NAME,
+				a.CASE_CANCEL_DT,a.GROUP_CANCEL_DT,a.CASE_HQ_ST,
+				(select CD_DESC_TXT from item  where CTLG_ID = 1941 and PRMRY_CD = a.FUND_ARRANGE_CODE) FUND_ARRANGE_VAL,
+				(select CD_DESC_TXT from item  where CTLG_ID = 1948 and PRMRY_CD = a.MBU_CODE) MBU_VAL,
+				(select CD_DESC_TXT from item  where CTLG_ID = 1949 and PRMRY_CD = a.RERATE_CODE)RERATE_VAL
+				from MEMBERSHIP_INFO a, cmst_cntrct_mstr B where a.CNTRCT_ID =b.cntrct_id and b.cntrct_sys_id ={0}
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractAdapted">
+        		SELECT dbms_random.random as keyval,(select CD_DESC_TXT from item where CTLG_ID = 2020 and PRMRY_CD =RGLTRY_AGNCY) RGLTRY_AGNCY_DESC
+				,(select CD_DESC_TXT from item where CTLG_ID = 2040 and PRMRY_CD =PROJ_NM_CODE) PROJ_NM_CODE_DESC,
+							CNTRT_TRM_DT,MULTI_PLAN_IND,
+							PRFRMNCE_GUARTE,
+							SALE_MARKT_DT,(select CD_DESC_TXT from item where PRMRY_CD  =  CNTRCT_DT_SGMNT.CMPLANC_STTS) 
+							CMPLANC_STTS_DESC  FROM CNTRCT_DT_SGMNT
+					WHERE DT_SGMNT_SYS_ID = {0}
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractNotes">
+         	 SELECT dbms_random.random as keyval,d.NOTE_ID ,n.NOTE_NM FROM NOTE_DOMN_ASSN d, NMST_NOTE_MSTR n WHERE
+				d.NOTE_ID = n.NOTE_ID AND
+				d.NOTE_VRSN_NBR = n.NOTE_VRSN_NBR AND
+				d.ENTY_SYS_ID = to_char( {0} ) AND
+				d.ENTY_TYPE = 'ATTACHCONTRACT' AND d.BNFT_DEFN_SYS_ID is NULL 
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractPricing">
+              SELECT dbms_random.random as keyval, d.cvrg_cd, d.prcg_cd, d.ntwk_cd
+				FROM cntrct_prcg_info d
+				WHERE  d.dt_sgmnt_sys_id = {0}
+				ORDER BY d.cvrg_cd, d.prcg_cd, d.ntwk_cd
+					 
+			</SelectSQLQuery>	
+			<SelectSQLQuery name="getContractAdminOptions">
+				SELECT DBMS_RANDOM.random AS keyval, b.admin_opt_sys_id,
+				       c.adqm_admn_qstn_desc, e.psbl_answr, a.rfrnc_id, c.prvdr_arngmnt,
+				       f.admin_opt_desc_txt
+				  FROM qstnr_mstr a,
+				       cntrct_admin_qstn_answr_ovrd b,
+				       adqm_admn_qstn_mstr c,
+				       item d,
+				       psbl_answr e,
+				       admin_opt_mstr f,
+				       dtyp_data_type g
+				 WHERE a.qstnr_hrchy_sys_id = b.qstnr_hrchy_sys_id
+				   AND a.admin_opt_sys_id = b.admin_opt_sys_id
+				   AND b.admin_opt_sys_id = f.admin_opt_sys_id
+				   AND a.adqm_admn_qstn_nbr = c.adqm_admn_qstn_nbr
+				   AND c.dtyp_data_type_id = g.dtyp_data_type_id
+				   AND a.rfrnc_id = d.prmry_cd
+				   AND d.ctlg_id = 1938
+				   AND b.ovrd_answr_id = e.psbl_answr_id
+				   AND b.dt_sgmnt_sys_id = {0}	
+				   ORDER BY f.admin_opt_desc_txt				 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractRules">
+			SELECT dbms_random.random as keyval,D.RULE_TYP_CD, B.GNRTD_RULE_ID,B.RULE_ID,C.RULE_SHRT_DESC,
+			B.RULE_PVA,C.RULE_GRP_IND,A.RULE_OVRD_VAL						
+				    FROM CNTRCT_RULE_ASSN A,PROD_RULE_ASSN B,RULE C ,RULE_TYPE D
+				    WHERE A.PROD_RULE_SYS_ID=  B.PROD_RULE_SYS_ID AND C.RULE_ID = B.RULE_ID AND C.RULE_TYP_CD = D.RULE_TYP_CD
+					AND A.DT_SGMNT_SYS_ID = {0}  ORDER BY RULE_ID
+					 
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefitLines">
+					 SELECT DBMS_RANDOM.random AS keyval     ,
+					  d.prmry_cd               AS term       ,
+					  e.cd_desc_txt            AS qualifier  ,
+					  g.prmry_cd               AS pva        ,
+					  h.dtyp_data_type_lgnd                  ,
+					  c.bnft_lvl_extrnl_rfrnc_id AS REFERENCE,
+					  a.BNFT_LINE_CODED_VAL                  ,
+					  b.blvl_bnft_lvl_desc                   ,
+					  i.note_id                              ,
+					  i.note_nm                              ,
+					  a.blvl_bnft_lvl_id
+					   FROM
+					  (SELECT A.DT_SGMNT_SYS_ID DT_SGMNT_SYS_ID      ,
+					    A.PROD_SYS_ID PROD_SYS_ID                    ,
+					    B.BNFT_CMPNT_SYS_ID BNFT_CMPNT_SYS_ID        ,
+					    B.BNFT_SYS_ID BNFT_SYS_ID                    ,
+					    B.BLVL_BNFT_LVL_ID BLVL_BNFT_LVL_ID          ,
+					    B.BLN_BNFT_LINE_ID BLN_BNFT_LINE_ID          ,
+					    C.BNFT_DEFN_SYS_ID BNFT_DEFN_SYS_ID          ,
+					    B.BNFT_LINE_CODED_VAL BNFT_LINE_CODED_VAL    ,
+					    B.BLVL_BNFT_QLFR_FRQNCY BLVL_BNFT_QLFR_FRQNCY,
+					    B.BLVL_BNFT_LVL_DESC BLVL_BNFT_LVL_DESC      ,
+					    C.BNFT_HIDE_FLAG BNFT_HIDE_FLAG              ,
+					    C.BNFT_CMPNT_HIDE_FLAG BNFT_CMPNT_HIDE_FLAG  ,
+					    B.LST_CHG_TMS LST_CHG_TMS                    ,
+					    B.LST_CHG_USR LST_CHG_USR                    ,
+					    B.CREATD_TM_STMP CREATD_TM_STMP              ,
+					    B.CREATD_USER_ID CREATD_USER_ID
+					     FROM CNTRCT_DT_SGMNT A
+					  INNER JOIN CNTRCT_BNFT_CODED_LINES B
+					       ON (A.DT_SGMNT_SYS_ID = B.DT_SGMNT_SYS_ID)
+					  INNER JOIN CNTRCT_BNFT_ASSN C
+					       ON(B.DT_SGMNT_SYS_ID = C.DT_SGMNT_SYS_ID
+					  AND B.BNFT_CMPNT_SYS_ID   = C.BNFT_CMPNT_SYS_ID
+					  AND B.BNFT_SYS_ID         = C.BNFT_SYS_ID)
+					    WHERE a.dt_sgmnt_sys_id = {0}
+					  AND B.BNFT_CMPNT_SYS_ID = {1}
+					  AND B.BNFT_SYS_ID       = {2}
+					
+					UNION ALL
+					   
+					   SELECT A.DT_SGMNT_SYS_ID DT_SGMNT_SYS_ID      ,
+					    A.PROD_SYS_ID PROD_SYS_ID                    ,
+					    C.BNFT_CMPNT_SYS_ID BNFT_CMPNT_SYS_ID        ,
+					    C.BNFT_SYS_ID BNFT_SYS_ID                    ,
+					    C.BLVL_BNFT_LVL_ID BLVL_BNFT_LVL_ID          ,
+					    C.BLN_BNFT_LINE_ID BLN_BNFT_LINE_ID          ,
+					    C.BNFT_DEFN_SYS_ID BNFT_DEFN_SYS_ID          ,
+					    NULL BNFT_LINE_CODED_VAL                     ,
+					    C.BLVL_BNFT_FRQNCY_QLFR BLVL_BNFT_QLFR_FRQNCY,
+					    C.BLVL_BNFT_LVL_DESC BLVL_BNFT_LVL_DESC      ,
+					    D.BNFT_HIDE_FLAG BNFT_HIDE_FLAG              ,
+					    D.BNFT_CMPNT_HIDE_FLAG BNFT_CMPNT_HIDE_FLAG  ,
+					    C.LST_CHG_TMS LST_CHG_TMS                    ,
+					    C.LST_CHG_USR LST_CHG_USR                    ,
+					    C.CREATD_TM_STMP CREATD_TM_STMP              ,
+					    C.CREATD_USER_ID CREATD_USER_ID
+					     FROM CNTRCT_DT_SGMNT A
+					  INNER JOIN PROD_BNFT_CSTMZD C
+					       ON (A.PROD_SYS_ID = C.PROD_SYS_ID)
+					  INNER JOIN CNTRCT_BNFT_ASSN D
+					       ON(D.DT_SGMNT_SYS_ID  = a.DT_SGMNT_SYS_ID
+					  AND D.BNFT_CMPNT_SYS_ID    = C.BNFT_CMPNT_SYS_ID
+					  AND D.BNFT_SYS_ID          = C.BNFT_SYS_ID)
+					    WHERE c.bnft_hide_flag  = 'F'
+					  AND c.bnft_line_hide_flag = 'F'
+					  AND c.bnft_lvl_hide_flag  = 'F'
+					  AND NOT EXISTS
+					    (SELECT 1
+					       FROM CNTRCT_BNFT_CODED_LINES
+					      WHERE DT_SGMNT_SYS_ID = A.DT_SGMNT_SYS_ID
+					    AND bln_bnft_line_id    = c.bln_bnft_line_id
+					    )
+					  AND a.dt_sgmnt_sys_id = {0}
+					    AND C.BNFT_CMPNT_SYS_ID = {1}
+					    AND C.BNFT_SYS_ID       = {2}
+					  ) a                                        ,
+					  blvl_bnft_lvl b                            ,
+					  bln_bnft_line c                            ,
+					  (SELECT prmry_cd                           , cd_desc_txt FROM item WHERE ctlg_id = 1934
+					  ) d                                        ,
+					  (SELECT prmry_cd                           , cd_desc_txt FROM item WHERE ctlg_id = 1935
+					  ) e                                        ,
+					  (SELECT prmry_cd                           , cd_desc_txt FROM item WHERE ctlg_id = 1936
+					  ) g                                        ,
+					  dtyp_data_type h                           ,
+					  (SELECT a.scndry_enty_id AS note_benline_id,
+					    a.note_id                                ,
+					    a.note_vrsn_nbr                          ,
+					    b.note_nm                                ,
+					    a.bnft_cmpnt_sys_id AS bcid              ,
+					    a.prmry_enty_id     AS dgid
+					     FROM note_domain_ovrd_val a,
+					    nmst_note_mstr b
+					    WHERE a.prmry_enty_id = {0}
+					  AND a.prmry_enty_type   = 'ATTACHCONTRACT'
+					  AND a.scndry_enty_type  = 'ATTACHBNFTLINE'
+					  AND a.note_id           = b.note_id
+					  AND a.note_vrsn_nbr     = b.note_vrsn_nbr
+					  ) i
+					  WHERE a.bnft_defn_sys_id = b.bnft_defn_sys_id
+					AND a.blvl_bnft_lvl_id     = b.blvl_bnft_lvl_id
+					AND a.bnft_defn_sys_id     = c.bnft_defn_sys_id
+					AND a.bln_bnft_line_id     = c.bln_bnft_line_id
+					AND a.blvl_bnft_lvl_id     = c.blvl_bnft_lvl_id
+					AND h.dtyp_data_type_id    = c.dtyp_data_type_id
+					AND b.blvl_bnft_lvl_term   = d.prmry_cd(+) -- Term
+					AND b.blvl_bnft_lvl_qlfr   = e.prmry_cd(+) -- Qualifier
+					AND c.bln_bnft_line_pva    = g.prmry_cd    -- Provider Arrangement
+					AND c.bln_bnft_line_id     = i.note_benline_id(+)
+					  AND i.bcid(+)              = {1}
+					  AND i.dgid(+)              = {0}
+					ORDER BY a.blvl_bnft_lvl_id
+			</SelectSQLQuery>			
+			<SelectSQLQuery name="getContractBenefitAdminOptions">
+				SELECT   DBMS_RANDOM.random AS keyval, b.admin_opt_sys_id, f.admin_lvl_nm,
+				         d.adqm_admn_qstn_desc, e.psbl_answr, c.rfrnc_id, d.prvdr_arngmnt,
+				         g.admin_opt_desc_txt,
+				         (SELECT note_id ID
+				            FROM note_domain_ovrd_val
+				           WHERE prmry_enty_type = 'ATTACHCONTRACT'
+				             AND scndry_enty_type = 'ATTACHQUESTION'
+				             AND prmry_enty_id = {0}
+				             AND bnft_cmpnt_sys_id = {1}
+				             AND scndry_enty_id = b.admin_lvl_opt_assn_sys_id
+				             AND adqm_admn_qstn_nbr = c.adqm_admn_qstn_nbr) note_id,
+				         (SELECT b.note_nm
+				            FROM note_domain_ovrd_val a, nmst_note_mstr b
+				           WHERE a.prmry_enty_type = 'ATTACHCONTRACT'
+				             AND a.scndry_enty_type = 'ATTACHQUESTION'
+				             AND a.prmry_enty_id = {0}
+				             AND a.bnft_cmpnt_sys_id = {1}
+				             AND a.scndry_enty_id = b.admin_lvl_opt_assn_sys_id
+				             AND a.adqm_admn_qstn_nbr = c.adqm_admn_qstn_nbr
+				             AND a.note_id = b.note_id
+				             AND a.note_vrsn_nbr = b.note_vrsn_nbr) note_name
+				    FROM cntrct_answr_ovrd a,
+				         bnft_admin_to_lvl_assn b,
+				         qstnr_mstr c,
+				         adqm_admn_qstn_mstr d,
+				         psbl_answr e,
+				         badl_admn_lvl f,
+				         admin_opt_mstr g
+				   WHERE a.dt_sgmnt_sys_id = {0}
+				     AND a.bnft_cmpnt_sys_id = {1}
+				     AND b.bnft_admin_sys_id = {2}
+				     AND b.admin_lvl_opt_assn_sys_id = a.admin_lvl_opt_assn_sys_id
+				     AND f.admin_lvl_sys_id = b.admin_lvl_sys_id
+				     AND c.qstnr_hrchy_sys_id = a.qstnr_hrchy_sys_id
+				     AND d.adqm_admn_qstn_nbr = c.adqm_admn_qstn_nbr
+				     AND e.adqm_admn_qstn_nbr = c.adqm_admn_qstn_nbr
+				     AND e.psbl_answr_id = a.ovrd_answr_id
+				     AND b.admin_opt_sys_id = g.admin_opt_sys_id
+				ORDER BY g.admin_opt_desc_txt
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractBenefitTierAdminOptions">
+					          select dbms_random.random as keyval,b.admin_opt_sys_id,
+							  F.admin_lvl_nm, d.adqm_admn_qstn_desc, e.psbl_answr, c.rfrnc_id ,d.prvdr_arngmnt 
+					          from CNTRCT_TIER_ANSWR_OVRD A,BNFT_ADMIN_TO_LVL_ASSN B,QSTNR_MSTR C,
+                              ADQM_ADMN_QSTN_MSTR D,PSBL_ANSWR E, badl_admn_lvl F 
+					          Where A.DT_SGMNT_SYS_ID = {0} and 
+									A.BNFT_CMPNT_SYS_ID = {1} and 
+									B.BNFT_ADMIN_SYS_ID ={2} and
+									A.CNTRCT_TIER_SYS_ID = {3}
+					          and b.admin_lvl_opt_assn_sys_id =A.admin_lvl_opt_assn_sys_id 
+					          and F.admin_lvl_sys_id = B.admin_lvl_sys_id
+					          and c.qstnr_hrchy_sys_id = a.qstnr_hrchy_sys_id
+					          and D.ADQM_ADMN_QSTN_NBR = C.ADQM_ADMN_QSTN_NBR and E.ADQM_ADMN_QSTN_NBR=C.ADQM_ADMN_QSTN_NBR
+					          and E.psbl_answr_id = A.ovrd_answr_id		
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractAdminMethods">
+							  select dbms_random.random as keyval,SPR_PRCSS_STP_NM,ADMN_MTHD_DESC,SPR_PRCSS_STP_REF from (
+							  select s.SPR_PRCSS_STP_SYS_ID, s.SPR_PRCSS_STP_NM, s.SPR_PRCSS_STP_REF,s.SPR_PRCSS_STP_REF_ID,
+							  a.ADMN_MTHD_SYS_ID, m.ADMN_MTHD_DESC, a.BNFT_ADMTN_ID,m.ADMN_MTHD_NO from 
+							  SPR_PRCSS_STP_MSTR s, ADMN_MTHD_OVRD a, ADMN_MTHD_MSTR m where a.ADMN_MTHD_SYS_ID = m.ADMN_MTHD_SYS_ID and 
+							  a.ENTY_SYS_ID  = {0} and a.ENTY_TYPE = 'contract' and a.BNFT_CMPNT_SYS_ID = {1}
+							  and a.BNFT_ADMTN_ID = {2}
+							  and  a.ADMN_MTHD_SYS_ID = m.ADMN_MTHD_SYS_ID and s.SPR_PRCSS_STP_SYS_ID = a.SPR_PRCSS_STP_SYS_ID 
+							  and a.SPR_PRCSS_STP_SYS_ID = m.SPR_PRCSS_STP_SYS_ID union select distinct s.SPR_PRCSS_STP_SYS_ID,  
+							  s.SPR_PRCSS_STP_NM,  s.SPR_PRCSS_STP_REF, s.SPR_PRCSS_STP_REF_ID,null,'', null, null
+							  from SPR_PRCSS_STP_MSTR s where s.SPR_PRCSS_STP_SYS_ID not in 
+							  (select SPR_PRCSS_STP_SYS_ID from ADMN_MTHD_OVRD a where a.ENTY_SYS_ID  = {0} and a.ENTY_TYPE = 'contract' 
+							  and a.BNFT_CMPNT_SYS_ID = {1}
+							  and a.BNFT_ADMTN_ID = {2})
+							  )order by  SPR_PRCSS_STP_NM
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefits">
+			<![CDATA[
+					SELECT dbms_random.random AS keyval,
+							  c.BNFT_ID_NM                      ,
+							  c.BNFT_SYS_ID                     ,
+							  c.bnft_desc_txt                   ,
+							  c.BNFT_VRSN_NBR                   ,
+							  c.bnft_ctgry                      ,
+							  c.bnft_type                       ,
+							  f.bnft_admin_sys_id               ,
+							  c.bnft_parnt_sys_id
+							   FROM CNTRCT_BNFT_ASSN a,
+							  bnft_cmpnt_hrchy_assn b   ,
+							  bmst_bnft_mstr c          ,
+							  BDM_BNFT_DEFN_MSTR d      ,
+							  BNFT_ADMNSTRN_ASSN f      ,
+							  BCM_BNFT_CMPNT_MSTR g
+							  WHERE a.dt_sgmnt_sys_id   = {0}
+							AND a.bnft_cmpnt_sys_id     = {1}
+							AND a.BNFT_HIDE_FLAG        = 'F'
+							AND b.bnft_cmpnt_sys_id     = a.bnft_cmpnt_sys_id
+							AND b.bnft_sys_id           = a.bnft_sys_id
+							AND b.bnft_sys_id           = c.bnft_sys_id
+							AND d.bnft_sys_id           = a.bnft_sys_id
+							AND f.BNFT_DEFN_SYS_ID      = d.BNFT_DEFN_SYS_ID
+							AND g.BNFT_CMPNT_SYS_ID     = b.BNFT_CMPNT_SYS_ID
+							AND g.BNFT_CMPNT_EFCTV_DT  >= d.BNFT_DEFN_EFCTV_DT
+							AND g.BNFT_CMPNT_EXPIRY_DT <= d.BNFT_DEFN_EXPIRY_DT
+							GROUP BY c.BNFT_ID_NM ,
+							  c.BNFT_SYS_ID       ,
+							  c.bnft_desc_txt     ,
+							  c.BNFT_VRSN_NBR     ,
+							  c.bnft_ctgry        ,
+							  c.bnft_type         ,
+							  f.bnft_admin_sys_id ,
+							  c.bnft_parnt_sys_id
+			]]>
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefitBenefitLevelScope">
+            select dbms_random.random as keyval,type,code from (
+            SELECT  itm.CD_DESC_TXT as code,cat.CTLG_DESC_TXT as type FROM ITEM itm,CATALOG cat  WHERE itm.CTLG_ID in (
+		        SELECT CTLG_ID FROM CATALOG WHERE UPPER(CTLG_DESC_TXT) IN 
+		        (SELECT UPPER(SLCTD_ITEM_TYPE) FROM BNFT_BSIC_SLCTD_INFO WHERE ENTY_SYS_ID = {0})) and itm.prmry_cd in 
+		        (SELECT SLCTD_ITEM_CD FROM BNFT_BSIC_SLCTD_INFO WHERE ENTY_SYS_ID = {0})
+		        and cat.CTLG_ID = itm.CTLG_ID
+		        UNION
+		        select  b.DTYP_DATA_TYPE_LGND as code ,a.SLCTD_ITEM_TYPE as type from BNFT_BSIC_SLCTD_INFO a, DTYP_DATA_TYPE b
+            where a.SLCTD_ITEM_CD = to_char(b.DTYP_DATA_TYPE_ID) and a.ENTY_SYS_ID = {0})
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefitDomains">
+            SELECT dbms_random.random as keyval,LOB.CD_DESC_TXT,BE.CD_DESC_TXT,
+				BG.CD_DESC_TXT FROM ENTY_DOMN_INFO a, AVLBL_DOMN b ,
+				(SELECT * FROM ITEM WHERE CTLG_ID = 1925) LOB , (SELECT
+				* FROM ITEM WHERE CTLG_ID = 1932) BE , (SELECT * FROM
+				ITEM WHERE CTLG_ID = 1933) BG WHERE a.DOMN_SYS_ID =
+				b.DOMN_SYS_ID and a.ENTY_TYPE = 'stdbenefit' and a.ENTY_SYS_ID =
+				{0} and b.LOB_NM=LOB.PRMRY_CD and b.BUS_ENTY_NM
+				=BE.PRMRY_CD and b.BUS_GRP_NM=BG.PRMRY_CD
+			</SelectSQLQuery>	
+
+
+			<SelectSQLQuery name="getContractBenefitRules">
+	        select dbms_random.random as keyval,a.RULE_ID,b.BNFT_MNING_OVRD,c.RULE_SHRT_DESC 
+	        from CNTRCT_BNFT_RULE_OVRD a,CNTRCT_BNFT_MNING_OVRD b,RULE c,BMST_BNFT_MSTR d, ITEM e 
+			  where a.BNFT_SYS_ID = {2} and a.BNFT_CMPNT_SYS_ID = {1} and a.DT_SGMNT_SYS_ID = {0}
+			  and b.BNFT_SYS_ID = a.BNFT_SYS_ID and b.BNFT_CMPNT_SYS_ID = a.BNFT_CMPNT_SYS_ID 
+			and  b.DT_SGMNT_SYS_ID = a.DT_SGMNT_SYS_ID
+				  and a.RULE_ID = c.RULE_ID
+			  and b.BNFT_SYS_ID = d.BNFT_SYS_ID
+			  and (d.BNFT_CTGRY = e.PRMRY_CD(+) AND e.CTLG_ID(+) = 2222)
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractBenefitComponents">
+				  SELECT dbms_random.random AS keyval,
+				  b.BNFT_CMPNT_SYS_ID               ,
+				  b.BNFT_CMPNT_NM                   ,
+				  b.BNFT_CMPNT_STTS_CD              ,
+				  b.BNFT_CMPNT_VRSN_NBR             ,
+				  b.BNFT_CMPNT_DESC_TXT             ,
+				  b.BNFT_CMPNT_EFCTV_DT             ,
+				  b.BNFT_CMPNT_EXPIRY_DT            ,
+				  b.BNFT_CMPNT_TYPE                 ,
+				  d.RULE_ID                         ,
+				  d.RULE_SHRT_DESC                  ,
+				  b.BNFT_CMPNT_PARNT_SYS_ID
+				   FROM CNTRCT_BNFT_ASSN a,
+				  BCM_BNFT_CMPNT_MSTR b     ,
+				  PROD_BNFT_CMPNT_ASSN c    ,
+				  RULE D,
+				  CNTRCT_DT_SGMNT e
+				  WHERE a.BNFT_CMPNT_SYS_ID = b.BNFT_CMPNT_SYS_ID
+				  AND a.dt_sgmnt_sys_id = e.dt_sgmnt_sys_id
+				AND a.DT_SGMNT_SYS_ID       = {0}
+				AND a.BNFT_CMPNT_HIDE_FLAG  = 'F'
+				AND c.PROD_SYS_ID           = e.PROD_SYS_ID
+				AND c.BNFT_CMPNT_SYS_ID     = a.BNFT_CMPNT_SYS_ID
+				AND d.RULE_ID(+)            = c.RULE_ID
+				GROUP BY b.BNFT_CMPNT_SYS_ID,
+				  b.BNFT_CMPNT_NM           ,
+				  b.BNFT_CMPNT_STTS_CD      ,
+				  b.BNFT_CMPNT_VRSN_NBR     ,
+				  b.BNFT_CMPNT_DESC_TXT     ,
+				  b.BNFT_CMPNT_EFCTV_DT     ,
+				  b.BNFT_CMPNT_EXPIRY_DT    ,
+				  b.BNFT_CMPNT_TYPE         ,
+				  d.RULE_ID                 ,
+				  d.RULE_SHRT_DESC          ,
+				  b.BNFT_CMPNT_PARNT_SYS_ID
+			</SelectSQLQuery>	
+
+
+			<SelectSQLQuery name="getContractProduct">
+				SELECT dbms_random.random as keyval,A.PROD_SYS_ID, A.PROD_NM, A.PROD_FMLY_NM, A.PROD_TYPE, B.PROD_STRCTR_NM,
+				B.PROD_STRCTR_VRSN_NBR,A.PROD_DESC_TXT,A.PROD_EFCTV_DT, A.PROD_EXPIRY_DT,A.PROD_VRSN_NBR,A.PROD_PARNT_SYS_ID
+						FROM PROD_MSTR A, PROD_STRCTR_MSTR B, ITEM C WHERE A.PROD_STRCTR_SYS_ID = B.PROD_STRCTR_SYS_ID(+)
+						AND C.CTLG_ID = 1937 AND A.PROD_FMLY_NM = C.PRMRY_CD AND
+						A.PROD_SYS_ID = {0} 
+			</SelectSQLQuery>	
+
+
+			<SelectSQLQuery name="getContractIntialInformation">
+					select dbms_random.random as keyval,C.cntrct_sys_id, b.dt_sgmnt_sys_id, b.prod_sys_id ,c.CNTRCT_PARNT_SYS_ID
+					from cntrct_dt_sgmnt_assn A,cntrct_dt_sgmnt B,
+                    (
+				      select  cntrct_sys_id,cntrct_id, cntrct_parnt_sys_id from cmst_cntrct_mstr where (cntrct_id, cntrct_vrsn_nbr) in (
+				      select cntrct_id,max(cntrct_vrsn_nbr) from cmst_cntrct_mstr where cntrct_stts_cd != 'MARKED_FOR_DELETION'
+				      group by cntrct_id
+                    )
+                    ) C,cmst_cntrct_mstr D, cntrct_dt_sgmnt_assn E
+					where A.cntrct_sys_id = {0} 
+		            and d.cntrct_sys_id =A.cntrct_sys_id
+		            and c.cntrct_id = d.cntrct_id
+		            and E.cntrct_sys_id = C.cntrct_sys_id
+		            and B.dt_sgmnt_sys_id =E.dt_sgmnt_sys_id
+				    and b.dt_sgmnt_efctv_dt = TO_DATE({1},'mm/dd/yyyy') 
+			</SelectSQLQuery>	
+
+
+			<SelectSQLQuery name="getContractBasicAndSpecificInformation">
+			     select dbms_random.random as keyval,A.ITS_ADJDCTN_IND,A.MEDI_ADJDCTN_IND,A.COB_ADJDCTN_IND,A.DT_SGMNT_BRND_NM,
+			     (select CD_DESC_TXT from item where CTLG_ID = 1947 and PRMRY_CD = A.DT_SGMNT_CRPRT_PLAN_CD) CRPRT_PLAN_CD_DESC,
+			     (select b.PRMRY_CD from item b where b.PRMRY_CD in(select c.PROD_FMLY_NM from PROD_MSTR c where c.PROD_SYS_ID=A.PROD_SYS_ID and CTLG_ID =1937))PROD_FMLY_DESC,
+			     A.DT_SGMNT_BNFT_PLAN_TXT,
+			     (select CD_DESC_TXT from item where CTLG_ID = 1701 and PRMRY_CD = A.DT_SGMNT_STNDRD_PLAN_CD) STD_PLAN_CD
+			     , (select CD_DESC_TXT from item where CTLG_ID = 1786 and PRMRY_CD = A.DT_SGMNT_PROD_CD) PROD_CD_DESC,
+			     A.DT_SGMNT_EFCTV_DT,A.DT_SGMNT_EXPR_DT,A.DT_SGMNT_GRP_SIZE,C.cntrct_id,D.DT_SGMNT_EFCTV_DT,
+			     e.cntrct_id,e.cntrct_type
+			     from cntrct_dt_sgmnt A , cntrct_dt_sgmnt_assn B, cmst_cntrct_mstr C , cntrct_dt_sgmnt D
+			     ,cmst_cntrct_mstr E,cntrct_dt_sgmnt_assn F
+			     where a.dt_sgmnt_sys_id = {0} and D.dt_sgmnt_sys_id (+) = A.CNTRCT_BSDT_SGMNT_SYS_ID         
+			     and B.dt_sgmnt_sys_id (+) = d.dt_sgmnt_sys_id and c.cntrct_sys_id (+) = B.cntrct_sys_id 
+			     and F.dt_sgmnt_sys_id  = A.dt_sgmnt_sys_id and E.cntrct_sys_id =F.cntrct_sys_id
+			</SelectSQLQuery>	
+
+			<SelectSQLQuery name="getContractTierBenefitLines">
+								
+								select dbms_random.random as keyval,D.CD_DESC_TXT AS TERM,
+								E.CD_DESC_TXT AS QUALIFIER,G.CD_DESC_TXT AS PVA,H.DTYP_DATA_TYPE_NAME,C.BNFT_LVL_EXTRNL_RFRNC_ID AS REFERENCE, 
+								A.BVAL_BNFT_VAL, B.BLVL_BNFT_LVL_DESC,I.note_id,I.note_nm
+								from 
+								(select 
+								DT_SGMNT_SYS_ID
+								,PROD_SYS_ID
+								,BNFT_CMPNT_SYS_ID
+								,BNFT_SYS_ID
+								,BLVL_BNFT_LVL_ID
+								,BLN_BNFT_LINE_ID
+								,BNFT_DEFN_SYS_ID
+								,BVAL_BNFT_VAL
+								,BNFT_HIDE_FLAG
+								,LST_CHG_TMS
+								,LST_CHG_USR
+								,CREATD_TM_STMP
+								,CREATD_USER_ID
+								,BNFT_CMPNT_HIDE_FLAG
+								,CNTRCT_BNFT_CSTMZD_TIER_SYS_ID
+                				,CNTRCT_TIER_SYS_ID
+								from CNTRCT_BNFT_TIER_CUSTMZD A
+								where  A.DT_SGMNT_SYS_ID 	= {0}  
+								and A.BNFT_CMPNT_SYS_ID = {1} 
+								and A.BNFT_SYS_ID = {2} 
+								)A,
+								BLVL_BNFT_LVL B, 
+								BLN_BNFT_LINE C ,
+								(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =1934) D,
+								(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =1935) E,
+								(select PRMRY_CD,CD_DESC_TXT from item where CTLG_ID =1936) G,
+								DTYP_DATA_TYPE H,
+								(select A.SCNDRY_ENTY_ID AS NOTE_BENLINE_ID,
+								A.note_id,A.note_vrsn_nbr, b.note_nm,A.bnft_cmpnt_sys_id AS BCID, a.prmry_enty_id AS DGID 
+								from 
+								NOTE_DOMAIN_OVRD_VAL A ,
+								NMST_NOTE_MSTR B
+								where  a.PRMRY_ENTY_ID= {0}
+								 AND A.PRMRY_ENTY_TYPE = 'ATTACHCONTRACT'  
+								and A.SCNDRY_ENTY_TYPE ='ATTACHBNFTLINE'
+								AND A.note_id =B.note_id 
+								and A.note_vrsn_nbr =B.note_vrsn_nbr) I
+								where 
+								 A.BNFT_DEFN_SYS_ID 		= B.BNFT_DEFN_SYS_ID 
+								and A.BLVL_BNFT_LVL_ID 		= B.BLVL_BNFT_LVL_ID
+								and A.BNFT_DEFN_SYS_ID		= C.BNFT_DEFN_SYS_ID 
+								AND A.BLN_BNFT_LINE_ID 		= C.BLN_BNFT_LINE_ID
+								and A.BLVL_BNFT_LVL_ID 		= C.BLVL_BNFT_LVL_ID
+								AND H.DTYP_DATA_TYPE_ID 	= C.DTYP_DATA_TYPE_ID
+								and B.BLVL_BNFT_LVL_TERM 	= D.PRMRY_CD(+)  -- Term 
+								and B.BLVL_BNFT_LVL_QLFR 	= E.PRMRY_CD(+)  -- Qualifier
+								and C.BLN_BNFT_LINE_PVA 	= G.PRMRY_CD  -- Provider Arrangement
+								AND C.BLN_BNFT_LINE_ID 		= I.NOTE_BENLINE_ID(+)
+                				AND A.CNTRCT_TIER_SYS_ID 	= {3}
+								AND I.BCID(+) =  {1} 
+								AND I.DGID(+) = {0} 	
+ 			</SelectSQLQuery>
+
+			<SelectSQLQuery name="getContractTiers">
+				SELECT dbms_random.random as keyval,A.CNTRCT_TIER_SYS_ID, D.tier_cd, D.data_typ, C.crtria_nm, C.dsply_sqnc_nbr, B.crtria_val
+				FROM CNTRCT_TIER_MSTR A 
+				INNER JOIN CNTRCT_TIER_CRTRIA_VAL B ON (B.CNTRCT_TIER_SYS_ID = A.CNTRCT_TIER_SYS_ID) 
+				INNER JOIN TIER_CRTRIA C ON (C.TIER_CRTRIA_SYS_ID = B.TIER_CRTRIA_SYS_ID)
+				INNER JOIN TIER_DEFN D ON (D.TIER_DEFN_SYS_ID = C.TIER_DEFN_SYS_ID)
+				INNER JOIN CNTRCT_DT_SGMNT_ASSN E ON (E.dt_sgmnt_sys_id = A.dt_sgmnt_sys_id)
+				WHERE 	A.dt_sgmnt_sys_id = {0}
+				AND 	A.bnft_cmpnt_sys_id={1}
+				AND 	A.bnft_sys_id = {2} 
+				ORDER BY D.tier_cd, A.CNTRCT_TIER_SYS_ID
+			</SelectSQLQuery>
+
+		      <DataObject name="NOTE_DOMN_ASSN">
+			    <DataObjectAttribute name="KEY_VAL" 	type="Int"/>
+			    <DataObjectAttribute name="C_NID"    	type="String"/>			
+			    <DataObjectAttribute name="C_NNM"    	type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    	type="Int"/>
+			    <DataObjectAttribute name="BC_ID"    	type="Int"/>
+			    <DataObjectAttribute name="B_ID"    	type="Int"/>
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="C_NID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="C_NNM"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractNotes"/>
+			    </SQLTemplate>    	
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="C_NID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="C_NNM"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitComponentNotes"/>
+			    </SQLTemplate>    
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="B_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="C_NID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="C_NNM"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitNotes"/>
+			    </SQLTemplate>    	   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="C_NID"    		toBOAttb="noteId"/>
+			        <Pair DOAttb="C_NNM"    		toBOAttb="noteName"/>	
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+			        <Pair DOAttb="BC_ID"   			toSCAttb="benefitComponentId"/>
+			        <Pair DOAttb="B_ID"    			toSCAttb="benefitId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+
+		      <DataObject name="CNTRCT_DT_SGMNT">
+			    <DataObjectAttribute name="KEY_VAL" 	type="Int"/>
+			    <DataObjectAttribute name="REG_AG"    	type="String"/>			    
+			    <DataObjectAttribute name="PRD_CD"    	type="String"/>		
+			    <DataObjectAttribute name="CNT_DT"    	type="Date"/>		
+			    <DataObjectAttribute name="MUL_P"    	type="String"/>
+			    <DataObjectAttribute name="P_GUA"    	type="String"/>		
+			    <DataObjectAttribute name="S_DT"    	type="Date"/>		
+			    <DataObjectAttribute name="C_ST"    	type="String"/>
+			    <DataObjectAttribute name="DT_SEG"    	type="Int"/>
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="REG_AG"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="PRD_CD"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="CNT_DT"/>
+			            <ResultIndex index="4"  dataObjectAttribName ="MUL_P"/>	
+						<ResultIndex index="5"  dataObjectAttribName ="P_GUA"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="S_DT"/>
+			            <ResultIndex index="7"  dataObjectAttribName ="C_ST"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractAdapted"/>
+			    </SQLTemplate>    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="REG_AG"    		toBOAttb="regulatoryAgency"/>
+			        <Pair DOAttb="PRD_CD"    		toBOAttb="productNameCode"/>
+			        <Pair DOAttb="CNT_DT"    		toBOAttb="contractTermDate"/> 
+			        <Pair DOAttb="MUL_P"    		toBOAttb="multiPlanIndicator"/>
+			        <Pair DOAttb="P_GUA"    		toBOAttb="performanceGuarentee"/>
+			        <Pair DOAttb="S_DT"    			toBOAttb="salesMarketDate"/> 
+			        <Pair DOAttb="C_ST"    			toBOAttb="complianceStatus"/>
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+		      <DataObject name="ENTY_DOMN_INFO">
+			    <DataObjectAttribute name="KEY_VAL" 	type="Int"/>
+			    <DataObjectAttribute name="LOB_NM"    	type="String"/>			    
+			    <DataObjectAttribute name="BEN_ENT"    	type="String"/>		
+			    <DataObjectAttribute name="BEN_GRP"    	type="String"/>		
+			    <DataObjectAttribute name="C_PR_ID"    	type="Int"/>
+			    <DataObjectAttribute name="BC_ID"    	type="Int"/>
+			    <DataObjectAttribute name="P_ID"    	type="Int"/>
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="C_PR_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="LOB_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_ENT"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_GRP"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractDomain"/>
+			    </SQLTemplate>    	
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="P_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="LOB_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_ENT"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_GRP"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractProductDomain"/>
+			    </SQLTemplate>    	
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="BC_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="LOB_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_ENT"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_GRP"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractbenefitComponentDomain"/>
+			    </SQLTemplate>    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="LOB_NM"    		toBOAttb="lobNm"/>
+			        <Pair DOAttb="BEN_ENT"    		toBOAttb="BusinessEntityNm"/>
+			        <Pair DOAttb="BEN_GRP"    		toBOAttb="BusinessGroupNm"/> 
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="C_PR_ID"    		toSCAttb="contractParentSysId"/>
+			        <Pair DOAttb="P_ID"    			toSCAttb="prodId"/>
+			        <Pair DOAttb="BC_ID"    		toSCAttb="benefitComponentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+		      <DataObject name="MEMBERSHIP_INFO">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="CS_NR"    		type="String"/>			    
+			    <DataObjectAttribute name="CS_NM"    		type="String"/>		
+			    <DataObjectAttribute name="GRP_NR"    		type="String"/>		
+			    <DataObjectAttribute name="GRP_NM"    		type="String"/>	
+			    <DataObjectAttribute name="CS_DT"    		type="Date"/>	
+			    <DataObjectAttribute name="GP_DT"    		type="Date"/>	
+			    <DataObjectAttribute name="CS_HQ"    		type="String"/>	
+			    <DataObjectAttribute name="F_AR"    		type="String"/>	
+			    <DataObjectAttribute name="M_BU"    		type="String"/>	
+			    <DataObjectAttribute name="R_VAL"    		type="String"/>	
+			    <DataObjectAttribute name="CNTRCT_ID"    	type="Int"/>
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  	dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  	dataObjectAttribName ="CS_NR"/>	
+						<ResultIndex index="2"  	dataObjectAttribName ="CS_NM"/>	
+						<ResultIndex index="3"  	dataObjectAttribName ="GRP_NR"/>
+			            <ResultIndex index="4"  	dataObjectAttribName ="GRP_NM"/>	
+						<ResultIndex index="5"  	dataObjectAttribName ="CS_DT"/>	
+						<ResultIndex index="6"  	dataObjectAttribName ="GP_DT"/>
+			            <ResultIndex index="7"  	dataObjectAttribName ="CS_HQ"/>	
+						<ResultIndex index="8"  	dataObjectAttribName ="F_AR"/>	
+						<ResultIndex index="9"  	dataObjectAttribName ="M_BU"/>
+						<ResultIndex index="10"  	dataObjectAttribName ="R_VAL"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractMembership"/>
+			    </SQLTemplate>    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="CS_NR"    		toBOAttb="caseNumber"/>
+			        <Pair DOAttb="CS_NM"    		toBOAttb="caseName"/>
+			        <Pair DOAttb="GRP_NR"    		toBOAttb="groupNumber"/>
+			        <Pair DOAttb="GRP_NM"    		toBOAttb="groupName"/>
+			        <Pair DOAttb="CS_DT"    		toBOAttb="caseeffectiveCancelDate"/>
+			        <Pair DOAttb="GP_DT"    		toBOAttb="groupeffectiveCancelDate"/>
+			        <Pair DOAttb="CS_HQ"    		toBOAttb="caseHQState"/>
+			        <Pair DOAttb="F_AR"    			toBOAttb="fundingArrangement"/>
+			        <Pair DOAttb="M_BU"    			toBOAttb="mbuCodeValue"/>
+			        <Pair DOAttb="R_VAL"    		toBOAttb="rerateCodeValue"/>
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="CNTRCT_ID"    	toSCAttb="contractId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+			<DataObject name="CNTRCT_RULE_ASSN">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="RULE_T_DESC"    	type="String"/>			    
+			    <DataObjectAttribute name="GNRT_ID"    		type="String"/>		
+			    <DataObjectAttribute name="RULE_ID"    		type="String"/>		
+			    <DataObjectAttribute name="RULE_DESC"    	type="String"/>	
+			    <DataObjectAttribute name="RULE_PVA"    	type="String"/>	
+			    <DataObjectAttribute name="RULE_G_IND"    	type="String"/>	
+			    <DataObjectAttribute name="RULE_VAL"    	type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    		type="Int"/>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>		
+			            <ResultIndex index="1"  dataObjectAttribName ="RULE_T_DESC"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="GNRT_ID"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="RULE_ID"/>	
+						<ResultIndex index="4"  dataObjectAttribName ="RULE_DESC"/>		
+						<ResultIndex index="5"  dataObjectAttribName ="RULE_PVA"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="RULE_G_IND"/>	
+						<ResultIndex index="7"  dataObjectAttribName ="RULE_VAL"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractRules"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+			        <Pair DOAttb="RULE_T_DESC"    		toBOAttb="ruleType"/>
+			        <Pair DOAttb="GNRT_ID"    			toBOAttb="ewpdRuleId"/>
+			        <Pair DOAttb="RULE_ID"    			toBOAttb="ruleId"/>      
+			        <Pair DOAttb="RULE_DESC"    		toBOAttb="description"/>
+			        <Pair DOAttb="RULE_PVA"    			toBOAttb="pva"/>
+			        <Pair DOAttb="RULE_G_IND"    		toBOAttb="groupIndicator"/>
+			        <Pair DOAttb="RULE_VAL"    			toBOAttb="value"/>      
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    			toSCAttb="dateSegmentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+			<DataObject name="cntrct_admin_qstn_answr_ovrd">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="ADMN_OPT_ID"    	type="Int"/>		
+			    <DataObjectAttribute name="QUESTION"    	type="String"/>			    
+			    <DataObjectAttribute name="ANSWER"    		type="String"/>		
+			    <DataObjectAttribute name="REF"    			type="String"/>		
+			    <DataObjectAttribute name="PVA"    			type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    		type="Int"/>	
+			    <DataObjectAttribute name="ADMN_OPT_NM"    	type="String"/>	
+
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>		
+						<ResultIndex index="1"  dataObjectAttribName ="ADMN_OPT_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="QUESTION"/>		
+						<ResultIndex index="3"  dataObjectAttribName ="ANSWER"/>		
+			            <ResultIndex index="4"  dataObjectAttribName ="REF"/>	
+						<ResultIndex index="5"  dataObjectAttribName ="PVA"/>		
+						<ResultIndex index="6"  dataObjectAttribName ="ADMN_OPT_NM"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractAdminOptions"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+			        <Pair DOAttb="ADMN_OPT_ID"    		toBOAttb="adminOptionId"/>
+			        <Pair DOAttb="QUESTION"    			toBOAttb="question"/>
+			        <Pair DOAttb="ANSWER"    			toBOAttb="answer"/>
+			        <Pair DOAttb="REF"    				toBOAttb="reference"/>	
+			        <Pair DOAttb="PVA"    				toBOAttb="pva"/>	   
+			        <Pair DOAttb="ADMN_OPT_NM"    		toBOAttb="adminOptionName"/>
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="cntrct_prcg_info">
+			    <DataObjectAttribute name="KEY_VAL" 	type="Int"/>
+			    <DataObjectAttribute name="CVG"    		type="String"/>		
+			    <DataObjectAttribute name="PRC"    		type="String"/>			    
+			    <DataObjectAttribute name="NTW"    		type="String"/>		
+			    <DataObjectAttribute name="DT_SEG"    	type="Int"/>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+			        <RSIndexToDOAttributeMap>
+						<ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>		
+						<ResultIndex index="1"  dataObjectAttribName ="CVG"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="PRC"/>		
+						<ResultIndex index="3"  dataObjectAttribName ="NTW"/>			
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractPricing"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="CVG"    			toBOAttb="coverage"/>
+			        <Pair DOAttb="PRC"    			toBOAttb="pricing"/>
+			        <Pair DOAttb="NTW"    			toBOAttb="network"/>  
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+
+			<DataObject name="CNTRCT_BNFT_CSTMZD">
+			    <DataObjectAttribute name="KEY_VAL" 			type="Int"/>
+			    <DataObjectAttribute name="TIER_SYS_ID" 		type="Int"/>
+			    <DataObjectAttribute name="TERM"    			type="String"/>			    
+			    <DataObjectAttribute name="QUAL"    			type="String"/>
+			    <DataObjectAttribute name="PVA"    				type="String"/>		
+			    <DataObjectAttribute name="DATATYPE"    		type="String"/>		
+			    <DataObjectAttribute name="REF"    				type="String"/>		
+			    <DataObjectAttribute name="BEN_VAL"    			type="String"/>		
+			    <DataObjectAttribute name="BEN_DESC"    		type="String"/>		
+			    <DataObjectAttribute name="BEN_NID"    			type="String"/>			
+			    <DataObjectAttribute name="BEN_NNM"    			type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    			type="String"/>	
+			    <DataObjectAttribute name="BC_ID"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_ID"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_DEF_ID"    		type="String"/>	
+			    <DataObjectAttribute name="TIER_CODE"    		type="String"/>	
+			    <DataObjectAttribute name="TIER_DATA_TYPE"    	type="String"/>	
+			    <DataObjectAttribute name="CRITERIA_NAME"    	type="String"/>	
+			    <DataObjectAttribute name="DISPLAY_SEQ_NUMBER"  type="Int"/>	
+			    <DataObjectAttribute name="CRITERIA_VALUE"    	type="String"/>	
+				<DataObjectAttribute name="TIER_ID"    			type="Int"/>	
+				<DataObjectAttribute name="BNFT_LVL_ID"    		type="Int"/>
+		    
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  	dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  	dataObjectAttribName ="TERM"/>	
+						<ResultIndex index="2"  	dataObjectAttribName ="QUAL"/>	
+						<ResultIndex index="3"  	dataObjectAttribName ="PVA"/>		
+						<ResultIndex index="4"  	dataObjectAttribName ="DATATYPE"/>		
+			            <ResultIndex index="5"  	dataObjectAttribName ="REF"/>	
+						<ResultIndex index="6"  	dataObjectAttribName ="BEN_VAL"/>	
+						<ResultIndex index="7"  	dataObjectAttribName ="BEN_DESC"/>	
+						<ResultIndex index="8"  	dataObjectAttribName ="BEN_NID"/>		
+						<ResultIndex index="9"  	dataObjectAttribName ="BEN_NNM"/>
+						<ResultIndex index="10"  	dataObjectAttribName ="BNFT_LVL_ID"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitLines"/>
+			    </SQLTemplate>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_ID"/>
+					<DataObjectAttributeInput index="3" name="TIER_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="TERM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="QUAL"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="PVA"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="DATATYPE"/>		
+			            <ResultIndex index="5"  dataObjectAttribName ="REF"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="BEN_VAL"/>	
+						<ResultIndex index="7"  dataObjectAttribName ="BEN_DESC"/>	
+						<ResultIndex index="8"  dataObjectAttribName ="BEN_NID"/>		
+						<ResultIndex index="9"  dataObjectAttribName ="BEN_NNM"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractTierBenefitLines"/>
+			    </SQLTemplate>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="TIER_SYS_ID"/>
+ 						<ResultIndex index="2"  dataObjectAttribName ="TIER_CODE"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="TIER_DATA_TYPE"/>	
+						<ResultIndex index="4"  dataObjectAttribName ="CRITERIA_NAME"/>	
+						<ResultIndex index="5"  dataObjectAttribName ="DISPLAY_SEQ_NUMBER"/>		
+						<ResultIndex index="6"  dataObjectAttribName ="CRITERIA_VALUE"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractTiers"/>
+			    </SQLTemplate>	
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+					<Pair DOAttb="TIER_SYS_ID"    		toBOAttb="tierSysId"/>
+			        <Pair DOAttb="TERM"    				toBOAttb="term"/>
+			        <Pair DOAttb="QUAL"    				toBOAttb="qualifier"/>
+			        <Pair DOAttb="PVA"    				toBOAttb="pva"/>	
+			        <Pair DOAttb="DATATYPE"    			toBOAttb="format"/>
+			        <Pair DOAttb="REF"    				toBOAttb="reference"/>
+			        <Pair DOAttb="BEN_VAL"    			toBOAttb="benefitValue"/>
+			        <Pair DOAttb="BEN_DESC"    			toBOAttb="benefitLevelDescription"/>	
+			        <Pair DOAttb="BEN_NID"    			toBOAttb="noteId"/>
+			        <Pair DOAttb="BEN_NNM"    			toBOAttb="noteName"/>
+			        <Pair DOAttb="TIER_CODE"    		toBOAttb="tierCode"/>
+			        <Pair DOAttb="TIER_DATA_TYPE"    	toBOAttb="tierDataType"/>
+			        <Pair DOAttb="CRITERIA_NAME"    	toBOAttb="criteriaName"/>	
+			        <Pair DOAttb="DISPLAY_SEQ_NUMBER"   toBOAttb="displaySequenceNumber"/>
+			        <Pair DOAttb="CRITERIA_VALUE"    	toBOAttb="criteriaValue"/>	
+			        <Pair DOAttb="BNFT_LVL_ID"    		toBOAttb="benefitLevelId"/>	
+			        
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="BC_ID"    		toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BEN_ID"    		toSCAttb="benefitId"/> 
+					<Pair DOAttb="TIER_ID"    		toSCAttb="tierId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="CNTRCT_ANSWR_OVRD">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="ADMN_OPT_ID"    	type="Int"/>			    
+			    <DataObjectAttribute name="ADMN_OPT_LV"    	type="String"/>
+			    <DataObjectAttribute name="QUESTION"    	type="String"/>		
+			    <DataObjectAttribute name="ANSWER"    		type="String"/>		
+			    <DataObjectAttribute name="REF"    			type="String"/>		
+			    <DataObjectAttribute name="PVA"    			type="String"/>		
+			    <DataObjectAttribute name="DT_SEG"    		type="String"/>	
+			    <DataObjectAttribute name="BC_ID"    		type="String"/>	
+			    <DataObjectAttribute name="BEN_DEF_ID"    	type="String"/>	
+				<DataObjectAttribute name="TIER_ID"    		type="Int"/>
+				<DataObjectAttribute name="ADMN_OPT_NM"    	type="String"/>
+				<DataObjectAttribute name="QSTN_NOTE_ID"    type="String"/>
+				<DataObjectAttribute name="QSTN_NOTE_NM"    type="String"/>
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_DEF_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="ADMN_OPT_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="ADMN_OPT_LV"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="QUESTION"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="ANSWER"/>		
+			            <ResultIndex index="5"  dataObjectAttribName ="REF"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="PVA"/>		
+						<ResultIndex index="7"  dataObjectAttribName ="ADMN_OPT_NM"/>	
+						<ResultIndex index="8"  dataObjectAttribName ="QSTN_NOTE_ID"/>	
+						<ResultIndex index="9"  dataObjectAttribName ="QSTN_NOTE_NM"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitAdminOptions"/>
+			    </SQLTemplate>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_DEF_ID"/>
+					<DataObjectAttributeInput index="3" name="TIER_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="ADMN_OPT_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="ADMN_OPT_LV"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="QUESTION"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="ANSWER"/>		
+			            <ResultIndex index="5"  dataObjectAttribName ="REF"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="PVA"/>		
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitTierAdminOptions"/>
+			    </SQLTemplate>		    		   
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+			        <Pair DOAttb="ADMN_OPT_ID"    		toBOAttb="adminOptionId"/>
+			        <Pair DOAttb="ADMN_OPT_LV"    		toBOAttb="adminOptionLevel"/>
+			        <Pair DOAttb="QUESTION"    			toBOAttb="question"/>
+			        <Pair DOAttb="ANSWER"    			toBOAttb="answer"/>
+			        <Pair DOAttb="REF"    				toBOAttb="reference"/>	
+			        <Pair DOAttb="PVA"    				toBOAttb="pva"/>	        
+			        <Pair DOAttb="ADMN_OPT_NM"    		toBOAttb="adminOptionName"/>	
+			        <Pair DOAttb="QSTN_NOTE_ID"    		toBOAttb="noteId"/>
+			        <Pair DOAttb="QSTN_NOTE_NM"    		toBOAttb="noteName"/>
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="BC_ID"    		toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BEN_DEF_ID"    	toSCAttb="benefitDefId"/> 
+					<Pair DOAttb="TIER_ID"    		toSCAttb="tierId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="SPR_PRCSS_STP_MSTR">
+			    <DataObjectAttribute name="KEY_VAL" 	type="Int"/>
+			    <DataObjectAttribute name="SPS_NM"    	type="String"/>			    
+			    <DataObjectAttribute name="ADMN_NM"    	type="String"/>		
+			    <DataObjectAttribute name="REF"    		type="String"/>		
+			    <DataObjectAttribute name="DT_SEG"    	type="String"/>	
+			    <DataObjectAttribute name="BC_ID"    	type="String"/>	
+			    <DataObjectAttribute name="BEN_DEF_ID"  type="String"/>	
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_DEF_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="SPS_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="ADMN_NM"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="REF"/>				
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractAdminMethods"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="SPS_NM"    		toBOAttb="spsName"/>
+			        <Pair DOAttb="ADMN_NM"    		toBOAttb="adminMethodName"/>
+			        <Pair DOAttb="REF"    			toBOAttb="reference"/>      
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    		toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="BC_ID"    		toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BEN_DEF_ID"    	toSCAttb="benefitDefId"/> 
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+		<DataObject name="bmst_bnft_mstr">
+			    <DataObjectAttribute name="KEY_VAL" type="Int"/>
+			    <DataObjectAttribute name="BEN_NM"    			type="String"/>			    
+			    <DataObjectAttribute name="BEN_ID"    			type="Int"/>		
+			    <DataObjectAttribute name="BEN_DESC"    		type="String"/>		
+			    <DataObjectAttribute name="BEN_VN"    			type="Int"/>	
+			    <DataObjectAttribute name="BEN_CT"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_TY"    			type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    			type="String"/>	
+			    <DataObjectAttribute name="BC_ID"    			type="String"/>	
+			    <DataObjectAttribute name="CAT_TY"    			type="String"/>	
+			    <DataObjectAttribute name="CAT_DS"    			type="String"/>	
+			    <DataObjectAttribute name="LOB_NM"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_ENT"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_GRP"    			type="String"/>	
+			    <DataObjectAttribute name="BEN_RUL"    			type="String"/>	
+				<DataObjectAttribute name="BEN_MEN"    			type="String"/>
+				<DataObjectAttribute name="BEN_RUL_DESC"    	type="String"/>
+				<DataObjectAttribute name="BEN_ADMN"    		type="Int"/>
+				<DataObjectAttribute name="BEN_P_ID"    		type="Int"/>
+
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="BEN_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_ID"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_DESC"/>	
+						<ResultIndex index="4"  dataObjectAttribName ="BEN_VN"/>
+						<ResultIndex index="5"  dataObjectAttribName ="BEN_CT"/>
+						<ResultIndex index="6"  dataObjectAttribName ="BEN_TY"/>
+						<ResultIndex index="7"  dataObjectAttribName ="BEN_ADMN"/>
+						<ResultIndex index="8"  dataObjectAttribName ="BEN_P_ID"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefits"/>
+			    </SQLTemplate>		
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="BEN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="CAT_TY"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="CAT_DS"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitBenefitLevelScope"/>
+			    </SQLTemplate>	  
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="BEN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="LOB_NM"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_ENT"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_GRP"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitDomains"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="BC_ID"/>
+					<DataObjectAttributeInput index="2" name="BEN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+			            <ResultIndex index="1"  dataObjectAttribName ="BEN_RUL"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BEN_MEN"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BEN_RUL_DESC"/>	
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitRules"/>
+			    </SQLTemplate> 
+ 		   
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="BEN_NM"    		toBOAttb="benefitName"/>
+			        <Pair DOAttb="BEN_ID"    		toBOAttb="benefitSysId"/>
+			        <Pair DOAttb="BEN_DESC"    		toBOAttb="description"/>
+			        <Pair DOAttb="BEN_VN"    		toBOAttb="version"/>
+			        <Pair DOAttb="BEN_CT"    		toBOAttb="benefitCategory"/>
+			        <Pair DOAttb="BEN_TY"    		toBOAttb="benefitType"/>
+			        <Pair DOAttb="CAT_TY"    		toBOAttb="catalogType"/>
+			        <Pair DOAttb="CAT_DS"    		toBOAttb="catalogDesc"/>
+			        <Pair DOAttb="LOB_NM"    		toBOAttb="lobNm"/>
+			        <Pair DOAttb="BEN_ENT"    		toBOAttb="BusinessEntityNm"/>
+			        <Pair DOAttb="BEN_GRP"    		toBOAttb="BusinessGroupNm"/>
+			        <Pair DOAttb="BEN_RUL"    		toBOAttb="ruleId"/>
+			        <Pair DOAttb="BEN_MEN"    		toBOAttb="benefitMeaning"/>
+			        <Pair DOAttb="BEN_RUL_DESC"    	toBOAttb="ruleDesc"/>
+			        <Pair DOAttb="BEN_ADMN"    		toBOAttb="benefitAdminSysid"/>
+	                <Pair DOAttb="BEN_P_ID"    		toBOAttb="benefitParentSysId"/>
+
+
+
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    	toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="BC_ID"    	toSCAttb="benefitComponentId"/>
+					<Pair DOAttb="BEN_ID"    	toSCAttb="benefitId"/> 
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+
+			<DataObject name="PROD_BNFT_CMPNT_ASSN">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="BC_SYS_ID"    	type="Int"/>			    
+			    <DataObjectAttribute name="BC_NM"    		type="String"/>		
+			    <DataObjectAttribute name="BC_CD"    		type="String"/>		
+			    <DataObjectAttribute name="BC_VR"    		type="Int"/>	
+			    <DataObjectAttribute name="BC_DESC"    		type="String"/>	
+			    <DataObjectAttribute name="BC_EFF_DT"    	type="String"/>	
+			    <DataObjectAttribute name="BC_EXP_DT"    	type="String"/>	
+			    <DataObjectAttribute name="BC_TY"    		type="String"/>	
+			    <DataObjectAttribute name="BC_RULE"    		type="String"/>	
+			    <DataObjectAttribute name="BC_RULE_DESC"    type="String"/>	
+			    <DataObjectAttribute name="DT_SEG"    		type="String"/>	
+			    <DataObjectAttribute name="PROD_ID"    		type="String"/>	
+			    <DataObjectAttribute name="BC_PR_ID"    	type="Int"/>	
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_SEG"/>
+					<DataObjectAttributeInput index="1" name="PROD_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="BC_SYS_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="BC_NM"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="BC_CD"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="BC_VR"/>	
+						<ResultIndex index="5"  dataObjectAttribName ="BC_DESC"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="BC_EFF_DT"/>	
+						<ResultIndex index="7"  dataObjectAttribName ="BC_EXP_DT"/>	
+						<ResultIndex index="8"  dataObjectAttribName ="BC_TY"/>	
+						<ResultIndex index="9"  dataObjectAttribName ="BC_RULE"/>	
+						<ResultIndex index="10"  dataObjectAttribName ="BC_RULE_DESC"/>			
+						<ResultIndex index="11"  dataObjectAttribName ="BC_PR_ID"/>		
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBenefitComponents"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+			        <Pair DOAttb="BC_SYS_ID"    		toBOAttb="benefitComponentId"/>
+			        <Pair DOAttb="BC_NM"    			toBOAttb="benefitComponentName"/>
+			        <Pair DOAttb="BC_CD"    			toBOAttb="benefitComponentStatus"/>      
+			        <Pair DOAttb="BC_VR"    			toBOAttb="version"/>
+			        <Pair DOAttb="BC_DESC"    			toBOAttb="benefitComponentDescription"/>
+			        <Pair DOAttb="BC_EFF_DT"    		toBOAttb="effectiveDate"/>
+			        <Pair DOAttb="BC_EXP_DT"    		toBOAttb="expiryDate"/>      
+			        <Pair DOAttb="BC_TY"    			toBOAttb="benefitComponentType"/>
+			        <Pair DOAttb="BC_RULE"    			toBOAttb="ruleId"/>
+			        <Pair DOAttb="BC_RULE_DESC"    		toBOAttb="ruleDesc"/>     
+			        <Pair DOAttb="BC_PR_ID"    			toBOAttb="benefitComponentParentSysId"/>     
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+			        <Pair DOAttb="DT_SEG"    toSCAttb="dateSegmentId"/>
+					<Pair DOAttb="PROD_ID"    toSCAttb="prodId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+
+			<DataObject name="PROD_MSTR">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="PROD_ID"    		type="Int"/>			    
+			    <DataObjectAttribute name="PROD_NM"    		type="String"/>		
+			    <DataObjectAttribute name="PROD_FNM"    	type="String"/>		
+			    <DataObjectAttribute name="PROD_TY"    		type="String"/>	
+			    <DataObjectAttribute name="PROD_STR_NM"    	type="String"/>	
+			    <DataObjectAttribute name="PROD_STR_VR"    	type="Int"/>	
+			    <DataObjectAttribute name="PROD_DESC"    	type="String"/>	
+			    <DataObjectAttribute name="PROD_EFF_DT"    	type="String"/>	
+			    <DataObjectAttribute name="PROD_EXP_DT"    	type="String"/>	
+			    <DataObjectAttribute name="PROD_VR"    		type="Int"/>	
+			    <DataObjectAttribute name="PROD_IN_ID"    	type="String"/>	
+	            <DataObjectAttribute name="PROD_PR_ID"    	type="Int"/>
+
+
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="PROD_IN_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="PROD_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="PROD_NM"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="PROD_FNM"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="PROD_TY"/>	
+						<ResultIndex index="5"  dataObjectAttribName ="PROD_STR_NM"/>	
+						<ResultIndex index="6"  dataObjectAttribName ="PROD_STR_VR"/>	
+						<ResultIndex index="7"  dataObjectAttribName ="PROD_DESC"/>	
+						<ResultIndex index="8"  dataObjectAttribName ="PROD_EFF_DT"/>	
+						<ResultIndex index="9"  dataObjectAttribName ="PROD_EXP_DT"/>	
+						<ResultIndex index="10"  dataObjectAttribName ="PROD_VR"/>		
+						<ResultIndex index="11"  dataObjectAttribName ="PROD_PR_ID"/>		
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractProduct"/>
+			    </SQLTemplate>		    		   
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    		toBOAttb="keyValue"/>
+			        <Pair DOAttb="PROD_ID"    		toBOAttb="prodId"/>
+			        <Pair DOAttb="PROD_NM"    		toBOAttb="productName"/>
+			        <Pair DOAttb="PROD_FNM"    		toBOAttb="productFamily"/>      
+			        <Pair DOAttb="PROD_TY"    		toBOAttb="productType"/>
+			        <Pair DOAttb="PROD_STR_NM"    	toBOAttb="productStructureName"/>
+			        <Pair DOAttb="PROD_STR_VR"    	toBOAttb="productStructureVersion"/>
+			        <Pair DOAttb="PROD_DESC"    	toBOAttb="description"/>      
+			        <Pair DOAttb="PROD_EFF_DT"    	toBOAttb="effectiveDate"/>
+			        <Pair DOAttb="PROD_EXP_DT"    	toBOAttb="expiryDate"/>
+			        <Pair DOAttb="PROD_VR"    		toBOAttb="version"/>      
+			        <Pair DOAttb="PROD_PR_ID"    	toBOAttb="productParentSysId"/>      
+
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="PROD_IN_ID"    	toSCAttb="prodId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+
+			<DataObject name="cntrct_dt_sgmnt_assn">
+			    <DataObjectAttribute name="KEY_VAL" 		type="Int"/>
+			    <DataObjectAttribute name="CNTRCT_ID"    	type="Int"/>			    
+			    <DataObjectAttribute name="DT_ID"    		type="Int"/>		
+			    <DataObjectAttribute name="PROD_ID"    		type="Int"/>		
+			    <DataObjectAttribute name="EFF_DT"    		type="Date"/>
+
+			    <DataObjectAttribute name="ITS_IND"    		type="String"/>	
+			    <DataObjectAttribute name="MED_IND"    		type="String"/>	
+			    <DataObjectAttribute name="COB_IND"    		type="String"/>	
+			    <DataObjectAttribute name="BRD_NM"    		type="String"/>	
+			    <DataObjectAttribute name="CRP_CD"    		type="String"/>	
+			    <DataObjectAttribute name="PRD_FM"    		type="String"/>	
+			    <DataObjectAttribute name="BEN_TXT"    		type="String"/>	
+			    <DataObjectAttribute name="STD_CD"    		type="String"/>	
+			    <DataObjectAttribute name="PRD_CD"    		type="String"/>	
+			    <DataObjectAttribute name="DT_EFF"    		type="String"/>	
+			    <DataObjectAttribute name="DT_EXP"    		type="String"/>	
+			    <DataObjectAttribute name="DT_GS"    		type="String"/>	
+			    <DataObjectAttribute name="BS_C_ID"    		type="String"/>	
+			    <DataObjectAttribute name="BS_C_DT"    		type="Date"/>	
+			    <DataObjectAttribute name="CNT_ID"    		type="String"/>	
+			    <DataObjectAttribute name="CNTRCT_TYPE"    	type="String"/>	
+	            <DataObjectAttribute name="CN_PR_ID"    	type="Int"/>		
+		
+
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="CNTRCT_ID"/>
+					<DataObjectAttributeInput index="1" name="EFF_DT"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  dataObjectAttribName ="CNTRCT_ID"/>	
+						<ResultIndex index="2"  dataObjectAttribName ="DT_ID"/>	
+						<ResultIndex index="3"  dataObjectAttribName ="PROD_ID"/>		
+						<ResultIndex index="4"  dataObjectAttribName ="CN_PR_ID"/>			
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractIntialInformation"/>
+			    </SQLTemplate>		    	
+
+
+				<SQLTemplate transType="select">	
+					<DataObjectAttributeInput index="0" name="DT_ID"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0"  	dataObjectAttribName ="KEY_VAL"/>	
+						<ResultIndex index="1"  	dataObjectAttribName ="ITS_IND"/>	
+						<ResultIndex index="2"  	dataObjectAttribName ="MED_IND"/>	
+						<ResultIndex index="3"  	dataObjectAttribName ="COB_IND"/>		
+						<ResultIndex index="4"  	dataObjectAttribName ="BRD_NM"/>	
+						<ResultIndex index="5"  	dataObjectAttribName ="CRP_CD"/>	
+						<ResultIndex index="6"  	dataObjectAttribName ="PRD_FM"/>		
+						<ResultIndex index="7"  	dataObjectAttribName ="BEN_TXT"/>	
+						<ResultIndex index="8"  	dataObjectAttribName ="STD_CD"/>	
+						<ResultIndex index="9"  	dataObjectAttribName ="PRD_CD"/>	
+						<ResultIndex index="10"  	dataObjectAttribName ="DT_EFF"/>	
+						<ResultIndex index="11"  	dataObjectAttribName ="DT_EXP"/>		
+						<ResultIndex index="12"  	dataObjectAttribName ="DT_GS"/>	
+						<ResultIndex index="13"  	dataObjectAttribName ="BS_C_ID"/>	
+						<ResultIndex index="14"  	dataObjectAttribName ="BS_C_DT"/>	
+						<ResultIndex index="15"  	dataObjectAttribName ="CNT_ID"/>	
+						<ResultIndex index="16"  	dataObjectAttribName ="CNTRCT_TYPE"/>	
+
+
+			 
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="getContractBasicAndSpecificInformation"/>
+			    </SQLTemplate>		
+
+			    <DoAttributeToBOAttributeMap>
+			        <Pair DOAttb="KEY_VAL"    			toBOAttb="keyValue"/>
+			        <Pair DOAttb="CNTRCT_ID"    		toBOAttb="contractSysId"/>
+			        <Pair DOAttb="DT_ID"    			toBOAttb="dateSegmentId"/>
+			        <Pair DOAttb="PROD_ID"    			toBOAttb="prodId"/>       
+
+			        <Pair DOAttb="ITS_IND"    			toBOAttb="itsAdjudicationIndicator"/>
+			        <Pair DOAttb="MED_IND"    			toBOAttb="medicareAdjudicationIndicator"/>
+			        <Pair DOAttb="COB_IND"    			toBOAttb="cobAdjudicationIndcator"/>
+			        <Pair DOAttb="BRD_NM"    			toBOAttb="brandName"/>    
+			        <Pair DOAttb="CRP_CD"    			toBOAttb="corporatePlanCode"/>
+			        <Pair DOAttb="PRD_FM"    			toBOAttb="productFamily"/>
+			        <Pair DOAttb="BEN_TXT"    			toBOAttb="benefitPlan"/>    
+			        <Pair DOAttb="STD_CD"    			toBOAttb="standardPlanCode"/>
+			        <Pair DOAttb="PRD_CD"    			toBOAttb="productCode"/>
+			        <Pair DOAttb="DT_EFF"    			toBOAttb="effectiveDate"/>
+			        <Pair DOAttb="DT_EXP"    			toBOAttb="expiryDate"/>    
+			        <Pair DOAttb="DT_GS"    			toBOAttb="groupSize"/>
+			        <Pair DOAttb="BS_C_ID"    			toBOAttb="baseContractId"/>
+			        <Pair DOAttb="BS_C_DT"    			toBOAttb="baseContractEffectiveDate"/>
+			        <Pair DOAttb="CNT_ID"    			toBOAttb="contractId"/>    
+			        <Pair DOAttb="CNTRCT_TYPE"    		toBOAttb="contractType"/>    
+			        <Pair DOAttb="CN_PR_ID"    			toBOAttb="contractParentSysId"/>    
+
+  
+			    </DoAttributeToBOAttributeMap>
+ 				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="CNTRCT_ID"    	toSCAttb="contractId"/>
+					<Pair DOAttb="EFF_DT"    		toSCAttb="effectiveDate"/>
+					<Pair DOAttb="DT_ID"    		toSCAttb="dateSegmentId"/>
+			    </DoAttributeToSCAttributeMap>
+			</DataObject>
+		</DataSource>
+
+	</BusinessObjectMetadata>
+</Metadata>

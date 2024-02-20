@@ -1,0 +1,89 @@
+/* Common CSS -- email seenugj@ust-global.com if you have questions or need to change the style sheet - PLEASE do NOT change this style sheet */
+
+@charset "utf-8";
+
+/*-----------------------------------------------------------------------------------------------------GENERAL CSS---------------------------------------------------------------------------*/
+
+
+body {
+	font: 11px Arial, sans-serif;
+	color: #000;
+	background: url(../images/body_bg.gif) repeat-x;
+	/* min-height:100%; */
+	height:100%;
+}
+body.normal{
+	font: 11px Arial, sans-serif;
+	color: #000;
+	background: #fff;
+	height:100%;
+	}
+.bT{
+	border-top:1px solid black; /*#d9e5eb*/
+	}	
+/*-------------------------------------------------------------------- Level1 Left Div---------------------------------------------*/		
+
+.tableHeader{
+	height: 20px;
+	_height:20px;
+	font-weight:bold;
+	color: #FFF;
+	text-align:left;
+	padding-top:5px;
+	padding-left:3px;
+	}
+.ListTable{
+	height:220px;
+	width: 470px;
+	overflow:auto;
+	overflow-x:hidden;
+	wrap-word:break-word;
+	
+	}
+
+/*-------------------------------------------------------------------- Level1 Right Div---------------------------------------------*/	
+.inprogress{
+	width:470px;
+	
+	float:right;
+	border:1px solid #898989;
+	}
+/*-------------------------------------------------------------------- Level2 Left Div---------------------------------------------*/		
+
+/*-------------------------------------------------------------------- Level2 Right Div---------------------------------------------*/		
+.Locate{
+	width:470px;
+	height:150px;
+	float:right;
+	border:1px solid #898989;
+	}	
+/*-------------------------------------------------------------------- Create Edit Page---------------------------------------------*/			
+
+#createEditContainer{
+	width:960px;
+	height:320px;
+	overflow:auto;
+	overflow-x:hidden;
+	border-top:2px solid #d9e5eb;
+	margin-top:15px;
+	}
+	
+/*----------------------------Footer----------------------*/
+.footer {
+	height: 36px;
+	background: url(../images/footer.gif) no-repeat;
+	width: 989px;
+	margin: 0 auto;
+	text-align: center;
+	bottom: 0px;
+	color:	#000;
+	padding-top: 8px;
+	}
+.footer a{
+	line-height: 19px;
+	color: #000;
+}
+.footer a:hover{
+	color: #fff;
+}
+

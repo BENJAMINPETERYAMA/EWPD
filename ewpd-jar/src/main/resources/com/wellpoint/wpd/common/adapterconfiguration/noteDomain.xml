@@ -1,0 +1,513 @@
+<Metadata> 
+	<BusinessObjectMetadata name="com.wellpoint.wpd.common.notes.bo.NoteDomainBO">
+		<BusinessAttribute name="noteId" 		    	type="String"		keyAttrib="true"/>
+		<BusinessAttribute name="systemDomainId" 			    type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="systemDomainDescription" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="entityId" 			    type="Int" 	keyAttrib="false"/>
+		<BusinessAttribute name="version" 			    type="Int" 	keyAttrib="true"/>
+		<BusinessAttribute name="entityType" 			    type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="systemDomainIds" 			    type="List" 	keyAttrib="true"/>
+		<BusinessAttribute name="createdUser" 				type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="createdTimestamp" 			type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedUser" 			type="String"	keyAttrib="false"/>
+		<BusinessAttribute name="lastUpdatedTimestamp" 		type="Date"	 	keyAttrib="false"/>
+		<BusinessAttribute name="status"	 		    	type="String"	keyAttrib="false"/>
+		
+		<SearchCriteria name="searchCriteria">
+	  		<SearchCriteriaAttribute name="noteId" 	type="String"/>
+			<SearchCriteriaAttribute name="entityType" 	type="String"/>
+			<SearchCriteriaAttribute name="entityId" 	type="String"/>
+			<SearchCriteriaAttribute name="version" 	type="Int"/>
+		</SearchCriteria>
+
+		<DataSource name="prmd" domain="medical" >
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:ewpd2/ewpd_2@10.10.43.217:1521:ISG</url>
+				<jndi>java:comp/env/wsbEwpdDS</jndi>
+			</Connection>
+
+			<SelectSQLQuery name="retrieveByNoteId">
+				SELECT A.NOTE_ID,A.ENTY_SYS_ID, B.CD_DESC_TXT, A.NOTE_VRSN_NBR FROM NOTE_DOMN_ASSN A, ITEM B WHERE A.NOTE_ID = {0} and A.NOTE_VRSN_NBR = {1}
+				 AND B.CTLG_ID = 1944 AND A.ENTY_SYS_ID=B.PRMRY_CD 
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="retrieveProductDataDomainByNoteID">
+				 SELECT distinct (TO_CHAR(PM.PROD_PARNT_SYS_ID)), PM.PROD_NM, NDA.NOTE_ID, NDA.ENTY_TYPE, NM.NOTE_VRSN_NBR, 
+     			 NM.NOTE_STTS_CD FROM PROD_MSTR PM, NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE PM.PROD_PARNT_SYS_ID = NDA.ENTY_SYS_ID
+   				 AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR AND NDA.ENTY_TYPE = 'AVAILPRODUCT' AND 
+				 NDA.NOTE_ID = NM.NOTE_ID AND NDA.NOTE_ID= {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveQuestionDataDomainByNoteID">
+				SELECT distinct (TO_CHAR(QM.ADQM_QSTN_MSTR_PARNT_SYS_ID)), QM.ADQM_ADMN_QSTN_DESC, NDA.NOTE_ID, NDA.ENTY_TYPE, NM.NOTE_VRSN_NBR, 
+     			 NM.NOTE_STTS_CD FROM ADQM_ADMN_QSTN_MSTR QM, NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE QM.ADQM_QSTN_MSTR_PARNT_SYS_ID
+				 = NDA.ENTY_SYS_ID AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR AND NDA.ENTY_TYPE = 'AVAILQUESTION' AND 
+				 NDA.NOTE_ID = NM.NOTE_ID AND NDA.NOTE_ID= {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveBenefitDataDomainByNoteID">
+				SELECT distinct (TO_CHAR(BM.BNFT_PARNT_SYS_ID)), BM.BNFT_ID_NM, NDA.NOTE_ID, NDA.ENTY_TYPE, NM.NOTE_VRSN_NBR, 
+     			 NM.NOTE_STTS_CD FROM BMST_BNFT_MSTR BM, NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE BM.BNFT_PARNT_SYS_ID
+				 = NDA.ENTY_SYS_ID AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR AND NDA.ENTY_TYPE = 'AVAILBENEFIT' AND 
+				 NDA.NOTE_ID = NM.NOTE_ID AND NDA.NOTE_ID= {0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveBenefitCompDataDomainByNoteID">
+				SELECT distinct (TO_CHAR(BCM.BNFT_CMPNT_PARNT_SYS_ID)),  BCM.BNFT_CMPNT_NM, NDA.NOTE_ID, NDA.ENTY_TYPE, NM.NOTE_VRSN_NBR, 
+     			 NM.NOTE_STTS_CD FROM BCM_BNFT_CMPNT_MSTR BCM, NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE BCM.BNFT_CMPNT_PARNT_SYS_ID
+				 = NDA.ENTY_SYS_ID AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR AND NDA.ENTY_TYPE = 'AVAILCOMP' AND 
+				 NDA.NOTE_ID = NM.NOTE_ID AND NDA.NOTE_ID= {0}				
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="retrieveTermDataDomainByNoteID">
+				SELECT PRMRY_CD, CD_DESC_TXT, NDA.NOTE_ID,  NDA.ENTY_TYPE, NDA.NOTE_VRSN_NBR,NM.NOTE_STTS_CD 
+				FROM ITEM  , NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE CTLG_ID=1934 AND PRMRY_CD = ENTY_SYS_ID 
+				AND NDA.NOTE_ID = NM.NOTE_ID AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR  AND NDA.NOTE_ID ={0}
+			</SelectSQLQuery>
+	
+			<SelectSQLQuery name="retrieveQualifierDataDomainByNoteID">
+				 SELECT PRMRY_CD, CD_DESC_TXT, NDA.NOTE_ID,  NDA.ENTY_TYPE, NDA.NOTE_VRSN_NBR,NM.NOTE_STTS_CD 
+				FROM ITEM  , NOTE_DOMN_ASSN NDA,NMST_NOTE_MSTR NM WHERE CTLG_ID=1935 AND PRMRY_CD = ENTY_SYS_ID 
+				AND NDA.NOTE_ID = NM.NOTE_ID AND NM.NOTE_VRSN_NBR = NDA.NOTE_VRSN_NBR  AND NDA.NOTE_ID ={0}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateTerm">
+				  SELECT PRMRY_CD, CD_DESC_TXT, NOTE_ID, NOTE_VRSN_NBR FROM ITEM, NOTE_DOMN_ASSN 
+						WHERE CTLG_ID=1934 AND PRMRY_CD = ENTY_SYS_ID AND NOTE_ID = {1} and ENTY_SYS_ID= {0} and ENTY_TYPE = {2} and NOTE_VRSN_NBR = {3}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateComp">
+				SELECT TO_CHAR(BNFT_CMPNT_NM), NOTE_ID, NOTE_VRSN_NBR FROM BCM_BNFT_CMPNT_MSTR, NOTE_DOMN_ASSN 
+						WHERE BNFT_CMPNT_PARNT_SYS_ID like(ENTY_SYS_ID) AND ENTY_TYPE = {2} AND NOTE_ID = {1} and ENTY_SYS_ID = {0} and NOTE_VRSN_NBR = {3}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateQualifier">
+				  SELECT PRMRY_CD, CD_DESC_TXT, NOTE_ID, NOTE_VRSN_NBR FROM ITEM, NOTE_DOMN_ASSN 
+						WHERE CTLG_ID=1935 AND PRMRY_CD = ENTY_SYS_ID AND NOTE_ID = {1} and ENTY_SYS_ID= {0} and ENTY_TYPE = {2} and NOTE_VRSN_NBR = {3}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateProduct">
+				  SELECT TO_CHAR(PROD_NM), NOTE_ID, NOTE_VRSN_NBR FROM PROD_MSTR, NOTE_DOMN_ASSN 
+						WHERE PROD_PARNT_SYS_ID like(ENTY_SYS_ID) AND ENTY_TYPE = {2} AND NOTE_ID = {1} and ENTY_SYS_ID = {0} and NOTE_VRSN_NBR = {3}
+
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateBenefit">
+				SELECT TO_CHAR(BNFT_ID_NM), NOTE_ID, NOTE_VRSN_NBR FROM BMST_BNFT_MSTR, NOTE_DOMN_ASSN 
+						WHERE BNFT_PARNT_SYS_ID like(ENTY_SYS_ID) AND ENTY_TYPE = {2} AND NOTE_ID = {1} and ENTY_SYS_ID = {0} and NOTE_VRSN_NBR = {3}
+			</SelectSQLQuery>
+
+			<SelectSQLQuery name="checkForDuplicateQuestion">
+				SELECT TO_CHAR(ADQM_ADMN_QSTN_DESC), NOTE_ID, NOTE_VRSN_NBR FROM ADQM_ADMN_QSTN_MSTR, NOTE_DOMN_ASSN 
+						WHERE ADQM_QSTN_MSTR_PARNT_SYS_ID like(ENTY_SYS_ID) AND ENTY_TYPE = {2} AND NOTE_ID = {1} and ENTY_SYS_ID = {0} and NOTE_VRSN_NBR = {3}
+			</SelectSQLQuery>
+			
+			<DataObject name="NOTE_DOMN_ASSN">
+				<DataObjectAttribute name="NOTE_ID" 		type="String"	/>
+				<DataObjectAttribute name="ENTY_SYS_ID" 		type="String"	/>
+				<DataObjectAttribute name="ENTY_TYPE" 		type="String" />
+				<DataObjectAttribute name="NOTE_VRSN_NBR" 		type="Int" />
+				<DataObjectAttribute name="LST_CHG_USR"    			type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    			type="TimeStamp"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    		type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    		type="TimeStamp"/>
+			    <DataObjectAttribute name="NOTE_STTS_CD"    		type="String"/>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_VRSN_NBR"/>
+			        <RSIndexToDOAttributeMap>
+			            <ResultIndex index="0" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="1" dataObjectAttribName ="ENTY_SYS_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			        </RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByNoteId"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveQuestionDataDomainByNoteID"/>
+			    </SQLTemplate>
+			
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			     
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveProductDataDomainByNoteID"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			      
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitDataDomainByNoteID"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			       
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitCompDataDomainByNoteID"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			      
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveTermDataDomainByNoteID"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+						<ResultIndex index="3" dataObjectAttribName ="ENTY_TYPE"/>
+			            <ResultIndex index="4" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+			            <ResultIndex index="5" dataObjectAttribName ="NOTE_STTS_CD"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveQualifierDataDomainByNoteID"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateTerm"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateComp"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="3" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateQualifier"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateProduct"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateBenefit"/>
+			    </SQLTemplate>
+
+				<SQLTemplate transType="select">
+			        <DataObjectAttributeInput index="0" name="ENTY_SYS_ID"/>
+			        <DataObjectAttributeInput index="1" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="NOTE_VRSN_NBR"/>
+					<RSIndexToDOAttributeMap>
+			            <ResultIndex index="1" dataObjectAttribName ="NOTE_ID"/>
+			            <ResultIndex index="2" dataObjectAttribName ="NOTE_VRSN_NBR"/>
+					</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateQuestion"/>
+			    </SQLTemplate>
+				
+				<SQLTemplate transType="delete">
+					<SQLQuery>
+						DELETE FROM NOTE_DOMN_ASSN WHERE NOTE_ID = ? AND ENTY_TYPE = ? and NOTE_VRSN_NBR = ?
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+					<DataObjectAttributeInput index="1" name="ENTY_TYPE"/>
+					<DataObjectAttributeInput index="2" name="NOTE_VRSN_NBR"/>
+				</SQLTemplate>
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+	  				   INSERT INTO NOTE_DOMN_ASSN (NOTE_ID, ENTY_SYS_ID, ENTY_TYPE, LST_CHG_USR, LST_CHG_TMS, CREATD_USER_ID, CREATD_TM_STMP,NOTE_VRSN_NBR,BNFT_DEFN_SYS_ID)
+			            VALUES(?, ?, ?, ?, ?, ?, ?,?,null)
+					</SQLQuery>
+					<DataObjectAttributeInput index="0" name="NOTE_ID"/>
+			        <DataObjectAttributeInput index="1" name="ENTY_SYS_ID"/>
+					<DataObjectAttributeInput index="2" name="ENTY_TYPE"/>
+			        <DataObjectAttributeInput index="3" name="LST_CHG_USR"/>
+			        <DataObjectAttributeInput index="4" name="LST_CHG_TMS"/>
+			        <DataObjectAttributeInput index="5" name="CREATD_USER_ID"/>
+			        <DataObjectAttributeInput index="6" name="CREATD_TM_STMP"/>
+			        <DataObjectAttributeInput index="7" name="NOTE_VRSN_NBR"/>
+
+	  			</SQLTemplate>				
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="NOTE_ID"	toBOAttb="noteId"/>
+						<Pair DOAttb="ENTY_SYS_ID"	toBOAttb="systemDomainIds"/>
+						<Pair DOAttb="ENTY_TYPE"	toBOAttb="entityType"/>
+						<Pair DOAttb="NOTE_VRSN_NBR"	toBOAttb="version"/>
+						<Pair DOAttb="LST_CHG_USR"    toBOAttb="lastUpdatedUser"/>
+				        <Pair DOAttb="LST_CHG_TMS"    				toBOAttb="lastUpdatedTimestamp"/>
+				        <Pair DOAttb="CREATD_USER_ID"    				toBOAttb="createdUser"/>
+				        <Pair DOAttb="CREATD_TM_STMP"    		toBOAttb="createdTimestamp"/>
+				        <Pair DOAttb="NOTE_STTS_CD"    		toBOAttb="status"/>
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+						<Pair DOAttb="NOTE_ID" 		toSCAttb="noteId"/>
+						<Pair DOAttb="ENTY_TYPE" 		toSCAttb="entityType"/>
+						<Pair DOAttb="ENTY_SYS_ID" 		toSCAttb="entityId"/>
+						<Pair DOAttb="NOTE_VRSN_NBR"	toSCAttb="version"/>
+
+				</DoAttributeToSCAttributeMap>
+			</DataObject> 
+
+			<DataObject name="ITEM">
+				<DataObjectAttribute name="CTLG_ID" 		type="Int"	/>
+				<DataObjectAttribute name="PRMRY_CD" 		type="String"	/>
+				<DataObjectAttribute name="SCNDRY_CD" 		type="String" />
+				<DataObjectAttribute name="CD_DESC_TXT" 	type="String" />
+				<DataObjectAttribute name="CREATD_USER_ID" 	type="String" />
+				<DataObjectAttribute name="CREATD_TM_STMP" 	type="TimeStamp" />
+				<DataObjectAttribute name="LST_CHG_USR" 	type="String" />
+				<DataObjectAttribute name="LST_CHG_TMS" 	type="TimeStamp" />
+		
+	  			<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="2" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveByNoteId"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveTermDataDomainByNoteID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+	  					<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveQualifierDataDomainByNoteID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+						<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateTerm"/>
+			    </SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="PRMRY_CD"/>
+						<ResultIndex index="1" dataObjectAttribName ="CD_DESC_TXT"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkForDuplicateQualifier"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="PRMRY_CD"	toBOAttb="systemDomainId"/>
+						<Pair DOAttb="CD_DESC_TXT"	toBOAttb="systemDomainDescription"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="PRODUCT">
+				<DataObjectAttribute name="PROD_SYS_ID" 		type="Int"/>
+				<DataObjectAttribute name="PROD_NM" 		type="String"/>
+				<DataObjectAttribute name="PROD_VRSN_NBR" 		type="Int"/>
+				<DataObjectAttribute name="PROD_STRCTR_SYS_ID" 	type="Int"/>
+				<DataObjectAttribute name="PROD_EFCTV_DT" 		type="Date"/>
+				<DataObjectAttribute name="PROD_EXPIRY_DT" 		type="Date"/>
+				<DataObjectAttribute name="PROD_DESC_TXT" 			type="String"/>
+				<DataObjectAttribute name="PROD_FMLY_NM" 			type="String"/>
+				<DataObjectAttribute name="PROD_STTS_CD" 			type="String"/>
+				<DataObjectAttribute name="CREATD_USER_ID" 		type="String"/>
+				<DataObjectAttribute name="CREATD_TM_STMP" 		type="TimeStamp"/>
+				<DataObjectAttribute name="LST_CHG_USR" 		type="String"/>
+				<DataObjectAttribute name="LST_CHG_TMS" 		type="TimeStamp"/>
+				<DataObjectAttribute name="PROD_PARNT_SYS_ID" 	type="String"/>
+				<DataObjectAttribute name="PROD_STRCTR_NM" 	type="String"/>
+				<DataObjectAttribute name="PROD_FAMILY_DESC" 	type="String"/>
+				<DataObjectAttribute name="SOURCE_PROD_SYS_ID" 	type="String"/>
+				<DataObjectAttribute name="LOB_ID" 	type="String"/>
+				<DataObjectAttribute name="BE_ID" 	type="String"/>
+				<DataObjectAttribute name="BG_ID" 	type="String"/>
+
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="PROD_PARNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="PROD_NM"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveProductDataDomainByNoteID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="PROD_NM"/>
+	  				</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateProduct"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="PROD_PARNT_SYS_ID"	toBOAttb="systemDomainId"/>
+						<Pair DOAttb="PROD_NM"	toBOAttb="systemDomainDescription"/>
+				</DoAttributeToBOAttributeMap>
+			</DataObject>
+
+			<DataObject name="BMST_BNFT_MSTR">
+				<DataObjectAttribute name="BNFT_PARNT_SYS_ID" 		type="String"/>
+				<DataObjectAttribute name="BNFT_ID_NM" 		type="String"/>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="BNFT_PARNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_ID_NM"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitDataDomainByNoteID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_ID_NM"/>
+	  				</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateBenefit"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_PARNT_SYS_ID"	toBOAttb="systemDomainId"/>
+						<Pair DOAttb="BNFT_ID_NM"	toBOAttb="systemDomainDescription"/>
+				</DoAttributeToBOAttributeMap>
+
+			</DataObject>
+
+			<DataObject name="ADQM_ADMN_QSTN_MSTR">
+				<DataObjectAttribute name="ADQM_QSTN_MSTR_PARNT_SYS_ID" 		type="String"/>
+				<DataObjectAttribute name="ADQM_ADMN_QSTN_DESC" 		type="String"/>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="ADQM_QSTN_MSTR_PARNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveQuestionDataDomainByNoteID"/>
+	  			</SQLTemplate>
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="ADQM_ADMN_QSTN_DESC"/>
+	  				</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateQuestion"/>
+			    </SQLTemplate>
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="ADQM_QSTN_MSTR_PARNT_SYS_ID"	toBOAttb="systemDomainId"/>
+						<Pair DOAttb="ADQM_ADMN_QSTN_DESC"	toBOAttb="systemDomainDescription"/>
+				</DoAttributeToBOAttributeMap>
+
+			</DataObject>
+
+			<DataObject name="BCM_BNFT_CMPNT_MSTR">
+			    <DataObjectAttribute name="BNFT_CMPNT_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_NM"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_VRSN_NBR"    type="Int"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_DESC_TXT"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_EFCTV_DT"    type="Date"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_EXPIRY_DT"    type="Date"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_STTS_CD"    type="String"/>
+			    <DataObjectAttribute name="BNFT_CMPNT_PARNT_SYS_ID"    type="String"/>
+			    <DataObjectAttribute name="LST_CHG_TMS"    type="TimeStamp"/>
+			    <DataObjectAttribute name="LST_CHG_USR"    type="String"/>
+			    <DataObjectAttribute name="CREATD_USER_ID"    type="String"/>
+			    <DataObjectAttribute name="CREATD_TM_STMP"    type="TimeStamp"/>
+				<DataObjectAttribute name="DOMN_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="LOB_NM"    type="String"/>
+				<DataObjectAttribute name="ENTY_SYS_ID"    type="Int"/>
+				<DataObjectAttribute name="PROD_STRCTR_SYS_ID"    type="Int"/>
+			    <DataObjectAttribute name="BUS_ENTY_NM"    type="String"/>
+ 				<DataObjectAttribute name="BUS_GRP_NM"    type="String"/>
+				<DataObjectAttribute name="PROD_STRCTR_EXPIRY_DT"    type="Date"/>
+				<DataObjectAttribute name="PROD_STRCTR_EFCTV_DT"    type="Date"/>
+				<DataObjectAttribute name="cnt"    type="Int"/>				
+				<DataObjectAttribute name="SOURCE_ID" 			type="Int"/>
+				<DataObjectAttribute name="DESTINATION_ID" 		type="Int"/>
+				<DataObjectAttribute name="SEQ_NO" 		type="Int"/>
+				
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+	  					<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_PARNT_SYS_ID"/>
+						<ResultIndex index="1" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+	  				</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retrieveBenefitCompDataDomainByNoteID"/>
+	  			</SQLTemplate>
+
+				<SQLTemplate transType="select">
+	  				<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="BNFT_CMPNT_NM"/>
+	  				</RSIndexToDOAttributeMap>
+
+					<SearchQueryName name="checkForDuplicateComp"/>
+			    </SQLTemplate>
+
+
+				<DoAttributeToBOAttributeMap>
+						<Pair DOAttb="BNFT_CMPNT_PARNT_SYS_ID"	toBOAttb="systemDomainId"/>
+						<Pair DOAttb="BNFT_CMPNT_NM"	toBOAttb="systemDomainDescription"/>
+				</DoAttributeToBOAttributeMap>
+		</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>

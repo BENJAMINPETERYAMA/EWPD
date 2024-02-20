@@ -1,0 +1,421 @@
+<Metadata> 
+<!-- Start of the BO for insertion of Data -->
+<BusinessObjectMetadata name="com.wellpoint.wpd.common.accumulator.bo.AccumulatorImpl">
+
+
+		<BusinessAttribute name="svcCde" 						type="String"  	keyAttrib="true"/>
+		<BusinessAttribute name="name" 							type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="rootCaseFlg" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="rootSubsCertFlg" 				type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="rootMbrCde" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="fromDtFlg" 					type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="thruDtFlg" 					type="Date" 	keyAttrib="false"/>
+		<BusinessAttribute name="lookUpInd" 					type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="adltKey" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="occursFlg" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="daysFlg" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="moniesFlg" 					type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="imageInd" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="m204Ind" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="aionInd" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="manuelInd" 					type="String"   keyAttrib="false"/>
+		<BusinessAttribute name="adjudSrtCde" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="grpSrtSeq" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="system" 						type="String" 	keyAttrib="true"/>
+		<BusinessAttribute name="pva" 							type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="cstTyp" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="inClaimsFlg" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="delFlg" 						type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hiddenSvcCde" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="hiddenSystem" 					type="String" 	keyAttrib="false"/>
+		<BusinessAttribute name="question" 					type="String" 	keyAttrib="false"/>
+		
+		<SearchCriteria name="searchCriteria1">
+			<SearchCriteriaAttribute name="name" 			type="String"/>	
+			<SearchCriteriaAttribute name="pva" 			type="String"/>
+			<SearchCriteriaAttribute name="cstTyp" 			type="String"/>	
+			<SearchCriteriaAttribute name="svcCde" 			type="String"/>
+			<SearchCriteriaAttribute name="system" 			type="String"/>
+			<SearchCriteriaAttribute name="question" 			type="String"/>
+			<SearchCriteriaAttribute name="benefit" 			type="String"/>
+			<SearchCriteriaAttribute name="accumCodesList" 	type="List"/>
+		</SearchCriteria>
+
+		<DataSource name="lg" domain="medical">
+			<Connection preferred="jndi">
+				<url>jdbc:oracle:thin:@10.10.43.217:1521:ewpd</url>
+				<jndi>jdbc/wsbEwpd</jndi>
+			</Connection>
+			<SelectSQLQuery>
+			<![CDATA[
+				select system,SVC_CDE,NAME,pva,CST_TYP,IN_CLAIMS_FLG,ROOT_MBR_CDE,LOOKUP_IND,OCCURS_FLG,DAYS_FLG,MONIES_FLG,DEL_FLG from ACCUMULATOR_VAL where system = ? and SVC_CDE = ? 
+			]]>
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getAccumulatorByCode">
+				select system,SVC_CDE,NAME,pva,CST_TYP,IN_CLAIMS_FLG,DEL_FLG from ACCUMULATOR_VAL where SVC_CDE = {0} and system = {1}
+			</SelectSQLQuery>
+			
+			<SelectSQLQuery name="getAllAccumWithMoniesFlgY">
+				<![CDATA[
+					SELECT SVC_CDE,NAME,MONIES_FLG,IN_CLAIMS_FLG,pva,CST_TYP FROM ACCUMULATOR_VAL WHERE (MONIES_FLG != 'N' OR IN_CLAIMS_FLG ='N') AND NAME LIKE {0} AND PVA 
+					LIKE {1} AND UPPER(CST_TYP) LIKE {2} AND SVC_CDE LIKE {3} AND DEL_FLG = 'N' AND SYSTEM = {4} ORDER BY SVC_CDE ASC
+				]]>
+			</SelectSQLQuery> 
+			
+			<SelectSQLQuery name="getAllAccumWithDaysFlgY">
+				<![CDATA[
+					SELECT SVC_CDE,NAME,DAYS_FLG,IN_CLAIMS_FLG,pva,CST_TYP FROM ACCUMULATOR_VAL WHERE (DAYS_FLG != 'N'  OR IN_CLAIMS_FLG ='N') AND NAME LIKE {0} AND PVA 
+					LIKE {1} AND UPPER(CST_TYP) LIKE {2} AND SVC_CDE LIKE {3} AND DEL_FLG = 'N' AND SYSTEM = {4} ORDER BY SVC_CDE ASC
+				]]>
+			</SelectSQLQuery> 
+			
+			<SelectSQLQuery name="getAllAccumWithOccursFlgY">
+				<![CDATA[
+					SELECT SVC_CDE,NAME,OCCURS_FLG,IN_CLAIMS_FLG,pva,CST_TYP FROM ACCUMULATOR_VAL WHERE (OCCURS_FLG != 'N' OR IN_CLAIMS_FLG ='N') AND NAME LIKE {0} AND PVA 
+					LIKE {1} AND UPPER(CST_TYP) LIKE {2} AND SVC_CDE LIKE {3} AND DEL_FLG = 'N' AND SYSTEM = {4}  ORDER BY SVC_CDE ASC
+				]]>
+			</SelectSQLQuery> 
+			
+			
+			
+			<SelectSQLQuery name="getAllAccumulator" dynamic="true" >
+			<STATIC>
+			<![CDATA[
+			SELECT DISTINCT A.SVC_CDE,A.NAME,A.MONIES_FLG,A.DAYS_FLG,
+					A.OCCURS_FLG,A.IN_CLAIMS_FLG,A.pva,A.CST_TYP
+                   FROM ACCUMULATOR_VAL A ,BNFT_ACCUMR_ASSN B , BMST_BNFT_MSTR C,ADQM_ADMN_QSTN_MSTR D
+                   WHERE B.BNFT_SYS_ID = C.BNFT_PARNT_SYS_ID AND  B.ADQM_ADMN_QSTN_NBR=D.ADQM_QSTN_MSTR_PARNT_SYS_ID AND A.SVC_CDE = B.ACCUMR_CD AND A.DEL_FLG  = 'N'
+			]]>
+			</STATIC>
+			<DYNAMIC>
+			<![CDATA[
+			 AND A.NAME LIKE {0}
+			]]>
+			</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			AND A.PVA LIKE {1}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			 AND UPPER(A.CST_TYP) LIKE {2}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			 AND A.SVC_CDE LIKE {3} 
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			 AND D.ADQM_ADMN_QSTN_NBR LIKE {4}
+			]]>
+      		</DYNAMIC> 
+			<DYNAMIC>
+			<![CDATA[
+			 AND C.BNFT_SYS_ID LIKE {5}
+			]]>
+      		</DYNAMIC> 
+			
+     		</SelectSQLQuery> 
+			
+			<SelectSQLQuery name="getAllAccumulatorVarMapped">
+				<![CDATA[
+					SELECT SVC_CDE,NAME,MONIES_FLG,DAYS_FLG,OCCURS_FLG,IN_CLAIMS_FLG,pva,CST_TYP FROM ACCUMULATOR_VAL WHERE NAME LIKE {0} AND PVA 
+					LIKE {1} AND UPPER(CST_TYP) LIKE {2} AND SVC_CDE {3} AND DEL_FLG = 'N' AND SYSTEM = {4} ORDER BY SVC_CDE ASC
+				]]>
+			</SelectSQLQuery>
+			
+						
+			<SelectSQLQuery name="retreiveAccumulatorDetails">
+				<![CDATA[
+					SELECT SVC_CDE,NAME,MONIES_FLG,DAYS_FLG,OCCURS_FLG,IN_CLAIMS_FLG,pva,CST_TYP FROM ACCUMULATOR_VAL WHERE 
+					SVC_CDE {0} AND SYSTEM = {1} AND DEL_FLG = 'N'  ORDER BY SVC_CDE ASC
+				]]>
+			</SelectSQLQuery>
+			
+				
+			<SelectSQLQuery name="accumulatorSearch" dynamic="true" >
+			<STATIC>
+			<![CDATA[
+			SELECT SVC_CDE,NAME,system,IN_CLAIMS_FLG FROM ACCUMULATOR_VAL WHERE UPPER(SVC_CDE) LIKE UPPER({3})
+			]]>
+			</STATIC>
+			<DYNAMIC>
+			<![CDATA[
+			AND UPPER(NAME) LIKE UPPER({0})
+			]]>
+			</DYNAMIC> 
+	  		</SelectSQLQuery>
+	  		
+	  		<SelectSQLQuery name="checkExistaccumulator">
+			<![CDATA[
+			SELECT SVC_CDE,NAME,system,IN_CLAIMS_FLG FROM ACCUMULATOR_VAL WHERE system = {4} and UPPER(SVC_CDE) = UPPER({3})
+			]]>
+	  		</SelectSQLQuery>
+	  		
+	  		<SelectSQLQuery name="accumulatorSearchForValidation">
+	  			SELECT SVC_CDE,IN_CLAIMS_FLG, DEL_FLG FROM ACCUMULATOR_VAL WHERE UPPER(SVC_CDE) = UPPER({0})
+	  		</SelectSQLQuery>
+			
+			<DataObject name="accumulator_values">
+				<DataObjectAttribute name="svcCde" 		type="String"/>
+				<DataObjectAttribute name="name" 		type="String"/>
+				<DataObjectAttribute name="pva" 		type="String"/>
+				<DataObjectAttribute name="cstTyp" 		type="String"/>
+				<DataObjectAttribute name="system" 		type="String"/>
+				<DataObjectAttribute name="moniesFlg" 	type="String"/>
+				<DataObjectAttribute name="daysFlg" 	type="String"/>
+				<DataObjectAttribute name="occursFlg" 	type="String"/>
+				<DataObjectAttribute name="inClaimsFlg" type="String"/>
+				<DataObjectAttribute name="delFlg" 		type="String"/>
+				<DataObjectAttribute name="rootMbrCde" 	type="String"/>
+				<DataObjectAttribute name="lookUpInd" 	type="String"/>
+				<DataObjectAttribute name="hiddenSvcCde" 	type="String"/>
+				<DataObjectAttribute name="hiddenSystem" 	type="String"/>
+				<DataObjectAttribute name="accumCode" 	type="String"/>
+				<DataObjectAttribute name="question" 	type="String"/>
+				<DataObjectAttribute name="benefit" 	type="String"/>
+				
+			
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="system" />
+				<DataObjectAttributeInput index="1" name="svcCde" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="system"/>
+						<ResultIndex index="1" dataObjectAttribName ="svcCde"/>
+						<ResultIndex index="2" dataObjectAttribName ="name"/>
+						<ResultIndex index="3" dataObjectAttribName ="pva"/>
+						<ResultIndex index="4" dataObjectAttribName ="cstTyp"/>
+						<ResultIndex index="5" dataObjectAttribName ="inClaimsFlg"/>
+						<ResultIndex index="6" dataObjectAttribName ="rootMbrCde"/>
+						<ResultIndex index="7" dataObjectAttribName ="lookUpInd"/>
+						<ResultIndex index="8" dataObjectAttribName ="occursFlg"/>
+						<ResultIndex index="9" dataObjectAttribName ="daysFlg"/>
+						<ResultIndex index="10" dataObjectAttribName ="moniesFlg"/>
+						<ResultIndex index="11" dataObjectAttribName ="delFlg"/>
+					</RSIndexToDOAttributeMap>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+				<DataObjectAttributeInput index="0" name="svcCde" />
+				<DataObjectAttributeInput index="1" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName ="system"/>
+						<ResultIndex index="1" dataObjectAttribName ="svcCde"/>
+						<ResultIndex index="2" dataObjectAttribName ="name"/>
+						<ResultIndex index="3" dataObjectAttribName ="pva"/>
+						<ResultIndex index="4" dataObjectAttribName ="cstTyp"/>
+						<ResultIndex index="5" dataObjectAttribName ="inClaimsFlg"/>
+						<ResultIndex index="6" dataObjectAttribName ="delFlg"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAccumulatorByCode"/>
+				</SQLTemplate>
+
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<DataObjectAttributeInput index="4" name="question" />
+					<DataObjectAttributeInput index="5" name="benefit" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="moniesFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="daysFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="occursFlg"/>
+						<ResultIndex index="5" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="6" dataObjectAttribName="pva"/>
+						<ResultIndex index="7" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAllAccumulator"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="accumCode" />
+					<DataObjectAttributeInput index="4" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="moniesFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="daysFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="occursFlg"/>
+						<ResultIndex index="5" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="6" dataObjectAttribName="pva"/>
+						<ResultIndex index="7" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAllAccumulatorVarMapped"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="accumCode" />
+					<DataObjectAttributeInput index="1" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="moniesFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="daysFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="occursFlg"/>
+						<ResultIndex index="5" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="6" dataObjectAttribName="pva"/>
+						<ResultIndex index="7" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="retreiveAccumulatorDetails"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<DataObjectAttributeInput index="4" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="moniesFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="pva"/>
+						<ResultIndex index="5" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAllAccumWithMoniesFlgY"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<DataObjectAttributeInput index="4" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="daysFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="pva"/>
+						<ResultIndex index="5" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAllAccumWithDaysFlgY"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<DataObjectAttributeInput index="4" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="occursFlg"/>
+						<ResultIndex index="3" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="4" dataObjectAttribName="pva"/>
+						<ResultIndex index="5" dataObjectAttribName="cstTyp"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="getAllAccumWithOccursFlgY"/>
+				</SQLTemplate>
+								
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="system"/>
+						<ResultIndex index="3" dataObjectAttribName="inClaimsFlg"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="accumulatorSearch"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="name" /> 
+					<DataObjectAttributeInput index="1" name="pva" />
+					<DataObjectAttributeInput index="2" name="cstTyp" />
+					<DataObjectAttributeInput index="3" name="svcCde" />
+					<DataObjectAttributeInput index="4" name="system" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="name"/>
+						<ResultIndex index="2" dataObjectAttribName="system"/>
+						<ResultIndex index="3" dataObjectAttribName="inClaimsFlg"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="checkExistaccumulator"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="select">
+					<DataObjectAttributeInput index="0" name="svcCde" />
+					<RSIndexToDOAttributeMap>
+						<ResultIndex index="0" dataObjectAttribName="svcCde"/>
+						<ResultIndex index="1" dataObjectAttribName="inClaimsFlg"/>
+						<ResultIndex index="2" dataObjectAttribName ="delFlg"/>
+					</RSIndexToDOAttributeMap>
+					<SearchQueryName name="accumulatorSearchForValidation"/>
+				</SQLTemplate>
+				
+				<SQLTemplate transType="insert">
+					<SQLQuery>
+						insert into accumulator_val(SYSTEM,SVC_CDE,NAME,PVA,CST_TYP,IN_CLAIMS_FLG,del_flg)
+						values(?,UPPER(trim(?)),trim(?),?,?,?,?)
+					</SQLQuery>
+	  				<DataObjectAttributeInput index="0" name="system"/>
+					<DataObjectAttributeInput index="1" name="svcCde"/>
+					<DataObjectAttributeInput index="2" name="name"/>
+					<DataObjectAttributeInput index="3" name="pva"/>
+					<DataObjectAttributeInput index="4" name="cstTyp"/>
+					<DataObjectAttributeInput index="5" name="inClaimsFlg"/>
+					<DataObjectAttributeInput index="6" name="delFlg"/>
+	  			</SQLTemplate>
+	  			
+	  			<SQLTemplate transType="update">
+  					<SQLQuery>update accumulator_val set SYSTEM = ?,SVC_CDE = ?,NAME = ?,PVA = ?,CST_TYP = ? where trim(SVC_CDE) = trim(?) and trim(system) = trim(?)
+				</SQLQuery> 
+				  <DataObjectAttributeInput index="0" name="system" /> 
+  				  <DataObjectAttributeInput index="1" name="svcCde" /> 
+  			      <DataObjectAttributeInput index="2" name="name" /> 
+		    	  <DataObjectAttributeInput index="3" name="pva" /> 
+				  <DataObjectAttributeInput index="4" name="cstTyp" /> 
+				  <DataObjectAttributeInput index="5" name="hiddenSvcCde" /> 
+				  <DataObjectAttributeInput index="6" name="hiddenSystem" /> 
+ 				 </SQLTemplate>
+ 				 				
+				<DoAttributeToBOAttributeMap>
+					<Pair DOAttb="svcCde" 		toBOAttb="svcCde"/>
+					<Pair DOAttb="name" 		toBOAttb="name"/>
+					<Pair DOAttb="pva" 			toBOAttb="pva"/>
+					<Pair DOAttb="cstTyp" 		toBOAttb="cstTyp"/>					
+					<Pair DOAttb="moniesFlg" 	toBOAttb="moniesFlg"/>
+					<Pair DOAttb="daysFlg" 		toBOAttb="daysFlg"/>
+					<Pair DOAttb="occursFlg" 	toBOAttb="occursFlg"/>
+					<Pair DOAttb="system" 		toBOAttb="system"/>
+					<Pair DOAttb="inClaimsFlg" 	toBOAttb="inClaimsFlg"/>
+					<Pair DOAttb="delFlg"   	toBOAttb="delFlg"/>
+					<Pair DOAttb="rootMbrCde"   toBOAttb="rootMbrCde"/>
+					<Pair DOAttb="lookUpInd"    toBOAttb="lookUpInd"/>
+					<Pair DOAttb="hiddenSvcCde"    toBOAttb="hiddenSvcCde"/>
+					<Pair DOAttb="hiddenSystem"    toBOAttb="hiddenSystem"/>
+					
+					
+				</DoAttributeToBOAttributeMap>
+				<DoAttributeToSCAttributeMap>
+					<Pair DOAttb="svcCde" 	toSCAttb="svcCde"/>
+					<Pair DOAttb="name" 	toSCAttb="name"/>
+					<Pair DOAttb="pva" 		toSCAttb="pva"/>
+					<Pair DOAttb="cstTyp" 	toSCAttb="cstTyp"/>
+					<Pair DOAttb="system" 	toSCAttb="system"/>
+					<Pair DOAttb="accumCode"    toSCAttb="accumCodesList"/>
+					<Pair DOAttb="benefit" 	toSCAttb="benefit"/>
+					<Pair DOAttb="question"    toSCAttb="question"/>
+				</DoAttributeToSCAttributeMap>
+					
+			</DataObject>
+		</DataSource>
+	</BusinessObjectMetadata>
+
+</Metadata>

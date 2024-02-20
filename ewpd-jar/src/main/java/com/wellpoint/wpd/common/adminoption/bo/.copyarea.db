@@ -1,0 +1,11 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\adminoption\bo
+2
+7
+1e:AssociatedQuestionnaireBO.java|1|16adf9642d1|1fe2|6842dd9f|e99638e8e7734585b24c23a3bc9465da|0
+21:AssociatedQuestionnaireCpyBO.java|1|16adf9642d1|1aab|fdf736fa|c51917e951e8479387b74aa51a97eb71|0
+19:ChildQuestionnaireBO.java|1|16adf96434e|22aa|39be431d|67d91a8f7b084164af6a84d389a92b74|0
+16:AdminOptionTempBO.java|1|16adf964254|23b|d1daba44|d646036ffca641bcbc081fc9465bd25d|0
+18:RootQuestionnaireBO.java|1|16adf96437c|22f3|dd16785a|816bd8fdf44940868a47d776b996ec7a|0
+19:AssociatedQuestionBO.java|1|16adf9642d1|1e18|4daad90a|62a4809ccc7b4612900428bad4087bba|0
+12:AdminOptionBO.java|1|16adf964254|1891|6b7b216c|49e4492a187e4d13907459d4ce7c7324|0

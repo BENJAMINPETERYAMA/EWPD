@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\product\tree\bo
+2
+4
+25:ProductTreeBenefitAdministration.java|1|16adf97a903|1283|195eb47d|ecf93b528eeb437db48707a9a7c17fd4|0
+1c:ProductTreeAdminOptions.java|1|16adf97ae8e|1366|fdd0053f|58b82ffbf030436c9905ef6372c202a8|0
+21:ProductTreeBenefitComponents.java|1|16adf97a71f|16a5|7bb01e4c|3ba2ba0bdd274f0ca3e7da82b77eff8b|0
+20:ProductTreeStandardBenefits.java|1|16adf97ae8e|2d9c|55eebdb8|4601dad298754059bac0b9cf506c705b|0

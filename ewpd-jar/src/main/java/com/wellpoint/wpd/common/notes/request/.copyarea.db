@@ -1,0 +1,26 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\notes\request
+2
+16
+17:CreateNotesRequest.java|1|16adf976c22|e73|100a653b|d89ef75e724242518bceb368755dc206|0
+16:NoteDomainRequest.java|1|16adf976d99|f48|85c6c0fb|38fdabfac01949e08ef3b2bff16879c4|0
+15:NotesCopyRequest.java|1|16adf976e63|4c2|c9788d95|e1686d8df3094fb4962d4cd8575f0a22|0
+2e:ProductAONotesToQuestionAttachmentRequest.java|1|16adf976ea2|59c|b9baeb5c|b7374273ad2d4dee99902b9513e763ef|0
+1b:AdminAttachmentRequest.java|1|16adf97767e|ba6|cccb9afe|4f9e5a881380484a9843f4025ff5765c|0
+1e:QuestionNotesPopUpRequest.java|1|16adf976ea2|dc4|3b6c6780|49885c9c841a4b63837659b7b18ee7dd|0
+2f:ContractAONotesToQuestionAttachmentRequest.java|1|16adf976afa|5a4|a7d5efdd|8c535946f3e345d3aaf4c1945dd0bfe2|0
+2d:ContractNotesToQuestionAttachmentRequest.java|1|16adf976afa|5a4|b2f2ef63|0a4032e2a32c46dba4b06a896f92e8bd|0
+21:CreateNotesDataDomainRequest.java|1|16adf976c51|10b4|6dd0367d|603da368268d4cc8bf74ebaa197e8570|0
+2e:ProdStructureNotesToQstionAttchmntRequest.java|1|16adf976eb1|fa3|8cf5e7a3|ac334a3733dc42f3b35fed557bd5b007|0
+19:NotesCheckOutRequest.java|1|16adf976e15|4c7|6793906b|c616e0ba579b4621a7fadced0446329c|0
+17:DeleteNotesRequest.java|1|16adf976df6|ceb|5ac600ea|f1e4029591e947d3a8f4c213f63af428|0
+20:ViewAllVersionsNotesRequest.java|1|16adf97740e|57e|fe8bb55a|2c98c38f8c034674846d3235ab4f552c|0
+1b:NotesAttachmentRequest.java|1|16adf976d99|f27|9925aee1|404b42109d8c4d62b81c01fab9217287|0
+1a:NotesLifeCycleRequest.java|1|16adf976df6|669|2240fca6|20cef8e9fa0048ceac78d87a3b87f4df|0
+19:RetrieveNotesRequest.java|1|16adf976ee0|f4f|875fb3da|18ee5619dec140b190d03d296e4f1208|0
+17:NotesSearchRequest.java|1|16adf9776dc|507|bc839800|31359529b13e46fc8c69bc164d984e71|0
+27:LocateTargetSystemsForNotesRequest.java|1|16adf976d99|4c1|278688d5|b950c25637ae46728ce0664dd9677c15|0
+18:NotesCheckInRequest.java|1|16adf976d99|bf3|ecbba422|ac8d556846274fb29e484a08df8e0bff|0
+2d:BnftCompNotesToQuestionAttachmentRequest.java|1|16adf976afa|65e|5de820a2|80696d69016e47a1b19572b6eb0c1419|0
+33:ContractTeiredNotesToQuestionAttachmentRequest.java|1|16adf976c51|10be|f5d2a8f3|8a8cb925700145caa4ce45b44fbc9522|0
+1c:BenefitLineNotesRequest.java|1|16adf976da8|b4a|d3069cf5|cf557ece60054dfd9278049dc23a1035|0

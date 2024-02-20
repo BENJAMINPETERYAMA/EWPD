@@ -1,0 +1,15 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\benefitcomponent\bo
+2
+b
+14:BenefitMandates.java|1|16adf966ff9|976|764c4e1|cff78e5654d34fe0bedb2a2415abe353|0
+17:BenefitComponentBO.java|1|16adf96680d|31c6|3f4e757f|4ec069b1e5824199b44ef6ac34ce6648|0
+29:BenefitComponentGeneralInformationBO.java|1|16adf9676ad|17ca|ddae699|3dd6c084be4d4b02bde372b827b31e02|0
+e:BenefitBO.java|1|16adf96610b|61f|5cc9d310|295eb690a42b4eae8a288bd735e4d312|0
+17:BenefitHierarchyBO.java|1|16adf96769d|11af|77963c72|fadc9e101edb4596acbb9b33d3029051|0
+15:BenefitComponent.java|1|16adf967ad1|a47|70c8151b|fa4787ac395f49a8ad32d38b3cf2597a|0
+1a:BenefitViewAllVersion.java|1|16adf967066|7c6|38004194|cad2527e03124b6989540cb44903d363|0
+25:BenefitComponentQuesitionnaireBO.java|1|16adf967ae1|1ea0|e168b9af|b133befd93104d87a6aad85e5d221e78|0
+22:BenefitHierarchyAssociationBO.java|1|16adf966ff9|1705|9a29d5bc|0ad670d481474ab79155494908c9a98d|0
+15:BenefitHierarchy.java|1|16adf967008|36b|827a0972|893a2ed6b549407fbc185a6e716ba3ba|0
+26:ComponentsBenefitAdministrationBO.java|1|16adf967066|c95|3f971ac0|1dffe3f010e54d20b8c4ff95e11f57c7|0

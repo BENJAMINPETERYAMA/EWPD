@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\domain\exception
+2
+3
+14:DomainException.java|1|16b935dcd8a|412|58962e12|f1a157de9b8f49cfbf8f241133997e0f|0
+11:EBXException.java|1|16b935dcdd8|3db|3ed442a9|f78c0e74c9c24c60a1396cf58a701a45|0
+28:MappingLockedByAnotherUserException.java|1|16b935dcdd8|170|af097a7b|cc23dd79540c48feb091311577aa4973|0

@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\test\resources
+2
+4
+12:adapter.properties|1|16adf985bc5|1369|ce898317|773e6567953045a3857cfb46e9b17b21|0
+1a:commons-logging.properties|1|16adf985ccf|48|e3cd1b56|f1e5e774151f4333b715e38c2d57dcc5|0
+10:log4j.properties|1|16adf985cee|1c6|7f78a27e|e7443db29e044b0dbfbce52769dbeede|0
+f:jndi.properties|1|16adf985ccf|ee|5f94585a|d2e2f9a7000445daacfdc892ca580ed9|0

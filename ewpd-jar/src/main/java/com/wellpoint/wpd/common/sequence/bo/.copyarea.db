@@ -1,0 +1,8 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\sequence\bo
+2
+4
+12:AnswerIdSeqBO.java|1|16adf97ec3a|33e|dce2fbde|a627845d364a4da98e5878d4e7067b6c|0
+15:QuestionNbrSeqBO.java|1|16adf97ecf5|383|4f71a56|95f65f3240ec4e22b4615a7afdcd8314|0
+d:Sequence.java|1|16adf97eca7|3a2|ae4b25ae|e785832439684f6bbcfd7be89948d3aa|0
+1a:AdminOptionSequenceBO.java|1|16adf97ecd6|3d5|5af22cdf|fc3ddaf0b7f747268841ef8632e1fcfe|0

@@ -1,0 +1,9 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\common\adminmethodmaintain\response
+2
+5
+1c:AdminMethodEditResponse.java|1|16adf963c2c|624|a20fae4|67cb52d7cb8a44cfb9ba02c44fad9696|0
+1e:AdminMethodSearchResponse.java|1|16adf963c8a|372|ee53198e|1e1865e3cd6d4655850427f4e3f0828d|0
+1e:AdminMethodDeleteResponse.java|1|16adf963bde|212|1c50ab3e|24893de9bb86495c90806daa70537564|0
+1e:AdminMethodCreateResponse.java|1|16adf963bde|725|59c749ba|ea03541e2aba4e0484bcd1578cc9f0fa|0
+1c:AdminMethodViewResponse.java|1|16adf963c2c|547|15f5ba30|bf1bf856459249498e0df285edccaed2|0

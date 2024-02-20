@@ -1,0 +1,7 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\java\com\wellpoint\ets\bx\mapping\util
+2
+3
+10:MappingUtil.java|1|16b935de750|adb7|963922ad|572825a4958c46b4904659b13f19453c|0
+16:MassUpdateTracker.java|1|16b935e035f|2a21|9f83ec3|bd3ac89e190d44d29444a9c37e764174|0
+b:BxUtil.java|1|16b935de657|98db|1e18330c|5b5a9f46b13747ed9faf46dece586135|0

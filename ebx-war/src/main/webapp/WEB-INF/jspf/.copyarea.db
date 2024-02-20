@@ -1,0 +1,12 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ebx-war\src\main\webapp\WEB-INF\jspf
+2
+8
+c:pageTop.jspf|1|16b935e9689|34c|f0ae0092|912720829bb5422e90f6f94ff791ccc8|0
+10:pageInclude.jspf|1|16b935e9689|18d|f31c7eb9|434cfb7d5b164be69edd9833c5f761e3|0
+19:pageFooterSimulation.jspf|1|16b935e9c73|a55|1fd70ab9|8864f3c2c51247da8637aedcadf94b48|0
+16:whatIsThisToolTip.jspf|1|16b935e9689|156|bc295ebb|190a554b2405465181ac613a399e1311|0
+d:pageFoot.jspf|1|16b935e964b|c8e|cdf6cb54|bab4ac58abae44719c30c982c451d05d|0
+10:messageTray.jspf|1|16b935e95ed|b0f|76f1991a|af1cf0004893441b934b978ee6c4f1b7|0
+d:pageHead.jspf|1|16b935e9689|6f6|d4216f6e|e7ca22607d684ae48805183734002210|0
+13:pageFooterEWPD.jspf|1|16b935e9a51|c8c|b456c255|af537094d5134d8fae8e57bebf31a3b6|0

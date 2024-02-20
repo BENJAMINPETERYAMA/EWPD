@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\web\indicativelayout
+2
+2
+1c:IndicativeLayoutServlet.java|1|16adf984e00|1e35|a541ddd4|044b5a3a8f6d47feb0066f6b94f8ff44|0
+20:IndicativeLayoutBackingBean.java|1|16adf984cd7|37c4|84b1aecf|f341814908764edebfe6e5f21fde8ae4|0

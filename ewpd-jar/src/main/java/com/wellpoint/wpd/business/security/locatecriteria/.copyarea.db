@@ -1,0 +1,6 @@
+ClearCase CopyAreaDB|4
+vob\product_020\ewpdapp_src\ewpd-jar\src\main\java\com\wellpoint\wpd\business\security\locatecriteria
+2
+2
+19:ModuleLocateCriteria.java|1|16adf9609b7|805|45da809b|67b1e6d6071647979d80095bda33ba05|0
+17:RoleLocateCriteria.java|1|16adf9609c7|1565|1c921cbc|b554c8e7b98047ab99aaf271bc4a7de4|0
